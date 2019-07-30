@@ -1,0 +1,53 @@
+# .gitignore file for the project
+# These are the paths that Git will not scan for new files to add to the project in git status or git add
+# This file has been manually generated, rather than using one from the internet, to keep it small and inspectable
+# (So students can look in it and see what sorts of files ought not be placed under version control)
+#
+# Note, however, we might find ourselves adding some more during term.
+
+# Gradle generated files
+.gradle/
+build/
+
+# IntelliJ generated files
+.idea/
+*.iml
+
+.settings/
+
+# Eclipse generated files
+.project
+.classpath
+
+# Emacs backup files
+*~
+
+# Java generated files
+*.class
+*.log
+out/
+
+# OS X generated files
+.DS_Store
+
+# Windows generated files
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+
+# Linux generated files
+.directory
+.Trash-*
+.fuse_hidden*
+
+# Gradle wrapper files
+gradlew
+gradlew.bat
+gradle/
+
+client/out/
+
+
+.clover/
+vim.exe.stackdump
+*.stackdump

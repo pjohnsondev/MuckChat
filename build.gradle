@@ -1,0 +1,37 @@
+allprojects {
+
+    version = '0.1-SNAPSHOT'
+    ext {
+    }
+
+}
+
+subprojects {
+    apply plugin: 'java';
+    apply plugin: 'idea';
+
+    repositories {
+        maven { url "https://hopper.une.edu.au/artifactory/libs-release/" }
+        maven { url "https://hopper.une.edu.au/artifactory/libs-snapshot/" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        // Logging via Log4J
+
+        // Guava is a set of utilities, such as immutable collection libraries
+
+        // Jackson, for JSON parsing
+
+        // Unit testing with JUnit and Mockito
+
+        // StringUtils
+
+        // javaFX testing
+    }
+
+}
