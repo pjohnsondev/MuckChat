@@ -15,6 +15,9 @@ build/
 
 .settings/
 
+# VS code generated files
+.vscode/
+
 # Eclipse generated files
 .project
 .classpath

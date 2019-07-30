@@ -7,8 +7,7 @@ allprojects {
 }
 
 subprojects {
-    apply plugin: 'java';
-    apply plugin: 'idea';
+    apply plugin: 'java-library';
 
     repositories {
         maven { url "https://hopper.une.edu.au/artifactory/libs-release/" }
@@ -24,14 +23,22 @@ subprojects {
         // Logging via Log4J
 
         // Guava is a set of utilities, such as immutable collection libraries
+        implementation 'com.google.guava:guava:27.1-jre'        
 
         // Jackson, for JSON parsing
 
         // Unit testing with JUnit and Mockito
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.2'        
 
         // StringUtils
 
         // javaFX testing
+    }
+
+    test {
+        // Use junit platform for unit tests
+        useJUnitPlatform()
     }
 
 }
