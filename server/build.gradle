@@ -5,3 +5,8 @@ plugins {
 application {
     mainClassName = 'muck.server.App'
 }
+
+dependencies {
+    compile project(":core")
+    compile project(":network")
+}
