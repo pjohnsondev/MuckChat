@@ -13,3 +13,7 @@ javafx {
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
+dependencies {
+    compile project(":core");
+    compile project(":network");
+}
