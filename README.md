@@ -7,14 +7,14 @@ So, for instance
 * To run the client, run 
 
     ```sh
-    gradle5 client:run
+    gradle client:run
     ```
 
 * To run the server, run
 
 
     ```sh
-    gradle5 server:run
+    gradle server:run
     ```
 
 
