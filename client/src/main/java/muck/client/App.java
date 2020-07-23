@@ -20,7 +20,10 @@ import java.io.IOException;
 public class App extends Application {
 
     /** A logger for logging output */
-    private static final Logger logger = LogManager.getLogger(App.class);    
+    private static final Logger logger = LogManager.getLogger(App.class);
+
+    /** The port configuration for the client */
+    static KryoClientConfig config = new KryoClientConfig();
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -36,14 +39,15 @@ public class App extends Application {
 
 
     void startConnection() {
-        logger.info("Starting connection to server"); 
+        logger.info("Starting connection to server");
         try {
-            MuckClient.INSTANCE.connect(new KryoClientConfig());
-            MuckClient.INSTANCE.send(new Ping());
+            MuckClient.INSTANCE.connect(config);
+            MuckClient.INSTANCE.send(new Connected());
         } catch (IOException ex) {
-            logger.error("Start up failed", ex);
+            logger.error("Start up failed");
         }
     }
+
 
     void shutdown() {
         // Exit the program
@@ -51,6 +55,17 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
+
+        // Read in any port arguments that were passed into the program
+        if (args.length > 0) {
+            try {
+                config.setTcpPort(Integer.parseInt(args[0]));
+                config.setUdpPort(config.getTcpPort() + 1);
+            } catch (NumberFormatException x) {
+                logger.warn("Port argument could not be parsed {}", args[0], x);
+            }
+        }
+
         launch();
     }
 
