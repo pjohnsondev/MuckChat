@@ -8,6 +8,7 @@ allprojects {
 
 subprojects {
     apply plugin: 'java-library';
+    apply plugin: 'jacoco';
 
     repositories {
         maven { url "https://hopper.une.edu.au/artifactory/libs-release/" }
@@ -41,6 +42,11 @@ subprojects {
     test {
         // Use junit platform for unit tests
         useJUnitPlatform()
+    }
+    
+    jacoco {
+        toolVersion = "0.8.4"
+        reportsDir = file("$buildDir/customJacocoReportDir")
     }
 
 }
