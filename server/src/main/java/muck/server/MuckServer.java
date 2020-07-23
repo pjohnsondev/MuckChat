@@ -31,6 +31,9 @@ public enum MuckServer {
     // Create a new KryoNet server
     Server kryoServer;
 
+    // Tries to make handling background tasks easier
+    WorkerManager workerManager = new WorkerManager();
+
     /** Sets up the KryoNet server that will handle communication */
     synchronized void startKryo(KryoServerConfig config) throws IOException {
 
@@ -50,9 +53,17 @@ public enum MuckServer {
 
         // Add a Ping listener. This is useful for debugging in the early stages, where you just want to see if a
         // connection has been made
-        addListener(ListenerBuilder.forClass(Ping.class).onReceive((conn, ping) ->
-                logger.info("Ping received from {}", conn.getID())
-        ));
+        addListener(ListenerBuilder.forClass(Ping.class).onReceive((conn, ping) -> {
+
+            logger.info("Ping received from {}", conn.getID());
+
+            // Let's just demonstrate how to send messages to worker actors, by sending this message to one.
+            workerManager.schedule(ping, reply -> {
+                logger.info("I sent my ping to a background worker, and all I got in return was this lousy {}", reply);
+            });
+
+        }));
+
     }
 
     /** Stops the KryoNet server. */

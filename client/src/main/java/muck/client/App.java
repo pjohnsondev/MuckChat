@@ -43,6 +43,10 @@ public class App extends Application {
         try {
             MuckClient.INSTANCE.connect(config);
             MuckClient.INSTANCE.send(new Connected());
+
+            // Just demonstrates that the worker manager hands the ping off -- likely to be removed when the project
+            // progresses
+            MuckClient.INSTANCE.send(new Ping());
         } catch (IOException ex) {
             logger.error("Start up failed");
         }
