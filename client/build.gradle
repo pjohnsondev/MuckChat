@@ -26,11 +26,12 @@ dependencies {
  * This allows us to build a "fat jar" containing the JavaFX components, so that the client jar can be moved to another
  * computer and run on its own
  */
-jar {
+task fatjar(type: Jar) {
     manifest {
         attributes 'Main-Class': 'muck.client.Launcher'
     }
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
+    with jar
 }
