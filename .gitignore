@@ -43,11 +43,6 @@ ehthumbs_vista.db
 .Trash-*
 .fuse_hidden*
 
-# Gradle wrapper files
-gradlew
-gradlew.bat
-gradle/
-
 client/out/
 
 

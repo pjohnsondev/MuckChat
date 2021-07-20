@@ -1,5 +1,6 @@
 dependencies {
-    compile project(":core")
+    api project(":core")
 
-    compile group: 'com.esotericsoftware', name: 'kryonet', version: '2.22.0-RC1'
+    // An API depdendency is transitive
+    api group: 'com.esotericsoftware', name: 'kryonet', version: '2.22.0-RC1'
 }
