@@ -36,9 +36,9 @@ public class ChatUI extends Application {
         userTextField.setText("Type your message here...");
         TextArea chatArea = new TextArea();
         chatArea.setDisable(true);
-        grid.add(chatArea, 0,3, 4, 1);
+        grid.add(chatArea, 0,3, 6, 1);
         Button button = new Button("Enter");
-        grid.add(button, 4, 4, 1, 1);
+        grid.add(button, 4, 4, 2, 1);
         button.setAlignment(Pos.CENTER);
         //Actually run the damn thing
         primaryStage.setScene(scene);
