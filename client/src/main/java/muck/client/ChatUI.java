@@ -1,3 +1,5 @@
+// Obselete Class if we are not using SceneBuilder and fxml
+
 package muck.client;
 
 import javafx.application.Application;
