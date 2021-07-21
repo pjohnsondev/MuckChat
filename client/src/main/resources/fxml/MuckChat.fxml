@@ -49,11 +49,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="403.0" prefWidth="291.0" style="-fx-background-color: lightblue;">
                      <children>
-                        <TextArea editable="false" layoutX="12.0" layoutY="9.0" prefHeight="393.0" prefWidth="260.0" text="SpongeBob: Hello!&#10;HelloKitty: Hi!">
-                           <padding>
-                              <Insets top="10.0" />
-                           </padding>
-                        </TextArea>
+                        <TextArea editable="false" layoutX="12.0" layoutY="6.0" prefHeight="391.0" prefWidth="259.0" text="SpongeBob: Hello!&#10;HelloKitty: Hi!" />
                      </children>
                   </AnchorPane>
             </content>
@@ -62,7 +58,7 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: darkseagreen;">
                      <children>
-                        <TextArea layoutX="14.0" layoutY="7.0" prefHeight="427.0" prefWidth="288.0" text="SpongeBob: This boss is going to kill me!&#10;HelloKitty: I'll do it! #womanpower" />
+                        <TextArea layoutX="14.0" layoutY="7.0" prefHeight="391.0" prefWidth="258.0" text="SpongeBob: This boss is going to kill me!&#10;HelloKitty: I'll do it! #womanpower" />
                      </children>
                   </AnchorPane>
                </content>
@@ -71,7 +67,7 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: lightpink;">
                      <children>
-                        <TextArea layoutX="14.0" layoutY="7.0" prefHeight="427.0" prefWidth="288.0" text="SpongeBob: I think I have a secret...&#10;HelloKitty: I promise I'll keep it!" />
+                        <TextArea layoutX="14.0" layoutY="7.0" prefHeight="391.0" prefWidth="258.0" text="SpongeBob: I think I have a secret...&#10;HelloKitty: I promise I'll keep it!" />
                      </children>
                   </AnchorPane>
                </content>
