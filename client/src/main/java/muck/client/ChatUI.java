@@ -33,7 +33,7 @@ public class ChatUI extends Application {
         //Fields
         TextField userTextField = new TextField();
         grid.add(userTextField, 0, 4, 4, 1);
-        userTextField.setText("Type your message here...");
+        userTextField.setPromptText("Type your message here...");
         TextArea chatArea = new TextArea();
         chatArea.setDisable(true);
         grid.add(chatArea, 0,3, 6, 1);
