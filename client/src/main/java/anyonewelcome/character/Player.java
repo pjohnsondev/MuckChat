@@ -27,5 +27,37 @@ public class Player extends Character {
 //    public playerController() {
 //    }
 
-    
+    //TODO: How will a player be able to trade collectables with other players? (Issue 10)
+    // Can you hold more than one item?
+    /**
+     * @param collectable Collectable item to trade
+     * @param otherPlayer Other player to trade with
+     * @return If player to player collectable transaction is successful return true. Otherwise, return false
+     */
+    public boolean tradeCollectable(String collectable, Player otherPlayer) {
+        //TODO: Does the player currently hold the collectable?
+
+        //TODO: Does the other player currently exist in the database?
+
+        return false;
+    }
+
+    //TODO: Does a player have an inventory?
+    // Should the item be stored within the database?
+    // Can be moved to the Character class
+    /**
+    * @param item item to be added to inventory
+    */
+    public void addItemToInventory(String item) {
+        //TODO
+    }
+
+    // TODO: How are items inside your inventory consumed?
+    /**
+     * @param item item to be removed/consumed
+     */
+    public void removeItemFromInventory(String item) {
+        //TODO
+    }
+
 }
