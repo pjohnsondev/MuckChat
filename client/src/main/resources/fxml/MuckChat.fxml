@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="638.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="638.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.ChatControl">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1042.6666259765625" minWidth="10.0" prefWidth="176.99999237060547" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1128.6666641235352" minWidth="10.0" prefWidth="304.3333435058594" />
@@ -37,19 +37,19 @@
     <RowConstraints maxHeight="141.33334350585938" minHeight="0.0" prefHeight="50.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <TextField prefHeight="33.0" prefWidth="250.0" text="Enter your message..." GridPane.columnIndex="3" GridPane.columnSpan="5" GridPane.rowIndex="7">
+      <TextField id="messageBox" fx:id="messageBox" accessibleHelp="Type your message here..." prefHeight="33.0" prefWidth="250.0" GridPane.columnIndex="3" GridPane.columnSpan="5" onAction="#onEnter" GridPane.rowIndex="7">
          <GridPane.margin>
             <Insets left="5.0" right="5.0" />
          </GridPane.margin>
       </TextField>
-      <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="65.0" text="Submit" GridPane.columnIndex="8" GridPane.columnSpan="2" GridPane.rowIndex="7" />
+      <Button fx:id="enter" mnemonicParsing="false" prefHeight="38.0" prefWidth="65.0" text="Submit" GridPane.columnIndex="8" GridPane.columnSpan="2" GridPane.rowIndex="7" />
       <TabPane prefHeight="329.0" prefWidth="311.0" style="-fx-border-color: black;" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="3" GridPane.columnSpan="6" GridPane.rowIndex="1" GridPane.rowSpan="5">
         <tabs>
           <Tab style="-fx-background-color: lightblue;" text="Group Chat">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="403.0" prefWidth="291.0" style="-fx-background-color: lightblue;">
                      <children>
-                        <TextArea editable="false" layoutX="12.0" layoutY="6.0" prefHeight="391.0" prefWidth="259.0" text="SpongeBob: Hello!&#10;HelloKitty: Hi!" />
+                        <TextArea id="groupChatBox" fx:id="groupChatBox" editable="false" layoutX="13.0" layoutY="11.0" prefHeight="391.0" prefWidth="259.0" wrapText="true" />
                      </children>
                   </AnchorPane>
             </content>
