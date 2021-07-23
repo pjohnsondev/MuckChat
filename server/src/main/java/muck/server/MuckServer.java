@@ -63,6 +63,12 @@ public enum MuckServer {
             });
 
         }));
+        //This listener listens for a message of type userMessage coming in and prints some lines to the console and logger when successful.
+        addListener(ListenerBuilder.forClass(userMessage.class).onReceive((conn, messageStr) -> {
+            logger.info("Recieved a message!");
+            logger.info("Message received from {}", conn.getID());
+            logger.info("Message is: {}", messageStr.getMessage());
+        }));
 
     }
 
