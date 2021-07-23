@@ -37,7 +37,7 @@
     <RowConstraints maxHeight="141.33334350585938" minHeight="0.0" prefHeight="50.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <TextField id="messageBox" fx:id="messageBox" accessibleHelp="Type your message here..." prefHeight="33.0" prefWidth="250.0" GridPane.columnIndex="3" GridPane.columnSpan="5" onAction="#onEnter" GridPane.rowIndex="7">
+      <TextField id="messageBox" fx:id="messageBox" accessibleHelp="Type your message here..." onAction="#onEnter" prefHeight="33.0" prefWidth="250.0" GridPane.columnIndex="3" GridPane.columnSpan="5" GridPane.rowIndex="7">
          <GridPane.margin>
             <Insets left="5.0" right="5.0" />
          </GridPane.margin>
@@ -54,24 +54,6 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab style="-fx-background-color: darkseagreen;" text="Dungeon">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: darkseagreen;">
-                     <children>
-                        <TextArea layoutX="14.0" layoutY="7.0" prefHeight="391.0" prefWidth="258.0" text="SpongeBob: This boss is going to kill me!&#10;HelloKitty: I'll do it! #womanpower" />
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
-            <Tab style="-fx-background-color: lightpink;" text="HelloKitty">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: lightpink;">
-                     <children>
-                        <TextArea layoutX="14.0" layoutY="7.0" prefHeight="391.0" prefWidth="258.0" text="SpongeBob: I think I have a secret...&#10;HelloKitty: I promise I'll keep it!" />
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
         </tabs>
          <GridPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -88,15 +70,6 @@
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
-                  </AnchorPane>
-            </content>
-          </Tab>
-          <Tab text="Game 2">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
                   </AnchorPane>
             </content>
           </Tab>
