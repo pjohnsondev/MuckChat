@@ -35,6 +35,10 @@ public class App extends Application {
         Scene scene = new Scene(new StackPane(l), 640, 480);
         stage.setScene(scene);
         stage.show();
+        userMessage testMessage = new userMessage();
+        testMessage.setMessage("Hello World!");
+        MuckClient.INSTANCE.send(testMessage);
+
     }
 
 

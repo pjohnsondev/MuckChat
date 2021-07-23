@@ -1,6 +1,6 @@
 package muck.client;
 import javafx.fxml.LoadException;
-import org.junit.Assert;
+//import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
