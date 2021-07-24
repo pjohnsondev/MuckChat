@@ -45,7 +45,7 @@
       <Button fx:id="enter" mnemonicParsing="false" prefHeight="38.0" prefWidth="65.0" text="Submit" GridPane.columnIndex="8" GridPane.columnSpan="2" GridPane.rowIndex="7" />
       <TabPane prefHeight="329.0" prefWidth="311.0" style="-fx-border-color: black;" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="3" GridPane.columnSpan="6" GridPane.rowIndex="1" GridPane.rowSpan="5">
         <tabs>
-          <Tab style="-fx-background-color: lightblue;" text="Group Chat">
+          <Tab fx:id="groupChat" style="-fx-background-color: lightblue;" text="Group Chat">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="403.0" prefWidth="291.0" style="-fx-background-color: lightblue;">
                      <children>
@@ -54,11 +54,11 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab style="-fx-background-color: lightblue;" text="Player list">
+            <Tab fx:id="playerList" style="-fx-background-color: lightblue;" text="Player list">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="403.0" prefWidth="291.0" style="-fx-background-color: lightblue;">
                      <children>
-                        <TextArea id="groupChatBox" fx:id="groupChatBox1" editable="false" layoutX="13.0" layoutY="11.0" prefHeight="391.0" prefWidth="259.0" wrapText="true" />
+                        <TextArea id="groupChatBox" fx:id="playerListBox" editable="false" layoutX="13.0" layoutY="11.0" prefHeight="391.0" prefWidth="259.0" wrapText="true" />
                      </children>
                   </AnchorPane>
                </content>

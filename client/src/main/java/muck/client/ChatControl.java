@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Tab;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -15,6 +16,16 @@ public class ChatControl implements Initializable {
 
 
     /** The fields of the chat */
+
+    @FXML
+    Tab groupChat;
+
+    @FXML
+    Tab playerList;
+
+    @FXML
+    TextArea playerListBox;
+    
     @FXML
     TextArea groupChatBox;
 
@@ -32,6 +43,8 @@ public class ChatControl implements Initializable {
         enter.setOnAction(this::buttonActionGroup); // assigns function to button
 
     }
+
+
     /** Event listener for enter (Submit) button  */
     private void buttonActionGroup(ActionEvent event) {
         displayAndSend();
@@ -48,7 +61,7 @@ public class ChatControl implements Initializable {
      */
     private void displayAndSend() {
         message = messageBox.getText();
-        if (message.length() != 0) {
+        if (message.length() != 0 && groupChat.isSelected()) {
             groupChatBox.appendText(message + "\n");
             messageBox.clear();
         }
