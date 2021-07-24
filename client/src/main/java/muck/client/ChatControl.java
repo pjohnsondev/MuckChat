@@ -34,6 +34,19 @@ public class ChatControl implements Initializable {
     }
     /** Event listener for enter (Submit) button  */
     private void buttonActionGroup(ActionEvent event) {
+        displayAndSend();
+    }
+
+    /** Event listener for Enter on keyboard  */
+        @FXML
+        private void onEnter(ActionEvent event) {
+            displayAndSend();
+        }
+
+    /** Displays the user message to the group chat
+     *  TODO: Send the user message to the server
+     */
+    private void displayAndSend() {
         message = messageBox.getText();
         if (message.length() != 0) {
             groupChatBox.appendText(message + "\n");
@@ -41,17 +54,6 @@ public class ChatControl implements Initializable {
         }
     }
 
-    /** Event listener for Enter on keyboard  */
-        @FXML
-        private void onEnter(ActionEvent event) {
-            message = messageBox.getText();
-            if (message.length() != 0) {
-                groupChatBox.appendText(message + "\n");
-                messageBox.clear();
-
-            }
-        }
-
-    }
+}
 
 
