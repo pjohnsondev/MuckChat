@@ -52,7 +52,7 @@
          <GridPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </GridPane.margin></Button>
-      <TabPane fx:id="tabs" prefHeight="464.0" prefWidth="237.0" style="-fx-border-color: black;" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="3" GridPane.columnSpan="7" GridPane.rowIndex="1" GridPane.rowSpan="5">
+      <TabPane prefHeight="464.0" prefWidth="237.0" style="-fx-border-color: black;" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="3" GridPane.columnSpan="7" GridPane.rowIndex="1" GridPane.rowSpan="5">
         <tabs>
           <Tab fx:id="groupChat" style="-fx-background-color: lightblue;" text="Group Chat">
             <content>
@@ -65,7 +65,7 @@
           </Tab>
         </tabs>
          <GridPane.margin>
-            <Insets left="5.0" right="10.0" top="5.0" />
+            <Insets left="5.0" right="10.0" />
          </GridPane.margin>
       </TabPane>
       <TabPane prefHeight="163.0" prefWidth="324.0" style="-fx-border-color: black;" tabClosingPolicy="UNAVAILABLE" GridPane.columnSpan="3" GridPane.rowIndex="1" GridPane.rowSpan="7">
@@ -84,7 +84,7 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
          <GridPane.margin>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            <Insets bottom="10.0" left="10.0" right="10.0" />
          </GridPane.margin>
       </TabPane>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hi &lt;Name&gt;" textAlignment="CENTER" wrappingWidth="654.8242011070251">
@@ -97,14 +97,14 @@
             <Font name="Comic Sans MS" size="29.0" />
          </font>
       </Text>
-      <TitledPane animated="false" prefHeight="462.0" prefWidth="133.0" text="Available Channels" GridPane.columnIndex="10" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="4">
+      <TitledPane id="channelsList" animated="false" centerShape="false" collapsible="false" prefHeight="271.0" prefWidth="147.0" text="Available Channels" GridPane.columnIndex="10" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="4">
         <content>
-          <AnchorPane id="channels" minHeight="0.0" minWidth="0.0" prefHeight="247.0" prefWidth="93.0" style="-fx-background-color: lightgrey;" />
+          <AnchorPane id="channels" fx:id="channelsList" centerShape="false" minHeight="0.0" minWidth="0.0" prefHeight="79.0" prefWidth="145.0" style="-fx-background-color: lightgrey;" />
         </content>
       </TitledPane>
-      <TitledPane animated="false" layoutX="854.0" layoutY="60.0" prefHeight="206.0" prefWidth="140.0" text="Online Players" GridPane.columnIndex="10" GridPane.columnSpan="4" GridPane.rowIndex="5">
+      <TitledPane animated="false" centerShape="false" collapsible="false" prefHeight="216.0" prefWidth="147.0" text="Online Players" GridPane.columnIndex="10" GridPane.columnSpan="4" GridPane.rowIndex="5">
          <content>
-            <AnchorPane id="channels" minHeight="0.0" minWidth="0.0" prefHeight="247.0" prefWidth="93.0" style="-fx-background-color: lightgrey;" />
+            <AnchorPane id="channels" fx:id="playerList" centerShape="false" minHeight="0.0" minWidth="0.0" prefHeight="30.0" prefWidth="145.0" style="-fx-background-color: lightgrey;" />
          </content>
       </TitledPane>
    </children>
