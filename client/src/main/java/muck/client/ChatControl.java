@@ -44,17 +44,25 @@ public class ChatControl implements Initializable {
 
     }
 
-
     /** Event listener for enter (Submit) button  */
     private void buttonActionGroup(ActionEvent event) {
         displayAndSend();
     }
 
     /** Event listener for Enter on keyboard  */
-        @FXML
-        private void onEnter(ActionEvent event) {
-            displayAndSend();
+    @FXML
+    private void onEnter(ActionEvent event) {
+        displayAndSend();
+    }
+    
+    /** Method to determine when to display the player list */
+    @FXML 
+    private void tabChanged() {
+        if (playerList.isSelected()) {
+            playerListBox.clear();
+            playerListBox.appendText("Players: \n");
         }
+    }
 
     /** Displays the user message to the group chat
      *  TODO: Send the user message to the server
