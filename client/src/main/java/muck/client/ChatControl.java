@@ -14,7 +14,7 @@ public class ChatControl implements Initializable {
 
 
     /**
-     * The fields of the chat
+     * The fields of the UI
      */
 
     @FXML
@@ -60,6 +60,10 @@ public class ChatControl implements Initializable {
         displayAndSend();
     }
 
+    /**
+     * Function for adding new chat channel (aka a tab)
+     */
+
     @FXML
     private void addTab(ActionEvent event) {
         int numTabs = chatPane.getTabs().size();
@@ -82,7 +86,7 @@ public class ChatControl implements Initializable {
     }
 
     /**
-     * Displays the user message to the group chat
+     * Displays the user message to the chat depending on which chat (aka tab) is active
      * TODO: Send the user message to the server
      */
     private void displayAndSend() {
