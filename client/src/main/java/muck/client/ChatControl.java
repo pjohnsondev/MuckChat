@@ -9,6 +9,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 
 /** This class is where the functionality of the ChatUI lives. */
 
@@ -21,12 +22,6 @@ public class ChatControl implements Initializable {
     Tab groupChat;
 
     @FXML
-    Tab playerList;
-
-    @FXML
-    TextArea playerListBox;
-    
-    @FXML
     TextArea groupChatBox;
 
     @FXML
@@ -34,6 +29,12 @@ public class ChatControl implements Initializable {
 
     @FXML
     Button enter;
+
+    @FXML
+    AnchorPane channelsList;
+
+    @FXML
+    AnchorPane playerList;
 
     String message;
 
@@ -53,15 +54,6 @@ public class ChatControl implements Initializable {
     @FXML
     private void onEnter(ActionEvent event) {
         displayAndSend();
-    }
-    
-    /** Method to determine when to display the player list */
-    @FXML 
-    private void tabChanged() {
-        if (playerList.isSelected()) {
-            playerListBox.clear();
-            playerListBox.appendText("Players: \n");
-        }
     }
 
     /** Displays the user message to the group chat
