@@ -3,6 +3,7 @@ package muck.server.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Database {
@@ -25,16 +26,19 @@ public class Database {
             System.out.println("Connection to database established");
         } catch (SQLException exception) {
             System.out.println(exception.getMessage());
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                System.out.println(e);
+        } 
+    }
+
+    public void closeConnection() {
+        try {
+            if (conn != null) {
+                conn.close();
             }
+        } catch (SQLException e) {
+            System.out.println(e);
         }
     }
+
     public Boolean databaseIsConnected() {
         return conn != null;
     }
@@ -44,6 +48,33 @@ public class Database {
             statement = conn.prepareStatement(sql);
         } catch (SQLException exception) {
             System.out.println(exception.getMessage());
+        }
+    }
+
+    public ResultSet getResultSet() {
+        ResultSet result = null;
+        try {
+            result = statement.executeQuery();
+        } catch (SQLException exception) {
+            System.out.println(exception.getMessage());
+        }
+        return result;
+    }
+
+    public void execute() {
+        try {
+            statement.executeUpdate();
+            conn.commit();
+        } catch (SQLException exception) {
+            System.out.println(exception.getMessage());
+        } 
+        if (conn != null) {
+            try {
+                System.err.print("Rolling back transaction");
+                conn.rollback();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
