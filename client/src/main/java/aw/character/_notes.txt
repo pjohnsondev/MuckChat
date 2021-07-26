@@ -1,13 +1,13 @@
 Currently just a mere prototype proposal. Can be abandoned for a different way to handle things. Feedback needed.
 The "Character" class is abstract. Both the "Player" and "NPC" class extend the Character class, and can be instantiated.
 
-Use the "NPCFactory" to create new NPCs that don't yet exist. Use the NPC class to instantiate NPCs that do already
+Use the "CharacterFactory" to create new NPCs that don't yet exist. Use the NPC class to instantiate NPCs that do already
 exist, using their identifier as the argument to the constructor.
 
 Intended example usage -
 
 Create a new NPC:
-    NPC someNewNpc = NPCFactory.createNewNPC();
+    NPC someNewNpc = CharacterFactory.createNewNPC();
     
 Instantiate an existing player or NPC based upon its identifying ID in the backend storage:
     NPC someRetrievedNpc = new NPC("villager1");
