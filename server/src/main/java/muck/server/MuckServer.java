@@ -70,6 +70,10 @@ public enum MuckServer {
             logger.info("Message is: {}", messageStr.getMessage());
         }));
 
+	addListener(ListenerBuilder.forClass(CharacterLocation.class).onReceive((conn, location) -> {
+		    logger.info("Received a character location.");
+		    logger.info("TODO: Process character location: {}", location.toString());
+	}));
     }
 
     /** Stops the KryoNet server. */
