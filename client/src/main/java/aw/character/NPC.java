@@ -1,4 +1,4 @@
-package anyonewelcome.character;
+package aw.character;
 
 //TODO **IMPORTANT**
 //Unknown yet how this will interact with JavaFX and backend storage. This is a mere prototype, subject to

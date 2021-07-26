@@ -1,15 +1,24 @@
-package anyonewelcome.character;
+package aw.character;
 
 //TODO **IMPORTANT**
 //Unknown yet how this will interact with JavaFX and backend storage. This is a mere prototype, subject to
 //rapid change until the specifics of the project are worked out. Don't rely on any of these methods yet
 
 /**
- * An easy factory to create NPCs & monsters with default values, avatars, and other things depending upon
- * the NPC/monster type
+ * An easy factory to create Players, and NPCs with default values, avatars, and other things
  */
-public class NPCFactory {
+public class CharacterFactory {
     
+    //Clients should have a simple way to provide a username, and load the corresponding character if it already exists,
+    //or instead create a new character if it doesn't, and then have that Player object returned either way.
+//    static public Player createOrLoadPlayer() {
+//        //TODO 
+//    }
+//
+//    static public Player createPlayer() {
+////        //TODO 
+////    }
+
     /** Create a new NPC character within the backend with a unique identifier automatically. Return this newly
      * created NPC object.
      * @return The generated NPC object

@@ -1,4 +1,4 @@
-package anyonewelcome.character;
+package aw.character;
 
 import java.util.Arrays;
 
@@ -51,7 +51,8 @@ public abstract class Character {
         // Instead of updating the database after every stat modification, we may only wish to do this periodically,
         // to prevent an overload of transactions
         //TODO implement with backend (whichever team does this)
-        return false;
+
+        return StorageHandler.saveCharacter(this);
     }
     
     /**
