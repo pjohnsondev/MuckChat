@@ -12,3 +12,14 @@ dependencies {
 
     implementation group: 'com.typesafe.akka', name: 'akka-actor_2.12', version: '2.5.23'
 }
+
+task initDB {
+    doLast {
+        exec {
+            commandLine 'sqlite3', 'muck.db', '''
+            CREATE TABLE IF NOT EXISTS users(user_id INT PRIMARY KEY, user_name VARCHAR(255), password TEXT);
+            INSERT INTO users (user_id, user_name, password) VALUES (0, "test_user2", "password2");
+            '''
+        }
+    }
+}

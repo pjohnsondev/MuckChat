@@ -52,3 +52,7 @@ vim.exe.stackdump
 
 # ignore logs
 log4j2.xml
+
+
+# ignore database
+*.db
