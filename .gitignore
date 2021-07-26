@@ -49,3 +49,6 @@ client/out/
 .clover/
 vim.exe.stackdump
 *.stackdump
+
+# ignore logs
+log4j2.xml
