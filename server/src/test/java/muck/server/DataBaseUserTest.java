@@ -4,13 +4,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import muck.server.database.Database;
 
 public class DataBaseUserTest {
-    private static final Logger logger = LogManager.getLogger(DataBaseUserTest.class);
 
     @Test
     public void dbCanConnect(){
