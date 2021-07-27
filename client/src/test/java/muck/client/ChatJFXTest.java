@@ -1,8 +1,11 @@
 package muck.client;
-
+//import static org.mockito.Mockito.mock;
+//import org.testfx.framework.junit5.*;
 import org.junit.jupiter.api.Test;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+
 
 
 public class ChatJFXTest {
