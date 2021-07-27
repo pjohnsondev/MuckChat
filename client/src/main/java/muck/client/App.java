@@ -36,7 +36,7 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
         userMessage testMessage = new userMessage();
-        testMessage.setMessage("Hello World!");
+        testMessage.setMessage("Hello World! From client");
         MuckClient.INSTANCE.send(testMessage);
 
     }
