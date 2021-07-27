@@ -49,7 +49,7 @@ public class App extends Application {
         testMessage.setMessage("Hello World! From client");
         MuckClient.INSTANCE.send(testMessage);
 
-        /* Last edited: 27/07/2021 by Harrison Liddell
+        /* Last edited: 27/07/2021 by Harrison Liddell with assistance from W.Billingsley
           Imported work from the ChatUI group written in ChatJFX to work with the
           exsisting stand alone application/ gradle build.
         */
