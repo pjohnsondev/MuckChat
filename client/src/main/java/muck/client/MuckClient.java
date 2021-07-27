@@ -44,11 +44,11 @@ public enum MuckClient {
         // Connect to the server
         client.connect(config.getTimeOut(), config.getDestinationIp(), config.getTcpPort(), config.getUdpPort());
 
-        // Add a Ping listener. This is useful for debugging in the early stages, where you just want to see if a
-        // connection has been made
+        // Add a Ping listener. Still being used for debugging.
         client.addListener(ListenerBuilder.forClass(Ping.class).onReceive((conn, ping) ->
                 logger.info("Ping received from {}", conn.getID())
         ));
+        //Listener for the message sent back from the server.
         client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, serverMessage) ->
                 logger.info("Message from the server was: {}", serverMessage.getMessage())));
 

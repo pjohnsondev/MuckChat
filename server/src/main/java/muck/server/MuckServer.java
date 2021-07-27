@@ -51,8 +51,7 @@ public enum MuckServer {
         // Bind the server to the configured ports
         kryoServer.bind(config.getTcpPort(), config.getUdpPort());
 
-        // Add a Ping listener. This is useful for debugging in the early stages, where you just want to see if a
-        // connection has been made
+        // Add a Ping listener. Still being used for debugging.
         addListener(ListenerBuilder.forClass(Ping.class).onReceive((conn, ping) -> {
 
             logger.info("Ping received from {}", conn.getID());
@@ -63,14 +62,16 @@ public enum MuckServer {
             });
 
         }));
-        //This listener listens for a message of type userMessage coming in and prints some lines to the console and logger when successful.
+        /*
+        This listener listens for a message from client. Prints to logger when received.
+         */
         addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, clientMessage) -> {
             logger.info("Recieved a message!");
             logger.info("Message received from {}", connID.getID());
             logger.info("Message is: {}", clientMessage.getMessage());
-            userMessage testMessage = new userMessage();
+            userMessage testMessage = new userMessage(); //Create new message to send back.
             testMessage.setMessage("TEST MESSAGE FROM SERVER!");
-            kryoServer.sendToAllTCP(testMessage);
+            kryoServer.sendToAllTCP(testMessage); //Send to all clients connected. Can be switched to send only to one client.
         }));
 
     }
