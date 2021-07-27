@@ -11,18 +11,8 @@ dependencies {
     implementation project(":network")
 
     implementation group: 'com.typesafe.akka', name: 'akka-actor_2.12', version: '2.5.23'
-    // https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
-    implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.36.0.1'
 
+    implementation group: 'org.apache.derby', name: 'derby', version: '10.15.1.3'
+    implementation group: 'org.apache.derby', name: 'derbyshared', version: '10.15.1.3'
 }
 
-task initDB {
-    doLast {
-        exec {
-            commandLine 'sqlite3', 'muck.db', '''
-            CREATE TABLE IF NOT EXISTS users(user_name VARCHAR(255), password TEXT);
-            INSERT INTO users (user_name, password) VALUES ("test_user", "password");
-            '''
-        }
-    }
-}
