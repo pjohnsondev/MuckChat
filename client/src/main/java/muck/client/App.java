@@ -34,6 +34,9 @@ public class App extends Application {
         Label l = new Label("Hello world");
         Scene scene = new Scene(new StackPane(l), 640, 480);
         stage.setScene(scene);
+
+        //To show the map
+        //GameMap map = new GameMap(stage); //uncomment to use map
         stage.show();
         userMessage testMessage = new userMessage();
         testMessage.setMessage("Hello World!");
