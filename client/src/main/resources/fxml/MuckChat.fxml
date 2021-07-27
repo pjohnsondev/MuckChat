@@ -57,9 +57,9 @@
         <tabs>
           <Tab id="groupChat" fx:id="groupChat" closable="false" style="-fx-background-color: lightblue;" text="Group Chat">
                <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: lightblue;">
+                <AnchorPane focusTraversable="true" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: lightblue;">
                      <children>
-                        <TextArea id="groupChatBox" fx:id="groupChatBox" editable="false" focusTraversable="false" layoutX="12.0" layoutY="12.0" prefHeight="399.0" prefWidth="220.0" wrapText="true" />
+                        <TextArea id="groupChatBox" fx:id="groupChatBox" editable="false" layoutX="12.0" layoutY="12.0" prefHeight="399.0" prefWidth="220.0" wrapText="true" />
                      </children>
                   </AnchorPane>
                </content>
@@ -69,11 +69,11 @@
             <Insets left="5.0" right="10.0" />
          </GridPane.margin>
       </TabPane>
-      <TabPane prefHeight="163.0" prefWidth="324.0" style="-fx-border-color: black;" tabClosingPolicy="UNAVAILABLE" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="7">
+      <TabPane id="gamePane" fx:id="gamePane" prefHeight="163.0" prefWidth="324.0" style="-fx-border-color: black;" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="7">
         <tabs>
-          <Tab text="Game 1">
+          <Tab id="gameTab1" fx:id="gameTab1" text="Game 1">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
+              <AnchorPane id="gameWindow1" fx:id="gameWindow1" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
@@ -111,6 +111,11 @@
       <Button id="plus" fx:id="plus" mnemonicParsing="false" text="+" GridPane.columnIndex="3" GridPane.rowIndex="7">
          <GridPane.margin>
             <Insets left="5.0" />
+         </GridPane.margin>
+      </Button>
+      <Button id="newGameTab" fx:id="newGameTab" layoutX="584.0" layoutY="558.0" mnemonicParsing="false" text="+" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets left="10.0" />
          </GridPane.margin>
       </Button>
    </children>
