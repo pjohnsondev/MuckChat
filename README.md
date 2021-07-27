@@ -17,12 +17,6 @@ So, for instance
     gradle server:run
     ```
 
-* To initiate the database, run
-
-    ```sh
-    gradle server:initDB
-    ```
-
 **Note:** Gradle tasks only complete when they *finish*. So, for `gradle run` tasks, the task will sit at around 91% completion while the server (or client) is running, and will only say "100% complete" when you *exit* the server (or client)
 
 ## The modules
