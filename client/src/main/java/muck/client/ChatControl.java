@@ -33,6 +33,14 @@ public class ChatControl implements Initializable {
     TabPane chatPane;
     @FXML
     Button plus;
+    @FXML
+    Button newGameTab;
+    @FXML
+    AnchorPane gameWindow1;
+    @FXML
+    Tab gameTab1;
+    @FXML
+    TabPane gamePane;
 
 
     String message;
@@ -41,8 +49,8 @@ public class ChatControl implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         enter.setOnAction(this::buttonActionGroup); // assigns function to button
-        plus.setOnAction(this::addTab); // adds new tab
-
+        plus.setOnAction(this::addChatTab); // adds new tab
+        newGameTab.setOnAction(this::addGameTab); //
     }
 
     /**
@@ -65,7 +73,7 @@ public class ChatControl implements Initializable {
      */
 
     @FXML
-    private void addTab(ActionEvent event) {
+    private void addChatTab(ActionEvent event) {
         int numTabs = chatPane.getTabs().size();
         int tabNum = numTabs + 1;
         Tab newTab = new Tab("Chat Name Here");
@@ -83,6 +91,7 @@ public class ChatControl implements Initializable {
         chatX.setLayoutY(12);
         newAnc.getChildren().add(chatX);
         chatPane.getTabs().add(newTab);
+        chatX.isFocused();
     }
 
     /**
@@ -104,6 +113,33 @@ public class ChatControl implements Initializable {
                 messageBox.clear();
             }
         }
+    }
+
+    /**
+     * Adds new game tab for multiple games running at once (if we need it)
+     */
+
+    @FXML
+    private void addGameTab(ActionEvent event) {
+        int numTabs = gamePane.getTabs().size();
+        int tabNum = numTabs + 1;
+        Tab newTab = new Tab("Game Name Here");
+        newTab.setId("Game" + tabNum);
+        AnchorPane newAnc = new AnchorPane();
+        newAnc.setStyle("-fx-background-color: lightgrey");
+        newTab.setContent(newAnc);
+        newTab.setClosable(true);
+        newAnc.setId("gameWindow1"+tabNum);
+        gamePane.getTabs().add(newTab);
+    }
+
+/**
+ * Add user name to the top text
+ * TODO: Create function to update user name
+ */
+
+    private void updateUserName() {
+
     }
 }
 
