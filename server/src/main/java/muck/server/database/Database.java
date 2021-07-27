@@ -6,21 +6,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class Database {
-    private String connectionString;
+    protected String dbName;
+    protected String connectionString = String.format("jdbc:derby:%s;create=true", dbName);
+
     private Connection conn;
     private PreparedStatement statement;
 
-    public Database() {
-        // Just in case some people are using windows.
-        String seperator = java.io.File.separator;
-        String pathToDB = System.getProperty("user.dir") + seperator + "muck.db";
-        connectionString = "jdbc:sqlite:" + pathToDB;
-        connect();
-    }
 
     // This function was developed using this tutorial: https://www.sqlitetutorial.net/sqlite-java/sqlite-jdbc-driver/
-    private void connect() {
+    protected void connect() {
         try {
             conn = DriverManager.getConnection(connectionString);
             System.out.println("Connection to database established");
@@ -51,23 +47,15 @@ public class Database {
         }
     }
 
-    public ResultSet getResultSet() {
-        ResultSet result = null;
-        try {
-            result = statement.executeQuery();
-        } catch (SQLException exception) {
-            System.out.println(exception.getMessage());
-        }
+    public ResultSet getResultSet() throws SQLException {
+        ResultSet result = statement.executeQuery();
         return result;
     }
 
-    public void execute() {
-        try {
-            statement.executeUpdate();
-            conn.commit();
-        } catch (SQLException exception) {
-            System.out.println(exception.getMessage());
-        } 
+    public void execute() throws SQLException {
+        statement.executeUpdate();
+        conn.commit();
+
         if (conn != null) {
             try {
                 System.err.print("Rolling back transaction");
