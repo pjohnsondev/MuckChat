@@ -4,7 +4,7 @@ package muck.core;
    Triple is an immutable datastructure.
    Triple used as a generic container of three items.
  */
-class Triple<L, M, R> {
+public class Triple<L, M, R> {
     private final L left;
     private final M middle;
     private final R right;
