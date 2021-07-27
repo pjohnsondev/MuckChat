@@ -112,8 +112,8 @@ public class ChatControl implements Initializable {
                 messageBox.clear();
 
       /* **********************************************************************
-       Code edited for sending functionality.
-      Author: Harrison Liddell, utilising Ryan Birch development serverside, 27/07/2021
+      Code edited for sending functionality.
+      Last updated: Harrison Liddell, utilising Ryan Birch development serverside, 27/07/2021
       Adding Sending functionality by first creating a userMessage object and
       then sending it to the server.
       **NOTE**: No functionality for ChatId has been implemented serverside yet.
