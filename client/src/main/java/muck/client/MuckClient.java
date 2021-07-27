@@ -49,6 +49,8 @@ public enum MuckClient {
         client.addListener(ListenerBuilder.forClass(Ping.class).onReceive((conn, ping) ->
                 logger.info("Ping received from {}", conn.getID())
         ));
+        client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, serverMessage) ->
+                logger.info("Message from the server was: {}", serverMessage.getMessage())));
 
     }
 
