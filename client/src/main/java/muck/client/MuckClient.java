@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import com.esotericsoftware.kryonet.Client;
 
 import muck.protocol.*;
+import muck.core.Id;
 import muck.protocol.connection.*;
 
 import java.io.IOException;
@@ -29,6 +30,7 @@ public enum MuckClient {
 
     /** The KryoNet client */
     Client client;
+    Id<MuckClient> clientId = new Id<MuckClient>();
 
     public synchronized void connect(KryoClientConfig config) throws IOException {
         if (client != null) {
