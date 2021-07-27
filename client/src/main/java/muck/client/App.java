@@ -58,6 +58,7 @@ public class App extends Application {
         Parent root = loader.load();
         Scene scene = new Scene(root);
         scene.setRoot(root);
+        scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
         //Stage stage = new Stage();
         stage.setTitle("Muck 2021");
         stage.setScene(scene);
