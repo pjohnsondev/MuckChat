@@ -1,4 +1,4 @@
-﻿package aw.character;
+package aw.character;
 
 /**
  * Handles the storing and retrieval of Character objects (Player or NPC)

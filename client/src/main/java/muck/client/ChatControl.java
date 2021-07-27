@@ -8,6 +8,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 
+import muck.protocol.*;
+import muck.protocol.connection.*;
+ //For userMessage class;
+
 /** This class is where the functionality of the ChatUI lives. */
 
 public class ChatControl implements Initializable {
@@ -33,6 +37,14 @@ public class ChatControl implements Initializable {
     TabPane chatPane;
     @FXML
     Button plus;
+    @FXML
+    Button newGameTab;
+    @FXML
+    AnchorPane gameWindow1;
+    @FXML
+    Tab gameTab1;
+    @FXML
+    TabPane gamePane;
 
 
     String message;
@@ -41,8 +53,8 @@ public class ChatControl implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         enter.setOnAction(this::buttonActionGroup); // assigns function to button
-        plus.setOnAction(this::addTab); // adds new tab
-
+        plus.setOnAction(this::addChatTab); // adds new tab
+        newGameTab.setOnAction(this::addGameTab); //
     }
 
     /**
@@ -65,7 +77,7 @@ public class ChatControl implements Initializable {
      */
 
     @FXML
-    private void addTab(ActionEvent event) {
+    private void addChatTab(ActionEvent event) {
         int numTabs = chatPane.getTabs().size();
         int tabNum = numTabs + 1;
         Tab newTab = new Tab("Chat Name Here");
@@ -83,6 +95,7 @@ public class ChatControl implements Initializable {
         chatX.setLayoutY(12);
         newAnc.getChildren().add(chatX);
         chatPane.getTabs().add(newTab);
+        chatX.isFocused();
     }
 
     /**
@@ -97,6 +110,21 @@ public class ChatControl implements Initializable {
             if (currentID.equals("groupChat")) {
                 groupChatBox.appendText(message + "\n");
                 messageBox.clear();
+
+      /* **********************************************************************
+      Code edited for sending functionality.
+      Last updated: Harrison Liddell, utilising Ryan Birch development serverside, 27/07/2021
+      Adding Sending functionality by first creating a userMessage object and
+      then sending it to the server.
+      **NOTE**: No functionality for ChatId has been implemented serverside yet.
+                Also, this hasnt been tested extensively. Let me know if it causes
+                problems!
+      TODO: Create multiple chat groups serverside to filter messages. .
+      */
+                userMessage currentMessage = new userMessage();
+                currentMessage.setMessage(message);
+                MuckClient.INSTANCE.send(currentMessage);
+      /********************************************************************** */
             } else {
                 int num = chatPane.getTabs().indexOf(currentTab) + 1;
                 TextArea currentChatBox = (TextArea) chatPane.lookup("#chatbox" + num);
@@ -105,5 +133,31 @@ public class ChatControl implements Initializable {
             }
         }
     }
-}
 
+    /**
+     * Adds new game tab for multiple games running at once (if we need it)
+     */
+
+    @FXML
+    private void addGameTab(ActionEvent event) {
+        int numTabs = gamePane.getTabs().size();
+        int tabNum = numTabs + 1;
+        Tab newTab = new Tab("Game Name Here");
+        newTab.setId("Game" + tabNum);
+        AnchorPane newAnc = new AnchorPane();
+        newAnc.setStyle("-fx-background-color: lightgrey");
+        newTab.setContent(newAnc);
+        newTab.setClosable(true);
+        newAnc.setId("gameWindow1"+tabNum);
+        gamePane.getTabs().add(newTab);
+    }
+
+/**
+ * Add user name to the top text
+ * TODO: Create function to update user name
+ */
+
+    private void updateUserName() {
+
+    }
+}
