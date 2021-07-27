@@ -5,6 +5,7 @@ import muck.core.Id;
 import muck.protocol.connection.Connected;
 import muck.protocol.connection.Disconnect;
 import muck.protocol.connection.Ping;
+import muck.protocol.connection.userMessage;
 
 /**
  * A common Protocol registration class, shared by the client and server, to ensure that both
@@ -24,7 +25,7 @@ public class Protocol {
         kryo.register(Ping.class);
         kryo.register(Connected.class);
         kryo.register(Disconnect.class);
-
+        kryo.register(userMessage.class);
         kryo.register(Id.class);
     }
 

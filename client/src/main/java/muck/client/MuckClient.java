@@ -49,6 +49,7 @@ public enum MuckClient {
         client.addListener(ListenerBuilder.forClass(Ping.class).onReceive((conn, ping) ->
                 logger.info("Ping received from {}", conn.getID())
         ));
+
     }
 
     public synchronized void disconnect() throws IOException {
