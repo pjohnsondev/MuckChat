@@ -19,7 +19,7 @@ public class MapTest {
 
     @BeforeEach
     public void beforeEachTest(){
-        TileMapReader tm = new TileMapReader("/Test.tmx");
+        //TileMapReader tm = new TileMapReader("client/src/main/resources/Test.tmx");
         //TileMapReader tmerror = new TileMapReader("/T.tm");
     }
 
@@ -37,8 +37,17 @@ public class MapTest {
         // Test that an attempt to move into an object fails (throws some exception)
     }
     @Test void testTileMapReader() {
+        TileMapReader tm = new TileMapReader("/Test.tmx");
+        //Make sure public methods in TileMapReader don't get changed.
+        assertTrue(tm.getWidth() == 80);
+        logger.info(tm.getTileCount());
+        assertTrue(tm.getHeight() == 64);
+        assertTrue(tm.getTileWidth() == 32);
+        assertTrue(tm.getTileHeight() == 32);
+        assertTrue(tm.getTileColumns() == 32);
+        assertTrue(tm.getTileCount() == 1024);
+        //assertTrue(tm.getLayerId(0,) == 0);
         //Tile read/path Error
-        //assertThrows()
         //FileNotFoundError: No String data to read from map
 
         //IO Exception Line Not Found

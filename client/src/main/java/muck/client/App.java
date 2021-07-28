@@ -65,6 +65,7 @@ public class App extends Application {
         //Stage stage = new Stage();
         stage.setTitle("Muck 2021");
         stage.setScene(scene);
+
         stage.show();
 
         /* End of Imported work */

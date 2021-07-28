@@ -31,7 +31,7 @@ public class TileMapReader {
        try {
            addTileMap(path);
        } catch(Exception e) {
-           System.out.println("Error reading tilemap path.");
+           System.out.println("Error reading tilemap path." + e);
         }
     }
 
