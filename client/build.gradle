@@ -14,12 +14,16 @@ javafx {
 }
 
 dependencies {
-    implementation project(":core");
+    implementation project(":core")
     implementation project(":network")
 
     runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:win"
     runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:linux"
     runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:mac"
+
+    // JavaFX testing
+    testImplementation "org.testfx:testfx-core:4.0.16-alpha"
+    testImplementation "org.testfx:testfx-junit5:4.0.16-alpha"
 }
 
 /**
