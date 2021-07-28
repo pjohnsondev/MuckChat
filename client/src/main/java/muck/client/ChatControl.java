@@ -6,8 +6,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+import javafx.scene.layout.Pane;
 import muck.protocol.*;
 import muck.protocol.connection.*;
  //For userMessage class;
@@ -39,12 +42,16 @@ public class ChatControl implements Initializable {
     Button plus;
     @FXML
     Button newGameTab;
+    //@FXML
+    //AnchorPane gameWindow1;
+    //@FXML
+    //Tab gameTab1;
+    //@FXML
+   // TabPane gamePane;
     @FXML
-    AnchorPane gameWindow1;
+    Pane mapPane;
     @FXML
-    Tab gameTab1;
-    @FXML
-    TabPane gamePane;
+    ImageView map;
 
 
     String message;
@@ -54,7 +61,8 @@ public class ChatControl implements Initializable {
 
         enter.setOnAction(this::buttonActionGroup); // assigns function to button
         plus.setOnAction(this::addChatTab); // adds new tab
-        newGameTab.setOnAction(this::addGameTab); //
+        //newGameTab.setOnAction(this::addGameTab); //
+
     }
 
     /**
@@ -138,6 +146,7 @@ public class ChatControl implements Initializable {
      * Adds new game tab for multiple games running at once (if we need it)
      */
 
+/*
     @FXML
     private void addGameTab(ActionEvent event) {
         int numTabs = gamePane.getTabs().size();
@@ -151,6 +160,7 @@ public class ChatControl implements Initializable {
         newAnc.setId("gameWindow1"+tabNum);
         gamePane.getTabs().add(newTab);
     }
+*/
 
 /**
  * Add user name to the top text
