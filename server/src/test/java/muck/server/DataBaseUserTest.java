@@ -16,7 +16,7 @@ class TestDatabase extends Database {
         super();
         this.dbName = "testDB";
         this.connectionString = String.format("jdbc:derby:%s;create=true", dbName);
-        this.connect();
+        connect();
     }
 }
 
