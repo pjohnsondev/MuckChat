@@ -23,8 +23,6 @@ class TestDatabase extends Database {
 
 public class DataBaseUserTest {
 
-    private static final Logger logger = LogManager.getLogger(DataBaseUserTest.class);
-
     @Test
     public void dbCanConnectTest(){
         TestDatabase db = new TestDatabase();
