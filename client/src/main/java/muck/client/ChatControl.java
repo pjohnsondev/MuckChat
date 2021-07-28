@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 //import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 //import muck.protocol.*;
 import muck.protocol.connection.*;
@@ -24,7 +25,8 @@ public class ChatControl implements Initializable {
     /**
      * The fields of the UI
      */
-
+    @FXML
+    GridPane grid;
     @FXML
     Tab groupChat;
     @FXML

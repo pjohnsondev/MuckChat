@@ -21,7 +21,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane alignment="CENTER" maxHeight="711.0" maxWidth="1130.0" minHeight="707.0" minWidth="1130.0" prefHeight="707.0" prefWidth="1223.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.ChatControl">
+<GridPane id="grid" fx:id="grid" alignment="CENTER" maxHeight="711.0" maxWidth="1130.0" minHeight="707.0" minWidth="1130.0" prefHeight="707.0" prefWidth="1223.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.ChatControl">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1042.6666259765625" minWidth="10.0" prefWidth="107.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1128.6666641235352" minWidth="10.0" prefWidth="209.0" />
@@ -62,7 +62,7 @@
             <Insets left="5.0" right="10.0" top="10.0" />
          </GridPane.margin>
       </TextField>
-      <Button fx:id="enter" mnemonicParsing="false" prefHeight="28.0" prefWidth="144.0" text="Submit" GridPane.columnIndex="10" GridPane.columnSpan="3" GridPane.rowIndex="10">
+      <Button fx:id="enter" mnemonicParsing="false" prefHeight="25.0" prefWidth="191.0" text="Submit" GridPane.columnIndex="10" GridPane.columnSpan="4" GridPane.rowIndex="10">
          <GridPane.margin>
             <Insets left="5.0" right="5.0" top="10.0" />
          </GridPane.margin></Button>
@@ -72,7 +72,7 @@
                <content>
                 <AnchorPane focusTraversable="true" minHeight="0.0" minWidth="0.0" prefHeight="406.0" prefWidth="461.0" style="-fx-background-color: lightblue;">
                      <children>
-                        <TextArea layoutX="12.0" layoutY="12.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0" />
+                        <TextArea id="groupChatBox" fx:id="groupChatBox" layoutX="12.0" layoutY="12.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0" />
                      </children>
                   </AnchorPane>
                </content>
@@ -103,7 +103,7 @@
             <AnchorPane id="channels" fx:id="playerList" centerShape="false" minHeight="0.0" minWidth="0.0" prefHeight="230.0" prefWidth="204.0" style="-fx-background-color: lightgrey;" />
          </content>
       </TitledPane>
-      <Button id="plus" fx:id="plus" mnemonicParsing="false" prefHeight="44.0" prefWidth="25.0" text="+" GridPane.columnIndex="13" GridPane.rowIndex="10">
+      <Button id="plus" fx:id="plus" mnemonicParsing="false" prefHeight="44.0" prefWidth="25.0" text="+" GridPane.columnIndex="9" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets left="5.0" top="10.0" />
          </GridPane.margin>
@@ -171,7 +171,7 @@
             <Insets left="15.0" />
          </GridPane.margin>
       </MenuButton>
-      <Canvas id="gameWindow" fx:id="gameWindow" height="423.0" width="581.0" GridPane.rowIndex="7">
+      <Canvas id="gameWindow" fx:id="gameWindow" height="423.0" pickOnBounds="true" width="581.0" GridPane.rowIndex="7">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
