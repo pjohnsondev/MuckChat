@@ -1,4 +1,5 @@
 // Obselete Class if we are not using SceneBuilder and fxml
+//DO NOT USE THIS! IGNORE
 
 package muck.client;
 
@@ -15,8 +16,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 
-
-public class ChatUI extends Application {
+public class ChatUIDoNotUse extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
