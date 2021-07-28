@@ -135,7 +135,7 @@
          <children>
             <ImageView fitHeight="81.0" fitWidth="106.0" layoutX="2.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="file:/C:/Users/chant/OneDrive/Documents/Uni/GradDipIT/Software%20Dev%20Studio/classproject/classproject/client/src/main/resources/Avatar%20Placeholder%20Pic.png" />
+                  <Image url="@../Avatar Placeholder Pic.png" />
                </image>
             </ImageView>
          </children>
