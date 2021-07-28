@@ -37,19 +37,19 @@ public class MapTest {
         // Test that an attempt to move into an object fails (throws some exception)
     }
     @Test void testTileMapReader() {
-        TileMapReader tm = new TileMapReader("/Test.tmx");
+        TileMapReader tm = new TileMapReader("/Test.tmx"); // This is Test/Resources
         //Make sure public methods in TileMapReader don't get changed.
         assertTrue(tm.getWidth() == 80);
-        logger.info(tm.getTileCount());
         assertTrue(tm.getHeight() == 64);
         assertTrue(tm.getTileWidth() == 32);
         assertTrue(tm.getTileHeight() == 32);
         assertTrue(tm.getTileColumns() == 32);
         assertTrue(tm.getTileCount() == 1024);
-        //assertTrue(tm.getLayerId(0,) == 0);
+        assertTrue(tm.getLayerId(0,1,1) == 307);
+        logger.info(tm.getLayerId(0,1,1));//Have been using this get actual value to data
+
         //Tile read/path Error
         //FileNotFoundError: No String data to read from map
-
         //IO Exception Line Not Found
     }
 }
