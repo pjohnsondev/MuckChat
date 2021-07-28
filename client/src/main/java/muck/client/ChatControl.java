@@ -5,13 +5,14 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+//import javafx.scene.image.Image;
+//import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 import javafx.scene.layout.Pane;
-import muck.protocol.*;
+//import muck.protocol.*;
 import muck.protocol.connection.*;
  //For userMessage class;
 
@@ -41,13 +42,11 @@ public class ChatControl implements Initializable {
     @FXML
     Button plus;
     @FXML
-    Button newGameTab;
+    Canvas gameWindow;
     @FXML
     Pane achievements;
     @FXML
     Pane collectibles;
-    @FXML
-    Pane mapPane;
     @FXML
     Button achievementButton;
     @FXML
@@ -65,7 +64,7 @@ public class ChatControl implements Initializable {
         collectibleButton.setOnAction(this::showCollectables); // shows collectible pane
         achievementButton.setOnAction(this::showAchievements); // shows collectible pane
         hideCollectiblesAchievements.setOnAction(this::hideCollectiblesAchievements); // hides both pane
-
+        GameMap gm = new GameMap(gameWindow);
     }
 
     /**
@@ -109,7 +108,6 @@ public class ChatControl implements Initializable {
         chatX.setLayoutX(12);
         chatX.setLayoutY(12);
         newAnc.getChildren().add(chatX);
-
         chatPane.getTabs().add(newTab);
         chatX.isFocused();
     }
@@ -140,7 +138,6 @@ public class ChatControl implements Initializable {
                 userMessage currentMessage = new userMessage();
                 currentMessage.setMessage(message);
                 MuckClient.INSTANCE.send(currentMessage);
-      /********************************************************************** */
             } else {
                 int num = chatPane.getTabs().indexOf(currentTab) + 1;
                 TextArea currentChatBox = (TextArea) chatPane.lookup("#chatbox" + num);
@@ -181,14 +178,16 @@ public class ChatControl implements Initializable {
 
     }
 
-/**
+/*
  * Add user name to the top text
  * TODO: Create function to update user name
  */
 
+/*
     private void updateUserName() {
 
     }
+*/
 
 
 }

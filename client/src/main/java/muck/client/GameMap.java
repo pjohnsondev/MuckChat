@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.scene.*;
 import javafx.scene.image.*;
@@ -12,7 +13,13 @@ import javafx.scene.paint.*;
 import javafx.scene.shape.*;
 import javafx.animation.*;
 
-public class GameMap {
+/* Hi guys. In order to implement this into the main window I had to change a lot of your code.
+I needed to make this not an application firstly as it cannot run on its own and be a node in javaFX.
+This now means that to test it you need to run launcher to see it.
+Your code however is really good! I cannot wait to see what you come up with next
+ */
+
+public class GameMap extends Canvas {
 
     TileMapReader tm = new TileMapReader("/Test.tmx");
     int startX = 10;
@@ -26,9 +33,7 @@ public class GameMap {
         this.startY = startY;
     }
 
-    public GameMap(Stage stage) {
-        //Create the canvas
-        Canvas canvas = new Canvas(600, 600);
+    public GameMap(Canvas canvas) {
         //Get the graphic context of the canvas
         GraphicsContext gc = canvas.getGraphicsContext2D();
         //Load the image
@@ -43,20 +48,6 @@ public class GameMap {
                 drawTile(gc, getTileIndex(x + startX, y + startY), image, x, y);
             }
         }
-
-        //Create the Pane
-        Pane root = new Pane();
-        //Set the Style-properties of the Pane
-        //Add the Canvas to the Pane
-        root.getChildren().add(canvas);
-        //Create the scene
-        Scene scene = new Scene(root);
-        //Add the scene to the stage
-        stage.setScene(scene);
-        //Set the title of teh stage
-        stage.setTitle("Drawing an Image on a Canvas");
-        //Display the stage
-        stage.show();
     }
 
     public void drawTile(GraphicsContext gc, int tileIndex, Image tileImage, int destX, int destY) {
