@@ -42,17 +42,18 @@ public class ChatControl implements Initializable {
     Button plus;
     @FXML
     Button newGameTab;
-    //@FXML
-    //AnchorPane gameWindow1;
-    //@FXML
-    //Tab gameTab1;
-    //@FXML
-   // TabPane gamePane;
+    @FXML
+    Pane achievements;
+    @FXML
+    Pane collectibles;
     @FXML
     Pane mapPane;
     @FXML
     ImageView map;
-
+    @FXML
+    Button achievementButton;
+    @FXML
+    Button collectibleButton;
 
     String message;
 
@@ -97,10 +98,10 @@ public class ChatControl implements Initializable {
         TextArea chatX = new TextArea();
         chatX.setId("chatbox" + tabNum);
         chatX.setEditable(false);
-        chatX.setPrefWidth(220);
-        chatX.setPrefHeight(399);
-        chatX.setLayoutX(12);
-        chatX.setLayoutY(12);
+        chatX.setPrefWidth(308);
+        chatX.setPrefHeight(363);
+        chatX.setLayoutX(9);
+        chatX.setLayoutY(11);
         newAnc.getChildren().add(chatX);
         chatPane.getTabs().add(newTab);
         chatX.isFocused();
@@ -138,6 +139,7 @@ public class ChatControl implements Initializable {
                 TextArea currentChatBox = (TextArea) chatPane.lookup("#chatbox" + num);
                 currentChatBox.appendText(message + "\n");
                 messageBox.clear();
+
             }
         }
     }
