@@ -54,6 +54,8 @@ public class ChatControl implements Initializable {
     Button achievementButton;
     @FXML
     Button collectibleButton;
+    @FXML
+    Button hideCollectiblesAchievements;
 
     String message;
 
@@ -62,8 +64,9 @@ public class ChatControl implements Initializable {
 
         enter.setOnAction(this::buttonActionGroup); // assigns function to button
         plus.setOnAction(this::addChatTab); // adds new tab
-        //newGameTab.setOnAction(this::addGameTab); //
-
+        collectibleButton.setOnAction(this::showCollectables); // shows collectible pane
+        achievementButton.setOnAction(this::showAchievements); // shows collectible pane
+        hideCollectiblesAchievements.setOnAction(this::hideCollectiblesAchievements); // hides both pane
     }
 
     /**
@@ -98,8 +101,8 @@ public class ChatControl implements Initializable {
         TextArea chatX = new TextArea();
         chatX.setId("chatbox" + tabNum);
         chatX.setEditable(false);
-        chatX.setPrefWidth(308);
-        chatX.setPrefHeight(363);
+        chatX.setPrefWidth(310);
+        chatX.setPrefHeight(380);
         chatX.setLayoutX(9);
         chatX.setLayoutY(11);
         newAnc.getChildren().add(chatX);
@@ -145,24 +148,34 @@ public class ChatControl implements Initializable {
     }
 
     /**
-     * Adds new game tab for multiple games running at once (if we need it)
+     * Displays collectibles if button clicked
      */
 
-/*
+
     @FXML
-    private void addGameTab(ActionEvent event) {
-        int numTabs = gamePane.getTabs().size();
-        int tabNum = numTabs + 1;
-        Tab newTab = new Tab("Game Name Here");
-        newTab.setId("Game" + tabNum);
-        AnchorPane newAnc = new AnchorPane();
-        newAnc.setStyle("-fx-background-color: lightgrey");
-        newTab.setContent(newAnc);
-        newTab.setClosable(true);
-        newAnc.setId("gameWindow1"+tabNum);
-        gamePane.getTabs().add(newTab);
+    private void showCollectables(ActionEvent event) {
+        achievements.setVisible(false);
+        collectibles.setVisible(true);
+        hideCollectiblesAchievements.setVisible(true);
+
     }
-*/
+
+    @FXML
+    private void showAchievements(ActionEvent event) {
+        achievements.setVisible(true);
+        collectibles.setVisible(false);
+        hideCollectiblesAchievements.setVisible(true);
+
+    }
+
+
+    private void hideCollectiblesAchievements(ActionEvent event) {
+        achievements.setVisible(false);
+        collectibles.setVisible(false);
+        hideCollectiblesAchievements.setVisible(false);
+
+
+    }
 
 /**
  * Add user name to the top text

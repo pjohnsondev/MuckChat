@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
@@ -19,57 +20,58 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="667.0" prefWidth="1098.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.ChatControl">
+<GridPane alignment="CENTER" maxHeight="711.0" maxWidth="1130.0" minHeight="711.0" minWidth="1130.0" prefHeight="711.0" prefWidth="1130.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.ChatControl">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1042.6666259765625" minWidth="10.0" prefWidth="107.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1128.6666641235352" minWidth="10.0" prefWidth="209.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="808.3333740234375" minWidth="10.0" prefWidth="205.0" />
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="660.6666870117188" minWidth="0.0" prefWidth="55.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="547.0" minWidth="0.0" prefWidth="45.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="481.0" minWidth="10.0" prefWidth="56.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="660.6666870117188" minWidth="0.0" prefWidth="69.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="547.0" minWidth="0.0" prefWidth="43.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="481.0" minWidth="10.0" prefWidth="44.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="392.0" minWidth="10.0" prefWidth="49.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.0" minWidth="0.0" prefWidth="47.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.0" minWidth="0.0" prefWidth="47.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.0" minWidth="0.0" prefWidth="45.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.0" minWidth="5.0" prefWidth="67.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.0" minWidth="10.0" prefWidth="34.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.0" minWidth="10.0" prefWidth="40.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.0" minWidth="10.0" prefWidth="39.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.0" minWidth="10.0" prefWidth="52.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.0" minWidth="10.0" prefWidth="21.0" />
   </columnConstraints>
   <rowConstraints>
       <RowConstraints maxHeight="71.33333587646484" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
     <RowConstraints maxHeight="71.33333587646484" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="44.33333206176758" minHeight="0.0" prefHeight="34.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="34.0" minHeight="0.0" prefHeight="20.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="97.0" minHeight="10.0" prefHeight="61.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="97.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="55.0" minHeight="0.0" prefHeight="52.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="141.0" minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="248.0" minHeight="10.0" prefHeight="75.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="363.0" minHeight="10.0" prefHeight="186.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="145.66665649414062" minHeight="0.0" prefHeight="37.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="363.0" minHeight="10.0" prefHeight="66.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="155.0" minHeight="0.0" prefHeight="155.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="141.33334350585938" minHeight="0.0" prefHeight="41.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="141.33334350585938" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="141.33334350585938" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="141.33334350585938" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="141.33334350585938" minHeight="0.0" prefHeight="18.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="141.33334350585938" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="141.33334350585938" minHeight="0.0" prefHeight="25.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="141.33334350585938" minHeight="10.0" prefHeight="23.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <TextField id="messageBox" fx:id="messageBox" accessibleHelp="Type your message here..." onAction="#onEnter" prefHeight="30.0" prefWidth="329.0" GridPane.columnIndex="3" GridPane.columnSpan="7" GridPane.rowIndex="9">
+      <TextField id="messageBox" fx:id="messageBox" accessibleHelp="Type your message here..." onAction="#onEnter" prefHeight="30.0" prefWidth="329.0" GridPane.columnIndex="3" GridPane.columnSpan="7" GridPane.rowIndex="10">
          <GridPane.margin>
             <Insets left="5.0" right="10.0" top="10.0" />
          </GridPane.margin>
       </TextField>
-      <Button fx:id="enter" mnemonicParsing="false" prefHeight="28.0" prefWidth="144.0" text="Submit" GridPane.columnIndex="10" GridPane.columnSpan="3" GridPane.rowIndex="9">
+      <Button fx:id="enter" mnemonicParsing="false" prefHeight="28.0" prefWidth="144.0" text="Submit" GridPane.columnIndex="10" GridPane.columnSpan="3" GridPane.rowIndex="10">
          <GridPane.margin>
             <Insets left="5.0" right="5.0" top="10.0" />
          </GridPane.margin></Button>
-      <TabPane id="chatPane" fx:id="chatPane" accessibleRole="INCREMENT_BUTTON" prefHeight="366.0" prefWidth="238.0" style="-fx-border-color: black;" GridPane.columnIndex="3" GridPane.columnSpan="7" GridPane.rowIndex="3" GridPane.rowSpan="6">
+      <TabPane id="chatPane" fx:id="chatPane" accessibleRole="INCREMENT_BUTTON" prefHeight="466.0" prefWidth="331.0" style="-fx-border-color: black;" GridPane.columnIndex="3" GridPane.columnSpan="7" GridPane.rowIndex="4" GridPane.rowSpan="6">
         <tabs>
           <Tab id="groupChat" fx:id="groupChat" closable="false" style="-fx-background-color: lightblue;" text="Group Chat">
                <content>
                 <AnchorPane focusTraversable="true" minHeight="0.0" minWidth="0.0" prefHeight="291.0" prefWidth="236.0" style="-fx-background-color: lightblue;">
                      <children>
-                        <TextArea id="groupChatBox" fx:id="groupChatBox" editable="false" layoutX="9.0" layoutY="11.0" prefHeight="363.0" prefWidth="308.0" wrapText="true" />
+                        <TextArea id="groupChatBox" fx:id="groupChatBox" editable="false" layoutX="9.0" layoutY="11.0" maxWidth="472.0" prefHeight="385.0" prefWidth="310.0" wrapText="true" />
                      </children>
                   </AnchorPane>
                </content>
@@ -79,7 +81,7 @@
             <Insets left="5.0" right="10.0" top="10.0" />
          </GridPane.margin>
       </TabPane>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hi &lt;Name&gt; Welcome to Muck!" wrappingWidth="399.82420110702515" GridPane.columnIndex="1" GridPane.rowSpan="3">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hi &lt;Name&gt;! Welcome to Muck!" wrappingWidth="423.82420110702515" GridPane.columnIndex="1" GridPane.rowSpan="4">
          <font>
             <Font name="Comic Sans MS" size="29.0" />
          </font>
@@ -87,20 +89,20 @@
             <Insets left="20.0" />
          </GridPane.margin>
       </Text>
-      <TitledPane id="channelsList" animated="false" centerShape="false" collapsible="false" prefHeight="271.0" prefWidth="171.0" text="Available Channels" GridPane.columnIndex="10" GridPane.columnSpan="4" GridPane.rowIndex="3" GridPane.rowSpan="4">
+      <TitledPane id="channelsList" animated="false" centerShape="false" collapsible="false" prefHeight="253.0" prefWidth="206.0" text="Available Channels" GridPane.columnIndex="10" GridPane.columnSpan="4" GridPane.rowIndex="4" GridPane.rowSpan="4">
         <content>
-          <AnchorPane id="channels" fx:id="channelsList" centerShape="false" minHeight="0.0" minWidth="0.0" prefHeight="197.0" prefWidth="165.0" style="-fx-background-color: lightgrey;" />
+          <AnchorPane id="channels" fx:id="channelsList" centerShape="false" minHeight="0.0" minWidth="0.0" prefHeight="252.0" prefWidth="204.0" style="-fx-background-color: lightgrey;" />
         </content>
          <padding>
             <Insets top="5.0" />
          </padding>
       </TitledPane>
-      <TitledPane animated="false" centerShape="false" collapsible="false" prefHeight="222.0" prefWidth="184.0" text="Online Players" GridPane.columnIndex="10" GridPane.columnSpan="4" GridPane.rowIndex="7" GridPane.rowSpan="2">
+      <TitledPane animated="false" centerShape="false" collapsible="false" prefHeight="210.0" prefWidth="206.0" text="Online Players" GridPane.columnIndex="10" GridPane.columnSpan="4" GridPane.rowIndex="8" GridPane.rowSpan="2">
          <content>
-            <AnchorPane id="channels" fx:id="playerList" centerShape="false" minHeight="0.0" minWidth="0.0" prefHeight="193.0" prefWidth="182.0" style="-fx-background-color: lightgrey;" />
+            <AnchorPane id="channels" fx:id="playerList" centerShape="false" minHeight="0.0" minWidth="0.0" prefHeight="230.0" prefWidth="204.0" style="-fx-background-color: lightgrey;" />
          </content>
       </TitledPane>
-      <Button id="plus" fx:id="plus" mnemonicParsing="false" prefHeight="44.0" prefWidth="25.0" text="+" GridPane.columnIndex="13" GridPane.rowIndex="9">
+      <Button id="plus" fx:id="plus" mnemonicParsing="false" prefHeight="44.0" prefWidth="25.0" text="+" GridPane.columnIndex="13" GridPane.rowIndex="10">
          <GridPane.margin>
             <Insets left="5.0" top="10.0" />
          </GridPane.margin>
@@ -110,23 +112,13 @@
             <Insets left="10.0" />
          </GridPane.margin>
       </Button>
-      <Pane id="mapPane" fx:id="mapPane" prefHeight="415.0" prefWidth="505.0" style="-fx-border-color: black;" GridPane.columnSpan="3" GridPane.rowIndex="3" GridPane.rowSpan="6">
+      <Pane id="mapPane" fx:id="mapPane" prefHeight="415.0" prefWidth="505.0" style="-fx-border-color: black;" GridPane.columnSpan="3" GridPane.rowIndex="4" GridPane.rowSpan="6">
          <GridPane.margin>
             <Insets left="5.0" right="5.0" top="10.0" />
          </GridPane.margin>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
-         <children>
-            <ImageView id="map" fx:id="map" fitHeight="398.0" fitWidth="455.0" layoutX="43.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-               <viewport>
-                  <Rectangle2D height="481.0" width="536.0" />
-               </viewport>
-               <image>
-                  <Image url="@../terrain_atlas.png" />
-               </image>
-            </ImageView>
-         </children>
       </Pane>
       <Pane prefHeight="87.0" prefWidth="93.0" GridPane.rowSpan="3">
          <GridPane.margin>
@@ -135,12 +127,12 @@
          <children>
             <ImageView fitHeight="81.0" fitWidth="106.0" layoutX="2.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../Avatar Placeholder Pic.png" />
+                  <Image url="@/Avatar Placeholder Pic.png" />
                </image>
             </ImageView>
          </children>
       </Pane>
-      <ButtonBar prefHeight="52.0" prefWidth="539.0" GridPane.columnSpan="3" GridPane.rowIndex="9">
+      <ButtonBar prefHeight="52.0" prefWidth="539.0" GridPane.columnSpan="3" GridPane.rowIndex="10">
         <buttons>
             <Button id="achievementButton" fx:id="achievementButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="167.0" text="Achievements" />
           <Button id="collectibleButton" fx:id="collectibleButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="364.0" text="Collectibles" />
@@ -152,16 +144,45 @@
             <Insets right="20.0" />
          </padding>
       </ButtonBar>
-      <Pane id="achievements" fx:id="achievements" focusTraversable="true" prefHeight="77.0" prefWidth="337.0" style="-fx-background-color: lightgrey; -fx-border-color: green; -fx-border-width: 3;" visible="false" GridPane.columnSpan="3" GridPane.rowIndex="10" GridPane.rowSpan="3">
+      <Pane id="achievements" fx:id="achievements" focusTraversable="true" prefHeight="77.0" prefWidth="337.0" style="-fx-background-color: lightgrey; -fx-border-color: black; -fx-border-width: 3;" visible="false" GridPane.columnSpan="3" GridPane.rowIndex="11" GridPane.rowSpan="4">
          <GridPane.margin>
             <Insets left="5.0" right="5.0" top="10.0" />
          </GridPane.margin>
+         <children>
+            <Text layoutX="10.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Achievements Placeholder" wrappingWidth="191.13671875" />
+         </children>
+         <padding>
+            <Insets bottom="5.0" />
+         </padding>
       </Pane>
-      <Pane id="collectibles" fx:id="collectibles" focusTraversable="true" prefHeight="78.0" prefWidth="534.0" style="-fx-background-color: lightgrey; -fx-border-color: orange; -fx-border-width: 3;" visible="false" GridPane.columnSpan="3" GridPane.rowIndex="10" GridPane.rowSpan="3">
+      <Pane id="collectibles" fx:id="collectibles" focusTraversable="true" prefHeight="78.0" prefWidth="534.0" style="-fx-background-color: lightgrey; -fx-border-color: darkgrey; -fx-border-width: 3;" visible="false" GridPane.columnSpan="3" GridPane.rowIndex="11" GridPane.rowSpan="4">
          <GridPane.margin>
             <Insets left="5.0" right="5.0" top="10.0" />
          </GridPane.margin>
+         <children>
+            <Text layoutX="10.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Collectibles Placeholder" wrappingWidth="191.13671875" />
+         </children>
+         <padding>
+            <Insets bottom="5.0" />
+         </padding>
       </Pane>
+      <Button id="hideCollectiblesAchievements" fx:id="hideCollectiblesAchievements" mnemonicParsing="false" prefHeight="6.0" prefWidth="53.0" text="HIDE" visible="false" GridPane.rowIndex="14">
+         <GridPane.margin>
+            <Insets left="10.0" />
+         </GridPane.margin>
+         <font>
+            <Font size="8.0" />
+         </font>
+      </Button>
+      <MenuButton mnemonicParsing="false" prefHeight="25.0" prefWidth="78.0" text="Menu" GridPane.columnSpan="2" GridPane.rowIndex="3">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Settings" />
+          <MenuItem mnemonicParsing="false" text="Log Out" />
+        </items>
+         <GridPane.margin>
+            <Insets left="15.0" />
+         </GridPane.margin>
+      </MenuButton>
    </children>
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
