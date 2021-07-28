@@ -37,6 +37,10 @@ public class MapTest {
         // Test that an attempt to move into an object fails (throws some exception)
     }
     @Test void testTileMapReader() {
-        //assertThrows();
+        //Tile read/path Error
+        //assertThrows()
+        //FileNotFoundError: No String data to read from map
+
+        //IO Exception Line Not Found
     }
 }
