@@ -20,7 +20,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane alignment="CENTER" maxHeight="711.0" maxWidth="1130.0" minHeight="711.0" minWidth="1130.0" prefHeight="711.0" prefWidth="1130.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.ChatControl">
+<GridPane alignment="CENTER" maxHeight="711.0" maxWidth="1130.0" minHeight="707.0" minWidth="1130.0" prefHeight="707.0" prefWidth="1223.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.ChatControl">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1042.6666259765625" minWidth="10.0" prefWidth="107.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1128.6666641235352" minWidth="10.0" prefWidth="209.0" />
@@ -56,7 +56,7 @@
       <RowConstraints maxHeight="141.33334350585938" minHeight="10.0" prefHeight="23.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <TextField id="messageBox" fx:id="messageBox" accessibleHelp="Type your message here..." onAction="#onEnter" prefHeight="30.0" prefWidth="329.0" GridPane.columnIndex="3" GridPane.columnSpan="7" GridPane.rowIndex="10">
+      <TextField id="messageBox" fx:id="messageBox" accessibleHelp="Type your message here..." onAction="#onEnter" prefHeight="30.0" prefWidth="329.0" GridPane.columnIndex="4" GridPane.columnSpan="6" GridPane.rowIndex="10">
          <GridPane.margin>
             <Insets left="5.0" right="10.0" top="10.0" />
          </GridPane.margin>
@@ -65,13 +65,13 @@
          <GridPane.margin>
             <Insets left="5.0" right="5.0" top="10.0" />
          </GridPane.margin></Button>
-      <TabPane id="chatPane" fx:id="chatPane" accessibleRole="INCREMENT_BUTTON" prefHeight="466.0" prefWidth="331.0" style="-fx-border-color: black;" GridPane.columnIndex="3" GridPane.columnSpan="7" GridPane.rowIndex="4" GridPane.rowSpan="6">
+      <TabPane id="chatPane" fx:id="chatPane" accessibleRole="INCREMENT_BUTTON" prefHeight="466.0" prefWidth="331.0" style="-fx-border-color: black;" GridPane.columnIndex="4" GridPane.columnSpan="6" GridPane.rowIndex="4" GridPane.rowSpan="6">
         <tabs>
           <Tab id="groupChat" fx:id="groupChat" closable="false" style="-fx-background-color: lightblue;" text="Group Chat">
                <content>
-                <AnchorPane focusTraversable="true" minHeight="0.0" minWidth="0.0" prefHeight="291.0" prefWidth="236.0" style="-fx-background-color: lightblue;">
+                <AnchorPane focusTraversable="true" minHeight="0.0" minWidth="0.0" prefHeight="406.0" prefWidth="461.0" style="-fx-background-color: lightblue;">
                      <children>
-                        <TextArea id="groupChatBox" fx:id="groupChatBox" editable="false" layoutX="9.0" layoutY="11.0" maxWidth="472.0" prefHeight="385.0" prefWidth="310.0" wrapText="true" />
+                        <TextArea layoutX="12.0" layoutY="12.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0" />
                      </children>
                   </AnchorPane>
                </content>
@@ -112,7 +112,7 @@
             <Insets left="10.0" />
          </GridPane.margin>
       </Button>
-      <Pane id="mapPane" fx:id="mapPane" prefHeight="415.0" prefWidth="505.0" style="-fx-border-color: black;" GridPane.columnSpan="3" GridPane.rowIndex="4" GridPane.rowSpan="6">
+      <Pane id="mapPane" fx:id="mapPane" prefHeight="415.0" prefWidth="505.0" style="-fx-border-color: black;" GridPane.columnSpan="4" GridPane.rowIndex="4" GridPane.rowSpan="6">
          <GridPane.margin>
             <Insets left="5.0" right="5.0" top="10.0" />
          </GridPane.margin>
@@ -132,7 +132,7 @@
             </ImageView>
          </children>
       </Pane>
-      <ButtonBar prefHeight="52.0" prefWidth="539.0" GridPane.columnSpan="3" GridPane.rowIndex="10">
+      <ButtonBar prefHeight="25.0" prefWidth="608.0" GridPane.columnSpan="4" GridPane.rowIndex="10">
         <buttons>
             <Button id="achievementButton" fx:id="achievementButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="167.0" text="Achievements" />
           <Button id="collectibleButton" fx:id="collectibleButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="364.0" text="Collectibles" />

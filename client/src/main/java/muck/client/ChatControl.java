@@ -49,8 +49,6 @@ public class ChatControl implements Initializable {
     @FXML
     Pane mapPane;
     @FXML
-    ImageView map;
-    @FXML
     Button achievementButton;
     @FXML
     Button collectibleButton;
@@ -67,6 +65,7 @@ public class ChatControl implements Initializable {
         collectibleButton.setOnAction(this::showCollectables); // shows collectible pane
         achievementButton.setOnAction(this::showAchievements); // shows collectible pane
         hideCollectiblesAchievements.setOnAction(this::hideCollectiblesAchievements); // hides both pane
+
     }
 
     /**
@@ -101,11 +100,16 @@ public class ChatControl implements Initializable {
         TextArea chatX = new TextArea();
         chatX.setId("chatbox" + tabNum);
         chatX.setEditable(false);
-        chatX.setPrefWidth(310);
-        chatX.setPrefHeight(380);
-        chatX.setLayoutX(9);
-        chatX.setLayoutY(11);
+        chatX.setPrefWidth(255);
+        chatX.setPrefHeight(382);
+        AnchorPane.setTopAnchor(chatX, 12.0);
+        AnchorPane.setLeftAnchor(chatX, 12.0);
+        AnchorPane.setRightAnchor(chatX, 12.0);
+        AnchorPane.setBottomAnchor(chatX, 12.0);
+        chatX.setLayoutX(12);
+        chatX.setLayoutY(12);
         newAnc.getChildren().add(chatX);
+
         chatPane.getTabs().add(newTab);
         chatX.isFocused();
     }
@@ -185,4 +189,6 @@ public class ChatControl implements Initializable {
     private void updateUserName() {
 
     }
+
+
 }
