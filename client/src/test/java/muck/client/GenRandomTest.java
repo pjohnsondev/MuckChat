@@ -35,7 +35,7 @@ public class GenRandomTest {
                 () -> assertTrue(random >= min));
     }
 
-    //I think we can delete this test?
+    //I think we can delete this test?  
     @Test
     public boolean randomIntGenerated() {
         logger.info("Testing generated random int is between 1 and 10");
