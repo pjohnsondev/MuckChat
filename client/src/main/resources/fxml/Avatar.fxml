@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.gluonhq.charm.glisten.control.Avatar?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -11,112 +10,77 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="544.0" prefWidth="703.0" style="-fx-background-color: dimgrey;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="631.0" prefWidth="1000.0" style="-fx-background-color: dimgrey;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="204.0" minWidth="10.0" prefWidth="189.0" />
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="206.0" minWidth="10.0" prefWidth="198.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="177.0" minWidth="10.0" prefWidth="149.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="144.0" minWidth="10.0" prefWidth="144.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="537.0" minWidth="45.0" prefWidth="462.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="757.0" minWidth="237.0" prefWidth="267.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="656.0" minWidth="227.0" prefWidth="271.0" />
+      <ColumnConstraints />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints maxHeight="177.0" minHeight="0.0" prefHeight="68.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="363.0" minHeight="10.0" prefHeight="220.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="452.0" minHeight="10.0" prefHeight="213.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="320.0" minHeight="10.0" prefHeight="46.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="95.0" minHeight="0.0" prefHeight="64.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="323.0" minHeight="10.0" prefHeight="238.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="312.0" minHeight="10.0" prefHeight="251.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="75.0" minHeight="0.0" prefHeight="75.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <TextFlow prefHeight="66.0" prefWidth="698.0" style="-fx-background-color: grey; -fx-border-color: turquoise; -fx-border-width: 5;" textAlignment="CENTER" GridPane.columnSpan="4">
+      <TextFlow prefHeight="75.0" prefWidth="833.0" style="-fx-background-color: grey; -fx-border-color: #87cdff; -fx-border-width: 5;" textAlignment="CENTER" GridPane.columnSpan="4">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: darkgrey;" text="Hi ">
+            <Text fill="#87cdff" strokeType="OUTSIDE" strokeWidth="0.0" text="Hi ">
                <font>
                   <Font name="Berlin Sans FB Demi Bold" size="30.0" />
                </font>
             </Text>
-            <Text fx:id="usernameLocation" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: darkgrey;" text="&lt;insert name here&gt;">
+            <Text fx:id="username" fill="#87cdff" strokeType="OUTSIDE" strokeWidth="0.0" text="&lt;insert name here&gt;">
                <font>
                   <Font name="Berlin Sans FB Demi Bold" size="30.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: darkgrey;" text="! Pick your player...">
+            <Text fill="#87cdff" strokeType="OUTSIDE" strokeWidth="0.0" text="! Pick your player...">
                <font>
                   <Font name="Berlin Sans FB Demi Bold" size="30.0" />
                </font>
             </Text>
          </children>
-         <GridPane.margin>
+         <opaqueInsets>
             <Insets />
-         </GridPane.margin>
-         <effect>
-            <Blend />
-         </effect>
+         </opaqueInsets>
          <padding>
-            <Insets top="13.0" />
+            <Insets top="10.0" />
          </padding>
       </TextFlow>
-      <Button fx:id="submit" mnemonicParsing="false" prefHeight="30.0" prefWidth="136.0" style="-fx-background-color: turquoise;" text="Confirm" textAlignment="CENTER" textFill="#6f6f6f" GridPane.columnIndex="3" GridPane.rowIndex="3">
+      <Button fx:id="submit" mnemonicParsing="false" prefHeight="25.0" prefWidth="181.0" style="-fx-background-color: #87cdff;" text="Confirm" textAlignment="CENTER" textFill="DIMGRAY" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
          <font>
-            <Font name="Berlin Sans FB Demi Bold" size="14.0" />
+            <Font name="Berlin Sans FB Demi Bold" size="20.0" />
          </font>
       </Button>
-      <Pane prefHeight="219.0" prefWidth="304.0" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="3">
+      <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" GridPane.rowSpan="3">
          <children>
-            <ImageView fx:id="avatarFullBody" fitHeight="446.0" fitWidth="278.0" layoutX="67.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="/images/peach.png" />
-               </image>
+            <ImageView fx:id="avatarFullBody" fitHeight="538.0" fitWidth="462.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <effect>
                   <DropShadow />
                </effect>
             </ImageView>
+            <Text layoutX="94.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A function will update this section with a full body image of your avatar" wrappingWidth="273.88409423828125" />
          </children>
       </Pane>
-      <Avatar fx:id="peach" minHeight="-Infinity" minWidth="-Infinity" radius="60.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+      <ImageView fitHeight="191.0" fitWidth="258.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <image>
-            <Image url="/images/peach-portrait2.png" />
+            <Image url="@../images/peach-portrait2.png" />
          </image>
          <effect>
             <DropShadow />
          </effect>
-         <GridPane.margin>
-            <Insets top="20.0" />
-         </GridPane.margin>
-      </Avatar>
-      <Avatar fx:id="goku" layoutX="401.0" layoutY="127.0" minHeight="-Infinity" minWidth="-Infinity" radius="60.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
-         <image>
-            <Image url="/images/goku-portrait.png" />
-         </image>
-         <effect>
-            <DropShadow />
-         </effect>
-         <GridPane.margin>
-            <Insets top="20.0" />
-         </GridPane.margin>
-      </Avatar>
-      <Avatar fx:id="pikachu" layoutX="401.0" layoutY="127.0" minHeight="-Infinity" minWidth="-Infinity" radius="60.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
-         <image>
-            <Image url="/images/pikachu-portrait.png" />
-         </image>
-         <effect>
-            <DropShadow />
-         </effect>
-         <GridPane.margin>
-            <Insets bottom="50.0" />
-         </GridPane.margin>
-      </Avatar>
-      <Avatar fx:id="wwoman" layoutX="401.0" layoutY="127.0" minHeight="-Infinity" minWidth="-Infinity" radius="60.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
-         <image>
-            <Image url="/images/wonder_woman-portrait.png" />
-         </image>
-         <effect>
-            <DropShadow />
-         </effect>
-         <GridPane.margin>
-            <Insets bottom="50.0" />
-         </GridPane.margin>
-      </Avatar>
+      </ImageView>
+      <ImageView fitHeight="191.0" fitWidth="258.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+      <Circle fill="#ffffff00" radius="87.0" stroke="#87cdff" strokeType="INSIDE" strokeWidth="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <cursor>
+            <Cursor fx:constant="CROSSHAIR" />
+         </cursor></Circle>
    </children>
 </GridPane>

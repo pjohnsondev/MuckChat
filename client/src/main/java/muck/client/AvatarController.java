@@ -15,7 +15,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import muck.protocol.*;
 import muck.protocol.connection.*;
-//For userMessage class;
 
 public class AvatarController implements Initializable {
 
