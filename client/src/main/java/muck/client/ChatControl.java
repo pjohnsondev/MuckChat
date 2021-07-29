@@ -5,13 +5,15 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+//import javafx.scene.image.Image;
+//import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import muck.protocol.*;
+//import muck.protocol.*;
 import muck.protocol.connection.*;
  //For userMessage class;
 
@@ -23,7 +25,8 @@ public class ChatControl implements Initializable {
     /**
      * The fields of the UI
      */
-
+    @FXML
+    GridPane grid;
     @FXML
     Tab groupChat;
     @FXML
@@ -41,18 +44,17 @@ public class ChatControl implements Initializable {
     @FXML
     Button plus;
     @FXML
-    Button newGameTab;
-    //@FXML
-    //AnchorPane gameWindow1;
-    //@FXML
-    //Tab gameTab1;
-    //@FXML
-   // TabPane gamePane;
+    Canvas gameWindow;
     @FXML
-    Pane mapPane;
+    Pane achievements;
     @FXML
-    ImageView map;
-
+    Pane collectibles;
+    @FXML
+    Button achievementButton;
+    @FXML
+    Button collectibleButton;
+    @FXML
+    Button hideCollectiblesAchievements;
 
     String message;
 
@@ -61,8 +63,10 @@ public class ChatControl implements Initializable {
 
         enter.setOnAction(this::buttonActionGroup); // assigns function to button
         plus.setOnAction(this::addChatTab); // adds new tab
-        //newGameTab.setOnAction(this::addGameTab); //
-
+        collectibleButton.setOnAction(this::showCollectables); // shows collectible pane
+        achievementButton.setOnAction(this::showAchievements); // shows collectible pane
+        hideCollectiblesAchievements.setOnAction(this::hideCollectiblesAchievements); // hides both pane
+        GameMap gm = new GameMap(gameWindow);
     }
 
     /**
@@ -97,8 +101,12 @@ public class ChatControl implements Initializable {
         TextArea chatX = new TextArea();
         chatX.setId("chatbox" + tabNum);
         chatX.setEditable(false);
-        chatX.setPrefWidth(220);
-        chatX.setPrefHeight(399);
+        chatX.setPrefWidth(255);
+        chatX.setPrefHeight(382);
+        AnchorPane.setTopAnchor(chatX, 12.0);
+        AnchorPane.setLeftAnchor(chatX, 12.0);
+        AnchorPane.setRightAnchor(chatX, 12.0);
+        AnchorPane.setBottomAnchor(chatX, 12.0);
         chatX.setLayoutX(12);
         chatX.setLayoutY(12);
         newAnc.getChildren().add(chatX);
@@ -132,42 +140,56 @@ public class ChatControl implements Initializable {
                 userMessage currentMessage = new userMessage();
                 currentMessage.setMessage(message);
                 MuckClient.INSTANCE.send(currentMessage);
-      /********************************************************************** */
             } else {
                 int num = chatPane.getTabs().indexOf(currentTab) + 1;
                 TextArea currentChatBox = (TextArea) chatPane.lookup("#chatbox" + num);
                 currentChatBox.appendText(message + "\n");
                 messageBox.clear();
+
             }
         }
     }
 
     /**
-     * Adds new game tab for multiple games running at once (if we need it)
+     * Displays collectibles if button clicked
      */
 
-/*
-    @FXML
-    private void addGameTab(ActionEvent event) {
-        int numTabs = gamePane.getTabs().size();
-        int tabNum = numTabs + 1;
-        Tab newTab = new Tab("Game Name Here");
-        newTab.setId("Game" + tabNum);
-        AnchorPane newAnc = new AnchorPane();
-        newAnc.setStyle("-fx-background-color: lightgrey");
-        newTab.setContent(newAnc);
-        newTab.setClosable(true);
-        newAnc.setId("gameWindow1"+tabNum);
-        gamePane.getTabs().add(newTab);
-    }
-*/
 
-/**
+    @FXML
+    private void showCollectables(ActionEvent event) {
+        achievements.setVisible(false);
+        collectibles.setVisible(true);
+        hideCollectiblesAchievements.setVisible(true);
+
+    }
+
+    @FXML
+    private void showAchievements(ActionEvent event) {
+        achievements.setVisible(true);
+        collectibles.setVisible(false);
+        hideCollectiblesAchievements.setVisible(true);
+
+    }
+
+
+    private void hideCollectiblesAchievements(ActionEvent event) {
+        achievements.setVisible(false);
+        collectibles.setVisible(false);
+        hideCollectiblesAchievements.setVisible(false);
+
+
+    }
+
+/*
  * Add user name to the top text
  * TODO: Create function to update user name
  */
 
+/*
     private void updateUserName() {
 
     }
+*/
+
+
 }

@@ -20,7 +20,9 @@ public class ChatJFX extends Application {
                 Stage stage = new Stage();
                 stage.setTitle("Muck 2021");
                 stage.setScene(scene);
+                stage.setResizable(false);
                 stage.show();
+
             } catch (Exception e) {
                 e.printStackTrace();
 
