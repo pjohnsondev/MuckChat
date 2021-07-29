@@ -9,10 +9,6 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**Wasn't working on PC, wanting to test using Turing.
- * Execution failed for client:test
- *
- */
 
 public class GenRandomTest {
 
@@ -35,25 +31,6 @@ public class GenRandomTest {
                 () -> assertTrue(random >= min));
     }
 
-    //I think we can delete this test?  
-    @Test
-    public boolean randomIntGenerated() {
-        logger.info("Testing generated random int is between 1 and 10");
-
-        int min = 1;
-        int max = 10;
-
-        Random random = new Random();
-
-        int r = random.nextInt(max + min) + min;
-        if (r >= min && r <= max) {
-
-            return true;
-        }
-
-        return false;
-
-    }
 }
 
 
