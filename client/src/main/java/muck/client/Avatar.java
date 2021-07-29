@@ -2,17 +2,19 @@ package muck.client;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-//import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+/*
+This class executes the Avatar FXML application.
+ */
 
 public class Avatar extends Application {
 
     @Override
     public void start(Stage primaryStage) {
         try {
-            //FXMLLoader loader = new FXMLLoader(ReportMenu.this.getClass().getResource("/fxml/" + report.getClass().getCanonicalName().substring(18).replaceAll("Controller", "") + ".fxml"));
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Avatar.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
