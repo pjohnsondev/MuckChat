@@ -1,44 +1,54 @@
 package muck.client.card_games;
+import javafx.scene.image.Image;
 
 //TODO: Create card class
 
 public class Card {
 
-    public enum Suit {
-        CLUBS, DIAMONDS, HEARTS, SPADES;
-    }
-
-    private int value;
-    private Suit suit;
 
 
-    public Card(int value, Suit suit) {
-        setValue(value);
+    private int id;
+    private String suit, cardName;
+
+
+    public Card(int id, String suit, String cardName) {
+        setValue(id);
         setSuit(suit);
+        setCardName(cardName);
     }
 
     public int getValue() {
-        return value;
+        return id;
     }
 
-    public Suit getSuit() {
+    public String getSuit() {
         return suit;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    public void setValue(int id) {
+        this.id = id;
     }
 
-    public void setSuit(Suit suit) {
+    public void setSuit(String suit) {
+        suit = suit.toLowerCase();
         this.suit = suit;
+    }
+
+    public String getCardName() {
+        return cardName;
+    }
+
+    public void setCardName(String cardName) {
+        cardName = cardName.toLowerCase();
+        this.cardName = cardName;
     }
 
     public static void main(String[] args) {
         Card card;
 
-        card = new Card(5, Suit.HEARTS);
+        card = new Card(5, "Hearts", "5");
 
         System.out.println("TESTING");
-        System.out.println(card.value + " of " + card.suit);
+        System.out.println(card.cardName + " of " + card.suit);
     }
 }
