@@ -1,6 +1,7 @@
 package muck.server.database;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -130,6 +131,17 @@ public class Database {
                 System.out.println(exception.getMessage());
             }
         }
+    }
+
+    public Boolean tableExists(String tableName) throws SQLException {
+        // found this solution here: https://www.baeldung.com/jdbc-check-table-exists
+        query(
+            "SELECT COUNT(*) FROM SYS.SYSTABLES WHERE TABLENAME='USERS'"
+        );
+        bindString(1, tableName);
+        ResultSet resultSet = getResultSet();
+        resultSet.next();
+        return resultSet.getInt(1) != 0;
     }
 
     // PREPARED STATEMENT BINDINGS

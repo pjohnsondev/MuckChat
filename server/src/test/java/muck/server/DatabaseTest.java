@@ -5,23 +5,11 @@ import java.sql.SQLException;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import muck.server.database.Database;
+import muck.server.testHelpers.TestDatabase;
 
 
-class TestDatabase extends Database {
-    public TestDatabase () {
-        super();
-        this.dbName = "testDB";
-        this.connectionString = String.format("jdbc:derby:%s;create=true", dbName);
-        connect();
-    }
-}
-
-
-public class DataBaseUserTest {
+public class DatabaseTest {
 
     @Test
     public void dbCanConnectTest(){
@@ -35,14 +23,18 @@ public class DataBaseUserTest {
         TestDatabase db = new TestDatabase();
 
         // create a new table
-        db.query(
-            "CREATE TABLE test_table "
-            + "(id INTEGER NOT NULL, "
-            + " some_text VARCHAR(255), "
-            + " more_text LONG VARCHAR, "
-            + " floating_point REAL)"
-            );
-        db.execute();
+        if (!db.tableExists("test_table")) {
+            db.query(
+                "CREATE TABLE test_table "
+                + "(id INTEGER NOT NULL, "
+                + " some_text VARCHAR(255), "
+                + " more_text LONG VARCHAR, "
+                + " floating_point REAL)"
+                );
+            db.execute();    
+        }
+        // check to see if table was created
+        assertTrue(db.tableExists("test_table"));
 
         // insert some values into the table
         db.query("INSERT INTO test_table (id, some_text, more_text, floating_point) VALUES (?, ?, ?, ?)");
