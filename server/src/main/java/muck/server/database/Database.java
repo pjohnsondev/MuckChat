@@ -1,7 +1,6 @@
 package muck.server.database;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -136,7 +135,7 @@ public class Database {
     public Boolean tableExists(String tableName) throws SQLException {
         // found this solution here: https://www.baeldung.com/jdbc-check-table-exists
         query(
-            "SELECT COUNT(*) FROM SYS.SYSTABLES WHERE TABLENAME='USERS'"
+            "SELECT COUNT(*) FROM SYS.SYSTABLES WHERE TABLENAME=?"
         );
         bindString(1, tableName);
         ResultSet resultSet = getResultSet();
@@ -144,6 +143,15 @@ public class Database {
         return resultSet.getInt(1) != 0;
     }
 
+    public void dropTable(String tableName) throws SQLException {
+        if (tableExists(tableName)) {
+            query(
+                "DROP TABLE ?"
+            );
+            bindString(1, tableName);
+            execute();
+        }
+    }
     // PREPARED STATEMENT BINDINGS
     public void bindInt(int pIndex, int parameter) {
         try {
@@ -177,6 +185,13 @@ public class Database {
     public void bindObj(int pIndex, Object parameter) {
         try {
             statement.setObject(pIndex, parameter);
+        } catch (SQLException exception) {
+            System.out.println(exception.getMessage());
+        }
+    }
+    public void bindBytes(int pIndex, byte[] parameter) {
+        try {
+            statement.setBytes(pIndex, parameter);
         } catch (SQLException exception) {
             System.out.println(exception.getMessage());
         }

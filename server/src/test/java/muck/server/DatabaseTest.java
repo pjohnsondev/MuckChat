@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import muck.server.testHelpers.TestDatabase;
@@ -75,9 +77,8 @@ public class DatabaseTest {
     public void dbCanDropTableTest() throws SQLException {
         TestDatabase db = new TestDatabase();
         // get rid of the table so the db is back to normal
-        db.query("DROP TABLE test_table");
-        db.execute();
-        db.tableExists("test_table");
+        db.dropTable("test_table");
+        assertFalse(db.tableExists("test_table"));
         db.closeConnection();
     }
 }
