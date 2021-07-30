@@ -23,10 +23,11 @@ public class GenRandomTest {
     public void testRandomDice(){
         logger.info("Testing generated random int is between 1 and 10");
         int sides = 10;
+        int numOfRolls = 9;
         Dice dice = new Dice(sides);
-        int oneDice = dice.Roll(1);
+        int oneDice = dice.Roll(numOfRolls);
         assertAll("oneDice should be greater or equal 1 and less than or equal number of sides",
-                () -> assertTrue(oneDice <= sides),
+                () -> assertTrue(oneDice <= sides*numOfRolls),
                 () -> assertTrue(oneDice >= 1));
     }
 
