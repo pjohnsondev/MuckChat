@@ -59,6 +59,8 @@ public class ChatControl implements Initializable {
     Button hideCollectiblesAchievements;
     @FXML
     ImageView avatar;
+    @FXML
+    Circle circle;
 
     String message;
 
@@ -71,8 +73,8 @@ public class ChatControl implements Initializable {
         achievementButton.setOnAction(this::showAchievements); // shows collectible pane
         hideCollectiblesAchievements.setOnAction(this::hideCollectiblesAchievements); // hides both pane
         GameMap gm = new GameMap(gameWindow); // Adds GameMap animation to the game window
-        Image chosenAvatar = new Image("images/goku-portrait.png");
-        avatar.setImage(chosenAvatar);
+        Image chosenAvatar = new Image("images/peach-portrait2.png");
+        circle.setFill(new ImagePattern(chosenAvatar));
 
     }
 
