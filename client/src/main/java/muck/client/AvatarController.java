@@ -7,11 +7,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.event.*;
 import javafx.scene.layout.AnchorPane;
 
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import muck.protocol.*;
 import muck.protocol.connection.*;
@@ -21,23 +24,42 @@ public class AvatarController implements Initializable {
     //Notes. Do I need to create a new avatar class that you can pass a username
     // into a controller and it stores the uname and avatar in one unique object???
 
-    String username;
+    String uname;
 
     @FXML
     Button submit;
 
     @FXML
-    Text usernameLocation;
+    Text username;
 
     @FXML
     ImageView avatarFullBody;
 
     @FXML
-    Avatar peach;
-    //Need to add variables to the avatar figures
+    Circle peach;
+
+    @FXML
+    Circle goku;
+
+    @FXML
+    Circle sailorMars;
+
+    @FXML
+    Circle pikachu;
+
+    Image peachPortrait = new Image("/images/peach-portrait2.png");
+    Image gokuPortrait = new Image("/images/goku-portrait.png");
+    Image sMarsPortrait = new Image("/images/SailorMars-portrait.png");
+    Image pikachuPortrait = new Image("/images/pikachu-portrait.png");
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        peach.setFill(new ImagePattern(peachPortrait));
+        goku.setFill(new ImagePattern(gokuPortrait));
+        sailorMars.setFill(new ImagePattern(sMarsPortrait));
+        pikachu.setFill(new ImagePattern(pikachuPortrait));
+
         //submit.setOnAction need to add functions
         //avatarFullBody.setOnMousePressed(new EventHandler<MouseEvent>() )
 
@@ -50,9 +72,9 @@ public class AvatarController implements Initializable {
     Will recall the players username so it then can be used throughout the game
     This may not be
      */
-    public String getUsername() {
+    /*public String getUsername() {
         return username;
-    }
+    }*/
 
     //public ?? getAvatar() {
     // How to I pull the correct avatar image
