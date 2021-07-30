@@ -6,13 +6,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.apache.derby.iapi.sql.dictionary.PasswordHasher;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 
 public class HelperTest {
-    private static final Logger logger = LogManager.getLogger(DataBaseUserTest.class);
 
     @Test
     public void generateNewPasswordTest() {
