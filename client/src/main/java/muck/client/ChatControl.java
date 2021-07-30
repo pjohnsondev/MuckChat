@@ -7,8 +7,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -54,6 +57,8 @@ public class ChatControl implements Initializable {
     Button collectibleButton;
     @FXML
     Button hideCollectiblesAchievements;
+    @FXML
+    ImageView avatar;
 
     String message;
 
@@ -66,6 +71,9 @@ public class ChatControl implements Initializable {
         achievementButton.setOnAction(this::showAchievements); // shows collectible pane
         hideCollectiblesAchievements.setOnAction(this::hideCollectiblesAchievements); // hides both pane
         GameMap gm = new GameMap(gameWindow); // Adds GameMap animation to the game window
+        Image chosenAvatar = new Image("images/goku-portrait.png");
+        avatar.setImage(chosenAvatar);
+
     }
 
     /**
@@ -189,6 +197,15 @@ public class ChatControl implements Initializable {
 
     }
 */
+    /*
+     * Sets the avatar pic
+     * TODO: Create function to update the user's avatar
+     */
 
+/*
+    private void setAvatar() {
+
+    }
+*/
 
 }

@@ -27,9 +27,9 @@ public class ChatJFXTest {
     }
 
     @Test
-    public void AppControllerInitialisesTest() {
-        ChatControl appController = mock(ChatControl.class);
-        appController.initialize(null, null);
+    public void testChatController() {
+        ChatControl chatController = mock(ChatControl.class);
+        chatController.initialize(null, null);
     }
 
 

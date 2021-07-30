@@ -11,20 +11,20 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <GridPane id="grid" fx:id="grid" alignment="CENTER" maxHeight="711.0" maxWidth="1130.0" minHeight="707.0" minWidth="1130.0" prefHeight="707.0" prefWidth="1223.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.ChatControl">
   <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1042.6666259765625" minWidth="10.0" prefWidth="107.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1128.6666641235352" minWidth="10.0" prefWidth="209.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1042.6666259765625" minWidth="10.0" prefWidth="126.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1128.6666641235352" minWidth="10.0" prefWidth="197.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="808.3333740234375" minWidth="10.0" prefWidth="205.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="660.6666870117188" minWidth="0.0" prefWidth="69.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="547.0" minWidth="0.0" prefWidth="43.0" />
@@ -40,11 +40,11 @@
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.0" minWidth="10.0" prefWidth="21.0" />
   </columnConstraints>
   <rowConstraints>
-      <RowConstraints maxHeight="71.33333587646484" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="71.33333587646484" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="44.33333206176758" minHeight="0.0" prefHeight="34.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="97.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="55.0" minHeight="0.0" prefHeight="52.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="71.33333587646484" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="71.33333587646484" minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="47.0" minHeight="0.0" prefHeight="29.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="97.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="55.0" minHeight="0.0" prefHeight="43.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="141.0" minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="248.0" minHeight="10.0" prefHeight="75.0" vgrow="SOMETIMES" />
     <RowConstraints maxHeight="363.0" minHeight="10.0" prefHeight="66.0" vgrow="SOMETIMES" />
@@ -108,18 +108,6 @@
             <Insets left="5.0" top="10.0" />
          </GridPane.margin>
       </Button>
-      <Pane prefHeight="87.0" prefWidth="93.0" GridPane.rowSpan="3">
-         <GridPane.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </GridPane.margin>
-         <children>
-            <ImageView fitHeight="79.0" fitWidth="82.0" layoutX="8.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/pikachu-portrait.png" />
-               </image>
-            </ImageView>
-         </children>
-      </Pane>
       <ButtonBar prefHeight="25.0" prefWidth="608.0" GridPane.columnSpan="4" GridPane.rowIndex="10">
         <buttons>
             <Button id="achievementButton" fx:id="achievementButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="167.0" text="Achievements" />
@@ -162,20 +150,26 @@
             <Font size="9.0" />
          </font>
       </Button>
-      <MenuButton mnemonicParsing="false" prefHeight="25.0" prefWidth="78.0" text="Menu" GridPane.columnSpan="2" GridPane.rowIndex="3">
-        <items>
-          <MenuItem mnemonicParsing="false" text="Settings" />
-          <MenuItem mnemonicParsing="false" text="Log Out" />
-        </items>
-         <GridPane.margin>
-            <Insets left="15.0" />
-         </GridPane.margin>
-      </MenuButton>
       <Canvas id="gameWindow" fx:id="gameWindow" height="423.0" pickOnBounds="true" width="581.0" GridPane.rowIndex="7">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
       </Canvas>
+      <Circle fill="WHITE" radius="63.0" stroke="BLACK" strokeType="INSIDE" GridPane.rowIndex="1" />
+      <ImageView id="avatar" fx:id="avatar" fitHeight="117.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets left="15.0" />
+         </GridPane.margin>
+      </ImageView>
+      <MenuButton alignment="CENTER" mnemonicParsing="false" prefHeight="42.0" prefWidth="104.0" text="Menu" textAlignment="CENTER" GridPane.columnSpan="2" GridPane.rowIndex="3">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Settings" />
+          <MenuItem mnemonicParsing="false" text="Log Out" />
+        </items>
+         <GridPane.margin>
+            <Insets left="10.0" />
+         </GridPane.margin>
+      </MenuButton>
    </children>
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
