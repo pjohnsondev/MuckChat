@@ -1,22 +1,20 @@
 package muck.client;
 
-import muck.protocol.*;
-import muck.protocol.connection.*;
-
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import muck.protocol.KryoClientConfig;
+import muck.protocol.connection.Connected;
+import muck.protocol.connection.Ping;
+import muck.protocol.connection.userMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
 //Chat JFX imports. This allows the group working on Chat UI to be used in the main application.
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 
 /**
  * The class that is run by the client:run task
@@ -50,6 +48,9 @@ public class App extends Application {
         //Creating a test userMessage to send to the server.
         userMessage testMessage = new userMessage();
         testMessage.setMessage("Hello World! From client");
+
+
+
         MuckClient.INSTANCE.send(testMessage);
 
         /* Last edited: 27/07/2021 by Harrison Liddell with assistance from W.Billingsley
@@ -66,6 +67,7 @@ public class App extends Application {
         stage.setTitle("Muck 2021");
         stage.setScene(scene);
         stage.show();
+        SocialMediaShare.startWebView(stage);
 
         /* End of Imported work */
 
