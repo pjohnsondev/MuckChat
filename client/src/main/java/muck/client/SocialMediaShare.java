@@ -51,9 +51,10 @@ public class SocialMediaShare {
 
         // Building the JavaFX WebView
         WebView webView = new WebView();
+        WebEngine engine = webView.getEngine();
 
         // Load the abobe HTML as a web page
-        webView.getEngine().loadContent(webPage, "text/html");
+        engine.loadContent(webPage, "text/html");
 
         // Placeholder settings for the webpage UI
         // Ideally this will become a sort of pop-up within Muck
@@ -67,18 +68,23 @@ public class SocialMediaShare {
         mainStage.setScene(scene);
         mainStage.show();
 
-        // This is where I started trying to deal with the popup behaviour of Facebook's web sharing feature
-        // Tried to go off an example but need to get into the documentation to understand
-        WebEngine engine = webView.getEngine();
+        // This successfully opens a popup window, however the share to Facebook page doesn't load
         engine.setCreatePopupHandler(new Callback<PopupFeatures, WebEngine>() {
-
+            @Override
             public WebEngine call(PopupFeatures param) {
-                WebView popupView = new WebView();
-                mainStage.setScene(new Scene(popupView));
-                mainStage.show();
-                return popupView.getEngine();
+                Stage popupStage = new Stage();
+                WebView popupWV = new WebView();
+                popupStage.setScene(new Scene(popupWV));
+                popupStage.show();
+                WebEngine popupEngine = popupWV.getEngine();
+                popupEngine.setJavaScriptEnabled(true);
+                return popupEngine;
             }
         });
+
+
+
+
 
     }
 
