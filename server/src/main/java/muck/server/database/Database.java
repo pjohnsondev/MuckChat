@@ -118,7 +118,7 @@ public class Database {
      * 
      * @throws SQLException
      */
-    public void execute() throws SQLException {
+    public void executeUpdate() throws SQLException {
         statement.executeUpdate();
         conn.commit();
 
@@ -132,8 +132,23 @@ public class Database {
         }
     }
 
+    public void executeInsert() throws SQLException {
+        statement.execute();
+        conn.commit();
+        if (conn != null) {
+            try {
+                System.err.print("Rolling back transaction");
+                conn.rollback();
+            } catch (SQLException exception) {
+                System.out.println(exception.getMessage());
+            }
+        }
+
+    }
+
     public Boolean tableExists(String tableName) throws SQLException {
         // found this solution here: https://www.baeldung.com/jdbc-check-table-exists
+        tableName = tableName.toUpperCase(); // Derby only understands table names when they are capitalised
         query(
             "SELECT COUNT(*) FROM SYS.SYSTABLES WHERE TABLENAME=?"
         );
@@ -149,7 +164,7 @@ public class Database {
                 "DROP TABLE ?"
             );
             bindString(1, tableName);
-            execute();
+            statement.executeQuery();
         }
     }
     // PREPARED STATEMENT BINDINGS

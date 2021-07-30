@@ -33,7 +33,7 @@ public class DatabaseTest {
                 + " more_text LONG VARCHAR, "
                 + " floating_point REAL)"
                 );
-            db.execute();    
+            db.executeUpdate();    
         }
         // check to see if table was created
         assertTrue(db.tableExists("test_table"));
@@ -47,7 +47,7 @@ public class DatabaseTest {
         db.bindString(2, "parameter");
         db.bindString(3, "some texty text");
         db.bindDouble(4, 22.22);
-        db.execute();
+        db.executeUpdate();
 
         // check to see if the values are there
         db.query("SELECT * FROM test_table");
