@@ -7,14 +7,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
-//import javafx.scene.image.Image;
-//import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-//import muck.protocol.*;
+
 import muck.protocol.connection.*;
+
  //For userMessage class;
 
 /** This class is where the functionality of the ChatUI lives. */
@@ -66,7 +65,7 @@ public class ChatControl implements Initializable {
         collectibleButton.setOnAction(this::showCollectables); // shows collectible pane
         achievementButton.setOnAction(this::showAchievements); // shows collectible pane
         hideCollectiblesAchievements.setOnAction(this::hideCollectiblesAchievements); // hides both pane
-        GameMap gm = new GameMap(gameWindow);
+        GameMap gm = new GameMap(gameWindow); // Adds GameMap animation to the game window
     }
 
     /**
@@ -133,7 +132,7 @@ public class ChatControl implements Initializable {
       Adding Sending functionality by first creating a userMessage object and
       then sending it to the server.
       **NOTE**: No functionality for ChatId has been implemented serverside yet.
-                Also, this hasnt been tested extensively. Let me know if it causes
+                Also, this hasn't been tested extensively. Let me know if it causes
                 problems!
       TODO: Create multiple chat groups serverside to filter messages. .
       */
