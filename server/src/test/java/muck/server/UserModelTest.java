@@ -1,4 +1,5 @@
 package muck.server;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
@@ -19,14 +20,12 @@ public class UserModelTest {
         user.closeDbConnection();
         user.changeDb(testDb);
 
-        // reset database if exists
-        if (testDb.tableExists("users")) {
-            testDb.dropTable("users");
-        }
+        testDb.dropTable("users");
         user.createTable();
        
         assertTrue(testDb.tableExists("users"));
         testDb.dropTable("users");
+        assertFalse(testDb.tableExists("users"));
         user.closeDbConnection();
 
     }
@@ -39,7 +38,7 @@ public class UserModelTest {
         user.closeDbConnection();
         user.changeDb(testDb);
         // testDb for safety
-
+        assertFalse(testDb.tableExists("users"));
         user.createTable();
         user.registerNewUser("newUser69", "myreallyGoodPassword");
 
@@ -52,6 +51,9 @@ public class UserModelTest {
         () -> user.registerNewUser(badUsername,
         "myreallyGoodPassword"),
         "Username shouldn't have been accepted, and should have thrown instead");
+        
+        testDb.dropTable("users");
+        assertFalse(testDb.tableExists("users"));
         user.closeDbConnection();
     }
 

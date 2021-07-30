@@ -124,7 +124,6 @@ public class Database {
 
         if (conn != null) {
             try {
-                System.err.print("Rolling back transaction");
                 conn.rollback();
             } catch (SQLException exception) {
                 System.out.println(exception.getMessage());
@@ -137,7 +136,6 @@ public class Database {
         conn.commit();
         if (conn != null) {
             try {
-                System.err.print("Rolling back transaction");
                 conn.rollback();
             } catch (SQLException exception) {
                 System.out.println(exception.getMessage());
@@ -160,11 +158,19 @@ public class Database {
 
     public void dropTable(String tableName) throws SQLException {
         if (tableExists(tableName)) {
+            // binding not used because jbdc doesn't support binding in drop statements. Users shouldn't have access to this function either way
             query(
-                "DROP TABLE ?"
+                String.format("DROP TABLE %s", tableName) 
             );
-            bindString(1, tableName);
-            statement.executeQuery();
+            statement.execute();
+            conn.commit();
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException exception) {
+                    System.out.println(exception.getMessage());
+                }
+            }    
         }
     }
     // PREPARED STATEMENT BINDINGS

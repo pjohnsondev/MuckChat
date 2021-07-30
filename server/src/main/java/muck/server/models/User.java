@@ -47,5 +47,6 @@ public class User extends Model{
         db.bindBytes(3, salt);
         db.executeInsert();
     }
+    
 
 }
