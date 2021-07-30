@@ -35,7 +35,10 @@ public class DatabaseTest {
         }
         // check to see if table was created
         assertTrue(db.tableExists("test_table"));
-
+        db.closeConnection();
+    }
+    public void dbCanInsertTest() throws SQLException {
+        TestDatabase db = new TestDatabase();
         // insert some values into the table
         db.query("INSERT INTO test_table (id, some_text, more_text, floating_point) VALUES (?, ?, ?, ?)");
         db.bindInt(1, 69);
@@ -66,9 +69,15 @@ public class DatabaseTest {
                 System.err.println(exception.getMessage());
             }
         result.close();
+        db.closeConnection();
+
+    }
+    public void dbCanDropTableTest() throws SQLException {
+        TestDatabase db = new TestDatabase();
         // get rid of the table so the db is back to normal
         db.query("DROP TABLE test_table");
         db.execute();
+        db.tableExists("test_table");
         db.closeConnection();
     }
 }
