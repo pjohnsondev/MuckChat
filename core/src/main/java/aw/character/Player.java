@@ -24,6 +24,9 @@ public class Player extends Character {
     }
     
     //TODO How will the player move? A player controller will need to be created
+    // 30-JUL-21 - bnolan9 - SteveB of #9 and bnolan9 of #20 agreed for #20 to produce character movement within this class
+    // as #20 also needs to work on character location.
+    // #20 will plan some setters and getters, core functions etc and produce them here, but under #20 branch.
 //    public playerController() {
 //    }
 
