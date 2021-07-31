@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import muck.server.helpers.security.Hasher;
+import muck.server.models.AbstractModel.Model;
 
 
 public class User extends Model{

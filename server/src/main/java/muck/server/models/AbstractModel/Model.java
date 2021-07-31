@@ -1,4 +1,4 @@
-package muck.server.models;
+package muck.server.models.AbstractModel;
 
 import java.sql.SQLException;
 
