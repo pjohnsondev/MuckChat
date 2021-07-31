@@ -1,6 +1,5 @@
 package muck.server;
 
-import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
