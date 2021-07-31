@@ -11,7 +11,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.text.*?>
 
-<GridPane fx:controller="muck.client.SignInController"
+<GridPane fx:controller="muck.client.controllers.SignInController"
           xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
     <padding><Insets top="25" right="25" bottom="10" left="25"/></padding>
     <Text text="Welcome"
