@@ -1,9 +1,5 @@
 package aw.character;
 
-//TODO **IMPORTANT**
-//Unknown yet how this will interact with JavaFX and backend storage. This is a mere prototype, subject to
-//rapid change until the specifics of the project are worked out. Don't rely on any of these methods yet
-
 public class Player extends Character {
     /**
      * Player constructor. This class is an extension of the Character class for human players.
@@ -20,7 +16,10 @@ public class Player extends Character {
             throw new CharacterDoesNotExistException(username);
         }
         
+        this.setAvatar("some avatar retrieved from backend"); //further colab with issue #7 required
+        
         setIdentifier(username);
+        
     }
     
     //TODO How will the player move? A player controller will need to be created

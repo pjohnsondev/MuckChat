@@ -1,9 +1,5 @@
 package aw.character;
 
-//TODO **IMPORTANT**
-//Unknown yet how this will interact with JavaFX and backend storage. This is a mere prototype, subject to
-//rapid change until the specifics of the project are worked out. Don't rely on any of these methods yet
-
 public class NPC extends Character {
     /**
      * NPC constructor. This class is an extension of the Character class for NPC/monster characters.
