@@ -59,6 +59,19 @@ public class User extends Model{
         this.username = username;
         this.hashedPassword = result.getBytes("password");
         this.salt = result.getBytes("salt");
+        result.close();
+    }
+
+    public void findUserById(int id) throws SQLException {
+        db.query("SELECT * FROM users WHERE id=?");
+        db.bindInt(1, id);
+        ResultSet result = db.getResultSet();
+        result.next();
+        this.id = id;
+        this.username = result.getString("username");
+        this.hashedPassword = result.getBytes("password");
+        this.salt = result.getBytes("salt");
+        result.close();
     }
 
     public int getId() {

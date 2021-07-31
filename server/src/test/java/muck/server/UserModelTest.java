@@ -58,8 +58,7 @@ public class UserModelTest {
         "myreallyGoodPassword"),
         "Username shouldn't have been accepted, and should have thrown instead");
         
-        test
-    
+        dropAndClose(user, testDb);
     }
 
     @Test
@@ -70,14 +69,12 @@ public class UserModelTest {
         user.registerNewUser("newUser69", "myreallyGoodPassword");
         user.findUserByUsername("newUser69");
        
-        assertTrue(user.getId() != 0);
-        assertTrue(user.getUserName() == "newUser69");
-        assertTrue(user.getHashedPassword() != null);
-        assertTrue(user.getSalt() != null);
+        assertTrue(user.getId() != 0, "id not set");
+        assertTrue(user.getUserName() == "newUser69", "username wrong");
+        assertTrue(user.getHashedPassword() != null, "password not set");
+        assertTrue(user.getSalt() != null, "salt not set");
 
-        testDb.dropTable("users");
-        assertFalse(testDb.tableExists("users"));
-        user.closeDbConnection();
+        dropAndClose(user, testDb);
     }
 
     @Test
@@ -89,13 +86,11 @@ public class UserModelTest {
 
         user.findUserById(1);
 
-        assertTrue(user.getId() != 0);
-        assertTrue(user.getUserName() == "newUser69");
-        assertTrue(user.getHashedPassword() != null);
-        assertTrue(user.getSalt() != null);
+        assertTrue(user.getId() != 0, "id not set");
+        assertTrue(user.getUserName().equals("newUser69"), "username wrong");
+        assertTrue(user.getHashedPassword() != null, "password not set");
+        assertTrue(user.getSalt() != null, "salt not set");
 
-        testDb.dropTable("users");
-        assertFalse(testDb.tableExists("users"));
-        user.closeDbConnection();
+        dropAndClose(user, testDb);
     }
 }
