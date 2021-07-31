@@ -77,6 +77,4 @@ public class UserModelTest {
         assertFalse(testDb.tableExists("users"));
         user.closeDbConnection();
     }
-
-
 }

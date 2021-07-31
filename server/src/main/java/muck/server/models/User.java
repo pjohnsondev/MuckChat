@@ -54,6 +54,7 @@ public class User extends Model{
         db.query("SELECT * FROM users WHERE username=?");
         db.bindString(1, username);
         ResultSet result = db.getResultSet();
+        result.next();
         this.id = result.getInt("id");
         this.username = username;
         this.hashedPassword = result.getBytes("password");
