@@ -1,6 +1,6 @@
 package aw.character;
 
-import javafx.scene.image.Image;
+//import javafx.scene.image.Image;
 import java.util.Arrays;
 
 /**
@@ -15,7 +15,7 @@ public abstract class Character {
      */
     private int _health = 100; //player health
     private String _identifier; //identifier, eg: username, NPC ID, etc
-    private Image _avatar; //Character avatar, collaboration needed with Issue #7
+    private String _avatar; //Character avatar, collaboration needed with Issue #7
     private String _direction_facing = "down"; //What direction is the avatar facing?
     
     //TODO
