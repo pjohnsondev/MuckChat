@@ -42,9 +42,6 @@ public class Player extends Character {
         return false;
     }
 
-    //TODO: Does a player have an inventory?
-    // Should the item be stored within the database?
-    // Can be moved to the Character class
     /**
     * @param item item to be added to inventory
     */
@@ -59,5 +56,25 @@ public class Player extends Character {
     public void removeItemFromInventory(String item) {
         //TODO
     }
+
+    // TODO: How do players retrieve what in their inventory
+    public String[] getInventory() {
+        return null;
+    }
+
+    // TODO: How will player be able to store achievements
+    /**
+     * @param achievement Name of achievement
+     */
+    public void addAchievement(String achievement) {
+    }
+
+    /**
+     * Retrieves players achievements
+     */
+    public String[] getAchievements() {
+        return null;
+    }
+
 
 }
