@@ -14,6 +14,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+//Chat JFX imports. This allows the group working on Chat UI to be used in the main application.
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+
 /**
  * The class that is run by the client:run task
  */
@@ -31,13 +35,37 @@ public class App extends Application {
         startConnection();
 
         // Create and show the UI
+        //**NOTE**: This was commented out in order to import the ChatJFX's Ui instead.
+        //          I will leave it here for reference.
+        /*
         Label l = new Label("Hello world");
         Scene scene = new Scene(new StackPane(l), 640, 480);
         stage.setScene(scene);
-        stage.show();
+
+        */
+
+        //Creating a test userMessage to send to the server.
         userMessage testMessage = new userMessage();
-        testMessage.setMessage("Hello World!");
+        testMessage.setMessage("Hello World! From client");
         MuckClient.INSTANCE.send(testMessage);
+
+        /* Last edited: 27/07/2021 by Harrison Liddell with assistance from W.Billingsley
+          Imported work from the ChatUI group written in ChatJFX to work with the
+          exsisting stand alone application/ gradle build.
+        */
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MuckChat.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        scene.setRoot(root);
+        scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+        //Stage stage = new Stage();
+        stage.setTitle("Muck 2021");
+        stage.setScene(scene);
+
+        stage.show();
+
+        /* End of Imported work */
 
     }
 
