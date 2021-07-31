@@ -1,4 +1,4 @@
-package muck.server.models;
+package muck.server.models.models;
 
 import java.security.InvalidParameterException;
 import java.sql.ResultSet;

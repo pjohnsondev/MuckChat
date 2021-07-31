@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.security.InvalidParameterException;
 import java.sql.SQLException;
 
-import muck.server.models.User;
+import muck.server.models.models.User;
 import muck.server.testHelpers.TestDatabase;
 
 public class UserModelTest {
