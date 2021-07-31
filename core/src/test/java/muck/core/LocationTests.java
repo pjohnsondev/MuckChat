@@ -48,7 +48,7 @@ public class LocationTests {
 		var y = 3;
 
 		var hash1 = new Location(x, y).hashCode();
-		var hash2 = new Location(x, y).hashCode();
+		var hash2 = new Location(y, x).hashCode();
 
 		assertNotEquals(hash1, hash2);
 	}
@@ -64,7 +64,7 @@ public class LocationTests {
 		assertNotEquals(hash1, hash2);
 	}
 
-    @Test
+	@Test
 	void LocationsWithInverseXYCoordsAreNotEqual() {
 		var x = 2;
 		var y = 3;
@@ -73,12 +73,12 @@ public class LocationTests {
 		var loc2 = new Location(y, x);
 
 		assertNotEquals(loc1, loc2);
-    }
+	}
 
-    @Test
+	@Test
 	void LocationUpdatedProduceExpectedLocation() {
 
-	var loc = new Location(1, 2).update(new Pair(2,3));
+		var loc = new Location(1, 2).update(new Pair(2, 3));
 		var expected = new Location(2, 3);
 
 		assertEquals(expected, loc);

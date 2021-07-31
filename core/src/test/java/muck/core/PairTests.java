@@ -62,8 +62,8 @@ public class PairTests {
 	@Test
 	void PairsUpdatedProduceExpectedPairs() {
 
-		var pair = new Pair(1, 2).updateLeft(2).updateRight(4);
-		var expected = new Pair(2, 3);
+	    var pair = new Pair(1, 2).updateLeft(2).updateRight(4);
+		var expected = new Pair(2, 4);
 
 		assertEquals(expected, pair);
 		assertEquals(expected.hashCode(), pair.hashCode());
