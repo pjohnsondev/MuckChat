@@ -27,8 +27,8 @@ public class SignInController {
         String uName = userName.getText();
 
         if(validateSignIn()){
-            actiontarget.setText("User name: " + uName +
-                    "\r\n Your Hashed Password:\r\n"+ hashed);
+            actiontarget.setText("Congratulations!\n\r" +
+                    "User Name and Password Match");
         }
 
     }
@@ -36,10 +36,26 @@ public class SignInController {
     // TODO: Sign in validation method - implement functionality
 
     public boolean validateSignIn(){
+        // Check that user exists in database
+        if(!userExists() || !passwordMatches()) {
+            // Handle NoUserExists
+            actiontarget.setText("User Name or Password are Incorrect");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    //TODO: User validation method - implement functionality
+    public boolean userExists(){
         return true;
     }
 
-    //TODO:
+    //TODO: Password validation method - implement functionality
+    public boolean passwordMatches(){
+        return true;
+    }
+
 
 
 
