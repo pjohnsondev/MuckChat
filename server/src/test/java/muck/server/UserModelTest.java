@@ -13,13 +13,17 @@ import muck.server.testHelpers.TestDatabase;
 public class UserModelTest {
 
     // A little test helper
-    public void resetTable(User user, TestDatabase testDb) throws SQLException {
+    private void resetTable(User user, TestDatabase testDb) throws SQLException {
         user.closeDbConnection();
         user.changeDb(testDb);
         testDb.dropTable("users");
         user.createTable();
     }
 
+    private void dropAndClose(User user, TestDatabase testDb) throws SQLException {
+        testDb.dropTable("users");
+        user.closeDbConnection();
+    }
 
     @Test
     public void TableCreationTest() throws SQLException {
@@ -32,7 +36,6 @@ public class UserModelTest {
         testDb.dropTable("users");
         assertFalse(testDb.tableExists("users"));
         user.closeDbConnection();
-
     }
     
     @Test
@@ -55,9 +58,8 @@ public class UserModelTest {
         "myreallyGoodPassword"),
         "Username shouldn't have been accepted, and should have thrown instead");
         
-        testDb.dropTable("users");
-        assertFalse(testDb.tableExists("users"));
-        user.closeDbConnection();
+        test
+    
     }
 
     @Test
@@ -69,7 +71,26 @@ public class UserModelTest {
         user.findUserByUsername("newUser69");
        
         assertTrue(user.getId() != 0);
-        assertTrue(user.getUserName() != null);
+        assertTrue(user.getUserName() == "newUser69");
+        assertTrue(user.getHashedPassword() != null);
+        assertTrue(user.getSalt() != null);
+
+        testDb.dropTable("users");
+        assertFalse(testDb.tableExists("users"));
+        user.closeDbConnection();
+    }
+
+    @Test
+    public void findUserByIdTest() throws SQLException {
+        TestDatabase testDb = new TestDatabase();
+        User user = new User();
+        resetTable(user, testDb);
+        user.registerNewUser("newUser69", "myreallyGoodPassword");
+
+        user.findUserById(1);
+
+        assertTrue(user.getId() != 0);
+        assertTrue(user.getUserName() == "newUser69");
         assertTrue(user.getHashedPassword() != null);
         assertTrue(user.getSalt() != null);
 
