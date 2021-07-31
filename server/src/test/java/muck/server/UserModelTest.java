@@ -12,17 +12,22 @@ import muck.server.testHelpers.TestDatabase;
 
 public class UserModelTest {
 
-    @Test
-    public void TableCreationTest() throws SQLException {
-        // testDb for safety
-        TestDatabase testDb = new TestDatabase();
-        User user = new User();
+    // A little test helper
+    public void resetTable(User user, TestDatabase testDb) throws SQLException {
         user.closeDbConnection();
         user.changeDb(testDb);
-
         testDb.dropTable("users");
         user.createTable();
-       
+    }
+
+
+    @Test
+    public void TableCreationTest() throws SQLException {
+        // reset database using testDB
+        TestDatabase testDb = new TestDatabase();
+        User user = new User();
+        resetTable(user, testDb);
+
         assertTrue(testDb.tableExists("users"));
         testDb.dropTable("users");
         assertFalse(testDb.tableExists("users"));
@@ -35,11 +40,9 @@ public class UserModelTest {
         // testDb for safety
         TestDatabase testDb = new TestDatabase();
         User user = new User();
-        user.closeDbConnection();
-        user.changeDb(testDb);
-        // testDb for safety
-        assertFalse(testDb.tableExists("users"));
-        user.createTable();
+        resetTable(user, testDb);
+        assertTrue(testDb.tableExists("users"));
+
         user.registerNewUser("newUser69", "myreallyGoodPassword");
 
         char[] badUsernameChars = new char[82];
@@ -57,14 +60,6 @@ public class UserModelTest {
         user.closeDbConnection();
     }
 
-    @Test
-    public void dbUserAccessTest(){
-        /*This test unit will ensure the connection to the database is working*/
-    }
-
-    @Test
-    public void requestUserInformationTest(){
-        /*This test unit will test incoming user information testing.*/
-    }
+    
 
 }

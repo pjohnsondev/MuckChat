@@ -1,5 +1,6 @@
 package muck.server;
 
+import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -39,7 +40,8 @@ public class DatabaseTest {
         assertTrue(db.tableExists("test_table"));
         db.closeConnection();
     }
-    public void dbCanInsertTest() throws SQLException {
+    @Test
+    public void dbCanInsertTest() throws SQLException, Exception {
         TestDatabase db = new TestDatabase();
         // insert some values into the table
         db.query("INSERT INTO test_table (id, some_text, more_text, floating_point) VALUES (?, ?, ?, ?)");
@@ -72,8 +74,8 @@ public class DatabaseTest {
             }
         result.close();
         db.closeConnection();
-
     }
+    @Test
     public void dbCanDropTableTest() throws SQLException {
         TestDatabase db = new TestDatabase();
         // get rid of the table so the db is back to normal
