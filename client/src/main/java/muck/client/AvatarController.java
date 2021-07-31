@@ -2,7 +2,8 @@ package muck.client;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
+
+import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -12,12 +13,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 public class AvatarController implements Initializable {
 
     // This will be the associated attributes of the user
     int uniqueId;
-    String uname;
+    String uname = "CamTest2249"; // Name added as a placeholder
     String avatar;
 
     @FXML
@@ -50,18 +52,26 @@ public class AvatarController implements Initializable {
     Image sMarsPortrait = new Image("/images/SailorMars-portrait.png");
     Image pikachuFull = new Image("/images/pikachu.png");
     Image pikachuPortrait = new Image("/images/pikachu-portrait.png");
+    Image error = new Image("/images/error.png");
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        avatarFullBody.setPreserveRatio(true);
         peach.setFill(new ImagePattern(peachPortrait));
         goku.setFill(new ImagePattern(gokuPortrait));
         sailorMars.setFill(new ImagePattern(sMarsPortrait));
         pikachu.setFill(new ImagePattern(pikachuPortrait));
 
-        //submit.setOnAction need to add functions
-        //avatarFullBody.setOnMousePressed(new EventHandler<MouseEvent>() )
+        // Get the user's username and unique ID
+        // uname = ???;
+        // uniqueID = ???;
+
+        username.setText(uname);
+
+        submit.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            submit();
+        });
 
         peach.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             peachSelection();
@@ -81,18 +91,28 @@ public class AvatarController implements Initializable {
     }
 
     public void restorePortraitSize() {
-        // Can you set a slow change in size effect here?
+         // Can you set a slow change in size effect here?
+        //ScaleTransition peachScale = new ScaleTransition(Duration.millis(3000).peach); << This does not accept circle elements
+        avatarFullBody.setFitHeight(538.0);
         peach.setRadius(80.0);
         goku.setRadius(80.0);
         sailorMars.setRadius(80.0);
         pikachu.setRadius(80.0);
     }
 
-    private void submit(ActionEvent event) {
-        //Store the avatar selection
-        //how to I get the window to close and open the chat window
+
+
+    public static void submit() {
+        // Send username, unique ID and Avatar to the server for storage and recall.  JSON???
+        // Close Avatar Window.
+        // Open chat window.
+        System.out.println("Submit has been activated");
     }
 
+    /*
+    The following four selection methods set the full body image on the left, increase the size of the selected
+    avatar portrait and set the avatar selection.
+     */
     private void peachSelection() {
         restorePortraitSize();
         // Can you add a change in size effect here
@@ -126,26 +146,45 @@ public class AvatarController implements Initializable {
         pikachu.setRadius(100.0);
         avatar = "pikachu";
         avatarFullBody.setImage(pikachuFull);
+        avatarFullBody.setFitHeight(250); // Changes the height of the image so pikachu is a more realistic
+        // How do I set pikachu in the centre of the screen (by height)
         centreImage();
     }
 
-    /*public String getUsername() {
-        return username;
-    }*/
-
-    public void /*Image*/ getAvatar() {
-
-        // How to I pull the correct avatar image
-        // Will it require a lot of if else statements??
-        // Error if can't get for some reason
-        // How will it then
+    /*
+    Returns an image object of the full bodied Avatar image.
+    @param: userAvatar. This will be passed into the method from the server
+     */
+    public Image getAvatar(String userAvatar) {
+        // can I use a switch statement
+        if (userAvatar.equals("peach")) {
+            return peachFull;
+        } else if (userAvatar.equals("goku")) {
+            return gokuFull;
+        } else if (userAvatar.equals("sailorMars")) {
+            return sailorMarsFull;
+        } else if (userAvatar.equals("pikachu")) {
+            return pikachuFull;
+        }
+        return error;
     }
 
-    private void updateUsername() {
-        // Call the 'log in screen' class to get the username
-        // Get username
-        // Assign username to variable
-        // Replace username in FXML
+    /*
+    Returns an image object of the portrait of their avatar.
+    @param: userAvatar. This will be passed into the method from the server
+     */
+    public Image getPortrait(String userAvatar) {
+        //can I use a switch statement
+        if (userAvatar.equals("peach")) {
+            return peachPortrait;
+        } else if (userAvatar.equals("goku")) {
+            return gokuPortrait;
+        } else if (userAvatar.equals("sailorMars")) {
+            return sMarsPortrait;
+        } else if (userAvatar.equals("pikachu")) {
+            return pikachuPortrait;
+        }
+        return error;
     }
 
     public void centreImage() {

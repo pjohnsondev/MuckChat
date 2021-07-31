@@ -36,7 +36,7 @@
                   <Font name="Berlin Sans FB Demi Bold" size="30.0" />
                </font>
             </Text>
-            <Text fx:id="username" fill="#87cdff" strokeType="OUTSIDE" strokeWidth="0.0" text="&lt;insert name here&gt;">
+            <Text fx:id="username" fill="#87cdff" strokeType="OUTSIDE" strokeWidth="0.0">
                <font>
                   <Font name="Berlin Sans FB Demi Bold" size="30.0" />
                </font>
