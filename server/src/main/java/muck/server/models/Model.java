@@ -1,9 +1,15 @@
 package muck.server.models;
 
+import java.sql.SQLException;
+
 import muck.server.database.Database;
 import muck.server.database.MuckDatabase;
 
-public class Model {
+interface IModel {
+    public void createTable() throws SQLException;
+}
+
+abstract public class Model implements IModel {
     protected Database db;
     public Model() {
         db = new MuckDatabase();
