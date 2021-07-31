@@ -60,6 +60,23 @@ public class UserModelTest {
         user.closeDbConnection();
     }
 
-    
+    @Test
+    public void findUserByNameTest() throws SQLException {
+        TestDatabase testDb = new TestDatabase();
+        User user = new User();
+        resetTable(user, testDb);
+        user.registerNewUser("newUser69", "myreallyGoodPassword");
+        user.findUserByUsername("newUser69");
+       
+        assertTrue(user.getId() != 0);
+        assertTrue(user.getUserName() != null);
+        assertTrue(user.getHashedPassword() != null);
+        assertTrue(user.getSalt() != null);
+
+        testDb.dropTable("users");
+        assertFalse(testDb.tableExists("users"));
+        user.closeDbConnection();
+    }
+
 
 }

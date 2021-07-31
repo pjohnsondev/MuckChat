@@ -1,9 +1,11 @@
 package muck.server.models;
 
 import java.security.InvalidParameterException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import muck.server.helpers.security.Hasher;
+
 
 public class User extends Model{
     private int id;
@@ -47,6 +49,28 @@ public class User extends Model{
         db.bindBytes(3, salt);
         db.executeInsert();
     }
-    
+
+    public void findUserByUsername(String username) throws SQLException {
+        db.query("SELECT * FROM users WHERE username=?");
+        db.bindString(1, username);
+        ResultSet result = db.getResultSet();
+        this.id = result.getInt("id");
+        this.username = username;
+        this.hashedPassword = result.getBytes("password");
+        this.salt = result.getBytes("salt");
+    }
+
+    public int getId() {
+        return this.id;
+    }
+    public String getUserName() {
+        return this.username;
+    }
+    public byte[] getHashedPassword() {
+        return this.hashedPassword;
+    }
+    public byte[] getSalt() {
+        return this.salt;
+    }
 
 }
