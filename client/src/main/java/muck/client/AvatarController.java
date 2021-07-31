@@ -2,7 +2,6 @@ package muck.client;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,21 +9,16 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.event.*;
-import javafx.scene.layout.AnchorPane;
-
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
-import muck.protocol.*;
-import muck.protocol.connection.*;
 
 public class AvatarController implements Initializable {
 
-    //Notes. Do I need to create a new avatar class that you can pass a username
-    // into a controller and it stores the uname and avatar in one unique object???
-
+    // This will be the associated attributes of the user
+    int uniqueId;
     String uname;
+    String avatar;
 
     @FXML
     Button submit;
@@ -47,10 +41,16 @@ public class AvatarController implements Initializable {
     @FXML
     Circle pikachu;
 
+    // Image initialisation
+    Image peachFull = new Image("/images/peach.png");
     Image peachPortrait = new Image("/images/peach-portrait2.png");
+    Image gokuFull = new Image("/images/goku.png");
     Image gokuPortrait = new Image("/images/goku-portrait.png");
+    Image sailorMarsFull = new Image("/images/SailorMars.png");
     Image sMarsPortrait = new Image("/images/SailorMars-portrait.png");
+    Image pikachuFull = new Image("/images/pikachu.png");
     Image pikachuPortrait = new Image("/images/pikachu-portrait.png");
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -63,28 +63,82 @@ public class AvatarController implements Initializable {
         //submit.setOnAction need to add functions
         //avatarFullBody.setOnMousePressed(new EventHandler<MouseEvent>() )
 
-        //peach.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-           // peachSelection();
-        //});
+        peach.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            peachSelection();
+        });
+
+        goku.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            gokuSelection();
+        });
+
+        sailorMars.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            sailorMarsSelection();
+        });
+
+        pikachu.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            pikachuSelection();
+        });
     }
 
-    /*
-    Will recall the players username so it then can be used throughout the game
-    This may not be
-     */
-    /*public String getUsername() {
-        return username;
-    }*/
-
-    //public ?? getAvatar() {
-    // How to I pull the correct avatar image
-    // Will it require a lot of if else statements??
-    // Error if can't get for some reason
-    // How will it then
+    public void restorePortraitSize() {
+        // Can you set a slow change in size effect here?
+        peach.setRadius(80.0);
+        goku.setRadius(80.0);
+        sailorMars.setRadius(80.0);
+        pikachu.setRadius(80.0);
+    }
 
     private void submit(ActionEvent event) {
         //Store the avatar selection
         //how to I get the window to close and open the chat window
+    }
+
+    private void peachSelection() {
+        restorePortraitSize();
+        // Can you add a change in size effect here
+        peach.setRadius(100.0);
+        avatar = "peach";
+        avatarFullBody.setImage(peachFull);
+        centreImage();
+    }
+
+    private void gokuSelection() {
+        restorePortraitSize();
+        // Can you add a change in size effect here
+        goku.setRadius(100.0);
+        avatar = "goku";
+        avatarFullBody.setImage(gokuFull);
+        centreImage();
+    }
+
+    private void sailorMarsSelection() {
+        restorePortraitSize();
+        // Can you add a change in size effect here
+        sailorMars.setRadius(100.0);
+        avatar = "sailorMars";
+        avatarFullBody.setImage(sailorMarsFull);
+        centreImage();
+    }
+
+    private void pikachuSelection() {
+        restorePortraitSize();
+        // Can you add a change in size effect here
+        pikachu.setRadius(100.0);
+        avatar = "pikachu";
+        avatarFullBody.setImage(pikachuFull);
+        centreImage();
+    }
+
+    /*public String getUsername() {
+        return username;
+    }*/
+
+    public void /*Image*/ getAvatar() {
+
+        // How to I pull the correct avatar image
+        // Will it require a lot of if else statements??
+        // Error if can't get for some reason
+        // How will it then
     }
 
     private void updateUsername() {
@@ -94,28 +148,28 @@ public class AvatarController implements Initializable {
         // Replace username in FXML
     }
 
-    private void peachSelection() {
-        // When you click the peach avatar object the #avatarFullBody Imageview changes to the full body image
-        // Make it so that the image stays the same size?
-        // Somehow store peach in the avatar selection object
-    }
+    public void centreImage() {
+        Image img = avatarFullBody.getImage();
+        if (img != null) {
+            double w = 0;
+            double h = 0;
 
-    private void gokuSelection() {
-        // When you click the goku avatar object the #avatarFullBody Imageview changes to the full body image
-        // Make it so that the image stays the same size?
-        // Somehow store goku in the avatar selection object
-    }
+            double ratioX = avatarFullBody.getFitWidth() / img.getWidth();
+            double ratioY = avatarFullBody.getFitHeight() / img.getHeight();
 
-    private void wonderWomanSelection() {
-        // When you click the wonderwoman avatar object the #avatarFullBody Imageview changes to the full body image
-        // Make it so that the image stays the same size?
-        // Somehow store peach in the wonderwoman selection object
-    }
+            double reducCoeff = 0;
+            if(ratioX >= ratioY) {
+                reducCoeff = ratioY;
+            } else {
+                reducCoeff = ratioX;
+            }
 
-    private void pikachuSelection() {
-        // When you click the pikachu avatar object the #avatarFullBody Imageview changes to the full body image
-        // Make it so that the image stays the same size?
-        // Somehow store pikachu in the avatar selection object
-    }
+            w = img.getWidth() * reducCoeff;
+            h = img.getHeight() * reducCoeff;
 
+            avatarFullBody.setX((avatarFullBody.getFitWidth() - w) / 2);
+            avatarFullBody.setY((avatarFullBody.getFitHeight() - h) / 2);
+
+        }
+    }
 }

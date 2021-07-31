@@ -61,17 +61,16 @@
       </Button>
       <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" GridPane.rowSpan="3">
          <children>
-            <ImageView fx:id="avatarFullBody" fitHeight="538.0" fitWidth="462.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="avatarFullBody" fitHeight="538.0" fitWidth="433.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <effect>
                   <DropShadow />
                </effect>
             </ImageView>
-            <Text layoutX="94.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A function will update this section with a full body image of your avatar" wrappingWidth="273.88409423828125" />
          </children>
       </Pane>
       <Circle fx:id="peach" fill="#ffffff00" radius="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <cursor>
-            <Cursor fx:constant="CROSSHAIR" />
+            <Cursor fx:constant="HAND" />
          </cursor>
          <effect>
             <Blend />
@@ -81,17 +80,17 @@
          </GridPane.margin></Circle>
       <Circle fx:id="goku" fill="#ffffff00" radius="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
          <cursor>
-            <Cursor fx:constant="CROSSHAIR" />
+            <Cursor fx:constant="HAND" />
          </cursor>
       </Circle>
       <Circle fx:id="sailorMars" fill="#ffffff00" radius="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <cursor>
-            <Cursor fx:constant="CROSSHAIR" />
+            <Cursor fx:constant="HAND" />
          </cursor>
       </Circle>
       <Circle fx:id="pikachu" fill="#ffffff00" radius="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
          <cursor>
-            <Cursor fx:constant="CROSSHAIR" />
+            <Cursor fx:constant="HAND" />
          </cursor>
       </Circle>
    </children>
