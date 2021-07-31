@@ -93,4 +93,18 @@ public class UserModelTest {
 
         dropAndClose(user, testDb);
     }
+
+    @Test
+    public void authenticateUserTest() throws SQLException {
+        TestDatabase testDb = new TestDatabase();
+        User user = new User();
+        resetTable(user, testDb);
+        user.registerNewUser("newUser69", "myreallyGoodPassword");
+
+        assertTrue(user.authenticateUser("newUser69", "myreallyGoodPassword"));
+        assertFalse(user.authenticateUser("newUser69", "myreallyBadPassword"));
+        
+
+        dropAndClose(user, testDb);
+    }
 }

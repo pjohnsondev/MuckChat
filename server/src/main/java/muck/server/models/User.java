@@ -74,6 +74,12 @@ public class User extends Model{
         result.close();
     }
 
+    public Boolean authenticateUser(String username, String password) throws SQLException {
+        findUserByUsername(username);
+        Hasher hasher = new Hasher();
+        return hasher.passwordMatches(password, salt, hashedPassword);
+    }
+
     public int getId() {
         return this.id;
     }
