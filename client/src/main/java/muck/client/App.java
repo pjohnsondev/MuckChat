@@ -42,9 +42,6 @@ public class App extends Application {
         Scene scene = new Scene(new StackPane(l), 640, 480);
         stage.setScene(scene);
 
-        //To show the map
-        //GameMap map = new GameMap(stage); //uncomment to use map
-        stage.show();
         */
 
         //Creating a test userMessage to send to the server.
@@ -65,6 +62,7 @@ public class App extends Application {
         //Stage stage = new Stage();
         stage.setTitle("Muck 2021");
         stage.setScene(scene);
+
         stage.show();
 
         /* End of Imported work */
