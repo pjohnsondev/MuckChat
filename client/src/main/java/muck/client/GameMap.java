@@ -1,6 +1,7 @@
 package muck.client;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
@@ -13,13 +14,10 @@ import javafx.scene.paint.*;
 import javafx.scene.shape.*;
 import javafx.animation.*;
 
-/* Hi guys. In order to implement this into the main window I had to change a lot of your code.
-I needed to make this not an application firstly as it cannot run on its own and be a node in javaFX.
-This now means that to test it you need to run launcher to see it.
-Your code however is really good! I cannot wait to see what you come up with next
+/**
+ * The Game Map class...
  */
-
-public class GameMap extends Canvas {
+public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 
     TileMapReader tm = new TileMapReader("/Test.tmx");
     Sprite hero = new Sprite(10,10,5, 5); //Create the player sprite
@@ -32,13 +30,15 @@ public class GameMap extends Canvas {
     private double cameraX; //Top left corner of our viewport
     private double cameraY; //Top left corner of our viewport
 
+    Rectangle rectangle = new Rectangle();
+
     /**
      * GameMap constuctor accepts the canvas to be drawn onto.
      * Creates the hero sprite
      * Sets-up the camera viewport Credit: Toni Epple blog for viewport design https://www.javacodegeeks.com/2013/01/writing-a-tile-engine-in-javafx.html
      * Draws the tiles around the hero (x,y) based on viewport size
      * Provides the animation loop using AnimationTimer
-     * @param canvas convas to be drawn onto.
+     * @param canvas The gameWindow canvas to be drawn onto.
      */
     public GameMap(Canvas canvas) {
         //Get the graphic context of the canvas
@@ -46,46 +46,47 @@ public class GameMap extends Canvas {
         //Load the image
         String imagePath = "/terrain_atlas.png"; //hard coded needs to be passable
         Image image = new Image(imagePath);
-        Sprite hero = new Sprite(10,10,5, 5); //Create the player sprite
 
         centerX = canvas.getWidth() / 2; //Viewport midpoint
         centerY = canvas.getHeight() / 2; //Viewport midpoint
 
-        cameraX = hero.getX() - centerX; //Camera top left relative to hero X
-        cameraY = hero.getY() - centerY; //Camera top left relative to hero Y
+        double screenHeightInTiles = (centerY * 2) / tm.getTileHeight();
+        double screenWidthInTiles = (centerX * 2) / tm.getTileWidth();
 
-        //Ensure the camera does not go outside the game boundaries
-        cameraPositionCheck();
-
-        double screenHeightInTiles = canvas.getHeight() / tm.getTileHeight();
-        double screenWidthInTiles = canvas.getWidth() / tm.getTileWidth();
-
-        startX = (int) (cameraX / tm.getTileWidth());
-        startY = (int) (cameraY / tm.getTileHeight());
-        offX = (int) (cameraX % tm.getTileWidth());
-        offY = (int) (cameraY % tm.getTileWidth());
-
+        canvas.setFocusTraversable(true);
         canvas.addEventFilter(MouseEvent.ANY, (e) -> canvas.requestFocus()); //after map clicked listen for keyboard events
 
+        canvas.setOnKeyPressed(this);
+        canvas.setOnKeyReleased(this);
 
         //Game loop draw the canvas
         AnimationTimer timer = new AnimationTimer() {
 
             @Override
             public void handle(long currentNanoTime) {
+                hero.move();
                 gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                for (int y = 0; y < screenHeightInTiles; y++) {
-                    for (int x = 0; x < screenWidthInTiles; x++) {
+                cameraX = hero.getX() - centerX; //Camera top left relative to hero X
+                cameraY = hero.getY() - centerY; //Camera top left relative to hero Y
+                //Ensure the camera does not go outside the game boundaries
+                cameraPositionCheck();
+                startX = (int) (cameraX / tm.getTileWidth());
+                startY = (int) (cameraY / tm.getTileHeight());
+                offX = (int) (cameraX % tm.getTileWidth());
+                offY = (int) (cameraY % tm.getTileWidth());
+
+                for (int y = 0; y <= screenHeightInTiles + 1; y++) {
+                    for (int x = 0; x <= screenWidthInTiles + 1; x++) {
                         int GID = getTileIndex(x + startX, y + startY);
                         gc.save();
                         //Translate the viewport around the hero. (Easier to relative draw)
                         gc.translate((x * tm.getTileWidth())- offX, (y * tm.getTileHeight()) - offY);
                         drawTile(gc,GID, image, x, y);
-
                         //Restore the old state
                         gc.restore();
                     }
                 }
+                drawHero(gc, rectangle);
             }
         };
         timer.start();
@@ -144,4 +145,63 @@ public class GameMap extends Canvas {
             cameraY = 0;
         }
     }
+
+    private void drawHero(GraphicsContext gc,Rectangle rect){
+        double drawX = 0;
+        double drawY = 0;
+        if (hero.getX() < centerX) {
+            drawX = hero.getX();
+        } else  { drawX = centerX; }
+        if (hero.getY() < centerY) {
+            drawY = hero.getY();
+        } else { drawY = centerY; }
+
+        gc.setFill(Color.WHITESMOKE);
+        gc.fillRect(drawX,
+                drawY,
+                10,
+                10);
+        gc.setFill(Color.GREEN);
+        gc.setStroke(Color.BLUE);
+    }
+
+    @Override
+    public void handle(KeyEvent e) {
+        // Get the Type of the Event
+        String type = e.getEventType().getName();
+
+        System.out.print(type);
+        // Get the KeyCode of the Event
+        KeyCode keyCode = e.getCode();
+
+        // Handle Hero movement
+        if (type == "KEY_PRESSED" && keyCode == KeyCode.RIGHT) {
+            hero.setDX(3);
+            hero.move();
+        }
+        if (type == "KEY_RELEASED" & keyCode == KeyCode.RIGHT) {
+            hero.setDX(0);
+            hero.move();
+        }
+        if (type == "KEY_PRESSED" && keyCode == KeyCode.DOWN) {
+            hero.setDY(3);
+        }
+        if (type == "KEY_RELEASED" & keyCode == KeyCode.DOWN) {
+            hero.setDY(0);
+        }
+        if (type == "KEY_PRESSED" && keyCode == KeyCode.LEFT) {
+            hero.setDX(-3);
+            hero.move();
+        }
+        if (type == "KEY_RELEASED" & keyCode == KeyCode.LEFT) {
+            hero.setDX(0);
+        }
+        if (type == "KEY_PRESSED" && keyCode == KeyCode.UP) {
+            hero.setDY(-3);
+        }
+        if (type == "KEY_RELEASED" & keyCode == KeyCode.UP) {
+            hero.setDY(0);
+        }
+    }
 }
+

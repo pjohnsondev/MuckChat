@@ -22,7 +22,7 @@ public class Sprite {
 
     public int getX() { return x;}
     public int getY() { return y;}
-    public void setX(int deltaX) {this.dx = deltaX;}
-    public void setY(int deltaY) {this.dx = deltaY;}
+    public void setDX(int deltaX) {this.dx = deltaX;}
+    public void setDY(int deltaY) {this.dy = deltaY;}
 
 }
