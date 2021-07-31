@@ -20,7 +20,7 @@ import javafx.animation.*;
 public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 
     TileMapReader tm = new TileMapReader("/Test.tmx");
-    Sprite hero = new Sprite(10,10,5, 5); //Create the player sprite
+    Sprite hero = new Sprite(300,300,5, 5); //Create the player sprite
     private int startX; //The first tile to be drawn
     private int startY; //The first tile to be drawn
     private int offX; //Tile offset in pixels as hero moves pixel by pixel
@@ -77,6 +77,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 
                 for (int y = 0; y <= screenHeightInTiles + 1; y++) {
                     for (int x = 0; x <= screenWidthInTiles + 1; x++) {
+                        canvas.requestFocus();
                         int GID = getTileIndex(x + startX, y + startY);
                         gc.save();
                         //Translate the viewport around the hero. (Easier to relative draw)
@@ -86,6 +87,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
                         gc.restore();
                     }
                 }
+                canvas.requestFocus();
                 drawHero(gc, rectangle);
             }
         };
@@ -167,39 +169,36 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 
     @Override
     public void handle(KeyEvent e) {
+
         // Get the Type of the Event
         String type = e.getEventType().getName();
 
-        System.out.print(type);
         // Get the KeyCode of the Event
         KeyCode keyCode = e.getCode();
 
         // Handle Hero movement
-        if (type == "KEY_PRESSED" && keyCode == KeyCode.RIGHT) {
-            hero.setDX(3);
-            hero.move();
+        if (type == "KEY_PRESSED" && keyCode == KeyCode.D) {
+            hero.setDX(5);
         }
-        if (type == "KEY_RELEASED" & keyCode == KeyCode.RIGHT) {
+        if (type == "KEY_RELEASED" & keyCode == KeyCode.D) {
             hero.setDX(0);
-            hero.move();
         }
-        if (type == "KEY_PRESSED" && keyCode == KeyCode.DOWN) {
-            hero.setDY(3);
+        if (type == "KEY_PRESSED" && keyCode == KeyCode.S) {
+            hero.setDY(5);
         }
-        if (type == "KEY_RELEASED" & keyCode == KeyCode.DOWN) {
+        if (type == "KEY_RELEASED" & keyCode == KeyCode.S) {
             hero.setDY(0);
         }
-        if (type == "KEY_PRESSED" && keyCode == KeyCode.LEFT) {
-            hero.setDX(-3);
-            hero.move();
+        if (type == "KEY_PRESSED" && keyCode == KeyCode.A) {
+            hero.setDX(-5);
         }
-        if (type == "KEY_RELEASED" & keyCode == KeyCode.LEFT) {
+        if (type == "KEY_RELEASED" & keyCode == KeyCode.A) {
             hero.setDX(0);
         }
-        if (type == "KEY_PRESSED" && keyCode == KeyCode.UP) {
-            hero.setDY(-3);
+        if (type == "KEY_PRESSED" && keyCode == KeyCode.W) {
+            hero.setDY(-5);
         }
-        if (type == "KEY_RELEASED" & keyCode == KeyCode.UP) {
+        if (type == "KEY_RELEASED" & keyCode == KeyCode.W) {
             hero.setDY(0);
         }
     }
