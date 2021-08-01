@@ -106,6 +106,14 @@ public abstract class Character {
     public String getIdentifier() {
         return _identifier;
     }
+
+    /**
+     Gets the Character avatar based upon its string
+     @return String representing the user's avatar (subject to confirmation)
+     */
+    public String getAvatar() {
+        return _avatar;
+    }
     
     /**
         Sets the Character avatar based upon its string, returns true if successful, false if not
@@ -113,7 +121,8 @@ public abstract class Character {
      @return Was the avatar successfully set?
      */
     public boolean setAvatar(String userAvatar) {
-        //TODO Set the avatar as stored within backend storage
+        _avatar = userAvatar; //TODO: Sanitization check, ensure userAvatar is valid as determined by Avatar class
+        saveToBackendStorage(); //Do a character save after setting the Avatar
         
         return false;
     }
