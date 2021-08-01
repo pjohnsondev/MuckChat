@@ -49,12 +49,9 @@ public class Deck {
             }
         }
 
-<<<<<<< HEAD
-=======
     }
     public void shuffle_cards() {
         Collections.shuffle(cards);
->>>>>>> 22-group-opensauce-cardgames
     }
 
     public static void main(String[] args) {
