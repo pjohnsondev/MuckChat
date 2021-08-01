@@ -109,6 +109,7 @@
                         <Canvas id="gameCanvas" fx:id="gameCanvas" height="589.0" layoutX="16.0" layoutY="30.0" width="492.0" />
                         <Circle id="circle" fx:id="circle" fill="#1f93ff00" layoutX="646.0" layoutY="82.0" radius="74.0" stroke="BLACK" strokeType="INSIDE" />
                         <ImageView id="avatar" fx:id="avatar" fitHeight="148.0" fitWidth="126.0" layoutX="583.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" />
+                        <Button id="openChat" fx:id="openChat" layoutX="725.0" layoutY="287.0" mnemonicParsing="false" rotate="-90.0" text="Pull Chat Open" />
                         <Text layoutX="561.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UserName" textAlignment="CENTER" wrappingWidth="168.13671875">
                            <font>
                               <Font size="36.0" />
