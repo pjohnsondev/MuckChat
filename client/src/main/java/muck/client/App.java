@@ -18,6 +18,13 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
+//-------------------------------------------
+// by team issue#20 on behalf of team issue#9
+// bnolan9
+//-------------------------------------------
+import aw.character.Player;
+//-------------------------------------------
+
 /**
  * The class that is run by the client:run task
  */
@@ -28,6 +35,14 @@ public class App extends Application {
 
     /** The port configuration for the client */
     static KryoClientConfig config = new KryoClientConfig();
+
+    //-------------------------------------------
+    // by team issue#20 on behalf of team issue#9
+    // bnolan9
+    //-------------------------------------------
+    private Object Player;
+    private Player player;
+    //-------------------------------------------
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -53,6 +68,17 @@ public class App extends Application {
           Imported work from the ChatUI group written in ChatJFX to work with the
           exsisting stand alone application/ gradle build.
         */
+
+        //-------------------------------------------
+        // by team issue#20 on behalf of team issue#9
+        // bnolan9
+        //-------------------------------------------
+
+        // load character/player class
+        Player = new Player("foo"); // passing dummy username as param
+        //player.loadImage();
+
+        //-------------------------------------------
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MuckChat.fxml"));
         Parent root = loader.load();
@@ -102,6 +128,7 @@ public class App extends Application {
         }
 
         launch();
+
     }
 
 }
