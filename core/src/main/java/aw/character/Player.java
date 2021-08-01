@@ -16,11 +16,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-
 //-------------------------------------------
 
 //TODO **IMPORTANT**
@@ -78,16 +73,16 @@ public class Player extends Character implements ActionListener {
     //-------------------------------------------
 
     public void loadImage() {
-        //ImageIcon ii = new ImageIcon("image.png");
-        //image = ii.getImage();
+        ImageIcon ii = new ImageIcon("image.png");
+        image = ii.getImage();
 
-        //w = image.getWidth(null);
-        //h = image.getHeight(null);
+        w = image.getWidth(null);
+        h = image.getHeight(null);
 
        //Image image = new Image(new FileInputStream("/core/src/main/java/aw.character/images/image.png"));
         //ImageView img1 = new ImageView(new Image(getClass().getResourceAsStream("image.png")));
 
-        Image image = new Image("image.png");
+        //Image image = new Image("image.png");
 
 
         setWidth();
@@ -236,8 +231,8 @@ public class Player extends Character implements ActionListener {
 
 class RectangleImage
 {
-    private Image img = null;
-    private Rectangle rect = null;
+    private Image img;
+    private Rectangle rect;
 
     public RectangleImage(Image img,int x, int y, ImageObserver o){
         this.img = img;
