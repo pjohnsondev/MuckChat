@@ -28,7 +28,7 @@ public class ChatJFXTest {
 
     @Test
     public void testChatController() {
-        ChatControl chatController = mock(ChatControl.class);
+        MuckController chatController = mock(MuckController.class);
         chatController.initialize(null, null);
     }
 
