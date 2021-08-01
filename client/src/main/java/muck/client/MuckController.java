@@ -85,6 +85,9 @@ public class MuckController implements Initializable {
     @FXML
     private Accordion ChannelsAndPlayersPane;
 
+    @FXML
+    private ImageView enterImage;
+
     String message;
 
     @Override

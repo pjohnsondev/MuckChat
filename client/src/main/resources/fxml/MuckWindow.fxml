@@ -100,7 +100,7 @@
         </Menu>
       </menus>
     </MenuBar>
-    <SplitPane id="gamePane" fx:id="windowPane" dividerPositions="0.9890396659707723" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="SOMETIMES">
+    <SplitPane id="gamePane" fx:id="windowPane" dividerPositions="0.644572025052192" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="SOMETIMES">
       <items>
         <ScrollPane prefHeight="551.0" prefWidth="547.0">
           <content>
@@ -138,15 +138,17 @@
                         <AnchorPane minWidth="0.0" prefHeight="202.0" prefWidth="289.0" VBox.vgrow="ALWAYS">
                            <children>
                               <TextField id="messageBox" fx:id="messageBox" accessibleHelp="Type your message here..." layoutX="9.0" layoutY="14.0" onAction="#onEnter" pickOnBounds="false" prefHeight="29.0" prefWidth="293.0" AnchorPane.bottomAnchor="159.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="48.0" AnchorPane.topAnchor="14.0" />
-                              <Button id="enter" fx:id="enter" cacheShape="false" centerShape="false" contentDisplay="CENTER" layoutX="307.0" layoutY="12.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="35.0" scaleShape="false" AnchorPane.bottomAnchor="155.33333333333334" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="12.0" />
-                              <ImageView fitHeight="25.0" fitWidth="35.0" layoutX="311.0" layoutY="17.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="160.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="17.0">
-                                 <image>
-                                    <Image url="@../images/chatArrow.png" />
-                                 </image>
-                                 <viewport>
-                                    <Rectangle2D />
-                                 </viewport>
-                              </ImageView>
+                              <Button id="enter" fx:id="enter" cacheShape="false" centerShape="false" contentDisplay="CENTER" layoutX="307.0" layoutY="12.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="35.0" scaleShape="false" AnchorPane.bottomAnchor="155.33333333333334" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="12.0">
+                                 <graphic>
+                                    <ImageView fx:id="enterImage" fitHeight="25.0" fitWidth="35.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/chatArrow.png" />
+                                       </image>
+                                       <viewport>
+                                          <Rectangle2D />
+                                       </viewport>
+                                    </ImageView>
+                                 </graphic></Button>
                            </children>
                         </AnchorPane>
                      </children>
