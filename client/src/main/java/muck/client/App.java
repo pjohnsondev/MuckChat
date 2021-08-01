@@ -60,6 +60,7 @@ public class App extends Application {
         //Stage stage = new Stage();
         stage.setTitle("Muck 2021");
         stage.setScene(scene);
+        stage.setOnCloseRequest(e -> shutdown());
 
         stage.show();
 
@@ -77,6 +78,7 @@ public class App extends Application {
             // Just demonstrates that the worker manager hands the ping off -- likely to be removed when the project
             // progresses
             MuckClient.INSTANCE.send(new Ping());
+            //MuckClient.INSTANCE.disconnect(); // This successfully disconnects client but does it immediately
         } catch (IOException ex) {
             logger.error("Start up failed");
         }
@@ -84,8 +86,14 @@ public class App extends Application {
 
 
     void shutdown() {
-        // Exit the program
-        System.exit(0);
+        try {
+            MuckClient.INSTANCE.disconnect();
+            System.exit(0);
+            logger.info("Client disconnected successfully");
+        } catch (IOException ex) {
+            System.exit(1);
+            logger.error("Client exited without disconnecting");
+        }
     }
 
     public static void main(String[] args) {
