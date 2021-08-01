@@ -103,6 +103,9 @@ public class MuckController implements Initializable {
     @FXML // fx:id="closeLists"
     private Button closeLists; // Value injected by FXMLLoader
 
+    @FXML // fx:id="game1Button"
+    private Button game1Button; // Value injected by FXMLLoader
+
     @FXML
     private ImageView openChatImage;
 
@@ -111,6 +114,7 @@ public class MuckController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         closeChat.setOnAction(this::hideChatWindow);
+        game1Button.setOnAction(this::launchGame);
         closeLists.setOnAction(this::openChatOnly);
         openChatOnly.setOnAction(this::openChatOnly);
         enter.setOnAction(this::sendMessage); // assigns function to button
@@ -208,5 +212,10 @@ public class MuckController implements Initializable {
     private void hideChatWindow(ActionEvent event) {
         windowPane.setDividerPositions(0.999);
         chatSplitPane.setDividerPositions(1.0);
+    }
+
+    @FXML
+    private void launchGame(ActionEvent event) {
+
     }
 }

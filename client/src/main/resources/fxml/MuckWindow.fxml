@@ -101,7 +101,7 @@
         </Menu>
       </menus>
     </MenuBar>
-    <SplitPane id="windowPane" fx:id="windowPane" dividerPositions="0.6" focusTraversable="true" prefHeight="633.0" prefWidth="713.0" VBox.vgrow="SOMETIMES">
+    <SplitPane id="windowPane" fx:id="windowPane" dividerPositions="0.9962374581939801" focusTraversable="true" prefHeight="633.0" prefWidth="713.0" VBox.vgrow="SOMETIMES">
       <items>
         <ScrollPane prefHeight="631.0" prefWidth="781.0">
                <content>
@@ -124,6 +124,11 @@
                                  </image>
                               </ImageView>
                            </graphic>
+                           <effect>
+                              <Blend />
+                           </effect>
+                        </Button>
+                        <Button id="game1Button" fx:id="game1Button" layoutX="615.0" layoutY="542.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="77.0" text="GAME 1">
                            <effect>
                               <Blend />
                            </effect>
