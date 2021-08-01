@@ -1,9 +1,16 @@
 package muck.client.card_games;
+import javafx.application.Application;
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
 //TODO: Create card class
 
-public class Card {
+public class Card{
+
+    /*@Override
+        public void start(Stage primaryStage) throws Exception{
+
+    }*/
 
 
 
