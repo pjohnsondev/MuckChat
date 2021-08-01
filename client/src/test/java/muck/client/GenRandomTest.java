@@ -22,13 +22,13 @@ public class GenRandomTest {
     @Test
     public void testRandomDice(){
         logger.info("Testing generated random int is between 1 and 10");
-        int min = 1;
-        int max = 10;
-        GenRandom testerGenerator = new GenRandom();
-        int random = testerGenerator.GetRandomDice(min,max);
-        assertAll("random should be greater or equal min and less than or equal max",
-                () -> assertTrue(random <= max),
-                () -> assertTrue(random >= min));
+        int sides = 10;
+        int numOfRolls = 9;
+        Dice dice = new Dice(sides);
+        int oneDice = dice.Roll(numOfRolls);
+        assertAll("oneDice should be greater or equal 1 and less than or equal number of sides",
+                () -> assertTrue(oneDice <= sides*numOfRolls),
+                () -> assertTrue(oneDice >= 1));
     }
 
 }
