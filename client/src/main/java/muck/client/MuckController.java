@@ -94,7 +94,7 @@ public class MuckController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         enter.setOnAction(this::sendMessage); // assigns function to button
         plus.setOnAction(this::addChatTab); // adds new tab
-        GameMap gm = new GameMap(gameCanvas); // Adds GameMap animation to the game window
+        //GameMap gm = new GameMap(gameCanvas); // Adds GameMap animation to the game window
         Image chosenAvatar = new Image("images/peach-portrait2.png"); // Avatar pic
         circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
         chatSection.setFocusTraversable(true);
