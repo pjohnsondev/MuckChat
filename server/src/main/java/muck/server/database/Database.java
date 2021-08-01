@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class Database {
+abstract public class Database {
     protected String dbName;
     protected String connectionString;
 
@@ -134,6 +134,7 @@ public class Database {
     public void executeInsert() throws SQLException {
         statement.execute();
         conn.commit();
+
         if (conn != null) {
             try {
                 conn.rollback();
@@ -160,7 +161,7 @@ public class Database {
         if (tableExists(tableName)) {
             // binding not used because jbdc doesn't support binding in drop statements. Users shouldn't have access to this function either way
             query(
-                String.format("DROP TABLE %s", tableName) 
+                String.format("DROP TABLE %s", tableName)
             );
             statement.execute();
             conn.commit();
@@ -174,48 +175,24 @@ public class Database {
         }
     }
     // PREPARED STATEMENT BINDINGS
-    public void bindInt(int pIndex, int parameter) {
-        try {
-            statement.setInt(pIndex, parameter);
-        } catch (SQLException exception) {
-            System.out.println(exception.getMessage());
-        }
+    public void bindInt(int pIndex, int parameter) throws SQLException {
+        statement.setInt(pIndex, parameter);
     }
-    public void bindDouble(int pIndex, double parameter) {
-        try {
-            statement.setDouble(pIndex, parameter);
-        } catch (SQLException exception) {
-            System.out.println(exception.getMessage());
-        }
+    public void bindDouble(int pIndex, double parameter) throws SQLException{
+        statement.setDouble(pIndex, parameter);
     }
-    public void bindString(int pIndex, String parameter) {
-        try {
-            statement.setString(pIndex, parameter);
-        } catch (SQLException exception) {
-            System.out.println(exception.getMessage());
-        }
+    public void bindString(int pIndex, String parameter) throws SQLException{
+        statement.setString(pIndex, parameter);
     }
-    public void bindNull(int pIndex) {
-        try {
-            statement.setString(pIndex, null);
-        } catch (SQLException exception) {
-            System.out.println(exception.getMessage());
-        }
+    public void bindNull(int pIndex) throws SQLException {
+        statement.setString(pIndex, null);
     }
 
-    public void bindObj(int pIndex, Object parameter) {
-        try {
-            statement.setObject(pIndex, parameter);
-        } catch (SQLException exception) {
-            System.out.println(exception.getMessage());
-        }
+    public void bindObj(int pIndex, Object parameter) throws SQLException{
+        statement.setObject(pIndex, parameter);
     }
-    public void bindBytes(int pIndex, byte[] parameter) {
-        try {
-            statement.setBytes(pIndex, parameter);
-        } catch (SQLException exception) {
-            System.out.println(exception.getMessage());
-        }
+    public void bindBytes(int pIndex, byte[] parameter) throws SQLException {
+        statement.setBytes(pIndex, parameter);
     }
 
     //END PREPARED STATMENT BINDINGS

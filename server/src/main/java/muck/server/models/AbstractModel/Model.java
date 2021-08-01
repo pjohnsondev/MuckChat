@@ -23,5 +23,4 @@ abstract public class Model implements IModel {
     public void closeDbConnection() {
         db.closeConnection();
     }
-
 }
