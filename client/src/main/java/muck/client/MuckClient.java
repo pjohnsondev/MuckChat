@@ -10,6 +10,7 @@ import muck.core.Id;
 import muck.protocol.connection.*;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -46,14 +47,36 @@ public enum MuckClient {
         // Connect to the server
         client.connect(config.getTimeOut(), config.getDestinationIp(), config.getTcpPort(), config.getUdpPort());
 
+        // Create random dummy credentials
+        login("TestUser_" + Calendar.getInstance().get(Calendar.SECOND) % 100, "TestPassword");
+
         // Add a Ping listener. Still being used for debugging.
         client.addListener(ListenerBuilder.forClass(Ping.class).onReceive((conn, ping) ->
-                logger.info("Ping received from {}", conn.getID())
+            logger.info("Ping received from {}", conn.getID())
         ));
         //Listener for the message sent back from the server.
         client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, serverMessage) ->
-                logger.info("Message from the server was: {}", serverMessage.getMessage())));
+            logger.info("Message from the server was: {}", serverMessage.getMessage())
+        ));
+        client.addListener(ListenerBuilder.forClass(AddCharacter.class).onReceive((connection, addCharacter) -> {
+            logger.info("Received new character from the server: {}", addCharacter.getCharacter().getIdentifier());
 
+            logger.debug("Initial location of new character is: X:{}, Y:{}", addCharacter.getLocation().getX(), addCharacter.getLocation().getY());
+
+            //TODO: Notify of the new character and its location so that it can be placed on the map.
+        }));
+    }
+
+    /**
+     * Login user to the game.
+     *
+     * @param username
+     * @param password
+     */
+    public void login(String username, String password) {
+        Login login = new Login(username, password);
+
+        client.sendTCP(login);
     }
 
     public synchronized void disconnect() throws IOException {

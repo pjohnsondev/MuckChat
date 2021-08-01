@@ -12,7 +12,6 @@ So, for instance
 
 * To run the server, run
 
-
     ```sh
     gradle server:run
     ```
