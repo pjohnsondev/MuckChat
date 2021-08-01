@@ -174,6 +174,14 @@ abstract public class Database {
             }    
         }
     }
+    public void createTableIfNotExists(String tableName, String sql) throws SQLException{
+        if (!tableExists(tableName)) {
+            query(sql);
+            executeUpdate();    
+        }
+
+    }
+
     // PREPARED STATEMENT BINDINGS
     public void bindInt(int pIndex, int parameter) throws SQLException {
         statement.setInt(pIndex, parameter);
