@@ -53,6 +53,7 @@ public class Player extends Character implements ActionListener {
 
         // uncommented by bnolan9 to bypass this step to test load of image->character
         //boolean databaseRetrievalSuccessful = false;
+        //boolean databaseRetrievalSuccessful = true;
         //if (!databaseRetrievalSuccessful) {
         //    throw new CharacterDoesNotExistException(username);
        // }
