@@ -1,3 +1,4 @@
+/*
 package muck.client;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -15,18 +16,22 @@ import javafx.scene.shape.Circle;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
-import muck.protocol.connection.*;
+//import muck.protocol.connection.*;
 
  //For userMessage class;
 
-/** This class is where the functionality of the ChatUI lives. */
+*/
+/** This class is where the functionality of the ChatUI lives. *//*
+
 
 public class ChatControl implements Initializable {
 
 
-    /**
+    */
+/**
      * The fields of the UI
-     */
+     *//*
+
     @FXML
     GridPane grid;
     @FXML
@@ -54,6 +59,10 @@ public class ChatControl implements Initializable {
     @FXML
     Button achievementButton;
     @FXML
+    Button minus;
+    @FXML
+    Button showChat;
+    @FXML
     Button collectibleButton;
     @FXML
     Button hideCollectiblesAchievements;
@@ -61,6 +70,10 @@ public class ChatControl implements Initializable {
     ImageView avatar;
     @FXML
     Circle circle;
+    @FXML
+    TitledPane channelsPane;
+    @FXML
+    TitledPane playersPane;
 
     String message;
 
@@ -71,6 +84,9 @@ public class ChatControl implements Initializable {
         plus.setOnAction(this::addChatTab); // adds new tab
         collectibleButton.setOnAction(this::showCollectables); // shows collectible pane
         achievementButton.setOnAction(this::showAchievements); // shows collectible pane
+        minus.setOnAction(this::hideChat); // hides the chat
+        showChat.setVisible(false);
+        showChat.setOnAction(this::showChat);
         hideCollectiblesAchievements.setOnAction(this::hideCollectiblesAchievements); // hides both pane
         GameMap gm = new GameMap(gameWindow); // Adds GameMap animation to the game window
         Image chosenAvatar = new Image("images/peach-portrait2.png");
@@ -78,24 +94,50 @@ public class ChatControl implements Initializable {
 
     }
 
-    /**
+    */
+/**
+     * Event listener for hiding chat
+     *//*
+
+    @FXML
+    private void hideChat(ActionEvent event) {
+        hideTheChat();
+    }
+
+    */
+/**
+     * Event listener for hiding chat
+     *//*
+
+    @FXML
+    private void showChat (ActionEvent event) {
+        showTheChat();
+    }
+
+    */
+/**
      * Event listener for enter (Submit) button
-     */
+     *//*
+
     private void buttonActionGroup(ActionEvent event) {
         displayAndSend();
     }
 
-    /**
+    */
+/**
      * Event listener for Enter on keyboard
-     */
+     *//*
+
     @FXML
     private void onEnter(ActionEvent event) {
         displayAndSend();
     }
 
-    /**
+    */
+/**
      * Function for adding new chat channel (aka a tab)
-     */
+     *//*
+
 
     @FXML
     private void addChatTab(ActionEvent event) {
@@ -123,10 +165,12 @@ public class ChatControl implements Initializable {
         chatX.isFocused();
     }
 
-    /**
+    */
+/**
      * Displays the user message to the chat depending on which chat (aka tab) is active
      * TODO: Send the user message to the server
-     */
+     *//*
+
     private void displayAndSend() {
         message = messageBox.getText();
         if ((message.length() != 0)) {
@@ -136,7 +180,8 @@ public class ChatControl implements Initializable {
                 groupChatBox.appendText(message + "\n");
                 messageBox.clear();
 
-      /* **********************************************************************
+      */
+/* **********************************************************************
       Code edited for sending functionality.
       Last updated: Harrison Liddell, utilising Ryan Birch development serverside, 27/07/2021
       Adding Sending functionality by first creating a userMessage object and
@@ -145,10 +190,13 @@ public class ChatControl implements Initializable {
                 Also, this hasn't been tested extensively. Let me know if it causes
                 problems!
       TODO: Create multiple chat groups serverside to filter messages. .
-      */
-                userMessage currentMessage = new userMessage();
+      *//*
+
+               */
+/* userMessage currentMessage = new userMessage();
                 currentMessage.setMessage(message);
-                MuckClient.INSTANCE.send(currentMessage);
+                MuckClient.INSTANCE.send(currentMessage);*//*
+
             } else {
                 int num = chatPane.getTabs().indexOf(currentTab) + 1;
                 TextArea currentChatBox = (TextArea) chatPane.lookup("#chatbox" + num);
@@ -159,9 +207,11 @@ public class ChatControl implements Initializable {
         }
     }
 
-    /**
+    */
+/**
      * Displays collectibles if button clicked
-     */
+     *//*
+
 
 
     @FXML
@@ -189,25 +239,60 @@ public class ChatControl implements Initializable {
 
     }
 
+    private void hideTheChat() {
+        chatPane.setVisible(false);
+        plus.setVisible(false);
+        messageBox.setVisible(false);
+        enter.setVisible(false);
+        channelsPane.setVisible(false);
+        playersPane.setVisible(false);
+        showChat.setVisible(true);
+        minus.setVisible(false);
+        gameWindow.setWidth(2000);
+
+
+    }
+
+    private void showTheChat() {
+        chatPane.setVisible(true);
+        plus.setVisible(true);
+        messageBox.setVisible(true);
+        enter.setVisible(true);
+        channelsPane.setVisible(true);
+        playersPane.setVisible(true);
+        showChat.setVisible(false);
+        minus.setVisible(true);
+        gameWindow.setWidth(581);
+    }
+
+*/
 /*
  * Add user name to the top text
  * TODO: Create function to update user name
- */
+ *//*
 
+
+*/
 /*
     private void updateUserName() {
 
     }
-*/
-    /*
+*//*
+
+    */
+/*
      * Sets the avatar pic
      * TODO: Create function to update the user's avatar
-     */
+     *//*
 
+
+*/
 /*
     private void setAvatar() {
 
     }
-*/
+*//*
+
 
 }
+*/

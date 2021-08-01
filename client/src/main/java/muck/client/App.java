@@ -8,8 +8,6 @@ import org.apache.logging.log4j.Logger;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -54,7 +52,7 @@ public class App extends Application {
           exsisting stand alone application/ gradle build.
         */
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MuckChat.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MuckWindow.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         scene.setRoot(root);
