@@ -11,6 +11,8 @@ import muck.protocol.connection.*;
 
 import java.io.IOException;
 
+import java.util.ArrayList;
+
 /**
  * The central body of the server. This should avoid getting too large, but should have references to
  * any of the necessary components. It is a singleton.
@@ -51,6 +53,8 @@ public enum MuckServer {
         // Bind the server to the configured ports
         kryoServer.bind(config.getTcpPort(), config.getUdpPort());
 
+        ArrayList<Integer> players = new ArrayList<Integer>();
+
         // Add a Ping listener. Still being used for debugging.
         addListener(ListenerBuilder.forClass(Ping.class).onReceive((conn, ping) -> {
 
@@ -60,6 +64,7 @@ public enum MuckServer {
             workerManager.schedule(ping, reply -> {
                 logger.info("I sent my ping to a background worker, and all I got in return was this lousy {}", reply);
             });
+            players.add(conn.getID());
 
         }));
         /*
