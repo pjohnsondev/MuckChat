@@ -39,7 +39,7 @@ public class Avatar extends Application {
         }
     }
 
-    public static void main(String[] args) {
-        launch(args);
+   public static void main(String[] args) {
+        AvatarController.AvatarCreation("Test");
     }
 }
