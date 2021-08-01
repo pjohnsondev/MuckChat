@@ -11,4 +11,8 @@ dependencies {
     implementation project(":network")
 
     implementation group: 'com.typesafe.akka', name: 'akka-actor_2.12', version: '2.5.23'
+
+    implementation group: 'org.apache.derby', name: 'derby', version: '10.15.2.0'
+    implementation group: 'org.apache.derby', name: 'derbyshared', version: '10.15.2.0'
 }
+
