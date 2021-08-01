@@ -1,11 +1,11 @@
 package muck.protocol;
 
+import aw.character.Player;
 import com.esotericsoftware.kryo.Kryo;
 import muck.core.Id;
-import muck.protocol.connection.Connected;
-import muck.protocol.connection.Disconnect;
-import muck.protocol.connection.Ping;
-import muck.protocol.connection.userMessage;
+import muck.protocol.connection.*;
+
+
 
 /**
  * A common Protocol registration class, shared by the client and server, to ensure that both
@@ -27,6 +27,9 @@ public class Protocol {
         kryo.register(Disconnect.class);
         kryo.register(userMessage.class);
         kryo.register(Id.class);
+        kryo.register(Login.class);
+        kryo.register(AddCharacter.class);
+        kryo.register(Player.class);
+        kryo.register(Location.class);
     }
-
 }

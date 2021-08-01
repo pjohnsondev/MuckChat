@@ -5,6 +5,9 @@ package aw.character;
 //rapid change until the specifics of the project are worked out. Don't rely on any of these methods yet
 
 public class Player extends Character {
+    public Player() {
+
+    }
     /**
      * Player constructor. This class is an extension of the Character class for human players.
      * This should instantiate a player with a username that exists in the backend persistent storage.
@@ -15,7 +18,7 @@ public class Player extends Character {
     public Player(String username) throws CharacterDoesNotExistException {
         //TODO - Retrieve the username identifier from the backend database, then populate all fields with 
         // player values from the database
-        boolean databaseRetrievalSuccessful = false;
+        boolean databaseRetrievalSuccessful = true;
         if (!databaseRetrievalSuccessful) {
             throw new CharacterDoesNotExistException(username);
         }

@@ -1,5 +1,8 @@
 package muck.server;
 
+import aw.character.Character;
+import aw.character.CharacterDoesNotExistException;
+import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
@@ -34,6 +37,8 @@ public enum MuckServer {
     // Tries to make handling background tasks easier
     WorkerManager workerManager = new WorkerManager();
 
+    CharacterLocationTracker tracker = new CharacterLocationTracker();
+
     /** Sets up the KryoNet server that will handle communication */
     synchronized void startKryo(KryoServerConfig config) throws IOException {
 
@@ -42,7 +47,11 @@ public enum MuckServer {
         }
 
         // Create a new KryoNet server
-        kryoServer = new Server();
+        kryoServer = new Server(){
+            protected Connection newConnection() {
+                return new MuckConnection();
+            }
+        };
         kryoServer.start();
 
         // Register the protocol classes with Kryo
@@ -74,10 +83,46 @@ public enum MuckServer {
             kryoServer.sendToAllTCP(testMessage); //Send to all clients connected. Can be switched to send only to one client.
         }));
 
-	addListener(ListenerBuilder.forClass(CharacterLocation.class).onReceive((conn, location) -> {
-		    logger.info("Received a character location.");
-		    logger.info("TODO: Process character location: {}", location.toString());
-	}));
+        addListener(ListenerBuilder.forClass(CharacterLocation.class).onReceive((conn, location) -> {
+                logger.info("Received a character location.");
+                logger.info("TODO: Process character location: {}", location.toString());
+        }));
+
+        loginCharacter();
+    }
+
+    public void loginCharacter() {
+        addListener(ListenerBuilder.forClass(Login.class).onReceive((connection, login) -> {
+            logger.info("Attempting to log in");
+            logger.debug("{} is trying to log in", login.getUsername());
+            MuckConnection muckConnection = (MuckConnection)connection;
+
+            CharacterManager characterManager = new CharacterManager();
+
+            Character character = null;
+
+            try {
+                character = characterManager.loginCharacter(login);
+            } catch (DuplicateLoginException ex) {
+                userMessage testMessage = new userMessage(); //Create new message to send back.
+                testMessage.setMessage("Duplicate login");
+                kryoServer.sendToTCP(connection.getID(), testMessage); // send message back to client
+            } catch (CharacterDoesNotExistException ex) {
+                userMessage testMessage = new userMessage(); //Create new message to send back.
+                testMessage.setMessage("Character does not exist. Please register.");
+                kryoServer.sendToTCP(connection.getID(), testMessage); // send message back to client
+            }
+
+            muckConnection.setCharacter(character);
+            Location location = new Location(0,0);
+
+            AddCharacter addCharacter = new AddCharacter(character, location);
+            kryoServer.sendToAllTCP(addCharacter);
+
+            tracker.addClient(login.getUsername(), character, new muck.core.Location(location.getX(), location.getY()));
+
+            logger.info("Login successful for {}", login.getUsername());
+        }));
     }
 
     /** Stops the KryoNet server. */
