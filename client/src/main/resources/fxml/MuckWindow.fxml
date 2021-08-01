@@ -101,7 +101,7 @@
         </Menu>
       </menus>
     </MenuBar>
-    <SplitPane id="windowPane" fx:id="windowPane" dividerPositions="0.9962374581939801" focusTraversable="true" prefHeight="633.0" prefWidth="713.0" VBox.vgrow="SOMETIMES">
+    <SplitPane id="windowPane" fx:id="windowPane" dividerPositions="0.6" focusTraversable="true" prefHeight="633.0" prefWidth="713.0" VBox.vgrow="SOMETIMES">
       <items>
         <ScrollPane prefHeight="631.0" prefWidth="781.0">
                <content>
@@ -132,7 +132,7 @@
                   </AnchorPane>
                </content>
         </ScrollPane>
-            <SplitPane id="chatSplitPane" fx:id="chatSplitPane" dividerPositions="0.0" maxWidth="451.0" minWidth="0.0" prefHeight="630.0" prefWidth="0.0" snapToPixel="false">
+            <SplitPane id="chatSplitPane" fx:id="chatSplitPane" dividerPositions="0.9869047619047618" maxWidth="451.0" minWidth="0.0" prefHeight="630.0" prefWidth="0.0" snapToPixel="false">
               <items>
                   <VBox id="chatSection" fx:id="chatSection" maxWidth="350.0" minWidth="0.0" prefHeight="703.0" prefWidth="268.0">
                      <children>
@@ -164,7 +164,8 @@
                                     </ImageView>
                                  </graphic>
                               </Button>
-                              <Button id="closeChat" fx:id="closeChat" layoutX="8.0" layoutY="84.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="79.0" text="Close Chat" />
+                              <Button id="closeChat" fx:id="closeChat" layoutX="8.0" layoutY="84.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="106.0" text="Close Window" />
+                              <Button id="closeLists" fx:id="closeLists" layoutX="119.0" layoutY="84.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Close Lists" />
                            </children>
                         </AnchorPane>
                      </children>
