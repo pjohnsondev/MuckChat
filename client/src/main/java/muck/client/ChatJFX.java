@@ -20,6 +20,7 @@ public class ChatJFX extends Application {
                 Stage stage = new Stage();
                 stage.setMaxWidth(800);
                 stage.setMaxHeight(680);
+                stage.setResizable(false);
                 stage.setTitle("Muck 2021");
                 stage.setScene(scene);
                 stage.show();

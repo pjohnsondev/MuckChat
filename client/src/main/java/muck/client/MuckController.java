@@ -33,6 +33,9 @@ public class MuckController implements Initializable {
     @FXML // fx:id="windowPane"
     private SplitPane windowPane; // Value injected by FXMLLoader
 
+    @FXML // fx:id="windowPane"
+    private SplitPane chatSplitPane; // Value injected by FXMLLoader
+
     @FXML // fx:id="chatSection"
     private VBox chatSection; // Value injected by FXMLLoader
 
@@ -88,14 +91,26 @@ public class MuckController implements Initializable {
     @FXML
     private ImageView enterImage;
 
-    @FXML // fx:id="openChat"
-    private Button openChat; // Value injected by FXMLLoader
+    @FXML // fx:id="openFullChat"
+    private Button openFullChat; // Value injected by FXMLLoader
+
+    @FXML // fx:id="openChatOnly"
+    private Button openChatOnly; // Value injected by FXMLLoader
+
+    @FXML // fx:id="closeChat"
+    private Button closeChat; // Value injected by FXMLLoader
+
+    @FXML
+    private ImageView openChatImage;
 
     String message;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        closeChat.setOnAction(this::hideChatWindow);
+        openChatOnly.setOnAction(this::openChatOnly);
         enter.setOnAction(this::sendMessage); // assigns function to button
+        openFullChat.setOnAction(this::openFullChat);
         plus.setOnAction(this::addChatTab); // adds new tab
         GameMap gm = new GameMap(gameCanvas); // Adds GameMap animation to the game window
         Image chosenAvatar = new Image("images/peach-portrait2.png"); // Avatar pic
@@ -172,4 +187,22 @@ public class MuckController implements Initializable {
         chatPane1.getSelectionModel().select(newTab);
     }
 
+    @FXML
+    private void openFullChat(ActionEvent event) {
+        windowPane.setDividerPositions(0.43);
+        chatSplitPane.setDividerPositions(0.6);
+    }
+
+
+    @FXML
+    private void openChatOnly(ActionEvent event) {
+        windowPane.setDividerPositions(0.6);
+        chatSplitPane.setDividerPositions(0.989);
+    }
+
+    @FXML
+    private void hideChatWindow(ActionEvent event) {
+        windowPane.setDividerPositions(0.999);
+        chatSplitPane.setDividerPositions(1.0);
+    }
 }
