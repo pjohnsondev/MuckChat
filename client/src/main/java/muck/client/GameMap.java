@@ -77,7 +77,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 
                 for (int y = 0; y <= screenHeightInTiles + 1; y++) {
                     for (int x = 0; x <= screenWidthInTiles + 1; x++) {
-                        canvas.requestFocus();
+
                         int GID = getTileIndex(x + startX, y + startY);
                         gc.save();
                         //Translate the viewport around the hero. (Easier to relative draw)
@@ -87,7 +87,6 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
                         gc.restore();
                     }
                 }
-                canvas.requestFocus();
                 drawHero(gc, rectangle);
             }
         };
