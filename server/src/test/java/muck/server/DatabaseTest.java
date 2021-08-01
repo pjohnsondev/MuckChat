@@ -42,6 +42,18 @@ public class DatabaseTest {
     @Test
     public void dbCanInsertTest() throws SQLException, Exception {
         TestDatabase db = new TestDatabase();
+        // create a new table if it doesn't already exist
+        if (!db.tableExists("test_table")) {
+            db.query(
+                "CREATE TABLE test_table "
+                + "(id INTEGER NOT NULL, "
+                + " some_text VARCHAR(255), "
+                + " more_text LONG VARCHAR, "
+                + " floating_point REAL)"
+                );
+            db.executeUpdate();    
+        }
+        
         // insert some values into the table
         db.query("INSERT INTO test_table (id, some_text, more_text, floating_point) VALUES (?, ?, ?, ?)");
         db.bindInt(1, 69);
@@ -76,7 +88,22 @@ public class DatabaseTest {
     }
     @Test
     public void dbCanDropTableTest() throws SQLException {
+        
         TestDatabase db = new TestDatabase();
+        // create a new table if it doesn't already exist
+        if (!db.tableExists("test_table")) {
+            db.query(
+                "CREATE TABLE test_table "
+                + "(id INTEGER NOT NULL, "
+                + " some_text VARCHAR(255), "
+                + " more_text LONG VARCHAR, "
+                + " floating_point REAL)"
+                );
+            db.executeUpdate();    
+        }
+
+        
+
         // get rid of the table so the db is back to normal
         db.dropTable("test_table");
         assertFalse(db.tableExists("test_table"));
