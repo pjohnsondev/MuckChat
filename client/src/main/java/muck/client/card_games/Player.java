@@ -20,10 +20,6 @@ public class Player {
 
     }
 
-    void shuffle_deck(int number_of_cards, Deck deck){
-        Collections.shuffle(deck);
-    }
-
     void add_score(){
         this.score += score_incr;
     }
@@ -32,13 +28,17 @@ public class Player {
         Deck shuffled_deck = new Deck();
         Player player1 = new Player();
         Player player2 = new Player();
-        shuffle_deck(shuffled_deck.cards.size(), shuffled_deck);
+        shuffled_deck.shuffle_cards();
         System.out.println("Testing players. Player 1's score: " + player1.score
                 + ". Player 2's score: " + player2.score);
         player1.add_score();
         player2.add_score();
         System.out.println("Testing adding to score function. Player 1's score: "
                 + player1.score + ". Player 2's score: " + player2.score);
+        for (int i = 0; i < shuffled_deck.cards.size(); i++ ) {
+            System.out.println(shuffled_deck.cards.get(i).getCardName() + " of " +  shuffled_deck.cards.get(i).getSuit() );
+            System.out.println("This cards ID is " + shuffled_deck.cards.get(i).getValue());
+        }
     }
 
 }
