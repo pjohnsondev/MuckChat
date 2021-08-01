@@ -25,6 +25,7 @@ public class TileMapReader {
     int layers = 0;
     String[] data = new String[10];
     int n = 0; //TobeRemoved
+    ArrayList<String[]> content = new ArrayList<>();
 
     public TileMapReader(String path) {
        this.path = path;
@@ -93,6 +94,21 @@ public class TileMapReader {
 
                 data[i] = eElement.getElementsByTagName("data").item(0).getTextContent();
                 //System.out.println("-------------------\n" + data[i]);
+
+                data[i] = data[i].replaceAll("\\h","");
+                data[i] = data[i].trim();
+
+                try {
+                    BufferedReader br = new BufferedReader((new StringReader(data[i])));
+                    String line = "";
+                    while((line = br.readLine()) != null) {
+                        content.add(line.split(","));
+                    }
+                } catch (FileNotFoundException e) {
+                    System.out.println("FileNotFoundError: No String data to read from map");
+                } catch (IOException e) {
+                    System.out.println("NoLineToReadError: No String data to read from map");
+                }
             }
         } catch (Exception e) {
             System.out.println("ERROR - TILE MANAGER: can not read tilemap");
@@ -100,22 +116,6 @@ public class TileMapReader {
     }
 
     public int getLayerId(int layer, int x, int y) {
-        String mapId = data[layer];
-        mapId = mapId.replaceAll("\\h","");
-        mapId = mapId.trim();
-        ArrayList<String[]> content = new ArrayList<>();
-        try {
-            BufferedReader br = new BufferedReader((new StringReader(mapId)));
-            String line = "";
-            while((line = br.readLine()) != null) {
-                    content.add(line.split(","));
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("FileNotFoundError: No String data to read from map");
-        } catch (IOException e) {
-            System.out.println("NoLineToReadError: No String data to read from map");
-        }
-
         try {
             return Integer.parseInt(content.get(y)[x]) -1;
         } catch (NumberFormatException e) {

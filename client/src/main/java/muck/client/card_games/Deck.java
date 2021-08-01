@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.Buffer;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Deck {
     ArrayList<Card> cards;
@@ -48,6 +49,9 @@ public class Deck {
             }
         }
 
+    }
+    public void shuffle_cards() {
+        Collections.shuffle(cards);
     }
 
     public static void main(String[] args) {
