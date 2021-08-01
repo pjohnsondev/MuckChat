@@ -7,22 +7,22 @@ import java.util.Collections;
 
 public class Player {
     private int score;
-    ArrayList<Card> sets;
-    ArrayList<Card> hand;
+    Hand hand;
     int score_incr = 10;
-    int deck_size = 52;
+    //temporary values for testing
+    int go_fish_hand = 7;
 
 
     public Player(){
         this.score = 0;
-        hand = new ArrayList<Card>();
-        sets = new ArrayList<Card>();
+        hand = new Hand();
 
     }
 
     void add_score(){
         this.score += score_incr;
     }
+
 
     public static void main(String[] args) {
         Deck shuffled_deck = new Deck();
@@ -33,12 +33,16 @@ public class Player {
                 + ". Player 2's score: " + player2.score);
         player1.add_score();
         player2.add_score();
+        player1.hand.draw_cards(shuffled_deck);
+        player2.hand.draw_cards(shuffled_deck);
         System.out.println("Testing adding to score function. Player 1's score: "
                 + player1.score + ". Player 2's score: " + player2.score);
         for (int i = 0; i < shuffled_deck.cards.size(); i++ ) {
             System.out.println(shuffled_deck.cards.get(i).getCardName() + " of " +  shuffled_deck.cards.get(i).getSuit() );
             System.out.println("This cards ID is " + shuffled_deck.cards.get(i).getValue());
         }
+        System.out.println("Player 1's hand " + player1.hand.cards.get(0) +
+                ". Player 2's hand " + player2.hand.cards.get(0));
     }
 
 }
