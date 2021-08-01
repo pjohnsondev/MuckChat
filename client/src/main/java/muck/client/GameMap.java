@@ -78,11 +78,11 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
                 for (int y = 0; y <= screenHeightInTiles + 1; y++) {
                     for (int x = 0; x <= screenWidthInTiles + 1; x++) {
 
-                        int GID = getTileIndex(x + startX, y + startY);
+                        //int GID = getTileIndex(x + startX, y + startY);
                         gc.save();
                         //Translate the viewport around the hero. (Easier to relative draw)
                         gc.translate((x * tm.getTileWidth())- offX, (y * tm.getTileHeight()) - offY);
-                        drawTile(gc,GID, image, x, y);
+                        drawTile(gc,118, image, x, y);
                         //Restore the old state
                         gc.restore();
                     }
@@ -157,7 +157,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
             drawY = hero.getY();
         } else { drawY = centerY; }
 
-        gc.setFill(Color.WHITESMOKE);
+        gc.setFill(Color.BLUE);
         gc.fillRect(drawX,
                 drawY,
                 10,
