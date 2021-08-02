@@ -22,17 +22,6 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
-//-------------------------------------------
-// by team issue#20 on behalf of team issue#9
-// bnolan9
-//-------------------------------------------
-import aw.character.Player;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.geometry.Rectangle2D;
-//-------------------------------------------
-
 /**
  * The class that is run by the client:run task
  */
@@ -43,13 +32,6 @@ public class App extends Application {
 
     /** The port configuration for the client */
     static KryoClientConfig config = new KryoClientConfig();
-
-    //-------------------------------------------
-    // by team issue#20 on behalf of team issue#9
-    // bnolan9
-    //-------------------------------------------
-    private Player player;
-    //-------------------------------------------
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -76,34 +58,8 @@ public class App extends Application {
           exsisting stand alone application/ gradle build.
         */
 
-        //-------------------------------------------
-        // by team issue#20 on behalf of team issue#9
-        // bnolan9
-        //-------------------------------------------
-
-        // load character/player class
-        player = new Player("foo"); // passing dummy username as param
-        player.loadImageDims();
-        Image image = new Image("images/image.png");
-        ImageView img = new ImageView(image);
-        //img.setImage(image);
-        img.setX(player.getXpos());
-        img.setY(player.getYpos());
-        img.setFitWidth(player.getWidth());
-        img.setFitHeight(player.getHeight());
-        img.setPreserveRatio(true);
-
-        //Rectangle2D viewportRect = new Rectangle2D(player.getXpos(),player.getYpos(),player.getWidth(),player.getHeight());
-        //img.setViewport(viewportRect);
-        //HBox box = new HBox();
-        //box.getChildren().add(img);
-        //root.getChildren().add(box);
-        //-------------------------------------------
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MuckChat.fxml"));
-        //Parent root = loader.load(); //had to redo on line 83 in order to add a collection of objects into scene
-        Group root = new Group(loader.load(),img); // inclusive here instead for loader
-        //root.getChildren().add(loader.load()); // as per line 105
+        Parent root = loader.load(); //had to redo on line 83 in order to add a collection of objects into scene
 
         Scene scene = new Scene(root);
         scene.setRoot(root);
