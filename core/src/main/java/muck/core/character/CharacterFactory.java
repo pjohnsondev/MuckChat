@@ -1,4 +1,4 @@
-package aw.character;
+package muck.core.character;
 
 /**
  * An easy factory to create Players, and NPCs with default values, avatars, and other things
