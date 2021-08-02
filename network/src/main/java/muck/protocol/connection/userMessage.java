@@ -1,4 +1,8 @@
 package muck.protocol.connection;
+         
+         
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * userMessage creates a new instance of a message to be sent in chat.
@@ -7,7 +11,14 @@ package muck.protocol.connection;
  */
 
 public class userMessage {
+
     private String message;
+    private static final SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    private Date messageTimestamp;
+    private int senderConnectionId;
+
+
+    // public userMessage() {}
 
     /**
      * setMessage sets the message to be sent.
@@ -15,7 +26,18 @@ public class userMessage {
      */
     public void setMessage(String messageIn) {
         this.message = messageIn;
+        this.messageTimestamp = new Date();
+
     }
+
+    /**
+     * getTimestamp - get the timestamp of the message
+     * @return
+     */
+     public String getMessageTimestamp() {
+         return formatter.format(this.messageTimestamp);
+     }
+
 
     /**
      * getMessage can be called to return the string of the message.

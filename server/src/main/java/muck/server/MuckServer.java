@@ -87,6 +87,7 @@ public enum MuckServer {
             logger.info("Recieved a message!");
             logger.info("Message received from {}", connID.getID());
             logger.info("Message is: {}", clientMessage.getMessage());
+            logger.info(clientMessage);
             userMessage testMessage = new userMessage(); //Create new message to send back.
             testMessage.setMessage("TEST MESSAGE FROM SERVER!");
             kryoServer.sendToAllTCP(testMessage); //Send to all clients connected. Can be switched to send only to one client.
