@@ -37,7 +37,7 @@ public enum MuckServer {
     // Tries to make handling background tasks easier
     WorkerManager workerManager = new WorkerManager();
 
-    CharacterLocationTracker tracker = new CharacterLocationTracker();
+    CharacterLocationTracker<String> tracker = new CharacterLocationTracker<String>();
 
     /** Sets up the KryoNet server that will handle communication */
     synchronized void startKryo(KryoServerConfig config) throws IOException {
@@ -119,7 +119,7 @@ public enum MuckServer {
             AddCharacter addCharacter = new AddCharacter(character, location);
             kryoServer.sendToAllTCP(addCharacter);
 
-            tracker.addClient(login.getUsername(), character, new muck.core.Location(location.getX(), location.getY()));
+            tracker.addClient(new muck.core.Id<String>(login.getUsername()), character, new muck.core.Location(location.getX(), location.getY()));
 
             logger.info("Login successful for {}", login.getUsername());
         }));

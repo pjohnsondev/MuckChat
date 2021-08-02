@@ -1,0 +1,79 @@
+package muck.server;
+
+import org.junit.jupiter.api.Test;
+
+import jdk.jfr.Timestamp;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import muck.server.ICharacterLocationTracker;
+import muck.core.Id;
+import muck.core.Location;
+import muck.server.CharacterLocationTracker;
+import aw.character.CharacterDoesNotExistException;
+import aw.character.Player;
+
+public class CharacterLocationTrackerTests {
+
+	private static final Logger logger = LogManager.getLogger(CharacterLocationTrackerTests.class);
+
+	@Test
+	public void AddingClientsViaUpdateMethodCorrectlyAddsClientsToInternalList() {
+		ICharacterLocationTracker<String> tracker = new CharacterLocationTracker<String>();
+
+		assertEquals(0, tracker.getAllCharacterLocations().size());
+		try {
+			tracker.addClient(new Id<String>("1234"), new Player("Test Name"), new Location(1, 2));
+			tracker.addClient(new Id<String>("3232"), new Player("Test Name 2"), new Location(4, 2));
+		} catch (aw.character.CharacterDoesNotExistException ex) {
+			logger.error(ex.getMessage());
+		}
+		assertEquals(2, tracker.getAllCharacterLocations().size());
+	}
+
+	@Test
+	public void AddingAClientThatAlreadyExistsInTheTrackerUpdatesExistingRecord() {
+		ICharacterLocationTracker<String> tracker = new CharacterLocationTracker<String>();
+		try {
+			tracker.addClient(new Id<String>("1234"), new Player("Test Name"), new Location(1, 2));
+			tracker.addClient(new Id<String>("1234"), new Player("Test Name 2"), new Location(3, 2));
+		} catch (aw.character.CharacterDoesNotExistException ex) {
+			logger.error(ex.getMessage());
+		}
+		assertEquals(1, tracker.getAllCharacterLocations().size());
+		assertEquals(new Location(3, 2), tracker.getAllCharacterLocations().get(0).right());
+	}
+
+	@Test
+	public void CharacterTrackingInformationCanBeUpdatedByClientId() {
+
+		ICharacterLocationTracker<String> tracker = new CharacterLocationTracker<String>();
+
+		var trackingId = new Id<String>("1234");
+		try {
+			tracker.addClient(trackingId, new Player("Test Name"), new Location(1, 2));
+			tracker.updateLocationById(trackingId, new Location(3, 4));
+		} catch (aw.character.CharacterDoesNotExistException ex) {
+			logger.error(ex.getMessage());
+		}
+		assertEquals(new Location(3, 4), tracker.getLocationById(trackingId));
+	}
+
+	@Test
+	public void TrackerCanReturnAllTrackedLocationsExcludingASpecifiedId() {
+
+		ICharacterLocationTracker<String> tracker = new CharacterLocationTracker<String>();
+		var trackingId = new Id<String>("1234");
+		try {
+			tracker.addClient(trackingId, new Player("Test Name"), new Location(1, 2));
+			tracker.addClient(new Id<String>("1232"), new Player("Test Name"), new Location(1, 2));
+			tracker.addClient(new Id<String>("1233"), new Player("Test Name"), new Location(1, 2));
+		} catch (aw.character.CharacterDoesNotExistException ex) {
+		    logger.error(ex.getMessage());
+		}
+
+		assertEquals(2, tracker.getAllLocationsExceptId(trackingId));
+	}
+}
