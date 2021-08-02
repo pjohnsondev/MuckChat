@@ -23,7 +23,7 @@ import javafx.scene.text.Font;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-//import muck.protocol.connection.*;
+import muck.protocol.connection.*;
 
 public class MuckController implements Initializable {
 
@@ -155,9 +155,9 @@ public class MuckController implements Initializable {
                 problems!
       TODO: Create multiple chat groups serverside to filter messages. .
       */
-               /* userMessage currentMessage = new userMessage();
+               userMessage currentMessage = new userMessage();
                 currentMessage.setMessage(message);
-                MuckClient.INSTANCE.send(currentMessage);*/
+                MuckClient.INSTANCE.send(currentMessage);
             } else {
                 int num = chatPane1.getTabs().indexOf(currentTab) + 1;
                 TextArea currentChatBox = (TextArea) chatPane1.lookup("#chatbox" + num);
