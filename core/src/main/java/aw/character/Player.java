@@ -1,9 +1,5 @@
 package aw.character;
 
-//TODO **IMPORTANT**
-//Unknown yet how this will interact with JavaFX and backend storage. This is a mere prototype, subject to
-//rapid change until the specifics of the project are worked out. Don't rely on any of these methods yet
-
 public class Player extends Character {
     /**
      * Player constructor. This class is an extension of the Character class for human players.
@@ -20,10 +16,16 @@ public class Player extends Character {
             throw new CharacterDoesNotExistException(username);
         }
         
+        this.setAvatar("some avatar retrieved from backend"); //further colab with issue #7 required
+        
         setIdentifier(username);
+        
     }
     
     //TODO How will the player move? A player controller will need to be created
+    // 30-JUL-21 - bnolan9 - SteveB of #9 and bnolan9 of #20 agreed for #20 to produce character movement within this class
+    // as #20 also needs to work on character location.
+    // #20 will plan some setters and getters, core functions etc and produce them here, but under #20 branch.
 //    public playerController() {
 //    }
 
@@ -42,9 +44,6 @@ public class Player extends Character {
         return false;
     }
 
-    //TODO: Does a player have an inventory?
-    // Should the item be stored within the database?
-    // Can be moved to the Character class
     /**
     * @param item item to be added to inventory
     */
@@ -59,5 +58,25 @@ public class Player extends Character {
     public void removeItemFromInventory(String item) {
         //TODO
     }
+
+    // TODO: How do players retrieve what in their inventory
+    public String[] getInventory() {
+        return null;
+    }
+
+    // TODO: How will player be able to store achievements
+    /**
+     * @param achievement Name of achievement
+     */
+    public void addAchievement(String achievement) {
+    }
+
+    /**
+     * Retrieves players achievements
+     */
+    public String[] getAchievements() {
+        return null;
+    }
+
 
 }
