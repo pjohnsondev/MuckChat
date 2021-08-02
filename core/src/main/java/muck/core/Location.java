@@ -1,5 +1,6 @@
 package muck.core;
 
+import java.math.*;
 /**
  * Location datatype - Acts as a wrapper around the data type Pair<Int, Int> to
  * prevent ambiguous references.
@@ -53,6 +54,12 @@ public class Location {
 	 */
 	public Location update(Integer x, Integer y) {
 		return new Location(x, y);
+	}
+
+	public Double distance(Location y)
+	{
+		return Math.sqrt(Math.pow(location.left() - y.getX(), 2) + Math.pow(location.right() - y.getY(), 2));
+
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import muck.core.Triple;
 import muck.core.Id;
 import muck.core.Location;
 import aw.character.Character;
+
 import java.util.ArrayList;
 
 /**
@@ -80,6 +81,27 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 		return null;
 	}
 
+	public ArrayList<Pair<Character, Location>> getCharactersWithin(Pair<Character, Location> me, Integer dist)
+	{
+		var result = new ArrayList<Pair<Character, Location>>();
+		var charList = new ArrayList<Pair<Character, Location>>();
+		Location meLoc = me.right();
+
+		charList = getAllCharacterLocations();
+		for (var pair : charList)
+		{
+			if (pair.left() != me.left())
+			{
+				if(meLoc.distance(pair.right()) < dist)
+				{
+					result.add(new Pair<Character, Location>(pair.left(), pair.right()));
+				}
+			}
+		}
+
+		return result;
+	}
+
 	@Override
 	public void updateLocationById(Id<TrackingType> id, Location loc) {
 		// TODO Auto-generated method stub
@@ -91,4 +113,5 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

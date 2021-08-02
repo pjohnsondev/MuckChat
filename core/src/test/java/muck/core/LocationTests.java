@@ -84,4 +84,13 @@ public class LocationTests {
 		assertEquals(expected, loc);
 		assertEquals(expected.hashCode(), loc.hashCode());
 	}
+
+	@Test
+	void distanceCalc()
+	{
+		var loc1 = new Location(0,0);
+		var loc2 = new Location(0,1);
+
+		assertFalse(loc1.distance(loc2) != 1);
+	}
 }
