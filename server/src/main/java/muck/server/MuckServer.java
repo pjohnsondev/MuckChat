@@ -61,13 +61,14 @@ public enum MuckServer {
         addListener(ListenerBuilder.forClass(Connected.class).onReceive((conn, connected) -> {
             players.add(Integer.toString(conn.getID()));
             logger.info("Player connection id's are: {}", players);
-
+            kryoServer.sendToAllTCP(players);
         }));
 
         // Adds a listener to listen for clients disconnecting from the server, then removes them from the players arraylist.
         addListener(ListenerBuilder.forClass(Disconnect.class).onReceive((conn, disconnect) -> {
             players.remove(Integer.toString(conn.getID())); // This will obtain the index of the player
             logger.info("Player connection id's are: {} disconnected: {}", players, disconnect);
+            kryoServer.sendToAllTCP(players);
         }));
 
         // Add a Ping listener. Still being used for debugging.
