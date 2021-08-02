@@ -25,7 +25,7 @@ public class SignInTest {
 
         @Test
         // TODO: check if Sign in was valid
-        public void testSingInValidity(){
+        public void testSignInValidity(){
             SignInController user = new SignInController();
             assertEquals(true, user.validateSignIn());
         }
