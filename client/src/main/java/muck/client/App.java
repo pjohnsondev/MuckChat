@@ -1,5 +1,6 @@
 package muck.client;
 
+import javafx.scene.Group;
 import muck.protocol.*;
 import muck.protocol.connection.*;
 
@@ -12,6 +13,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.awt.*;
+//import java.awt.geom.Rectangle2D;
+
 import java.io.IOException;
 
 //Chat JFX imports. This allows the group working on Chat UI to be used in the main application.
@@ -23,6 +27,10 @@ import javafx.scene.Parent;
 // bnolan9
 //-------------------------------------------
 import aw.character.Player;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.geometry.Rectangle2D;
 //-------------------------------------------
 
 /**
@@ -40,7 +48,6 @@ public class App extends Application {
     // by team issue#20 on behalf of team issue#9
     // bnolan9
     //-------------------------------------------
-    private Object Player;
     private Player player;
     //-------------------------------------------
 
@@ -75,19 +82,36 @@ public class App extends Application {
         //-------------------------------------------
 
         // load character/player class
-        Player = new Player("foo"); // passing dummy username as param
-        //player.loadImage();
+        player = new Player("foo"); // passing dummy username as param
+        player.loadImageDims();
+        Image image = new Image("images/image.png");
+        ImageView img = new ImageView(image);
+        //img.setImage(image);
+        img.setX(player.getXpos());
+        img.setY(player.getYpos());
+        img.setFitWidth(player.getWidth());
+        img.setFitHeight(player.getHeight());
+        img.setPreserveRatio(true);
 
+        //Rectangle2D viewportRect = new Rectangle2D(player.getXpos(),player.getYpos(),player.getWidth(),player.getHeight());
+        //img.setViewport(viewportRect);
+        //HBox box = new HBox();
+        //box.getChildren().add(img);
+        //root.getChildren().add(box);
         //-------------------------------------------
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MuckChat.fxml"));
-        Parent root = loader.load();
+        //Parent root = loader.load(); //had to redo on line 83 in order to add a collection of objects into scene
+        Group root = new Group(loader.load(),img); // inclusive here instead for loader
+        //root.getChildren().add(loader.load()); // as per line 105
+
         Scene scene = new Scene(root);
         scene.setRoot(root);
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
         //Stage stage = new Stage();
         stage.setTitle("Muck 2021");
         stage.setScene(scene);
+
         stage.show();
 
         /* End of Imported work */

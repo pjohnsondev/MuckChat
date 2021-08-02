@@ -15,7 +15,6 @@ import java.awt.image.ImageProducer;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
-
 //-------------------------------------------
 
 //TODO **IMPORTANT**
@@ -35,14 +34,15 @@ public class Player extends Character implements ActionListener {
     // by team issue#20 on behalf of team issue#9
     // bnolan9
     //-------------------------------------------
-    private int x = 100; // x pos of character
-    private int y = 100; // y pos of character
+    private int x; // x pos of character
+    private int y; // y pos of character
     private int w; // width of character (image)
     private int h; // height of character (image)
     private int dx; // movement direction x
     private int dy; // movement direction y
     private Image image;
     private RectangleImage character = null;
+
     //-------------------------------------------
 
     // commented out temporarily in order to bypass the throw - bnolan9
@@ -73,49 +73,20 @@ public class Player extends Character implements ActionListener {
     // bnolan9
     //-------------------------------------------
 
-    public void loadImage() {
-        ImageIcon ii = new ImageIcon("image.png");
-        image = ii.getImage();
-
-        w = image.getWidth(null);
-        h = image.getHeight(null);
-
-       //Image image = new Image(new FileInputStream("/core/src/main/java/aw.character/images/image.png"));
-        //ImageView img1 = new ImageView(new Image(getClass().getResourceAsStream("image.png")));
-
-        //Image image = new Image("image.png");
-
-
-        setWidth();
-        setHeight();
-
-    }
-
-    public void movePlayer(){
-        x += dx;
-        y += dy;
-    }
-
-    // load image of character - dummy one for now, until a team illustrates one.
-    public Image getImage(String path){
-        Image tempImage = null;
-        try{
-            URL imageURL = Player.class.getResource(path);
-            tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
-        }
-        catch (Exception e){
-            System.out.println("An error occured - " + e.getMessage());
-        }
-        return tempImage;
+    public void loadImageDims(){
+        setWidth(100);
+        setHeight(100);
+        setXpos(100);
+        setYpos(200);
     }
 
     // set player character image width
-    public void setWidth(){
-        w = 100;
+    public void setWidth(int i){
+        w = i;
     }
     // set player character image height
-    public void setHeight(){
-        h = 100;
+    public void setHeight(int i){
+        h = i;
     }
     // get player width
     public int getWidth(){
@@ -126,6 +97,14 @@ public class Player extends Character implements ActionListener {
         return h;
     }
 
+    // set player x pos
+    public void setXpos(int i){
+        x = i;
+    }
+    // set player y pos
+    public void setYpos(int i){
+        y = i;
+    }
     // get player x pos
     public int getXpos() {
         return x;
@@ -170,14 +149,9 @@ public class Player extends Character implements ActionListener {
         }
     }
 
-    public void paint(Graphics g){
-        if (character == null)
-            character = new RectangleImage(getImage("image.png"),100,100, (ImageObserver) this);
-
-        Graphics2D g2 = (Graphics2D)g;
-        //character.move(x,y);
-        character.draw(g2, (ImageObserver) this);
-        //super.paint(g);
+    public void movePlayer(){
+        x += dx;
+        y += dy;
     }
 
     @Override
@@ -187,9 +161,7 @@ public class Player extends Character implements ActionListener {
 
     private void step() {
         movePlayer();
-        //repaint(getXpos(), getYpos(),getWidth(), getHeight());
     }
-
 
     //-------------------------------------------
 
@@ -226,9 +198,8 @@ public class Player extends Character implements ActionListener {
         //TODO
     }
 
-    private void repaint() {
-    }
 }
+
 
 class RectangleImage
 {
