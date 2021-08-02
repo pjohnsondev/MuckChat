@@ -1,10 +1,7 @@
 package aw.character;
 
+//import javafx.scene.image.Image;
 import java.util.Arrays;
-
-//TODO **IMPORTANT**
-//Unknown yet how this will interact with JavaFX and backend storage. This is a mere prototype, subject to
-//rapid change until the specifics of the project are worked out. Don't rely on any of these methods yet.
 
 /**
  Abstract class to represent the concept of a "Character". Cannot be instantiated directly, but 
@@ -18,7 +15,7 @@ public abstract class Character {
      */
     private int _health = 100; //player health
     private String _identifier; //identifier, eg: username, NPC ID, etc
-    private Object _avatar; //Character avatar, collaboration needed with Issue #7
+    private String _avatar; //Character avatar, collaboration needed with Issue #7
     private String _direction_facing = "down"; //What direction is the avatar facing?
     
     //TODO
@@ -108,6 +105,26 @@ public abstract class Character {
      */
     public String getIdentifier() {
         return _identifier;
+    }
+
+    /**
+     Gets the Character avatar based upon its string
+     @return String representing the user's avatar (subject to confirmation)
+     */
+    public String getAvatar() {
+        return _avatar;
+    }
+    
+    /**
+        Sets the Character avatar based upon its string, returns true if successful, false if not
+     @param userAvatar User avatar string
+     @return Was the avatar successfully set?
+     */
+    public boolean setAvatar(String userAvatar) {
+        _avatar = userAvatar; //TODO: Sanitization check, ensure userAvatar is valid as determined by Avatar class
+        saveToBackendStorage(); //Do a character save after setting the Avatar
+        
+        return false;
     }
 
    

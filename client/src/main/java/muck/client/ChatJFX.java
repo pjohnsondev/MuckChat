@@ -13,14 +13,18 @@ public class ChatJFX extends Application {
     @Override
         public void start(Stage primaryStage) throws Exception {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MuckChat.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MuckWindow.fxml"));
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
                 scene.setRoot(root);
                 Stage stage = new Stage();
+                stage.setMaxWidth(800);
+                stage.setMaxHeight(680);
+                stage.setResizable(false);
                 stage.setTitle("Muck 2021");
                 stage.setScene(scene);
                 stage.show();
+
             } catch (Exception e) {
                 e.printStackTrace();
 
