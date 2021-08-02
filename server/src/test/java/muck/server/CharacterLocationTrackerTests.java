@@ -1,5 +1,7 @@
 package muck.server;
 
+import aw.character.Character;
+import muck.core.Triple;
 import org.junit.jupiter.api.Test;
 
 import jdk.jfr.Timestamp;
@@ -76,4 +78,26 @@ public class CharacterLocationTrackerTests {
 
 		assertEquals(2, tracker.getAllLocationsExceptId(trackingId));
 	}
+
+	@Test
+	public void ReturnUsersWithinSetDistance()
+	{
+		ICharacterLocationTracker<String> track = new CharacterLocationTracker<String>();
+
+		try
+		{
+			track.addClient(new Id<String>("1111"), new Player("Me"), new Location(0,0));
+			track.addClient(new Id<String>("1234"), new Player("Test Name 1"), new Location(1, 0));
+			track.addClient(new Id<String>("1231"), new Player("Test Name 2"), new Location(2, 0));
+			track.addClient(new Id<String>("1232"), new Player("Test Name 3"), new Location(0, 1));
+		}
+		catch (aw.character.CharacterDoesNotExistException ex)
+		{
+			logger.error(ex.getMessage());
+		}
+
+		assertEquals(2, track.getCharactersWithin(track.getAllCharacterLocations().get(0), 1).size());
+	}
 }
+
+

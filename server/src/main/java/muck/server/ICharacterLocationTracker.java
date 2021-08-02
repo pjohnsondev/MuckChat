@@ -6,6 +6,7 @@ import muck.core.Location;
 import muck.core.Pair;
 import aw.character.Character;
 import muck.core.Id;
+import muck.core.Triple;
 
 /**
  * Interface for using CharacterLocationTracker
@@ -14,6 +15,8 @@ public interface ICharacterLocationTracker<TrackingType> {
 	ArrayList<Pair<Character, Location>> getAllCharacterLocations();
 
 	ArrayList<Pair<Character, Location>> getAllLocationsExceptId(Id<TrackingType> clientId);
+
+	ArrayList<Pair<Character, Location>> getCharactersWithin(Pair<Character, Location> me, Integer dist);
 
 	void addClient(Id<TrackingType> clientId, Character character, Location location);
 

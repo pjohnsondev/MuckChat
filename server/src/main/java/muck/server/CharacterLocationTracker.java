@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Server class used for tracking locations of clients and their character
  * locations.
-@param TrackingType - Generic placeholder that is passed to the Id for tracking purposes
+ //* @param TrackingType - Generic placeholder that is passed to the Id for tracking purposes
  */
 public class CharacterLocationTracker<TrackingType> implements ICharacterLocationTracker<TrackingType> {
 	// String is a stand-in for a unique ID, clientID?
@@ -81,20 +81,20 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 		return null;
 	}
 
+	@Override
 	public ArrayList<Pair<Character, Location>> getCharactersWithin(Pair<Character, Location> me, Integer dist)
 	{
 		var result = new ArrayList<Pair<Character, Location>>();
-		var charList = new ArrayList<Pair<Character, Location>>();
+
 		Location meLoc = me.right();
 
-		charList = getAllCharacterLocations();
-		for (var pair : charList)
+		for (var triple : clients)
 		{
-			if (pair.left() != me.left())
+			if (triple.middle() != me.left())
 			{
-				if(meLoc.distance(pair.right()) < dist)
+				if(meLoc.distance(triple.right()) <= dist)
 				{
-					result.add(new Pair<Character, Location>(pair.left(), pair.right()));
+					result.add(new Pair<Character, Location>(triple.middle(), triple.right()));
 				}
 			}
 		}
