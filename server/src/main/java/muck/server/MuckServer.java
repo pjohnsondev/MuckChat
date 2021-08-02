@@ -59,6 +59,7 @@ public enum MuckServer {
         ArrayList<String> players = new ArrayList<String>();
         // Adds a listener to listen for new client connections, then adds the clients id to the players arraylist.
         addListener(ListenerBuilder.forClass(Connected.class).onReceive((conn, connected) -> {
+
             players.add(Integer.toString(conn.getID()));
             logger.info("Player connection id's are: {}", players);
             kryoServer.sendToAllTCP(players);

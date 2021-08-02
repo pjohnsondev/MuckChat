@@ -7,6 +7,7 @@ import muck.protocol.connection.Disconnect;
 import muck.protocol.connection.Ping;
 import muck.protocol.connection.userMessage;
 
+
 /**
  * A common Protocol registration class, shared by the client and server, to ensure that both
  * ends of the connection register the same classes in the same order (which is an assumption
@@ -27,6 +28,7 @@ public class Protocol {
         kryo.register(Disconnect.class);
         kryo.register(userMessage.class);
         kryo.register(Id.class);
+        kryo.register(java.util.ArrayList.class);
     }
 
 }

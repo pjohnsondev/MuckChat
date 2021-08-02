@@ -9,6 +9,7 @@ import muck.protocol.*;
 import muck.protocol.connection.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -52,7 +53,7 @@ public enum MuckClient {
         client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, serverMessage) ->
                 logger.info("Message from the server was: {}", serverMessage.getMessage())));
 
-        client.addListener(ListenerBuilder.forClass(PlayerList.class).onReceive((conn, playerList) ->
+        client.addListener(ListenerBuilder.forClass(ArrayList.class).onReceive((conn, playerList) ->
                 logger.info("Player list: {} received from {}", playerList, conn.getID())
         ));
 
