@@ -52,6 +52,10 @@ public enum MuckClient {
         client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, serverMessage) ->
                 logger.info("Message from the server was: {}", serverMessage.getMessage())));
 
+        client.addListener(ListenerBuilder.forClass(PlayerList.class).onReceive((conn, playerList) ->
+                logger.info("Player list: {} received from {}", playerList, conn.getID())
+        ));
+
     }
 
     public synchronized void disconnect() throws IOException {
