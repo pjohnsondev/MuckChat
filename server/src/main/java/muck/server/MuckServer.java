@@ -1,5 +1,7 @@
 package muck.server;
 
+import com.esotericsoftware.kryonet.Client;
+import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
@@ -10,6 +12,8 @@ import muck.protocol.*;
 import muck.protocol.connection.*;
 
 import java.io.IOException;
+
+import java.util.ArrayList;
 
 /**
  * The central body of the server. This should avoid getting too large, but should have references to
@@ -51,6 +55,21 @@ public enum MuckServer {
         // Bind the server to the configured ports
         kryoServer.bind(config.getTcpPort(), config.getUdpPort());
 
+        // The arraylist is only a temporary datastructure and is subject to change.
+        ArrayList<String> players = new ArrayList<String>();
+        // Adds a listener to listen for new client connections, then adds the clients id to the players arraylist.
+        addListener(ListenerBuilder.forClass(Connected.class).onReceive((conn, connected) -> {
+            players.add(Integer.toString(conn.getID()));
+            logger.info("Player connection id's are: {}", players);
+
+        }));
+
+        // Adds a listener to listen for clients disconnecting from the server, then removes them from the players arraylist.
+        addListener(ListenerBuilder.forClass(Disconnect.class).onReceive((conn, disconnect) -> {
+            players.remove(Integer.toString(conn.getID())); // This will obtain the index of the player
+            logger.info("Player connection id's are: {} disconnected: {}", players, disconnect);
+        }));
+
         // Add a Ping listener. Still being used for debugging.
         addListener(ListenerBuilder.forClass(Ping.class).onReceive((conn, ping) -> {
 
@@ -60,7 +79,6 @@ public enum MuckServer {
             workerManager.schedule(ping, reply -> {
                 logger.info("I sent my ping to a background worker, and all I got in return was this lousy {}", reply);
             });
-
         }));
         /*
         This listener listens for a message from client. Prints to logger when received.
