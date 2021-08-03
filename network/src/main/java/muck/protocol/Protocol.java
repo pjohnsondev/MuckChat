@@ -1,6 +1,6 @@
 package muck.protocol;
 
-import aw.character.Player;
+import muck.core.character.Player;
 import com.esotericsoftware.kryo.Kryo;
 import muck.core.Id;
 import muck.protocol.connection.*;

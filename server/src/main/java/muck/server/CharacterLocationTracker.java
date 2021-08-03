@@ -4,7 +4,7 @@ import muck.core.Pair;
 import muck.core.Triple;
 import muck.core.Id;
 import muck.core.Location;
-import aw.character.Character;
+import muck.core.character.Character;
 
 import java.util.ArrayList;
 

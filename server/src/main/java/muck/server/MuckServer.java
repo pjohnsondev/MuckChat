@@ -1,8 +1,8 @@
 package muck.server;
 
 
-import aw.character.Character;
-import aw.character.CharacterDoesNotExistException;
+import muck.core.character.Character;
+import muck.core.character.CharacterDoesNotExistException;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;

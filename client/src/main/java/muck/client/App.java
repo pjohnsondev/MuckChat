@@ -55,7 +55,7 @@ public class App extends Application {
           Imported work from the ChatUI group written in ChatJFX to work with the
           exsisting stand alone application/ gradle build.
         */
-
+	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MuckWindow.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         scene.setRoot(root);
