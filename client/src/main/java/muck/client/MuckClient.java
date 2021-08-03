@@ -9,6 +9,7 @@ import muck.protocol.*;
 import muck.core.Id;
 import muck.protocol.connection.*;
 
+
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Map;
@@ -21,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public enum MuckClient {
 
     INSTANCE;
+    userMessage currentMessage;
 
     public static MuckClient getINSTANCE() {
         return INSTANCE;
@@ -92,6 +94,13 @@ public enum MuckClient {
     public synchronized void send(Object message) {
         client.sendTCP(message);
     }
+
+    //Simple getter for the currentMessage stored in the client.
+    //Note: Probably should add wayus to get timestamps/etc.
+    public synchronized Object getCurrentMessage() {
+        return currentMessage.getMessage();
+    }
+
 
 
 }

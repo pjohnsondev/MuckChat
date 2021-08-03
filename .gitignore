@@ -49,3 +49,12 @@ client/out/
 .clover/
 vim.exe.stackdump
 *.stackdump
+
+# ignore logs
+log4j2.xml
+
+
+# ignore database
+*.db
+/server/muckdb
+/server/testDB

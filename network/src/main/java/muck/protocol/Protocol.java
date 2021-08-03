@@ -26,6 +26,7 @@ public class Protocol {
         kryo.register(Connected.class);
         kryo.register(Disconnect.class);
         kryo.register(userMessage.class);
+        kryo.register(java.util.Date.class);
         kryo.register(Id.class);
         kryo.register(Login.class);
         kryo.register(AddCharacter.class);
