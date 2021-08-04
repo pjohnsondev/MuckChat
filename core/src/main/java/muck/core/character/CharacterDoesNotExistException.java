@@ -1,4 +1,4 @@
-package aw.character;
+package muck.core.character;
 
 /**
  * All player's and NPCs must be instantiated with a valid ID that exists in the backend storage. 

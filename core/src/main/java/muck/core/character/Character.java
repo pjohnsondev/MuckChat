@@ -1,4 +1,4 @@
-package aw.character;
+package muck.core.character;
 
 //import javafx.scene.image.Image;
 import java.util.Arrays;
@@ -47,7 +47,7 @@ public abstract class Character {
     public boolean saveToBackendStorage() {
         // Instead of updating the database after every stat modification, we may only wish to do this periodically,
         // to prevent an overload of transactions
-        //TODO implement with backend (whichever team does this)
+        //TODO implement with backend - Issue #24
 
         return StorageHandler.saveCharacter(this);
     }
@@ -116,7 +116,7 @@ public abstract class Character {
     }
     
     /**
-        Sets the Character avatar based upon its string, returns true if successful, false if not
+    Sets the Character avatar based upon its string, returns true if successful, false if not
      @param userAvatar User avatar string
      @return Was the avatar successfully set?
      */

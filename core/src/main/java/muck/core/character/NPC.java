@@ -1,4 +1,4 @@
-package aw.character;
+package muck.core.character;
 
 public class NPC extends Character {
     /**

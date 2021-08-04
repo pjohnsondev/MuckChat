@@ -43,9 +43,9 @@ public class App extends Application {
         */
 
         //Creating a test userMessage to send to the server.
-        userMessage testMessage = new userMessage();
+        /* userMessage testMessage = new userMessage();
         testMessage.setMessage("Hello World! From client");
-        MuckClient.INSTANCE.send(testMessage);
+        MuckClient.INSTANCE.send(testMessage); */
 
         /* Last edited: 27/07/2021 by Harrison Liddell with assistance from W.Billingsley
           Imported work from the ChatUI group written in ChatJFX to work with the

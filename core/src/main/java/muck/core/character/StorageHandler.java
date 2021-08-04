@@ -1,4 +1,4 @@
-package aw.character;
+package muck.core.character;
 
 /**
  * Handles the storing and retrieval of Character objects (Player or NPC)
@@ -18,5 +18,12 @@ public class StorageHandler {
         }
         
         return false;
+    }
+
+    /**
+     Attempt to retrieve the specified player from backend storage. Returns true if it's valid.
+     */
+    public static boolean isPlayerValid(String username) {
+        return false; //TODO - implement with db
     }
 }

@@ -23,7 +23,7 @@ import javafx.scene.text.Font;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-//import muck.protocol.connection.*;
+import muck.protocol.connection.*;
 
 public class MuckController implements Initializable {
 
@@ -154,19 +154,40 @@ public class MuckController implements Initializable {
                 Also, this hasn't been tested extensively. Let me know if it causes
                 problems!
       TODO: Create multiple chat groups serverside to filter messages. .
-      */
-               /* userMessage currentMessage = new userMessage();
+      **NOTE**: The following line should append whatever message is in the currentMessage field on the
+                client. Not sure how we're going to implement checking for new messages, probably using
+                a timer and an array.
+                groupChatBox.appendText(MuckClient.getCurrentMessage().getMessage() + "\n")
+
+                In a similair way,we can retrieve user ID's and timestampes, although we will have to
+                implement those getters seperately.
+     */
+               userMessage currentMessage = new userMessage();
                 currentMessage.setMessage(message);
-                MuckClient.INSTANCE.send(currentMessage);*/
+                MuckClient.INSTANCE.send(currentMessage);
+     /*         This is a wait to retrieve the current message from the server. It should be moved from here when message
+                retrieval is implemented. This just helps to test current message retrieval implementation.
+
+                try{
+                  Thread.sleep(10);
+                }
+                catch(InterruptedException ex)
+                {
+                  Thread.currentThread().interrupt();
+                }
+
+                groupChatBox.appendText("UserName Here: "+ MuckClient.INSTANCE.getCurrentMessage()+ "\n");
+                */
             } else {
                 int num = chatPane1.getTabs().indexOf(currentTab) + 1;
                 TextArea currentChatBox = (TextArea) chatPane1.lookup("#chatbox" + num);
                 currentChatBox.appendText(message + "\n");
                 messageBox.clear();
-
             }
         }
     }
+
+
 
     @FXML
     private void addChatTab(ActionEvent event) {
