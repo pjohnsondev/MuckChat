@@ -12,15 +12,15 @@ public class Player extends Character {
     public Player(String username) throws CharacterDoesNotExistException {
         //TODO - Retrieve the username identifier from the backend database, then populate all fields with 
         // player values from the database
-        boolean databaseRetrievalSuccessful = StorageHandler.isPlayerValid(username);
+        /*boolean databaseRetrievalSuccessful = StorageHandler.isPlayerValid(username);
         if (!databaseRetrievalSuccessful) {
             throw new CharacterDoesNotExistException(username);
         }
 
         this.setAvatar("some avatar retrieved from backend"); //further colab with issue #7 required
         this.setIdentifier(username);
+*/
     }
-    
     /**
      * Dummy constructor for a player object with a "null" identifier. Does not
      * check with backend storage for a valid username. Should only be used for unit tests that don't use backend

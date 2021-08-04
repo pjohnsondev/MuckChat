@@ -90,7 +90,7 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 
 		for (var triple : clients)
 		{
-			if (triple.middle() != me.left())
+			if (!triple.middle().equals(me.left()))
 			{
 				if(meLoc.distance(triple.right()) <= dist)
 				{
@@ -98,7 +98,6 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 				}
 			}
 		}
-
 		return result;
 	}
 
@@ -109,8 +108,15 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 	}
 
 	@Override
-	public Location getLocationById(Id<TrackingType> id) {
-		// TODO Auto-generated method stub
+	public Location getLocationById(Id<TrackingType> id)
+	{
+		for(var triple : clients)
+		{
+			if(triple.left().equals(id))
+			{
+				return triple.right();
+			}
+		}
 		return null;
 	}
 
