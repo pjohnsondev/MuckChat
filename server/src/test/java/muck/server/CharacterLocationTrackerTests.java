@@ -100,7 +100,26 @@ public class CharacterLocationTrackerTests {
 	}
 
 	@Test
+	public void ReturnUsersWithinSetDistanceUsingId()
+	{
+		ICharacterLocationTracker<String> track = new CharacterLocationTracker<String>();
 
+		try
+		{
+			track.addClient(new Id<String>("1111"), new Player("Me"), new Location(0,0));
+			track.addClient(new Id<String>("1234"), new Player("Test Name 1"), new Location(1, 0));
+			track.addClient(new Id<String>("1231"), new Player("Test Name 2"), new Location(2, 0));
+			track.addClient(new Id<String>("1232"), new Player("Test Name 3"), new Location(0, 1));
+		}
+		catch (muck.core.character.CharacterDoesNotExistException ex)
+		{
+			logger.error(ex.getMessage());
+		}
+
+		assertEquals(2, track.getCharactersWithinById(new Id<String>("1111"), 1).size());
+	}
+
+	@Test
 	public void GetLocationUsingClientId()
 	{
 		ICharacterLocationTracker<String> track = new CharacterLocationTracker<String>();

@@ -18,6 +18,8 @@ public interface ICharacterLocationTracker<TrackingType> {
 
 	ArrayList<Pair<Character, Location>> getCharactersWithin(Pair<Character, Location> me, Integer dist);
 
+	ArrayList<Pair<Character, Location>> getCharactersWithinById(Id<TrackingType> id, Integer dist);
+
 	void addClient(Id<TrackingType> clientId, Character character, Location location);
 
 	void removeClientById(Id<TrackingType> id);

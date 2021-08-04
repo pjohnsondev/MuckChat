@@ -90,12 +90,26 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 
 		for (var triple : clients)
 		{
-			if (!triple.middle().equals(me.left()))
+			if (!triple.middle().equals(me.left()) && meLoc.distance(triple.right()) <= dist)
 			{
-				if(meLoc.distance(triple.right()) <= dist)
-				{
-					result.add(new Pair<Character, Location>(triple.middle(), triple.right()));
-				}
+				result.add(new Pair<Character, Location>(triple.middle(), triple.right()));
+
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public ArrayList<Pair<Character, Location>> getCharactersWithinById(Id<TrackingType> id, Integer dist)
+	{
+		var result = new ArrayList<Pair<Character, Location>>();
+		Location myLocation = getLocationById(id);
+
+		for(var triple : clients)
+		{
+			if(!triple.left().equals(id) && myLocation.distance(triple.right()) <= dist)
+			{
+				result.add(new Pair<Character, Location>(triple.middle(), triple.right()));
 			}
 		}
 		return result;
@@ -104,7 +118,6 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 	@Override
 	public void updateLocationById(Id<TrackingType> id, Location loc) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
