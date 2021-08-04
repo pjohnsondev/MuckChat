@@ -76,7 +76,7 @@ public class CharacterLocationTrackerTests {
 		    logger.error(ex.getMessage());
 		}
 
-		assertEquals(2, tracker.getAllLocationsExceptId(trackingId));
+		assertEquals(2, tracker.getAllLocationsExceptId(trackingId).size());
 	}
 
 	@Test
@@ -95,8 +95,8 @@ public class CharacterLocationTrackerTests {
 		{
 			logger.error(ex.getMessage());
 		}
-
-		assertEquals(2, track.getCharactersWithin(track.getAllCharacterLocations().get(0), 1).size());
+		var result = track.getCharactersWithin(track.getAllCharacterLocations().get(0), 1).size();
+		assertEquals(2, result);
 	}
 
 	@Test
@@ -122,5 +122,3 @@ public class CharacterLocationTrackerTests {
 		assertEquals(new Location(0,0), track.getLocationById(testId));
 	}
 }
-
-
