@@ -81,15 +81,24 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 
 	@Override
 	public List<Pair<Character, Location>> getAllLocationsExceptId(Id<TrackingType> clientId) {
-	    return _clients.keySet().stream().filter(p -> !p.equals(clientId)).map(p -> _clients.get(p))
+		return _clients.keySet().stream().filter(p -> !p.equals(clientId)).map(p -> _clients.get(p))
 				.collect(Collectors.toList());
 
 	}
 
 	@Override
+
 	public List<Pair<Character, Location>> getCharactersWithin(Pair<Character, Location> me, Integer dist) {
-	    return _clients.values().stream().filter(p -> me.right() != p.right() && me.right().distance(p.right()) <= dist)
+		return _clients.values().stream().filter(p -> me.right() != p.right() && me.right().distance(p.right()) <= dist)
 				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<Pair<Character, Location>> getCharactersWithinById(Id<TrackingType> id, Integer dist) {
+		var myLoc = _clients.get(id);
+
+		return this.getCharactersWithin(myLoc, dist);
+
 	}
 
 	/**
