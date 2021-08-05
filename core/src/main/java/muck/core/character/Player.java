@@ -36,51 +36,75 @@ public class Player extends Character {
 //    }
 
     //TODO: How will a player be able to trade collectables with other players? (Issue 10)
-    // Can you hold more than one item?
     /**
+     * Trades a single collectable currently held by the player with another existing player
      * @param collectable Collectable item to trade
      * @param otherPlayer Other player to trade with
      * @return If player to player collectable transaction is successful return true. Otherwise, return false
      */
     public boolean tradeCollectable(String collectable, Player otherPlayer) {
-        //TODO: Does the player currently hold the collectable?
+        boolean hasCollectable = false;
+        boolean otherPlayerExists = false;
+        boolean tradeSuccessful = false;
+
+        String[] currentCollectables = this.getInventory();
+
+        for(String item : currentCollectables) {
+            //TODO: Does the player currently hold the collectable?
+            if( item.equals(collectable) ) {
+               hasCollectable = true;
+                break;
+            }
+        }
 
         //TODO: Does the other player currently exist in the database?
+        if(true) {
+           otherPlayerExists = true;
+        }
 
-        return false;
+        if(hasCollectable && otherPlayerExists) {
+            this.removeItemFromInventory(collectable);
+            otherPlayer.addItemToInventory(collectable);
+            tradeSuccessful = true;
+        }
+
+        return tradeSuccessful;
     }
 
     /**
     * @param item item to be added to inventory
     */
     public void addItemToInventory(String item) {
-        //TODO
+        //TODO - Interact with DB
     }
 
-    // TODO: How are items inside your inventory consumed?
     /**
      * @param item item to be removed/consumed
      */
     public void removeItemFromInventory(String item) {
-        //TODO
+        //TODO - Interact with DB
     }
 
-    // TODO: How do players retrieve what in their inventory
     public String[] getInventory() {
+        //TODO - Interact with DB
         return null;
     }
 
-    // TODO: How will player be able to store achievements
+    // TODO: How will player be able to store achievements?
     /**
+     * Adds a single new achievement to players profile
      * @param achievement Name of achievement
      */
     public void addAchievement(String achievement) {
+        //TODO - Interact with DB
     }
 
     /**
      * Retrieves players achievements
+     * @return A String list of all player achievements
      */
     public String[] getAchievements() {
+        //TODO - Interact with DB
         return null;
     }
 
