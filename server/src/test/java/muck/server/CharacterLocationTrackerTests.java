@@ -1,6 +1,6 @@
 package muck.server;
 
-import aw.character.Character;
+import muck.core.character.Character;
 import muck.core.Triple;
 import org.junit.jupiter.api.Test;
 
@@ -14,8 +14,8 @@ import muck.server.ICharacterLocationTracker;
 import muck.core.Id;
 import muck.core.Location;
 import muck.server.CharacterLocationTracker;
-import aw.character.CharacterDoesNotExistException;
-import aw.character.Player;
+import muck.core.character.CharacterDoesNotExistException;
+import muck.core.character.Player;
 
 public class CharacterLocationTrackerTests {
 
@@ -29,7 +29,7 @@ public class CharacterLocationTrackerTests {
 		try {
 			tracker.addClient(new Id<String>("1234"), new Player("Test Name"), new Location(1, 2));
 			tracker.addClient(new Id<String>("3232"), new Player("Test Name 2"), new Location(4, 2));
-		} catch (aw.character.CharacterDoesNotExistException ex) {
+		} catch (muck.core.character.CharacterDoesNotExistException ex) {
 			logger.error(ex.getMessage());
 		}
 		assertEquals(2, tracker.getAllCharacterLocations().size());
@@ -41,7 +41,7 @@ public class CharacterLocationTrackerTests {
 		try {
 			tracker.addClient(new Id<String>("1234"), new Player("Test Name"), new Location(1, 2));
 			tracker.addClient(new Id<String>("1234"), new Player("Test Name 2"), new Location(3, 2));
-		} catch (aw.character.CharacterDoesNotExistException ex) {
+		} catch (muck.core.character.CharacterDoesNotExistException ex) {
 			logger.error(ex.getMessage());
 		}
 		assertEquals(1, tracker.getAllCharacterLocations().size());
@@ -57,7 +57,7 @@ public class CharacterLocationTrackerTests {
 		try {
 			tracker.addClient(trackingId, new Player("Test Name"), new Location(1, 2));
 			tracker.updateLocationById(trackingId, new Location(3, 4));
-		} catch (aw.character.CharacterDoesNotExistException ex) {
+		} catch (muck.core.character.CharacterDoesNotExistException ex) {
 			logger.error(ex.getMessage());
 		}
 		assertEquals(new Location(3, 4), tracker.getLocationById(trackingId));
@@ -72,11 +72,11 @@ public class CharacterLocationTrackerTests {
 			tracker.addClient(trackingId, new Player("Test Name"), new Location(1, 2));
 			tracker.addClient(new Id<String>("1232"), new Player("Test Name"), new Location(1, 2));
 			tracker.addClient(new Id<String>("1233"), new Player("Test Name"), new Location(1, 2));
-		} catch (aw.character.CharacterDoesNotExistException ex) {
+		} catch (muck.core.character.CharacterDoesNotExistException ex) {
 		    logger.error(ex.getMessage());
 		}
 
-		assertEquals(2, tracker.getAllLocationsExceptId(trackingId));
+		assertEquals(2, tracker.getAllLocationsExceptId(trackingId).size());
 	}
 
 	@Test
@@ -91,13 +91,53 @@ public class CharacterLocationTrackerTests {
 			track.addClient(new Id<String>("1231"), new Player("Test Name 2"), new Location(2, 0));
 			track.addClient(new Id<String>("1232"), new Player("Test Name 3"), new Location(0, 1));
 		}
-		catch (aw.character.CharacterDoesNotExistException ex)
+		catch (muck.core.character.CharacterDoesNotExistException ex)
+		{
+			logger.error(ex.getMessage());
+		}
+		var result = track.getCharactersWithin(track.getAllCharacterLocations().get(0), 1).size();
+		assertEquals(2, result);
+	}
+
+	@Test
+	public void ReturnUsersWithinSetDistanceUsingId()
+	{
+		ICharacterLocationTracker<String> track = new CharacterLocationTracker<String>();
+
+		try
+		{
+			track.addClient(new Id<String>("1111"), new Player("Me"), new Location(0,0));
+			track.addClient(new Id<String>("1234"), new Player("Test Name 1"), new Location(1, 0));
+			track.addClient(new Id<String>("1231"), new Player("Test Name 2"), new Location(2, 0));
+			track.addClient(new Id<String>("1232"), new Player("Test Name 3"), new Location(0, 1));
+		}
+		catch (muck.core.character.CharacterDoesNotExistException ex)
 		{
 			logger.error(ex.getMessage());
 		}
 
-		assertEquals(2, track.getCharactersWithin(track.getAllCharacterLocations().get(0), 1).size());
+		assertEquals(2, track.getCharactersWithinById(new Id<String>("1111"), 1).size());
+	}
+
+	@Test
+	public void GetLocationUsingClientId()
+	{
+		ICharacterLocationTracker<String> track = new CharacterLocationTracker<String>();
+
+		try
+		{
+			track.addClient(new Id<String>("1111"), new Player("Me"), new Location(0,0));
+			track.addClient(new Id<String>("1234"), new Player("Test Name 1"), new Location(1, 0));
+			track.addClient(new Id<String>("1231"), new Player("Test Name 2"), new Location(2, 0));
+			track.addClient(new Id<String>("1232"), new Player("Test Name 3"), new Location(0, 1));
+		}
+		catch (muck.core.character.CharacterDoesNotExistException ex)
+		{
+			logger.error(ex.getMessage());
+		}
+
+		Id<String> testId = new Id<String>("1111");
+
+		assertEquals(new Location(0,0), track.getLocationById(testId));
 	}
 }
-
-

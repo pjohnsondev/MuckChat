@@ -8,12 +8,13 @@ import com.esotericsoftware.kryonet.Client;
 import muck.protocol.*;
 import muck.core.Id;
 import muck.protocol.connection.*;
+import muck.core.Id;
 
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-
 
 /**
  * Handles network communication with the server. It's created as an enum to ensure there is only one instance.
@@ -21,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public enum MuckClient {
 
     INSTANCE;
+    userMessage currentMessage;
 
     public static MuckClient getINSTANCE() {
         return INSTANCE;
@@ -31,7 +33,7 @@ public enum MuckClient {
 
     /** The KryoNet client */
     Client client;
-    Id<MuckClient> clientId = new Id<MuckClient>();
+    public static final muck.core.Id<muck.core.character.Character> clientId = new muck.core.Id<muck.core.character.Character>();
 
     public synchronized void connect(KryoClientConfig config) throws IOException {
         if (client != null) {
@@ -58,6 +60,7 @@ public enum MuckClient {
         client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, serverMessage) ->
             logger.info("Message from the server was: {}", serverMessage.getMessage())
         ));
+
         client.addListener(ListenerBuilder.forClass(AddCharacter.class).onReceive((connection, addCharacter) -> {
             logger.info("Received new character from the server: {}", addCharacter.getCharacter().getIdentifier());
 
@@ -92,6 +95,13 @@ public enum MuckClient {
     public synchronized void send(Object message) {
         client.sendTCP(message);
     }
+
+    //Simple getter for the currentMessage stored in the client.
+    //Note: Probably should add wayus to get timestamps/etc.
+    public synchronized Object getCurrentMessage() {
+        return currentMessage.getMessage();
+    }
+
 
 
 }

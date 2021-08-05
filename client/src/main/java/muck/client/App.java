@@ -9,8 +9,6 @@ import org.apache.logging.log4j.Logger;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -45,28 +43,27 @@ public class App extends Application {
         Label l = new Label("Hello world");
         Scene scene = new Scene(new StackPane(l), 640, 480);
         stage.setScene(scene);
-        stage.show();
+
         */
 
         //Creating a test userMessage to send to the server.
-        userMessage testMessage = new userMessage();
+        /* userMessage testMessage = new userMessage();
         testMessage.setMessage("Hello World! From client");
-        MuckClient.INSTANCE.send(testMessage);
+        MuckClient.INSTANCE.send(testMessage); */
 
         /* Last edited: 27/07/2021 by Harrison Liddell with assistance from W.Billingsley
           Imported work from the ChatUI group written in ChatJFX to work with the
           exsisting stand alone application/ gradle build.
         */
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MuckChat.fxml"));
-        Parent root = loader.load(); //had to redo on line 83 in order to add a collection of objects into scene
-
+	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MuckWindow.fxml"));
+        Parent root = loader.load();
         Scene scene = new Scene(root);
         scene.setRoot(root);
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
         //Stage stage = new Stage();
         stage.setTitle("Muck 2021");
         stage.setScene(scene);
+        stage.setOnCloseRequest(e -> shutdown());
 
         stage.show();
 
@@ -84,6 +81,7 @@ public class App extends Application {
             // Just demonstrates that the worker manager hands the ping off -- likely to be removed when the project
             // progresses
             MuckClient.INSTANCE.send(new Ping());
+            //MuckClient.INSTANCE.disconnect(); // This successfully disconnects client but does it immediately
         } catch (IOException ex) {
             logger.error("Start up failed");
         }
@@ -91,8 +89,14 @@ public class App extends Application {
 
 
     void shutdown() {
-        // Exit the program
-        System.exit(0);
+        try {
+            MuckClient.INSTANCE.disconnect();
+            System.exit(0);
+            logger.info("Client disconnected successfully");
+        } catch (IOException ex) {
+            System.exit(1);
+            logger.error("Client exited without disconnecting");
+        }
     }
 
     public static void main(String[] args) {

@@ -1,10 +1,11 @@
 package muck.server;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import muck.core.Location;
 import muck.core.Pair;
-import aw.character.Character;
+import muck.core.character.Character;
 import muck.core.Id;
 import muck.core.Triple;
 
@@ -12,11 +13,13 @@ import muck.core.Triple;
  * Interface for using CharacterLocationTracker
  */
 public interface ICharacterLocationTracker<TrackingType> {
-	ArrayList<Pair<Character, Location>> getAllCharacterLocations();
+	List<Pair<Character, Location>> getAllCharacterLocations();
 
-	ArrayList<Pair<Character, Location>> getAllLocationsExceptId(Id<TrackingType> clientId);
+	List<Pair<Character, Location>> getAllLocationsExceptId(Id<TrackingType> clientId);
 
-	ArrayList<Pair<Character, Location>> getCharactersWithin(Pair<Character, Location> me, Integer dist);
+	List<Pair<Character, Location>> getCharactersWithin(Pair<Character, Location> me, Integer dist);
+
+	List<Pair<Character, Location>> getCharactersWithinById(Id<TrackingType> id, Integer dist);
 
 	void addClient(Id<TrackingType> clientId, Character character, Location location);
 

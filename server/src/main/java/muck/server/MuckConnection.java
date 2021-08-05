@@ -1,6 +1,6 @@
 package muck.server;
 
-import aw.character.Character;
+import muck.core.character.Character;
 import com.esotericsoftware.kryonet.Connection;
 
 /**

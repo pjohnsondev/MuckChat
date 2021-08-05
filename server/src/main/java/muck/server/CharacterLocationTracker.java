@@ -4,29 +4,34 @@ import muck.core.Pair;
 import muck.core.Triple;
 import muck.core.Id;
 import muck.core.Location;
-import aw.character.Character;
+import muck.core.character.Character;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Server class used for tracking locations of clients and their character
- * locations.
- //* @param TrackingType - Generic placeholder that is passed to the Id for tracking purposes
+ * locations. //* @param TrackingType - Generic placeholder that is passed to
+ * the Id for tracking purposes
  */
 public class CharacterLocationTracker<TrackingType> implements ICharacterLocationTracker<TrackingType> {
 	// String is a stand-in for a unique ID, clientID?
-	private ArrayList<Triple<Id<TrackingType>, Character, Location>> clients;
+	private HashMap<Id<TrackingType>, Pair<Character, Location>> _clients;
 
 	public CharacterLocationTracker() {
-		clients = new ArrayList<Triple<Id<TrackingType>, Character, Location>>();
+		_clients = new HashMap<Id<TrackingType>, Pair<Character, Location>>();
 	}
 
 	/**
 	 * @return The internal list of all tracked clients, the associated character
 	 *         and that character's location
 	 */
-	public ArrayList<Triple<Id<TrackingType>, Character, Location>> getClients() {
-		return clients;
+	public List<Triple<Id<TrackingType>, Character, Location>> getClients() {
+
+		return _clients.keySet().stream().map(i -> new Triple<Id<TrackingType>, Character, Location>(i,
+				_clients.get(i).left(), _clients.get(i).right())).collect(Collectors.toList());
 	}
 
 	/**
@@ -36,11 +41,7 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 	 */
 	@Override
 	public ArrayList<Pair<Character, Location>> getAllCharacterLocations() {
-		var result = new ArrayList<Pair<Character, Location>>();
-		for (var triple : clients) {
-			result.add(new Pair<Character, Location>(triple.middle(), triple.right()));
-		}
-		return result;
+		return new ArrayList<Pair<Character, Location>>(_clients.values());
 	}
 
 	/**
@@ -54,7 +55,8 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 	 */
 	@Override
 	public void addClient(Id<TrackingType> clientId, Character character, Location loc) {
-		clients.add(new Triple<Id<TrackingType>, Character, Location>(clientId, character, loc));
+		_clients.put(clientId, new Pair<Character, Location>(character, loc));
+
 	}
 
 	/**
@@ -65,7 +67,9 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 	 */
 	@Override
 	public void removeClientById(Id<TrackingType> id) {
-		clients.removeIf((p) -> p.left() == id);
+		if (_clients.containsKey(id)) {
+			_clients.remove(id);
+		}
 	}
 
 	/**
@@ -76,42 +80,43 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 	 */
 
 	@Override
-	public ArrayList<Pair<Character, Location>> getAllLocationsExceptId(Id<TrackingType> clientId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Pair<Character, Location>> getAllLocationsExceptId(Id<TrackingType> clientId) {
+		return _clients.keySet().stream().filter(p -> !p.equals(clientId)).map(p -> _clients.get(p))
+				.collect(Collectors.toList());
+
 	}
 
 	@Override
-	public ArrayList<Pair<Character, Location>> getCharactersWithin(Pair<Character, Location> me, Integer dist)
-	{
-		var result = new ArrayList<Pair<Character, Location>>();
 
-		Location meLoc = me.right();
-
-		for (var triple : clients)
-		{
-			if (triple.middle() != me.left())
-			{
-				if(meLoc.distance(triple.right()) <= dist)
-				{
-					result.add(new Pair<Character, Location>(triple.middle(), triple.right()));
-				}
-			}
-		}
-
-		return result;
+	public List<Pair<Character, Location>> getCharactersWithin(Pair<Character, Location> me, Integer dist) {
+		return _clients.values().stream().filter(p -> me.right() != p.right() && me.right().distance(p.right()) <= dist)
+				.collect(Collectors.toList());
 	}
 
+	@Override
+	public List<Pair<Character, Location>> getCharactersWithinById(Id<TrackingType> id, Integer dist) {
+		var myLoc = _clients.get(id);
+
+		return this.getCharactersWithin(myLoc, dist);
+
+	}
+
+	/**
+	 * Method used for updating locations by client Id
+	 *
+	 * @param id  - The internal tracking id used to pair characters with clients.
+	 * @param loc - The new location data to update
+	 */
 	@Override
 	public void updateLocationById(Id<TrackingType> id, Location loc) {
-		// TODO Auto-generated method stub
+		var p = _clients.get(id);
+		_clients.replace(id, new Pair<Character, Location>(p.left(), loc));
 
 	}
 
 	@Override
 	public Location getLocationById(Id<TrackingType> id) {
-		// TODO Auto-generated method stub
-		return null;
+		return _clients.get(id).right();
 	}
 
 }

@@ -1,8 +1,8 @@
 package muck.server;
 
-import aw.character.Character;
-import aw.character.CharacterDoesNotExistException;
-import aw.character.Player;
+import muck.core.character.Character;
+import muck.core.character.CharacterDoesNotExistException;
+import muck.core.character.Player;
 import muck.protocol.connection.Login;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
