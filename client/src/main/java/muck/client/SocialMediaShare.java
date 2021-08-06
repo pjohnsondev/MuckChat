@@ -110,7 +110,19 @@ public class SocialMediaShare {
         Desktop.getDesktop().browse(uri);
     }
 
-    // TODO: Write a function to format a URL directed at the share dialog for a particular image stored on the web
+    /**
+     * Function to take the ID of an image uploaded to Imgur.com and produce a URL that will open the sharing
+     * dialog on Facebook to share that image
+     *
+     * @param imgurID The Imgur.com ID of the photo to be shared on FaceBook
+     * @return the URL required to open sharing dialog for the provided Imgur.com ID
+     */
+    public static String getFBShareUrlFromID(String imgurID) {
+        String firstPartofUrl = "https://www.facebook.com/sharer/sharer.php?kid_directed_site=0&sdk=joey&u=https://i.imgur.com/";
+        String lastPartofUrl = ".jpeg&display=popup&ref=plugin&src=share_button";
+        String shareUrl = firstPartofUrl + imgurID + lastPartofUrl;
+        return shareUrl;
+    }
 
     /**
      * Creates a web enviroment within the Muck client to access social media sharing and authentication APIs
