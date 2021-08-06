@@ -5,14 +5,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Random;
+public class DiceTest {
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-
-public class GenRandomTest {
-
-    private static final Logger logger = LogManager.getLogger(GenRandomTest.class);
+    private static final Logger logger = LogManager.getLogger(DiceTest.class);
 
     @Test
     public void testTestSuiteRuns() {
