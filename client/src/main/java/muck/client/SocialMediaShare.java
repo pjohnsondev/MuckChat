@@ -10,10 +10,8 @@ import javafx.util.Callback;
 
 import java.awt.*;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 public class SocialMediaShare {
@@ -45,8 +43,6 @@ public class SocialMediaShare {
      * Note - Intended to be used as a staging point for sharing on social media due to Facebook not supporting
      * direct upload of binary images for sharing on user profiles
      *
-     * More Note - Currently having issues with this, see internal comments
-     *
      * @param filePath Local path of file to upload
      * @return Returns the response to the POST request made to the Imgur API
      * @throws IOException
@@ -57,20 +53,8 @@ public class SocialMediaShare {
 
         // Get the Bas64 string of an image
         String data = getImageBase64String("D:\\test.jpg");
-
-        /* Currently the function doesn't quite work
-        See the commented out line below, this is a testing 1px image
-        - if you use this test image instead of getting the encoded local image on the lines above, it works
-        - if you print the string that getImageBase64String provides and manually put it into a POST request using
-             cURL from a command line formatted as per:
-             https://documenter.getpostman.com/view/3967924/RW1dExDv#aad10378-d831-4d91-b80b-e1cefc5980e5
-             it works
-         So: This function is capable of uploading an image, and the string that getImageBase64String is also
-         capable of being uploaded as an image; but something about how this function is trying to do it doesn't work
-         */
-
-        // Commented out test image:
-        //String data = "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+        // This has to be further encoded to deal with URL special characters
+        data = URLEncoder.encode(data, StandardCharsets.UTF_8);
 
         // The following is mostly boilerplate to get Java to make an HTTP POST request
 
