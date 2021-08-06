@@ -1,5 +1,8 @@
 package muck.client;
 
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.PopupFeatures;
@@ -122,6 +125,21 @@ public class SocialMediaShare {
         String lastPartofUrl = ".jpeg&display=popup&ref=plugin&src=share_button";
         String shareUrl = firstPartofUrl + imgurID + lastPartofUrl;
         return shareUrl;
+    }
+
+    /**
+     * Function to get the image ID of an image uploaded to Imgur.com by POST request using Imgur API
+     *
+     * @param response The response from a POST request to upload an image to Imgur.com
+     * @return The image ID of the image that was uploaded
+     */
+    public static String getImgurIdFromResponse(String response){
+        String imgurID = "";
+        JsonObject responseJson = new JsonParser().parse(response).getAsJsonObject();
+        JsonObject dataJson = responseJson.get("data").getAsJsonObject();
+        imgurID = dataJson.get("id").getAsString();
+
+        return imgurID;
     }
 
     /**
