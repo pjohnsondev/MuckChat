@@ -27,6 +27,9 @@ dependencies {
 
     // For Avatar images
     //implementation "com.gluonhq:charm-glisten:6.0.2"
+
+    // For Social Media Posting - RestFB is a tool for using FaceBook Graph API with Java https://restfb.com/
+    implementation 'com.restfb:restfb:3.19.0'
 }
 
 // For the Avatar images

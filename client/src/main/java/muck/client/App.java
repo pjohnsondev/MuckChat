@@ -67,7 +67,6 @@ public class App extends Application {
         stage.setTitle("Muck 2021");
         stage.setScene(scene);
         stage.show();
-        SocialMediaShare.startWebView(stage);
 
         /* End of Imported work */
 

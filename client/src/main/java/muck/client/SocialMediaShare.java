@@ -8,16 +8,137 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.awt.*;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Base64;
+
 public class SocialMediaShare {
 
     /**
-     * Creates a web enviroment within the Muck client to access social media sharing and authentication APIs
-     * Note - currently called by public void start() in App.java (line 70 at time of writing this comment) for testing
+     * Takes a locally stored file and encoded it to a Base64 string
+     * Intended to be used to upload files to websites via POST request
      *
+     * @param filePath Local path of the file to be encoded
+     * @return Base64 encoded string of file data
+     * @throws IOException
+     */
+    public static String getImageBase64String(String filePath) throws IOException {
+        File image = new File(filePath);
+        FileInputStream imgStream = new FileInputStream(image);
+        byte [] buffer = new byte[(int) image.length()];
+
+        imgStream.read(buffer);
+
+        String encodedFile = Base64.getEncoder().encodeToString(buffer);
+
+        return encodedFile;
+    }
+
+    /**
+     * Uploads a file to Imgur.com anonymously. Future access to the file requires the "image id" which is part of the
+     * return of the function
+     *
+     * Note - Intended to be used as a staging point for sharing on social media due to Facebook not supporting
+     * direct upload of binary images for sharing on user profiles
+     *
+     * More Note - Currently having issues with this, see internal comments
+     *
+     * @param filePath Local path of file to upload
+     * @return Returns the response to the POST request made to the Imgur API
+     * @throws IOException
+     */
+    public static String uploadToImgur(String filePath) throws IOException {
+        // This id is from making an "app", it allows access to the API
+        String clientID = "9531cc0ffc4c873";
+
+        // Get the Bas64 string of an image
+        String data = getImageBase64String("D:\\test.jpg");
+
+        /* Currently the function doesn't quite work
+        See the commented out line below, this is a testing 1px image
+        - if you use this test image instead of getting the encoded local image on the lines above, it works
+        - if you print the string that getImageBase64String provides and manually put it into a POST request using
+             cURL from a command line formatted as per:
+             https://documenter.getpostman.com/view/3967924/RW1dExDv#aad10378-d831-4d91-b80b-e1cefc5980e5
+             it works
+         So: This function is capable of uploading an image, and the string that getImageBase64String is also
+         capable of being uploaded as an image; but something about how this function is trying to do it doesn't work
+         */
+
+        // Commented out test image:
+        //String data = "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+
+        // The following is mostly boilerplate to get Java to make an HTTP POST request
+
+        //API endpoint for uploading images
+        URL uploadEnpoint = new URL("https://api.imgur.com/3/image");
+
+        // Building a POST request header
+        HttpURLConnection con = (HttpURLConnection)uploadEnpoint.openConnection();
+        con.setDoOutput(true);
+        con.setDoInput(true);
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Authorization", "Client-ID " + clientID);
+        con.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+
+        // Send request
+        con.connect();
+        OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
+        wr.write("image="+data); // This might be where the function breaks, I've tried a few different formatting things
+        wr.flush();
+
+        // Get the response
+        StringBuilder stb = new StringBuilder();
+        BufferedReader rd = new BufferedReader(
+                // Receive the POST response and format to a string block
+                new InputStreamReader(con.getInputStream()));
+        String line;
+        while ((line = rd.readLine()) != null) {
+            stb.append(line).append("\n");
+        }
+        wr.close();
+        rd.close();
+
+        // Debugging print out of the response
+        System.out.println(stb.toString());
+
+        // Returns the entire response, possibly will clean this up to only return the ID
+        return stb.toString();
+
+    }
+
+    /**
+     * Intended to be use to open sharing dialog for social media (Facebook in particular at time of comment)
+     *
+     * @param url URL of webpage to open in desktop browser
+     * @throws IOException
+     * @throws URISyntaxException
+     */
+    public static void openWebpage(String url) throws IOException, URISyntaxException {
+
+        URL tempUrl = new URL(url);
+        String nullFragment = null;
+        URI uri = new URI(tempUrl.getProtocol(), tempUrl.getHost(), tempUrl.getPath(), tempUrl.getQuery(), nullFragment);
+        Desktop.getDesktop().browse(uri);
+    }
+
+    // TODO: Write a function to format a URL directed at the share dialog for a particular image stored on the web
+
+    /**
+     * Creates a web enviroment within the Muck client to access social media sharing and authentication APIs
+     *
+     * Note - At time of writing this comment I've abandoned this method in favour of opening a desktop browser
+     * due to FaceBook not supporting the WebView browser
      *
      * @param mainStage The object holding the main Muck client
      */
-    public static void startWebView(Stage mainStage){
+    public static void startWebView(Stage mainStage) throws IOException, URISyntaxException {
+
+
         // ******************************************************************
         // This is HTML to make a page where a user can see their achievement and choose to post it
         // The image source is a random achievement related image from the internet as a placeholder
@@ -52,9 +173,11 @@ public class SocialMediaShare {
         // Building the JavaFX WebView
         WebView webView = new WebView();
         WebEngine engine = webView.getEngine();
+        engine.setJavaScriptEnabled(true);
 
-        // Load the abobe HTML as a web page
-        engine.loadContent(webPage, "text/html");
+        // Load the above HTML as a web page
+        //engine.loadContent(webPage, "text/html");
+        engine.load("https://www.facebook.com/sharer/sharer.php");
 
         // Placeholder settings for the webpage UI
         // Ideally this will become a sort of pop-up within Muck
@@ -68,7 +191,10 @@ public class SocialMediaShare {
         mainStage.setScene(scene);
         mainStage.show();
 
+
+
         // This successfully opens a popup window, however the share to Facebook page doesn't load
+
         engine.setCreatePopupHandler(new Callback<PopupFeatures, WebEngine>() {
             @Override
             public WebEngine call(PopupFeatures param) {
@@ -81,13 +207,9 @@ public class SocialMediaShare {
                 return popupEngine;
             }
         });
-
-
-
-
-
     }
-
-    // TODO: implement functionality that will allow users to post to Social Media
-    //  platforms their progress and/or achievements.
 }
+
+
+
+
