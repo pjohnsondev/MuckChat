@@ -20,12 +20,26 @@ import java.util.Base64;
 public class SocialMediaShare {
 
     /**
+     * Uploads an image to the internet and opens the default browser to the FaceBook share dialog to
+     * share that image to a users FaceBook page
+     *
+     * @param filePath Location of the image to be shared
+     */
+    public static void shareImageToFacebook(String filePath) throws IOException, URISyntaxException {
+
+        String uploadResponse = uploadToImgur(filePath);
+        String imgurID = getImgurIdFromResponse(uploadResponse);
+        String facebookShareUrl = getFBShareUrlFromID(imgurID);
+        openWebpage(facebookShareUrl);
+
+    }
+
+    /**
      * Takes a locally stored file and encoded it to a Base64 string
      * Intended to be used to upload files to websites via POST request
      *
      * @param filePath Local path of the file to be encoded
      * @return Base64 encoded string of file data
-     * @throws IOException
      */
     public static String getImageBase64String(String filePath) throws IOException {
         File image = new File(filePath);
@@ -34,9 +48,7 @@ public class SocialMediaShare {
 
         imgStream.read(buffer);
 
-        String encodedFile = Base64.getEncoder().encodeToString(buffer);
-
-        return encodedFile;
+        return Base64.getEncoder().encodeToString(buffer);
     }
 
     /**
@@ -48,14 +60,13 @@ public class SocialMediaShare {
      *
      * @param filePath Local path of file to upload
      * @return Returns the response to the POST request made to the Imgur API
-     * @throws IOException
      */
     public static String uploadToImgur(String filePath) throws IOException {
         // This id is from making an "app", it allows access to the API
         String clientID = "9531cc0ffc4c873";
 
         // Get the Bas64 string of an image
-        String data = getImageBase64String("D:\\test.jpg");
+        String data = getImageBase64String(filePath);
         // This has to be further encoded to deal with URL special characters
         data = URLEncoder.encode(data, StandardCharsets.UTF_8);
 
@@ -90,27 +101,52 @@ public class SocialMediaShare {
         wr.close();
         rd.close();
 
-        // Debugging print out of the response
-        System.out.println(stb.toString());
-
         // Returns the entire response, possibly will clean this up to only return the ID
         return stb.toString();
 
     }
 
     /**
+     * Fucntion to convert a string URL into a URI object
+     *
+     * Note - This is a seperate function so it can be unit tested without actually opening a web browser
+     *
+     * @param url String containing the URL of a web page to be opened
+     * @return URI object properly formatted to be used to open a web page
+     */
+    public static URI formatUri(String url) throws MalformedURLException {
+        URL tempUrl = null;
+        tempUrl = new URL(url);
+        String nullFragment = null;
+        URI uri = null;
+        try {
+            uri = new URI(tempUrl.getProtocol(), tempUrl.getHost(), tempUrl.getPath(), tempUrl.getQuery(), nullFragment);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return uri;
+
+    }
+
+    /**
      * Intended to be use to open sharing dialog for social media (Facebook in particular at time of comment)
      *
-     * @param url URL of webpage to open in desktop browser
-     * @throws IOException
-     * @throws URISyntaxException
+     * @param url URL object of webpage to open in desktop browser
      */
-    public static void openWebpage(String url) throws IOException, URISyntaxException {
+    public static void openWebpage(String url) {
+        URI uri = null;
 
-        URL tempUrl = new URL(url);
-        String nullFragment = null;
-        URI uri = new URI(tempUrl.getProtocol(), tempUrl.getHost(), tempUrl.getPath(), tempUrl.getQuery(), nullFragment);
-        Desktop.getDesktop().browse(uri);
+        try {
+            uri = formatUri(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            Desktop.getDesktop().browse(uri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -123,8 +159,7 @@ public class SocialMediaShare {
     public static String getFBShareUrlFromID(String imgurID) {
         String firstPartofUrl = "https://www.facebook.com/sharer/sharer.php?kid_directed_site=0&sdk=joey&u=https://i.imgur.com/";
         String lastPartofUrl = ".jpeg&display=popup&ref=plugin&src=share_button";
-        String shareUrl = firstPartofUrl + imgurID + lastPartofUrl;
-        return shareUrl;
+        return firstPartofUrl + imgurID + lastPartofUrl;
     }
 
     /**
