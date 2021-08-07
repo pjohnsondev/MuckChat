@@ -1,20 +1,20 @@
 package muck.client;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import muck.protocol.KryoClientConfig;
-import muck.protocol.connection.Connected;
-import muck.protocol.connection.Ping;
-import muck.protocol.connection.userMessage;
+import muck.protocol.*;
+import muck.protocol.connection.*;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
 //Chat JFX imports. This allows the group working on Chat UI to be used in the main application.
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 
 /**
  * The class that is run by the client:run task
@@ -40,25 +40,19 @@ public class App extends Application {
         Scene scene = new Scene(new StackPane(l), 640, 480);
         stage.setScene(scene);
 
-        //To show the map
-        //GameMap map = new GameMap(stage); //uncomment to use map
-        stage.show();
         */
 
         //Creating a test userMessage to send to the server.
-        userMessage testMessage = new userMessage();
+        /* userMessage testMessage = new userMessage();
         testMessage.setMessage("Hello World! From client");
-
-
-
-        MuckClient.INSTANCE.send(testMessage);
+        MuckClient.INSTANCE.send(testMessage); */
 
         /* Last edited: 27/07/2021 by Harrison Liddell with assistance from W.Billingsley
           Imported work from the ChatUI group written in ChatJFX to work with the
           exsisting stand alone application/ gradle build.
         */
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MuckChat.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MuckWindow.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         scene.setRoot(root);
@@ -66,9 +60,9 @@ public class App extends Application {
         //Stage stage = new Stage();
         stage.setTitle("Muck 2021");
         stage.setScene(scene);
+        stage.setOnCloseRequest(e -> shutdown());
+
         stage.show();
-
-
 
         /* End of Imported work */
 
@@ -84,6 +78,7 @@ public class App extends Application {
             // Just demonstrates that the worker manager hands the ping off -- likely to be removed when the project
             // progresses
             MuckClient.INSTANCE.send(new Ping());
+            //MuckClient.INSTANCE.disconnect(); // This successfully disconnects client but does it immediately
         } catch (IOException ex) {
             logger.error("Start up failed");
         }
@@ -91,8 +86,14 @@ public class App extends Application {
 
 
     void shutdown() {
-        // Exit the program
-        System.exit(0);
+        try {
+            MuckClient.INSTANCE.disconnect();
+            System.exit(0);
+            logger.info("Client disconnected successfully");
+        } catch (IOException ex) {
+            System.exit(1);
+            logger.error("Client exited without disconnecting");
+        }
     }
 
     public static void main(String[] args) {
