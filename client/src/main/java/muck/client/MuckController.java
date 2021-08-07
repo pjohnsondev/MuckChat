@@ -87,9 +87,6 @@ public class MuckController implements Initializable {
     @FXML // fx:id="closeChat"
     private Button closeChat; // Value injected by FXMLLoader
 
-    @FXML // fx:id="closeLists"
-    private Button closeLists; // Value injected by FXMLLoader
-
     @FXML // fx:id="game1Button"
     private Button game1Button; // Value injected by FXMLLoader
 
@@ -100,9 +97,9 @@ public class MuckController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        closeChat.setOnAction(this::hideChatWindow);
+        closeChat.setOnAction(this::toggleChatWindow);
         game1Button.setOnAction(this::launchGame);
-        closeLists.setOnAction(this::openChatOnly);
+        //openLists.setOnAction(this::openFullChat);
         openChatOnly.setOnAction(this::openChatOnly);
         enter.setOnAction(this::sendMessage); // assigns function to button
         openFullChat.setOnAction(this::openFullChat);
@@ -152,7 +149,7 @@ public class MuckController implements Initializable {
                 In a similair way,we can retrieve user ID's and timestampes, although we will have to
                 implement those getters seperately.
      */
-               userMessage currentMessage = new userMessage();
+                userMessage currentMessage = new userMessage();
                 currentMessage.setMessage(message);
                 MuckClient.INSTANCE.send(currentMessage);
      /*         This is a wait to retrieve the current message from the server. It should be moved from here when message
@@ -218,19 +215,31 @@ public class MuckController implements Initializable {
     @FXML
     //Function that opens the chat window only
     private void openChatOnly(ActionEvent event) {
-        windowPane.setDividerPositions(0.65);
+        windowPane.setDividerPositions(0.68);
         chatSplitPane.setDividerPositions(0.989);
         openChatOnly.setVisible(false);
     }
 
     @FXML
+    private void toggleChatWindow(ActionEvent event) {
+        double[] windowDivider = windowPane.getDividerPositions();
+        double[] chatDiv = chatSplitPane.getDividerPositions();
+        if (windowDivider[0] >= 0.40 && chatDiv[0] >= 0.6) {
+            openChatOnly(event);
+        }
+        if (windowDivider[0] >= 0.68 && chatDiv[0] >= 0.9) {
+            hideChatWindow(event);
+        }
+    }
+
+    @FXML
     //Function that hides both chat window and list window
     private void hideChatWindow(ActionEvent event) {
-        windowPane.setDividerPositions(0.999);
-        chatSplitPane.setDividerPositions(1.0);
-        openChatOnly.setVisible(true);
-
+            windowPane.setDividerPositions(0.999);
+            chatSplitPane.setDividerPositions(1.0);
+            openChatOnly.setVisible(true);
     }
+
 
     @FXML
     private void launchGame(ActionEvent event) {
