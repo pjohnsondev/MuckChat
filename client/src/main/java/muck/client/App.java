@@ -58,6 +58,9 @@ public class App extends Application {
         scene.setRoot(root);
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
         //Stage stage = new Stage();
+        stage.setMaxWidth(800);
+        stage.setMaxHeight(680);
+        stage.setResizable(false);
         stage.setTitle("Muck 2021");
         stage.setScene(scene);
         stage.setOnCloseRequest(e -> shutdown());
