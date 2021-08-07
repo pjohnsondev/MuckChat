@@ -255,9 +255,9 @@ public class AvatarController implements Initializable {
         System.out.println("Submit has been activated");
     }
 
-    public static void openChat() {
+    /*public static void openChat() {
         MuckController.MuckController(uname);
-    }
+    }*/
 
 
     //MOVE THESE TO TOP WHEN REST OF CODE IS DONE
