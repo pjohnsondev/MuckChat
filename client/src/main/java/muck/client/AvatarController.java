@@ -53,6 +53,7 @@ public class AvatarController implements Initializable {
     @FXML
     private Circle yoshi;
 
+    // TODO Update final variable names
     // IMAGE INITIALISATION
     // Peach
     private final Image peachFull = new Image("/images/peach.png");
@@ -128,9 +129,7 @@ public class AvatarController implements Initializable {
 
         username.setText(uname);
 
-        submit.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            submit();
-        });
+        submit.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> submit());
 
         peach.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             selection("peach");
@@ -267,8 +266,6 @@ public class AvatarController implements Initializable {
      @param: avatarID. This will be passed into the method from the server
      */
     public Image getAvatar(String avatarID) {
-        // can I use a switch statement
-        // TODO: Switch and add three remaining characters
         switch (avatarID) {
             case "peach":
                 return peachFull;
@@ -310,6 +307,7 @@ public class AvatarController implements Initializable {
         }
     }
 
+    // The below code is for formatting the changes to the avatar dashboard.
 
     private void restorePortraitSize() {
         // Can you set a slow change in size effect here?
@@ -364,42 +362,3 @@ public class AvatarController implements Initializable {
         }
     }
 }
-
-// REDUNDANT CODE.  KEEPING HERE JUST IN CASE
-/*private void peachSelection() {
-        restorePortraitSize();
-        // Can you add a change in size effect here
-        peach.setRadius(80.0);
-        avatar = "peach";
-        avatarFullBody.setImage(peachFull);
-        centreImage();
-    }
-
-    private void gokuSelection() {
-        restorePortraitSize();
-        // Can you add a change in size effect here
-        goku.setRadius(80.0);
-        avatar = "goku";
-        avatarFullBody.setImage(gokuFull);
-        centreImage();
-    }
-
-    private void sailorMarsSelection() {
-        restorePortraitSize();
-        // Can you add a change in size effect here
-        sailorMars.setRadius(80.0);
-        avatar = "sailorMars";
-        avatarFullBody.setImage(sailorMarsFull);
-        centreImage();
-    }
-
-    private void pikachuSelection() {
-        restorePortraitSize();
-        // Can you add a change in size effect here
-        pikachu.setRadius(80.0);
-        avatar = "pikachu";
-        avatarFullBody.setImage(pikachuFull);
-        avatarFullBody.setFitHeight(250); // Changes the height of the image so pikachu is a more realistic
-        // How do I set pikachu in the centre of the screen (by height)
-        centreImage();
-    }*/
