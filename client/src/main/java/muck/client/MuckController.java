@@ -72,24 +72,11 @@ public class MuckController implements Initializable {
     @FXML // fx:id="enter"
     private Button enter; // Value injected by FXMLLoader
 
-    @FXML
-    private TitledPane channelPane;
-
-    @FXML
-    private AnchorPane playerPane;
-
-
     @FXML // fx:id="x3"
     private Font x3; // Value injected by FXMLLoader
 
     @FXML // fx:id="x4"
     private Color x4; // Value injected by FXMLLoader
-
-    @FXML
-    private Accordion ChannelsAndPlayersPane;
-
-    @FXML
-    private ImageView enterImage;
 
     @FXML // fx:id="openFullChat"
     private Button openFullChat; // Value injected by FXMLLoader
@@ -128,14 +115,17 @@ public class MuckController implements Initializable {
     }
 
     @FXML
+    //Function that sends message when user presses enter
     void onEnter(ActionEvent event) {
         displayAndSend();
     }
 
+    //Function that sends message when user clicks on arrow
     private void sendMessage(ActionEvent event) {
         displayAndSend();
     }
 
+    //Function that displays message in chat box
     private void displayAndSend() {
         message = messageBox.getText();
         if ((message.length() != 0)) {
@@ -188,7 +178,7 @@ public class MuckController implements Initializable {
     }
 
 
-
+    // Function that creates new chat tab
     @FXML
     private void addChatTab(ActionEvent event) {
         int numTabs = chatPane1.getTabs().size();
@@ -217,22 +207,29 @@ public class MuckController implements Initializable {
     }
 
     @FXML
+    //Function that opens chat window and list window
     private void openFullChat(ActionEvent event) {
         windowPane.setDividerPositions(0.43);
         chatSplitPane.setDividerPositions(0.6);
+        openChatOnly.setVisible(false);
     }
 
 
     @FXML
+    //Function that opens the chat window only
     private void openChatOnly(ActionEvent event) {
         windowPane.setDividerPositions(0.65);
         chatSplitPane.setDividerPositions(0.989);
+        openChatOnly.setVisible(false);
     }
 
     @FXML
+    //Function that hides both chat window and list window
     private void hideChatWindow(ActionEvent event) {
         windowPane.setDividerPositions(0.999);
         chatSplitPane.setDividerPositions(1.0);
+        openChatOnly.setVisible(true);
+
     }
 
     @FXML
