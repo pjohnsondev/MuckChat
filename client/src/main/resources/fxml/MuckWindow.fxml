@@ -48,9 +48,11 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
@@ -58,7 +60,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.MuckController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.MuckController">
   <children>
     <MenuBar id="menu" fx:id="menu" VBox.vgrow="NEVER">
       <menus>
@@ -100,47 +102,69 @@
         </Menu>
       </menus>
     </MenuBar>
-    <SplitPane id="gamePane" fx:id="windowPane" dividerPositions="0.644572025052192" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="SOMETIMES">
+    <SplitPane id="windowPane" fx:id="windowPane" dividerPositions="0.7015050167224082" focusTraversable="true" prefHeight="633.0" prefWidth="784.0" VBox.vgrow="SOMETIMES">
       <items>
-        <ScrollPane prefHeight="551.0" prefWidth="547.0">
-          <content>
-            <AnchorPane id="gamePane" fx:id="gamePane" minHeight="-1.0" minWidth="-1.0" prefHeight="744.0" prefWidth="1258.0">
-              <children>
-                        <Circle id="circle" fx:id="circle" fill="WHITE" layoutX="1171.0" layoutY="96.0" radius="64.0" stroke="BLACK" strokeType="INSIDE" />
-                        <ImageView id="avatar" fx:id="avatar" fitHeight="122.0" fitWidth="97.0" layoutX="1123.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" />
-                        <Text layoutX="1104.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USERNAME" textAlignment="CENTER" wrappingWidth="134.13671875">
+        <ScrollPane prefHeight="645.0" prefWidth="791.0">
+               <content>
+                  <AnchorPane id="gamePane" fx:id="gamePane" maxWidth="824.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="618.0" prefWidth="778.0">
+                     <children>
+                        <BorderPane layoutX="14.0" layoutY="14.0" prefHeight="593.0" prefWidth="522.0" style="-fx-border-color: black; -fx-border-width: 6; -fx-border-radius: 10;">
+                           <center>
+                              <Canvas id="gameCanvas" fx:id="gameCanvas" height="585.0" width="512.0" BorderPane.alignment="CENTER" />
+                           </center>
+                        </BorderPane>
+                        <Circle id="circle" fx:id="circle" fill="#1f93ff00" layoutX="665.0" layoutY="89.0" radius="74.0" stroke="BLACK" strokeType="INSIDE" />
+                        <ImageView id="avatar" fx:id="avatar" fitHeight="148.0" fitWidth="126.0" layoutX="602.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" />
+                        <Button id="openChatOnly" fx:id="openChatOnly" contentDisplay="TOP" layoutX="746.0" layoutY="308.0" mnemonicParsing="false" rotate="-90.0" snapToPixel="false" text="Open Chat" AnchorPane.rightAnchor="-34.0" />
+                        <Text layoutX="580.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UserName" textAlignment="CENTER" wrappingWidth="168.13671875">
                            <font>
-                              <Font size="18.0" />
+                              <Font size="36.0" />
                            </font>
                         </Text>
-                        <Canvas id="gameCanvas" fx:id="gameCanvas" height="703.0" layoutX="-374.0" layoutY="20.0" width="1452.0" />
-              </children>
-            </AnchorPane>
-          </content>
+                        <Button id="openFullChat" fx:id="openFullChat" layoutX="708.0" layoutY="542.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="70.0">
+                           <graphic>
+                              <ImageView id="openChatImage" fitHeight="61.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/chatSymbol.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <effect>
+                              <Blend />
+                           </effect>
+                        </Button>
+                        <Button id="game1Button" fx:id="game1Button" layoutX="615.0" layoutY="542.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="77.0" text="GAME 1">
+                           <effect>
+                              <Blend />
+                           </effect>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+               </content>
         </ScrollPane>
-            <SplitPane dividerPositions="0.6011816838995568" maxWidth="451.0" minWidth="0.0" prefHeight="750.0" prefWidth="414.0" snapToPixel="false">
+            <SplitPane id="chatSplitPane" fx:id="chatSplitPane" dividerPositions="0.9857954545454546" maxWidth="451.0" minWidth="0.0" prefHeight="630.0" prefWidth="0.0" snapToPixel="false">
               <items>
                   <VBox id="chatSection" fx:id="chatSection" maxWidth="350.0" minWidth="0.0" prefHeight="703.0" prefWidth="268.0">
                      <children>
-                        <TabPane id="chatPane1" fx:id="chatPane1" maxHeight="550.0" minWidth="0.0" prefHeight="616.0" prefWidth="216.0" VBox.vgrow="ALWAYS">
+                        <TabPane id="chatPane1" fx:id="chatPane1" minWidth="0.0" prefHeight="515.0" prefWidth="360.0" VBox.vgrow="ALWAYS">
                           <tabs>
                             <Tab id="groupChat" fx:id="groupChat" closable="false" style="-fx-background-color: darkgrey;" text="GeneralChat">
                               <content>
-                                <AnchorPane id="chatAnchor" fx:id="chatAnchor" focusTraversable="true" maxWidth="500.0" minHeight="300.0" minWidth="0.0" prefWidth="268.0" style="-fx-background-color: darkgrey;">
+                                <AnchorPane id="chatAnchor" fx:id="chatAnchor" focusTraversable="true" minWidth="0.0" prefHeight="489.0" prefWidth="155.0" style="-fx-background-color: darkgrey;">
                                        <children>
-                                          <TextArea id="groupChatBox" fx:id="groupChatBox" editable="false" layoutX="11.0" layoutY="22.0" maxHeight="-Infinity" scaleShape="false" snapToPixel="false" wrapText="true" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="22.0" />
+                                          <TextArea id="groupChatBox" fx:id="groupChatBox" editable="false" layoutX="11.0" layoutY="22.0" maxHeight="-Infinity" mouseTransparent="true" prefHeight="436.0" prefWidth="246.0" scaleShape="false" snapToPixel="false" wrapText="true" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="22.0" />
                                        </children>
                                     </AnchorPane>
                               </content>
                             </Tab>
                           </tabs>
                         </TabPane>
-                        <AnchorPane minWidth="0.0" prefHeight="202.0" prefWidth="289.0" VBox.vgrow="ALWAYS">
+                        <AnchorPane minWidth="0.0" prefHeight="109.0" prefWidth="268.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <TextField id="messageBox" fx:id="messageBox" accessibleHelp="Type your message here..." layoutX="9.0" layoutY="14.0" onAction="#onEnter" pickOnBounds="false" prefHeight="29.0" prefWidth="293.0" AnchorPane.bottomAnchor="159.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="48.0" AnchorPane.topAnchor="14.0" />
-                              <Button id="enter" fx:id="enter" cacheShape="false" centerShape="false" contentDisplay="CENTER" layoutX="307.0" layoutY="12.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="35.0" scaleShape="false" AnchorPane.bottomAnchor="155.33333333333334" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="12.0">
+                              <TextField id="messageBox" fx:id="messageBox" accessibleHelp="Type your message here..." layoutX="8.0" layoutY="8.0" onAction="#onEnter" pickOnBounds="false" prefHeight="33.0" prefWidth="186.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="37.0" />
+                              <Button id="enter" fx:id="enter" cacheShape="false" centerShape="false" contentDisplay="CENTER" layoutX="312.6666666666667" layoutY="4.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="30.0" scaleShape="false" style="-fx-background-color: none;" AnchorPane.rightAnchor="-4.0">
                                  <graphic>
-                                    <ImageView fx:id="enterImage" fitHeight="25.0" fitWidth="35.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="enterImage" fitHeight="25.0" fitWidth="34.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../images/chatArrow.png" />
                                        </image>
@@ -148,14 +172,27 @@
                                           <Rectangle2D />
                                        </viewport>
                                     </ImageView>
-                                 </graphic></Button>
+                                 </graphic>
+                              </Button>
+                              <Button id="closeChat" fx:id="closeChat" contentDisplay="GRAPHIC_ONLY" layoutX="94.0" layoutY="80.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="41.0" style="-fx-background-color: none;" textOverrun="CLIP" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="94.0" AnchorPane.rightAnchor="90.66666666666666" AnchorPane.topAnchor="80.0">
+                                 <graphic>
+                                    <ImageView accessibleRole="PARENT" depthTest="DISABLE" fitHeight="36.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/free-icon-40405.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </Button>
                            </children>
                         </AnchorPane>
                      </children>
                   </VBox>
                 <AnchorPane maxWidth="177.0" minHeight="0.0" minWidth="0.0" prefHeight="750.0" prefWidth="161.0">
                      <children>
-                        <VBox prefHeight="750.0" prefWidth="177.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="0.0">
+                        <VBox prefHeight="750.0" prefWidth="13.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <TitledPane animated="false" text="Channels" VBox.vgrow="ALWAYS">
                                 <content>
