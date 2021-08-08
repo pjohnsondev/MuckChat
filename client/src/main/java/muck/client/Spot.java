@@ -1,6 +1,9 @@
 package muck.client;
 
-import Dice.*;
+/**
+ * Spot check interacts closely with Dice class to generate random results,
+ * with consideration given to character stats.
+ */
 
 public class Spot{
 
