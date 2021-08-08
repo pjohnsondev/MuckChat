@@ -19,7 +19,7 @@ import javafx.animation.*;
  */
 public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 
-    TileMapReader tm = new TileMapReader("/Test.tmx");
+    TileMapReader tm = new TileMapReader("/map.tmx");
     Sprite hero = new Sprite(300,300,5, 5); //Create the player sprite
     private int startX; //The first tile to be drawn
     private int startY; //The first tile to be drawn
@@ -33,6 +33,12 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
     private int tileId = 0;
     private int GID = 0;
     Rectangle rectangle = new Rectangle();
+    double screenHeightInTiles;
+    double screenWidthInTiles;
+    GraphicsContext gc;
+    Image image;
+    double cameraMaxX;
+    double cameraMaxY;
 
     /**
      * GameMap constuctor accepts the canvas to be drawn onto.
@@ -44,16 +50,19 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
      */
     public GameMap(Canvas canvas) {
         //Get the graphic context of the canvas
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc = canvas.getGraphicsContext2D();
         //Load the image
-        String imagePath = "/terrain_atlas.png"; //hard coded needs to be passable
-        Image image = new Image(imagePath);
+        String imagePath = "/texture.png"; //hard coded needs to be passable
+        image = new Image(imagePath);
 
-        centerX = canvas.getWidth() / 2; //Viewport midpoint
-        centerY = canvas.getHeight() / 2; //Viewport midpoint
+        centerX = canvas.getWidth() / 2; //Viewport midpoint (half the width of the canvas size)
+        centerY = canvas.getHeight() / 2; //Viewport midpoint (half the height of the canvas size)
 
-        double screenHeightInTiles = (centerY * 2) / tm.getTileHeight();
-        double screenWidthInTiles = (centerX * 2) / tm.getTileWidth();
+        cameraMaxX = tm.getWidth() * tm.getTileWidth() - (centerX * 2); //width of tile map in tiles multiply by width of tiles in pixels. Minus width of screen in pixels
+        cameraMaxY = tm.getHeight() * tm.getTileHeight() - (centerY * 2);
+
+        screenHeightInTiles = (centerY * 2) / tm.getTileHeight();
+        screenWidthInTiles = (centerX * 2) / tm.getTileWidth();
 
         canvas.setFocusTraversable(true);
         canvas.addEventFilter(MouseEvent.ANY, (e) -> canvas.requestFocus()); //after map clicked listen for keyboard events
@@ -77,22 +86,31 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
                 offX = (int) (cameraX % tm.getTileWidth());
                 offY = (int) (cameraY % tm.getTileWidth());
 
-                for (int y = 0; y <= screenHeightInTiles + 1; y++) {
-                    for (int x = 0; x <= screenWidthInTiles + 1; x++) {
+                drawLayer(layer); //draws a single layer pass the layer number
 
-                        GID = getTileIndex(x + startX, y + startY);
-                        gc.save();
-                        //Translate the viewport around the hero. (Easier to relative draw)
-                        gc.translate((x * tm.getTileWidth())- offX, (y * tm.getTileHeight()) - offY);
-                        drawTile(gc,GID, image, x, y);
-                        //Restore the old state
-                        gc.restore();
-                    }
-                }
                 drawHero(gc, rectangle);
             }
         };
         timer.start();
+    }
+
+    /**
+     *
+     * @param layer
+     */
+    public void drawLayer(int layer) {
+        for (int y = 0; y <= screenHeightInTiles + 1; y++) {
+            for (int x = 0; x <= screenWidthInTiles + 1; x++) {
+
+                GID = getTileIndex(x + startX, y + startY);
+                gc.save();
+                //Translate the viewport around the hero. (Easier to relative draw)
+                gc.translate((x * tm.getTileWidth())- offX, (y * tm.getTileHeight()) - offY);
+                drawTile(gc,GID, image, x, y);
+                //Restore the old state
+                gc.restore();
+            }
+        }
     }
 
     /**
@@ -133,8 +151,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
      * cameraMaxY maximum height of the TMX map minus the viewport height
      */
     public void cameraPositionCheck() {
-        double cameraMaxX = tm.getWidth() * tm.getTileWidth() - (centerX * 2);
-        double cameraMaxY = tm.getHeight() * tm.getTileHeight() - (centerY * 2);
+
         if(cameraX >= cameraMaxX) {
             cameraX = cameraMaxX;
         }
@@ -152,12 +169,16 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
     private void drawHero(GraphicsContext gc,Rectangle rect){
         double drawX = 0;
         double drawY = 0;
-        if (hero.getX() < centerX) {
+
+        if (hero.getX() < centerX ) {
             drawX = hero.getX();
-        } else  { drawX = centerX; }
-        if (hero.getY() < centerY) {
+        } else if (hero.getX() > (tm.getWidth()*tm.getTileWidth() - centerX)) { drawX = ((centerX) - ((tm.getWidth()*tm.getTileWidth()) - (double)hero.getX())) + (centerX); }
+        else { drawX = centerX; }
+        if (hero.getY() < centerY ) {
             drawY = hero.getY();
+        } else if (hero.getY() > (tm.getHeight()*tm.getTileHeight() - centerY)) { drawY = ((centerY) - ((tm.getHeight()*tm.getTileHeight()) - (double)hero.getY())) + (centerY);
         } else { drawY = centerY; }
+
 
         gc.setFill(Color.BLUE);
         gc.fillRect(drawX,
