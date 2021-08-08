@@ -1,10 +1,7 @@
 package muck.server;
 
-import aw.character.Character;
-import aw.character.CharacterDoesNotExistException;
-import aw.character.Player;
-import muck.core.Id;
-import muck.core.Location;
+import muck.core.character.CharacterDoesNotExistException;
+import muck.core.character.Player;
 import muck.protocol.connection.Login;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CharacterManagerTest {
+public class PlayerManagerTest {
 
     private static final Logger logger = LogManager.getLogger(CharacterLocationTrackerTests.class);
 
@@ -20,22 +17,22 @@ public class CharacterManagerTest {
     public void CharacterGetsCreatedOnLoginWithSuppliedUsername() throws CharacterDoesNotExistException, DuplicateLoginException {
         String username = "test_username";
         Login login = new Login(username, "test_password");
-        CharacterManager characterManager = new CharacterManager();
+        PlayerManager playerManager = new PlayerManager();
 
-        Character character = characterManager.loginCharacter(login);
+        Player player = playerManager.loginPlayer(login);
 
-        assertNotNull(character);
-        assertEquals(username, character.getIdentifier());
+        assertNotNull(player);
+        assertEquals(username, player.getUsername());
     }
 
     @Test
     public void ExceptionIsThrownWhenThereIsADuplicateLogin() throws CharacterDoesNotExistException, DuplicateLoginException {
         String username = "test_username";
         Login login = new Login(username, "test_password");
-        CharacterManager characterManager = new CharacterManager();
+        PlayerManager playerManager = new PlayerManager();
 
-        characterManager.loginCharacter(login);
+        playerManager.loginPlayer(login);
 
-        assertThrows(DuplicateLoginException.class, ()-> characterManager.loginCharacter(login));
+        assertThrows(DuplicateLoginException.class, ()-> playerManager.loginPlayer(login));
     }
 }

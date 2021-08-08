@@ -1,7 +1,7 @@
 package muck.server;
 
-import muck.core.character.Character;
 import muck.core.character.CharacterDoesNotExistException;
+import muck.core.character.CharacterFactory;
 import muck.core.character.Player;
 import muck.protocol.connection.Login;
 import org.apache.logging.log4j.LogManager;
@@ -12,9 +12,9 @@ import java.util.HashSet;
 /**
  * Class to manager character registration, login and removal.
  */
-public class CharacterManager {
-    private Character character;
-    private HashSet<String> loggedInUsers = new HashSet();
+public class PlayerManager {
+    private Player player;
+    private HashSet<String> loggedInPlayers = new HashSet();
     private static final Logger logger = LogManager.getLogger(MuckServer.class);
 
     /**
@@ -24,23 +24,23 @@ public class CharacterManager {
      * @throws CharacterDoesNotExistException
      * @throws DuplicateLoginException
      */
-    public Character loginCharacter(Login login) throws CharacterDoesNotExistException, DuplicateLoginException {
+    public Player loginPlayer(Login login) throws CharacterDoesNotExistException, DuplicateLoginException {
         // TODO: validate the user details etc.
 
-        if (character == null) {
-            character = new Player(login.getUsername());
+        if (player == null) {
+            player = CharacterFactory.createOrLoadPlayer(login.getUsername());
         }
 
-        if (loggedInUsers.contains(character.getIdentifier())) {
+        if (loggedInPlayers.contains(player.getUsername())) {
             logger.info("This is a duplicate login for {}", login.getUsername());
 
             throw new DuplicateLoginException(login.getUsername());
         }
 
         // Add user to hashset of logged in users
-        loggedInUsers.add(login.getUsername());
+        loggedInPlayers.add(login.getUsername());
 
         // User has logged in successfully
-        return character;
+        return player;
     }
 }

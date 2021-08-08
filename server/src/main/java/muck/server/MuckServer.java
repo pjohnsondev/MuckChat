@@ -7,6 +7,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
+import muck.core.character.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -105,20 +106,20 @@ public enum MuckServer {
         }));
 
         addListener(ListenerBuilder.forClass(Login.class).onReceive((connection, login) -> {
-            loginCharacter(login, (MuckConnection)connection);
+            loginPlayer(login, (MuckConnection)connection);
         }));
     }
 
-    public void loginCharacter(Login login, MuckConnection muckConnection) {
+    public void loginPlayer(Login login, MuckConnection muckConnection) {
         logger.info("Attempting to log in");
         logger.debug("{} is trying to log in", login.getUsername());
 
-        CharacterManager characterManager = new CharacterManager();
+        PlayerManager playerManager = new PlayerManager();
 
-        Character character = null;
+        Player player = null;
 
         try {
-            character = characterManager.loginCharacter(login);
+            player = playerManager.loginPlayer(login);
         } catch (DuplicateLoginException ex) {
             userMessage testMessage = new userMessage(); //Create new message to send back.
             testMessage.setMessage("Duplicate login");
@@ -129,11 +130,11 @@ public enum MuckServer {
             kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
         }
 
-        muckConnection.setCharacter(character);
+        muckConnection.setCharacter(player);
 
         logger.info("Login successful for {}", login.getUsername());
 
-        AddCharacter addCharacter = addCharacter(character);
+        AddCharacter addCharacter = addCharacter(player);
 
         kryoServer.sendToAllTCP(addCharacter);
     }

@@ -8,8 +8,9 @@ public class Player extends Character {
      * If the player username doesn't exist, a CharacterDoesNotExist exception will be thrown.
      * Example usage: Player player1 = new Player("my_username");
      */
+    private String username;
 
-    public Player(String username) throws CharacterDoesNotExistException {
+    public Player(String username) {
         //TODO - Retrieve the username identifier from the backend database, then populate all fields with 
         // player values from the database
         /*boolean databaseRetrievalSuccessful = StorageHandler.isPlayerValid(username);
@@ -19,14 +20,21 @@ public class Player extends Character {
 
         this.setAvatar("some avatar retrieved from backend"); //further colab with issue #7 required
         this.setIdentifier(username);
-*/
+        */
+
+        this.username = username;
     }
+
     /**
      * Dummy constructor for a player object with a "null" identifier. Does not
      * check with backend storage for a valid username. Should only be used for unit tests that don't use backend
      */
-    protected Player() {
+    public Player() {
         this.setIdentifier(null);
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     //TODO How will the player move? A player controller will need to be created

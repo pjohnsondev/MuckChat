@@ -1,10 +1,10 @@
 package muck.server;
 
-import aw.character.Character;
-import aw.character.CharacterDoesNotExistException;
-import aw.character.Player;
+import muck.core.character.Character;
+import muck.core.character.CharacterDoesNotExistException;
+import muck.core.character.CharacterFactory;
+import muck.core.character.Player;
 import muck.protocol.connection.AddCharacter;
-import muck.protocol.connection.Login;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,29 +16,35 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class MuckServerTest {
     private static final Logger logger = LogManager.getLogger(CharacterLocationTrackerTests.class);
 
+    @BeforeEach
+    public void beforeEach() {
+        logger.info("This message gets printed before each test runs");
+        MuckServer.getINSTANCE().tracker = new CharacterLocationTracker<String>();
+    }
+
     @Test
     public void addCharacterObjectCreatesTheCharacter() throws CharacterDoesNotExistException, DuplicateLoginException {
         String username = "test_username";
-        Character character = new Player(username);
+        Player player = CharacterFactory.createOrLoadPlayer(username);
 
         MuckServer muckServer = MuckServer.getINSTANCE();
-        AddCharacter addCharacter = muckServer.addCharacter(character);
+        AddCharacter addCharacter = muckServer.addCharacter(player);
 
         assertNotNull(addCharacter);
 
-        assertEquals(addCharacter.getCharacter().getIdentifier(), character.getIdentifier());
+        assertEquals(addCharacter.getCharacter().getIdentifier(), player.getIdentifier());
     }
 
     @Test
     public void addingCharacterAddsTheCharacterToTheTracker() throws CharacterDoesNotExistException, DuplicateLoginException {
         String username = "test_username";
-        Character character = new Player(username);
+        Player player = CharacterFactory.createOrLoadPlayer(username);
 
         MuckServer muckServer = MuckServer.getINSTANCE();
-        AddCharacter addCharacter = muckServer.addCharacter(character);
+        AddCharacter addCharacter = muckServer.addCharacter(player);
 
         assertNotNull(addCharacter);
 
-        assertEquals(muckServer.tracker.getClients().get(0).left().id, character.getIdentifier());
+        assertEquals(muckServer.tracker.getClients().get(0).left().id, player.getIdentifier());
     }
 }
