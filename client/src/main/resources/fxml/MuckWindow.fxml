@@ -102,12 +102,27 @@
         </Menu>
       </menus>
     </MenuBar>
-    <SplitPane id="windowPane" fx:id="windowPane" dividerPositions="0.7015050167224082" focusTraversable="true" prefHeight="633.0" prefWidth="784.0" VBox.vgrow="SOMETIMES">
+    <SplitPane id="windowPane" fx:id="windowPane" dividerPositions="0.9962374581939801" focusTraversable="true" prefHeight="633.0" prefWidth="784.0" VBox.vgrow="SOMETIMES">
       <items>
         <ScrollPane prefHeight="645.0" prefWidth="791.0">
                <content>
                   <AnchorPane id="gamePane" fx:id="gamePane" maxWidth="824.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="618.0" prefWidth="778.0">
                      <children>
+                        <Button id="game1Button" fx:id="game1Button" contentDisplay="TOP" layoutX="617.0" layoutY="542.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="77.0" text="Space Invaders">
+                           <effect>
+                              <Blend />
+                           </effect>
+                           <graphic>
+                              <ImageView fitHeight="38.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/416-4164135_space-invaders-clipart.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Button>
                         <BorderPane layoutX="14.0" layoutY="14.0" prefHeight="593.0" prefWidth="522.0" style="-fx-border-color: black; -fx-border-width: 6; -fx-border-radius: 10;">
                            <center>
                               <Canvas id="gameCanvas" fx:id="gameCanvas" height="585.0" width="512.0" BorderPane.alignment="CENTER" />
@@ -129,11 +144,6 @@
                                  </image>
                               </ImageView>
                            </graphic>
-                           <effect>
-                              <Blend />
-                           </effect>
-                        </Button>
-                        <Button id="game1Button" fx:id="game1Button" layoutX="615.0" layoutY="542.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="77.0" text="GAME 1">
                            <effect>
                               <Blend />
                            </effect>

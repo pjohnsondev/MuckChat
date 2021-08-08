@@ -5,6 +5,7 @@
 package muck.client;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -23,7 +24,12 @@ import javafx.scene.text.Font;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javafx.stage.Stage;
+import muck.client.space_invaders.LandingPage;
 import muck.protocol.connection.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class MuckController implements Initializable {
 
@@ -95,6 +101,8 @@ public class MuckController implements Initializable {
 
     String message;
 
+    private static final Logger logger = LogManager.getLogger();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         closeChat.setOnAction(this::toggleChatWindow);
@@ -104,6 +112,7 @@ public class MuckController implements Initializable {
         enter.setOnAction(this::sendMessage); // assigns function to button
         openFullChat.setOnAction(this::openFullChat);
         plus.setOnAction(this::addChatTab); // adds new tab
+        //LandingPage spaceI = new LandingPage(gameCanvas);
         GameMap gm = new GameMap(gameCanvas); // Adds GameMap animation to the game window
         Image chosenAvatar = new Image("images/peach-portrait2.png"); // Avatar pic
         circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
@@ -243,6 +252,6 @@ public class MuckController implements Initializable {
 
     @FXML
     private void launchGame(ActionEvent event) {
-
+        Platform.runLater(() -> new LandingPage().start(new Stage()));
     }
 }
