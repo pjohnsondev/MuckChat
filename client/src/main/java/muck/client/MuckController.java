@@ -4,18 +4,17 @@
 
 package muck.client;
 
-import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -46,7 +45,7 @@ public class MuckController implements Initializable {
     private VBox chatSection; // Value injected by FXMLLoader
 
     @FXML // fx:id="gamePane"
-    private AnchorPane gamePane; // Value injected by FXMLLoader
+    private BorderPane gamePane1; // Value injected by FXMLLoader
 
     @FXML // fx:id="gameCanvas"
     private Canvas gameCanvas; // Value injected by FXMLLoader
@@ -112,8 +111,7 @@ public class MuckController implements Initializable {
         enter.setOnAction(this::sendMessage); // assigns function to button
         openFullChat.setOnAction(this::openFullChat);
         plus.setOnAction(this::addChatTab); // adds new tab
-        //LandingPage spaceI = new LandingPage(gameCanvas);
-        GameMap gm = new GameMap(gameCanvas); // Adds GameMap animation to the game window
+        //GameMap gm = new GameMap(gameCanvas); // Adds GameMap animation to the game window
         Image chosenAvatar = new Image("images/peach-portrait2.png"); // Avatar pic
         circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
         chatSection.setFocusTraversable(true);
@@ -239,6 +237,9 @@ public class MuckController implements Initializable {
         if (windowDivider[0] >= 0.68 && chatDiv[0] >= 0.9) {
             hideChatWindow(event);
         }
+        if (!(windowDivider[0] == 0.99)) {
+            hideChatWindow(event);
+        }
     }
 
     @FXML
@@ -252,6 +253,6 @@ public class MuckController implements Initializable {
 
     @FXML
     private void launchGame(ActionEvent event) {
-        Platform.runLater(() -> new LandingPage().start(new Stage()));
+        LandingPage si = new LandingPage(gamePane1, gameCanvas);
     }
 }

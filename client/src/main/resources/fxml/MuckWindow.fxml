@@ -123,7 +123,7 @@
                               <Font size="9.0" />
                            </font>
                         </Button>
-                        <BorderPane layoutX="14.0" layoutY="14.0" prefHeight="593.0" prefWidth="522.0" style="-fx-border-color: black; -fx-border-width: 6; -fx-border-radius: 10;">
+                        <BorderPane id="gamePane1" fx:id="gamePane1" layoutX="14.0" layoutY="14.0" prefHeight="593.0" prefWidth="522.0" style="-fx-border-color: black; -fx-border-width: 6; -fx-border-radius: 10;">
                            <center>
                               <Canvas id="gameCanvas" fx:id="gameCanvas" height="585.0" width="512.0" BorderPane.alignment="CENTER" />
                            </center>
