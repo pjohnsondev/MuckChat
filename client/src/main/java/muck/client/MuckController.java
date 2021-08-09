@@ -32,6 +32,7 @@ import muck.protocol.connection.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter;
+import org.checkerframework.common.reflection.qual.Invoke;
 
 public class MuckController implements Initializable {
 
@@ -80,6 +81,9 @@ public class MuckController implements Initializable {
     @FXML // fx:id="enter"
     private Button enter; // Value injected by FXMLLoader
 
+    @FXML // fx:id="mapButton"
+    private Button mapButton; // Value injected by FXMLLoader
+
     @FXML // fx:id="x3"
     private Font x3; // Value injected by FXMLLoader
 
@@ -109,7 +113,6 @@ public class MuckController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         closeChat.setOnAction(this::toggleChatWindow);
         game1Button.setOnAction(this::launchGame);
-        //openLists.setOnAction(this::openFullChat);
         openChatOnly.setOnAction(this::openChatOnly);
         enter.setOnAction(this::sendMessage); // assigns function to button
         openFullChat.setOnAction(this::openFullChat);
@@ -122,7 +125,7 @@ public class MuckController implements Initializable {
     }
 
     @FXML
-    //Function that sends message when user presses enter
+        //Function that sends message when user presses enter
     void onEnter(ActionEvent event) {
         displayAndSend();
     }
@@ -248,22 +251,21 @@ public class MuckController implements Initializable {
     @FXML
     //Function that hides both chat window and list window
     private void hideChatWindow(ActionEvent event) {
-            windowPane.setDividerPositions(0.999);
-            chatSplitPane.setDividerPositions(1.0);
-            openChatOnly.setVisible(true);
+        windowPane.setDividerPositions(0.999);
+        chatSplitPane.setDividerPositions(1.0);
+        openChatOnly.setVisible(true);
     }
 
 
     @FXML
     private void launchGame(ActionEvent event) {
+        gameCanvas.setDisable(true);
         gameCanvas.setVisible(false);
         Canvas SICanvas = new Canvas();
-        SICanvas.setVisible(true);
         SICanvas.setHeight(gameCanvas.getHeight());
         SICanvas.setWidth(gameCanvas.getWidth());
         gamePane1.setCenter(SICanvas);
         BorderPane.setAlignment(SICanvas, Pos.CENTER);
-
         LandingPage si = new LandingPage(gamePane1, SICanvas);
     }
 }

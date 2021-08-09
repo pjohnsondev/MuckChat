@@ -1,5 +1,6 @@
 package muck.client.space_invaders;
 
+import javafx.event.ActionEvent;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -20,6 +21,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+import muck.client.GameMap;
+
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +36,12 @@ public class LandingPage extends Node {
     private static final int HEIGHT = 600;
     private static final int WIDTH = 1000;
     private GraphicsContext gc;
-
+    final Button exitButton = new Button("EXIT");
+    final GridPane grid = new GridPane();
 
     public LandingPage (BorderPane stage, Canvas canvas) {
         //Canvas canvas = new Canvas(WIDTH, HEIGHT);
         gc = canvas.getGraphicsContext2D();
-
 
         var root = new Pane();
 
@@ -46,7 +49,7 @@ public class LandingPage extends Node {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
-        final GridPane grid = new GridPane();
+
         for (int i = 0; i < 4; i++) {
             ColumnConstraints column = new ColumnConstraints(WIDTH/6);
             grid.getColumnConstraints().add(column);
@@ -94,7 +97,7 @@ public class LandingPage extends Node {
         grid.add(gamePlayButton, 0, 11, 2, 5);
 
         // Add Exit Button
-        final Button exitButton = new Button("EXIT");
+
         exitButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         exitButton.setStyle("-fx-background-color: #00ff00");
 
@@ -129,7 +132,16 @@ public class LandingPage extends Node {
 
             newWindow.show();
         });
+
+        exitButton.setOnAction(event -> {
+            stage.getChildren().removeAll(grid, canvas);
+            GameMap gm = new GameMap(canvas);
+            stage.getChildren().add(canvas);
+        });
+
     }
+
+
 
 
     /*****************************************************************************
