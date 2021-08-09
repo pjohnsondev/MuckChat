@@ -7,8 +7,10 @@ package muck.client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -29,6 +31,7 @@ import muck.client.space_invaders.LandingPage;
 import muck.protocol.connection.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter;
 
 public class MuckController implements Initializable {
 
@@ -111,7 +114,7 @@ public class MuckController implements Initializable {
         enter.setOnAction(this::sendMessage); // assigns function to button
         openFullChat.setOnAction(this::openFullChat);
         plus.setOnAction(this::addChatTab); // adds new tab
-        //GameMap gm = new GameMap(gameCanvas); // Adds GameMap animation to the game window
+        GameMap gm = new GameMap(gameCanvas); // Adds GameMap animation to the game window
         Image chosenAvatar = new Image("images/peach-portrait2.png"); // Avatar pic
         circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
         chatSection.setFocusTraversable(true);
@@ -253,6 +256,14 @@ public class MuckController implements Initializable {
 
     @FXML
     private void launchGame(ActionEvent event) {
-        LandingPage si = new LandingPage(gamePane1, gameCanvas);
+        gameCanvas.setVisible(false);
+        Canvas SICanvas = new Canvas();
+        SICanvas.setVisible(true);
+        SICanvas.setHeight(gameCanvas.getHeight());
+        SICanvas.setWidth(gameCanvas.getWidth());
+        gamePane1.setCenter(SICanvas);
+        BorderPane.setAlignment(SICanvas, Pos.CENTER);
+
+        LandingPage si = new LandingPage(gamePane1, SICanvas);
     }
 }

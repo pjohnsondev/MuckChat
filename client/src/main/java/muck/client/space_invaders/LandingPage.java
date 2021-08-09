@@ -54,7 +54,7 @@ public class LandingPage extends Node {
 
         grid.setHgap(10);
         grid.setVgap(20);
-        grid.setPadding(new Insets(50, 50, 50, 100));
+        grid.setPadding(new Insets(50, 50, 50, 95));
 
 
         ColumnConstraints cc;

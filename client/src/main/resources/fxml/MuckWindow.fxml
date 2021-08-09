@@ -125,7 +125,7 @@
                         </Button>
                         <BorderPane id="gamePane1" fx:id="gamePane1" layoutX="14.0" layoutY="14.0" prefHeight="593.0" prefWidth="522.0" style="-fx-border-color: black; -fx-border-width: 6; -fx-border-radius: 10;">
                            <center>
-                              <Canvas id="gameCanvas" fx:id="gameCanvas" height="585.0" width="512.0" BorderPane.alignment="CENTER" />
+                              <Canvas id="gameCanvas" fx:id="gameCanvas" height="584.0" width="512.0" BorderPane.alignment="CENTER" />
                            </center>
                         </BorderPane>
                         <Circle id="circle" fx:id="circle" fill="#1f93ff00" layoutX="665.0" layoutY="89.0" radius="74.0" stroke="BLACK" strokeType="INSIDE" />
