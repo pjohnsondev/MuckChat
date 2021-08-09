@@ -120,9 +120,9 @@ public class TileMapReader {
             return Integer.parseInt(content.get(y)[x]) -1;
         } catch (NumberFormatException e) {
             return 0;
-            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return 0;
+        }
     }
-
-
 
 }

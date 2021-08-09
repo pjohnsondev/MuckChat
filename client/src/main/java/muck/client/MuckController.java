@@ -5,6 +5,7 @@
 package muck.client;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -23,7 +24,12 @@ import javafx.scene.text.Font;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-//import muck.protocol.connection.*;
+
+import javafx.stage.Stage;
+import muck.client.space_invaders.LandingPage;
+import muck.protocol.connection.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class MuckController implements Initializable {
 
@@ -72,24 +78,11 @@ public class MuckController implements Initializable {
     @FXML // fx:id="enter"
     private Button enter; // Value injected by FXMLLoader
 
-    @FXML
-    private TitledPane channelPane;
-
-    @FXML
-    private AnchorPane playerPane;
-
-
     @FXML // fx:id="x3"
     private Font x3; // Value injected by FXMLLoader
 
     @FXML // fx:id="x4"
     private Color x4; // Value injected by FXMLLoader
-
-    @FXML
-    private Accordion ChannelsAndPlayersPane;
-
-    @FXML
-    private ImageView enterImage;
 
     @FXML // fx:id="openFullChat"
     private Button openFullChat; // Value injected by FXMLLoader
@@ -100,22 +93,26 @@ public class MuckController implements Initializable {
     @FXML // fx:id="closeChat"
     private Button closeChat; // Value injected by FXMLLoader
 
-    @FXML // fx:id="closeLists"
-    private Button closeLists; // Value injected by FXMLLoader
+    @FXML // fx:id="game1Button"
+    private Button game1Button; // Value injected by FXMLLoader
 
     @FXML
     private ImageView openChatImage;
 
     String message;
 
+    private static final Logger logger = LogManager.getLogger();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        closeChat.setOnAction(this::hideChatWindow);
-        closeLists.setOnAction(this::openChatOnly);
+        closeChat.setOnAction(this::toggleChatWindow);
+        game1Button.setOnAction(this::launchGame);
+        //openLists.setOnAction(this::openFullChat);
         openChatOnly.setOnAction(this::openChatOnly);
         enter.setOnAction(this::sendMessage); // assigns function to button
         openFullChat.setOnAction(this::openFullChat);
         plus.setOnAction(this::addChatTab); // adds new tab
+        //LandingPage spaceI = new LandingPage(gameCanvas);
         GameMap gm = new GameMap(gameCanvas); // Adds GameMap animation to the game window
         Image chosenAvatar = new Image("images/peach-portrait2.png"); // Avatar pic
         circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
@@ -124,14 +121,17 @@ public class MuckController implements Initializable {
     }
 
     @FXML
+    //Function that sends message when user presses enter
     void onEnter(ActionEvent event) {
         displayAndSend();
     }
 
+    //Function that sends message when user clicks on arrow
     private void sendMessage(ActionEvent event) {
         displayAndSend();
     }
 
+    //Function that displays message in chat box
     private void displayAndSend() {
         message = messageBox.getText();
         if ((message.length() != 0)) {
@@ -150,20 +150,41 @@ public class MuckController implements Initializable {
                 Also, this hasn't been tested extensively. Let me know if it causes
                 problems!
       TODO: Create multiple chat groups serverside to filter messages. .
-      */
-               /* userMessage currentMessage = new userMessage();
+      **NOTE**: The following line should append whatever message is in the currentMessage field on the
+                client. Not sure how we're going to implement checking for new messages, probably using
+                a timer and an array.
+                groupChatBox.appendText(MuckClient.getCurrentMessage().getMessage() + "\n")
+
+                In a similair way,we can retrieve user ID's and timestampes, although we will have to
+                implement those getters seperately.
+     */
+                userMessage currentMessage = new userMessage();
                 currentMessage.setMessage(message);
-                MuckClient.INSTANCE.send(currentMessage);*/
+                MuckClient.INSTANCE.send(currentMessage);
+     /*         This is a wait to retrieve the current message from the server. It should be moved from here when message
+                retrieval is implemented. This just helps to test current message retrieval implementation.
+
+                try{
+                  Thread.sleep(10);
+                }
+                catch(InterruptedException ex)
+                {
+                  Thread.currentThread().interrupt();
+                }
+
+                groupChatBox.appendText("UserName Here: "+ MuckClient.INSTANCE.getCurrentMessage()+ "\n");
+                */
             } else {
                 int num = chatPane1.getTabs().indexOf(currentTab) + 1;
                 TextArea currentChatBox = (TextArea) chatPane1.lookup("#chatbox" + num);
                 currentChatBox.appendText(message + "\n");
                 messageBox.clear();
-
             }
         }
     }
 
+
+    // Function that creates new chat tab
     @FXML
     private void addChatTab(ActionEvent event) {
         int numTabs = chatPane1.getTabs().size();
@@ -192,21 +213,45 @@ public class MuckController implements Initializable {
     }
 
     @FXML
+    //Function that opens chat window and list window
     private void openFullChat(ActionEvent event) {
         windowPane.setDividerPositions(0.43);
         chatSplitPane.setDividerPositions(0.6);
+        openChatOnly.setVisible(false);
     }
 
 
     @FXML
+    //Function that opens the chat window only
     private void openChatOnly(ActionEvent event) {
-        windowPane.setDividerPositions(0.65);
+        windowPane.setDividerPositions(0.68);
         chatSplitPane.setDividerPositions(0.989);
+        openChatOnly.setVisible(false);
     }
 
     @FXML
+    private void toggleChatWindow(ActionEvent event) {
+        double[] windowDivider = windowPane.getDividerPositions();
+        double[] chatDiv = chatSplitPane.getDividerPositions();
+        if (windowDivider[0] >= 0.40 && chatDiv[0] >= 0.6) {
+            openChatOnly(event);
+        }
+        if (windowDivider[0] >= 0.68 && chatDiv[0] >= 0.9) {
+            hideChatWindow(event);
+        }
+    }
+
+    @FXML
+    //Function that hides both chat window and list window
     private void hideChatWindow(ActionEvent event) {
-        windowPane.setDividerPositions(0.999);
-        chatSplitPane.setDividerPositions(1.0);
+            windowPane.setDividerPositions(0.999);
+            chatSplitPane.setDividerPositions(1.0);
+            openChatOnly.setVisible(true);
+    }
+
+
+    @FXML
+    private void launchGame(ActionEvent event) {
+        Platform.runLater(() -> new LandingPage().start(new Stage()));
     }
 }

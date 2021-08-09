@@ -1,6 +1,7 @@
 package muck.server;
 
 import muck.protocol.*;
+import muck.server.models.ModelRegister;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,6 +39,8 @@ public class App {
             logger.error("Start up failed", ex);
             System.exit(0);
         }
+
+        new ModelRegister().makemigrations();
 
     }
 

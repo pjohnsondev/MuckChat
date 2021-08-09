@@ -8,6 +8,7 @@ import com.esotericsoftware.kryonet.Client;
 import muck.protocol.*;
 import muck.protocol.connection.*;
 
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -20,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public enum MuckClient {
 
     INSTANCE;
+    userMessage currentMessage;
 
     public static MuckClient getINSTANCE() {
         return INSTANCE;
@@ -50,6 +52,7 @@ public enum MuckClient {
                 logger.info("Ping received from {}", conn.getID())
         ));
         //Listener for the message sent back from the server.
+<<<<<<< HEAD
         client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, serverMessage) ->
                 logger.info("Message from the server was: {}", serverMessage.getMessage())));
 
@@ -57,6 +60,13 @@ public enum MuckClient {
                 logger.info("Player list: {} received from {}", playerList, conn.getID())
         ));
 
+=======
+        client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, clientMessage) -> {
+                logger.info("Message recieved was: {}", clientMessage.getMessage());
+                currentMessage = clientMessage;
+              }
+                ));
+>>>>>>> f253d4c305f2b6f786e0e856bc20ff686d6cdc54
     }
 
     public synchronized void disconnect() throws IOException {
@@ -72,6 +82,13 @@ public enum MuckClient {
     public synchronized void send(Object message) {
         client.sendTCP(message);
     }
+
+    //Simple getter for the currentMessage stored in the client.
+    //Note: Probably should add wayus to get timestamps/etc.
+    public synchronized Object getCurrentMessage() {
+        return currentMessage.getMessage();
+    }
+
 
 
 }
