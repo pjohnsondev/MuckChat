@@ -23,5 +23,4 @@ public class Dice  {
         }
         return sum;
     }
-    
 }
