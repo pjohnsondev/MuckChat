@@ -1,8 +1,4 @@
-package aw.character;
-
-//TODO **IMPORTANT**
-//Unknown yet how this will interact with JavaFX and backend storage. This is a mere prototype, subject to
-//rapid change until the specifics of the project are worked out. Don't rely on any of these methods yet
+package muck.core.character;
 
 /**
  * An easy factory to create Players, and NPCs with default values, avatars, and other things

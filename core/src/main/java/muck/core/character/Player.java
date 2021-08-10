@@ -1,8 +1,4 @@
-package aw.character;
-
-//TODO **IMPORTANT**
-//Unknown yet how this will interact with JavaFX and backend storage. This is a mere prototype, subject to
-//rapid change until the specifics of the project are worked out. Don't rely on any of these methods yet
+package muck.core.character;
 
 public class Player extends Character {
     /**
@@ -15,12 +11,21 @@ public class Player extends Character {
     public Player(String username) throws CharacterDoesNotExistException {
         //TODO - Retrieve the username identifier from the backend database, then populate all fields with 
         // player values from the database
-        boolean databaseRetrievalSuccessful = false;
+        boolean databaseRetrievalSuccessful = StorageHandler.isPlayerValid(username);
         if (!databaseRetrievalSuccessful) {
             throw new CharacterDoesNotExistException(username);
         }
-        
-        setIdentifier(username);
+
+        this.setAvatar("some avatar retrieved from backend"); //further colab with issue #7 required
+        this.setIdentifier(username);
+    }
+    
+    /**
+     * Dummy constructor for a player object with a "null" identifier. Does not
+     * check with backend storage for a valid username. Should only be used for unit tests that don't use backend
+     */
+    protected Player() {
+        this.setIdentifier(null);
     }
     
     //TODO How will the player move? A player controller will need to be created
@@ -45,9 +50,6 @@ public class Player extends Character {
         return false;
     }
 
-    //TODO: Does a player have an inventory?
-    // Should the item be stored within the database?
-    // Can be moved to the Character class
     /**
     * @param item item to be added to inventory
     */
@@ -62,5 +64,25 @@ public class Player extends Character {
     public void removeItemFromInventory(String item) {
         //TODO
     }
+
+    // TODO: How do players retrieve what in their inventory
+    public String[] getInventory() {
+        return null;
+    }
+
+    // TODO: How will player be able to store achievements
+    /**
+     * @param achievement Name of achievement
+     */
+    public void addAchievement(String achievement) {
+    }
+
+    /**
+     * Retrieves players achievements
+     */
+    public String[] getAchievements() {
+        return null;
+    }
+
 
 }

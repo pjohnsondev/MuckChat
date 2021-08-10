@@ -8,7 +8,9 @@ import com.esotericsoftware.kryonet.Client;
 import muck.protocol.*;
 import muck.protocol.connection.*;
 
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,6 +21,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public enum MuckClient {
 
     INSTANCE;
+    userMessage currentMessage;
+    ArrayList<String> players = new ArrayList<String>();
 
     public static MuckClient getINSTANCE() {
         return INSTANCE;
@@ -48,10 +52,19 @@ public enum MuckClient {
         client.addListener(ListenerBuilder.forClass(Ping.class).onReceive((conn, ping) ->
                 logger.info("Ping received from {}", conn.getID())
         ));
-        //Listener for the message sent back from the server.
-        client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, serverMessage) ->
-                logger.info("Message from the server was: {}", serverMessage.getMessage())));
 
+        client.addListener(ListenerBuilder.forClass(ArrayList.class).onReceive((conn, playerList) -> {
+                logger.info("Player list: {} received from {}", playerList, conn.getID());
+                players = playerList;
+                logger.info("Clients playerlist is {}", players);
+                }
+        ));
+
+        client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, clientMessage) -> {
+                logger.info("Message recieved was: {}", clientMessage.getMessage());
+                currentMessage = clientMessage;
+              }
+                ));
     }
 
     public synchronized void disconnect() throws IOException {
@@ -67,6 +80,13 @@ public enum MuckClient {
     public synchronized void send(Object message) {
         client.sendTCP(message);
     }
+
+    //Simple getter for the currentMessage stored in the client.
+    //Note: Probably should add wayus to get timestamps/etc.
+    public synchronized Object getCurrentMessage() {
+        return currentMessage.getMessage();
+    }
+
 
 
 }
