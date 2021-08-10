@@ -26,38 +26,54 @@ public class SpotTest {
         int numOfRolls = 9;
         Dice dice = new Dice(sides);
         int oneDice = dice.Roll(numOfRolls);
+        logger.info("Output of dice roll is " + oneDice);
         assertAll("oneDice should be greater or equal 1 and less than or equal number of sides",
                 () -> assertTrue(oneDice <= sides*numOfRolls),
                 () -> assertTrue(oneDice >= 1));
-        logger.info("Output of dice roll is " + oneDice);
+
     }
+    @Test
+    public void testCheck(){
+        logger.info("Testing Spot.Check functionality");
+
+        Spot spot = new Spot();
+
+        assertAll("oneDice should be greater or equal 1 and less than or equal number of sides",
+                () -> assertTrue(spot.Check(10,1)), //this should always be true
+                () -> assertFalse(spot.Check(10,11))); //this should always be false
+
+    }
+
     @Test
     public void testDefend(){
         logger.info("Testing defend values between min and max expected");
         Spot spot = new Spot();
         double oneDefend = spot.Defend();
+        logger.info("Output of defence() is " + oneDefend);
         assertAll("spotDefend should not be less than 0.5 or more than 1.5",
                 () -> assertTrue(oneDefend <= 1.5),
                 () -> assertTrue(oneDefend >= 0.5));
-        logger.info("Output of defence is " + oneDefend);
+
     }
     @Test
     public void testAttack(){
         logger.info("Testing attack values between min and max expected");
-        Spot spot = new Spot();
-        double oneAttack = spot.Attack();
+        Spot newSpot = new Spot();
+        double oneAttack = newSpot.Attack();
+        logger.info("Output of attack() is " + oneAttack );
         assertAll("oneAttack should not be less than 0.5 or more than 1.5",
                 () -> assertTrue(oneAttack <= 1.5),
                 () -> assertTrue(oneAttack >= 0.5));
-        logger.info("Output of defence is " + oneAttack);
+
     }
     @Test
     public void testDamageOutput(){
         logger.info("testing damage output values calculated and returned");
         Spot spot = new Spot();
         double oneDamageOutput = spot.DamageOutput(1.5,0.5,10,10);
-        assertEquals(10,10);
         logger.info("Using static values, our damage calculator should return 10 - value is " + oneDamageOutput);
+        assertEquals(10,oneDamageOutput);
+
     }
 
 }
