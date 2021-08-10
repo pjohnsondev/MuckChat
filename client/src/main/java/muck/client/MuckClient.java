@@ -22,6 +22,7 @@ public enum MuckClient {
 
     INSTANCE;
     userMessage currentMessage;
+    ArrayList<String> players = new ArrayList<String>();
 
     public static MuckClient getINSTANCE() {
         return INSTANCE;
@@ -52,8 +53,11 @@ public enum MuckClient {
                 logger.info("Ping received from {}", conn.getID())
         ));
 
-        client.addListener(ListenerBuilder.forClass(ArrayList.class).onReceive((conn, playerList) ->
-                logger.info("Player list: {} received from {}", playerList, conn.getID())
+        client.addListener(ListenerBuilder.forClass(ArrayList.class).onReceive((conn, playerList) -> {
+                logger.info("Player list: {} received from {}", playerList, conn.getID());
+                players = playerList;
+                logger.info("Clients playerlist is {}", players);
+                }
         ));
 
         client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, clientMessage) -> {
