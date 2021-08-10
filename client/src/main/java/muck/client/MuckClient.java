@@ -56,6 +56,7 @@ public enum MuckClient {
         client.addListener(ListenerBuilder.forClass(ArrayList.class).onReceive((conn, playerList) -> {
                 logger.info("Player list: {} received from {}", playerList, conn.getID());
                 players = playerList;
+                logger.info("Clients playerlist is {}", players);
                 }
         ));
 
