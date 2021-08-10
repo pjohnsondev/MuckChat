@@ -102,7 +102,7 @@
         </Menu>
       </menus>
     </MenuBar>
-    <SplitPane id="windowPane" fx:id="windowPane" dividerPositions="0.9962406015037594" focusTraversable="true" prefHeight="633.0" prefWidth="784.0" VBox.vgrow="SOMETIMES">
+    <SplitPane id="windowPane" fx:id="windowPane" dividerPositions="0.43107769423558895" focusTraversable="true" prefHeight="633.0" prefWidth="784.0" VBox.vgrow="SOMETIMES">
       <items>
         <ScrollPane prefHeight="645.0" prefWidth="791.0">
                <content>
@@ -152,7 +152,7 @@
                   </AnchorPane>
                </content>
         </ScrollPane>
-            <SplitPane id="chatSplitPane" fx:id="chatSplitPane" dividerPositions="0.9857954545454546" maxWidth="451.0" minWidth="0.0" prefHeight="630.0" prefWidth="0.0" snapToPixel="false">
+            <SplitPane id="chatSplitPane" fx:id="chatSplitPane" dividerPositions="0.0" maxWidth="451.0" minWidth="0.0" prefHeight="630.0" prefWidth="0.0" snapToPixel="false">
               <items>
                   <VBox id="chatSection" fx:id="chatSection" maxWidth="350.0" minWidth="0.0" prefHeight="703.0" prefWidth="268.0">
                      <children>
@@ -205,14 +205,14 @@
                         <VBox prefHeight="750.0" prefWidth="13.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <TitledPane animated="false" text="Channels" VBox.vgrow="ALWAYS">
-                                <content>
-                                  <AnchorPane id="channelPane" fx:id="channelPane" minHeight="0.0" minWidth="0.0" prefHeight="355.0" prefWidth="175.0" />
-                                </content>
+                                 <content>
+                                    <TextArea id="channelTextArea" fx:id="channelTextArea" editable="false" prefHeight="255.0" prefWidth="173.0" />
+                                 </content>
                               </TitledPane>
                               <TitledPane animated="false" prefHeight="367.0" prefWidth="177.0" text="Players" VBox.vgrow="ALWAYS">
-                                <content>
-                                  <AnchorPane id="playerPane" fx:id="playerPane" minHeight="0.0" minWidth="0.0" prefHeight="234.0" prefWidth="175.0" />
-                                </content>
+                                 <content>
+                                    <TextArea id="playerTextArea" fx:id="playerTextArea" editable="false" prefHeight="189.0" prefWidth="127.0" />
+                                 </content>
                               </TitledPane>
                            </children>
                         </VBox>

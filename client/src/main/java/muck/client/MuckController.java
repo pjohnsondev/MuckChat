@@ -64,11 +64,11 @@ public class MuckController implements Initializable {
     @FXML // fx:id="chatPane1" The tab pane for the chat - tabs sit in this. Despite the name there is only 1
     private TabPane chatPane1; // Value injected by FXMLLoader
 
-    @FXML // fx:id="channelPane" The pane for the channel list
-    private AnchorPane channelPane; // Value injected by FXMLLoader
+    @FXML // fx:id="channelTextArea" The pane for the channel list
+    private TextArea channelTextArea; // Value injected by FXMLLoader
 
-    @FXML // fx:id="playerPane" The pane for the player list
-    private AnchorPane playerPane; // Value injected by FXMLLoader
+    @FXML // fx:id="playerTextArea" The pane for the player list
+    private TextArea playerTextArea; // Value injected by FXMLLoader
 
     @FXML // fx:id="groupChat" The tab for the group chat. It sits in chatPane1
     private Tab groupChat; // Value injected by FXMLLoader
