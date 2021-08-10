@@ -102,7 +102,7 @@
         </Menu>
       </menus>
     </MenuBar>
-    <SplitPane id="windowPane" fx:id="windowPane" dividerPositions="0.9962374581939801" focusTraversable="true" prefHeight="633.0" prefWidth="784.0" VBox.vgrow="SOMETIMES">
+    <SplitPane id="windowPane" fx:id="windowPane" dividerPositions="0.43107769423558895" focusTraversable="true" prefHeight="633.0" prefWidth="784.0" VBox.vgrow="SOMETIMES">
       <items>
         <ScrollPane prefHeight="645.0" prefWidth="791.0">
                <content>
@@ -206,10 +206,10 @@
                            <children>
                               <TitledPane animated="false" text="Channels" VBox.vgrow="ALWAYS">
                                 <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="355.0" prefWidth="175.0" />
+                                  <AnchorPane id="channelPane" fx:id="channelPane" minHeight="0.0" minWidth="0.0" prefHeight="355.0" prefWidth="175.0" />
                                 </content>
                               </TitledPane>
-                              <TitledPane id="channelPane" fx:id="channelPane" animated="false" prefHeight="367.0" prefWidth="177.0" text="Players" VBox.vgrow="ALWAYS">
+                              <TitledPane animated="false" prefHeight="367.0" prefWidth="177.0" text="Players" VBox.vgrow="ALWAYS">
                                 <content>
                                   <AnchorPane id="playerPane" fx:id="playerPane" minHeight="0.0" minWidth="0.0" prefHeight="234.0" prefWidth="175.0" />
                                 </content>

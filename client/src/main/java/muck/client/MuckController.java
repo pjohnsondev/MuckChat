@@ -63,6 +63,12 @@ public class MuckController implements Initializable {
     @FXML // fx:id="chatPane1"
     private TabPane chatPane1; // Value injected by FXMLLoader
 
+    @FXML // fx:id="channelPane"
+    private AnchorPane channelPane; // Value injected by FXMLLoader
+
+    @FXML // fx:id="playerPane"
+    private AnchorPane playerPane; // Value injected by FXMLLoader
+
     @FXML // fx:id="groupChat"
     private Tab groupChat; // Value injected by FXMLLoader
 
