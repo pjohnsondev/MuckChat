@@ -228,6 +228,7 @@ public class MuckController implements Initializable {
         windowPane.setDividerPositions(0.43);
         chatSplitPane.setDividerPositions(0.6);
         openChatOnly.setVisible(false);
+        fillPlayerList();
     }
 
 
@@ -282,5 +283,12 @@ public class MuckController implements Initializable {
 
     private void quitMuck(ActionEvent event) {
         Platform.exit();
+    }
+
+    private void fillPlayerList() {
+        for (String player: MuckClient.INSTANCE.players) {
+            playerTextArea.clear();
+            playerTextArea.appendText("Player " + player + "\n");
+        }
     }
 }
