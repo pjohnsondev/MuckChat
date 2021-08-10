@@ -4,6 +4,7 @@
 
 package muck.client;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -36,59 +37,60 @@ import org.checkerframework.common.reflection.qual.Invoke;
 
 public class MuckController implements Initializable {
 
-    @FXML // fx:id="menu"
+    @FXML // fx:id="menu" The menu bar at the top
     private MenuBar menu; // Value injected by FXMLLoader
 
-    @FXML // fx:id="windowPane"
+    @FXML // fx:id="windowPane" The pane that seperated the game area and the chat area
     private SplitPane windowPane; // Value injected by FXMLLoader
 
-    @FXML // fx:id="windowPane"
+    @FXML // The pane that separates the chat area and list area
     private SplitPane chatSplitPane; // Value injected by FXMLLoader
 
-    @FXML // fx:id="chatSection"
+    @FXML // fx:id="chatSection" The chat area part of the second pane
     private VBox chatSection; // Value injected by FXMLLoader
 
-    @FXML // fx:id="gamePane"
+    @FXML // fx:id="gamePane" The game window
     private BorderPane gamePane1; // Value injected by FXMLLoader
 
-    @FXML // fx:id="gameCanvas"
+    @FXML // fx:id="gameCanvas" the original game canvas with the Map. Map displays in here
     private Canvas gameCanvas; // Value injected by FXMLLoader
 
-    @FXML // fx:id="circle"
+    @FXML // fx:id="circle" Circle image area for avatar
     private Circle circle; // Value injected by FXMLLoader
 
-    @FXML // fx:id="avatar"
+    @FXML // fx:id="avatar" Actual avatar picture
     private ImageView avatar; // Value injected by FXMLLoader
 
-    @FXML // fx:id="chatPane1"
+    @FXML // fx:id="chatPane1" The tab pane for the chat - tabs sit in this. Despite the name there is only 1
     private TabPane chatPane1; // Value injected by FXMLLoader
 
-    @FXML // fx:id="channelPane"
+    @FXML // fx:id="channelPane" The pane for the channel list
     private AnchorPane channelPane; // Value injected by FXMLLoader
 
-    @FXML // fx:id="playerPane"
+    @FXML // fx:id="playerPane" The pane for the player list
     private AnchorPane playerPane; // Value injected by FXMLLoader
 
-    @FXML // fx:id="groupChat"
+    @FXML // fx:id="groupChat" The tab for the group chat. It sits in chatPane1
     private Tab groupChat; // Value injected by FXMLLoader
 
-    @FXML // fx:id="chatAnchor"
+    @FXML // fx:id="chatAnchor" Makes a border for the chat text area
     private AnchorPane chatAnchor; // Value injected by FXMLLoader
 
-    @FXML // fx:id="groupChatBox"
+    @FXML // fx:id="groupChatBox" The text area for the group chat
     private TextArea groupChatBox; // Value injected by FXMLLoader
 
-    @FXML // fx:id="messageBox"
+    @FXML // fx:id="messageBox" The box you type in to send a pessage
     private TextField messageBox; // Value injected by FXMLLoader
 
-    @FXML // fx:id="plus"
+    @FXML // fx:id="plus"   The menu item to add another tab
     private MenuItem plus; // Value injected by FXMLLoader
 
-    @FXML // fx:id="enter"
+    @FXML
+    private MenuItem quitMuck; // Value injected by FXMLLoader
+
+    @FXML // fx:id="enter" The button to submit your text
     private Button enter; // Value injected by FXMLLoader
 
-    @FXML // fx:id="mapButton"
-    private Button mapButton; // Value injected by FXMLLoader
 
     @FXML // fx:id="x3"
     private Font x3; // Value injected by FXMLLoader
@@ -96,20 +98,17 @@ public class MuckController implements Initializable {
     @FXML // fx:id="x4"
     private Color x4; // Value injected by FXMLLoader
 
-    @FXML // fx:id="openFullChat"
+    @FXML // fx:id="openFullChat" The image button to open chat in the corner
     private Button openFullChat; // Value injected by FXMLLoader
 
-    @FXML // fx:id="openChatOnly"
+    @FXML // fx:id="openChatOnly" The side tab button to open the chat window
     private Button openChatOnly; // Value injected by FXMLLoader
 
-    @FXML // fx:id="closeChat"
+    @FXML // fx:id="closeChat" The x button when the chat is open
     private Button closeChat; // Value injected by FXMLLoader
 
-    @FXML // fx:id="game1Button"
+    @FXML // fx:id="game1Button" The space invaders button. This is supposed to be temporary
     private Button game1Button; // Value injected by FXMLLoader
-
-    @FXML
-    private ImageView openChatImage;
 
     String message;
 
@@ -120,7 +119,7 @@ public class MuckController implements Initializable {
         closeChat.setOnAction(this::toggleChatWindow);
         game1Button.setOnAction(this::launchGame);
         openChatOnly.setOnAction(this::openChatOnly);
-        enter.setOnAction(this::sendMessage); // assigns function to button
+        enter.setOnAction(this::sendMessage);
         openFullChat.setOnAction(this::openFullChat);
         plus.setOnAction(this::addChatTab); // adds new tab
         GameMap gm = new GameMap(gameCanvas); // Adds GameMap animation to the game window
@@ -128,6 +127,7 @@ public class MuckController implements Initializable {
         circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
         chatSection.setFocusTraversable(true);
         chatSection.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> chatSection.isFocused());
+        quitMuck.setOnAction(this::quitMuck);
     }
 
     @FXML
@@ -234,22 +234,21 @@ public class MuckController implements Initializable {
     @FXML
     //Function that opens the chat window only
     private void openChatOnly(ActionEvent event) {
-        windowPane.setDividerPositions(0.68);
+        windowPane.setDividerPositions(0.70);
         chatSplitPane.setDividerPositions(0.989);
         openChatOnly.setVisible(false);
     }
 
     @FXML
+    // Function that opens and closes the chat area depening on how far open it is
     private void toggleChatWindow(ActionEvent event) {
         double[] windowDivider = windowPane.getDividerPositions();
         double[] chatDiv = chatSplitPane.getDividerPositions();
-        if (windowDivider[0] >= 0.40 && chatDiv[0] >= 0.6) {
-            openChatOnly(event);
-        }
-        if (windowDivider[0] >= 0.68 && chatDiv[0] >= 0.9) {
+
+        if (windowDivider[0] >= 0.68 && chatDiv[0] >= 0.9) { //if only the chat is open then is closes the chat area
             hideChatWindow(event);
         }
-        if (!(windowDivider[0] == 0.99)) {
+        if (!(windowDivider[0] == 0.99)) { // if the chat is open slightly it also closes the entire chat area
             hideChatWindow(event);
         }
     }
@@ -264,6 +263,12 @@ public class MuckController implements Initializable {
 
 
     @FXML
+    /** Function to launch the game. The game exists in the LandingPage.class.
+    Basically what this is doing is disabling and hiding the map canvas and creating a new canvas
+    for the new game. It then adds this canvas as a child of the pane.
+
+     When the user presses exit, it essentially removes the content and adds the game map back
+     */
     private void launchGame(ActionEvent event) {
         gameCanvas.setDisable(true);
         gameCanvas.setVisible(false);
@@ -273,5 +278,9 @@ public class MuckController implements Initializable {
         gamePane1.setCenter(SICanvas);
         BorderPane.setAlignment(SICanvas, Pos.CENTER);
         LandingPage si = new LandingPage(gamePane1, SICanvas);
+    }
+
+    private void quitMuck(ActionEvent event) {
+        Platform.exit();
     }
 }
