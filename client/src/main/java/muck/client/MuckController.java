@@ -286,8 +286,8 @@ public class MuckController implements Initializable {
     }
 
     private void fillPlayerList() {
+        playerTextArea.clear();
         for (String player: MuckClient.INSTANCE.players) {
-            playerTextArea.clear();
             playerTextArea.appendText("Player " + player + "\n");
         }
     }
