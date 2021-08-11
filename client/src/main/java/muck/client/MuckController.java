@@ -117,7 +117,7 @@ public class MuckController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         closeChat.setOnAction(this::toggleChatWindow);
-        game1Button.setOnAction(this::launchGame);
+        game1Button.setOnAction(this::launchSpaceInvaders);
         openChatOnly.setOnAction(this::openChatOnly);
         enter.setOnAction(this::sendMessage);
         openFullChat.setOnAction(this::openFullChat);
@@ -220,6 +220,9 @@ public class MuckController implements Initializable {
         newAnc.getChildren().add(chatX);
         chatPane1.getTabs().add(newTab);
         chatPane1.getSelectionModel().select(newTab);
+        windowPane.setDividerPositions(0.70);
+        chatSplitPane.setDividerPositions(0.989);
+        openChatOnly.setVisible(false);
     }
 
     @FXML
@@ -270,7 +273,7 @@ public class MuckController implements Initializable {
 
      When the user presses exit, it essentially removes the content and adds the game map back
      */
-    private void launchGame(ActionEvent event) {
+    private void launchSpaceInvaders (ActionEvent event) {
         gameCanvas.setDisable(true);
         gameCanvas.setVisible(false);
         Canvas SICanvas = new Canvas();
