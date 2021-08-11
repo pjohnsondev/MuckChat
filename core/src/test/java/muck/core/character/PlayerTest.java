@@ -41,6 +41,9 @@ public class PlayerTest {
         Player otherPlayer = mock(Player.class);
         String collectable = "Special Item";
 
+        logger.info("Testing that a player should have no items in inventory");
+        assertNull(player.getInventory(), "Player should have no items in inventory");
+
         // Add item to player inventory
         logger.info("Testing adding an item to player inventory");
         player.addItemToInventory(collectable);
@@ -79,5 +82,29 @@ public class PlayerTest {
                             return false;
                         })
                 );
+    }
+
+    // Test player interaction with achievements
+    @Test
+    public void testAchievementInteraction() {
+        Player player = mock(Player.class);
+        String achievement = "Wannabe";
+
+        logger.info("Testing that the player should not have any achievements");
+        assertNull(player.getAchievements(), "Player should have no achievements");
+
+        logger.info("Testing that the player can receive and get achievements");
+        player.addAchievement(achievement);
+        assertTrue(
+                () -> {
+                    for(int i = 0; i < player.getAchievements().length; i++) {
+                        if(player.getAchievements()[i].equals(achievement)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                },
+                "Player should have the achievement"
+        );
     }
 }
