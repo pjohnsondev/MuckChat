@@ -1,27 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.effect.Blend?>
-<?import javafx.scene.effect.ColorInput?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="807.0" prefWidth="1136.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.controllers.CardsGameController">
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="807.0" prefWidth="1136.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.controllers.CardsGameController">
     <children>
         <TabPane prefHeight="807.0" prefWidth="1136.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
@@ -29,14 +14,14 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="783.0" prefWidth="1135.0" style="-fx-background-color: green;">
                             <children>
-                                <Button layoutX="628.0" layoutY="236.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="117.0" text="Ask For Card" />
-                                Button layoutX="647.0" layoutY="303.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="80.0" text="Go Fish " />
+                                <Button fx:id="ask_for_card" layoutX="628.0" layoutY="236.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="117.0" text="Ask For Card" />
+                                <Button fx:id="go_fish" layoutX="647.0" layoutY="303.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="80.0" text="Go Fish" />
                                 <ImageView fitHeight="149.0" fitWidth="84.0" layoutX="467.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true">
                                     <effect>
                                         <ColorInput />
                                     </effect>
                                 </ImageView>
-                                <Label layoutX="32.0" layoutY="219.0" text="Sets made: " textAlignment="CENTER">
+                                <Label fx:id="sets_made" layoutX="32.0" layoutY="219.0" text="Sets made: " textAlignment="CENTER">
                                     <font>
                                         <Font name="System Bold" size="12.0" />
                                     </font></Label>
