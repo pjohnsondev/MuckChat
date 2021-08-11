@@ -3,7 +3,7 @@ package muck.server;
 import muck.core.character.CharacterDoesNotExistException;
 import muck.core.character.CharacterFactory;
 import muck.core.character.Player;
-import muck.protocol.connection.Login;
+import muck.core.Login;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

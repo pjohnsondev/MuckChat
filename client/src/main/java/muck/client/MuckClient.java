@@ -1,20 +1,17 @@
 package muck.client;
 
+import muck.core.Login;
+import muck.core.character.AddCharacter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.esotericsoftware.kryonet.Client;
 
 import muck.protocol.*;
-import muck.core.Id;
 import muck.protocol.connection.*;
-import muck.core.Id;
 
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Handles network communication with the server. It's created as an enum to ensure there is only one instance.

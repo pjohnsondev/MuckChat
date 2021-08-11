@@ -1,6 +1,9 @@
 package muck.server;
 
 
+import muck.core.Location;
+import muck.core.Login;
+import muck.core.character.AddCharacter;
 import muck.core.character.Character;
 import muck.core.character.CharacterDoesNotExistException;
 import com.esotericsoftware.kryonet.Connection;
@@ -100,11 +103,6 @@ public enum MuckServer {
             kryoServer.sendToAllTCP(clientMessage); //Send to all clients connected. Can be switched to send only to one client.
         }));
 
-        addListener(ListenerBuilder.forClass(CharacterLocation.class).onReceive((conn, location) -> {
-                logger.info("Received a character location.");
-                logger.info("TODO: Process character location: {}", location.toString());
-        }));
-
         addListener(ListenerBuilder.forClass(Login.class).onReceive((connection, login) -> {
             loginPlayer(login, (MuckConnection)connection);
         }));
@@ -140,7 +138,7 @@ public enum MuckServer {
     }
 
     public AddCharacter addCharacter(Character character) {
-        Location location = new Location(0,0);
+        Location location = new muck.core.Location(0,0);
 
         AddCharacter addCharacter = new AddCharacter(character, location);
 

@@ -1,4 +1,4 @@
-package muck.protocol.connection;
+package muck.core;
 
 public class Login {
     private String username;

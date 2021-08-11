@@ -1,5 +1,9 @@
 package muck.protocol;
 
+import muck.core.Location;
+import muck.core.Login;
+import muck.core.Pair;
+import muck.core.character.AddCharacter;
 import muck.core.character.Player;
 import com.esotericsoftware.kryo.Kryo;
 import muck.core.Id;
@@ -32,5 +36,6 @@ public class Protocol {
         kryo.register(AddCharacter.class);
         kryo.register(Player.class);
         kryo.register(Location.class);
+        kryo.register(Pair.class);
     }
 }

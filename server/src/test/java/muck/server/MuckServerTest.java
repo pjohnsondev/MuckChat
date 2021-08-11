@@ -1,10 +1,9 @@
 package muck.server;
 
-import muck.core.character.Character;
 import muck.core.character.CharacterDoesNotExistException;
 import muck.core.character.CharacterFactory;
 import muck.core.character.Player;
-import muck.protocol.connection.AddCharacter;
+import muck.core.character.AddCharacter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;

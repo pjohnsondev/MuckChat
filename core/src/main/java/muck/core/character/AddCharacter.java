@@ -1,7 +1,6 @@
-package muck.protocol.connection;
+package muck.core.character;
 
-import muck.core.character.Character;
-import muck.protocol.connection.Location;
+import muck.core.Location;
 
 public class AddCharacter {
     private Character character;
