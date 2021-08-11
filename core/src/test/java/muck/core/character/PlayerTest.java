@@ -44,17 +44,40 @@ public class PlayerTest {
         // Add item to player inventory
         logger.info("Testing adding an item to player inventory");
         player.addItemToInventory(collectable);
-        assertEquals(collectable, player.getInventory(), "Player should have item");
+        assertTrue(
+                () -> {
+                    for(int i = 0; i < player.getInventory().length; i++) {
+                        if(player.getInventory()[i].equals(collectable)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                },
+                "Player should have item");
 
         // Trade with other player
         logger.info("Testing that the player can trade an item with another player");
         assertAll(
                 "Player should no longer have item and other player should have item" ,
                 () -> assertTrue(player.tradeCollectable(collectable, otherPlayer)),
-                () -> assertEquals(null, player.getInventory()),
-                () -> assertEquals(collectable, otherPlayer.getInventory())
-        );
-
-
+                () -> assertFalse(
+                        () -> {
+                            for(int i = 0; i < player.getInventory().length; i++) {
+                                if(player.getInventory()[i].equals(collectable)) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }),
+                () -> assertTrue(
+                        () -> {
+                            for(int i = 0; i < otherPlayer.getInventory().length; i++) {
+                                if(otherPlayer.getInventory()[i].equals(collectable)) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        })
+                );
     }
 }
