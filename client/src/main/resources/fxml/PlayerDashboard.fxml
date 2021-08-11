@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<GridPane maxHeight="711.0" maxWidth="1130.0" minHeight="600.0" minWidth="700.0" prefHeight="631.0" prefWidth="1000.0" style="-fx-background-color: dimgrey;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller = "muck.client.UserProfileController">
+<GridPane maxHeight="711.0" maxWidth="1130.0" minHeight="600.0" minWidth="700.0" prefHeight="631.0" prefWidth="1000.0" style="-fx-background-color: dimgrey;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller = "muck.client.PlayerDashboardController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="900.0" minWidth="200.0" prefWidth="462.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="100.0" prefWidth="215.0" />

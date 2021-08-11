@@ -1,11 +1,13 @@
 package muck.client.space_invaders;
 
+import javafx.event.ActionEvent;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -19,12 +21,14 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+import muck.client.GameMap;
+
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class LandingPage extends Application {
+public class LandingPage extends Node {
 
     List<StarBackground> stars;
 
@@ -32,10 +36,11 @@ public class LandingPage extends Application {
     private static final int HEIGHT = 600;
     private static final int WIDTH = 1000;
     private GraphicsContext gc;
+    final Button exitButton = new Button("EXIT");
+    final GridPane grid = new GridPane();
 
-
-    public void start(final Stage stage) throws Exception {
-        Canvas canvas = new Canvas(WIDTH, HEIGHT);
+    public LandingPage (BorderPane stage, Canvas canvas) {
+        //Canvas canvas = new Canvas(WIDTH, HEIGHT);
         gc = canvas.getGraphicsContext2D();
 
         var root = new Pane();
@@ -44,15 +49,15 @@ public class LandingPage extends Application {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
-        final GridPane grid = new GridPane();
+
         for (int i = 0; i < 4; i++) {
-            ColumnConstraints column = new ColumnConstraints(WIDTH/3.3);
+            ColumnConstraints column = new ColumnConstraints(WIDTH/6);
             grid.getColumnConstraints().add(column);
         }
 
         grid.setHgap(10);
         grid.setVgap(20);
-        grid.setPadding(new Insets(50, 50, 50, 50));
+        grid.setPadding(new Insets(50, 50, 50, 95));
 
 
         ColumnConstraints cc;
@@ -77,30 +82,31 @@ public class LandingPage extends Application {
                 ("file:client/src/main/java/muck/client/space_invaders/images/space_invaders_title.png");
         titleView.setFitWidth(WIDTH-100);
         titleView.setPreserveRatio(true);
-        grid.add(titleView, 0,0,3,5);
+        grid.add(titleView, 0,0,2,5);
 
         // Add Play Button
         final Button playButton = new Button("PLAY");
         playButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         playButton.setStyle("-fx-background-color: #00ff00");
-        grid.add(playButton, 1, 6, 1, 5);
+        grid.add(playButton, 0, 6, 2, 5);
 
         // Add Gameplay Button
         final Button gamePlayButton = new Button("GAMEPLAY INSTRUCTIONS");
         gamePlayButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         gamePlayButton.setStyle("-fx-background-color: #00ff00");
-        grid.add(gamePlayButton, 1, 11, 1, 5);
+        grid.add(gamePlayButton, 0, 11, 2, 5);
 
         // Add Exit Button
-        final Button exitButton = new Button("EXIT");
+
         exitButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         exitButton.setStyle("-fx-background-color: #00ff00");
-        grid.add(exitButton, 1, 16, 1, 5);
+
+        grid.add(exitButton, 0, 16, 2, 5);
 
 
-        root.getChildren().addAll(canvas, grid);
-        stage.setScene(new Scene(root, WIDTH, HEIGHT));
-        stage.show();
+        stage.getChildren().add(grid);
+        //stage.setScene(new Scene(root, WIDTH, HEIGHT));
+        //stage.show();
 
         // Create event when Play Button is clicked. For now it opens up a new window
         // TODO: Open game up in same canvas.
@@ -120,15 +126,22 @@ public class LandingPage extends Application {
 
             newWindow.initModality(Modality.WINDOW_MODAL);
 
-            newWindow.initOwner(stage);
+            //newWindow.initOwner(stage);
 
             // Set position of second window, related to primary window.
-            newWindow.setX(stage.getX() + 500);
-            newWindow.setY(stage.getY() - 100);
 
             newWindow.show();
         });
+
+        exitButton.setOnAction(event -> {
+            stage.getChildren().removeAll(grid, canvas);
+            GameMap gm = new GameMap(canvas);
+            stage.getChildren().add(canvas);
+        });
+
     }
+
+
 
 
     /*****************************************************************************
@@ -192,10 +205,6 @@ public class LandingPage extends Application {
         }
     }
 
-
-    public static void main(String[] args) {
-        launch(args);
-    }
 
 }
 
