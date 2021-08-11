@@ -123,7 +123,7 @@ public class MuckController implements Initializable {
         openFullChat.setOnAction(this::openFullChat);
         plus.setOnAction(this::addChatTab); // adds new tab
         GameMap gm = new GameMap(gameCanvas); // Adds GameMap animation to the game window
-        Image chosenAvatar = new Image("images/peach-portrait.png"); // Avatar pic
+        Image chosenAvatar = AvatarController.getPortrait("peach"); // TODO: The avatar ID needs to the that attached to a username. Need server call!
         circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
         chatSection.setFocusTraversable(true);
         chatSection.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> chatSection.isFocused());
