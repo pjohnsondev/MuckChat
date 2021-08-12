@@ -57,15 +57,14 @@ public enum MuckServer {
 
         // The arraylist is only a temporary datastructure and is subject to change.
         ArrayList<String> players = new ArrayList<String>();
-        // Adds a listener to listen for new client connections, then adds the clients id to the players arraylist.
+        // Adds a listener to listen for new client connections, then adds the clients id to the players arraylist and sends to all clients.
         addListener(ListenerBuilder.forClass(Connected.class).onReceive((conn, connected) -> {
-
             players.add(Integer.toString(conn.getID()));
             logger.info("Player connection id's are: {}", players);
             kryoServer.sendToAllTCP(players);
         }));
 
-        // Adds a listener to listen for clients disconnecting from the server, then removes them from the players arraylist.
+        // Adds a listener to listen for clients disconnecting from the server, then removes them from the players arraylist and sends to all connected clients.
         addListener(ListenerBuilder.forClass(Disconnect.class).onReceive((conn, disconnect) -> {
             players.remove(Integer.toString(conn.getID())); // This will obtain the index of the player
             logger.info("Player connection id's are: {} disconnected: {}", players, disconnect);
