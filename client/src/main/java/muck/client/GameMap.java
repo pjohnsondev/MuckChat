@@ -32,6 +32,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
     private int layer = 0;
     private int tileId = 0;
     private int GID = 0;
+    int n =0; //water animation
     Rectangle rectangle = new Rectangle();
     double screenHeightInTiles;
     double screenWidthInTiles;
@@ -87,6 +88,11 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
                 offY = (int) (cameraY % tm.getTileWidth());
 
                 drawLayer(0); //draws a single layer pass the layer number
+                n++;
+                if (n <15 ) {
+                    drawLayer(1);
+                }
+                if (n > 30) { n=0;}
                 drawLayer(2); //draws a single layer pass the layer number
                 drawLayer(3);
                 drawHero(gc, rectangle);

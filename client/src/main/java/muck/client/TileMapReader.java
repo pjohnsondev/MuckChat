@@ -81,7 +81,6 @@ public class TileMapReader {
 
             list = doc.getElementsByTagName("layer");
             layers = list.getLength();
-            System.out.println(list.getLength());
 
             for(int i =0; i < layers; i++) {
                 node = list.item(i);
