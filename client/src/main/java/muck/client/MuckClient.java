@@ -53,6 +53,7 @@ public enum MuckClient {
                 logger.info("Ping received from {}", conn.getID())
         ));
 
+        // Add a listener to listen for an arraylist message from the server, this is then stored on the client instance as the player array
         client.addListener(ListenerBuilder.forClass(ArrayList.class).onReceive((conn, playerList) -> {
                 logger.info("Player list: {} received from {}", playerList, conn.getID());
                 players = playerList;

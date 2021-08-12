@@ -34,6 +34,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter;
 import org.checkerframework.common.reflection.qual.Invoke;
+import javafx.util.Duration;
 
 public class MuckController implements Initializable {
 
@@ -128,6 +129,10 @@ public class MuckController implements Initializable {
         chatSection.setFocusTraversable(true);
         chatSection.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> chatSection.isFocused());
         quitMuck.setOnAction(this::quitMuck);
+        // Creates and sets the player list service to be called every second, to update the current player list
+        PlayerListService service = new PlayerListService(playerTextArea);
+        service.setPeriod(Duration.seconds(1));
+        service.start();
     }
 
     @FXML
@@ -231,7 +236,6 @@ public class MuckController implements Initializable {
         windowPane.setDividerPositions(0.43);
         chatSplitPane.setDividerPositions(0.6);
         openChatOnly.setVisible(false);
-        fillPlayerList();
     }
 
 
@@ -286,12 +290,5 @@ public class MuckController implements Initializable {
 
     private void quitMuck(ActionEvent event) {
         Platform.exit();
-    }
-
-    private void fillPlayerList() {
-        playerTextArea.clear();
-        for (String player: MuckClient.INSTANCE.players) {
-            playerTextArea.appendText("Player " + player + "\n");
-        }
     }
 }
