@@ -24,8 +24,7 @@ public class TileMapReader {
     int tileColumns;
     int layers = 0;
     String[] data = new String[10];
-    int n = 0; //TobeRemoved
-    ArrayList<String[]> content = new ArrayList<>();
+    ArrayList<ArrayList<String[]>> layerContent = new ArrayList<>();
 
     public TileMapReader(String path) {
        this.path = path;
@@ -79,10 +78,10 @@ public class TileMapReader {
             tileHeight = Integer.parseInt(eElement.getAttribute( "tileheight"));
             tileCount = Integer.parseInt(eElement.getAttribute("tilecount"));
             tileColumns = Integer.parseInt(eElement.getAttribute("columns"));
-            //sprite = new Sprite("tile/" + imagePath + ".png", tileWidth, tileHeight);
 
             list = doc.getElementsByTagName("layer");
             layers = list.getLength();
+            System.out.println(list.getLength());
 
             for(int i =0; i < layers; i++) {
                 node = list.item(i);
@@ -93,6 +92,7 @@ public class TileMapReader {
                 }
 
                 data[i] = eElement.getElementsByTagName("data").item(0).getTextContent();
+
                 //System.out.println("-------------------\n" + data[i]);
 
                 data[i] = data[i].replaceAll("\\h","");
@@ -101,9 +101,11 @@ public class TileMapReader {
                 try {
                     BufferedReader br = new BufferedReader((new StringReader(data[i])));
                     String line = "";
+                    ArrayList<String[]> content = new ArrayList<>();
                     while((line = br.readLine()) != null) {
                         content.add(line.split(","));
                     }
+                    layerContent.add(content);
                 } catch (FileNotFoundException e) {
                     System.out.println("FileNotFoundError: No String data to read from map");
                 } catch (IOException e) {
@@ -117,10 +119,12 @@ public class TileMapReader {
 
     public int getLayerId(int layer, int x, int y) {
         try {
-            return Integer.parseInt(content.get(y)[x]) -1;
+            return Integer.parseInt(layerContent.get(layer).get(y)[x]) -1;
         } catch (NumberFormatException e) {
             return 0;
         } catch (ArrayIndexOutOfBoundsException e) {
+            return 0;
+        } catch (IndexOutOfBoundsException e) {
             return 0;
         }
     }

@@ -86,8 +86,9 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
                 offX = (int) (cameraX % tm.getTileWidth());
                 offY = (int) (cameraY % tm.getTileWidth());
 
-                drawLayer(layer); //draws a single layer pass the layer number
-
+                drawLayer(0); //draws a single layer pass the layer number
+                drawLayer(2); //draws a single layer pass the layer number
+                drawLayer(3);
                 drawHero(gc, rectangle);
             }
         };
@@ -102,13 +103,15 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
         for (int y = 0; y <= screenHeightInTiles + 1; y++) {
             for (int x = 0; x <= screenWidthInTiles + 1; x++) {
 
-                GID = getTileIndex(x + startX, y + startY);
-                gc.save();
-                //Translate the viewport around the hero. (Easier to relative draw)
-                gc.translate((x * tm.getTileWidth())- offX, (y * tm.getTileHeight()) - offY);
-                drawTile(gc,GID, image, x, y);
-                //Restore the old state
-                gc.restore();
+                GID = getTileIndex(x + startX, y + startY, layer);
+                if (GID != -1) {
+                    gc.save();
+                    //Translate the viewport around the hero. (Easier to relative draw)
+                    gc.translate((x * tm.getTileWidth()) - offX, (y * tm.getTileHeight()) - offY);
+                    drawTile(gc, GID, image, x, y);
+                    //Restore the old state
+                    gc.restore();
+                }
             }
         }
     }
@@ -138,8 +141,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
      * @param y : The y position of the tile on the TMX map.
      * @return : The GID of the tile to be drawn
      */
-    public int getTileIndex(int x, int y) {
-        layer = 0; //future use
+    public int getTileIndex(int x, int y, int layer) {
         tileId = tm.getLayerId(layer,x, y);
         return tileId;
     }
@@ -200,25 +202,25 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 
         // Handle Hero movement
         if (type == "KEY_PRESSED" && keyCode == KeyCode.D) {
-            hero.setDX(3);
+            hero.setDX(1);
         }
         if (type == "KEY_RELEASED" & keyCode == KeyCode.D) {
             hero.setDX(0);
         }
         if (type == "KEY_PRESSED" && keyCode == KeyCode.S) {
-            hero.setDY(3);
+            hero.setDY(1);
         }
         if (type == "KEY_RELEASED" & keyCode == KeyCode.S) {
             hero.setDY(0);
         }
         if (type == "KEY_PRESSED" && keyCode == KeyCode.A) {
-            hero.setDX(-3);
+            hero.setDX(-1);
         }
         if (type == "KEY_RELEASED" & keyCode == KeyCode.A) {
             hero.setDX(0);
         }
         if (type == "KEY_PRESSED" && keyCode == KeyCode.W) {
-            hero.setDY(-3);
+            hero.setDY(-1);
         }
         if (type == "KEY_RELEASED" & keyCode == KeyCode.W) {
             hero.setDY(0);
