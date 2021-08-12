@@ -1,13 +1,8 @@
 package muck.client;
 
-import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
-import javafx.stage.Stage;
-import javafx.scene.*;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.scene.paint.*;
@@ -42,7 +37,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
     double cameraMaxY;
 
     /**
-     * GameMap constuctor accepts the canvas to be drawn onto.
+     * GameMap constructor accepts the canvas to be drawn onto.
      * Creates the hero sprite
      * Sets-up the camera viewport Credit: Toni Epple blog for viewport design https://www.javacodegeeks.com/2013/01/writing-a-tile-engine-in-javafx.html
      * Draws the tiles around the hero (x,y) based on viewport size
@@ -76,7 +71,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 
             @Override
             public void handle(long currentNanoTime) {
-                hero.move();
+                hero.move(tm, hero, canvas);
                 gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 cameraX = hero.getX() - centerX; //Camera top left relative to hero X
                 cameraY = hero.getY() - centerY; //Camera top left relative to hero Y
@@ -91,12 +86,13 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 
                 n++;
                 if (n <15 ) {
-                    drawLayer(1);
+                    drawLayer(1); //Water animation layer
                 }
                 if (n > 30) { n=0;} //reset water animation timer
-                drawLayer(2); //Water animation layer
-                drawLayer(3);
+
+                drawLayer(2); //solid
                 drawHero(gc, rectangle);
+                drawLayer(3); //passable
             }
         };
         timer.start();
@@ -111,7 +107,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
             for (int x = 0; x <= screenWidthInTiles + 1; x++) {
 
                 GID = getTileIndex(x + startX, y + startY, layer);
-                if (GID != -1) {
+                if (GID != -1) { //Don't render blank tiles in layers (0 with -1 offset)
                     gc.save();
                     //Translate the viewport around the hero. (Easier to relative draw)
                     gc.translate((x * tm.getTileWidth()) - offX, (y * tm.getTileHeight()) - offY);
@@ -190,8 +186,8 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 
 
         gc.setFill(Color.BLUE);
-        gc.fillRect(drawX,
-                drawY,
+        gc.fillRect(drawX -5,
+                drawY -5 ,
                 10,
                 10);
         gc.setFill(Color.GREEN);
