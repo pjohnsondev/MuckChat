@@ -22,12 +22,13 @@ public class Sprite {
         int newX = hero.getX() + dx;
         int newY = hero.getY() + dy;
 
-        int GID = tm.getLayerId(2, Math.abs(newX/tm.getTileWidth()), Math.abs(newY/tm.getTileHeight()) );
+        //Layer 1 solid
+        int GID = tm.getLayerId(1, Math.abs(newX/tm.getTileWidth()), Math.abs(newY/tm.getTileHeight()) );
         if (GID == -1 ) { //collision detection
-            if(newX > 5 && newX < canvas.getWidth()-5) {
+            if(newX > 5 && newX < tm.getWidth()*tm.getTileWidth()-5) {
                 x += dx;
             }
-            if(newY > 5 && newY < canvas.getHeight()-5)
+            if(newY > 5 && newY < tm.getHeight()*tm.getTileHeight()-5)
                 y += dy;
             }
     }
