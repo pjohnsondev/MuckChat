@@ -11,6 +11,7 @@ import muck.protocol.connection.*;
 
 
 
+
 /**
  * A common Protocol registration class, shared by the client and server, to ensure that both
  * ends of the connection register the same classes in the same order (which is an assumption
@@ -32,10 +33,14 @@ public class Protocol {
         kryo.register(userMessage.class);
         kryo.register(java.util.Date.class);
         kryo.register(Id.class);
+
         kryo.register(Login.class);
         kryo.register(AddCharacter.class);
         kryo.register(Player.class);
         kryo.register(Location.class);
         kryo.register(Pair.class);
+
+        kryo.register(java.util.ArrayList.class);
+
     }
 }

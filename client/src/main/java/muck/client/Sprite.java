@@ -1,5 +1,8 @@
 package muck.client;
 
+
+import javafx.scene.canvas.Canvas;
+
 public class Sprite {
     private enum Direction {
         Left, Right, Up, Down
@@ -15,9 +18,19 @@ public class Sprite {
         this.height = height;
     }
 
-    public void move() {
-        x += dx;
-        y += dy;
+    public void move(TileMapReader tm, Sprite hero, Canvas canvas) {
+        int newX = hero.getX() + dx;
+        int newY = hero.getY() + dy;
+
+        //Layer 1 solid
+        int GID = tm.getLayerId(1, Math.abs(newX/tm.getTileWidth()), Math.abs(newY/tm.getTileHeight()) );
+        if (GID == -1 ) { //collision detection
+            if(newX > 5 && newX < tm.getWidth()*tm.getTileWidth()-5) {
+                x += dx;
+            }
+            if(newY > 5 && newY < tm.getHeight()*tm.getTileHeight()-5)
+                y += dy;
+            }
     }
 
     public int getX() { return x;}
