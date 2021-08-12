@@ -87,13 +87,14 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
                 offX = (int) (cameraX % tm.getTileWidth());
                 offY = (int) (cameraY % tm.getTileWidth());
 
-                drawLayer(0); //draws a single layer pass the layer number
+                drawLayer(0); //draws a single layer pass the layer number (floor)
+
                 n++;
                 if (n <15 ) {
                     drawLayer(1);
                 }
-                if (n > 30) { n=0;}
-                drawLayer(2); //draws a single layer pass the layer number
+                if (n > 30) { n=0;} //reset water animation timer
+                drawLayer(2); //Water animation layer
                 drawLayer(3);
                 drawHero(gc, rectangle);
             }
