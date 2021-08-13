@@ -15,7 +15,7 @@ import javafx.animation.*;
 public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 
     TileMapReader tm = new TileMapReader("/map.tmx");
-    Sprite hero = new Sprite(300,300,5, 5); //Create the player sprite
+    Sprite hero = new Sprite(300,300,5, 5, "pikachu"); //Create the player sprite
     private int startX; //The first tile to be drawn
     private int startY; //The first tile to be drawn
     private int offX; //Tile offset in pixels as hero moves pixel by pixel
@@ -73,8 +73,8 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
             public void handle(long currentNanoTime) {
                 hero.move(tm, hero, canvas);
                 gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                cameraX = hero.getX() - centerX; //Camera top left relative to hero X
-                cameraY = hero.getY() - centerY; //Camera top left relative to hero Y
+                cameraX = hero.getPosX() - centerX; //Camera top left relative to hero X
+                cameraY = hero.getPosY() - centerY; //Camera top left relative to hero Y
                 //Ensure the camera does not go outside the game boundaries
                 cameraPositionCheck();
                 startX = (int) (cameraX / tm.getTileWidth());
@@ -91,7 +91,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
                 if (n > 30) { n=0;} //reset water animation timer
                 drawLayer(2);
 
-                drawHero(gc, rectangle);
+                Sprite.drawHero(gc, rectangle, tm, hero, centerX,centerY);
                 //TODO render all other player sprites here
                 drawLayer(4);
             }
@@ -172,28 +172,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
         }
     }
 
-    private void drawHero(GraphicsContext gc,Rectangle rect){
-        double drawX = 0;
-        double drawY = 0;
 
-        if (hero.getX() < centerX ) {
-            drawX = hero.getX();
-        } else if (hero.getX() > (tm.getWidth()*tm.getTileWidth() - centerX)) { drawX = ((centerX) - ((tm.getWidth()*tm.getTileWidth()) - (double)hero.getX())) + (centerX); }
-        else { drawX = centerX; }
-        if (hero.getY() < centerY ) {
-            drawY = hero.getY();
-        } else if (hero.getY() > (tm.getHeight()*tm.getTileHeight() - centerY)) { drawY = ((centerY) - ((tm.getHeight()*tm.getTileHeight()) - (double)hero.getY())) + (centerY);
-        } else { drawY = centerY; }
-
-
-        gc.setFill(Color.BLUE);
-        gc.fillRect(drawX -5,
-                drawY -5 ,
-                10,
-                10);
-        gc.setFill(Color.GREEN);
-        gc.setStroke(Color.BLUE);
-    }
 
     @Override
     public void handle(KeyEvent e) {
@@ -205,29 +184,29 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
         KeyCode keyCode = e.getCode();
 
         // Handle Hero movement
-        if (type == "KEY_PRESSED" && keyCode == KeyCode.D) {
-            hero.setDX(1);
+        if (type == "KEY_PRESSED" && keyCode == KeyCode.RIGHT) {
+            hero.setDx(1);
         }
-        if (type == "KEY_RELEASED" & keyCode == KeyCode.D) {
-            hero.setDX(0);
+        if (type == "KEY_RELEASED" & keyCode == KeyCode.RIGHT) {
+            hero.setDx(0);
         }
-        if (type == "KEY_PRESSED" && keyCode == KeyCode.S) {
-            hero.setDY(1);
+        if (type == "KEY_PRESSED" && keyCode == KeyCode.DOWN) {
+            hero.setDy(1);
         }
-        if (type == "KEY_RELEASED" & keyCode == KeyCode.S) {
-            hero.setDY(0);
+        if (type == "KEY_RELEASED" & keyCode == KeyCode.DOWN) {
+            hero.setDy(0);
         }
-        if (type == "KEY_PRESSED" && keyCode == KeyCode.A) {
-            hero.setDX(-1);
+        if (type == "KEY_PRESSED" && keyCode == KeyCode.LEFT) {
+            hero.setDx(-1);
         }
-        if (type == "KEY_RELEASED" & keyCode == KeyCode.A) {
-            hero.setDX(0);
+        if (type == "KEY_RELEASED" & keyCode == KeyCode.LEFT) {
+            hero.setDx(0);
         }
-        if (type == "KEY_PRESSED" && keyCode == KeyCode.W) {
-            hero.setDY(-1);
+        if (type == "KEY_PRESSED" && keyCode == KeyCode.UP) {
+            hero.setDy(-1);
         }
-        if (type == "KEY_RELEASED" & keyCode == KeyCode.W) {
-            hero.setDY(0);
+        if (type == "KEY_RELEASED" & keyCode == KeyCode.UP) {
+            hero.setDy(0);
         }
     }
 }
