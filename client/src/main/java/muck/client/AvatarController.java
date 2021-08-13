@@ -20,11 +20,11 @@ public class AvatarController implements Initializable {
 
     // This will be the associated attributes of the user
     private static String uname;
-    private static int muckPoints = 160; //Dummy value for testing purposes TODO: Remove
+    private static int muckPoints = 50; //Dummy value for testing purposes TODO: Remove
     private static String avatar = "error";  //Dummy value for testing purposes TODO: Remove
-    private final int OPEN_SKELETON = 100; // Muck points required to activate skeleton avatar
-    private final int OPEN_WW = 120; // Muck points required to activate Wonder Woman avatar
-    private final int OPEN_YOSHI = 150; // Muck points required to activate Yoshi avatar
+    private final int OPEN_SKELETON = 20; // Muck points required to activate skeleton avatar
+    private final int OPEN_WW = 30; // Muck points required to activate Wonder Woman avatar
+    private final int OPEN_YOSHI = 50; // Muck points required to activate Yoshi avatar
 
     @FXML
     private Button submit;
@@ -55,39 +55,39 @@ public class AvatarController implements Initializable {
 
     // IMAGE INITIALISATION
     // Peach
-    private static final Image peachFull = new Image("/images/peach.png");
-    private static final Image peachPortrait = new Image("/images/peach-portrait.png");
-    private static final Image peachSprite = new Image("/images/peachSprite.png");
+    private static final Image PEACH_FULL = new Image("/images/peach.png");
+    private static final Image PEACH_PORTRAIT = new Image("/images/peach-portrait.png");
+    private static final Image PEACH_SPRITE = new Image("/images/peachSprite.png");
 
     // Batman
-    private static final Image batmanFull = new Image("/images/batman.png");
-    private static final Image batmanPortrait = new Image("/images/batman-portrait.png");
-    private static final Image batmanSprite = new Image("/images/batmanSprite.png");
+    private static final Image BATMAN_FULL = new Image("/images/batman.png");
+    private static final Image BATMAN_PORTRAIT = new Image("/images/batman-portrait.png");
+    private static final Image BATMAN_SPRITE = new Image("/images/batmanSprite.png");
 
     // Pikachu
-    private static final Image pikachuFull = new Image("/images/pikachu.png");
-    private static final Image pikachuPortrait = new Image("/images/pikachu-portrait.png");
-    private static final Image pikachuSprite = new Image("/images/pikachuSprite.png");
+    private static final Image PIKACHU_FULL = new Image("/images/pikachu.png");
+    private static final Image PIKACHU_PORTRAIT = new Image("/images/pikachu-portrait.png");
+    private static final Image PIKACHU_SPRITE = new Image("/images/pikachuSprite.png");
 
     // Skeleton
-    private static final Image skeletonFull = new Image("/images/skeleton.png");
-    private static final Image skeletonPortrait = new Image("/images/skeleton-portrait.png");
-    private static final Image skeletonSprite = new Image("/images/skeletonSprite.png");
+    private static final Image SKELETON_FULL = new Image("/images/skeleton.png");
+    private static final Image SKELETON_PORTRAIT = new Image("/images/skeleton-portrait.png");
+    private static final Image SKELETON_SPRITE = new Image("/images/skeletonSprite.png");
 
     // Wonder Woman
-    private static final Image wonderWomanFull = new Image("/images/wonderWoman.png");
-    private static final Image wonderWomanPortrait = new Image("/images/wonderWoman-portrait.png");
-    private static final Image wonderWomanSprite = new Image("/images/wonderWomanSprite.png");
+    private static final Image WONDER_WOMAN_FULL = new Image("/images/wonderWoman.png");
+    private static final Image WONDER_WOMAN_PORTRAIT = new Image("/images/wonderWoman-portrait.png");
+    private static final Image WONDER_WOMAN_SPRITE = new Image("/images/wonderWomanSprite.png");
 
     // Yoshi
-    private static final Image yoshiFull = new Image("/images/yoshi.png");
-    private static final Image yoshiPortrait = new Image("/images/yoshi-portrait.png");
-    private static final Image yoshiSprite = new Image("/images/yoshiSprite.png");
+    private static final Image YOSHI_FULL = new Image("/images/yoshi.png");
+    private static final Image YOSHI_PORTRAIT = new Image("/images/yoshi-portrait.png");
+    private static final Image YOSHI_SPRITE = new Image("/images/yoshiSprite.png");
 
 
     // Default
-    private static final Image error = new Image("/images/error.png");
-    private final Image unavailable = new Image("/images/Unknown.png");
+    private static final Image ERROR = new Image("/images/error.png");
+    private final Image UNAVAILABLE = new Image("/images/Unknown.png");
 
 
     @Override
@@ -95,30 +95,30 @@ public class AvatarController implements Initializable {
         try {
             avatarFullBody.setPreserveRatio(true);
 
-            peach.setFill(new ImagePattern(peachPortrait));
-            batman.setFill(new ImagePattern(batmanPortrait));
-            pikachu.setFill(new ImagePattern(pikachuPortrait));
+            peach.setFill(new ImagePattern(PEACH_PORTRAIT));
+            batman.setFill(new ImagePattern(BATMAN_PORTRAIT));
+            pikachu.setFill(new ImagePattern(PIKACHU_PORTRAIT));
 
             // The below three avatars are only available once the user achieves a certain number of muck points
             if (muckPoints >= OPEN_SKELETON) {
-                skeleton.setFill(new ImagePattern(skeletonPortrait));
+                skeleton.setFill(new ImagePattern(SKELETON_PORTRAIT));
                 skeleton.setCursor(Cursor.HAND);
             } else {
-                skeleton.setFill(new ImagePattern(unavailable));
+                skeleton.setFill(new ImagePattern(UNAVAILABLE));
             }
 
             if (muckPoints >= OPEN_WW) {
-                wonderWoman.setFill(new ImagePattern(wonderWomanPortrait));
+                wonderWoman.setFill(new ImagePattern(WONDER_WOMAN_PORTRAIT));
                 wonderWoman.setCursor(Cursor.HAND);
             } else {
-                wonderWoman.setFill(new ImagePattern(unavailable));
+                wonderWoman.setFill(new ImagePattern(UNAVAILABLE));
             }
 
             if (muckPoints >= OPEN_YOSHI) {
-                yoshi.setFill(new ImagePattern(yoshiPortrait));
+                yoshi.setFill(new ImagePattern(YOSHI_PORTRAIT));
                 yoshi.setCursor(Cursor.HAND);
             } else {
-                yoshi.setFill(new ImagePattern(unavailable));
+                yoshi.setFill(new ImagePattern(UNAVAILABLE));
             }
 
             // If there is already an avatar associated with a user, display the avatar
@@ -188,19 +188,19 @@ public class AvatarController implements Initializable {
                     peach.setRadius(80.0);
                     peach.setEffect(null);
                     avatar = "peach";
-                    avatarFullBody.setImage(peachFull);
+                    avatarFullBody.setImage(PEACH_FULL);
                     break;
                 case "batman":
                     batman.setRadius(80.0);
                     batman.setEffect(null);
                     avatar = "batman";
-                    avatarFullBody.setImage(batmanFull);
+                    avatarFullBody.setImage(BATMAN_FULL);
                     break;
                 case "pikachu":
                     pikachu.setRadius(80.0);
                     pikachu.setEffect(null);
                     avatar = "pikachu";
-                    avatarFullBody.setImage(pikachuFull);
+                    avatarFullBody.setImage(PIKACHU_FULL);
                     avatarFullBody.setFitHeight(250); // Changes the height of the image so pikachu is a more realistic
                     // How do I set pikachu in the centre of the screen (by height)
                     break;
@@ -209,7 +209,7 @@ public class AvatarController implements Initializable {
                         skeleton.setRadius(80.0);
                         skeleton.setEffect(null);
                         avatar = "skeleton";
-                        avatarFullBody.setImage(skeletonFull);
+                        avatarFullBody.setImage(SKELETON_FULL);
                         break;
                     }
                 case "wonderWoman":
@@ -217,7 +217,7 @@ public class AvatarController implements Initializable {
                         wonderWoman.setRadius(80.0);
                         wonderWoman.setEffect(null);
                         avatar = "wonderWoman";
-                        avatarFullBody.setImage(wonderWomanFull);
+                        avatarFullBody.setImage(WONDER_WOMAN_FULL);
                         break;
                     }
                 case "yoshi":
@@ -225,7 +225,7 @@ public class AvatarController implements Initializable {
                         yoshi.setRadius(80.0);
                         yoshi.setEffect(null);
                         avatar = "yoshi";
-                        avatarFullBody.setImage(yoshiFull);
+                        avatarFullBody.setImage(YOSHI_FULL);
                         avatarFullBody.setFitHeight(300);
                         break;
                     }
@@ -250,6 +250,7 @@ public class AvatarController implements Initializable {
 
     public void submit() {
         // TODO: Send username and avatar back to the server for storage
+
         // What will we do in the case of avatar change
         // Platform.exit(); <<< Closes the whole JAVAFX program
         //openChat();
@@ -258,11 +259,6 @@ public class AvatarController implements Initializable {
 
         System.out.println("Submit has been activated");
     }
-
-    /*public static void openChat() {
-        MuckController.MuckController(uname);
-    }*/
-
 
     //MOVE THESE TO TOP WHEN REST OF CODE IS DONE
     /**
@@ -273,19 +269,19 @@ public class AvatarController implements Initializable {
 
         switch (avatarID) {
             case "peach":
-                return peachFull;
+                return PEACH_FULL;
             case "batman":
-                return batmanFull;
+                return BATMAN_FULL;
             case "pikachu":
-                return pikachuFull;
+                return PIKACHU_FULL;
             case "skeleton":
-                return skeletonFull;
+                return SKELETON_FULL;
             case "wonderWoman":
-                return wonderWomanFull;
+                return WONDER_WOMAN_FULL;
             case "yoshi":
-                return yoshiFull;
+                return YOSHI_FULL;
             default:
-                return error;
+                return ERROR;
         }
     }
 
@@ -296,46 +292,44 @@ public class AvatarController implements Initializable {
     public static Image getPortrait(String avatarID) {
         switch (avatarID) {
             case "peach":
-                return peachPortrait;
+                return PEACH_PORTRAIT;
             case "batman":
-                return batmanPortrait;
+                return BATMAN_PORTRAIT;
             case "pikachu":
-                return pikachuPortrait;
+                return PIKACHU_PORTRAIT;
             case "skeleton":
-                return skeletonPortrait;
+                return SKELETON_PORTRAIT;
             case "wonderWoman":
-                return wonderWomanPortrait;
+                return WONDER_WOMAN_PORTRAIT;
             case "yoshi":
-                return yoshiPortrait;
+                return YOSHI_PORTRAIT;
             default:
-                return error;
+                return ERROR;
         }
     }
 
     public static Image getSprite(String avatarID) {
         switch (avatarID) {
             case "peach":
-                return peachSprite;
+                return PEACH_SPRITE;
             case "batman":
-                return batmanSprite;
+                return BATMAN_SPRITE;
             case "pikachu":
-                return pikachuSprite;
+                return PIKACHU_SPRITE;
             case "skeleton":
-                return skeletonSprite;
+                return SKELETON_SPRITE;
             case "wonderWoman":
-                return wonderWomanSprite;
+                return WONDER_WOMAN_SPRITE;
             case "yoshi":
-                return yoshiSprite;
+                return YOSHI_SPRITE;
             default:
-                return error;
+                return ERROR;
         }
     }
 
     // The below code is for formatting the changes to the avatar dashboard.
 
     private void restorePortraitSize() {
-        // Can you set a slow change in size effect here?
-        //ScaleTransition peachScale = new ScaleTransition(Duration.millis(3000).peach); << This does not accept circle elements
         avatarFullBody.setFitHeight(538.0);
         peach.setRadius(75.0);
         batman.setRadius(75.0);
