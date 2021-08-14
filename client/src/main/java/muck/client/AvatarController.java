@@ -263,17 +263,18 @@ public class AvatarController implements Initializable  {
 
     public void submit(MouseEvent event) {
         // TODO: Send username and avatar back to the server for storage
-            try {
+        MuckController.constructor(event, uname, avatar);
+        /*try {
                 Parent root = FXMLLoader.load(getClass().getResource("/fxml/MuckWindow.fxml"));
                 Scene dashboard=new Scene(root);
-                //This line gets the Stage Information
                 Stage window=(Stage)((Node)event.getSource()).getScene().getWindow();
                 window.setScene(dashboard);
                 //MuckController.constructor(event, uname, avatar);
+                //TODO: Is there a way to show a timer moving or something while we wait?
                 window.show();
             } catch (IOException ex) {
                 Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }*/
         }
 
 
