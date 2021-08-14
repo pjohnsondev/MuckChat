@@ -181,7 +181,18 @@ public class AvatarController implements Initializable  {
     public static void AvatarCreation(String username) {
         uname = username;
             // TODO: Need to call the database for current avatar and muck point values
-        Application.launch(Avatar.class, new String[]{});
+        try {
+            FXMLLoader loader = new FXMLLoader(AvatarController.class.getResource("/fxml/Avatar.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            scene.setRoot(root);
+            Stage stage = new Stage();
+            stage.setTitle("Muck 2021");
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
