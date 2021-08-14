@@ -1,11 +1,19 @@
 package muck.client;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
@@ -15,8 +23,9 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.application.Application;
+import javafx.stage.Stage;
 
-public class AvatarController implements Initializable {
+public class AvatarController implements Initializable  {
 
     // This will be the associated attributes of the user
     private static String uname;
@@ -134,7 +143,9 @@ public class AvatarController implements Initializable {
 
         username.setText(uname);
 
-        submit.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> submit());
+        submit.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            submit(event);
+                });
 
         peach.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             selection("peach");
@@ -169,7 +180,7 @@ public class AvatarController implements Initializable {
      */
     public static void AvatarCreation(String username) {
         uname = username;
-            // TODO: Need to call the database for current avatar and muck point value
+            // TODO: Need to call the database for current avatar and muck point values
         Application.launch(Avatar.class, new String[]{});
     }
 
@@ -229,6 +240,8 @@ public class AvatarController implements Initializable {
                         avatarFullBody.setFitHeight(300);
                         break;
                     }
+                case "error":
+                    break;
                 default:
                     break;
             }
@@ -248,17 +261,21 @@ public class AvatarController implements Initializable {
         }
     }*/
 
-    public void submit() {
+    public void submit(MouseEvent event) {
         // TODO: Send username and avatar back to the server for storage
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/fxml/MuckWindow.fxml"));
+                Scene dashboard=new Scene(root);
+                //This line gets the Stage Information
+                Stage window=(Stage)((Node)event.getSource()).getScene().getWindow();
+                window.setScene(dashboard);
+                //MuckController.constructor(event, uname, avatar);
+                window.show();
+            } catch (IOException ex) {
+                Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 
-        // What will we do in the case of avatar change
-        // Platform.exit(); <<< Closes the whole JAVAFX program
-        //openChat();
-        // Close Avatar Window.
-        // Open chat window.
-
-        System.out.println("Submit has been activated");
-    }
 
     //MOVE THESE TO TOP WHEN REST OF CODE IS DONE
     /**
@@ -325,6 +342,11 @@ public class AvatarController implements Initializable {
             default:
                 return ERROR;
         }
+    }
+
+    // For testing purposes
+    public String getUserName() {
+        return uname;
     }
 
     // The below code is for formatting the changes to the avatar dashboard.
