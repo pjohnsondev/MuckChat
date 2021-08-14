@@ -165,11 +165,14 @@ public class MuckController implements Initializable {
         avatarID = avatar;
         try {
             Parent root = FXMLLoader.load(MuckController.class.getResource("/fxml/MuckWindow.fxml"));
-            Scene dashboard=new Scene(root);
+            Scene scene = new Scene(root);
+            scene.setRoot(root);
+            scene.getStylesheets().add(MuckController.class.getResource("/css/style.css").toExternalForm());
             //This line gets the Stage Information
-            Stage window=(Stage)((Node)event.getSource()).getScene().getWindow();
-            window.setScene(dashboard);
-            window.show();
+            Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.setOnCloseRequest(e -> stage.close());
+            stage.show();
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -176,6 +176,7 @@ public class AvatarController implements Initializable  {
      * Sets the username for the avatar interaction so as to store the selection later.
      * Calls the database to determine if there is an existing avatar selected for the user and the user's current muck
      * point value.
+     * Opens the Avatar selection window
      * @param username: the player's username.
      */
     public static void AvatarCreation(String username) {
@@ -188,6 +189,9 @@ public class AvatarController implements Initializable  {
             scene.setRoot(root);
             Stage stage = new Stage();
             stage.setTitle("Muck 2021");
+            stage.setMaxWidth(1200);
+            stage.setMaxHeight(1100);
+            stage.setResizable(false);
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {
@@ -275,17 +279,6 @@ public class AvatarController implements Initializable  {
     public void submit(MouseEvent event) {
         // TODO: Send username and avatar back to the server for storage
         MuckController.constructor(event, uname, avatar);
-        /*try {
-                Parent root = FXMLLoader.load(getClass().getResource("/fxml/MuckWindow.fxml"));
-                Scene dashboard=new Scene(root);
-                Stage window=(Stage)((Node)event.getSource()).getScene().getWindow();
-                window.setScene(dashboard);
-                //MuckController.constructor(event, uname, avatar);
-                //TODO: Is there a way to show a timer moving or something while we wait?
-                window.show();
-            } catch (IOException ex) {
-                Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
         }
 
 
