@@ -159,13 +159,10 @@ public class MuckController implements Initializable {
         displayAndSend();
     }
 
+    // Use this method from external classes to open the gameplay window. Added by CA 14 Aug
     public static void constructor(MouseEvent event, String name, String avatar) {
         userName = name;
         avatarID = avatar;
-        initWindow(event);
-    }
-
-    private static void initWindow(MouseEvent event) {
         try {
             Parent root = FXMLLoader.load(MuckController.class.getResource("/fxml/MuckWindow.fxml"));
             Scene dashboard=new Scene(root);
