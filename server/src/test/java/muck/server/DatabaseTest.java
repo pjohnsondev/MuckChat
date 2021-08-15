@@ -3,27 +3,42 @@ package muck.server;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import muck.server.testHelpers.TestDatabase;
 
-// Test line for sub-branch db_testing
 public class DatabaseTest {
+    private static final Logger logger = LogManager.getLogger(DatabaseTest.class);
+
+    private TestDatabase db;
+
+    @BeforeEach
+    public void beforeEach() {
+        logger.info("This message prints BEFORE each test runs");
+        db = new TestDatabase();
+    }
+
+    @AfterEach
+    public void afterEach() {
+        logger.info("This message prints AFTER each test runs");
+        db.closeConnection();
+        }
 
     @Test
     public void dbCanConnectTest(){
-        TestDatabase db = new TestDatabase();
         assertTrue(db.databaseIsConnected());
-        db.closeConnection();
     }
 
     @Test
     public void dbCanCreateTableTest() throws SQLException{
-        TestDatabase db = new TestDatabase();
-
         // create a new table
         db.createTableIfNotExists(
             "test_table", 
@@ -36,12 +51,11 @@ public class DatabaseTest {
 
         // check to see if table was created
         assertTrue(db.tableExists("test_table"));
-        db.closeConnection();
     }
+
     @Test
     public void dbCanInsertTest() throws SQLException, Exception {
-        TestDatabase db = new TestDatabase();
-        // create a new table if it doesn't already exist
+    // create a new table if it doesn't already exist
         db.createTableIfNotExists(
             "test_table", 
             "CREATE TABLE test_table "
@@ -81,13 +95,11 @@ public class DatabaseTest {
                 System.err.println(exception.getMessage());
             }
         result.close();
-        db.closeConnection();
     }
+
     @Test
     public void dbCanDropTableTest() throws SQLException {
-        
-        TestDatabase db = new TestDatabase();
-        // create a new table if it doesn't already exist
+    // create a new table if it doesn't already exist
         db.createTableIfNotExists(
             "test_table", 
             "CREATE TABLE test_table "
@@ -100,6 +112,5 @@ public class DatabaseTest {
         // get rid of the table so the db is back to normal
         db.dropTable("test_table");
         assertFalse(db.tableExists("test_table"));
-        db.closeConnection();
     }
 }
