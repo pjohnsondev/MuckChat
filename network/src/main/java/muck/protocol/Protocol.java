@@ -7,6 +7,7 @@ import muck.core.character.AddCharacter;
 import muck.core.character.Player;
 import com.esotericsoftware.kryo.Kryo;
 import muck.core.Id;
+import muck.core.user.SignUpInfo;
 import muck.protocol.connection.*;
 
 
@@ -37,5 +38,6 @@ public class Protocol {
         kryo.register(Player.class);
         kryo.register(Location.class);
         kryo.register(Pair.class);
+        kryo.register(SignUpInfo.class);
     }
 }

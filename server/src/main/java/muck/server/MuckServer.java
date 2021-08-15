@@ -11,6 +11,8 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
 import muck.core.character.Player;
+import muck.core.user.SignUpInfo;
+import muck.server.models.models.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -106,13 +108,37 @@ public enum MuckServer {
         addListener(ListenerBuilder.forClass(Login.class).onReceive((connection, login) -> {
             loginPlayer(login, (MuckConnection)connection);
         }));
+
+        addListener(ListenerBuilder.forClass(SignUpInfo.class).onReceive((connection, signup) -> {
+            createAccount(signup, (MuckConnection)connection);
+        }));
+    }
+
+    public void createAccount(SignUpInfo signUpInfo, MuckConnection connection) {
+        logger.info("Attempting to create account {}.", signUpInfo.getUsername());
+
+        PlayerManager playerManager = new PlayerManager(new User());
+        userMessage userMessage = new userMessage();
+
+        try {
+            Player player = playerManager.signupPlayer(signUpInfo);
+            logger.info("Sign up successful for {}", player.getUsername());
+
+            userMessage.setMessage("Your account has been created successfully. Username: " + player.getUsername());
+            kryoServer.sendToTCP((connection.getID()), userMessage);
+        } catch (BadRequestException ex) {
+            ex.printStackTrace();
+
+            userMessage.setMessage("Invalid sign up details provided. Please provide valid details. Username: " + signUpInfo.getUsername());
+            kryoServer.sendToTCP(connection.getID(), userMessage);
+        }
     }
 
     public void loginPlayer(Login login, MuckConnection muckConnection) {
         logger.info("Attempting to log in");
         logger.debug("{} is trying to log in", login.getUsername());
 
-        PlayerManager playerManager = new PlayerManager();
+        PlayerManager playerManager = new PlayerManager(new User());
 
         Player player = null;
 
@@ -125,6 +151,11 @@ public enum MuckServer {
         } catch (CharacterDoesNotExistException ex) {
             userMessage testMessage = new userMessage(); //Create new message to send back.
             testMessage.setMessage("Character does not exist. Please register.");
+            kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
+        }
+        catch (AuthenticationFailedException ex) {
+            userMessage testMessage = new userMessage(); //Create new message to send back.
+            testMessage.setMessage("Supplied credentials are invalid.");
             kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
         }
 
