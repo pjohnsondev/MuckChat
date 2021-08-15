@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -20,23 +21,49 @@ public class DatabaseTest {
 
     private TestDatabase db;
 
+    /**
+     * Establish a new database connection before each test
+     */
     @BeforeEach
     public void beforeEach() {
         logger.info("This message prints BEFORE each test runs");
         db = new TestDatabase();
     }
 
+    /**
+     * Close database connection after each test
+     */
     @AfterEach
     public void afterEach() {
         logger.info("This message prints AFTER each test runs");
         db.closeConnection();
         }
 
+    /**
+     * Test that database can connect
+     */
     @Test
     public void dbCanConnectTest(){
         assertTrue(db.databaseIsConnected());
     }
 
+    /**
+     * Test that databaseIsConnected returns false when the connection has been closed
+     */
+    @Disabled
+    @Test
+    public void dbCanDisonnectTest(){
+
+        //TODO - Fix Database.java code so this test passes
+        db.closeConnection();
+        assertFalse(db.databaseIsConnected());
+    }
+
+    /**
+     * Test that database can create a table
+     *
+     * @throws SQLException
+     */
     @Test
     public void dbCanCreateTableTest() throws SQLException{
         // create a new table
@@ -53,6 +80,12 @@ public class DatabaseTest {
         assertTrue(db.tableExists("test_table"));
     }
 
+    /**
+     * Test that database can insert
+     *
+     * @throws SQLException
+     * @throws Exception
+     */
     @Test
     public void dbCanInsertTest() throws SQLException, Exception {
     // create a new table if it doesn't already exist
@@ -97,6 +130,11 @@ public class DatabaseTest {
         result.close();
     }
 
+    /**
+     * Test that database can drop table
+     *
+     * @throws SQLException
+     */
     @Test
     public void dbCanDropTableTest() throws SQLException {
     // create a new table if it doesn't already exist
