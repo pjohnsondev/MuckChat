@@ -184,28 +184,28 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
         KeyCode keyCode = e.getCode();
 
         // Handle Hero movement
-        if (type == "KEY_PRESSED" && keyCode == KeyCode.RIGHT) {
+        if (type == "KEY_PRESSED" && keyCode == KeyCode.D) {
             hero.setDx(1);
         }
-        if (type == "KEY_RELEASED" & keyCode == KeyCode.RIGHT) {
+        if (type == "KEY_RELEASED" & keyCode == KeyCode.D) {
             hero.setDx(0);
         }
-        if (type == "KEY_PRESSED" && keyCode == KeyCode.DOWN) {
+        if (type == "KEY_PRESSED" && keyCode == KeyCode.S) {
             hero.setDy(1);
         }
-        if (type == "KEY_RELEASED" & keyCode == KeyCode.DOWN) {
+        if (type == "KEY_RELEASED" & keyCode == KeyCode.S) {
             hero.setDy(0);
         }
-        if (type == "KEY_PRESSED" && keyCode == KeyCode.LEFT) {
+        if (type == "KEY_PRESSED" && keyCode == KeyCode.A) {
             hero.setDx(-1);
         }
-        if (type == "KEY_RELEASED" & keyCode == KeyCode.LEFT) {
+        if (type == "KEY_RELEASED" & keyCode == KeyCode.A) {
             hero.setDx(0);
         }
-        if (type == "KEY_PRESSED" && keyCode == KeyCode.UP) {
+        if (type == "KEY_PRESSED" && keyCode == KeyCode.W) {
             hero.setDy(-1);
         }
-        if (type == "KEY_RELEASED" & keyCode == KeyCode.UP) {
+        if (type == "KEY_RELEASED" & keyCode == KeyCode.W) {
             hero.setDy(0);
         }
     }
