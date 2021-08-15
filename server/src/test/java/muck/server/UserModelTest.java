@@ -2,6 +2,12 @@ package muck.server;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.security.InvalidParameterException;
@@ -11,6 +17,10 @@ import muck.server.models.models.User;
 import muck.server.testHelpers.TestDatabase;
 
 public class UserModelTest {
+    private static final Logger logger = LogManager.getLogger(DatabaseTest.class);
+
+    private TestDatabase testDb;
+    private User user;
 
     /**
      * A little test helper
@@ -39,16 +49,32 @@ public class UserModelTest {
     }
 
     /**
+     * Establish a new database connection before each test
+     */
+    @BeforeEach
+    public void beforeEach() throws SQLException{
+        logger.info("This message prints BEFORE each test runs");
+        // reset database using testDB
+        testDb = new TestDatabase();
+        user = new User();
+        resetTable(user, testDb);
+    }
+
+    /**
+     * Close database connection after each test
+     */
+    @AfterEach
+    public void afterEach() {
+        logger.info("This message prints AFTER each test runs");
+    }
+
+    /**
      * Test that ...
      *
      * @throws SQLException
      */
     @Test
     public void TableCreationTest() throws SQLException {
-        // reset database using testDB
-        TestDatabase testDb = new TestDatabase();
-        User user = new User();
-        resetTable(user, testDb);
 
         assertTrue(testDb.tableExists("users"));
         testDb.dropTable("users");
@@ -64,10 +90,7 @@ public class UserModelTest {
      */
     @Test
     public void UserRegistrationTest() throws SQLException, InvalidParameterException {
-        // testDb for safety
-        TestDatabase testDb = new TestDatabase();
-        User user = new User();
-        resetTable(user, testDb);
+
         assertTrue(testDb.tableExists("users"));
 
         user.registerNewUser("newUser69", "myreallyGoodPassword");
@@ -92,9 +115,7 @@ public class UserModelTest {
      */
     @Test
     public void findUserByNameTest() throws SQLException {
-        TestDatabase testDb = new TestDatabase();
-        User user = new User();
-        resetTable(user, testDb);
+
         user.registerNewUser("newUser69", "myreallyGoodPassword");
         user.findUserByUsername("newUser69");
        
@@ -113,9 +134,7 @@ public class UserModelTest {
      */
     @Test
     public void findUserByIdTest() throws SQLException {
-        TestDatabase testDb = new TestDatabase();
-        User user = new User();
-        resetTable(user, testDb);
+
         user.registerNewUser("newUser69", "myreallyGoodPassword");
 
         user.findUserById(1);
@@ -134,9 +153,6 @@ public class UserModelTest {
      */
     @Test
     public void authenticateUserTest() throws SQLException {
-        TestDatabase testDb = new TestDatabase();
-        User user = new User();
-        resetTable(user, testDb);
         user.registerNewUser("newUser69", "myreallyGoodPassword");
 
         assertTrue(user.authenticateUser("newUser69", "myreallyGoodPassword"));
