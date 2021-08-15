@@ -1,12 +1,16 @@
 package muck.client;
 
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -23,7 +27,7 @@ public class AvatarController implements Initializable  {
 
     // This will be the associated attributes of the user
     private static String uname;
-    private static int muckPoints = 2; //Dummy value for testing purposes TODO: Remove
+    private static int muckPoints = 25; //Dummy value for testing purposes TODO: Remove
     private static String avatar = "error";  //Dummy value for testing purposes TODO: Remove
     private final int OPEN_SKELETON = 20; // Muck points required to activate skeleton avatar
     private final int OPEN_WW = 30; // Muck points required to activate Wonder Woman avatar
@@ -67,7 +71,7 @@ public class AvatarController implements Initializable  {
 
     // IMAGE INITIALISATION
     // Peach
-    private static final Image PEACH_FULL = new Image("/images/peach.png");
+    public static final Image PEACH_FULL = new Image("/images/peach.png");
     private static final Image PEACH_PORTRAIT = new Image("/images/peach-portrait.png");
     private static final Image PEACH_SPRITE = new Image("/images/peachSprite.png");
 
@@ -112,44 +116,11 @@ public class AvatarController implements Initializable  {
             pikachu.setFill(new ImagePattern(PIKACHU_PORTRAIT));
 
             // The below three avatars are only available once the user achieves a certain number of muck points
-            if (muckPoints >= OPEN_SKELETON) {
-                skeleton.setFill(new ImagePattern(SKELETON_PORTRAIT));
-                skeleton.setCursor(Cursor.HAND);
-            } else {
-                skeleton.setFill(new ImagePattern(UNAVAILABLE));
-                skeleton.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
-                    hoverEvent(skeletonAlert, ("Earn " + OPEN_SKELETON + " MuckPoints to unlock!"));
-                });
-                skeleton.addEventHandler(MouseEvent.MOUSE_EXITED, event -> {
-                    hoverEvent(skeletonAlert, "");
-                });
-            }
+            lockedAvatars(OPEN_SKELETON, skeleton, SKELETON_PORTRAIT, skeletonAlert, "skeleton");
 
-            if (muckPoints >= OPEN_WW) {
-                wonderWoman.setFill(new ImagePattern(WONDER_WOMAN_PORTRAIT));
-                wonderWoman.setCursor(Cursor.HAND);
-            } else {
-                wonderWoman.setFill(new ImagePattern(UNAVAILABLE));
-                wonderWoman.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
-                    hoverEvent(wonderWomanAlert, ("Earn " + OPEN_WW + " MuckPoints to unlock!"));
-                });
-                wonderWoman.addEventHandler(MouseEvent.MOUSE_EXITED, event -> {
-                    hoverEvent(wonderWomanAlert, "");
-                });
-            }
+            lockedAvatars(OPEN_WW, wonderWoman, WONDER_WOMAN_PORTRAIT, wonderWomanAlert, "wonderWoman");
 
-            if (muckPoints >= OPEN_YOSHI) {
-                yoshi.setFill(new ImagePattern(YOSHI_PORTRAIT));
-                yoshi.setCursor(Cursor.HAND);
-            } else {
-                yoshi.setFill(new ImagePattern(UNAVAILABLE));
-                yoshi.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
-                    hoverEvent(yoshiAlert, ("Earn " + OPEN_YOSHI + " MuckPoints to unlock!"));
-                });
-                yoshi.addEventHandler(MouseEvent.MOUSE_EXITED, event -> {
-                    hoverEvent(yoshiAlert, "");
-                });
-            }
+            lockedAvatars(OPEN_YOSHI, yoshi, YOSHI_PORTRAIT, yoshiAlert, "yoshi");
 
             // If there is already an avatar associated with a user, display the avatar
             // Will be used in the case of an avatar change
@@ -179,28 +150,16 @@ public class AvatarController implements Initializable  {
         pikachu.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             selection("pikachu");
         });
-
-        skeleton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            selection("skeleton");
-        });
-
-        wonderWoman.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            selection("wonderWoman");
-        });
-
-        yoshi.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            selection("yoshi");
-        });
     }
 
-    /**
+     /**
      * Sets the username for the avatar interaction so as to store the selection later.
      * Calls the database to determine if there is an existing avatar selected for the user and the user's current muck
      * point value.
      * Opens the Avatar selection window
      * @param username: the player's username.
      */
-    public static void AvatarCreation(String username) {
+    public static void avatarCreation(String username) {
         uname = username;
             // TODO: Need to call the database for current avatar and muck point values
         try {
@@ -217,6 +176,55 @@ public class AvatarController implements Initializable  {
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Overloaded AvatarCreation.
+     * This function will be used to access and initialise the Avatar Selection screen from another window.
+     * @param event: The mouse event that has prompted the opening of the window.
+     * @param username: The username of the current player
+     */
+    public static void avatarCreation(MouseEvent event, String username) {
+        uname = username;
+        // TODO: Need to call the database for current avatar and muck point values
+        avatar = "peach"; //TODO: Remove this value when database call is made
+        try {
+            Parent root = FXMLLoader.load(AvatarController.class.getResource("/fxml/Avatar.fxml"));
+            Scene scene = new Scene(root);
+            scene.setRoot(root);
+            //This line gets the Stage Information
+            Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * LockedAvatars method.
+     * Updated the appearance and actions associated with a locked Avatar depending on MuckPoint value
+     * @param open_muck: the MuckPoint total at which the avatar becomes unlocked
+     * @param portrait: the circle object within which each avatar portrait is displayed
+     * @param avatarPortrait: the portrait image of the avatar
+     * @param avatarAlert: the Text object within which the MuckPoint total required to unlock the avatar is displayed
+     */
+    private void lockedAvatars(int open_muck, Circle portrait, Image avatarPortrait, Text avatarAlert, String avatarID) {
+        if (muckPoints >= open_muck) {
+            portrait.setFill(new ImagePattern(avatarPortrait));
+            portrait.setCursor(Cursor.HAND);
+            portrait.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                selection(avatarID);
+            });
+        } else {
+            portrait.setFill(new ImagePattern(UNAVAILABLE));
+            portrait.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
+                hoverEvent(avatarAlert, ("Earn " + open_muck + " MuckPoints to unlock!"));
+            });
+            portrait.addEventHandler(MouseEvent.MOUSE_EXITED, event -> {
+                hoverEvent(avatarAlert, "");
+            });
         }
     }
 
@@ -291,7 +299,7 @@ public class AvatarController implements Initializable  {
 
     // TODO: Add something for when you press enter. The below doesn't work
     /*@FXML
-    private void onEnter(ActionEvent event) {
+    private void onEnter(KeyEvent event) {
         if (!avatar.equals("error")) {
             submit();
         }
@@ -300,6 +308,7 @@ public class AvatarController implements Initializable  {
     private void submit(MouseEvent event) {
         // TODO: Send username and avatar back to the server for storage
         MuckController.constructor(event, uname, avatar);
+        //AvatarController.avatarCreation(event, "Test");
         }
 
     private void hoverEvent(Text alertBox, String message) {

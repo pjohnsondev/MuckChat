@@ -71,7 +71,7 @@ public class App extends Application {
         stage.show();*/
 
         /* End of Imported work */
-        AvatarController.AvatarCreation("Test");
+        AvatarController.avatarCreation("Test");
 
     }
 

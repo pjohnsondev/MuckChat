@@ -86,12 +86,12 @@
       </Circle>
       <Circle fx:id="skeleton" fill="#ffffff00" radius="75.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" translateX="25.0" translateY="-15.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <cursor>
-            <Cursor fx:constant="NONE" />
+            <Cursor fx:constant="DEFAULT" />
          </cursor>
       </Circle>
       <Circle fx:id="wonderWoman" fill="#ffffff00" radius="75.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" translateX="25.0" translateY="-15.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
          <cursor>
-            <Cursor fx:constant="NONE" />
+            <Cursor fx:constant="DEFAULT" />
          </cursor>
       </Circle>
       <Circle fx:id="pikachu" fill="#ffffff00" radius="75.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" translateX="25.0" translateY="15.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
@@ -101,7 +101,7 @@
       </Circle>
       <Circle fx:id="yoshi" fill="#ffffff00" radius="75.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" translateX="25.0" translateY="-15.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
          <cursor>
-            <Cursor fx:constant="NONE" />
+            <Cursor fx:constant="DEFAULT" />
          </cursor>
       </Circle>
       <Text fx:id="skeletonAlert" fill="#87cdff" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="200.9830722808838" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
