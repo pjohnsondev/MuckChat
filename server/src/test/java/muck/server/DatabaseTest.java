@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -44,6 +45,18 @@ public class DatabaseTest {
     @Test
     public void dbCanConnectTest(){
         assertTrue(db.databaseIsConnected());
+    }
+
+    /**
+     * Test that databaseIsConnected returns false when the connection has been closed
+     */
+    @Disabled
+    @Test
+    public void dbCanDisonnectTest(){
+
+        //TODO - Fix Database.java code so this test passes
+        db.closeConnection();
+        assertFalse(db.databaseIsConnected());
     }
 
     /**
