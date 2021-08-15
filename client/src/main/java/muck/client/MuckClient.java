@@ -12,6 +12,7 @@ import muck.protocol.*;
 import muck.protocol.connection.*;
 
 import java.io.IOException;
+
 import java.util.Calendar;
 
 import java.util.ArrayList;
@@ -71,10 +72,11 @@ public enum MuckClient {
 		client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive(
 				(connID, serverMessage) -> logger.info("Message from the server was: {}", serverMessage.getMessage())));
 
-        client.addListener(ListenerBuilder.forClass(AddCharacter.class).onReceive((connection, addCharacter) -> {
-            logger.info("Received new character from the server: {}", addCharacter.getCharacter().getIdentifier());
+		client.addListener(ListenerBuilder.forClass(AddCharacter.class).onReceive((connection, addCharacter) -> {
+			logger.info("Received new character from the server: {}", addCharacter.getCharacter().getIdentifier());
 
-            logger.debug("Initial location of new character is: X:{}, Y:{}", addCharacter.getLocation().getX(), addCharacter.getLocation().getY());
+			logger.debug("Initial location of new character is: X:{}, Y:{}", addCharacter.getLocation().getX(),
+					addCharacter.getLocation().getY());
 
 			// TODO: Notify of the new character and its location so that it can be placed
 			// on the map.
