@@ -1,13 +1,8 @@
 package muck.client;
 
-import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
-import javafx.stage.Stage;
-import javafx.scene.*;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.scene.paint.*;
@@ -32,6 +27,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
     private int layer = 0;
     private int tileId = 0;
     private int GID = 0;
+    int n =0; //water animation
     Rectangle rectangle = new Rectangle();
     double screenHeightInTiles;
     double screenWidthInTiles;
@@ -41,7 +37,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
     double cameraMaxY;
 
     /**
-     * GameMap constuctor accepts the canvas to be drawn onto.
+     * GameMap constructor accepts the canvas to be drawn onto.
      * Creates the hero sprite
      * Sets-up the camera viewport Credit: Toni Epple blog for viewport design https://www.javacodegeeks.com/2013/01/writing-a-tile-engine-in-javafx.html
      * Draws the tiles around the hero (x,y) based on viewport size
@@ -75,7 +71,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 
             @Override
             public void handle(long currentNanoTime) {
-                hero.move();
+                hero.move(tm, hero, canvas);
                 gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 cameraX = hero.getX() - centerX; //Camera top left relative to hero X
                 cameraY = hero.getY() - centerY; //Camera top left relative to hero Y
@@ -86,9 +82,18 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
                 offX = (int) (cameraX % tm.getTileWidth());
                 offY = (int) (cameraY % tm.getTileWidth());
 
-                drawLayer(layer); //draws a single layer pass the layer number
+                drawLayer(0); //draws a single layer pass the layer number (floor)
+                n++;
+                drawLayer(1);
+                if (n <15 ) {
+                    drawLayer(3); //Water animation layer
+                }
+                if (n > 30) { n=0;} //reset water animation timer
+                drawLayer(2);
 
                 drawHero(gc, rectangle);
+                //TODO render all other player sprites here
+                drawLayer(4);
             }
         };
         timer.start();
@@ -102,13 +107,15 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
         for (int y = 0; y <= screenHeightInTiles + 1; y++) {
             for (int x = 0; x <= screenWidthInTiles + 1; x++) {
 
-                GID = getTileIndex(x + startX, y + startY);
-                gc.save();
-                //Translate the viewport around the hero. (Easier to relative draw)
-                gc.translate((x * tm.getTileWidth())- offX, (y * tm.getTileHeight()) - offY);
-                drawTile(gc,GID, image, x, y);
-                //Restore the old state
-                gc.restore();
+                GID = getTileIndex(x + startX, y + startY, layer);
+                if (GID != -1) { //Don't render blank tiles in layers (0 with -1 offset)
+                    gc.save();
+                    //Translate the viewport around the hero. (Easier to relative draw)
+                    gc.translate((x * tm.getTileWidth()) - offX, (y * tm.getTileHeight()) - offY);
+                    drawTile(gc, GID, image, x, y);
+                    //Restore the old state
+                    gc.restore();
+                }
             }
         }
     }
@@ -138,8 +145,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
      * @param y : The y position of the tile on the TMX map.
      * @return : The GID of the tile to be drawn
      */
-    public int getTileIndex(int x, int y) {
-        layer = 0; //future use
+    public int getTileIndex(int x, int y, int layer) {
         tileId = tm.getLayerId(layer,x, y);
         return tileId;
     }
@@ -181,8 +187,8 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 
 
         gc.setFill(Color.BLUE);
-        gc.fillRect(drawX,
-                drawY,
+        gc.fillRect(drawX -5,
+                drawY -5 ,
                 10,
                 10);
         gc.setFill(Color.GREEN);
@@ -200,25 +206,25 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 
         // Handle Hero movement
         if (type == "KEY_PRESSED" && keyCode == KeyCode.D) {
-            hero.setDX(3);
+            hero.setDX(1);
         }
         if (type == "KEY_RELEASED" & keyCode == KeyCode.D) {
             hero.setDX(0);
         }
         if (type == "KEY_PRESSED" && keyCode == KeyCode.S) {
-            hero.setDY(3);
+            hero.setDY(1);
         }
         if (type == "KEY_RELEASED" & keyCode == KeyCode.S) {
             hero.setDY(0);
         }
         if (type == "KEY_PRESSED" && keyCode == KeyCode.A) {
-            hero.setDX(-3);
+            hero.setDX(-1);
         }
         if (type == "KEY_RELEASED" & keyCode == KeyCode.A) {
             hero.setDX(0);
         }
         if (type == "KEY_PRESSED" && keyCode == KeyCode.W) {
-            hero.setDY(-3);
+            hero.setDY(-1);
         }
         if (type == "KEY_RELEASED" & keyCode == KeyCode.W) {
             hero.setDY(0);

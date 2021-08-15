@@ -9,20 +9,15 @@ public class Spot{
 
     /**
      * returns the odds of spot check of an action passing
-     * @return Boolean of fail(1) or pass(2-10)
+     * @param difficulty is the perceived difficulty of the challenge
+     * @param requiredScore is the score required to pass the challenge
+     * @return TRUE if difficulty dice is equal or higher than required score
      */
+    public boolean Check(int difficulty, int requiredScore){
 
-    public boolean Check(boolean set){
+        Dice Dice = new Dice(difficulty);
+        return Dice.Roll(1) >= requiredScore;
 
-        boolean gate = false;
-
-        Dice Dice = new Dice(10);
-        int chance = Dice.Roll(1);
-
-        if (chance == 1){ gate = false;}
-        else {gate = true;}
-
-        return gate;
     }
 
     /**
@@ -32,18 +27,11 @@ public class Spot{
 
     public double Attack(){
 
-        double atkDegree = 0.0;
-
         Dice Dice = new Dice(5);
         int mod = Dice.Roll(1);
 
-        if (mod == 1){ atkDegree = 0.50; }
-        if (mod == 2){ atkDegree = 0.75; }
-        if (mod == 3){ atkDegree = 1.00; }
-        if (mod == 4){ atkDegree = 1.25; }
-        if (mod == 5){ atkDegree = 1.50; }
+        return 0.25*mod + 0.25;
 
-        return atkDegree;
     }
 
     /**
