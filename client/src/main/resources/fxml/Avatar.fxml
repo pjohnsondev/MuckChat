@@ -104,5 +104,29 @@
             <Cursor fx:constant="NONE" />
          </cursor>
       </Circle>
+      <Text fx:id="skeletonAlert" fill="#87cdff" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="200.9830722808838" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="14.0" />
+         </font>
+         <GridPane.margin>
+            <Insets top="10.0" />
+         </GridPane.margin>
+      </Text>
+      <Text fx:id="wonderWomanAlert" fill="#87cdff" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="200.9830722808838" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.valignment="TOP">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="14.0" />
+         </font>
+         <GridPane.margin>
+            <Insets top="10.0" />
+         </GridPane.margin>
+      </Text>
+      <Text fx:id="yoshiAlert" fill="#87cdff" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="200.9830722808838" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.valignment="TOP">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="14.0" />
+         </font>
+         <GridPane.margin>
+            <Insets top="10.0" />
+         </GridPane.margin>
+      </Text>
    </children>
 </GridPane>

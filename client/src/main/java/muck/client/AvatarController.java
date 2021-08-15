@@ -1,17 +1,12 @@
 package muck.client;
 
-import java.io.IOException;
+
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -22,14 +17,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
-import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class AvatarController implements Initializable  {
 
     // This will be the associated attributes of the user
     private static String uname;
-    private static int muckPoints = 50; //Dummy value for testing purposes TODO: Remove
+    private static int muckPoints = 2; //Dummy value for testing purposes TODO: Remove
     private static String avatar = "error";  //Dummy value for testing purposes TODO: Remove
     private final int OPEN_SKELETON = 20; // Muck points required to activate skeleton avatar
     private final int OPEN_WW = 30; // Muck points required to activate Wonder Woman avatar
@@ -57,10 +51,19 @@ public class AvatarController implements Initializable  {
     private Circle skeleton;
 
     @FXML
+    private Text skeletonAlert;
+
+    @FXML
     private Circle wonderWoman;
 
     @FXML
+    private Text wonderWomanAlert;
+
+    @FXML
     private Circle yoshi;
+
+    @FXML
+    private Text yoshiAlert;
 
     // IMAGE INITIALISATION
     // Peach
@@ -114,6 +117,12 @@ public class AvatarController implements Initializable  {
                 skeleton.setCursor(Cursor.HAND);
             } else {
                 skeleton.setFill(new ImagePattern(UNAVAILABLE));
+                skeleton.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
+                    hoverEvent(skeletonAlert, ("Earn " + OPEN_SKELETON + " MuckPoints to unlock!"));
+                });
+                skeleton.addEventHandler(MouseEvent.MOUSE_EXITED, event -> {
+                    hoverEvent(skeletonAlert, "");
+                });
             }
 
             if (muckPoints >= OPEN_WW) {
@@ -121,6 +130,12 @@ public class AvatarController implements Initializable  {
                 wonderWoman.setCursor(Cursor.HAND);
             } else {
                 wonderWoman.setFill(new ImagePattern(UNAVAILABLE));
+                wonderWoman.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
+                    hoverEvent(wonderWomanAlert, ("Earn " + OPEN_WW + " MuckPoints to unlock!"));
+                });
+                wonderWoman.addEventHandler(MouseEvent.MOUSE_EXITED, event -> {
+                    hoverEvent(wonderWomanAlert, "");
+                });
             }
 
             if (muckPoints >= OPEN_YOSHI) {
@@ -128,6 +143,12 @@ public class AvatarController implements Initializable  {
                 yoshi.setCursor(Cursor.HAND);
             } else {
                 yoshi.setFill(new ImagePattern(UNAVAILABLE));
+                yoshi.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
+                    hoverEvent(yoshiAlert, ("Earn " + OPEN_YOSHI + " MuckPoints to unlock!"));
+                });
+                yoshi.addEventHandler(MouseEvent.MOUSE_EXITED, event -> {
+                    hoverEvent(yoshiAlert, "");
+                });
             }
 
             // If there is already an avatar associated with a user, display the avatar
@@ -276,10 +297,14 @@ public class AvatarController implements Initializable  {
         }
     }*/
 
-    public void submit(MouseEvent event) {
+    private void submit(MouseEvent event) {
         // TODO: Send username and avatar back to the server for storage
         MuckController.constructor(event, uname, avatar);
         }
+
+    private void hoverEvent(Text alertBox, String message) {
+        alertBox.setText(message);
+    }
 
 
     //MOVE THESE TO TOP WHEN REST OF CODE IS DONE
@@ -382,7 +407,7 @@ public class AvatarController implements Initializable  {
         }
     }
 
-    private void centreImage() {
+    private void centreImage() { //TODO: This is not centring vertically???
         Image img = avatarFullBody.getImage();
         if (img != null) {
             double w;
