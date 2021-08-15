@@ -12,7 +12,13 @@ import muck.server.testHelpers.TestDatabase;
 
 public class UserModelTest {
 
-    // A little test helper
+    /**
+     * A little test helper
+     *
+     * @param user
+     * @param testDb
+     * @throws SQLException
+     */
     private void resetTable(User user, TestDatabase testDb) throws SQLException {
         user.closeDbConnection();
         user.changeDb(testDb);
@@ -20,11 +26,23 @@ public class UserModelTest {
         user.createTable();
     }
 
+    /**
+     * Another test helper
+     *
+     * @param user
+     * @param testDb
+     * @throws SQLException
+     */
     private void dropAndClose(User user, TestDatabase testDb) throws SQLException {
         testDb.dropTable("users");
         user.closeDbConnection();
     }
 
+    /**
+     * Test that ...
+     *
+     * @throws SQLException
+     */
     @Test
     public void TableCreationTest() throws SQLException {
         // reset database using testDB
@@ -37,7 +55,13 @@ public class UserModelTest {
         assertFalse(testDb.tableExists("users"));
         user.closeDbConnection();
     }
-    
+
+    /**
+     * Test that ...
+     *
+     * @throws SQLException
+     * @throws InvalidParameterException
+     */
     @Test
     public void UserRegistrationTest() throws SQLException, InvalidParameterException {
         // testDb for safety
@@ -61,6 +85,11 @@ public class UserModelTest {
         dropAndClose(user, testDb);
     }
 
+    /**
+     * Test that ...
+     *
+     * @throws SQLException
+     */
     @Test
     public void findUserByNameTest() throws SQLException {
         TestDatabase testDb = new TestDatabase();
@@ -77,6 +106,11 @@ public class UserModelTest {
         dropAndClose(user, testDb);
     }
 
+    /**
+     * Test that ...
+     *
+     * @throws SQLException
+     */
     @Test
     public void findUserByIdTest() throws SQLException {
         TestDatabase testDb = new TestDatabase();
@@ -94,6 +128,10 @@ public class UserModelTest {
         dropAndClose(user, testDb);
     }
 
+    /**
+     * Test that ...
+     * @throws SQLException
+     */
     @Test
     public void authenticateUserTest() throws SQLException {
         TestDatabase testDb = new TestDatabase();
@@ -103,7 +141,6 @@ public class UserModelTest {
 
         assertTrue(user.authenticateUser("newUser69", "myreallyGoodPassword"));
         assertFalse(user.authenticateUser("newUser69", "myreallyBadPassword"));
-        
 
         dropAndClose(user, testDb);
     }

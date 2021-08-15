@@ -9,6 +9,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HelperTest {
 
+    /**
+     * Test that password is generated
+     */
     @Test
     public void generateNewPasswordTest() {
         Hasher hasher = new Hasher();
@@ -19,6 +22,9 @@ public class HelperTest {
         assertTrue(hasher.getHashedPassword() != null);
     }
 
+    /**
+     * Test that passwordMatches function returns true when there is a match, and false when there is not
+     */
     @Test
     public void passwordMatchesTest() {
         Hasher hasher = new Hasher();
@@ -29,7 +35,6 @@ public class HelperTest {
 
         assertTrue(hasher.passwordMatches(password, salt, hashedPassword));
         assertFalse(hasher.passwordMatches("the wrong password", salt, hashedPassword));
-        
     }
         
 }
