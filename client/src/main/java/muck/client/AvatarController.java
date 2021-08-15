@@ -28,7 +28,8 @@ public class AvatarController implements Initializable  {
     // This will be the associated attributes of the user
     private static String uname;
     private static int muckPoints = 25; //Dummy value for testing purposes TODO: Remove
-    private static String avatar = "error";  //Dummy value for testing purposes TODO: Remove
+    private static String avatar = "error";
+    private static String previous = "login";
     private final int OPEN_SKELETON = 20; // Muck points required to activate skeleton avatar
     private final int OPEN_WW = 30; // Muck points required to activate Wonder Woman avatar
     private final int OPEN_YOSHI = 50; // Muck points required to activate Yoshi avatar
@@ -136,8 +137,12 @@ public class AvatarController implements Initializable  {
         username.setText(uname);
 
         submit.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            submit(event);
-                });
+            if (previous.equals("playerDashboardMap")) {
+                submitToDashboard(event);
+            } else {
+                submitToMap(event);
+            }
+        });
 
         peach.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             selection("peach");
@@ -152,7 +157,7 @@ public class AvatarController implements Initializable  {
         });
     }
 
-     /**
+     /** NB: This method will become void once we have linked the player sign up page!!
      * Sets the username for the avatar interaction so as to store the selection later.
      * Calls the database to determine if there is an existing avatar selected for the user and the user's current muck
      * point value.
@@ -180,15 +185,40 @@ public class AvatarController implements Initializable  {
     }
 
     /**
-     * Overloaded AvatarCreation.
+     * AvatarCreation method
+     * From the user creation screen
      * This function will be used to access and initialise the Avatar Selection screen from another window.
      * @param event: The mouse event that has prompted the opening of the window.
      * @param username: The username of the current player
      */
     public static void avatarCreation(MouseEvent event, String username) {
+        previous = "login";
         uname = username;
-        // TODO: Need to call the database for current avatar and muck point values
-        avatar = "peach"; //TODO: Remove this value when database call is made
+        avatar = "error";
+        try {
+            Parent root = FXMLLoader.load(AvatarController.class.getResource("/fxml/Avatar.fxml"));
+            Scene scene = new Scene(root);
+            scene.setRoot(root);
+            //This line gets the Stage Information
+            Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Overloaded Avatar creation method.
+     * From the player dashboard screen
+     * @param event
+     * @param username
+     */
+    public static void avatarCreation(MouseEvent event, String username, String avID) {
+        //TODO: Call server for muck point value
+        previous = "playerDashboardMap";
+        uname = username;
+        avatar = avID;
         try {
             Parent root = FXMLLoader.load(AvatarController.class.getResource("/fxml/Avatar.fxml"));
             Scene scene = new Scene(root);
@@ -305,11 +335,16 @@ public class AvatarController implements Initializable  {
         }
     }*/
 
-    private void submit(MouseEvent event) {
+    private void submitToMap(MouseEvent event) {
         // TODO: Send username and avatar back to the server for storage
         MuckController.constructor(event, uname, avatar);
         //AvatarController.avatarCreation(event, "Test");
         }
+
+    private void submitToDashboard(MouseEvent event) {
+        // TODO: Send username and avatar back to server for storage
+        PlayerDashboardController.playerDashboard(uname, event, avatar);
+    }
 
     private void hoverEvent(Text alertBox, String message) {
         alertBox.setText(message);
