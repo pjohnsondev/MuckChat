@@ -129,7 +129,6 @@
                            </center>
                         </BorderPane>
                         <Circle id="circle" fx:id="circle" fill="#1f93ff00" layoutX="665.0" layoutY="89.0" radius="74.0" stroke="BLACK" strokeType="INSIDE" />
-                        <ImageView id="avatar" fx:id="avatar" fitHeight="148.0" fitWidth="126.0" layoutX="602.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" />
                         <Button id="openChatOnly" fx:id="openChatOnly" contentDisplay="TOP" layoutX="746.0" layoutY="308.0" mnemonicParsing="false" rotate="-90.0" snapToPixel="false" text="Open Chat" AnchorPane.rightAnchor="-34.0" />
                         <Text id="userNameDisplay" fx:id="userNameDisplay" layoutX="580.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UserName" textAlignment="CENTER" wrappingWidth="168.13671875">
                            <font>

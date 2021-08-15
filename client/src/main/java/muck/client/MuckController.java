@@ -66,8 +66,9 @@ public class MuckController implements Initializable {
     @FXML // fx:id="circle" Circle image area for avatar
     private Circle circle; // Value injected by FXMLLoader
 
-    @FXML // fx:id="avatar" Actual avatar picture
-    private ImageView avatar; // Value injected by FXMLLoader
+    /*@FXML // fx:id="avatar" Actual avatar picture
+    private ImageView avatar; // Value injected by FXMLLoader*/
+    //NB: CA - No longer needed as the portrait image is set to fill the background of the circle
 
     @FXML // fx:id="chatPane1" The tab pane for the chat - tabs sit in this. Despite the name there is only 1
     private TabPane chatPane1; // Value injected by FXMLLoader
@@ -139,6 +140,10 @@ public class MuckController implements Initializable {
         Image chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
         userNameDisplay.setText(userName);// // Sets username that has been passed in from Avatar class
         circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
+        circle.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            System.out.println("Circle pressed");
+            PlayerDashboardController.playerDashboard(userName, event, avatarID);
+        });
         chatSection.setFocusTraversable(true);
         chatSection.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> chatSection.isFocused());
         quitMuck.setOnAction(this::quitMuck);
