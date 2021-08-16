@@ -8,6 +8,10 @@ import java.math.*;
 public class Location {
 	private final Pair<Integer, Integer> location;
 
+	public Location() {
+		this.location = new Pair<Integer, Integer>(0,0);
+	}
+
 	public Location(Integer x, Integer y) {
 		this.location = new Pair<Integer, Integer>(x, y);
 	}

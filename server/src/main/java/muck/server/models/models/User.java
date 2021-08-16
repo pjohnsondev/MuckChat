@@ -46,16 +46,20 @@ public class User extends Model{
         db.executeInsert();
     }
 
-    public void findUserByUsername(String username) throws SQLException {
+    public boolean findUserByUsername(String username) throws SQLException {
         db.query("SELECT * FROM users WHERE username=?");
         db.bindString(1, username);
         ResultSet result = db.getResultSet();
-        result.next();
-        this.id = result.getInt("id");
-        this.username = username;
-        this.hashedPassword = result.getBytes("password");
-        this.salt = result.getBytes("salt");
+        if(result.next()) {
+            this.id = result.getInt("id");
+            this.username = username;
+            this.hashedPassword = result.getBytes("password");
+            this.salt = result.getBytes("salt");
+            result.close();
+            return true;
+        }
         result.close();
+        return false;
     }
 
     public void findUserById(int id) throws SQLException {
