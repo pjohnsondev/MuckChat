@@ -43,6 +43,8 @@ import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter;
 import org.checkerframework.common.reflection.qual.Invoke;
 import javafx.util.Duration;
 
+import javax.swing.*;
+
 public class MuckController implements Initializable {
 
     @FXML // fx:id="menu" The menu bar at the top
@@ -118,6 +120,9 @@ public class MuckController implements Initializable {
 
     @FXML // fx:id="game1Button" The space invaders button. This is supposed to be temporary
     private Button game1Button; // Value injected by FXMLLoader
+
+    @FXML
+    private Button game2Button;
 
     @FXML //fx:id="userNameDisplay"
     private Text userNameDisplay;
@@ -323,6 +328,17 @@ public class MuckController implements Initializable {
         gamePane1.setCenter(SICanvas);
         BorderPane.setAlignment(SICanvas, Pos.CENTER);
         LandingPage si = new LandingPage(gamePane1, SICanvas);
+    }
+
+    private void launchEnduringFantasy (ActionEvent event){
+        gameCanvas.setDisable(true);
+        gameCanvas.setVisible(false);
+        Canvas EFCanvas = new Canvas();
+        EFCanvas.setHeight(gameCanvas.getHeight());
+        EFCanvas.setWidth(gameCanvas.getWidth());
+        gamePane1.setCenter(EFCanvas);
+        BorderPane.setAlignment(EFCanvas, Pos.CENTER);
+        LandingPage FB = new LandingPage(gamePane1, EFCanvas);
     }
 
     private void quitMuck(ActionEvent event) {
