@@ -14,11 +14,12 @@ public class DatabaseColumnDef {
     public String columnName;
     public types columnType;
     public cType charType = cType.NOTYPE;
+    public String fkTable;
     public boolean notNull = true;
     public boolean primaryKey = false;
     public boolean unique = false;
     public boolean foreignKey = false;
-    public boolean check = false; //not implemented
+    public String check; //not implemented
     public int size = 10;
 
     /**
