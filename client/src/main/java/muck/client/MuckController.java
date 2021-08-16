@@ -35,6 +35,7 @@ import java.util.logging.Level;
 
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import muck.client.enduring_fantasy.LandingPageEf;
 import muck.client.space_invaders.LandingPage;
 import muck.protocol.connection.*;
 import org.apache.logging.log4j.LogManager;
@@ -137,6 +138,7 @@ public class MuckController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         closeChat.setOnAction(this::toggleChatWindow);
         game1Button.setOnAction(this::launchSpaceInvaders);
+        game2Button.setOnAction(this::launchEnduringFantasy);
         openChatOnly.setOnAction(this::openChatOnly);
         enter.setOnAction(this::sendMessage);
         openFullChat.setOnAction(this::openFullChat);
@@ -329,7 +331,7 @@ public class MuckController implements Initializable {
         BorderPane.setAlignment(SICanvas, Pos.CENTER);
         LandingPage si = new LandingPage(gamePane1, SICanvas);
     }
-
+    @FXML
     private void launchEnduringFantasy (ActionEvent event){
         gameCanvas.setDisable(true);
         gameCanvas.setVisible(false);
@@ -338,7 +340,7 @@ public class MuckController implements Initializable {
         EFCanvas.setWidth(gameCanvas.getWidth());
         gamePane1.setCenter(EFCanvas);
         BorderPane.setAlignment(EFCanvas, Pos.CENTER);
-        LandingPage FB = new LandingPage(gamePane1, EFCanvas);
+        LandingPageEf ef = new LandingPageEf(gamePane1, EFCanvas);
     }
 
     private void quitMuck(ActionEvent event) {
