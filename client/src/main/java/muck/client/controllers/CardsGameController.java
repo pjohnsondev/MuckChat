@@ -1,5 +1,6 @@
 package muck.client.controllers;
 
+import com.google.errorprone.annotations.FormatMethod;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,20 +18,105 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.application.Application;
+import muck.client.card_games.Player;
 
 public class CardsGameController implements Initializable {
+    @FXML // fx:id="ask_for_card"
+    public Button ask_for_card;
+
+    @FXML // fx:id="go_fish"
+    public Button go_fish;
+
+    @FXML // set up for cards for row 1 - this will fill first 
+    public ImageView cardRow1Card1;
+    public ImageView cardRow1Card2;
+    public ImageView cardRow1Card3;
+    public ImageView cardRow1Card4;
+    public ImageView cardRow1Card5;
+    public ImageView cardRow1Card6;
+    public ImageView cardRow1Card7;
+    public ImageView cardRow1Card8;
+    public ImageView cardRow1Card9;
+    public ImageView cardRow1Card10;
+    public ImageView cardRow1Card11;
+    public ImageView cardRow1Card12;
+    public ImageView cardRow1Card13;
+    
+
+    @FXML //set up for cards for row 2 - this will fill second 
+    public ImageView cardRow2Card1;
+    public ImageView cardRow2Card2;
+    public ImageView cardRow2Card3;
+    public ImageView cardRow2Card4;
+    public ImageView cardRow2Card5;
+    public ImageView cardRow2Card6;
+    public ImageView cardRow2Card7;
+    public ImageView cardRow2Card8;
+    public ImageView cardRow2Card9;
+    public ImageView cardRow2Card10;
+    public ImageView cardRow2Card11;
+    public ImageView cardRow2Card12;
+    public ImageView cardRow2Card13;
+    
+
+    @FXML //set up for cards for row 3 - fill up third 
+    public ImageView cardRow3Card1;
+    public ImageView cardRow3Card2;
+    public ImageView cardRow3Card3;
+    public ImageView cardRow3Card4;
+    public ImageView cardRow3Card5;
+    public ImageView cardRow3Card6;
+    public ImageView cardRow3Card7;
+    public ImageView cardRow3Card8;
+    public ImageView cardRow3Card9;
+    public ImageView cardRow3Card10;
+    public ImageView cardRow3Card11;
+    public ImageView cardRow3Card12;
+    public ImageView cardRow3Card13;
+
+
+    @FXML // set up for top row 4 of cards - fills up last
+    public ImageView cardRow4Card1;
+    public ImageView cardRow4Card2;
+    public ImageView cardRow4Card3;
+    public ImageView cardRow4Card4;
+    public ImageView cardRow4Card5;
+    public ImageView cardRow4Card6;
+    public ImageView cardRow4Card7;
+    public ImageView cardRow4Card8;
+    public ImageView cardRow4Card9;
+    public ImageView cardRow4Card10;
+    public ImageView cardRow4Card11;
+    public ImageView cardRow4Card12;
+    public ImageView cardRow4Card13;
+
+
+    @FXML // SET UP CARDS FOR OPPONENT 
+    private ImageView opponentCard1;
+    @FXML
+    private ImageView opponentCard2;
+    @FXML
+    private ImageView opponentCard3;
+    @FXML
+    private ImageView opponentCard4;
+    @FXML
+    private ImageView opponentCard5;
+
+    @FXML // fx:id="sets_made" - where the score will be kept
+    private Label sets_made;
+
+    @FXML // fx:id="opponents_sets_made" - - where the opponents score will be kept
+    private Label opponents_sets_made;
+    
+    @FXML //fx:id="draw from deck" - pick up from deck 
+    public Button draw_from_deck;
+
 
     @FXML // fx:id="menu"
     private MenuBar menu;
 
-    @FXML // fx:id="ask_for_card"
-    private Button askForCard;
 
-    @FXML // fx:id="go_fish"
-    private Button goFish;
 
-    @FXML // fx:id="sets_made"
-    private Label setsMadeTotal;
 
     // Image initialisation
     private Image twoOfClubs = new Image("images/cards/2_of_clubs.png");
@@ -84,23 +170,66 @@ public class CardsGameController implements Initializable {
     private Image queenOfDiamonds = new Image("images/cards/queen_of_diamonds2.png");
     private Image queenOfHearts = new Image("images/cards/queen_of_hearts2.png");
     private Image queenOfSpades = new Image("images/cards/queen_of_spades2.png");
+    private Image backOfCard = new Image("images/cards/backofdeck.png");
 
 
-
-    protected CardsGameController(Button goFish, Label setsMadeTotal) {
-        this.goFish = goFish;
-        this.setsMadeTotal = setsMadeTotal;
+    protected CardsGameController(Button goFish, Label sets_made) {
+        this.go_fish = goFish;
+        this.sets_made = sets_made;
     }
+
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        goFish.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+        go_fish.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             //NEED TO ADD THE GO FISH FUNCTION HERE
         });
-        askForCard.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+        ask_for_card.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             //NEED TO ADD THE FUNCTION FOR ASKING FOR A CARD
         });
+        
+        draw_from_deck.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            //MIGHT ADD A COUNTER OR SOMETHING SO WHEN THEY START THE GAME - FIRST UP THEY
+            // CLICK ON THE DECK TO DEAL CARDS THEN AFTER THEY HAVE BEEN DEALT THE FIRST TIME
+            // IT CHANGES TO JUST DRAWING CARDS
+           //NEED TO ADD FUNCTION FOR PICKING UP FROM DECK      
+        });
+
+        //THIS IS JUSTT A THOUGHT ABOUT HOW TO HIGHLIGHT CARDS WHEN PRESSSED
+        cardRow1Card1.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
+            cardRow1Card1.setLayoutX(408);
+            cardRow1Card1.addEventHandler(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
+                cardRow1Card1.setLayoutX(416);
+            });
+        });
+
+        
+        
+        
     }
+
+    public static void set_score(){
+               // THIS WILL BE THE CODE FOR THE SCORE PUT INTO 'SETS_MADE'
+    };
+
+    public static void set_opponent_score(){
+        //THIS WILL BE THE SCORE FOR PLAYER2 PUT INTO 'OPPONENT_SET_MADE'
+    };
+
+    public static void opponents_card(){
+        //DO SOMETHING LIKE:
+        // IF(OPPONENTS_SCORE BETWEEN 0-10 THEY HAVE 5 CARDS SHOWING)
+        // IF(OPPONENTS_SCORE BETWEEN 10-20 THEY HAVE 4 CARDS SHOWING)
+        // IF(OPPONENTS_SCORE BETWEEN 20-30 THEY HAVE  CARDS SHOWING)
+        // ECT.. SO THAT THEIR CARDS GET LESS SLOWLEY
+
+    }
+    
+    
+
+
+
+
 }
