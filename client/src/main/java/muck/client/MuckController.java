@@ -4,11 +4,15 @@
 
 package muck.client;
 
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -24,9 +28,12 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import muck.client.space_invaders.LandingPage;
 import muck.protocol.connection.*;
@@ -111,7 +118,12 @@ public class MuckController implements Initializable {
     @FXML // fx:id="game1Button" The space invaders button. This is supposed to be temporary
     private Button game1Button; // Value injected by FXMLLoader
 
+    @FXML //fx:id="userNameDisplay"
+    private Text userNameDisplay;
+
     String message;
+    private static String userName;
+    private static String avatarID;
 
     private static final Logger logger = LogManager.getLogger();
 
@@ -124,7 +136,8 @@ public class MuckController implements Initializable {
         openFullChat.setOnAction(this::openFullChat);
         plus.setOnAction(this::addChatTab); // adds new tab
         GameMap gm = new GameMap(gameCanvas); // Adds GameMap animation to the game window
-        Image chosenAvatar = AvatarController.getPortrait("peach"); // TODO: The avatar ID needs to the that attached to a username. Need server call!
+        Image chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
+        userNameDisplay.setText(userName);// // Sets username that has been passed in from Avatar class
         circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
         chatSection.setFocusTraversable(true);
         chatSection.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> chatSection.isFocused());
@@ -144,6 +157,25 @@ public class MuckController implements Initializable {
     //Function that sends message when user clicks on arrow
     private void sendMessage(ActionEvent event) {
         displayAndSend();
+    }
+
+    // Use this method from external classes to open the gameplay window. Added by CA 14 Aug
+    public static void constructor(MouseEvent event, String name, String avatar) {
+        userName = name;
+        avatarID = avatar;
+        try {
+            Parent root = FXMLLoader.load(MuckController.class.getResource("/fxml/MuckWindow.fxml"));
+            Scene scene = new Scene(root);
+            scene.setRoot(root);
+            scene.getStylesheets().add(MuckController.class.getResource("/css/style.css").toExternalForm());
+            //This line gets the Stage Information
+            Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.setOnCloseRequest(e -> stage.close());
+            stage.show();
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     //Function that displays message in chat box

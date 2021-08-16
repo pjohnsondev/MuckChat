@@ -311,5 +311,5 @@ abstract public class Database {
         statement.setBytes(pIndex, parameter);
     }
 
-    //END PREPARED STATMENT BINDINGS
+    //END PREPARED STATEMENT BINDINGS
 }

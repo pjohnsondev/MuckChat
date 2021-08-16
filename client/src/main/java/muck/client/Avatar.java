@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /*
@@ -27,6 +28,7 @@ public class Avatar extends Application {
             e.printStackTrace();
         }
     }
+
 
    public static void main(String[] args) {
         AvatarController.AvatarCreation("Test");
