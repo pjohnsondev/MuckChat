@@ -62,7 +62,7 @@ public class PlayerTest {
         logger.info("Testing that the player can trade an item with another player");
         assertAll(
                 "Player should no longer have item and other player should have item" ,
-                () -> assertTrue(player.tradeCollectable(collectable, otherPlayer)),
+                () -> assertTrue(player.tradeCollectable(collectable, otherPlayer.getIdentifier())),
                 () -> assertFalse(
                         () -> {
                             for(int i = 0; i < player.getInventory().length; i++) {
