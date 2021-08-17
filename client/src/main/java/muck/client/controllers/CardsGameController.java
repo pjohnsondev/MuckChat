@@ -19,6 +19,12 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.application.Application;
 import muck.client.card_games.Player;
+import muck.client.card_games.Player_turn;
+import muck.client.card_games.Game;
+import muck.client.card_games.Deck;
+import muck.client.card_games.Card;
+import muck.client.card_games.Hand;
+
 
 public class CardsGameController implements Initializable {
     @FXML // fx:id="ask_for_card"
@@ -238,20 +244,33 @@ public class CardsGameController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         go_fish.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            //go fish needs to basically pass back a variable switch that makes the
+            //draw card popup visible for other player.
+            //"Player 2 does not have any *card value*:
+            //               Pickup card"
+            //TODO: create a boolean variable for go fish to make the response pop up
+            // to other player.
             //NEED TO ADD THE GO FISH FUNCTION HERE
         });
         ask_for_card.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            //Player_turn.ask_for_card(enter card value here);
+            //TODO: make function body
             //NEED TO ADD THE FUNCTION FOR ASKING FOR A CARD
         });
         
         draw_from_deck.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            //Hand.draw_cards(enter deck name here);
+            //I got this function fully written. Another separate one that deals the hand.
+            //Maybe just need to change it so it doesn't need the deck name input? Some this.deck scenario.
             //MIGHT ADD A COUNTER OR SOMETHING SO WHEN THEY START THE GAME - FIRST UP THEY
             // CLICK ON THE DECK TO DEAL CARDS THEN AFTER THEY HAVE BEEN DEALT THE FIRST TIME
-            // IT CHANGES TO JUST DRAWING CARDS
-           //NEED TO ADD FUNCTION FOR PICKING UP FROM DECK      
+            // IT CHANGES TO JUST DRAWING CARDS - thats up to you. im happy to just do an automatic
+            //deal as part of initialising the game.
+           //NEED TO ADD FUNCTION FOR PICKING UP FROM DECK - done.
+
         });
 
-        //THIS IS JUSTT A THOUGHT ABOUT HOW TO HIGHLIGHT CARDS WHEN PRESSSED
+        //THIS IS JUST A THOUGHT ABOUT HOW TO HIGHLIGHT CARDS WHEN PRESSED
         cardRow1Card1.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
             cardRow1Card1.setLayoutX(408);
             cardRow1Card1.addEventHandler(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
@@ -265,11 +284,14 @@ public class CardsGameController implements Initializable {
     }
 
     public static void set_score(){
+                // I did have an increment score function made under :
+                // Player.add_score();
                // THIS WILL BE THE CODE FOR THE SCORE PUT INTO 'SETS_MADE'
     };
 
     public static void set_opponent_score(){
         //THIS WILL BE THE SCORE FOR PLAYER2 PUT INTO 'OPPONENT_SET_MADE'
+        //is this just about keeping "opponents score: " value on screen updated?
     };
 
     public static void opponents_card(){
@@ -277,7 +299,7 @@ public class CardsGameController implements Initializable {
         // IF(OPPONENTS_SCORE BETWEEN 0-10 THEY HAVE 5 CARDS SHOWING)
         // IF(OPPONENTS_SCORE BETWEEN 10-20 THEY HAVE 4 CARDS SHOWING)
         // IF(OPPONENTS_SCORE BETWEEN 20-30 THEY HAVE  CARDS SHOWING)
-        // ECT.. SO THAT THEIR CARDS GET LESS SLOWLEY
+        // ECT.. SO THAT THEIR CARDS GET LESS SLOWLY
 
     }
     

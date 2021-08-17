@@ -3,6 +3,7 @@ package muck.client.card_games;
 public class Game {
     private int game_id;
     public static int current_turn;
+    public static int player_turn;
 
     public Game(){ }
 
@@ -10,7 +11,7 @@ public class Game {
         // Initial setup
         // Variable to manage turns
         current_turn = 1;
-        int player_turn = 1;
+        player_turn = 1;
         // Creating 2 players
         Player player1 = new Player();
         Player player2 = new Player();
