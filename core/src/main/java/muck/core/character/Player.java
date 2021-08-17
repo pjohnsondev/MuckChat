@@ -1,5 +1,9 @@
 package muck.core.character;
 
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Player extends Character {
     /**
      * Player constructor. This class is an extension of the Character class for human players.
@@ -42,29 +46,32 @@ public class Player extends Character {
      * @param otherPlayer Other player to trade with
      * @return If player to player collectable transaction is successful return true. Otherwise, return false
      */
-    public boolean tradeCollectable(String collectable, Player otherPlayer) {
+    public boolean tradeCollectable(String collectable, String otherPlayer) {
         boolean hasCollectable = false;
         boolean otherPlayerExists = false;
         boolean tradeSuccessful = false;
 
         String[] currentCollectables = this.getInventory();
 
+        // Check if the Player currently holds the collectable
         for(String item : currentCollectables) {
-            //TODO: Does the player currently hold the collectable?
             if( item.equals(collectable) ) {
                hasCollectable = true;
-                break;
+               break;
             }
         }
 
         //TODO: Does the other player currently exist in the database?
-        if(true) {
+        if(StorageHandler.isPlayerValid(otherPlayer)) {
            otherPlayerExists = true;
         }
 
+        // Conduct trade if Player has collectable and other Player exists
         if(hasCollectable && otherPlayerExists) {
+            //TODO: Confirm query
+            String query = "INSERT INTO Player(identifier, inventory) VALUES (?, ?)";
+            StorageHandler.addToPlayer(query, otherPlayer, collectable);
             this.removeItemFromInventory(collectable);
-            otherPlayer.addItemToInventory(collectable);
             tradeSuccessful = true;
         }
 
@@ -72,40 +79,67 @@ public class Player extends Character {
     }
 
     /**
-    * @param item item to be added to inventory
-    */
+     * Adds an item to the Players Inventory
+     * @param item item to be added to inventory
+     */
     public void addItemToInventory(String item) {
-        //TODO - Interact with DB
+        //TODO: Confirm query
+        String query = "INSERT INTO Player(identifier, inventory) VALUES (?, ?)";
+        StorageHandler.addToPlayer(query, this.getIdentifier(), item);
     }
 
     /**
+     * Removes an item from the Players Inventory
      * @param item item to be removed/consumed
      */
     public void removeItemFromInventory(String item) {
-        //TODO - Interact with DB
+        //TODO: Confirm query
+        String query = "DELETE FROM Player WHERE identifier = ? AND inventory = ?";
+        StorageHandler.removeFromPlayer(query, this.getIdentifier(), item);
     }
 
+    /**
+     * Retrieves Players current inventory holdings
+     * @return A String array of the players inventory
+     */
     public String[] getInventory() {
-        //TODO - Interact with DB
-        return null;
+        //TODO: Confirm query
+        String query = "SELECT inventory FROM Player WHERE identifier = ?";
+        ArrayList<String> inventoryList = StorageHandler.getList(query, this.getIdentifier());
+
+        String[] playerInventory = new String[inventoryList.size()];
+        for(int i = 0; i < inventoryList.size(); i++){
+            playerInventory[i] = inventoryList.get(i);
+        }
+
+        return playerInventory;
     }
 
-    // TODO: How will player be able to store achievements?
     /**
      * Adds a single new achievement to players profile
      * @param achievement Name of achievement
      */
     public void addAchievement(String achievement) {
-        //TODO - Interact with DB
+        //TODO: Confirm query
+        String query = "INSERT INTO Player(identifier, achievements) VALUES (?, ?)";
+        StorageHandler.addToPlayer(query, this.getIdentifier(), achievement);
     }
 
     /**
-     * Retrieves players achievements
-     * @return A String list of all player achievements
+     * Retrieves Players achievements
+     * @return A String array of all player achievements
      */
     public String[] getAchievements() {
-        //TODO - Interact with DB
-        return null;
+        //TODO: Confirm query
+        String query = "SELECT achievements FROM Player WHERE identifier = ?";
+        ArrayList<String> achievementList = StorageHandler.getList(query, this.getIdentifier());
+
+        String[] playerAchievements = new String[achievementList.size()];
+        for(int i = 0; i < achievementList.size(); i++){
+            playerAchievements[i] = achievementList.get(i);
+        }
+
+        return playerAchievements;
     }
 
 
