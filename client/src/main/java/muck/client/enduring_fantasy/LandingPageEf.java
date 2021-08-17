@@ -50,8 +50,16 @@ public class LandingPageEf extends Node {
         grid.getRowConstraints().add(rc);
 
         playButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        playButton.setStyle("-fx-background-color: #00ff00");
-        grid.add(playButton, 0, 8, 2, 5);
+        playButton.setStyle("-fx-background-color: #ff0000");
+        grid.add(playButton, 10, 8, 10, 5);
+
+        instructionsButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        instructionsButton.setStyle("-fx-background-color: #ff0000");
+        grid.add(instructionsButton, 10, 18, 20, 5);
+
+        exitButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        exitButton.setStyle("-fx-background-color: #ff0000");
+        grid.add(exitButton, 10, 28, 20, 5);
 
         stage.getChildren().add(grid);
 
