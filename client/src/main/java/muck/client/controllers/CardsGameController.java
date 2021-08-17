@@ -21,6 +21,7 @@ import javafx.application.Application;
 import muck.client.card_games.Player;
 import muck.client.card_games.Player_turn;
 import muck.client.card_games.Game;
+//TODO: why are these below not working?
 import muck.client.card_games.Deck;
 import muck.client.card_games.Card;
 import muck.client.card_games.Hand;
@@ -125,7 +126,7 @@ public class CardsGameController implements Initializable {
 
 
     // Image initialisation
-<<<<<<< HEAD
+//<<<<<<< HEAD
     private Image twoOfClubs = new Image("images/cards/2_of_clubs.png");
     private Image twoOfDiamonds = new Image("images/cards/2_of_diamonds.png");
     private Image twoOfHearts = new Image("images/cards/2_of_hearts.png");
@@ -178,7 +179,7 @@ public class CardsGameController implements Initializable {
     private Image queenOfHearts = new Image("images/cards/queen_of_hearts2.png");
     private Image queenOfSpades = new Image("images/cards/queen_of_spades2.png");
     private Image backOfCard = new Image("images/cards/backofdeck.png");
-=======
+//=======
     private Image two_of_clubs = new Image("images/cards/2_of_clubs.png");
     private Image two_of_diamonds = new Image("images/cards/2_of_diamonds.png");
     private Image two_of_hearts = new Image("images/cards/2_of_hearts.png");
@@ -230,7 +231,7 @@ public class CardsGameController implements Initializable {
     private Image queen_of_diamonds = new Image("images/cards/queen_of_diamonds.png");
     private Image queen_of_hearts = new Image("images/cards/queen_of_hearts.png");
     private Image queen_of_spades = new Image("images/cards/queen_of_spades.png");
->>>>>>> 7a161c74432d20818b3afbb9d3fec04244597d90
+//>>>>>>> 7a161c74432d20818b3afbb9d3fec04244597d90
 
 
     protected CardsGameController(Button goFish, Label sets_made) {
