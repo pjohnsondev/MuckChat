@@ -9,9 +9,6 @@ public class Player {
     private int score;
     Hand hand;
     int score_incr = 10;
-    //temporary values for testing
-    int go_fish_hand = 7;
-
 
     public Player(){
         this.score = 0;
