@@ -269,8 +269,6 @@ public class MuckController implements Initializable {
         newAnc.getChildren().add(chatX);
         chatPane1.getTabs().add(newTab);
         chatPane1.getSelectionModel().select(newTab);
-        windowPane.setDividerPositions(0.70);
-        chatSplitPane.setDividerPositions(0.989);
         openChatOnly.setVisible(false);
     }
 
@@ -346,4 +344,5 @@ public class MuckController implements Initializable {
     private void quitMuck(ActionEvent event) {
         Platform.exit();
     }
+
 }
