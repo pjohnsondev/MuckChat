@@ -269,7 +269,7 @@ public class MuckController implements Initializable {
         newAnc.getChildren().add(chatX);
         chatPane1.getTabs().add(newTab);
         chatPane1.getSelectionModel().select(newTab);
-        openChatOnly.setVisible(false);
+        openChatOnly.setVisible(true);
     }
 
     @FXML
@@ -286,7 +286,7 @@ public class MuckController implements Initializable {
     private void openChatOnly(ActionEvent event) {
         windowPane.setDividerPositions(0.70);
         chatSplitPane.setDividerPositions(0.989);
-        openChatOnly.setVisible(false);
+        openChatOnly.setVisible(true);
     }
 
     @FXML
