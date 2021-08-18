@@ -2,8 +2,10 @@ package muck.client.enduring_fantasy;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.canvas.GraphicsContext;
@@ -15,6 +17,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import muck.client.GameMap;
+
 
 
 public class LandingPageEf extends Node {
@@ -39,7 +42,7 @@ public class LandingPageEf extends Node {
         titleView.setFitHeight(130);
         titleView.setImage(TITLE);
 
-        grid.add(titleView, 1,50,3,5);
+        grid.add(titleView, 1, 50, 3, 5);
 
 
         gc = canvas.getGraphicsContext2D();
@@ -86,8 +89,13 @@ public class LandingPageEf extends Node {
             stage.getChildren().add(canvas);
         });
 
+        playButton.setOnAction(event -> {
+
+            Canvas EFGameCanvas = new Canvas();
+            enduringFantasyGame game = new enduringFantasyGame(stage, EFGameCanvas);
+
+        });
+
+
     }
-
-
-
 }
