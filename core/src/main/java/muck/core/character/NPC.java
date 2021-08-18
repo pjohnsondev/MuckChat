@@ -19,6 +19,14 @@ public class NPC extends Character {
 
         setIdentifier(NPCId);
     }
+
+    /**
+     * Dummy constructor for a NPC object with a "null" identifier. Does not
+     * check with backend storage for a valid username. Should only be used for unit tests that don't use backend
+     */
+    protected NPC() {
+        this.setIdentifier(null);
+    }
     
     //TODO - NPC should have a separate controller to the player. May incorporate AI based movement, behaviour etc.
 //    public npcController() {

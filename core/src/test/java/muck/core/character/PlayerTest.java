@@ -2,10 +2,8 @@ package muck.core.character;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import static org.mockito.Mockito.*;
 
 public class PlayerTest {
@@ -32,6 +30,30 @@ public class PlayerTest {
         
         player.setHealth(30);
         assertEquals(30, player.getHealth());
+    }
+
+    // Test Player stat change behaviour
+    @Test
+    public void testPlayerStats() {
+        Player player = new Player();
+
+        logger.info("Testing that negative stats values should be zero");
+        player.setAttack(-5);
+        player.setDefence(-5);
+        assertAll(
+                "Player stats should be zero",
+                () -> assertEquals(0, player.getAttack()),
+                () -> assertEquals(0, player.getDefence())
+        );
+
+        logger.info("Testing that stat changes occur");
+        player.setAttack(50);
+        player.setDefence(50);
+        assertAll(
+                "Player stats should be 50",
+                () -> assertEquals(50, player.getAttack()),
+                () -> assertEquals(50, player.getDefence())
+        );
     }
 
     // Test players interaction with collectables and inventory
