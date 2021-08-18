@@ -7,27 +7,33 @@ import java.sql.*;
  * Handles the storing and retrieval of Character objects (Player or NPC)
  */
 public class StorageHandler {
-    
+
     /**
-        Save the character object to backend storage
+     * Save the character object to backend storage
+     * @param character Character object to save to database
+     * @return True if save was successful, otherwise return false
      */
     public static boolean saveCharacter(Character character) {
+        boolean saveSuccessful = false;
         if (character.getClass() == Player.class) {
             //TODO save Player object
         }
         else if (character.getClass() == NPC.class) {
             //TODO save NPC object
-
         }
-        
-        return false;
+        return saveSuccessful;
     }
 
     /**
-     Attempt to retrieve the specified player from backend storage. Returns true if it's valid.
+     * Attempt to retrieve the specified player from backend storage. Returns true if it's valid.
+     * @param username Identifier for the Player
+     * @return True is Player is in database, otherwise return false
      */
     public static boolean isPlayerValid(String username) {
-        return false; //TODO - implement with db
+        boolean playerValid = false;
+
+        //TODO - implement with db
+        return playerValid;
     }
 
     /**
@@ -36,7 +42,7 @@ public class StorageHandler {
      * @param identifier Players identifier
      * @return ArrayList of items from the executed query
      */
-    public static ArrayList<String> getList(String query, String identifier) {
+    public static ArrayList<String> queryPlayer(String query, String identifier) {
         ArrayList<String> list = new ArrayList<String>();
         //TODO: implement with db
         return list;

@@ -29,17 +29,10 @@ public class Player extends Character {
     protected Player() {
         this.setIdentifier(null);
     }
-    
-    //TODO How will the player move? A player controller will need to be created
-    // 30-JUL-21 - bnolan9 - SteveB of #9 and bnolan9 of #20 agreed for #20 to produce character movement within this class
-    // as #20 also needs to work on character location.
-    // #20 will plan some setters and getters, core functions etc and produce them here, but under #20 branch.
-//    public playerController() {
-//    }
 
-    //TODO: How will a player be able to trade collectables with other players? (Issue 10)
     /**
      * Trades a single collectable currently held by the player with another existing player
+     * Collaborate with Issue 10
      * @param collectable Collectable item to trade
      * @param otherPlayer Other player to trade with
      * @return If player to player collectable transaction is successful return true. Otherwise, return false
@@ -103,8 +96,9 @@ public class Player extends Character {
     public String[] getInventory() {
         //TODO: Confirm query
         String query = "SELECT inventory FROM Player WHERE identifier = ?";
-        ArrayList<String> inventoryList = StorageHandler.getList(query, this.getIdentifier());
+        ArrayList<String> inventoryList = StorageHandler.queryPlayer(query, this.getIdentifier());
 
+        // Convert from ArrayList to Array
         String[] playerInventory = new String[inventoryList.size()];
         for(int i = 0; i < inventoryList.size(); i++){
             playerInventory[i] = inventoryList.get(i);
@@ -130,8 +124,9 @@ public class Player extends Character {
     public String[] getAchievements() {
         //TODO: Confirm query
         String query = "SELECT achievements FROM Player WHERE identifier = ?";
-        ArrayList<String> achievementList = StorageHandler.getList(query, this.getIdentifier());
+        ArrayList<String> achievementList = StorageHandler.queryPlayer(query, this.getIdentifier());
 
+        // Convert from ArrayList to Array
         String[] playerAchievements = new String[achievementList.size()];
         for(int i = 0; i < achievementList.size(); i++){
             playerAchievements[i] = achievementList.get(i);
