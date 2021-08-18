@@ -42,7 +42,7 @@ public class LandingPageEf extends Node {
         grid.add(titleView, 1,50,3,5);
 
 
-
+        gc = canvas.getGraphicsContext2D();
 
         grid.setPadding(new Insets(10, 10, 10, 10));
         grid.setVgap(8);
@@ -73,6 +73,10 @@ public class LandingPageEf extends Node {
         exitButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         exitButton.setStyle("-fx-background-color: #ff0000");
         grid.add(exitButton, 10, 28, 20, 5);
+
+        this.gc.setFill(Color.WHITE);
+        this.gc.fillRect(0, 0, WIDTH, HEIGHT);
+        this.gc.setFill(Color.WHITE);
 
         stage.getChildren().add(grid);
 
