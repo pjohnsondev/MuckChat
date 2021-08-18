@@ -7,11 +7,14 @@ import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.control.Button;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import muck.client.GameMap;
 
 
 public class LandingPageEf extends Node {
@@ -19,6 +22,9 @@ public class LandingPageEf extends Node {
     private static final int HEIGHT = 600;
     private static final int WIDTH = 1000;
     private GraphicsContext gc;
+
+    private ImageView titleView;
+    private static final Image TITLE = new Image("/images/Enduring_Fantasy_Logo.png");
 
     final Button playButton = new Button("PLAY");
     final Button instructionsButton = new Button("How To Play");
@@ -28,6 +34,13 @@ public class LandingPageEf extends Node {
 
 
     public LandingPageEf(BorderPane stage, Canvas canvas) {
+        ImageView titleView = new ImageView();
+        titleView.setFitWidth(480);
+        titleView.setFitHeight(130);
+        titleView.setImage(TITLE);
+
+        grid.add(titleView, 1,50,3,5);
+
 
 
 
@@ -63,7 +76,14 @@ public class LandingPageEf extends Node {
 
         stage.getChildren().add(grid);
 
+        exitButton.setOnAction(event -> {
+            stage.getChildren().removeAll(grid, canvas);
+            GameMap gm = new GameMap(canvas);
+            stage.getChildren().add(canvas);
+        });
+
     }
+
 
 
 }
