@@ -18,7 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import muck.client.GameMap;
 
-
+//TODO the is the class to run the actual game
 public class enduringFantasyGame extends Node {
 
     private static final int HEIGHT = 600;
