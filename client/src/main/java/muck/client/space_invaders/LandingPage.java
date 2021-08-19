@@ -147,6 +147,13 @@ public class LandingPage extends Node {
             // Create layout of the window
             VBox layout = new VBox(20);
             layout.getChildren().addAll(dummyText, goBack);
+            Scene gameInstructScene = new Scene(layout, WIDTH, HEIGHT);
+
+            // Create window for instructions to be displayed in
+            Stage gamePlayInstructionsWindow = new Stage();
+            gamePlayInstructionsWindow.setTitle("GAMEPLAY INSTRUCTIONS");
+            gamePlayInstructionsWindow.setScene(gameInstructScene);
+            gamePlayInstructionsWindow.show();
         });
 
         exitButton.setOnAction(event -> {
