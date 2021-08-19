@@ -139,6 +139,12 @@ public class LandingPage extends Node {
             newWindow.show();
         });
 
+        gamePlayButton.setOnAction(event -> {
+            // Add elements
+            Label dummyText = new Label("Lorem ipsum dolor set amet");
+            Button goBack = new Button("Return to landing page");
+        });
+
         exitButton.setOnAction(event -> {
             stage.getChildren().removeAll(grid, canvas);
             GameMap gm = new GameMap(canvas);
