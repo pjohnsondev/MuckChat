@@ -1,4 +1,4 @@
-package muck.client.controllers;
+package muck.client;
 
 import com.google.errorprone.annotations.FormatMethod;
 import javafx.fxml.FXML;
@@ -118,8 +118,7 @@ public class CardsGameController implements Initializable {
 
 
 
-    // Image initialisation
-<<<<<<< HEAD
+  /*  // Image initialisation
     private Image twoOfClubs = new Image("images/cards/2_of_clubs.png");
     private Image twoOfDiamonds = new Image("images/cards/2_of_diamonds.png");
     private Image twoOfHearts = new Image("images/cards/2_of_hearts.png");
@@ -172,7 +171,6 @@ public class CardsGameController implements Initializable {
     private Image queenOfHearts = new Image("images/cards/queen_of_hearts2.png");
     private Image queenOfSpades = new Image("images/cards/queen_of_spades2.png");
     private Image backOfCard = new Image("images/cards/backofdeck.png");
-=======
     private Image two_of_clubs = new Image("images/cards/2_of_clubs.png");
     private Image two_of_diamonds = new Image("images/cards/2_of_diamonds.png");
     private Image two_of_hearts = new Image("images/cards/2_of_hearts.png");
@@ -224,16 +222,7 @@ public class CardsGameController implements Initializable {
     private Image queen_of_diamonds = new Image("images/cards/queen_of_diamonds.png");
     private Image queen_of_hearts = new Image("images/cards/queen_of_hearts.png");
     private Image queen_of_spades = new Image("images/cards/queen_of_spades.png");
->>>>>>> 7a161c74432d20818b3afbb9d3fec04244597d90
-
-
-    protected CardsGameController(Button goFish, Label sets_made) {
-        this.go_fish = goFish;
-        this.sets_made = sets_made;
-    }
-
-
-
+*/
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
