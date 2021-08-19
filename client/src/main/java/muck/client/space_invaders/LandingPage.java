@@ -143,6 +143,10 @@ public class LandingPage extends Node {
             // Add elements
             Label dummyText = new Label("Lorem ipsum dolor set amet");
             Button goBack = new Button("Return to landing page");
+
+            // Create layout of the window
+            VBox layout = new VBox(20);
+            layout.getChildren().addAll(dummyText, goBack);
         });
 
         exitButton.setOnAction(event -> {
