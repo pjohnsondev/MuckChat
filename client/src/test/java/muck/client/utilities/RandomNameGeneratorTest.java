@@ -22,10 +22,9 @@ public class RandomNameGeneratorTest {
     }
 
     @Test
-    // TODO: Correct test when class updated
     public void testGeneratesName(){
         RandomNameGenerator rng = new RandomNameGenerator();
-        assertEquals("john smith", rng.generate());
+        assertDoesNotThrow(() -> rng.generateName());
     }
 
 }

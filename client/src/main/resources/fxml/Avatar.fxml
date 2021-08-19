@@ -17,16 +17,17 @@
 
 <GridPane maxHeight="711.0" maxWidth="1130.0" minHeight="600.0" minWidth="700.0" prefHeight="631.0" prefWidth="1000.0" style="-fx-background-color: dimgrey;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.AvatarController">
   <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="537.0" minWidth="45.0" prefWidth="462.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="757.0" minWidth="237.0" prefWidth="267.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="656.0" minWidth="227.0" prefWidth="271.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="900.0" minWidth="200.0" prefWidth="400.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="100.0" prefWidth="200.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="100.0" prefWidth="200.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="100.0" prefWidth="200.0" />
       <ColumnConstraints />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints maxHeight="95.0" minHeight="0.0" prefHeight="64.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="323.0" minHeight="10.0" prefHeight="238.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="312.0" minHeight="10.0" prefHeight="251.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="75.0" minHeight="0.0" prefHeight="75.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="95.0" minHeight="0.0" prefHeight="75.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="320.0" minHeight="10.0" prefHeight="250.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="320.0" minHeight="10.0" prefHeight="250.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="95.0" minHeight="0.0" prefHeight="75.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
       <TextFlow prefHeight="75.0" prefWidth="833.0" style="-fx-background-color: grey; -fx-border-color: #87cdff; -fx-border-width: 5;" textAlignment="CENTER" GridPane.columnSpan="4">
@@ -54,21 +55,21 @@
             <Insets top="10.0" />
          </padding>
       </TextFlow>
-      <Button fx:id="submit" mnemonicParsing="false" prefHeight="42.0" prefWidth="181.0" style="-fx-background-color: #87cdff;" text="Confirm" textAlignment="CENTER" textFill="DIMGRAY" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+      <Button fx:id="submit" mnemonicParsing="false" prefHeight="42.0" prefWidth="181.0" style="-fx-background-color: #87cdff;" text="Confirm" textAlignment="CENTER" textFill="DIMGRAY" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="20.0" />
          </font>
       </Button>
       <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" GridPane.rowSpan="3">
          <children>
-            <ImageView fx:id="avatarFullBody" fitHeight="538.0" fitWidth="433.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="avatarFullBody" fitHeight="538.0" fitWidth="371.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <effect>
                   <DropShadow />
                </effect>
             </ImageView>
          </children>
       </Pane>
-      <Circle fx:id="peach" fill="#ffffff00" radius="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <Circle fx:id="peach" fill="#ffffff00" radius="75.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" translateX="25.0" translateY="15.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -78,20 +79,54 @@
          <GridPane.margin>
             <Insets />
          </GridPane.margin></Circle>
-      <Circle fx:id="goku" fill="#ffffff00" radius="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+      <Circle fx:id="batman" fill="#ffffff00" radius="75.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" translateX="25.0" translateY="15.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Circle>
-      <Circle fx:id="sailorMars" fill="#ffffff00" radius="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+      <Circle fx:id="skeleton" fill="#ffffff00" radius="75.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" translateX="25.0" translateY="-15.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </Circle>
+      <Circle fx:id="wonderWoman" fill="#ffffff00" radius="75.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" translateX="25.0" translateY="-15.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </Circle>
+      <Circle fx:id="pikachu" fill="#ffffff00" radius="75.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" translateX="25.0" translateY="15.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Circle>
-      <Circle fx:id="pikachu" fill="#ffffff00" radius="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+      <Circle fx:id="yoshi" fill="#ffffff00" radius="75.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" translateX="25.0" translateY="-15.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
          <cursor>
-            <Cursor fx:constant="HAND" />
+            <Cursor fx:constant="DEFAULT" />
          </cursor>
       </Circle>
+      <Text fx:id="skeletonAlert" fill="#87cdff" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="200.9830722808838" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="14.0" />
+         </font>
+         <GridPane.margin>
+            <Insets top="10.0" />
+         </GridPane.margin>
+      </Text>
+      <Text fx:id="wonderWomanAlert" fill="#87cdff" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="200.9830722808838" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.valignment="TOP">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="14.0" />
+         </font>
+         <GridPane.margin>
+            <Insets top="10.0" />
+         </GridPane.margin>
+      </Text>
+      <Text fx:id="yoshiAlert" fill="#87cdff" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="200.9830722808838" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.valignment="TOP">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="14.0" />
+         </font>
+         <GridPane.margin>
+            <Insets top="10.0" />
+         </GridPane.margin>
+      </Text>
    </children>
 </GridPane>
