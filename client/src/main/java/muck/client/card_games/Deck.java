@@ -2,13 +2,10 @@ package muck.client.card_games;
 
 //TODO: Create deck class
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.nio.Buffer;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Deck {
     ArrayList<Card> cards;
@@ -25,7 +22,7 @@ public class Deck {
     public Deck() {
 
         cards = new ArrayList<Card>();
-        Image backOfDeck = new ImageIcon("muck/client/card_games/images/backofdeck.png").getImage();
+        Image backOfDeck = new ImageIcon("images/cards/backofdeck.png").getImage();
         counter = 0;
         for (int i = 1; i < 53; i++) {
             if (i < 14) {
@@ -49,7 +46,10 @@ public class Deck {
         }
 
     }
-
+    public void shuffle_cards() {
+        Collections.shuffle(cards);
+    }
+    
     public static void main(String[] args) {
         Deck deck = new Deck();
         for (int i = 0; i < deck.cards.size(); i++ ) {
