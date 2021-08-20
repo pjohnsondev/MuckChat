@@ -77,6 +77,26 @@ public abstract class Character {
     }
 
     /**
+     * Increases the health of the given character by the specified amount
+     * @param amount Amount of health to increase character by
+     */
+    public void increaseHealth(int amount) {
+        setHealth(getHealth() + amount);
+    }
+
+    /**
+     * Decreases health of the given character by the specified amount, and returns whether or not
+     * the character has died (health = 0 returns true, otherwise false) as a result of this
+     * @param amount Amount of health to decrease character by
+     * @return true if character has died true to a result of the health decrease, false if not
+     */
+    public boolean decreaseHealth(int amount) {
+        int health = getHealth();
+        setHealth(health - amount);
+        return getHealth() == 0;
+    }
+
+    /**
      * Retrieve the Character's attack strength.
      * @return Character attack strength
      */
