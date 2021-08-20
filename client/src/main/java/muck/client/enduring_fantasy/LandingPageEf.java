@@ -24,7 +24,7 @@ public class LandingPageEf extends Node {
     private GraphicsContext gc;
 
     private ImageView titleView;
-    private static final Image TITLE = new Image("/images/Enduring_Fantasy_Logo.png");
+    private static final Image TITLE = new Image("/images/EnduringFantasy/Enduring_Fantasy_Logo.png");
 
     final Button playButton = new Button("PLAY");
     final Button instructionsButton = new Button("How To Play");
