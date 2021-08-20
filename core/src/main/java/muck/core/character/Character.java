@@ -13,19 +13,22 @@ public abstract class Character {
     /* === PRIVATE (can be ignored) ===
     Private fields, please access and modify these stats via the corresponding public API getters/setters instead
      */
-    private int _health = 100; //player health
     private String _identifier; //identifier, eg: username, NPC ID, etc
     private String _avatar; //Character avatar, collaboration needed with Issue #7
     private String _direction_facing = "down"; //What direction is the avatar facing?
     
     //TODO
-    //Character location on the world map. x, y coords? Which group is handling world map?
-//    private int _xCoord; - Example
+    // Character location on the world map. x, y coords? Which group is handling world map?
+    //    private int _xCoord; - Example
     
     //TODO
     // Common stats next, eg: attack, defense, strength, constitution, wisdom, etc? 
     // Up to Issue: #14. Collaboration required
-//    private int _strength; - Example
+    //    private int _strength; - Example
+    // Character stats
+    private int _health = 100;
+    private int _attack = 0;
+    private int _defence = 0;
 
     /**
      * Set the unique ID for this Character. Should be used cautiously, should probably not be used externally
@@ -47,7 +50,7 @@ public abstract class Character {
     public boolean saveToBackendStorage() {
         // Instead of updating the database after every stat modification, we may only wish to do this periodically,
         // to prevent an overload of transactions
-        //TODO implement with backend - Issue #24
+        //TODO implement with backend - Issue #24 and Issue #32
 
         return StorageHandler.saveCharacter(this);
     }
@@ -71,6 +74,44 @@ public abstract class Character {
         }
         
         _health = health;
+    }
+
+    /**
+     * Retrieve the Character's attack strength.
+     * @return Character attack strength
+     */
+    public int getAttack() {
+        return this._attack;
+    }
+
+    /**
+     * Sets the Character's attack strength.
+     * @param level Set the character's attack to this value. Negative values are converted to 0
+     */
+    public void setAttack(int level) {
+        if(level < 0) {
+            level = 0;
+        }
+        this._attack = level;
+    }
+
+    /**
+     * Retrieve the Character's defence.
+     * @return Character defence
+     */
+    public int getDefence() {
+        return this._defence;
+    }
+
+    /**
+     * Sets the Character's defence.
+     * @param level Set the character's defence to this value. Negative values are converted to 0
+     */
+    public void setDefence(int level) {
+        if(level < 0) {
+            level = 0;
+        }
+        this._defence = level;
     }
 
     /**
