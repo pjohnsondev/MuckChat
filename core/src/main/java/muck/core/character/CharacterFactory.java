@@ -1,5 +1,7 @@
 package muck.core.character;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * An easy factory to create Players, and NPCs with default values, avatars, and other things
  */
@@ -7,13 +9,22 @@ public class CharacterFactory {
     
     //Clients should have a simple way to provide a username, and load the corresponding character if it already exists,
     //or instead create a new character if it doesn't, and then have that Player object returned either way.
-//    static public Player createOrLoadPlayer() {
-//        //TODO 
-//    }
-//
-//    static public Player createPlayer() {
-////        //TODO 
-////    }
+    static public Player createOrLoadPlayer(String username) {
+        String identifier = userExists(username);
+
+        Player newPlayer = new Player(username);
+        newPlayer.setIdentifier(identifier);
+
+        return newPlayer;
+    }
+
+    static public String userExists(String username) {
+        // TODO: query the database to see if this user is found
+        // if user found then return the identifier
+        // if not, insert player to database and then return the identifier
+        // for now, (temporary) just return a randomised string id as the identifier
+        return java.util.UUID.randomUUID().toString();
+    }
 
     /** Create a new NPC character within the backend with a unique identifier automatically. Return this newly
      * created NPC object.

@@ -1,10 +1,18 @@
 package muck.server;
 
-import com.esotericsoftware.kryonet.Client;
+
+import muck.core.Location;
+import muck.core.Login;
+import muck.core.character.AddCharacter;
+import muck.core.character.Character;
+import muck.core.character.CharacterDoesNotExistException;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
+import muck.core.character.Player;
+import muck.core.user.SignUpInfo;
+import muck.server.models.models.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,6 +46,8 @@ public enum MuckServer {
     // Tries to make handling background tasks easier
     WorkerManager workerManager = new WorkerManager();
 
+    CharacterLocationTracker<String> tracker = new CharacterLocationTracker<String>();
+
     /** Sets up the KryoNet server that will handle communication */
     synchronized void startKryo(KryoServerConfig config) throws IOException {
 
@@ -46,7 +56,11 @@ public enum MuckServer {
         }
 
         // Create a new KryoNet server
-        kryoServer = new Server();
+        kryoServer = new Server(){
+            protected Connection newConnection() {
+                return new MuckConnection();
+            }
+        };
         kryoServer.start();
 
         // Register the protocol classes with Kryo
@@ -57,17 +71,18 @@ public enum MuckServer {
 
         // The arraylist is only a temporary datastructure and is subject to change.
         ArrayList<String> players = new ArrayList<String>();
-        // Adds a listener to listen for new client connections, then adds the clients id to the players arraylist.
+        // Adds a listener to listen for new client connections, then adds the clients id to the players arraylist and sends to all clients.
         addListener(ListenerBuilder.forClass(Connected.class).onReceive((conn, connected) -> {
             players.add(Integer.toString(conn.getID()));
             logger.info("Player connection id's are: {}", players);
-
+            kryoServer.sendToAllTCP(players);
         }));
 
-        // Adds a listener to listen for clients disconnecting from the server, then removes them from the players arraylist.
+        // Adds a listener to listen for clients disconnecting from the server, then removes them from the players arraylist and sends to all connected clients.
         addListener(ListenerBuilder.forClass(Disconnect.class).onReceive((conn, disconnect) -> {
             players.remove(Integer.toString(conn.getID())); // This will obtain the index of the player
             logger.info("Player connection id's are: {} disconnected: {}", players, disconnect);
+            kryoServer.sendToAllExceptTCP (conn.getID(), players);
         }));
 
         // Add a Ping listener. Still being used for debugging.
@@ -88,11 +103,82 @@ public enum MuckServer {
             logger.info("Message received from {}", connID.getID());
             logger.info("Message is: {}", clientMessage.getMessage());
             logger.info(clientMessage);
-            userMessage testMessage = new userMessage(); //Create new message to send back.
-            testMessage.setMessage("TEST MESSAGE FROM SERVER!");
-            kryoServer.sendToAllTCP(testMessage); //Send to all clients connected. Can be switched to send only to one client.
+            kryoServer.sendToAllTCP(clientMessage); //Send to all clients connected. Can be switched to send only to one client.
         }));
 
+        addListener(ListenerBuilder.forClass(Login.class).onReceive((connection, login) -> {
+            loginPlayer(login, (MuckConnection)connection);
+        }));
+
+        addListener(ListenerBuilder.forClass(SignUpInfo.class).onReceive((connection, signup) -> {
+            createAccount(signup, (MuckConnection)connection);
+        }));
+    }
+
+    public void createAccount(SignUpInfo signUpInfo, MuckConnection connection) {
+        logger.info("Attempting to create account {}.", signUpInfo.getUsername());
+
+        PlayerManager playerManager = new PlayerManager(new User());
+        userMessage userMessage = new userMessage();
+
+        try {
+            Player player = playerManager.signupPlayer(signUpInfo);
+            logger.info("Sign up successful for {}", player.getUsername());
+
+            userMessage.setMessage("Your account has been created successfully. Username: " + player.getUsername());
+            kryoServer.sendToTCP((connection.getID()), userMessage);
+        } catch (BadRequestException ex) {
+            ex.printStackTrace();
+
+            userMessage.setMessage("Invalid sign up details provided. Please provide valid details. Username: " + signUpInfo.getUsername());
+            kryoServer.sendToTCP(connection.getID(), userMessage);
+        }
+    }
+
+    public void loginPlayer(Login login, MuckConnection muckConnection) {
+        logger.info("Attempting to log in");
+        logger.debug("{} is trying to log in", login.getUsername());
+
+        PlayerManager playerManager = new PlayerManager(new User());
+
+        Player player = null;
+
+        try {
+            player = playerManager.loginPlayer(login);
+        } catch (DuplicateLoginException ex) {
+            userMessage testMessage = new userMessage(); //Create new message to send back.
+            testMessage.setMessage("Duplicate login");
+            kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
+        } catch (CharacterDoesNotExistException ex) {
+            userMessage testMessage = new userMessage(); //Create new message to send back.
+            testMessage.setMessage("Character does not exist. Please register.");
+            kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
+        }
+        catch (AuthenticationFailedException ex) {
+            userMessage testMessage = new userMessage(); //Create new message to send back.
+            testMessage.setMessage("Supplied credentials are invalid.");
+            kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
+        }
+
+        muckConnection.setCharacter(player);
+
+        logger.info("Login successful for {}", login.getUsername());
+
+        AddCharacter addCharacter = addCharacter(player);
+
+        kryoServer.sendToAllTCP(addCharacter);
+    }
+
+    public AddCharacter addCharacter(Character character) {
+        Location location = new muck.core.Location(0,0);
+
+        AddCharacter addCharacter = new AddCharacter(character, location);
+
+        tracker.addClient(new muck.core.Id<String>(character.getIdentifier()), character, new muck.core.Location(location.getX(), location.getY()));
+
+        logger.info("Character added successfully {}", character.getIdentifier());
+
+        return addCharacter;
     }
 
     /** Stops the KryoNet server. */

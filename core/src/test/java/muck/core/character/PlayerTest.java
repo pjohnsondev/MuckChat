@@ -2,10 +2,8 @@ package muck.core.character;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import static org.mockito.Mockito.*;
 
 public class PlayerTest {
@@ -34,6 +32,31 @@ public class PlayerTest {
         assertEquals(30, player.getHealth());
     }
 
+    // Test Player stat change behaviour
+    @Test
+    public void testPlayerStats() {
+        Player player = new Player();
+
+        logger.info("Testing that negative stats values should be zero");
+        player.setAttack(-5);
+        player.setDefence(-5);
+        assertAll(
+                "Player stats should be zero",
+                () -> assertEquals(0, player.getAttack()),
+                () -> assertEquals(0, player.getDefence())
+        );
+
+        logger.info("Testing that stat changes occur");
+        player.setAttack(50);
+        player.setDefence(50);
+        assertAll(
+                "Player stats should be 50",
+                () -> assertEquals(50, player.getAttack()),
+                () -> assertEquals(50, player.getDefence())
+        );
+    }
+
+    /* TODO: ===Currently commented out until database is up====
     // Test players interaction with collectables and inventory
     @Test
     public void testCollectableInteraction() {
@@ -41,20 +64,71 @@ public class PlayerTest {
         Player otherPlayer = mock(Player.class);
         String collectable = "Special Item";
 
+        logger.info("Testing that a player should have no items in inventory");
+        assertNull(player.getInventory(), "Player should have no items in inventory");
+
         // Add item to player inventory
         logger.info("Testing adding an item to player inventory");
         player.addItemToInventory(collectable);
-        assertEquals(collectable, player.getInventory(), "Player should have item");
+        assertTrue(
+                () -> {
+                    for(int i = 0; i < player.getInventory().length; i++) {
+                        if(player.getInventory()[i].equals(collectable)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                },
+                "Player should have item");
 
         // Trade with other player
         logger.info("Testing that the player can trade an item with another player");
         assertAll(
                 "Player should no longer have item and other player should have item" ,
-                () -> assertTrue(player.tradeCollectable(collectable, otherPlayer)),
-                () -> assertEquals(null, player.getInventory()),
-                () -> assertEquals(collectable, otherPlayer.getInventory())
-        );
-
-
+                () -> assertTrue(player.tradeCollectable(collectable, otherPlayer.getIdentifier())),
+                () -> assertFalse(
+                        () -> {
+                            for(int i = 0; i < player.getInventory().length; i++) {
+                                if(player.getInventory()[i].equals(collectable)) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }),
+                () -> assertTrue(
+                        () -> {
+                            for(int i = 0; i < otherPlayer.getInventory().length; i++) {
+                                if(otherPlayer.getInventory()[i].equals(collectable)) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        })
+                );
     }
+
+    // Test player interaction with achievements
+    @Test
+    public void testAchievementInteraction() {
+        Player player = mock(Player.class);
+        String achievement = "Wannabe";
+
+        logger.info("Testing that the player should not have any achievements");
+        assertNull(player.getAchievements(), "Player should have no achievements");
+
+        logger.info("Testing that the player can receive and get achievements");
+        player.addAchievement(achievement);
+        assertTrue(
+                () -> {
+                    for(int i = 0; i < player.getAchievements().length; i++) {
+                        if(player.getAchievements()[i].equals(achievement)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                },
+                "Player should have the achievement"
+        );
+    }
+    */
 }
