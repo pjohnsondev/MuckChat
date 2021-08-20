@@ -172,6 +172,7 @@ public class AvatarController implements Initializable  {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             scene.setRoot(root);
+            scene.getStylesheets().add(AvatarController.class.getResource("/css/style.css").toExternalForm());
             Stage stage = new Stage();
             stage.setTitle("Muck 2021");
             stage.setMaxWidth(1200);
@@ -199,6 +200,7 @@ public class AvatarController implements Initializable  {
             Parent root = FXMLLoader.load(AvatarController.class.getResource("/fxml/Avatar.fxml"));
             Scene scene = new Scene(root);
             scene.setRoot(root);
+            scene.getStylesheets().add(AvatarController.class.getResource("/css/style.css").toExternalForm());
             //This line gets the Stage Information
             Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -223,6 +225,7 @@ public class AvatarController implements Initializable  {
             Parent root = FXMLLoader.load(AvatarController.class.getResource("/fxml/Avatar.fxml"));
             Scene scene = new Scene(root);
             scene.setRoot(root);
+            scene.getStylesheets().add(AvatarController.class.getResource("/css/style.css").toExternalForm());
             //This line gets the Stage Information
             Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             stage.setScene(scene);

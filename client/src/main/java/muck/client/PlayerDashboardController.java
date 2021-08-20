@@ -78,6 +78,7 @@ public class PlayerDashboardController implements Initializable {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             scene.setRoot(root);
+            scene.getStylesheets().add(PlayerDashboardController.class.getResource("/css/style.css").toExternalForm());
             Stage stage = new Stage();
             stage.setTitle("Muck 2021");
             stage.setMaxWidth(1200);
@@ -98,6 +99,7 @@ public class PlayerDashboardController implements Initializable {
             Parent root = FXMLLoader.load(PlayerDashboardController.class.getResource("/fxml/PlayerDashboard.fxml"));
             Scene scene = new Scene(root);
             scene.setRoot(root);
+            scene.getStylesheets().add(PlayerDashboardController.class.getResource("/css/style.css").toExternalForm());
             //This line gets the Stage Information
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);

@@ -45,24 +45,6 @@ public class AvatarTest extends ApplicationTest{
         stage.show();
     }
 
-    /*@BeforeAll
-    public static void stageLaunchesTest() throws Exception {
-        logger.info("Stage Launches Test running");
-        Avatar app = mock(Avatar.class);
-        Stage stage = mock(Stage.class);
-        app.start(stage);
-    }*/
-
-    /*@BeforeAll
-    public static void setUp(Stage stage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(AvatarTest.class.getResource("/fxml/Avatar.fxml"));
-        Parent root = loader.load();
-        //This must happen AFTER loader.load()
-        controller = loader.getController();
-        stage.setScene(new Scene(root, 0, 0));
-        stage.show();
-    }*/
-
     @Test
     public void testAvatarID() {
         String avatar;
@@ -97,4 +79,9 @@ public class AvatarTest extends ApplicationTest{
         AvatarController.setMuck(0);*/
 
     }
+
+    /*@Test
+    public void testLockedAvatars() {
+
+    }*/
 }
