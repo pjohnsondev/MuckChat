@@ -26,7 +26,7 @@ public class PlayerDashboardController implements Initializable {
     private static String userName;
     private static String avatarID = "peach";
     private Image fullAvatar = AvatarController.getFullAvatar(avatarID);
-    private int muckPointTotal = 25;
+    private int muckPointTotal = 15;
     private int healthTotal = 80;
 
 
