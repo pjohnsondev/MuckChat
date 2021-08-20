@@ -28,7 +28,7 @@ public class LandingPageEf extends Node {
     private GraphicsContext gc;
 
     private ImageView titleView;
-    private static final Image TITLE = new Image("/images/Enduring_Fantasy_Logo.png");
+    private static final Image TITLE = new Image("/images/EnduringFantasy/Enduring_Fantasy_Logo.png");
 
     final Button playButton = new Button("PLAY");
     final Button instructionsButton = new Button("How To Play");
@@ -74,22 +74,22 @@ public class LandingPageEf extends Node {
         titleView.setFitWidth(480);
         titleView.setFitHeight(130);
         titleView.setImage(TITLE);
-        grid.add(titleView, 1,50,3,5);
+        grid.add(titleView, 0,25,3,5);
 
         // Play button
         playButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        playButton.setStyle("-fx-background-color: #ff0000");
-        grid.add(playButton, 10, 8, 10, 5);
+        playButton.setStyle("-fx-background-color: #FFFFF");
+        grid.add(playButton, 1, 35, 1, 5);
 
         // Instructions
         instructionsButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        instructionsButton.setStyle("-fx-background-color: #ff0000");
-        grid.add(instructionsButton, 10, 18, 20, 5);
+        instructionsButton.setStyle("-fx-background-color: #FFFFF");
+        grid.add(instructionsButton, 1, 40, 1, 5);
 
         // Exit button
         exitButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        exitButton.setStyle("-fx-background-color: #ff0000");
-        grid.add(exitButton, 10, 28, 20, 5);
+        exitButton.setStyle("-fx-background-color: #FFFFF");
+        grid.add(exitButton, 1, 45, 1, 5);
 
         stage.getChildren().add(grid);
 
