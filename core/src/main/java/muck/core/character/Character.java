@@ -88,12 +88,12 @@ public abstract class Character {
      * Decreases health of the given character by the specified amount, and returns whether or not
      * the character has died (health = 0 returns true, otherwise false) as a result of this
      * @param amount Amount of health to decrease character by
-     * @return
+     * @return true if character has died true to a result of the health decrease, false if not
      */
     public boolean decreaseHealth(int amount) {
         int health = getHealth();
         setHealth(health - amount);
-        return health - amount == 0;
+        return getHealth() == 0;
     }
 
     /**

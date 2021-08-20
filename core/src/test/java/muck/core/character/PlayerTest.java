@@ -87,7 +87,7 @@ public class PlayerTest {
         player.decreaseHealth(healthDecrement2);
         boolean status = player.decreaseHealth(healthDecrement2);
         assertEquals(player.getHealth(), 0);
-        assertFalse(status);
+        assertTrue(status);
     }
 
     /* TODO: ===Currently commented out until database is up====
