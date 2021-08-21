@@ -1,13 +1,19 @@
 package muck.client.card_games;
 
+/**
+ * Game Class. Instantiates an individual game.
+ */
 public class Game {
     private int game_id;
     public static int current_turn;
     public static int player_turn;
 
+    /**
+     * Constructor Function for the Game Class
+     */
     public Game(){ }
 
-    public static void main(String[] args){
+  /*public static void main(String[] args){
         // Initial setup
         // Variable to manage turns
         current_turn = 1;
@@ -33,5 +39,5 @@ public class Game {
                 //Player_turn(player2);
             }
         }
-    }
+    }*/
 }
