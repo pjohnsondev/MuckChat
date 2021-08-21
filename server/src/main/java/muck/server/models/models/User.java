@@ -71,18 +71,8 @@ public class User extends Model{
      *
      * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      */
-    public void findUserByUsername(String username) throws SQLException {
-        db.query("SELECT * FROM users WHERE username=?");
-        db.bindString(1, username);
-        ResultSet result = db.getResultSet();
-        result.next();
-        this.id = result.getInt("id");
-        this.username = username;
-        this.hashedPassword = result.getBytes("password");
-        this.salt = result.getBytes("salt");
-        result.close();
-    }
-    public boolean findUserByUsername(String username,boolean needReturn) throws SQLException {
+
+    public boolean findUserByUsername(String username) throws SQLException {
         db.query("SELECT * FROM users WHERE username=?");
         db.bindString(1, username);
         ResultSet result = db.getResultSet();
