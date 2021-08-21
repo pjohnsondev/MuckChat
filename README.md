@@ -12,11 +12,9 @@ So, for instance
 
 * To run the server, run
 
-
     ```sh
     gradle server:run
     ```
-
 
 **Note:** Gradle tasks only complete when they *finish*. So, for `gradle run` tasks, the task will sit at around 91% completion while the server (or client) is running, and will only say "100% complete" when you *exit* the server (or client)
 

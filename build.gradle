@@ -7,14 +7,15 @@ allprojects {
 }
 
 subprojects {
-    apply plugin: 'java-library';
-    apply plugin: 'jacoco';
+    apply plugin: 'java-library'
+    apply plugin: 'jacoco'
 
     repositories {
         maven { url "https://hopper.une.edu.au/artifactory/libs-release/" }
         maven { url "https://hopper.une.edu.au/artifactory/libs-snapshot/" }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+        //maven { url "https://nexus.gluonhq.com/nexus/content/repositories/releases/" } // For avatar images
         mavenLocal()
         mavenCentral()
     }
@@ -31,11 +32,20 @@ subprojects {
 
         // Unit testing with JUnit and Mockito
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.2'        
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.2'
+        testImplementation group: 'com.typesafe.akka', name: "akka-testkit_2.12", version: '2.5.23'
+        testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.5.13'
 
         // StringUtils
 
         // javaFX testing
+
+        // For Avatar images
+        //implementation "com.gluonhq:charm-glisten:6.0.2"
+
+        // For Hashing Passwords
+        implementation "org.connectbot:jbcrypt:1.0.2"
+
     }
 
     test {
