@@ -6,7 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 import javafx.scene.control.*;
-import org.mindrot.jbcrypt.*;
+// import org.mindrot.jbcrypt.*;
 
 
 
@@ -23,8 +23,8 @@ public class SignUpController {
     // Todo add logic to
     @FXML
     protected void signUp(ActionEvent event) {
-        String hashed = BCrypt.hashpw(passwordField.getText(), BCrypt.gensalt());
-        String uName = userName.getText();
+        // String hashed = BCrypt.hashpw(passwordField.getText(), BCrypt.gensalt());
+        // String uName = userName.getText();
 
         if (validateSignUp()) {
             actiontarget.setText("Congratulations!\n\r" +
