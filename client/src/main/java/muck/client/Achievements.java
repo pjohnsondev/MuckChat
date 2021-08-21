@@ -1,3 +1,5 @@
+package muck.client;
+
 import javax.swing.*;
 
 /*
@@ -7,10 +9,10 @@ This class stores and triggers achievements when specific in-game requirements a
 public class Achievements {
 
     // List of achievements that can be earned in-game
-    // NEED TO ADD ACHIEVEMENTS HERE
+    // TODO: NEED TO ADD ACHIEVEMENTS HERE
     public boolean achievement1 = false;
-    public String achievement1Title = "Achievement 1";
-    public String achievement1Description = "This is the description for Achievement 1";
+    public String achievement1Title = "The Wanderer";
+    public String achievement1Description = "Player has navigated the map.";
 
 
 
