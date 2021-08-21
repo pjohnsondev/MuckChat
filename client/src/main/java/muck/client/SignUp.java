@@ -13,7 +13,7 @@ public class SignUp extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/SignUp.fxml"));
             Parent root = loader.load();
-            Scene scene = new Scene(root, 300, 275);
+            Scene scene = new Scene(root, 600, 700);
             scene.setRoot(root);
             scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
             Stage stage = new Stage();

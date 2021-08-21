@@ -26,21 +26,38 @@ public class SignUpController {
         // String hashed = BCrypt.hashpw(passwordField.getText(), BCrypt.gensalt());
         // String uName = userName.getText();
 
+        // TODO call validate username and password length
+        
+        // if username or password don't match regex 
+        // alert error
+        // actiontarget.setText("Username and Password can only be a maximum of x characters");
+
+        // Validate the sign up
         if (validateSignUp()) {
-            actiontarget.setText("Congratulations!\n\r" +
-                    "you have now joined muck");
+            // 
         }
 
     }
 
     // TODO: Sign Up validation method - implement functionality
-    // Limit username and password length on frontend
     public boolean validateSignUp(){ return true;}
 
     // TODO: User name Available method - implement functionality
     public boolean userNameAvailable(){ return true;}
 
-    // TODO:
+    // TODO: Password Length validation method
+    public boolean validPassword(){
+        return true;
+    }
 
+    // TODO: Username Length Validation method
+    public boolean validUserNameLenght(){
+        return true;
+    }
+
+    //TODO: Add User to Database
+    public void addUser(){
+        
+    }
 
 }
