@@ -10,6 +10,8 @@ public class Achievements {
 
     // List of achievements that can be earned in-game
     // TODO: NEED TO ADD ACHIEVEMENTS HERE
+    // TODO: NEED TO CODE IN THE ACHIEVEMENTS TO OTHER CLASSES
+
     public boolean achievement1 = false;
     public String achievement1Title = "The Wanderer";
     public String achievement1Description = "Player has navigated the map.";
@@ -27,16 +29,33 @@ public class Achievements {
     public String achievement4Description = "";
 
 
-
-
-
-    //
+    /**
+     * achievementUnlock Flips achievement boolean from false to true
+     * @param achievementName Name of the achievement being converted to true
+     */
     public void achievementUnlock(boolean achievementName) {
         if (achievementName == false) {
             achievementName = true;
+
         }
     }
 
+
+    /**
+     * achievementNotification Displays a pop-up notification when an achievement is unlocked
+     * @param achievementTitle Name of the achievement
+     * @param achievementDescription Description for the achievement
+     */
+    // TODO: NOT SURE IF THIS WORKS
+    public static void achievementNotification(String achievementTitle, String achievementDescription) {
+        JOptionPane.showMessageDialog(null, "Achievement Unlocked! \n" + achievementTitle + ": " + achievementDescription);
+    }
+
+
+    /**
+     * achievementQuery allows users to see the status of their achievement
+     * @param achievementName
+     */
     public void achievementQuery(boolean achievementName) {
         if (achievementName == true) {
             System.out.print("The achievement " + achievementName + " has already been unlocked!");
