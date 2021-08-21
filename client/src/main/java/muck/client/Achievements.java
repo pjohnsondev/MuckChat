@@ -14,11 +14,11 @@ public class Achievements {
 
     public boolean achievement1 = false;
     public String achievement1Title = "The Wanderer";
-    public String achievement1Description = "Player has navigated the map.";
+    public String achievement1Description = "Player has navigated the map";
 
     public boolean achievement2 = false;
     public String achievement2Title = "Smooth Talker";
-    public String achievement2Description = "Player has sent a message on chat.";
+    public String achievement2Description = "Player has sent a message on chat";
 
     public boolean achievement3 = false;
     public String achievement3Title = "Winner Winner Chicken Dinner";
@@ -46,7 +46,7 @@ public class Achievements {
      * @param achievementTitle Name of the achievement
      * @param achievementDescription Description for the achievement
      */
-    // TODO: NOT SURE IF THIS WORKS
+    // TODO: NOT SURE IF THIS WORKS. NEED TO TEST.
     public static void achievementNotification(String achievementTitle, String achievementDescription) {
         JOptionPane.showMessageDialog(null, "Achievement Unlocked! \n" + achievementTitle + ": " + achievementDescription);
     }
