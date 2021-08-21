@@ -11,6 +11,8 @@ import javafx.scene.control.*;
 
 
 public class SignUpController {
+    private int maxPasswordLength = 10;
+
     @FXML
     private Text actiontarget;
 
@@ -51,8 +53,13 @@ public class SignUpController {
     }
 
     // TODO: Username Length Validation method
-    public boolean validUserNameLenght(){
-        return true;
+    public boolean validUserNameLength(String password){
+
+        if (password.length() > maxPasswordLength){
+            return false;
+        } else {
+            return true;
+        }
     }
 
     //TODO: Add User to Database
