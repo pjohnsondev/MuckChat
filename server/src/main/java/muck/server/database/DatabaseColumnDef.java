@@ -52,15 +52,15 @@ public class DatabaseColumnDef {
                 NUMERIC,REAL,SMALLINT,SQLXML,TIME,TIMESTAMP,VARBINARY,VARCHAR};*/
         switch (columnType) {
             //Unique case for char and varchar
-            case CHAR, VARCHAR -> {
+            case CHAR:
+            case VARCHAR:
                 bstr.append(String.format("CHAR(%d", size));
                 if ((charType != cType.NOTYPE) && (charType == cType.CHAR)) {
                     bstr.append(charType);
                 }
                 bstr.append(")");
-            }
-            // Default string for all other cases
-            default -> bstr.append(columnType);
+                // Default string for all other cases
+            default: bstr.append(columnType);
         }
         return bstr.toString();
     }
