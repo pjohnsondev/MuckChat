@@ -14,6 +14,20 @@ public class Achievements {
     public String achievement1Title = "The Wanderer";
     public String achievement1Description = "Player has navigated the map.";
 
+    public boolean achievement2 = false;
+    public String achievement2Title = "Smooth Talker";
+    public String achievement2Description = "Player has sent a message on chat.";
+
+    public boolean achievement3 = false;
+    public String achievement3Title = "Winner Winner Chicken Dinner";
+    public String achievement3Description = "Player has won a game";
+
+    public boolean achievement4 = false;
+    public String achievement4Title = "";
+    public String achievement4Description = "";
+
+
+
 
 
     //
