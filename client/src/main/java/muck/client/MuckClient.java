@@ -2,6 +2,7 @@ package muck.client;
 
 import muck.core.Login;
 import muck.core.character.AddCharacter;
+import muck.core.user.SignUpInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -54,8 +55,14 @@ public enum MuckClient {
 		// Connect to the server
 		client.connect(config.getTimeOut(), config.getDestinationIp(), config.getTcpPort(), config.getUdpPort());
 
-		// Create random dummy credentials
-		login("TestUser_" + Calendar.getInstance().get(Calendar.SECOND) % 100, "TestPassword");
+        // Create random dummy credentials
+        String username = "TestUser_" + Calendar.getInstance().get(Calendar.SECOND) % 100;
+
+        // Create a new user account
+        signUp(username, "TestPassword", "Test User");
+
+        // Login an existing user
+        login(username, "TestPassword");
 
 		// Add a Ping listener. Still being used for debugging.
 		client.addListener(ListenerBuilder.forClass(Ping.class)
@@ -89,18 +96,32 @@ public enum MuckClient {
 		}));
 	}
 
-	/**
-	 * Login user to the game.
-	 *
-	 * @param username
-	 * @param password
-	 */
-	public void login(String username, String password) {
-		Login login = new Login(username, password);
-		// TODO: Notify of the new character and its location so that it can be placed
-		// on the map.
+    /**
+     * Login user to the game.
+     *
+     * @param username
+     * @param password
+     */
+    public void login(String username, String password) {
+        Login login = new Login(username, password);
 
 		client.sendTCP(login);
+	}
+
+	/**
+	 * Create a new account on the server
+	 *
+	 * @param username should not be null or empty
+	 * @param password should not be null or empty
+	 * @param displayName should not be null or empty
+	 *
+	 */
+	public void signUp(String username, String password, String displayName) {
+		logger.info("Send new account details to server {}", username);
+
+		SignUpInfo signup = new SignUpInfo(username, password, displayName);
+
+		client.sendTCP(signup);
 	}
 
 	public synchronized void disconnect() throws IOException {

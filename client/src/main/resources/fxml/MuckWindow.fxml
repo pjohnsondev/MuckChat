@@ -123,6 +123,21 @@
                               <Font size="9.0" />
                            </font>
                         </Button>
+                         <Button id="game2Button" fx:id="game2Button" contentDisplay="TOP" layoutX="617.0" layoutY="450.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="77.0" text="Enduring Fantasy">
+                             <effect>
+                                 <Blend />
+                             </effect>
+                             <graphic>
+                                 <ImageView fitHeight="38.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
+                                     <image>
+                                         <Image url="@../images/dragoon.png"/>
+                                     </image>
+                                 </ImageView>
+                             </graphic>
+                             <font>
+                                 <Font size="9.0" />
+                             </font>
+                         </Button>
                         <BorderPane id="gamePane1" fx:id="gamePane1" layoutX="14.0" layoutY="14.0" prefHeight="593.0" prefWidth="522.0" style="-fx-border-color: black; -fx-border-width: 6; -fx-border-radius: 10;">
                            <center>
                               <Canvas id="gameCanvas" fx:id="gameCanvas" height="585.0" width="512.0" BorderPane.alignment="CENTER" />

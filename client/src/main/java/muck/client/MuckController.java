@@ -35,6 +35,7 @@ import java.util.logging.Level;
 
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import muck.client.enduring_fantasy.LandingPageEf;
 import muck.client.space_invaders.LandingPage;
 import muck.protocol.connection.*;
 import org.apache.logging.log4j.LogManager;
@@ -42,6 +43,8 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter;
 import org.checkerframework.common.reflection.qual.Invoke;
 import javafx.util.Duration;
+
+import javax.swing.*;
 
 public class MuckController implements Initializable {
 
@@ -119,6 +122,9 @@ public class MuckController implements Initializable {
     @FXML // fx:id="game1Button" The space invaders button. This is supposed to be temporary
     private Button game1Button; // Value injected by FXMLLoader
 
+    @FXML
+    private Button game2Button;
+
     @FXML //fx:id="userNameDisplay"
     private Text userNameDisplay;
 
@@ -132,6 +138,7 @@ public class MuckController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         closeChat.setOnAction(this::toggleChatWindow);
         game1Button.setOnAction(this::launchSpaceInvaders);
+        game2Button.setOnAction(this::launchEnduringFantasy);
         openChatOnly.setOnAction(this::openChatOnly);
         enter.setOnAction(this::sendMessage);
         openFullChat.setOnAction(this::openFullChat);
@@ -262,8 +269,6 @@ public class MuckController implements Initializable {
         newAnc.getChildren().add(chatX);
         chatPane1.getTabs().add(newTab);
         chatPane1.getSelectionModel().select(newTab);
-        windowPane.setDividerPositions(0.70);
-        chatSplitPane.setDividerPositions(0.989);
         openChatOnly.setVisible(false);
     }
 
@@ -324,8 +329,20 @@ public class MuckController implements Initializable {
         BorderPane.setAlignment(SICanvas, Pos.CENTER);
         LandingPage si = new LandingPage(gamePane1, SICanvas);
     }
+    @FXML
+    private void launchEnduringFantasy (ActionEvent event){
+        gameCanvas.setDisable(true);
+        gameCanvas.setVisible(false);
+        Canvas EFCanvas = new Canvas();
+        EFCanvas.setHeight(gameCanvas.getHeight());
+        EFCanvas.setWidth(gameCanvas.getWidth());
+        gamePane1.setCenter(EFCanvas);
+        BorderPane.setAlignment(EFCanvas, Pos.CENTER);
+        LandingPageEf ef = new LandingPageEf(gamePane1, EFCanvas);
+    }
 
     private void quitMuck(ActionEvent event) {
         Platform.exit();
     }
+
 }

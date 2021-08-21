@@ -8,6 +8,11 @@ public class Pair<L, R> {
 	private final L _left;
 	private final R _right;
 
+	public Pair() {
+		_left = null;
+		_right = null;
+	}
+
 	public Pair(final L l, final R r) {
 		_left = l;
 		_right = r;
