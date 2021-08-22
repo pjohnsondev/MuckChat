@@ -2,24 +2,15 @@ package muck.client.controllers;
 /*Sign Up - Issue 31 */
 
 
-import javafx.event.ActionEvent;
-import javafx.fxml.Initializable;
+
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import muck.client.AvatarController;
 import org.mindrot.jbcrypt.*;
-import muck.client.AvatarController;
 
 import java.io.IOException;
-import java.security.InvalidParameterException;
 import java.sql.SQLException;
-import muck.client.App;
 
 
 public class SignUpController {
@@ -115,10 +106,9 @@ public class SignUpController {
         return false;
     }
 
-
-
     //TODO: Add User to Database - Add functionality
     public void addUser(String uName, String password) throws SQLException {
+//        This will need to be replaced as we wont directly communicate with the server
 //        User user = new User();
 //        try{
 //            user.registerNewUser(uName, password);
@@ -137,22 +127,6 @@ public class SignUpController {
 //        }
     }
 
-    // TODO: Add Front End Logic
-    public static void signUpForm(){
-        try {
-            FXMLLoader loader = new FXMLLoader(SignUpController.class.getResource("/fxml/SignUp.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root, 600, 400);
-            scene.setRoot(root);
-            scene.getStylesheets().add(SignUpController.class.getResource("/css/style.css").toExternalForm());
-            Stage stage = new Stage();
-            stage.setTitle("Join Muck");
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     // TODO: Add Pass to Avatar Selection Display
     public void passToAvatar(MouseEvent event, String username) throws IOException{
