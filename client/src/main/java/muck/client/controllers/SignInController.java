@@ -38,22 +38,18 @@ public class SignInController {
         String hashed = BCrypt.hashpw(password.getText(), BCrypt.gensalt());
         String uName = username.getText();
 
-
-        if(validateSignIn()){
-            error.setText("Congratulations!\n\r" +
-                    "User Name and Password Match");
-            App a = new App();
-            // Currently needs to go to muck via avatar controller untill users can be brought from database
-            a.changeScene("/fxml/Avatar.fxml");
+        if(validateSignIn(uName, hashed)){
+            // forward on to next scene
+            passToNextScene();
         }
 
     }
 
     // TODO: Sign in validation method - implement functionality
 
-    public boolean validateSignIn(){
+    public boolean validateSignIn(String username, String password){
         // Check that user exists in database
-        if(!userExists() || !passwordMatches()) {
+        if(!userExists(username) || !passwordMatches(username, password)) {
             // Handle NoUserExists
             error.setText("User Name or Password are Incorrect");
             return false;
@@ -63,38 +59,28 @@ public class SignInController {
     }
 
     //TODO: User validation method - implement functionality
-    public boolean userExists(){
+    public boolean userExists(String username){
+        // check database for user
         return true;
     }
 
     //TODO: Password validation method - implement functionality
-    public boolean passwordMatches(){
+    public boolean passwordMatches(String username, String password){
+        //match password to user from database
         return true;
-    }
-
-    // TODO: Add Front End Logic
-    public static void signInForm(){
-        try {
-            FXMLLoader loader = new FXMLLoader(SignUpController.class.getResource("/fxml/SignIn.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root, 600, 350);
-            scene.setRoot(root);
-
-            scene.getStylesheets().add(SignUpController.class.getResource("/css/style.css").toExternalForm());
-
-            Stage stage = new Stage();
-            stage.setTitle("Join Muck");
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     // TODO: Add Pass to SignUp Display
     public void signUp() throws IOException{
         App a = new App();
         a.changeScene("/fxml/SignUp.fxml");
+    }
+
+    // TODO: Add Pass to Avatar Selection Display - work out how to pass data between scenes
+    public void passToNextScene() throws IOException{
+        App a = new App();
+        // Currently needs to go to muck via avatar controller untill users can be brought from database
+        a.changeScene("/fxml/Avatar.fxml");
     }
 
 
