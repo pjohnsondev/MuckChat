@@ -10,10 +10,12 @@ import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import muck.client.App;
 import muck.client.AvatarController;
 import org.mindrot.jbcrypt.*;
 import muck.client.controllers.SignUpController;
 
+import java.io.IOException;
 
 
 public class SignInController {
@@ -26,15 +28,24 @@ public class SignInController {
     @FXML
     TextField username;
 
+    @FXML
+    Button signUp;
+
+    @FXML
+    Button signIn;
+
     // Todo add logic to
     @FXML
-    protected void signIn(ActionEvent event) {
+    protected void signIn(ActionEvent event) throws IOException {
         String hashed = BCrypt.hashpw(password.getText(), BCrypt.gensalt());
         String uName = username.getText();
+
 
         if(validateSignIn()){
             error.setText("Congratulations!\n\r" +
                     "User Name and Password Match");
+            App a = new App();
+            a.changeScene("/fxml/Avatar.fxml");
         }
 
     }
@@ -69,7 +80,9 @@ public class SignInController {
             Parent root = loader.load();
             Scene scene = new Scene(root, 600, 350);
             scene.setRoot(root);
+
             scene.getStylesheets().add(SignUpController.class.getResource("/css/style.css").toExternalForm());
+
             Stage stage = new Stage();
             stage.setTitle("Join Muck");
             stage.setScene(scene);
@@ -80,8 +93,9 @@ public class SignInController {
     }
 
     // TODO: Add Pass to SignUp Display
-    public void signUp(){
-        SignUpController.signUpForm();
+    public void signUp() throws IOException{
+        App a = new App();
+        a.changeScene("/fxml/SignUp.fxml");
     }
 
 

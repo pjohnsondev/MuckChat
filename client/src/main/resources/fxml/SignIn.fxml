@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Text?>
 
 <?import javafx.scene.control.PasswordField?>
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.controllers.SignInController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="631.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.controllers.SignInController">
     <left>
         <AnchorPane prefHeight="400.0" prefWidth="189.0" BorderPane.alignment="CENTER">
             <children>
@@ -48,7 +48,7 @@
                         <Font name="Arial Rounded MT Bold" size="17.0" />
                     </font>
                 </Label>
-            <Button fx:id="join" layoutX="69.0" layoutY="148.0" mnemonicParsing="false" onAction="#signUp" prefHeight="33.0" prefWidth="110.0" text="Join Now" textAlignment="CENTER">
+            <Button fx:id="signUp" layoutX="69.0" layoutY="148.0" mnemonicParsing="false" onAction="#signUp" prefHeight="33.0" prefWidth="110.0" text="Join Now" textAlignment="CENTER">
                <font>
                   <Font name="Arial Rounded MT Bold" size="17.0" />
                </font>

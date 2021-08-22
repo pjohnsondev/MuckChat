@@ -34,8 +34,11 @@ public class App extends Application {
     /** The port configuration for the client */
     static KryoClientConfig config = new KryoClientConfig();
 
+    /** Set stage */
+    private static Stage stage;
+
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage primaryStage) throws Exception {
         // start the network connection
         startConnection();
 
@@ -74,8 +77,17 @@ public class App extends Application {
         stage.show();*/
 
         /* End of Imported work */
-        SignInController.signInForm();
+        stage = primaryStage;
+        primaryStage.setResizable(false);
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/SignIn.fxml"));
+        primaryStage.setTitle("Sign In");
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
+    }
 
+    public void changeScene(String fxml) throws IOException {
+        Parent pane = FXMLLoader.load(getClass().getResource(fxml));
+        stage.setScene(new Scene(pane));
     }
 
 

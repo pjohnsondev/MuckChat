@@ -16,36 +16,43 @@ import org.mindrot.jbcrypt.*;
 import muck.server.models.models.*;
 import muck.client.AvatarController;
 
+import java.io.IOException;
 import java.security.InvalidParameterException;
 import java.sql.SQLException;
+import muck.client.App;
 
 
 public class SignUpController {
     private int maxPasswordLength = 10;
 
     @FXML
-    private Text actiontarget;
+    Label error;
 
     @FXML
-    PasswordField passwordField;
+    PasswordField password;
 
     @FXML
-    TextField userName;
+    TextField username;
+
+    @FXML
+    TextField displayname;
+
+    @FXML
+    Button signUp;
 
     // Todo add logic to
     @FXML
-    protected void signUp(ActionEvent event) throws SQLException{
-        String hashed = BCrypt.hashpw(passwordField.getText(), BCrypt.gensalt());
-        String uName = userName.getText();
+    protected void signUp(ActionEvent event) throws SQLException, IOException {
+        String hashed = BCrypt.hashpw(password.getText(), BCrypt.gensalt());
+        String uName = username.getText();
+
 
         // TODO call validate username and password length
 
         // TODO: Validate the sign up
         if (validateSignUp()) {
-            addUser(uName, hashed);
-            if (returnUser(uName)){
-                actiontarget.setText("Added to Database");
-            }
+//          addUser(uName, hashed);
+            passToAvatar();
         }
 
     }
@@ -109,9 +116,9 @@ public class SignUpController {
     }
 
     // TODO: Add Pass to Avatar Selection Display
-    public void passToAvatar(String username){
-        AvatarController.avatarCreation(username);
+    public void passToAvatar() throws IOException{
+        App a = new App();
+        a.changeScene("/fxml/Avatar.fxml");;
     }
-
 
 }
