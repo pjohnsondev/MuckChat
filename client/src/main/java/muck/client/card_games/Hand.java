@@ -21,10 +21,10 @@ public class Hand extends Deck{
     }
 
     /**
-     * draw_cards Method.
+     * draw_top_card Method.
      * Takes a deck as a parameter. Takes a Card object from that deck and places it into the Hand
      */
-    void draw_cards(Deck deck){
+    void draw_top_card(Deck deck){
         cards.add(deck.cards.get(0));
         deck.cards.remove(0);
     }

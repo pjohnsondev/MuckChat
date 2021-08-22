@@ -1,14 +1,16 @@
 package muck.client.card_games;
+import javafx.application.Application;
 import javafx.scene.image.Image;
 
 /**
  * Card Class. Instantiates an individual regular playing card.
  */
-public class Card{
+public class Card {
     private int id;
     private String suit, cardName;
     private Image cardImage;
     private String fileName;
+    Boolean selected;
 
     /**
      * Constructor Function for the Card Class
@@ -22,8 +24,9 @@ public class Card{
         setValue(id);
         setSuit(suit);
         setCardName(cardName);
-        fileName = "/images/cards/" + cardName + "_of_" + suit.toLowerCase() + ".png";
-        cardImage = new Image(fileName);
+        selected = false;
+//        fileName = "/images/cards/" + cardName + "_of_" + suit.toLowerCase() + ".png";
+//        cardImage = new Image(fileName);
     }
 
     /**
@@ -58,9 +61,9 @@ public class Card{
      * Returns the Image of an individual card. Connected through the filename - path to the card image.
      * @return cardImage
      */
-    public Image getCardImage() {
-        return cardImage;
-    }
+//    public Image getCardImage() {
+//        return cardImage;
+//    }
 
     /**
      * setValue Method.
@@ -69,6 +72,10 @@ public class Card{
      */
     public void setValue(int id) {
         this.id = id;
+    }
+
+    public void setSelected() {
+        selected = !selected;
     }
 
     /**
