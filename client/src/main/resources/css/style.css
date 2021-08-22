@@ -1,5 +1,13 @@
 .root {
     -fx-font-size: 14px;
     -fx-font-family: sans-serif;
-    -fx-background-color: #ffffff;
+    /* -fx-background-color:rgb(255,255,255)*/
 }
+
+/*
+String os = System.getProperty("os.name","generic").toLowerCase(Locale.US);
+if (os.indexOf("mac") > 0) {
+    root.setStyle("-fx-font-size: 14pt");
+    root.setStyle("-fx-font-family: sans-serif");
+}
+*/
