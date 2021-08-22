@@ -41,10 +41,10 @@ public class Hand extends Deck{
     }
 
     void select_all(Card this_card){
-        this_card.selected = true;
-        while (int i = 0; i < this.cards.size(); i++){
+        this_card.setSelected();
+        for (int i = 0; i < this.cards.size(); i++){
             if (cards.get(i).getCardName() == this_card.getCardName()){
-                    cards.get(i).selected = true;
+                cards.get(i).setSelected();
             }
         }
     }
@@ -59,14 +59,13 @@ public class Hand extends Deck{
         hand.draw_hand(deck);
         hand.draw_hand(deck);
         hand.draw_hand(deck);
-        for (int i = 0; i < hand.cards.size(); i++){
-            System.out.println(hand.cards.get(i).getCardName());
-        }
         hand.cards.get(0).setSelected();
         hand.select_all(hand.cards.get(0));
         for (int i = 0; i < hand.cards.size(); i++){
-            System.out.println(hand.cards.get(i).getCardName());
-            System.out.println(hand.cards.get(i).getSelectedValue());
+            if (hand.cards.get(i).getSelectedValue() == true) {
+                System.out.println(hand.cards.get(i).getCardName());
+                System.out.println(hand.cards.get(i).getSelectedValue());
+            }
         }
     }
 }

@@ -38,7 +38,7 @@ public class Card {
         return id;
     }
 
-    public String getSelectedValue() {
+    public boolean getSelectedValue() {
         return selected;
     }
 
