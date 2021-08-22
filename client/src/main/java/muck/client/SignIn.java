@@ -14,8 +14,8 @@ public class SignIn extends Application{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/SignIn.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root, 300, 275);
-            scene.setRoot(root);
             scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+            scene.setRoot(root);
             Stage stage = new Stage();
             stage.setTitle("Sign In");
             stage.setScene(scene);
