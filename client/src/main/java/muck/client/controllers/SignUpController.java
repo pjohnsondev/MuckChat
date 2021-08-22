@@ -90,7 +90,7 @@ public class SignUpController {
 
     // TODO: Username Length Validation method
     public boolean validUserNameLength(String username){
-        if (username.length() < maxUsernameLength){
+        if (username.length() > maxUsernameLength){
             return false;
         } else {
             return true;
@@ -108,11 +108,10 @@ public class SignUpController {
 
     // TODO: Passwords match Validation method
     public boolean passwordsMatch(String password, String passwordtwo){
-        if (password != passwordtwo){
-            return false;
-        } else {
+        if(password.equals(passwordtwo)){
             return true;
         }
+        return false;
     }
 
 
