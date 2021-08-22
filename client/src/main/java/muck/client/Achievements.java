@@ -2,15 +2,13 @@ package muck.client;
 
 import javax.swing.*;
 
-/*
-This class stores and triggers achievements when specific in-game requirements are met.
-*/
+// This class stores and triggers achievements when specific in-game requirements from other classes are met.
 
 public class Achievements {
 
     // List of achievements that can be earned in-game
     // TODO: NEED TO ADD ACHIEVEMENTS HERE
-    // TODO: NEED TO CODE IN THE ACHIEVEMENTS TO OTHER CLASSES
+    // TODO: NEED TO CODE IN THE ACHIEVEMENT TRIGGERS TO OTHER THE CLASSES
 
     public boolean achievement1 = false;
     public String achievement1Title = "The Wanderer";
@@ -30,7 +28,7 @@ public class Achievements {
 
 
     /**
-     * achievementUnlock Flips achievement boolean from false to true
+     * achievementUnlock Flips achievement boolean from false to true and then displays the achievement notification
      * @param achievementName Name of the boolean being converted to true
      * @param achievementTitle Title of the achievement
      * @param achievementDescription Description of the achievement
@@ -44,7 +42,7 @@ public class Achievements {
 
 
     /**
-     * achievementNotification Displays a pop-up notification when an achievement is unlocked
+     * achievementNotification Displays a pop-up notification
      * @param achievementTitle Name of the achievement
      * @param achievementDescription Description for the achievement
      */
