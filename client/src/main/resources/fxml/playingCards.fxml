@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="746.0" prefWidth="859.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.card_games.PlayingCards">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="746.0" prefWidth="859.0" xmlns="javafx.com/javafx/16" xmlns:fx="javafx.com/fxml/1" fx:controller="muck.client.card_games.PlayingCards">
     <children>
         <MenuBar fx:id="menu" prefWidth="736.0">
             <menus>

@@ -2,15 +2,13 @@ package muck.client;
 
 import javax.swing.*;
 
-/*
-This class stores and triggers achievements when specific in-game requirements are met.
-*/
+// This class stores and triggers achievements when specific in-game requirements from other classes are met.
 
 public class Achievements {
 
     // List of achievements that can be earned in-game
     // TODO: NEED TO ADD ACHIEVEMENTS HERE
-    // TODO: NEED TO CODE IN THE ACHIEVEMENTS TO OTHER CLASSES
+    // TODO: NEED TO CODE IN THE ACHIEVEMENT TRIGGERS TO OTHER THE CLASSES
 
     public boolean achievement1 = false;
     public String achievement1Title = "The Wanderer";
@@ -30,38 +28,26 @@ public class Achievements {
 
 
     /**
-     * achievementUnlock Flips achievement boolean from false to true
-     * @param achievementName Name of the achievement being converted to true
+     * achievementUnlock Flips achievement boolean from false to true and then displays the achievement notification
+     * @param achievementName Name of the boolean being converted to true
+     * @param achievementTitle Title of the achievement
+     * @param achievementDescription Description of the achievement
      */
-    public void achievementUnlock(boolean achievementName) {
-        if (achievementName == false) {
+    public void achievementUnlock(boolean achievementName, String achievementTitle, String achievementDescription) {
+        if (!achievementName) {
             achievementName = true;
-
+            achievementNotification(achievementTitle, achievementDescription);
         }
     }
 
 
     /**
-     * achievementNotification Displays a pop-up notification when an achievement is unlocked
+     * achievementNotification Displays a pop-up notification
      * @param achievementTitle Name of the achievement
      * @param achievementDescription Description for the achievement
      */
     // TODO: NOT SURE IF THIS WORKS. NEED TO TEST.
     public static void achievementNotification(String achievementTitle, String achievementDescription) {
         JOptionPane.showMessageDialog(null, "Achievement Unlocked! \n" + achievementTitle + ": " + achievementDescription);
-    }
-
-
-    /**
-     * achievementQuery allows users to see the status of their achievement
-     * @param achievementName
-     */
-    public void achievementQuery(boolean achievementName) {
-        if (achievementName == true) {
-            System.out.print("The achievement " + achievementName + " has already been unlocked!");
-        }
-        else if (achievementName == false) {
-            System.out.print("The achievement " + achievementName + " has not yet been unlocked!");
-        }
     }
 }
