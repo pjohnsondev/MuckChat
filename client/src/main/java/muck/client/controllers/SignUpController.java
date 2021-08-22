@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -45,18 +46,18 @@ public class SignUpController {
 
     // Todo add logic to
     @FXML
-    protected void signUp(ActionEvent event) throws SQLException, IOException {
+    protected void signUp(MouseEvent event) throws SQLException, IOException {
         String passWordText = password.getText();
         String userName = username.getText();
         String displayName = displayname.getText();
         String passwordTwo = passwordtwo.getText();
 
         // Validate the sign up
-        validateSignUp(displayName, userName, passWordText, passwordTwo);
+        validateSignUp(event, displayName, userName, passWordText, passwordTwo);
     }
 
     // TODO: Sign Up validation method - implement functionality
-    public void validateSignUp(String displayname, String username, String password, String passwordtwo ) throws IOException {
+    public void validateSignUp(MouseEvent event, String displayname, String username, String password, String passwordtwo ) throws IOException {
         if (validUserNameLength(username) && validPasswordLength(password) &&
                 userNameAvailable(username) && passwordsMatch(password, passwordtwo)) {
 
@@ -68,7 +69,7 @@ public class SignUpController {
             // retrieve user id from database and pass to the next scene
 
             // Pass to next scene
-            passToAvatar();
+            passToAvatar(event, username);
 
             //TODO: Fix error display as it currently gets frozen at one error
         } else if (!passwordsMatch(password, passwordtwo)) {
@@ -154,9 +155,8 @@ public class SignUpController {
     }
 
     // TODO: Add Pass to Avatar Selection Display
-    public void passToAvatar() throws IOException{
-        App a = new App();
-        a.changeScene("/fxml/Avatar.fxml");
+    public void passToAvatar(MouseEvent event, String username) throws IOException{
+        AvatarController nextScene = new AvatarController();
+        nextScene.avatarCreation(event, username);
     }
-
 }

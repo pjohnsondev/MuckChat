@@ -50,7 +50,7 @@
                   <Font name="Arial Rounded MT Bold" size="17.0" />
                </font>
             </Label>
-            <Button fx:id="signUp" layoutX="266.0" layoutY="240.0" mnemonicParsing="false" onAction="#signUp" prefHeight="33.0" prefWidth="110.0" text="Join Now" textAlignment="CENTER">
+            <Button fx:id="signUp" layoutX="266.0" layoutY="240.0" mnemonicParsing="false" onMouseClicked="#signUp" prefHeight="33.0" prefWidth="110.0" text="Join Now" textAlignment="CENTER">
                <font>
                   <Font name="Arial Rounded MT Bold" size="17.0" />
                </font>
