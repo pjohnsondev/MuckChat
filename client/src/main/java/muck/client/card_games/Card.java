@@ -38,6 +38,10 @@ public class Card {
         return id;
     }
 
+    public String getSelectedValue() {
+        return selected;
+    }
+
     /**
      * getSuit Method.
      * Returns the name of the suit for an individual card

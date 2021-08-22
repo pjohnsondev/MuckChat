@@ -39,4 +39,34 @@ public class Hand extends Deck{
             deck.cards.remove(i);
         }
     }
+
+    void select_all(Card this_card){
+        this_card.selected = true;
+        while (int i = 0; i < this.cards.size(); i++){
+            if (cards.get(i).getCardName() == this_card.getCardName()){
+                    cards.get(i).selected = true;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Hand hand = new Hand();
+        Deck deck = new Deck();
+        // Trying to draw enough that we should have multiple of the same
+        hand.draw_hand(deck);
+        hand.draw_hand(deck);
+        hand.draw_hand(deck);
+        hand.draw_hand(deck);
+        hand.draw_hand(deck);
+        hand.draw_hand(deck);
+        for (int i = 0; i < hand.cards.size(); i++){
+            System.out.println(hand.cards.get(i).getCardName());
+        }
+        hand.cards.get(0).setSelected();
+        hand.select_all(hand.cards.get(0));
+        for (int i = 0; i < hand.cards.size(); i++){
+            System.out.println(hand.cards.get(i).getCardName());
+            System.out.println(hand.cards.get(i).getSelectedValue());
+        }
+    }
 }
