@@ -31,12 +31,14 @@ public class Achievements {
 
     /**
      * achievementUnlock Flips achievement boolean from false to true
-     * @param achievementName Name of the achievement being converted to true
+     * @param achievementName Name of the boolean being converted to true
+     * @param achievementTitle Title of the achievement
+     * @param achievementDescription Description of the achievement
      */
-    public void achievementUnlock(boolean achievementName) {
-        if (achievementName == false) {
+    public void achievementUnlock(boolean achievementName, String achievementTitle, String achievementDescription) {
+        if (!achievementName) {
             achievementName = true;
-
+            achievementNotification(achievementTitle, achievementDescription);
         }
     }
 
@@ -49,19 +51,5 @@ public class Achievements {
     // TODO: NOT SURE IF THIS WORKS. NEED TO TEST.
     public static void achievementNotification(String achievementTitle, String achievementDescription) {
         JOptionPane.showMessageDialog(null, "Achievement Unlocked! \n" + achievementTitle + ": " + achievementDescription);
-    }
-
-
-    /**
-     * achievementQuery allows users to see the status of their achievement
-     * @param achievementName
-     */
-    public void achievementQuery(boolean achievementName) {
-        if (achievementName == true) {
-            System.out.print("The achievement " + achievementName + " has already been unlocked!");
-        }
-        else if (achievementName == false) {
-            System.out.print("The achievement " + achievementName + " has not yet been unlocked!");
-        }
     }
 }
