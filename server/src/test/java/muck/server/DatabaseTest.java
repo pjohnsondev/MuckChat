@@ -3,27 +3,69 @@ package muck.server;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import muck.server.testHelpers.TestDatabase;
 
-
 public class DatabaseTest {
+    private static final Logger logger = LogManager.getLogger(DatabaseTest.class);
 
-    @Test
-    public void dbCanConnectTest(){
-        TestDatabase db = new TestDatabase();
-        assertTrue(db.databaseIsConnected());
-        db.closeConnection();
+    private TestDatabase db;
+
+    /**
+     * Establish a new database connection before each test
+     */
+    @BeforeEach
+    public void beforeEach() {
+        logger.info("This message prints BEFORE each test runs");
+        db = new TestDatabase();
     }
 
+    /**
+     * Close database connection after each test
+     */
+    @AfterEach
+    public void afterEach() {
+        logger.info("This message prints AFTER each test runs");
+        db.closeConnection();
+        }
+
+    /**
+     * Test that database can connect
+     */
+    @Test
+    public void dbCanConnectTest(){
+        assertTrue(db.databaseIsConnected());
+    }
+
+    /**
+     * Test that databaseIsConnected returns false when the connection has been closed
+     */
+    @Disabled
+    @Test
+    public void dbCanDisonnectTest(){
+
+        //TODO - Fix Database.java code so this test passes
+        db.closeConnection();
+        assertFalse(db.databaseIsConnected());
+    }
+
+    /**
+     * Test that database can create a table
+     *
+     * @throws SQLException
+     */
     @Test
     public void dbCanCreateTableTest() throws SQLException{
-        TestDatabase db = new TestDatabase();
-
         // create a new table
         db.createTableIfNotExists(
             "test_table", 
@@ -36,12 +78,17 @@ public class DatabaseTest {
 
         // check to see if table was created
         assertTrue(db.tableExists("test_table"));
-        db.closeConnection();
     }
+
+    /**
+     * Test that database can insert
+     *
+     * @throws SQLException
+     * @throws Exception
+     */
     @Test
     public void dbCanInsertTest() throws SQLException, Exception {
-        TestDatabase db = new TestDatabase();
-        // create a new table if it doesn't already exist
+    // create a new table if it doesn't already exist
         db.createTableIfNotExists(
             "test_table", 
             "CREATE TABLE test_table "
@@ -81,13 +128,16 @@ public class DatabaseTest {
                 System.err.println(exception.getMessage());
             }
         result.close();
-        db.closeConnection();
     }
+
+    /**
+     * Test that database can drop table
+     *
+     * @throws SQLException
+     */
     @Test
     public void dbCanDropTableTest() throws SQLException {
-        
-        TestDatabase db = new TestDatabase();
-        // create a new table if it doesn't already exist
+    // create a new table if it doesn't already exist
         db.createTableIfNotExists(
             "test_table", 
             "CREATE TABLE test_table "
@@ -100,6 +150,5 @@ public class DatabaseTest {
         // get rid of the table so the db is back to normal
         db.dropTable("test_table");
         assertFalse(db.tableExists("test_table"));
-        db.closeConnection();
     }
 }
