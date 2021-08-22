@@ -45,6 +45,7 @@ public class SignInController {
             error.setText("Congratulations!\n\r" +
                     "User Name and Password Match");
             App a = new App();
+            // Currently needs to go to muck via avatar controller untill users can be brought from database
             a.changeScene("/fxml/Avatar.fxml");
         }
 
