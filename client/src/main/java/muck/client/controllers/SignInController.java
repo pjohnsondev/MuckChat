@@ -7,27 +7,28 @@ import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 import javafx.scene.control.*;
 import org.mindrot.jbcrypt.*;
+import muck.client.controllers.SignUpController;
 
 
 
 public class SignInController {
     @FXML
-    private Text actiontarget;
+    Label error;
 
     @FXML
-    PasswordField passwordField;
+    PasswordField password;
 
     @FXML
-    TextField userName;
+    TextField username;
 
     // Todo add logic to
     @FXML
     protected void signIn(ActionEvent event) {
-        String hashed = BCrypt.hashpw(passwordField.getText(), BCrypt.gensalt());
-        String uName = userName.getText();
+        String hashed = BCrypt.hashpw(password.getText(), BCrypt.gensalt());
+        String uName = username.getText();
 
         if(validateSignIn()){
-            actiontarget.setText("Congratulations!\n\r" +
+            error.setText("Congratulations!\n\r" +
                     "User Name and Password Match");
         }
 
@@ -39,7 +40,7 @@ public class SignInController {
         // Check that user exists in database
         if(!userExists() || !passwordMatches()) {
             // Handle NoUserExists
-            actiontarget.setText("User Name or Password are Incorrect");
+            error.setText("User Name or Password are Incorrect");
             return false;
         } else {
             return true;
@@ -56,6 +57,8 @@ public class SignInController {
         return true;
     }
 
+    public void signUp(){
+    }
 
 
 
