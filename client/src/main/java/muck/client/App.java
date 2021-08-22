@@ -1,6 +1,7 @@
 package muck.client;
 
 import javafx.scene.Group;
+import muck.client.controllers.SignInController;
 import muck.client.controllers.SignUpController;
 import muck.client.utilities.RandomNameGenerator;
 import muck.protocol.*;
@@ -73,7 +74,7 @@ public class App extends Application {
         stage.show();*/
 
         /* End of Imported work */
-        SignUpController.signUpForm();
+        SignInController.signInForm();
 
     }
 

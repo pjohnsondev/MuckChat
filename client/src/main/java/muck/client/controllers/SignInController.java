@@ -4,8 +4,13 @@ package muck.client.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
+import muck.client.AvatarController;
 import org.mindrot.jbcrypt.*;
 import muck.client.controllers.SignUpController;
 
@@ -57,7 +62,26 @@ public class SignInController {
         return true;
     }
 
+    // TODO: Add Front End Logic
+    public static void signInForm(){
+        try {
+            FXMLLoader loader = new FXMLLoader(SignUpController.class.getResource("/fxml/SignIn.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 600, 350);
+            scene.setRoot(root);
+            scene.getStylesheets().add(SignUpController.class.getResource("/css/style.css").toExternalForm());
+            Stage stage = new Stage();
+            stage.setTitle("Join Muck");
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // TODO: Add Pass to SignUp Display
     public void signUp(){
+        SignUpController.signUpForm();
     }
 
 
