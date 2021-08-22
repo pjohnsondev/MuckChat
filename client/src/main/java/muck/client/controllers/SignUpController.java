@@ -70,6 +70,7 @@ public class SignUpController {
             // Pass to next scene
             passToAvatar();
 
+            //TODO: Fix error display as it currently gets frozen at one error
         } else if (!passwordsMatch(password, passwordtwo)) {
             error.setText("Passwords don't match");
         } else if (!validUserNameLength(username)) {
