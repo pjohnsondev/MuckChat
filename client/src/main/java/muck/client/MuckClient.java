@@ -27,7 +27,7 @@ public enum MuckClient {
 
 	INSTANCE;
 
-	userMessage currentMessage;
+	String currentMessage;
 	ArrayList<String> players = new ArrayList<String>();
 
 	public static MuckClient getINSTANCE() {
@@ -92,7 +92,9 @@ public enum MuckClient {
 
 		client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, clientMessage) -> {
 			logger.info("Message recieved was: {}", clientMessage.getMessage());
-			currentMessage = clientMessage;
+			currentMessage = clientMessage.getMessage();
+			clientMessage.setMessage(null);
+
 		}));
 	}
 
@@ -138,10 +140,14 @@ public enum MuckClient {
 		client.sendTCP(message);
 	}
 
-	// Simple getter for the currentMessage stored in the client.
-	// Note: Probably should add wayus to get timestamps/etc.
-	public synchronized Object getCurrentMessage() {
-		return currentMessage.getMessage();
+	/*
+    Simple getter for the currentMessage stored in the client.
+    TODO: Ensure that message buffer is cleared after it has been printed to the chatui to avoid old messages coming through again at the next timer.
+    Note: Probably should add ways to get timestamps/etc.
+
+    */
+	public synchronized String getCurrentMessage() {
+		return currentMessage;
 	}
 
 }
