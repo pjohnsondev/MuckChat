@@ -80,7 +80,7 @@ public class App extends Application {
         stage = primaryStage;
         primaryStage.setResizable(false);
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/SignIn.fxml"));
-        primaryStage.setTitle("Sign In");
+        primaryStage.setTitle("MUCK");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
