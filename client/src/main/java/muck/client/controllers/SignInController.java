@@ -11,9 +11,7 @@ import javafx.scene.text.Text;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import muck.client.App;
-import muck.client.AvatarController;
 import org.mindrot.jbcrypt.*;
-import muck.client.controllers.SignUpController;
 
 import java.io.IOException;
 

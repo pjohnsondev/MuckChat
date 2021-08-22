@@ -29,13 +29,13 @@
             <TextField fx:id="username" layoutX="218.0" layoutY="43.0" promptText="Username " />
             <TextField fx:id="displayname" layoutX="218.0" layoutY="87.0" promptText="Display Name" />
             <PasswordField fx:id="password" layoutX="219.0" layoutY="129.0" promptText="Password" />
-            <TextField fx:id="passwordtwo" layoutX="219.0" layoutY="170.0" promptText="Password" />
+            <PasswordField fx:id="passwordtwo" layoutX="219.0" layoutY="170.0" promptText="Password" />
             <Label layoutX="61.0" layoutY="46.0" text="Username">
                <font>
                   <Font name="Arial Rounded MT Bold" size="17.0" />
                </font>
             </Label>
-            <Label layoutX="51.0" layoutY="89.0" text="Display Name">
+            <Label layoutX="51.0" layoutY="89.0" text="Display Name" textAlignment="CENTER">
                <font>
                   <Font name="Arial Rounded MT Bold" size="17.0" />
                </font>
@@ -55,7 +55,7 @@
                   <Font name="Arial Rounded MT Bold" size="17.0" />
                </font>
             </Button>
-            <Label fx:id="error" layoutX="179.0" layoutY="14.0" prefHeight="21.0" prefWidth="37.0" textAlignment="CENTER" textFill="#fd0000">
+            <Label fx:id="error" alignment="CENTER" contentDisplay="CENTER" layoutX="7.0" layoutY="14.0" prefHeight="21.0" prefWidth="396.0" textAlignment="CENTER" textFill="#fd0000">
                <font>
                   <Font name="Arial Rounded MT Bold" size="17.0" />
                </font>

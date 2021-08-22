@@ -13,7 +13,6 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import muck.client.AvatarController;
 import org.mindrot.jbcrypt.*;
-import muck.server.models.models.*;
 import muck.client.AvatarController;
 
 import java.io.IOException;
@@ -24,12 +23,16 @@ import muck.client.App;
 
 public class SignUpController {
     private int maxPasswordLength = 10;
+    private int maxUsernameLength = maxPasswordLength;
 
     @FXML
     Label error;
 
     @FXML
     PasswordField password;
+
+    @FXML
+    PasswordField passwordtwo;
 
     @FXML
     TextField username;
@@ -43,34 +46,58 @@ public class SignUpController {
     // Todo add logic to
     @FXML
     protected void signUp(ActionEvent event) throws SQLException, IOException {
-        String hashed = BCrypt.hashpw(password.getText(), BCrypt.gensalt());
-        String uName = username.getText();
+        String passWordText = password.getText();
+        String userName = username.getText();
+        String displayName = displayname.getText();
+        String passwordTwo = passwordtwo.getText();
 
-
-        // TODO call validate username and password length
-
-        // TODO: Validate the sign up
-        if (validateSignUp()) {
-//          addUser(uName, hashed);
-            passToAvatar();
-        }
-
+        // Validate the sign up
+        validateSignUp(displayName, userName, passWordText, passwordTwo);
     }
 
     // TODO: Sign Up validation method - implement functionality
-    public boolean validateSignUp(){ return true;}
+    public void validateSignUp(String displayname, String username, String password, String passwordtwo ) throws IOException {
+        if (validUserNameLength(username) && validPasswordLength(password) &&
+                userNameAvailable(username) && passwordsMatch(password, passwordtwo)) {
+
+            // Hash password for security
+            String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
+            // Add user to database
+            // addUser(uName, displayName, hashed);
+
+            // retrieve user id from database and pass to the next scene
+
+            // Pass to next scene
+            passToAvatar();
+
+        } else if (!passwordsMatch(password, passwordtwo)) {
+            error.setText("Passwords don't match");
+        } else if (!validUserNameLength(username)) {
+            error.setText("Username must be less than " + maxUsernameLength + " characters");
+        } else if (!validPasswordLength(password)){
+            error.setText("Password must be less than " + maxPasswordLength + " characters");
+        } else {
+            error.setText("Sorry that user name is taken");
+        }
+    }
 
     // TODO: User name Available method - implement functionality
-    public boolean userNameAvailable(){ return true;}
-
-    // TODO: Password Length validation method
-    public boolean validPassword(){
+    public boolean userNameAvailable(String username){
+        // Check that username is available
         return true;
     }
 
     // TODO: Username Length Validation method
-    public boolean validUserNameLength(String password){
+    public boolean validUserNameLength(String username){
+        if (username.length() < maxUsernameLength){
+            return false;
+        } else {
+            return true;
+        }
+    }
 
+    // TODO: Password Length Validation method
+    public boolean validPasswordLength(String password){
         if (password.length() > maxPasswordLength){
             return false;
         } else {
@@ -78,24 +105,35 @@ public class SignUpController {
         }
     }
 
-    //TODO: Add User to Database
-    public void addUser(String uName, String password) throws SQLException {
-        User user = new User();
-        try{
-            user.registerNewUser(uName, password);
-        } catch (SQLException se){
-            System.out.println(se);
+    // TODO: Passwords match Validation method
+    public boolean passwordsMatch(String password, String passwordtwo){
+        if (password != passwordtwo){
+            return false;
+        } else {
+            return true;
         }
     }
-    //TODO: Add User to Database
-    public boolean returnUser(String uName) throws SQLException {
-        User user = new User();
-        try{
-            return user.findUserByUsername(uName);
-        } catch (SQLException se){
-            System.out.println(se);
-            return false;
-        }
+
+
+
+    //TODO: Add User to Database - Add functionality
+    public void addUser(String uName, String password) throws SQLException {
+//        User user = new User();
+//        try{
+//            user.registerNewUser(uName, password);
+//        } catch (SQLException se){
+//            System.out.println(se);
+//        }
+    }
+    //TODO: Retrieve user from Database
+    public void returnUser(String uName) throws SQLException {
+//        User user = new User();
+//        try{
+//            return user.findUserByUsername(uName);
+//        } catch (SQLException se){
+//            System.out.println(se);
+//            return false;
+//        }
     }
 
     // TODO: Add Front End Logic
@@ -118,7 +156,7 @@ public class SignUpController {
     // TODO: Add Pass to Avatar Selection Display
     public void passToAvatar() throws IOException{
         App a = new App();
-        a.changeScene("/fxml/Avatar.fxml");;
+        a.changeScene("/fxml/Avatar.fxml");
     }
 
 }

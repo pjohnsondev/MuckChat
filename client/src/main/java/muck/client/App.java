@@ -90,6 +90,11 @@ public class App extends Application {
         stage.setScene(new Scene(pane));
     }
 
+    public void changeScene(String fxml, String data) throws IOException {
+        Parent pane = FXMLLoader.load(getClass().getResource(fxml));
+        stage.setScene(new Scene(pane));
+    }
+
 
     void startConnection() {
         logger.info("Starting connection to server");
