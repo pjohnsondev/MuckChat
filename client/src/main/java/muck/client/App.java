@@ -1,6 +1,7 @@
 package muck.client;
 
 import javafx.scene.Group;
+import muck.client.controllers.SignUpController;
 import muck.client.utilities.RandomNameGenerator;
 import muck.protocol.*;
 import muck.protocol.connection.*;
@@ -72,8 +73,7 @@ public class App extends Application {
         stage.show();*/
 
         /* End of Imported work */
-        RandomNameGenerator rng = new RandomNameGenerator();
-        AvatarController.avatarCreation(rng.generateName());
+        SignUpController.signUpForm();
 
     }
 

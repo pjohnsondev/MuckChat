@@ -3,11 +3,21 @@ package muck.client.controllers;
 
 
 import javafx.event.ActionEvent;
+import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.scene.control.*;
-// import org.mindrot.jbcrypt.*;
+import javafx.stage.Stage;
+import muck.client.AvatarController;
+import org.mindrot.jbcrypt.*;
+import muck.server.models.models.*;
+import muck.client.AvatarController;
 
+import java.security.InvalidParameterException;
+import java.sql.SQLException;
 
 
 public class SignUpController {
@@ -24,19 +34,18 @@ public class SignUpController {
 
     // Todo add logic to
     @FXML
-    protected void signUp(ActionEvent event) {
-        // String hashed = BCrypt.hashpw(passwordField.getText(), BCrypt.gensalt());
-        // String uName = userName.getText();
+    protected void signUp(ActionEvent event) throws SQLException{
+        String hashed = BCrypt.hashpw(passwordField.getText(), BCrypt.gensalt());
+        String uName = userName.getText();
 
         // TODO call validate username and password length
-        
-        // if username or password don't match regex 
-        // alert error
-        // actiontarget.setText("Username and Password can only be a maximum of x characters");
 
-        // Validate the sign up
+        // TODO: Validate the sign up
         if (validateSignUp()) {
-            // 
+            addUser(uName, hashed);
+            if (returnUser(uName)){
+                actiontarget.setText("Added to Database");
+            }
         }
 
     }
@@ -63,8 +72,46 @@ public class SignUpController {
     }
 
     //TODO: Add User to Database
-    public void addUser(){
-        
+    public void addUser(String uName, String password) throws SQLException {
+        User user = new User();
+        try{
+            user.registerNewUser(uName, password);
+        } catch (SQLException se){
+            System.out.println(se);
+        }
     }
+    //TODO: Add User to Database
+    public boolean returnUser(String uName) throws SQLException {
+        User user = new User();
+        try{
+            return user.findUserByUsername(uName);
+        } catch (SQLException se){
+            System.out.println(se);
+            return false;
+        }
+    }
+
+    // TODO: Add Front End Logic
+    public static void signUpForm(){
+        try {
+            FXMLLoader loader = new FXMLLoader(SignUpController.class.getResource("/fxml/SignUp.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 600, 400);
+            scene.setRoot(root);
+            scene.getStylesheets().add(SignUpController.class.getResource("/css/style.css").toExternalForm());
+            Stage stage = new Stage();
+            stage.setTitle("Join Muck");
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // TODO: Add Pass to Avatar Selection Display
+    public void passToAvatar(String username){
+        AvatarController.avatarCreation(username);
+    }
+
 
 }

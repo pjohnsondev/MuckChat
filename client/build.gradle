@@ -16,6 +16,7 @@ javafx {
 dependencies {
     implementation project(":core")
     implementation project(":network")
+    implementation project(":server")
 
     runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:win"
     runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:linux"
