@@ -2,6 +2,9 @@ package muck.client;
 
 import com.google.errorprone.annotations.FormatMethod;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
@@ -14,10 +17,15 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.application.Application;
+import javafx.stage.Popup;
+import javafx.stage.Window;
+import javafx.stage.Stage;
 import muck.client.card_games.Player;
 import muck.client.card_games.Player_turn;
 import muck.client.card_games.Game;
@@ -125,7 +133,7 @@ public class CardsGameController implements Initializable {
 
 
 
-    // Image initialisation
+  /* // Image initialisation
     private Image twoOfClubs = new Image("images/cards/2_of_clubs.png");
     private Image twoOfDiamonds = new Image("images/cards/2_of_diamonds.png");
     private Image twoOfHearts = new Image("images/cards/2_of_hearts.png");
@@ -229,11 +237,11 @@ public class CardsGameController implements Initializable {
     private Image queen_of_diamonds = new Image("images/cards/queen_of_diamonds.png");
     private Image queen_of_hearts = new Image("images/cards/queen_of_hearts.png");
     private Image queen_of_spades = new Image("images/cards/queen_of_spades.png");
-
-    protected CardsGameController(Button goFish, Label sets_made) {
+ */
+    /*protected CardsGameController(Button goFish, Label sets_made) {
         this.go_fish = goFish;
         this.sets_made = sets_made;
-    }
+    }*/
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -262,6 +270,23 @@ public class CardsGameController implements Initializable {
             // IT CHANGES TO JUST DRAWING CARDS - thats up to you. im happy to just do an automatic
             //deal as part of initialising the game.
            //NEED TO ADD FUNCTION FOR PICKING UP FROM DECK - done.
+
+            try {
+                FXMLLoader loader = new FXMLLoader(GoFish.class.getResource("/fxml/cards_game.fxml"));
+                Parent root = loader.load();
+                StackPane layout = new StackPane();
+                Scene scene = new Scene(layout, 400, 245);
+                scene.setFill(Color.web("#FDFEFE"));
+                //scene.setRoot(root);
+                Stage stage = new Stage();
+                stage.setTitle("New Cards!");
+                stage.setScene(scene);
+                stage.show();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
 
         });
 
