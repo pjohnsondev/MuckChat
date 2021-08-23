@@ -28,7 +28,12 @@ public class SignUpTest {
     public void testValidPassword(){
         SignUpController user = new SignUpController();
         String password = "passwordistoolong";
-        assertEquals(false, user.validUserNameLength(password));
+        assertEquals(false, user.validPasswordLength(password));
+        String username = "usernameistoolong";
+        assertEquals(false, user.validUserNameLength(username));
+        password = "passwordone";
+        String passwordTwo = "passwordtwo";
+        assertEquals(false, user.passwordsMatch(password, passwordTwo));
     }
 
     @Test
