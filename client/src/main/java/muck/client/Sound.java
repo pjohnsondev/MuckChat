@@ -9,7 +9,7 @@ import javax.sound.sampled.Clip;
 
 public class Sound {
 
-    private Clip forest;
+    private Clip clip;
     public Sound(String s) {
         try {
             AudioInputStream forest = AudioSystem.getAudioInputStream(getClass().getResourceAsStream(s));
@@ -26,7 +26,6 @@ public class Sound {
             e.printStackTrace();
         }
     }
-}
 
     public void playSound() {
         if(clip == null) return;
