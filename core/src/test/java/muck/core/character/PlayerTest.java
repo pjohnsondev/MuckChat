@@ -55,6 +55,40 @@ public class PlayerTest {
                 () -> assertEquals(50, player.getDefence())
         );
     }
+    
+    // Test health increment function
+    @Test
+    public void testHealthIncrease() {
+        int initialHealth = 100;
+        Player player = new Player();
+        player.setHealth(initialHealth);
+        
+        int healthIncrement = 30;
+        player.increaseHealth(healthIncrement);
+        assertEquals(player.getHealth(), initialHealth + healthIncrement);
+    }
+    
+    // Test health decrement function
+    @Test
+    public void testHealthDecrease() {
+        int initialHealth = 100;
+        Player player = new Player();
+        player.setHealth(initialHealth);
+        
+        // Reduce player health, but still alive
+        int healthDecrement1 = 40;
+        player.decreaseHealth(healthDecrement1);
+        assertEquals(player.getHealth(), 60);
+        
+        player.setHealth(initialHealth);
+        
+        //Reduce player health, but now dead
+        int healthDecrement2 = 101;
+        player.decreaseHealth(healthDecrement2);
+        boolean status = player.decreaseHealth(healthDecrement2);
+        assertEquals(player.getHealth(), 0);
+        assertTrue(status);
+    }
 
     /* TODO: ===Currently commented out until database is up====
     // Test players interaction with collectables and inventory
