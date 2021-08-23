@@ -1,50 +1,73 @@
 package muck.server;
 
 
+
 import muck.server.database.Database;
+import muck.protocol.connection.*;
 
 import java.sql.SQLException;
 
 /**
- * Class of methods to create DB tables. Inherits Muck database methods.
+ * Class of methods to create DB tables. Uses the Database Interface.
  * Original Author: Ryan Birch (rbirch4@myune.edu.au) as a part of Low Expectations.
  */
-public class chatCreateTable extends Database {
+public class chatCreateTable {
 
-    private String groupChatStmt = "CREATE TABLE groupChatLog (\n" +
-            "    chat_id varchar(20),\n" +
-            "    chat_message varchar(200),\n" +
-            "    sender varchar(20),\n" +
-            "    time_sent varchar(15),\n" +
-            "    PRIMARY KEY (chat_id)\n" +
+    /* private String groupChatStmt = "CREATE TABLE groupChatLog (" +
+            "chat_id varchar(20)," +
+            "chat_message varchar(200)," +
+            "sender varchar(20)," +
+            "time_sent varchar(15)," +
+            "PRIMARY KEY (chat_id)" +
             ")";
-    private String chatLogName;
-    private String chatLogStmt = "CREATE TABLE " + chatLogName +" (\n" +
-            "    chat_id varchar(20),\n" +
-            "    chat_message varchar(200),\n" +
-            "    sender varchar(20),\n" +
-            "    time_sent varchar(15),\n" +
-            "    PRIMARY KEY (chat_id)\n" +
+            
+     */
+
+    /* private String chatLogStmt = "CREATE TABLE " + chatLogName +" (" +
+            "chat_id varchar(20)," +
+            "chat_message varchar(200)," +
+            "sender varchar(20)," +
+            "time_sent varchar(15)," +
+            "PRIMARY KEY (chat_id)" +
             ")";
+     */
+    //private String dbName = "muckdb";
+    //private String connectionString = String.format("jdbc:derby:%s;create=true", dbName);
 
-    private String dbName = "muckdb";
-    private String connectionString = String.format("jdbc:derby:%s;create=true", dbName);
-
-    protected void createGroupChat() throws SQLException {
+    protected static void createGroupChat() throws SQLException {
         //Call to DB to create the group chat table.
-        connect();
-        createTableIfNotExists("groupChatLog", groupChatStmt);
-
-
+        Database muckDB = new Database() {
+            @Override
+            protected void connect() {
+                super.connect();
+            }
+        };
+        muckDB.createTableIfNotExists("groupChatLog", "CREATE TABLE groupChatLog (" +
+                "chat_id varchar(20)," +
+                "chat_message varchar(200)," +
+                "sender varchar(20)," +
+                "time_sent varchar(15)," +
+                "PRIMARY KEY (chat_id)" +
+                ")");
     }
 
-    public void prepareStmt(String chatLogName) {
-        this.chatLogName = chatLogName;
-    }
-    public void createNewChat(String chatLogName) throws SQLException {
+
+    public static void createNewChat(newChatLog chatName) throws SQLException {
         //Call to DB to create the chat with generated ID.
-        connect();
-        createTableIfNotExists(chatLogName, groupChatStmt);
+        Database muckDB = new Database() {
+            @Override
+            protected void connect() {
+                super.connect();
+            }
+        };
+        String newLogName = chatName.getChatName();
+        muckDB.createTableIfNotExists("groupChatLog", "CREATE TABLE " + newLogName + " (" +
+                "chat_id varchar(20)," +
+                "chat_message varchar(200)," +
+                "sender varchar(20)," +
+                "time_sent varchar(15)," +
+                "PRIMARY KEY (chat_id)" +
+                ")");
     }
 
 

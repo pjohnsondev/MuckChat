@@ -50,11 +50,6 @@
                   <Font name="Arial Rounded MT Bold" size="17.0" />
                </font>
             </Label>
-            <Button fx:id="signUp" layoutX="264.0" layoutY="221.0" mnemonicParsing="false" onMouseClicked="#signUp" prefHeight="33.0" prefWidth="110.0" text="Join Now" textAlignment="CENTER">
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="17.0" />
-               </font>
-            </Button>
          </children>
       </AnchorPane>
    </center>
@@ -74,4 +69,20 @@
          </children>
       </AnchorPane>
    </top>
+   <bottom>
+      <AnchorPane prefHeight="85.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="genName" layoutX="44.0" layoutY="11.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="320.0" text="Generate Random Display Name" textAlignment="CENTER">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="17.0" />
+               </font>
+            </Button>
+            <Button fx:id="signUp" layoutX="434.0" layoutY="11.0" mnemonicParsing="false" onMouseClicked="#signUp" prefHeight="33.0" prefWidth="110.0" text="Join Now" textAlignment="CENTER">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="17.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </bottom>
 </BorderPane>
