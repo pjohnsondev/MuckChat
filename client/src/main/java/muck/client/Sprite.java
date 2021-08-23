@@ -20,7 +20,7 @@ public class Sprite {
     }
     //direction x - should always be at 0 to be still, otherwise it's moving
     //direction y - should always be at 0 to be still, otherwise it's moving
-    private int dx, dy; // define directional x and y var
+    private double dx, dy; // define directional x and y var
 
     private Image image; // define image var
     private int imageOffsetX = 1; // offset left and top screen boundaries for player image
@@ -31,7 +31,8 @@ public class Sprite {
 
     private final String avatarImageLoc = "client/src/main/resources/images/"; // image location of avatar images
 
-    private int x, y, width, height;
+    private double x, y;
+    private int width, height;
 
     // Constructor
     /*
@@ -55,11 +56,11 @@ public class Sprite {
     }
 
     public void move(TileMapReader tm, Sprite hero, Canvas canvas) {
-        int newX = hero.getPosX() + dx;
-        int newY = hero.getPosY() + dy;
+        double newX = hero.getPosX() + dx;
+        double newY = hero.getPosY() + dy;
 
         //Layer 1 solid
-        int GID = tm.getLayerId(1, Math.abs(newX/tm.getTileWidth()), Math.abs(newY/tm.getTileHeight()) );
+        int GID = tm.getLayerId(1,  (int)Math.floor(newX/tm.getTileWidth()), (int)Math.abs(newY/tm.getTileHeight()) );
         if (GID == -1 ) { //collision detection
             if(newX > 5 && newX < tm.getWidth()*tm.getTileWidth()-5) {
                 x += dx;
@@ -70,10 +71,10 @@ public class Sprite {
     }
 
     // getters and setters
-    public void setDx(int dx) { this.dx = dx; } // set direction x
-    public void setDy(int dy) { this.dy = dy; } // set direction y
-    public int getPosX() { return x; } // get player x Pos
-    public int getPosY() { return y; } // get player y pos
+    public void setDx(double dx) { this.dx = dx; } // set direction x
+    public void setDy(double dy) { this.dy = dy; } // set direction y
+    public double getPosX() { return x; } // get player x Pos
+    public double getPosY() { return y; } // get player y pos
     public String getPlayerPos() { return getPosX()+","+getPosY(); } // concatenate x and y pos as x,y - will be used to retrieve current player pos
     public Image getImage() { return image; } // get image (resized one)
 
