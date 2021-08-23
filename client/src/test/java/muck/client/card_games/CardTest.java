@@ -49,10 +49,11 @@ public class CardTest {
         int beforeShuffle = myDeck.cards.get(randomID).getValue();
         myDeck.shuffle_cards();
         int afterShuffle = myDeck.cards.get(randomID).getValue();
+        assertNotEquals(beforeShuffle, afterShuffle);
         logger.info("Testing that a random card in the deck is not in the same place after a second shuffle");
         myDeck.shuffle_cards();
         int afterSecondShuffle = myDeck.cards.get(randomID).getValue();
-        assertNotEquals(beforeShuffle, afterShuffle, afterSecondShuffle);
+        assertNotEquals(afterShuffle, afterSecondShuffle);
     }
 
     @Test
