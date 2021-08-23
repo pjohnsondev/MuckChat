@@ -96,10 +96,12 @@ public class SignUpController {
 
     // TODO: Passwords match Validation method
     public boolean passwordsMatch(String password, String passwordtwo){
-        if(password.equals(passwordtwo)){
+        if(!password.equals(passwordtwo)){
+            error.setText("Passwords do not match");
+            return false;
+        } else {
             return true;
         }
-        return false;
     }
 
     //TODO: Add User to Database - Add functionality
