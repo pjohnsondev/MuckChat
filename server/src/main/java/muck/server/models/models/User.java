@@ -10,15 +10,28 @@ import muck.server.models.AbstractModel.Model;
 /**
  * Creates and manages users on the database
  */
-public class User extends Model{
+public class User extends Model {
     private int id;
     private String username;
     private byte[] hashedPassword;
     private byte[] salt;
+    private int points;
+
+    public User() {
+
+    }
+
+    public User(int id, String username, byte[] hashedPassword, byte[] salt, int points) {
+        this.id = id;
+        this.username = username;
+        this.hashedPassword = hashedPassword;
+        this.salt = salt;
+        this.points = points;
+    }
 
     /**
      * Creates a table for the users, if it does not exist already
-     *
+     * @deprecated Please use {@link UserModel} methods
      * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      */
     public void createTable() throws SQLException {
@@ -29,7 +42,8 @@ public class User extends Model{
             + "(id INTEGER UNIQUE GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
             + " username VARCHAR(80) UNIQUE, "
             + " password BLOB NOT NULL, "
-            + " salt BLOB NOT NULL)"
+            + " salt BLOB NOT NULL, "
+            + " points INTEGER)"
         );
     }
 
@@ -38,7 +52,7 @@ public class User extends Model{
      *
      * @param username Username for the new user which will be used as a handle and a login name
      * @param password Password for logging on to the system
-     *
+     * @deprecated Please use {@link UserModel} methods
      * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      * @throws InvalidParameterException Thrown when an invalid parameter is passed to a method. See: https://docs.oracle.com/javase/7/docs/api/java/security/InvalidParameterException.html
      */
@@ -57,18 +71,20 @@ public class User extends Model{
         this.salt = salt;
 
         //Insert the new user into the database table
-        db.query("INSERT INTO users (username, password, salt) VALUES (?, ?, ?)");
+        db.query("INSERT INTO users (username, password, salt, points) VALUES (?, ?, ?, ?)");
         db.bindString(1, username);
         db.bindBytes(2, hashedPassword);
         db.bindBytes(3, salt);
+        db.bindInt(4, 0);
         db.executeInsert();
     }
+
 
     /**
      * Retrieves user information from the database using the UserName is the criteria
      *
      * @param username The username to search for within the database
-     *
+     * @deprecated Please use {@link UserModel} methods
      * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      */
 
@@ -81,6 +97,7 @@ public class User extends Model{
             this.username = username;
             this.hashedPassword = result.getBytes("password");
             this.salt = result.getBytes("salt");
+            this.points = result.getInt("points");
             result.close();
             return true;
         }
@@ -91,7 +108,7 @@ public class User extends Model{
      * Retrieves user information from the database using the user id is the criteria
      *
      * @param id The user id to search for within the database
-     *
+     * @deprecated Please use {@link UserModel} methods
      * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      */
     public void findUserById(int id) throws SQLException {
@@ -103,6 +120,7 @@ public class User extends Model{
         this.username = result.getString("username");
         this.hashedPassword = result.getBytes("password");
         this.salt = result.getBytes("salt");
+        this.points = result.getInt("points");
         result.close();
     }
 
@@ -110,7 +128,7 @@ public class User extends Model{
      * User supplied information to authenticate/log the user into the system
      * @param username Username of the user
      * @param password Password of the user
-     *
+     * @deprecated Please use {@link UserModel} methods
      * @return true if user is authenticated, false if the user is not authenticated
      *
      * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
@@ -137,6 +155,14 @@ public class User extends Model{
      */
     public String getUserName() {
         return this.username;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void addPoints(int points) {
+        this.points = this.points + points;
     }
 
     /**
