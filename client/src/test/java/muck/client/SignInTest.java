@@ -30,5 +30,15 @@ public class SignInTest {
             assertEquals(true, user.validateSignIn("username", "password"));
         }
 
+        @Test
+        // TODO: check if Fields are empty
+        public void testIsEmpty(){
+            SignInController user = new SignInController();
+            assertEquals(true, user.isEmpty("username", "password"));
+        }
+
+
+
+
     }
 
