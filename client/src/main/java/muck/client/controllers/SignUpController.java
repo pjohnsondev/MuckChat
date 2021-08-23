@@ -43,8 +43,10 @@ public class SignUpController {
         String displayName = displayname.getText();
         String passwordTwo = passwordtwo.getText();
 
-        // Validate the sign up
-        validateSignUp(event, displayName, userName, passWordText, passwordTwo);
+        if(isNotEmpty(passWordText, userName, displayName)){
+            // Validate the sign up
+            validateSignUp(event, displayName, userName, passWordText, passwordTwo);
+        }
     }
 
     // TODO: Sign Up validation method - implement functionality
@@ -125,6 +127,21 @@ public class SignUpController {
 //            System.out.println(se);
 //            return false;
 //        }
+    }
+
+    public boolean isNotEmpty(String password, String username, String displayname){
+        if(username.length() < 1){
+            error.setText("You must enter a user name");
+            return false;
+        } else if (password.length() < 1){
+            error.setText("You must enter your password");
+            return false;
+        } else if (displayname.length() < 1){
+            error.setText("You must a display name");
+            return false;
+        } else {
+            return true;
+        }
     }
 
 
