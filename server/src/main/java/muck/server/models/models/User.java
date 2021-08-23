@@ -161,6 +161,11 @@ public class User extends Model {
         return points;
     }
 
+    /**
+     * Add points to user's current points
+     * @param points points to be added
+     * @author Jason Aboh
+     */
     public void addPoints(int points) {
         this.points = this.points + points;
     }
