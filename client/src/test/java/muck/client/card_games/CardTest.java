@@ -49,8 +49,10 @@ public class CardTest {
         int beforeShuffle = myDeck.cards.get(randomID).getValue();
         myDeck.shuffle_cards();
         int afterShuffle = myDeck.cards.get(randomID).getValue();
-
-        assertNotEquals(beforeShuffle, afterShuffle);
+        logger.info("Testing that a random card in the deck is not in the same place after a second shuffle");
+        myDeck.shuffle_cards();
+        int afterSecondShuffle = myDeck.cards.get(randomID).getValue();
+        assertNotEquals(beforeShuffle, afterShuffle, afterSecondShuffle);
     }
 
     @Test
@@ -70,14 +72,14 @@ public class CardTest {
 
     @Test
     public void testSelectCard() {
-        logger.info("Testing that the set selected method sets selected to true and false alternately");
+        logger.info("Testing that the set selected method sets selected to true and false as passed in");
         int randomID = rand.nextInt(52);
         Card card = myDeck.cards.get(randomID);
-        assertEquals(card.selected, false);
-        card.setSelected();
-        assertEquals(card.selected, true);
-        card.setSelected();
-        assertEquals(card.selected, false);
+        assertEquals(card.getSelectedValue(), false);
+        card.setSelected(true);
+        assertEquals(card.getSelectedValue(), true);
+        card.setSelected(false);
+        assertEquals(card.getSelectedValue(), false);
     }
 
     /*
