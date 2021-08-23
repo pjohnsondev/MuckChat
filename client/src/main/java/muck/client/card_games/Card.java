@@ -10,7 +10,7 @@ public class Card {
     private String suit, cardName;
     private Image cardImage;
     private String fileName;
-    Boolean selected;
+    private Boolean selected;
 
     /**
      * Constructor Function for the Card Class
@@ -78,8 +78,8 @@ public class Card {
         this.id = id;
     }
 
-    public void setSelected() {
-        selected = !selected;
+    public void setSelected(boolean setValue) {
+        selected = setValue;
     }
 
     /**
