@@ -52,11 +52,22 @@ public class SignUpController {
         String passwordTwo = passwordtwo.getText();
 
         // Validate the sign up
-        validateSignUp(displayName, userName, passWordText, passwordTwo);
+        boolean validated = validateSignUp(displayName, userName, passWordText, passwordTwo);
+        if (validated) {
+            try {
+                UserModel.getInstance().registerNewUser(userName, passWordText);
+                error.setText("New muck user created"+ userName);
+            } catch (Exception ex) {
+                error.setText("Unable to create new user: {}"+ userName);
+
+                throw new RuntimeException(String.format("Unable to create new user: %s.", userName));
+            }
+        }
     }
 
     // TODO: Sign Up validation method - implement functionality
-    public void validateSignUp(String displayname, String username, String password, String passwordtwo ) throws IOException {
+    public boolean validateSignUp(String displayname, String username, String password, String passwordtwo) throws IOException {
+        boolean validated = false;
         if (validUserNameLength(username) && validPasswordLength(password) &&
                 userNameAvailable(username) && passwordsMatch(password, passwordtwo)) {
 
@@ -69,27 +80,29 @@ public class SignUpController {
 
             // Pass to next scene
             passToAvatar();
+            validated = true;
 
         } else if (!passwordsMatch(password, passwordtwo)) {
             error.setText("Passwords don't match");
         } else if (!validUserNameLength(username)) {
             error.setText("Username must be less than " + maxUsernameLength + " characters");
-        } else if (!validPasswordLength(password)){
+        } else if (!validPasswordLength(password)) {
             error.setText("Password must be less than " + maxPasswordLength + " characters");
         } else {
             error.setText("Sorry that user name is taken");
         }
+        return validated;
     }
 
     // TODO: User name Available method - implement functionality
-    public boolean userNameAvailable(String username){
+    public boolean userNameAvailable(String username) {
         // Check that username is available
         return true;
     }
 
     // TODO: Username Length Validation method
-    public boolean validUserNameLength(String username){
-        if (username.length() < maxUsernameLength){
+    public boolean validUserNameLength(String username) {
+        if (username.length() < maxUsernameLength) {
             return false;
         } else {
             return true;
@@ -97,8 +110,8 @@ public class SignUpController {
     }
 
     // TODO: Password Length Validation method
-    public boolean validPasswordLength(String password){
-        if (password.length() > maxPasswordLength){
+    public boolean validPasswordLength(String password) {
+        if (password.length() > maxPasswordLength) {
             return false;
         } else {
             return true;
@@ -106,14 +119,13 @@ public class SignUpController {
     }
 
     // TODO: Passwords match Validation method
-    public boolean passwordsMatch(String password, String passwordtwo){
-        if (password != passwordtwo){
+    public boolean passwordsMatch(String password, String passwordtwo) {
+        if (password != passwordtwo) {
             return false;
         } else {
             return true;
         }
     }
-
 
 
     //TODO: Add User to Database - Add functionality
@@ -125,6 +137,7 @@ public class SignUpController {
 //            System.out.println(se);
 //        }
     }
+
     //TODO: Retrieve user from Database
     public void returnUser(String uName) throws SQLException {
 //        User user = new User();
@@ -137,7 +150,7 @@ public class SignUpController {
     }
 
     // TODO: Add Front End Logic
-    public static void signUpForm(){
+    public static void signUpForm() {
         try {
             FXMLLoader loader = new FXMLLoader(SignUpController.class.getResource("/fxml/SignUp.fxml"));
             Parent root = loader.load();
@@ -154,7 +167,7 @@ public class SignUpController {
     }
 
     // TODO: Add Pass to Avatar Selection Display
-    public void passToAvatar() throws IOException{
+    public void passToAvatar() throws IOException {
         App a = new App();
         a.changeScene("/fxml/Avatar.fxml");
     }
