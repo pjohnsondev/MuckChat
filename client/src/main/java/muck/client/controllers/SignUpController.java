@@ -7,7 +7,10 @@ import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.*;
 import muck.client.AvatarController;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mindrot.jbcrypt.*;
+import muck.client.App;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -16,6 +19,7 @@ import java.sql.SQLException;
 public class SignUpController {
     private int maxPasswordLength = 10;
     private int maxUsernameLength = maxPasswordLength;
+    private static final Logger logger = LogManager.getLogger(App.class);
 
     @FXML
     Label error;
@@ -63,16 +67,6 @@ public class SignUpController {
 
             // Pass to next scene
             passToAvatar(event, username);
-
-            //TODO: Fix error display as it currently gets frozen at one error
-        } else if (!passwordsMatch(password, passwordtwo)) {
-            error.setText("Passwords don't match");
-        } else if (!validUserNameLength(username)) {
-            error.setText("Username must be less than " + maxUsernameLength + " characters");
-        } else if (!validPasswordLength(password)){
-            error.setText("Password must be less than " + maxPasswordLength + " characters");
-        } else {
-            error.setText("Sorry that user name is taken");
         }
     }
 
@@ -130,13 +124,14 @@ public class SignUpController {
     }
 
     public boolean isNotEmpty(String password, String username, String displayname){
-        if(username.length() < 1){
+        if(username.isEmpty()){
             error.setText("You must enter a user name");
+            logger.error(username);
             return false;
-        } else if (password.length() < 1){
-            error.setText("You must enter your password");
+        } else if (password.isEmpty()){
+            error.setText("You must enter a password");
             return false;
-        } else if (displayname.length() < 1){
+        } else if (displayname.isEmpty()){
             error.setText("You must a display name");
             return false;
         } else {
