@@ -74,7 +74,7 @@ public class SignInController{
     }
 
     // TODO: Add Pass to Avatar Selection Display - work out how to pass data between scenes
-    public void passToNextScene(MouseEvent event, String username) throws IOException{
+    public static void passToNextScene(MouseEvent event, String username) throws IOException{
         // Currently needs to go to muck via avatar controller until users can be brought from database
         AvatarController nextScene = new AvatarController();
         nextScene.avatarCreation(event, username);
