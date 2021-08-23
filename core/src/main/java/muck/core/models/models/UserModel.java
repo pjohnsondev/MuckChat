@@ -54,7 +54,7 @@ public class UserModel extends Model {
      *
      * @param username Username for the new user which will be used as a handle and a login name
      * @param password Password for logging on to the system
-     *
+     * @author Jason Aboh
      * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      * @throws InvalidParameterException Thrown when an invalid parameter is passed to a method. See: https://docs.oracle.com/javase/7/docs/api/java/security/InvalidParameterException.html
      */
@@ -81,7 +81,7 @@ public class UserModel extends Model {
      * Update a user within the database
      *
      * @param newUser updated user we want to update
-     *
+     * @author Jason Aboh
      * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      * @throws InvalidParameterException Thrown when an invalid parameter is passed to a method. See: https://docs.oracle.com/javase/7/docs/api/java/security/InvalidParameterException.html
      */
@@ -103,7 +103,7 @@ public class UserModel extends Model {
      * Retrieves user information from the database using the UserName is the criteria
      *
      * @param username The username to search for within the database
-     *
+     * @author Jason Aboh
      * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      * @return returns found user object or null
      */
@@ -125,7 +125,7 @@ public class UserModel extends Model {
      * Retrieves user information from the database using the UserName is the criteria
      *
      * @param id The user id to search for within the database
-     *
+     * @author Jason Aboh
      * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      * @return returns found user object or null
      */
@@ -146,7 +146,7 @@ public class UserModel extends Model {
 
     /**
      * Retrieves list of users
-     *
+     * @author Jason Aboh
      * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      * @return returns list of users or empty list
      */
@@ -166,6 +166,7 @@ public class UserModel extends Model {
     /**
      * Retrieves ordered list of users by points
      * @param ascending or decending
+     * @author Jason Aboh
      * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      * @return returns list of users or empty list
      */
@@ -191,7 +192,6 @@ public class UserModel extends Model {
      * User supplied information to authenticate/log the user into the system
      * @param username Username of the user
      * @param password Password of the user
-     *
      * @return true if user is authenticated, false if the user is not authenticated
      *
      * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
