@@ -35,7 +35,7 @@ public class SignInController{
         String hashed = BCrypt.hashpw(password.getText(), BCrypt.gensalt());
         String uName = username.getText();
 
-        if(isEmpty(password.getText(), uName) && validateSignIn(uName, hashed)){
+        if(isNotEmpty(password.getText(), uName) && validateSignIn(uName, hashed)){
                 // forward on to next scene
                 passToNextScene(event, uName);
         };
@@ -82,11 +82,11 @@ public class SignInController{
         nextScene.avatarCreation(event, username);
     }
 
-    public boolean isEmpty(String password, String username){
-        if(username.length() < 1){
+    public boolean isNotEmpty(String password, String username){
+        if(username.isEmpty()){
             error.setText("You must enter a user name");
             return false;
-        } else if(password.length() < 1){
+        } else if(password.isEmpty()){
             error.setText("You must enter your password");
             return false;
         } else {

@@ -32,9 +32,9 @@ public class SignInTest {
 
         @Test
         // TODO: check if Fields are empty
-        public void testIsEmpty(){
+        public void testIsNotEmpty(){
             SignInController user = new SignInController();
-            assertEquals(true, user.isEmpty("username", "password"));
+            assertEquals(true, user.isNotEmpty("username", "password"));
         }
 
 
