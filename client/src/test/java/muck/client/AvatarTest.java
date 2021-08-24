@@ -1,4 +1,4 @@
-package muck.client;
+/*package muck.client;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import javafx.scene.image.Image;
@@ -78,10 +79,16 @@ public class AvatarTest extends ApplicationTest{
         // Return muckPoints to 0 for remaining tests
         AvatarController.setMuck(0);*/
 
-    }
+    //}
 
     /*@Test
     public void testLockedAvatars() {
 
     }*/
-}
+
+    /*@AfterAll
+    public static void testWindowClose() {
+        stage.close();
+    }
+
+}*/
