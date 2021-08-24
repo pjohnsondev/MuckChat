@@ -156,7 +156,11 @@ public class SignUpController {
     }
 
     public void displayErrors(String username, String displayname, String password, String passwordtwo){
-        if(!userNameIsNotEmpty(username)){
+        if(!validUserNameLength(username)){
+            error.setText("Username must be less than " + maxUsernameLength + " characters");
+        } else if (validPasswordLength(password)){
+            error.setText("Password must be less than " + maxPasswordLength + " characters");
+        } else if(!userNameIsNotEmpty(username)){
             error.setText("You must enter a user name");
         } else if (!displayNameIsNotEmpty(displayname)) {
             error.setText("You must a display name");
