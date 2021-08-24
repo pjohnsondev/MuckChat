@@ -12,7 +12,7 @@ import muck.server.structures.UserStructure;
  * Creates and manages users on the database
  */
 public class UserModel extends Model{
-    public static final String TABLE = "users";
+    protected String TABLE = "users";
     public static final String ID_COL = "id";
     public static final String USERNAME_COL = "username";
     public static final String PASSWORD_COL  = "password";
