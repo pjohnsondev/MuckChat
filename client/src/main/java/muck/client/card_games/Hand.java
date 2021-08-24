@@ -34,9 +34,17 @@ public class Hand extends Deck{
      * Takes a deck as a parameter. Takes 7 Card objects from that deck and places it into the Hand
      */
     void draw_hand(Deck deck){
-        for (int i= 0; i < 7; i++){
-            this.sets.add(deck.cards.get(i));
-            deck.cards.remove(i);
+        if (deck.cards.size() >= 7) {
+            for (int i = 0; i < 7; i++) {
+                this.sets.add(deck.cards.get(i));
+                deck.cards.remove(i);
+            }
+        }
+        else {
+            for (int i = 0; i < deck.cards.size(); i++) {
+                this.sets.add(deck.cards.get(i));
+                deck.cards.remove(i);
+            }
         }
     }
 
