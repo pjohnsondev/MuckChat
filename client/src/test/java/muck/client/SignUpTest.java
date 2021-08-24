@@ -31,9 +31,9 @@ public class SignUpTest {
         assertEquals(false, user.validPasswordLength(password));
         String username = "usernameistoolong";
         assertEquals(false, user.validUserNameLength(username));
-        password = "passwordone";
+        String passwordOne = "passwordone";
         String passwordTwo = "passwordtwo";
-        assertEquals(false, user.passwordsMatch(password, passwordTwo));
+        assertEquals(false, user.passwordsMatch(passwordOne, passwordTwo));
     }
 
     @Test

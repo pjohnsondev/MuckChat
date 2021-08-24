@@ -94,15 +94,24 @@ public class SignUpController {
         }
     }
 
+
+
     // TODO: Passwords match Validation method
-    public boolean passwordsMatch(String password, String passwordtwo){
-        if(!password.equals(passwordtwo)){
-            error.setText("Passwords do not match");
-            return false;
-        } else {
+    public boolean passwordsMatch(String passWordText, String passwordTwo){
+
+        if(passWordText.equals(passwordTwo)) {
+
             return true;
         }
+        //TODO: We will have to figure out another way to display the error message as
+        //      it breaks/interrupts the already working logic of the test an the method.
+        //      even though it was above the return method.
+//        error.setText("Passwords do not match");
+        return false;
     }
+
+
+
 
     //TODO: Add User to Database - Add functionality
     public void addUser(String uName, String password) throws SQLException {
