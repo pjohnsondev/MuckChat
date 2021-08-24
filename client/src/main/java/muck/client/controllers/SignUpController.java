@@ -92,14 +92,18 @@ public class SignUpController {
         }
     }
 
+
+
     // TODO: Passwords match Validation method
-    public boolean passwordsMatch(String password, String passwordtwo){
-        if(!password.equals(passwordtwo)){
-            return false;
-        } else {
+
+    public boolean passwordsMatch(String passWordText, String passwordTwo){
+        if(passWordText.equals(passwordTwo))
             return true;
-        }
+        return false;
     }
+
+
+
 
     //TODO: Add User to Database - Add functionality
     public void addUser(String uName, String password) throws SQLException {

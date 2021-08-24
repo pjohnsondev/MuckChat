@@ -185,25 +185,25 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 
         // Handle Hero movement
         if (type == "KEY_PRESSED" && keyCode == KeyCode.D) {
-            hero.setDx(1);
+            hero.setDx(0.5);
         }
         if (type == "KEY_RELEASED" & keyCode == KeyCode.D) {
             hero.setDx(0);
         }
         if (type == "KEY_PRESSED" && keyCode == KeyCode.S) {
-            hero.setDy(1);
+            hero.setDy(0.5);
         }
         if (type == "KEY_RELEASED" & keyCode == KeyCode.S) {
             hero.setDy(0);
         }
         if (type == "KEY_PRESSED" && keyCode == KeyCode.A) {
-            hero.setDx(-1);
+            hero.setDx(-0.5);
         }
         if (type == "KEY_RELEASED" & keyCode == KeyCode.A) {
             hero.setDx(0);
         }
         if (type == "KEY_PRESSED" && keyCode == KeyCode.W) {
-            hero.setDy(-1);
+            hero.setDy(-0.5);
         }
         if (type == "KEY_RELEASED" & keyCode == KeyCode.W) {
             hero.setDy(0);

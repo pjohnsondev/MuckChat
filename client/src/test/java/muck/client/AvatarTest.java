@@ -8,61 +8,87 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import javafx.scene.image.Image;
+import org.mockito.Mock;
+import org.mockito.internal.matchers.Null;
 import org.testfx.framework.junit5.ApplicationTest;
 
+import static org.testfx.api.FxAssert.verifyThat;
+import static org.testfx.matcher.control.LabeledMatchers.hasText;
+
+import org.testfx.robot.Motion;
+
+import java.io.IOException;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
-public class AvatarTest extends ApplicationTest {
+public class AvatarTest extends ApplicationTest{
 
     private static final Logger logger = LogManager.getLogger(AvatarTest.class);
 
-    public static AvatarController controller = mock(AvatarController.class);
-    public static Avatar app = mock(Avatar.class);
+    private static ModuleLayer.Controller controller;
+    private static Stage stage;
 
-        @BeforeAll
-        /*public static void createMockStage() throws Exception {
-            Thread thread = new Thread("JavaFX Init Thread") {
-                public void run() {
-                    Application.launch(Avatar.class);
-                }
-            };
-            thread.setDaemon(true);
-            thread.start();
-            Thread.sleep(5000);
-        }*/
-
-
-
-        //String avatars[] = {"peach", "batman", "pikachu", "skeleton", "wonderWoman", "yoshi", "error"};
-        //Random randomNum = new Random();
-        //String randomAvatar = avatars[randomNum.nextInt(avatars.length)];
-
-        /*String userName = app.getUserName();
-        assertSame("Test", userName);*/
-        //TODO: need to make mock character to pass into creation
-
-  /*  @Test
-    public void checkStoredUsername() {
-
-    }
-    @Test
-    public void checkAvatarSelection() {
-
+    @Override
+    public void start(Stage stage) throws IOException {
+        // TODO: Do this with a mock character???
+        AvatarController.avatarCreation("Test");
+        FXMLLoader loader = new FXMLLoader(AvatarController.class.getResource("/fxml/Avatar.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @Test
     public void testAvatarID() {
+        String avatar;
 
+        // Check unlocked avatars
+        clickOn("#peach");
+        avatar = AvatarController.getAvatarId();
+        assertTrue(avatar.equals("peach"));
+        clickOn("#batman");
+        avatar = AvatarController.getAvatarId();
+        assertTrue(avatar.equals("batman"));
+        clickOn("#pikachu");
+        avatar = AvatarController.getAvatarId();
+        assertTrue(avatar.equals("pikachu"));
+
+        /* This bit doesn't work. Does not unlock avatars once window opens by changing muck points
+        // Increase muckPoints to unlock remaining avatars
+        AvatarController.setMuck(100);
+
+        // Check locked avatars
+        clickOn("#skeleton");
+        avatar = AvatarController.getAvatarId();
+        assertTrue(avatar.equals("skeleton"));
+        clickOn("#wonderWoman");
+        avatar = AvatarController.getAvatarId();
+        assertTrue(avatar.equals("wonderWoman"));
+        clickOn("#yoshi");
+        avatar = AvatarController.getAvatarId();
+        assertTrue(avatar.equals("yoshi"));
+
+        // Return muckPoints to 0 for remaining tests
+        AvatarController.setMuck(0);*/
+
+    //}
+
+    /*@Test
+    public void testLockedAvatars() {
+
+    }*/
+
+    /*@AfterAll
+    public static void testWindowClose() {
+        stage.close();
     }
-
-
-
-
 
 }*/

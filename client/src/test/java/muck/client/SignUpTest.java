@@ -26,19 +26,14 @@ public class SignUpTest {
     @Test
     // TODO: Check if username and password are within length limits
     public void testValidPassword(){
-        String password = "passwordistoolong";
-        String username = "usernameistoolong";
-        String passwordCopy = "passwordone";
-        String passwordTwo = "passwordtwo";
         SignUpController user = new SignUpController();
-
+        String password = "passwordistoolong";
         assertEquals(false, user.validPasswordLength(password));
+        String username = "usernameistoolong";
         assertEquals(false, user.validUserNameLength(username));
-
-        /**
-         * the below test is failing as the boolean function sets error text prior to returning the boolean
-//        assertEquals(false, user.passwordsMatch("test", "testing"));
-         */
+        String passwordOne = "passwordone";
+        String passwordTwo = "passwordtwo";
+        assertEquals(false, user.passwordsMatch(passwordOne, passwordTwo));
     }
 
     @Test
