@@ -47,10 +47,8 @@ public class SignUpController {
         String displayName = displayname.getText();
         String passwordTwo = passwordtwo.getText();
 
-        if(isNotEmpty(passWordText, userName, displayName)){
-            // Validate the sign up
-            validateSignUp(event, displayName, userName, passWordText, passwordTwo);
-        }
+        displayErrors(userName, displayName, passWordText, passwordTwo);
+        validateSignUp(event, displayName, userName, passWordText, passwordTwo);
     }
 
     // TODO: Sign Up validation method - implement functionality
@@ -97,7 +95,6 @@ public class SignUpController {
     // TODO: Passwords match Validation method
     public boolean passwordsMatch(String password, String passwordtwo){
         if(!password.equals(passwordtwo)){
-            error.setText("Passwords do not match");
             return false;
         } else {
             return true;
@@ -125,16 +122,22 @@ public class SignUpController {
 //        }
     }
 
-    public boolean isNotEmpty(String password, String username, String displayname){
+    public boolean passwordIsNotEmpty(String password){
+        if (password.isEmpty()){
+            return false;
+        }  else {
+            return true;
+        }
+    }
+    public boolean userNameIsNotEmpty(String username){
         if(username.isEmpty()){
-            error.setText("You must enter a user name");
-            logger.error(username);
             return false;
-        } else if (password.isEmpty()){
-            error.setText("You must enter a password");
-            return false;
-        } else if (displayname.isEmpty()){
-            error.setText("You must a display name");
+        } else {
+            return true;
+        }
+    }
+    public boolean displayNameIsNotEmpty(String displayname){
+        if(displayname.isEmpty()){
             return false;
         } else {
             return true;
@@ -146,5 +149,17 @@ public class SignUpController {
     public void passToAvatar(MouseEvent event, String username) throws IOException{
         AvatarController nextScene = new AvatarController();
         nextScene.avatarCreation(event, username);
+    }
+
+    public void displayErrors(String username, String displayname, String password, String passwordtwo){
+        if(!userNameIsNotEmpty(username)){
+            error.setText("You must enter a user name");
+        } else if (!displayNameIsNotEmpty(displayname)) {
+            error.setText("You must a display name");
+        } else if(!passwordIsNotEmpty(password)){
+            error.setText("You must enter a password");
+        } else if(!passwordsMatch(password, passwordtwo)){
+            error.setText("Passwords do not match");
+        }
     }
 }

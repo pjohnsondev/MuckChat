@@ -43,19 +43,18 @@ public class SignUpTest {
 
     @Test
     // TODO: check if Fields are empty alert is added to front end
-    public void testIsNotEmpty(){
+    public void testFieldsAreNotEmpty(){
         String password = "password";
+        String passwordTwo = "passwordtwo";
         String username = "username";
         String displayName = "display name";
 
         SignUpController user = new SignUpController();
 
-        /**
-         * need to figure out how to pass empty string to test that fail works
-        assertEquals(false, user.isNotEmpty("", username, displayName));
-        assertEquals(false, user.isNotEmpty(password, "", displayName));
-        assertEquals(false, user.isNotEmpty(password,username, ""));
-         */
-        assertEquals(true, user.isNotEmpty(password, username, displayName));
+        assertEquals(true, user.userNameIsNotEmpty(username));
+        assertEquals(true, user.displayNameIsNotEmpty(displayName));
+        assertEquals(true,user.passwordIsNotEmpty(password));
+        assertEquals(false,user.passwordsMatch(password, passwordTwo));
+
     }
 }
