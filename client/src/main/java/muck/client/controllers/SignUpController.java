@@ -48,7 +48,12 @@ public class SignUpController {
         String passwordTwo = passwordtwo.getText();
 
         displayErrors(userName, displayName, passWordText, passwordTwo);
-        validateSignUp(event, displayName, userName, passWordText, passwordTwo);
+        if(validUserNameLength(userName) && validPasswordLength(passWordText) &&
+                userNameIsNotEmpty(userName) && displayNameIsNotEmpty(displayName) &&
+                passwordIsNotEmpty(passWordText) && passwordsMatch(passWordText, passwordTwo)){
+            validateSignUp(event, displayName, userName, passWordText, passwordTwo);
+        }
+
     }
 
     // TODO: Sign Up validation method - implement functionality
@@ -163,7 +168,7 @@ public class SignUpController {
         } else if(!userNameIsNotEmpty(username)){
             error.setText("You must enter a user name");
         } else if (!displayNameIsNotEmpty(displayname)) {
-            error.setText("You must a display name");
+            error.setText("You must enter a display name");
         } else if(!passwordIsNotEmpty(password)){
             error.setText("You must enter a password");
         } else if(!passwordsMatch(password, passwordtwo)){
