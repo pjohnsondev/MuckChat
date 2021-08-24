@@ -13,6 +13,7 @@ import muck.protocol.connection.*;
 
 import java.io.IOException;
 
+import java.sql.SQLException;
 import java.util.Calendar;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public enum MuckClient {
 	String currentMessage;
 	ArrayList<String> players = new ArrayList<String>();
 
-	public static MuckClient getINSTANCE() {
+	public static MuckClient getINSTANCE() throws SQLException {
 		return INSTANCE;
 	}
 
@@ -93,7 +94,6 @@ public enum MuckClient {
 		client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, clientMessage) -> {
 			logger.info("Message recieved was: {}", clientMessage.getMessage());
 			currentMessage = clientMessage.getMessage();
-			clientMessage.setMessage(null);
 
 		}));
 	}

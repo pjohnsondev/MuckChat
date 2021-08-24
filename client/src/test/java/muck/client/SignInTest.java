@@ -27,8 +27,18 @@ public class SignInTest {
         // TODO: check if Sign in was valid
         public void testSignInValidity(){
             SignInController user = new SignInController();
-            assertEquals(true, user.validateSignIn());
+            assertEquals(true, user.validateSignIn("username", "password"));
         }
+
+        @Test
+        // TODO: check if Fields are empty
+        public void testIsNotEmpty(){
+            SignInController user = new SignInController();
+            assertEquals(true, user.isNotEmpty("username", "password"));
+        }
+
+
+
 
     }
 
