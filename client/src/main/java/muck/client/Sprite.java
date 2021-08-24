@@ -3,6 +3,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
+import muck.client.AvatarController;
 
 /*
 Collaboration:
@@ -34,6 +35,7 @@ public class Sprite {
     private double x, y;
     private int width, height;
 
+
     // Constructor
     /*
     Received:
@@ -51,15 +53,16 @@ public class Sprite {
         this.height = height;
         this.avatar = avatar;
 
-        avatar = "/images/pikachu.png";
-        this.image = new Image(avatar);
+        String avatarInitial = "/images/" + AvatarController.getAvatarId() + ".png";
+        this.image = new Image(avatarInitial);
     }
 
     public void move(TileMapReader tm, Sprite hero, Canvas canvas) {
+        changeDirection();
         double newX = hero.getPosX() + dx;
         double newY = hero.getPosY() + dy;
 
-        //Layer 1 solid
+        //Layer 1 solid not passable (Collision)
         int GID = tm.getLayerId(1,  (int)Math.floor(newX/tm.getTileWidth()), (int)Math.abs(newY/tm.getTileHeight()) );
         if (GID == -1 ) { //collision detection
             if(newX > 5 && newX < tm.getWidth()*tm.getTileWidth()-5) {
@@ -99,6 +102,12 @@ public class Sprite {
         }
         //Draw avatar
         gc.drawImage(hero.image, 0,0, 190,200, drawX - 13,drawY - 28,26,30);
+    }
+
+    public void changeDirection() {
+        if(this.dx == 0 && this.dy == 0) {
+           // Direction = "Down";
+        }
     }
 }
 
