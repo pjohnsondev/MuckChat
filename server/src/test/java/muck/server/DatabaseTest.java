@@ -52,7 +52,7 @@ public class DatabaseTest {
      */
     @Disabled
     @Test
-    public void dbCanDisonnectTest(){
+    public void dbCanDisconnectTest(){
 
         //TODO - Fix Database.java code so this test passes
         db.closeConnection();
