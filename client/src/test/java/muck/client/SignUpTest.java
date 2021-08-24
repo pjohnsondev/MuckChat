@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SignUpTest {
     private static final Logger logger = LogManager.getLogger(SignInTest.class);
@@ -46,10 +46,13 @@ public class SignUpTest {
 
         SignUpController user = new SignUpController();
 
-        assertEquals(true, user.userNameIsNotEmpty(username));
-        assertEquals(true, user.displayNameIsNotEmpty(displayName));
-        assertEquals(true,user.passwordIsNotEmpty(password));
-        assertEquals(false,user.passwordsMatch(password, passwordTwo));
-
+        assertAll(
+                () -> assertTrue(user.userNameIsNotEmpty(username)),
+                () -> assertTrue(user.displayNameIsNotEmpty(displayName)),
+                () -> assertTrue(user.passwordIsNotEmpty(password)),
+                () -> assertTrue(user.displayNameIsNotEmpty(displayName)),
+                () -> assertTrue(user.passwordIsNotEmpty(password)),
+                () -> assertFalse(user.passwordsMatch(password, passwordTwo))
+        );
     }
 }
