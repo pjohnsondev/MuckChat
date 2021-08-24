@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * Creates and manages users on the database
+ * @author Jason Aboh
  */
 public class UserModel extends Model {
 

@@ -146,7 +146,7 @@ public class UserModel extends Model {
 
     /**
      * Retrieves list of users
-     *
+     * @author Jason Aboh
      * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      * @return returns list of users or empty list
      */
@@ -165,6 +165,7 @@ public class UserModel extends Model {
     }
     /**
      * Retrieves ordered list of users by points
+     * @author Jason Aboh
      * @param ascending or decending
      * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      * @return returns list of users or empty list
