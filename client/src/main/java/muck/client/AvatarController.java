@@ -26,10 +26,10 @@ import javafx.stage.Stage;
 public class AvatarController implements Initializable  {
 
     // This will be the associated attributes of the user
-    private static String uname;
-    private static int muckPoints = 25; //Dummy value for testing purposes TODO: Remove
-    private static String avatar = "error";
-    private static String previous = "login";
+    private static String uname; //Will be updated when constructing AvatarController
+    private static int muckPoints = 15; //Dummy value for testing purposes TODO: Remove
+    public static String avatar = "error"; //Default. No image.
+    private static String previous = "login"; //Previous screen. Will determine where the submit button leads.
     private final int OPEN_SKELETON = 20; // Muck points required to activate skeleton avatar
     private final int OPEN_WW = 30; // Muck points required to activate Wonder Woman avatar
     private final int OPEN_YOSHI = 50; // Muck points required to activate Yoshi avatar
@@ -137,9 +137,9 @@ public class AvatarController implements Initializable  {
         username.setText(uname);
 
         submit.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if (previous.equals("playerDashboardMap")) {
+            if (previous.equals("playerDashboard")) { //If the user previously came from player dashboard return there
                 submitToDashboard(event);
-            } else {
+            } else { //Else return to the map
                 submitToMap(event);
             }
         });
@@ -172,6 +172,7 @@ public class AvatarController implements Initializable  {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             scene.setRoot(root);
+            scene.getStylesheets().add(AvatarController.class.getResource("/css/style.css").toExternalForm());
             Stage stage = new Stage();
             stage.setTitle("Muck 2021");
             stage.setMaxWidth(1200);
@@ -199,6 +200,7 @@ public class AvatarController implements Initializable  {
             Parent root = FXMLLoader.load(AvatarController.class.getResource("/fxml/Avatar.fxml"));
             Scene scene = new Scene(root);
             scene.setRoot(root);
+            scene.getStylesheets().add(AvatarController.class.getResource("/css/style.css").toExternalForm());
             //This line gets the Stage Information
             Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -216,13 +218,14 @@ public class AvatarController implements Initializable  {
      */
     public static void avatarCreation(MouseEvent event, String username, String avID) {
         //TODO: Call server for muck point value
-        previous = "playerDashboardMap";
+        previous = "playerDashboard";
         uname = username;
         avatar = avID;
         try {
             Parent root = FXMLLoader.load(AvatarController.class.getResource("/fxml/Avatar.fxml"));
             Scene scene = new Scene(root);
             scene.setRoot(root);
+            scene.getStylesheets().add(AvatarController.class.getResource("/css/style.css").toExternalForm());
             //This line gets the Stage Information
             Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -419,9 +422,11 @@ public class AvatarController implements Initializable  {
     }
 
     // For testing purposes
-    public String getUserName() {
+    public static String getUserName() {
         return uname;
     }
+    public static String getAvatarId() { return avatar;}
+    public static void setMuck(int points) { muckPoints = points;}
 
     // The below code is for formatting the changes to the avatar dashboard.
 

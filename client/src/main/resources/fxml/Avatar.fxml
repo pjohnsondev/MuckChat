@@ -59,6 +59,9 @@
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="20.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" GridPane.rowSpan="3">
          <children>
