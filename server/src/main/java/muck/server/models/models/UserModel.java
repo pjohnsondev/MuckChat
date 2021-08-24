@@ -6,11 +6,19 @@ import java.sql.SQLException;
 
 import muck.server.helpers.security.Hasher;
 import muck.server.models.AbstractModel.Model;
+import muck.server.structures.UserStructure;
 
 /**
  * Creates and manages users on the database
  */
-public class User extends Model{
+public class UserModel extends Model{
+    public static final String TABLE = "users";
+    public static final String ID_COL = "id";
+    public static final String USERNAME_COL = "username";
+    public static final String PASSWORD_COL  = "password";
+    public static final String SALT_COL = "salt";
+
+
     private int id;
     private String username;
     private byte[] hashedPassword;
@@ -24,7 +32,7 @@ public class User extends Model{
     public void createTable() throws SQLException {
         // create a new table
         db.createTableIfNotExists(
-            "users", 
+            "users",
             "CREATE TABLE users "
             + "(id INTEGER UNIQUE GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
             + " username VARCHAR(80) UNIQUE, "
@@ -71,22 +79,10 @@ public class User extends Model{
      *
      * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      */
-
-    public boolean findUserByUsername(String username) throws SQLException {
-        db.query("SELECT * FROM users WHERE username=?");
-        db.bindString(1, username);
-        ResultSet result = db.getResultSet();
-        if(result.next()) {
-            this.id = result.getInt("id");
-            this.username = username;
-            this.hashedPassword = result.getBytes("password");
-            this.salt = result.getBytes("salt");
-            result.close();
-            return true;
-        }
-        result.close();
-        return false;
+    public ResultSet findUserByUsername(String username) throws SQLException {
+        return this.selectOne("username", username);
     }
+
     /**
      * Retrieves user information from the database using the user id is the criteria
      *
@@ -94,31 +90,22 @@ public class User extends Model{
      *
      * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      */
-    public void findUserById(int id) throws SQLException {
-        db.query("SELECT * FROM users WHERE id=?");
-        db.bindInt(1, id);
-        ResultSet result = db.getResultSet();
-        result.next();
-        this.id = id;
-        this.username = result.getString("username");
-        this.hashedPassword = result.getBytes("password");
-        this.salt = result.getBytes("salt");
-        result.close();
+    public ResultSet findUserById(int id) throws SQLException {
+        return this.selectOne("id", id);
     }
 
     /**
      * User supplied information to authenticate/log the user into the system
-     * @param username Username of the user
-     * @param password Password of the user
+     * @param user User
      *
      * @return true if user is authenticated, false if the user is not authenticated
      *
      * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      */
-    public Boolean authenticateUser(String username, String password) throws SQLException {
-        findUserByUsername(username);
+    public Boolean authenticateUser(UserStructure user) throws SQLException {
+        findUserByUsername(user.username);
         Hasher hasher = new Hasher();
-        return hasher.passwordMatches(password, salt, hashedPassword);
+        return hasher.passwordMatches(user.password, salt, hashedPassword);
     }
 
     /**
