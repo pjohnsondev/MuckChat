@@ -20,6 +20,7 @@ public class UserModel extends Model{
     public UserModel () {
         this.table = "users";
     }
+
     /**
      * Creates a table for the users, if it does not exist already
      *
@@ -29,14 +30,15 @@ public class UserModel extends Model{
         // create a new table
         db.databaseIsConnected();
         db.createTableIfNotExists(
-            "users",
-            "CREATE TABLE users "
-            + "(id INTEGER UNIQUE GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
-            + " username VARCHAR(80) UNIQUE, "
-            + " password BLOB NOT NULL, "
-            + " salt BLOB NOT NULL)"
+                "users",
+                "CREATE TABLE users "
+                        + "(id INTEGER UNIQUE GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
+                        + " username VARCHAR(80) UNIQUE, "
+                        + " password BLOB NOT NULL, "
+                        + " salt BLOB NOT NULL)"
         );
     }
+
 
     /**
      * Creates a user within the database
@@ -47,6 +49,7 @@ public class UserModel extends Model{
     public void insertNewUser(UserStructure user) throws SQLException, InvalidParameterException {
         //Insert the new user into the database table
         db.query("INSERT INTO users (username, password, salt) VALUES (?, ?, ?)");
+        System.out.println(user);
         db.bindString(1, user.username);
         db.bindBytes(2, user.hashedPassword);
         db.bindBytes(3, user.salt);

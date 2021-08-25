@@ -3,8 +3,9 @@ package muck.server;
 import muck.core.character.CharacterDoesNotExistException;
 import muck.core.character.Player;
 import muck.core.Login;
-import muck.core.user.SignUpInfo;
 import muck.server.models.models.UserModel;
+import muck.server.services.UserService;
+import muck.server.structures.UserStructure;
 import muck.server.testHelpers.TestDatabase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,8 +20,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PlayerManagerTest {
 
     private static final Logger logger = LogManager.getLogger(PlayerManagerTest.class);
-    private UserModel userModel = new UserModel();
-    private TestDatabase testDb = new TestDatabase();
+    private final UserModel userModel = new UserModel();
+    private final TestDatabase testDb = new TestDatabase();
 
     @BeforeEach
     public void beforeEach() throws SQLException {
@@ -51,11 +52,19 @@ public class PlayerManagerTest {
     public void loginIsSuccessfulWithValidCredentials() throws SQLException, CharacterDoesNotExistException, DuplicateLoginException, AuthenticationFailedException {
         String username = "test_username+1357";
         String password = "password";
-        userModel.registerNewUser(username, password);
-        Login login = new Login(username, password);
-        PlayerManager playerManager = new PlayerManager(userModel);
 
-        Player player = playerManager.loginPlayer(login);
+        UserStructure userStructure = new UserStructure();
+        userStructure.username = username;
+        userStructure.password = password;
+
+        UserService userService = new UserService();
+        if (userService.findByUsername(username) == null) {
+            userService.registerNewUser(userStructure);
+        }
+
+        PlayerManager playerManager = new PlayerManager(userService);
+
+        Player player = playerManager.loginPlayer(userStructure);
         assertNotNull(player);
         assertEquals(username, player.getUsername());
     }
@@ -64,24 +73,33 @@ public class PlayerManagerTest {
     public void loginIsFailedWitInvalidPassword() throws SQLException {
         String username = "test_username";
         String password = "password";
-        userModel.registerNewUser(username, password);
+        UserStructure userStructure = new UserStructure();
+        userStructure.username = username;
+        userStructure.password = password;
 
-        Login login = new Login(username, "WrongPassword");
-        PlayerManager playerManager = new PlayerManager(userModel);
+        UserService userService = new UserService();
+        if (userService.findByUsername(username) == null) {
+            userService.registerNewUser(userStructure);
+        }
 
-        assertThrows(AuthenticationFailedException.class, () -> playerManager.loginPlayer(login));
+        userStructure.password = "WrongPassword";
+        PlayerManager playerManager = new PlayerManager(userService);
+
+        assertThrows(AuthenticationFailedException.class, () -> playerManager.loginPlayer(userStructure));
     }
 
     @Test
     public void CharacterGetsCreatedOnLoginWithSuppliedUsername() throws CharacterDoesNotExistException, DuplicateLoginException, AuthenticationFailedException, SQLException {
-        String username = "Test_Username";
-        String password = "Test_Password";
-        userModel.registerNewUser(username, password);
+        String username = "test_username";
+        String password = "password";
+        UserStructure userStructure = new UserStructure();
+        userStructure.username = username;
+        userStructure.password = password;
+        
+        UserService userService = new UserService();
+        PlayerManager playerManager = new PlayerManager(userService);
 
-        Login login = new Login(username, password);
-        PlayerManager playerManager = new PlayerManager(userModel);
-
-        Player player = playerManager.loginPlayer(login);
+        Player player = playerManager.loginPlayer(userStructure);
 
         assertNotNull(player);
         assertEquals(username, player.getUsername());
@@ -93,29 +111,44 @@ public class PlayerManagerTest {
         String password = "Test_Password";
         String displayName = "Test Display";
 
-        SignUpInfo signUpInfo = new SignUpInfo(username, password, displayName);
-        PlayerManager playerManager = new PlayerManager(userModel);
+        UserStructure userStructure = new UserStructure();
+        userStructure.username = username;
+        userStructure.password = password;
+        userStructure.displayName = displayName;
 
-        Player player = playerManager.signupPlayer(signUpInfo);
+        UserService userService = new UserService();
+        PlayerManager playerManager = new PlayerManager(userService);
 
-        assertNotNull(player, "Player is null on signup");
-        assertEquals(username, player.getUsername(), "Player username is not the same as the one supplied");
-        assertTrue(player.getIdentifier() != null && player.getIdentifier().length() > 0, "Player username is not null and is not an empty string");
-        assertTrue(userModel.findUserByUsername(username), "User with the specified username has been created in the database.");
+        if (userService.findByUsername(username) == null) {
+            Player player = playerManager.signupPlayer(userStructure);
+            assertNotNull(player, "Player is null on signup");
+            assertEquals(username, player.getUsername(), "Player username is not the same as the one supplied");
+            assertTrue(player.getIdentifier() != null && player.getIdentifier().length() > 0, "Player username is not null and is not an empty string");
+            assertNotNull(userService.findByUsername(username), "User with the specified username has been created in the database.");
+
+        }
     }
 
     @Test
     public void ExceptionIsThrownWhenThereIsADuplicateLogin() throws SQLException, CharacterDoesNotExistException, DuplicateLoginException, AuthenticationFailedException {
-        String username = "test_username";
-        String password = "test_password";
-        userModel.registerNewUser(username, password);
+        String username = "test_user";
+        String password = "test_pass";
+        UserStructure userStructure = new UserStructure();
+        userStructure.username = username;
+        userStructure.password = password;
 
-        Login login = new Login(username, "test_password");
-        PlayerManager playerManager = new PlayerManager(userModel);
+        UserService userService = new UserService();
 
-        playerManager.loginPlayer(login);
 
-        assertThrows(DuplicateLoginException.class, ()-> playerManager.loginPlayer(login));
+        if (userService.findByUsername(username) == null) {
+            userService.registerNewUser(userStructure);
+        }
+
+        PlayerManager playerManager = new PlayerManager(userService);
+
+        playerManager.loginPlayer(userStructure);
+
+        assertThrows(DuplicateLoginException.class, ()-> playerManager.loginPlayer(userStructure));
     }
 
     @Test
@@ -124,31 +157,36 @@ public class PlayerManagerTest {
         String password = "Test_Password";
         String displayName = "Test Display";
 
-        SignUpInfo signUpInfo = new SignUpInfo(username, password, displayName);
-        PlayerManager playerManager = new PlayerManager(userModel);
+        UserStructure userStructure = new UserStructure();
+        userStructure.username = username;
+        userStructure.password = password;
+        userStructure.displayName = displayName;
+
+        UserService userService = new UserService();
+        PlayerManager playerManager = new PlayerManager(userService);
 
         // Username tests
-        signUpInfo.setUsername("");
-        assertThrows(BadRequestException.class, ()-> playerManager.signupPlayer(signUpInfo));
+        userStructure.username = "";
+        assertThrows(BadRequestException.class, ()-> playerManager.signupPlayer(userStructure));
 
-        signUpInfo.setUsername(null);
-        assertThrows(BadRequestException.class, ()-> playerManager.signupPlayer(signUpInfo));
+        userStructure.username = null;
+        assertThrows(BadRequestException.class, ()-> playerManager.signupPlayer(userStructure));
 
         // Password tests
-        signUpInfo.setUsername(username);
-        signUpInfo.setPassword("");
-        assertThrows(BadRequestException.class, ()-> playerManager.signupPlayer(signUpInfo));
+        userStructure.username = username;
+        userStructure.password = "";
+        assertThrows(BadRequestException.class, ()-> playerManager.signupPlayer(userStructure));
 
-        signUpInfo.setPassword(null);
-        assertThrows(BadRequestException.class, ()-> playerManager.signupPlayer(signUpInfo));
+        userStructure.password = null;
+        assertThrows(BadRequestException.class, ()-> playerManager.signupPlayer(userStructure));
 
         // Display name tests
-        signUpInfo.setPassword(password);
-        signUpInfo.setDisplayName("");
-        assertThrows(BadRequestException.class, ()-> playerManager.signupPlayer(signUpInfo));
+        userStructure.password = password;
+        userStructure.displayName = "";
+        assertThrows(BadRequestException.class, ()-> playerManager.signupPlayer(userStructure));
 
-        signUpInfo.setDisplayName(null);
-        assertThrows(BadRequestException.class, ()-> playerManager.signupPlayer(signUpInfo));
+        userStructure.displayName = null;
+        assertThrows(BadRequestException.class, ()-> playerManager.signupPlayer(userStructure));
     }
 
     @Test
@@ -157,11 +195,18 @@ public class PlayerManagerTest {
         String password = "Test_Password";
         String displayName = "Test Display";
 
-        SignUpInfo signUpInfo = new SignUpInfo(username, password, displayName);
-        PlayerManager playerManager = new PlayerManager(userModel);
+        UserStructure userStructure = new UserStructure();
+        userStructure.username = username;
+        userStructure.password = password;
+        userStructure.displayName = displayName;
 
-        userModel.registerNewUser(username, password);
+        UserService userService = new UserService();
+        PlayerManager playerManager = new PlayerManager(userService);
 
-        assertThrows(RuntimeException.class, ()-> playerManager.signupPlayer(signUpInfo));
+        if (userService.findByUsername(username) == null) {
+            userService.registerNewUser(userStructure);
+        }
+
+        assertThrows(RuntimeException.class, ()-> playerManager.signupPlayer(userStructure));
     }
 }
