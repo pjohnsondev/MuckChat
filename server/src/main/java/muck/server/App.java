@@ -1,6 +1,7 @@
 package muck.server;
 
 import muck.protocol.*;
+import muck.server.database.MuckDatabase;
 import muck.server.models.ModelRegister;
 
 import org.apache.logging.log4j.LogManager;
@@ -43,8 +44,6 @@ public class App {
             logger.error("SQL Exception thrown! Incorrect DB call.");
             System.exit(0);
         }
-        new ModelRegister().makemigrations();
-
     }
 
 }

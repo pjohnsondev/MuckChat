@@ -8,7 +8,7 @@ import muck.server.models.models.*;
  * Register your models here so that a table is created for them when the program is built.
  */
 public class ModelRegister {
-    private Model[] models = {
+    private final Model[] models = {
         new UserModel(),
     };
 
