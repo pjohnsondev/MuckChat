@@ -4,6 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import muck.server.models.models.UserModel;
+import muck.server.services.UserService;
+import muck.server.structures.UserStructure;
+import muck.server.Exceptions.ModelNotFoundException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,6 +25,8 @@ public class UserModelModelTest {
 
     private TestDatabase testDb;
     private UserModel userModel;
+    private UserService userService;
+    private UserStructure userStructure;
 
     /**
      * A little test helper
@@ -57,6 +63,7 @@ public class UserModelModelTest {
         // reset database using testDB
         testDb = new TestDatabase();
         userModel = new UserModel();
+        userService = new UserService();
         resetTable(userModel, testDb);
     }
 
@@ -93,7 +100,7 @@ public class UserModelModelTest {
 
         assertTrue(testDb.tableExists("users"));
 
-        userModel.registerNewUser("newUser69", "myreallyGoodPassword");
+        userService.registerNewUser(userStructure);
 
         char[] badUsernameChars = new char[82];
         for (int i = 0; i <= 81; i++) {
@@ -101,9 +108,8 @@ public class UserModelModelTest {
         }
         String badUsername = String.valueOf(badUsernameChars);
         assertThrows(InvalidParameterException.class,
-        () -> userModel.registerNewUser(badUsername,
-        "myreallyGoodPassword"),
-        "Username shouldn't have been accepted, and should have thrown instead");
+        () -> userService.registerNewUser(userStructure)//badUsername,"myreallyGoodPassword")
+                 ,"Username shouldn't have been accepted, and should have thrown instead");
         
         dropAndClose(userModel, testDb);
     }
@@ -114,15 +120,15 @@ public class UserModelModelTest {
      * @throws SQLException
      */
     @Test
-    public void findUserByNameTest() throws SQLException {
+    public void findUserByNameTest() throws SQLException, ModelNotFoundException {
 
-        userModel.registerNewUser("newUser69", "myreallyGoodPassword");
-        userModel.findUserByUsername("newUser69");
-       
-        assertTrue(userModel.getId() != 0, "id not set");
-        assertTrue(userModel.getUserName() == "newUser69", "username wrong");
-        assertTrue(userModel.getHashedPassword() != null, "password not set");
-        assertTrue(userModel.getSalt() != null, "salt not set");
+        userService.registerNewUser(userStructure);//"newUser69", "myreallyGoodPassword");
+        userService.findByUsername("newUser69");
+
+        assertTrue(userStructure.id != 0, "id not set");
+        assertTrue(userStructure.username == "newUser69", "username wrong");
+        assertTrue(userStructure.hashedPassword != null, "password not set");
+        assertTrue(userStructure.salt != null, "salt not set");
 
         dropAndClose(userModel, testDb);
     }
@@ -133,16 +139,16 @@ public class UserModelModelTest {
      * @throws SQLException
      */
     @Test
-    public void findUserByIdTest() throws SQLException {
+    public void findUserByIdTest() throws SQLException, ModelNotFoundException {
 
-        userModel.registerNewUser("newUser69", "myreallyGoodPassword");
+        userService.registerNewUser(userStructure);//"newUser69", "myreallyGoodPassword");
 
-        userModel.findUserById(1);
+        userService.findById(1);
 
-        assertTrue(userModel.getId() != 0, "id not set");
-        assertTrue(userModel.getUserName().equals("newUser69"), "username wrong");
-        assertTrue(userModel.getHashedPassword() != null, "password not set");
-        assertTrue(userModel.getSalt() != null, "salt not set");
+        assertTrue(userStructure.id != 0, "id not set");
+        assertTrue(userStructure.username.equals("newUser69"), "username wrong");
+        assertTrue(userStructure.hashedPassword != null, "password not set");
+        assertTrue(userStructure.salt != null, "salt not set");
 
         dropAndClose(userModel, testDb);
     }
@@ -152,11 +158,11 @@ public class UserModelModelTest {
      * @throws SQLException
      */
     @Test
-    public void authenticateUserTest() throws SQLException {
-        userModel.registerNewUser("newUser69", "myreallyGoodPassword");
+    public void authenticateUserTest() throws SQLException, ModelNotFoundException {
+        userService.registerNewUser(userStructure);//"newUser69", "myreallyGoodPassword");
 
-        assertTrue(userModel.authenticateUser("newUser69", "myreallyGoodPassword"));
-        assertFalse(userModel.authenticateUser("newUser69", "myreallyBadPassword"));
+        assertTrue(userService.authenticateUser(userStructure));//"newUser69", "myreallyGoodPassword"));
+        assertFalse(userService.authenticateUser(userStructure));//"newUser69", "myreallyBadPassword"));
 
         dropAndClose(userModel, testDb);
     }

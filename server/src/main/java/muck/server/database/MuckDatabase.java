@@ -9,8 +9,8 @@ public class MuckDatabase extends Database {
      * Constructor for the MuckDatabase class. Connects to the database and will create the database if it does not exist.
      */
     public MuckDatabase () {
-        dbName = "muckdb";
-        connectionString = String.format("jdbc:derby:%s;create=true", dbName);
+        this.dbName = "muckdb";
+        this.connectionString = String.format("jdbc:derby:%s;create=true", dbName);
         connect();
     }
 }

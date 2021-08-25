@@ -18,7 +18,7 @@ abstract public class Database {
     private PreparedStatement statement;
 
     
-    // This function was developed using this tutorial: 
+    // This function was developed using this tutorial:
     // https://www.sqlitetutorial.net/sqlite-java/sqlite-jdbc-driver/
     /**
      * Establishes a connection to the database.

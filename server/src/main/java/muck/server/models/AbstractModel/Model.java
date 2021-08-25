@@ -49,26 +49,20 @@ abstract public class Model implements IModel {
 
 
     public ResultSet selectOne(String column, String condition) throws SQLException {
-        this.db.query("SELECT * FROM ? WHERE ? = ?");
-        db.bindString(1, this.table);
-        db.bindString(2, column);
-        db.bindString(3, condition);
+        this.db.query("SELECT * FROM " + this.table + " WHERE " + column + " = ?");
+        db.bindString(1, condition);
         ResultSet result = db.getResultSet();
         if (!result.next()) {
             return null;
         }
-        result.first();
         return result;
     }
 
     public ResultSet selectOne(String column, int condition) throws SQLException {
-        this.db.query("SELECT * FROM ? WHERE ? = ?");
-        db.bindString(1, this.table);
-        db.bindString(2, column);
-        db.bindInt(3, condition);
+        this.db.query("SELECT * FROM " + this.table + " WHERE " + column + " = ?");
+        db.bindInt(1, condition);
         ResultSet result = db.getResultSet();
         if (!result.next())
-        result.first();
         db.closeConnection();
         return result;
     }

@@ -11,13 +11,15 @@ import muck.server.structures.UserStructure;
  * Creates and manages users on the database
  */
 public class UserModel extends Model{
-    protected String TABLE = "users";
     public static final String ID_COL = "id";
     public static final String USERNAME_COL = "username";
     public static final String PASSWORD_COL  = "password";
     public static final String SALT_COL = "salt";
 
 
+    public UserModel () {
+        this.table = "users";
+    }
     /**
      * Creates a table for the users, if it does not exist already
      *
@@ -25,6 +27,7 @@ public class UserModel extends Model{
      */
     public void createTable() throws SQLException {
         // create a new table
+        db.databaseIsConnected();
         db.createTableIfNotExists(
             "users",
             "CREATE TABLE users "
