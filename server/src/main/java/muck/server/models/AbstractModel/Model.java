@@ -1,25 +1,16 @@
 package muck.server.models.AbstractModel;
 
-import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 import muck.server.database.Database;
 import muck.server.database.MuckDatabase;
 
-/**
- * Used to ensure a class creates a table
- */
-interface IModel {
-    void createTable() throws SQLException;
-}
 
 /**
  * Enables classes to connect to the database, change database and close the connection
  */
-abstract public class Model implements IModel {
+abstract public class Model {
     protected Database db;
     protected String table;
 
