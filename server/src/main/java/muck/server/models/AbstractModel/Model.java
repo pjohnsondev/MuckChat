@@ -7,10 +7,14 @@ import muck.server.database.Database;
 import muck.server.database.MuckDatabase;
 
 
+interface IModel {
+    void createTable() throws SQLException;
+}
+
 /**
  * Enables classes to connect to the database, change database and close the connection
  */
-abstract public class Model {
+abstract public class Model implements IModel {
     protected Database db;
     protected String table;
 

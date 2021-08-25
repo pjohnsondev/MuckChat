@@ -54,10 +54,10 @@ public enum MuckServer {
 
     /** Sets up the KryoNet server that will handle communication */
     synchronized void startKryo(KryoServerConfig config) throws IOException, SQLException {
-
         if (kryoServer != null) {
             throw new IllegalStateException("Attempted to start KryoServer when it was already started");
         }
+
 
         // Create a new KryoNet server
         kryoServer = new Server(){
@@ -66,6 +66,8 @@ public enum MuckServer {
             }
         };
         kryoServer.start();
+
+        new ModelRegister().makemigrations();
 
         // Register the protocol classes with Kryo
         Protocol.register(kryoServer.getKryo());
