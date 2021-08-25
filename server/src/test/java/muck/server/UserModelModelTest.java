@@ -64,7 +64,10 @@ public class UserModelModelTest {
         testDb = new TestDatabase();
         userModel = new UserModel();
         userService = new UserService();
+        userStructure = new UserStructure();
         resetTable(userModel, testDb);
+        userStructure.username="newUser69";
+        userStructure.password="myreallyGoodPassword";
     }
 
     /**
@@ -106,7 +109,7 @@ public class UserModelModelTest {
         for (int i = 0; i <= 81; i++) {
             badUsernameChars[i] = '_';
         }
-        String badUsername = String.valueOf(badUsernameChars);
+        userStructure.username = String.valueOf(badUsernameChars);
         assertThrows(InvalidParameterException.class,
         () -> userService.registerNewUser(userStructure)//badUsername,"myreallyGoodPassword")
                  ,"Username shouldn't have been accepted, and should have thrown instead");
