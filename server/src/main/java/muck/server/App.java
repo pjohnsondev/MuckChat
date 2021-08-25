@@ -1,8 +1,13 @@
 package muck.server;
 
+import muck.core.character.CharacterDoesNotExistException;
+import muck.core.character.Player;
 import muck.protocol.*;
+import muck.server.database.MuckDatabase;
 import muck.server.models.ModelRegister;
 
+import muck.server.services.UserService;
+import muck.server.structures.UserStructure;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,8 +49,7 @@ public class App {
             System.exit(0);
         }
 
-        new ModelRegister().makemigrations();
-
     }
+
 
 }
