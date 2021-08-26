@@ -87,7 +87,7 @@ public class Hasher {
      * @param password password that needs hashing
      * @param salt salt to be used to hash the password
      */
-    public void setOldPasswordHash(String password, byte[] salt) {
+    private void setOldPasswordHash(String password, byte[] salt) {
         this.salt = salt;
         generateHash(password);
     }

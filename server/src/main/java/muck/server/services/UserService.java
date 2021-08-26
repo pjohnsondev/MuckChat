@@ -50,7 +50,6 @@ public class UserService {
         if (userStructure.username.length() > 80) {
             throw new InvalidParameterException("Username must be less than 80 characters long");
         }
-        System.out.println(userStructure);
         //set up hashed password
         Hasher hasher = new Hasher();
         hasher.setNewPasswordHash(userStructure.password);

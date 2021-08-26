@@ -45,7 +45,8 @@ public class PlayerManager {
             throw new RuntimeException("Error occurred while signing in user: " + userStructure.username);
         } catch (ModelNotFoundException ex) {
             // repeat the same error message here so we don't tell users if it was password or username that failed.
-            logger.error(ex.getMessage());
+            logger.error("Login credentials are invalid. User: {}.", userStructure.username);
+            throw new AuthenticationFailedException("Invalid credentials provided. Username: " + userStructure.username);
         }
 
         if (player == null) {
