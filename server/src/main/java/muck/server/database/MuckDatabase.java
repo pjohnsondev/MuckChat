@@ -1,5 +1,7 @@
 package muck.server.database;
 
+import java.sql.SQLException;
+
 /**
  * Connects (or creates) to the database called "muckdb", which is a derby database, through JDBC.
  * Extends the database class
@@ -11,6 +13,10 @@ public class MuckDatabase extends Database {
     public MuckDatabase () {
         this.dbName = "muckdb";
         this.connectionString = String.format("jdbc:derby:%s;create=true", dbName);
-        connect();
+        try {
+            connect();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

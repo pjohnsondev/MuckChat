@@ -12,10 +12,10 @@ import java.sql.SQLException;
 public class UserService {
     private UserModel userModel = new UserModel();
 
-    public UserStructure findByUsername(String userName) throws SQLException {
+    public UserStructure findByUsername(String userName) throws SQLException, ModelNotFoundException {
         ResultSet result = userModel.findUserByUsername(userName);
-        if (result == null) {
-            return null;
+        if (result.wasNull()) {
+            throw new ModelNotFoundException();
         }
         UserStructure userStructure = new UserStructure();
 
