@@ -2,6 +2,9 @@ package muck.server;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import scala.Array;
+
+import java.util.Arrays;
 
 /**
  * Interaction Listener will listen to the chat feed for valid 'interaction commands' and pass them to the
@@ -18,6 +21,7 @@ import org.apache.logging.log4j.Logger;
 public class InteractionListener {
 
     private static final Logger logger = LogManager.getLogger(InteractionListener.class);
+    private static final String[] COMMANDS = new String[]{"wave"} ;
     
     
     
@@ -29,7 +33,18 @@ public class InteractionListener {
         logger.info("Heard message from " + Integer.toString(id) + ". Message: " + message);
 
     }
-    
+
+    public static boolean isValidCommand(String input){
+
+        char[] data = input.toCharArray();
+
+        if (data[0] != '\\') {
+            return false;
+        }
+        else{
+            return Arrays.stream(COMMANDS).anyMatch(input.substring(1)::equals);
+        }
+    }
     
 
 }
