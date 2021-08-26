@@ -3,8 +3,6 @@ package muck.server.models.AbstractModel;
 import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 import muck.server.database.Database;
 import muck.server.database.MuckDatabase;
@@ -71,5 +69,15 @@ abstract public class Model implements IModel {
         result.first();
         db.closeConnection();
         return result;
+    }
+
+    public void insert(String[] columns, Object[] values) {
+        db.query("INSERT INTO users (username, password, salt) VALUES (?, ?, ?)");
+        StringBuilder query = new StringBuilder("INSERT INTO ? (");
+        query.append(columns.toString());
+        query.append(')');
+
+
+
     }
 }
