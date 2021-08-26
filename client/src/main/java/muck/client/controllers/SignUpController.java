@@ -157,7 +157,7 @@ public class SignUpController {
     // TODO: Add Pass to Avatar Selection Display
     public void passToAvatar(MouseEvent event, String username) throws IOException{
         AvatarController nextScene = new AvatarController();
-        nextScene.avatarCreation(event, username);
+        nextScene.avatarCreation(username);
     }
 
     public void displayErrors(String username, String displayname, String password, String passwordtwo){
