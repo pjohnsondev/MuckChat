@@ -163,7 +163,7 @@ public class AvatarController implements Initializable {
      * point value.
      * @param username: the player's username.
      */
-    public static void avatarCreation(String username) {
+    public static void AvatarCreation(String username) {
         uname = username;
             // TODO: Need to call the database for current avatar and muck point value
         Application.launch(Avatar.class, new String[]{});
@@ -286,8 +286,6 @@ public class AvatarController implements Initializable {
                 return error;
         }
     }
-
-    public static String getAvatarId() { return avatar;}
 
     /**
      Returns an image object of the portrait of their avatar.
