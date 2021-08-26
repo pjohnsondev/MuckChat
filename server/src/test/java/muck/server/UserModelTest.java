@@ -3,7 +3,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import muck.server.models.models.UserModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,38 +13,39 @@ import org.junit.jupiter.api.Test;
 import java.security.InvalidParameterException;
 import java.sql.SQLException;
 
+import muck.server.models.models.User;
 import muck.server.testHelpers.TestDatabase;
 
-public class UserModelModelTest {
+public class UserModelTest {
     private static final Logger logger = LogManager.getLogger(DatabaseTest.class);
 
     private TestDatabase testDb;
-    private UserModel userModel;
+    private User user;
 
     /**
      * A little test helper
      *
-     * @param userModel
+     * @param user
      * @param testDb
      * @throws SQLException
      */
-    private void resetTable(UserModel userModel, TestDatabase testDb) throws SQLException {
-        userModel.closeDbConnection();
-        userModel.changeDb(testDb);
+    private void resetTable(User user, TestDatabase testDb) throws SQLException {
+        user.closeDbConnection();
+        user.changeDb(testDb);
         testDb.dropTable("users");
-        userModel.createTable();
+        user.createTable();
     }
 
     /**
      * Another test helper
      *
-     * @param userModel
+     * @param user
      * @param testDb
      * @throws SQLException
      */
-    private void dropAndClose(UserModel userModel, TestDatabase testDb) throws SQLException {
+    private void dropAndClose(User user, TestDatabase testDb) throws SQLException {
         testDb.dropTable("users");
-        userModel.closeDbConnection();
+        user.closeDbConnection();
     }
 
     /**
@@ -56,8 +56,8 @@ public class UserModelModelTest {
         logger.info("This message prints BEFORE each test runs");
         // reset database using testDB
         testDb = new TestDatabase();
-        userModel = new UserModel();
-        resetTable(userModel, testDb);
+        user = new User();
+        resetTable(user, testDb);
     }
 
     /**
@@ -79,7 +79,7 @@ public class UserModelModelTest {
         assertTrue(testDb.tableExists("users"));
         testDb.dropTable("users");
         assertFalse(testDb.tableExists("users"));
-        userModel.closeDbConnection();
+        user.closeDbConnection();
     }
 
     /**
@@ -93,7 +93,7 @@ public class UserModelModelTest {
 
         assertTrue(testDb.tableExists("users"));
 
-        userModel.registerNewUser("newUser69", "myreallyGoodPassword");
+        user.registerNewUser("newUser69", "myreallyGoodPassword");
 
         char[] badUsernameChars = new char[82];
         for (int i = 0; i <= 81; i++) {
@@ -101,11 +101,11 @@ public class UserModelModelTest {
         }
         String badUsername = String.valueOf(badUsernameChars);
         assertThrows(InvalidParameterException.class,
-        () -> userModel.registerNewUser(badUsername,
+        () -> user.registerNewUser(badUsername,
         "myreallyGoodPassword"),
         "Username shouldn't have been accepted, and should have thrown instead");
         
-        dropAndClose(userModel, testDb);
+        dropAndClose(user, testDb);
     }
 
     /**
@@ -116,15 +116,15 @@ public class UserModelModelTest {
     @Test
     public void findUserByNameTest() throws SQLException {
 
-        userModel.registerNewUser("newUser69", "myreallyGoodPassword");
-        userModel.findUserByUsername("newUser69");
+        user.registerNewUser("newUser69", "myreallyGoodPassword");
+        user.findUserByUsername("newUser69");
        
-        assertTrue(userModel.getId() != 0, "id not set");
-        assertTrue(userModel.getUserName() == "newUser69", "username wrong");
-        assertTrue(userModel.getHashedPassword() != null, "password not set");
-        assertTrue(userModel.getSalt() != null, "salt not set");
+        assertTrue(user.getId() != 0, "id not set");
+        assertTrue(user.getUserName() == "newUser69", "username wrong");
+        assertTrue(user.getHashedPassword() != null, "password not set");
+        assertTrue(user.getSalt() != null, "salt not set");
 
-        dropAndClose(userModel, testDb);
+        dropAndClose(user, testDb);
     }
 
     /**
@@ -135,16 +135,16 @@ public class UserModelModelTest {
     @Test
     public void findUserByIdTest() throws SQLException {
 
-        userModel.registerNewUser("newUser69", "myreallyGoodPassword");
+        user.registerNewUser("newUser69", "myreallyGoodPassword");
 
-        userModel.findUserById(1);
+        user.findUserById(1);
 
-        assertTrue(userModel.getId() != 0, "id not set");
-        assertTrue(userModel.getUserName().equals("newUser69"), "username wrong");
-        assertTrue(userModel.getHashedPassword() != null, "password not set");
-        assertTrue(userModel.getSalt() != null, "salt not set");
+        assertTrue(user.getId() != 0, "id not set");
+        assertTrue(user.getUserName().equals("newUser69"), "username wrong");
+        assertTrue(user.getHashedPassword() != null, "password not set");
+        assertTrue(user.getSalt() != null, "salt not set");
 
-        dropAndClose(userModel, testDb);
+        dropAndClose(user, testDb);
     }
 
     /**
@@ -153,11 +153,11 @@ public class UserModelModelTest {
      */
     @Test
     public void authenticateUserTest() throws SQLException {
-        userModel.registerNewUser("newUser69", "myreallyGoodPassword");
+        user.registerNewUser("newUser69", "myreallyGoodPassword");
 
-        assertTrue(userModel.authenticateUser("newUser69", "myreallyGoodPassword"));
-        assertFalse(userModel.authenticateUser("newUser69", "myreallyBadPassword"));
+        assertTrue(user.authenticateUser("newUser69", "myreallyGoodPassword"));
+        assertFalse(user.authenticateUser("newUser69", "myreallyBadPassword"));
 
-        dropAndClose(userModel, testDb);
+        dropAndClose(user, testDb);
     }
 }

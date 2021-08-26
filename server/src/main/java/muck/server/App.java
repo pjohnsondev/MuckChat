@@ -43,6 +43,7 @@ public class App {
             logger.error("SQL Exception thrown! Incorrect DB call.");
             System.exit(0);
         }
+
         new ModelRegister().makemigrations();
 
     }

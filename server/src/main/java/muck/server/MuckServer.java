@@ -12,8 +12,7 @@ import com.esotericsoftware.kryonet.Server;
 
 import muck.core.character.Player;
 import muck.core.user.SignUpInfo;
-import muck.server.models.ModelRegister;
-import muck.server.models.models.UserModel;
+import muck.server.models.models.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -135,7 +134,7 @@ public enum MuckServer {
     public void createAccount(SignUpInfo signUpInfo, MuckConnection connection) {
         logger.info("Attempting to create account {}.", signUpInfo.getUsername());
 
-        PlayerManager playerManager = new PlayerManager(new UserModel());
+        PlayerManager playerManager = new PlayerManager(new User());
         userMessage userMessage = new userMessage();
 
         try {
@@ -156,7 +155,7 @@ public enum MuckServer {
         logger.info("Attempting to log in");
         logger.debug("{} is trying to log in", login.getUsername());
 
-        PlayerManager playerManager = new PlayerManager(new UserModel());
+        PlayerManager playerManager = new PlayerManager(new User());
 
         Player player = null;
 

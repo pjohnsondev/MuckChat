@@ -9,7 +9,7 @@ import muck.server.models.models.*;
  */
 public class ModelRegister {
     private Model[] models = {
-        new UserModel(),
+        new User(),
     };
 
     public void makemigrations() {

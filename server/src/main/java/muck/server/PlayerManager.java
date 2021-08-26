@@ -5,9 +5,10 @@ import muck.core.character.CharacterFactory;
 import muck.core.character.Player;
 import muck.core.Login;
 import muck.core.user.SignUpInfo;
-import muck.server.models.models.UserModel;
+import muck.server.models.models.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import scala.Char;
 
 import java.sql.SQLException;
 import java.util.HashSet;
@@ -19,10 +20,10 @@ public class PlayerManager {
     private Player player;
     private HashSet<String> loggedInPlayers = new HashSet();
     private static final Logger logger = LogManager.getLogger(MuckServer.class);
-    private UserModel userModel;
+    private User user;
 
-    public PlayerManager(UserModel userModel) {
-        this.userModel = userModel;
+    public PlayerManager(User user) {
+        this.user = user;
     }
 
     /**
@@ -38,14 +39,14 @@ public class PlayerManager {
 
         try {
             //Verify the supplied login credentials
-            if(!userModel.authenticateUser(login.getUsername(), login.getPassword())) {
+            if(!user.authenticateUser(login.getUsername(), login.getPassword())) {
                 logger.error("Login credentials are invalid. User: {}.", login.getUsername());
                 throw new AuthenticationFailedException("Invalid credentials provided. Username: " + login.getUsername());
             }
-            logger.info("User with provided credentials found in the database. Username: {}.", userModel.getUserName());
+            logger.info("User with provided credentials found in the database. Username: {}.", user.getUserName());
         } catch (SQLException ex) {
             logger.error("Exception: " + ex);
-            throw new RuntimeException("Error occurred while signing in user: " + userModel.getUserName());
+            throw new RuntimeException("Error occurred while signing in user: " + user.getUserName());
         }
 
         if (player == null) {
@@ -85,7 +86,7 @@ public class PlayerManager {
 
         try {
             // Verify that supplier username does not already exist
-            if(userModel.findUserByUsername(signUpInfo.getUsername())) {
+            if(user.findUserByUsername(signUpInfo.getUsername())) {
                 throw new BadRequestException("A user with the username %s already exists." + signUpInfo.getUsername());
             }
         } catch (Exception ex) {
@@ -96,9 +97,9 @@ public class PlayerManager {
 
         // Create the new user
         try {
-            userModel.registerNewUser(signUpInfo.getUsername(), signUpInfo.getPassword());
+            user.registerNewUser(signUpInfo.getUsername(), signUpInfo.getPassword());
 
-            player = CharacterFactory.createOrLoadPlayer(userModel.getUserName());
+            player = CharacterFactory.createOrLoadPlayer(user.getUserName());
 
             return player;
         } catch (Exception ex) {
