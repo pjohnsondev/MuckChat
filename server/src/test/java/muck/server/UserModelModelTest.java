@@ -1,6 +1,7 @@
 package muck.server;
 
 import muck.server.models.models.UserModel;
+import muck.server.structures.UserStructure;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import muck.server.testHelpers.TestDatabase;
@@ -52,6 +54,11 @@ public class UserModelModelTest {
         logger.info("This message prints AFTER each test runs");
     }
 
+    /**
+     * Test that ...
+     *
+     * @throws SQLException
+     */
     @Test
     public void TableCreationTest() throws SQLException {
 
