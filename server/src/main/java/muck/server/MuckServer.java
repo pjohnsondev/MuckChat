@@ -73,7 +73,7 @@ public enum MuckServer {
 
         // The arraylist is only a temporary datastructure and is subject to change.
         ArrayList<String> players = new ArrayList<String>();
-//        setupGroupChat();
+        setupGroupChat();
         // Adds a listener to listen for new client connections, then adds the clients id to the players arraylist and sends to all clients.
         addListener(ListenerBuilder.forClass(Connected.class).onReceive((conn, connected) -> {
             players.add(Integer.toString(conn.getID()));
@@ -135,51 +135,51 @@ public enum MuckServer {
     public void createAccount(SignUpInfo signUpInfo, MuckConnection connection) {
         logger.info("Attempting to create account {}.", signUpInfo.getUsername());
 
-//        PlayerManager playerManager = new PlayerManager(new UserModel());
+        PlayerManager playerManager = new PlayerManager(new UserModel());
         userMessage userMessage = new userMessage();
 
-//        try {
-////            Player player = playerManager.signupPlayer(signUpInfo);
-////            logger.info("Sign up successful for {}", player.getUsername());
-//
-////            userMessage.setMessage("Your account has been created successfully. Username: " + player.getUsername());
-//            kryoServer.sendToTCP((connection.getID()), userMessage);
-//        } catch (BadRequestException ex) {
-//            ex.printStackTrace();
-//
-//            userMessage.setMessage("Invalid sign up details provided. Please provide valid details. Username: " + signUpInfo.getUsername());
-//            kryoServer.sendToTCP(connection.getID(), userMessage);
-//        }
+        try {
+            Player player = playerManager.signupPlayer(signUpInfo);
+            logger.info("Sign up successful for {}", player.getUsername());
+
+            userMessage.setMessage("Your account has been created successfully. Username: " + player.getUsername());
+            kryoServer.sendToTCP((connection.getID()), userMessage);
+        } catch (BadRequestException ex) {
+            ex.printStackTrace();
+
+            userMessage.setMessage("Invalid sign up details provided. Please provide valid details. Username: " + signUpInfo.getUsername());
+            kryoServer.sendToTCP(connection.getID(), userMessage);
+        }
     }
 
     public void loginPlayer(Login login, MuckConnection muckConnection) {
         logger.info("Attempting to log in");
         logger.debug("{} is trying to log in", login.getUsername());
 
-//        PlayerManager playerManager = new PlayerManager(new UserModel());
+        PlayerManager playerManager = new PlayerManager(new UserModel());
 
         Player player = null;
 
-//        try {
-////            player = playerManager.loginPlayer(login);
-//        } catch (DuplicateLoginException ex) {
-//            userMessage testMessage = new userMessage(); //Create new message to send back.
-//            testMessage.setMessage("Duplicate login");
-//            kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
-//        } catch (CharacterDoesNotExistException ex) {
-//            userMessage testMessage = new userMessage(); //Create new message to send back.
-//            testMessage.setMessage("Character does not exist. Please register.");
-//            kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
-//        }
-//        catch (AuthenticationFailedException ex) {
-//            userMessage testMessage = new userMessage(); //Create new message to send back.
-//            testMessage.setMessage("Supplied credentials are invalid.");
-//            kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
-//        }
+        try {
+            player = playerManager.loginPlayer(login);
+        } catch (DuplicateLoginException ex) {
+            userMessage testMessage = new userMessage(); //Create new message to send back.
+            testMessage.setMessage("Duplicate login");
+            kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
+        } catch (CharacterDoesNotExistException ex) {
+            userMessage testMessage = new userMessage(); //Create new message to send back.
+            testMessage.setMessage("Character does not exist. Please register.");
+            kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
+        }
+        catch (AuthenticationFailedException ex) {
+            userMessage testMessage = new userMessage(); //Create new message to send back.
+            testMessage.setMessage("Supplied credentials are invalid.");
+            kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
+        }
 
         muckConnection.setCharacter(player);
 
-//        logger.info("Login successful for {}", login.getUsername());
+        logger.info("Login successful for {}", login.getUsername());
 
         AddCharacter addCharacter = addCharacter(player);
 

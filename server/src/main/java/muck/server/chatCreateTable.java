@@ -36,38 +36,38 @@ public class chatCreateTable {
 
     protected static void createGroupChat() throws SQLException {
         //Call to DB to create the group chat table.
-//        Database muckDB = new Database() {
-//            @Override
-//            protected void connect() {
-//                super.connect();
-//            }
-//        };
-//        muckDB.createTableIfNotExists("groupChatLog", "CREATE TABLE groupChatLog (" +
-//                "chat_id varchar(20)," +
-//                "chat_message varchar(200)," +
-//                "sender varchar(20)," +
-//                "time_sent varchar(15)," +
-//                "PRIMARY KEY (chat_id)" +
-//                ")");
+        Database muckDB = new Database() {
+            @Override
+            protected void connect() {
+                super.connect();
+            }
+        };
+        muckDB.createTableIfNotExists("groupChatLog", "CREATE TABLE groupChatLog (" +
+                "chat_id varchar(20)," +
+                "chat_message varchar(200)," +
+                "sender varchar(20)," +
+                "time_sent varchar(15)," +
+                "PRIMARY KEY (chat_id)" +
+                ")");
     }
 
 
     public static void createNewChat(newChatLog chatName) throws SQLException {
         //Call to DB to create the chat with generated ID.
-//        Database muckDB = new Database() {
-//            @Override
-//            protected void connect() {
-//                super.connect();
-//            }
-//        };
-//        String newLogName = chatName.getChatName();
-//        muckDB.createTableIfNotExists("groupChatLog", "CREATE TABLE " + newLogName + " (" +
-//                "chat_id varchar(20)," +
-//                "chat_message varchar(200)," +
-//                "sender varchar(20)," +
-//                "time_sent varchar(15)," +
-//                "PRIMARY KEY (chat_id)" +
-//                ")");
+        Database muckDB = new Database() {
+            @Override
+            protected void connect() {
+                super.connect();
+            }
+        };
+        String newLogName = chatName.getChatName();
+        muckDB.createTableIfNotExists("groupChatLog", "CREATE TABLE " + newLogName + " (" +
+                "chat_id varchar(20)," +
+                "chat_message varchar(200)," +
+                "sender varchar(20)," +
+                "time_sent varchar(15)," +
+                "PRIMARY KEY (chat_id)" +
+                ")");
     }
 
 

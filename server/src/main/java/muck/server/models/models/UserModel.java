@@ -25,7 +25,6 @@ public class UserModel extends Model{
      */
     public void createTable() throws SQLException {
         // create a new table
-        db.databaseIsConnected();
         db.createTableIfNotExists(
             "users",
             "CREATE TABLE users "
