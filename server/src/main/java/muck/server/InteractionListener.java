@@ -38,7 +38,7 @@ public class InteractionListener {
 
         char[] data = input.toCharArray();
 
-        if (data[0] != '\\') {
+        if (data[0] != '/') {
             return false;
         }
         else{
