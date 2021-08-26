@@ -11,20 +11,40 @@ public class Achievements {
     // TODO: NEED TO CODE IN THE ACHIEVEMENT TRIGGERS TO OTHER THE CLASSES
 
     public boolean achievement1 = false;
-    public String achievement1Title = "The Wanderer";
-    public String achievement1Description = "Player has navigated the map";
+    public String achievement1Title = "Hotel California";
+    public String achievement1Description = "Player has visited the Inn";
 
     public boolean achievement2 = false;
-    public String achievement2Title = "Smooth Talker";
-    public String achievement2Description = "Player has sent a message on chat";
+    public String achievement2Title = "Retail Therapy";
+    public String achievement2Description = "Player has visited the Shops";
 
     public boolean achievement3 = false;
-    public String achievement3Title = "Winner Winner Chicken Dinner";
-    public String achievement3Description = "Player has won a game";
+    public String achievement3Title = "Monkey See, Monkey Do";
+    public String achievement3Description = "Player has 'climbed' the tree";
 
     public boolean achievement4 = false;
-    public String achievement4Title = "";
-    public String achievement4Description = "";
+    public String achievement4Title = "The Explorer";
+    public String achievement4Description = "Player has visited the cave";
+
+    public boolean achievement5 = false;
+    public String achievement5Title = "Don't look down";
+    public String achievement5Description = "Player has walked the bridge";
+
+    public boolean achievement6 = false;
+    public String achievement6Title = "Smooth Talker";
+    public String achievement6Description = "Player has sent a message on chat";
+
+    public boolean achievement7 = false;
+    public String achievement7Title = "Alien Exterminator";
+    public String achievement7Description = "Player has won a game of Space Invaders";
+
+    public boolean achievement8 = false;
+    public String achievement8Title = "Winner Winner Chicken Dinner";
+    public String achievement8Description = "Player has won a card game";
+
+    public boolean achievement9 = false;
+    public String achievement9Title = "I'm A Real Boy";
+    public String achievement9Description = "Player has selected an avatar";
 
 
     /**

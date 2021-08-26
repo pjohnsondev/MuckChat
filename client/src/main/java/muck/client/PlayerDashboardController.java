@@ -23,9 +23,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class PlayerDashboardController implements Initializable {
+    AvatarController AC = new AvatarController();
     private static String userName;
     private static String avatarID = "peach";
-    private Image fullAvatar = AvatarController.getFullAvatar(avatarID);
+    private Image fullAvatar = AC.getAvatar(avatarID);
     private int muckPointTotal = 15;
     private int healthTotal = 80;
 
@@ -59,7 +60,7 @@ public class PlayerDashboardController implements Initializable {
             health.setText(String.valueOf(healthTotal));
 
             change.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                AvatarController.avatarCreation(event, userName, avatarID);
+                AvatarController.avatarCreation(userName);
             });
 
             gameReturn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {

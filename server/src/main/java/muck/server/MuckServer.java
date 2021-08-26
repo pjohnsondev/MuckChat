@@ -12,7 +12,10 @@ import com.esotericsoftware.kryonet.Server;
 
 import muck.core.character.Player;
 import muck.core.user.SignUpInfo;
-import muck.server.models.models.User;
+import muck.server.models.ModelRegister;
+import muck.server.models.models.UserModel;
+import muck.server.services.UserService;
+import muck.server.structures.UserStructure;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -51,10 +54,10 @@ public enum MuckServer {
 
     /** Sets up the KryoNet server that will handle communication */
     synchronized void startKryo(KryoServerConfig config) throws IOException, SQLException {
-
         if (kryoServer != null) {
             throw new IllegalStateException("Attempted to start KryoServer when it was already started");
         }
+
 
         // Create a new KryoNet server
         kryoServer = new Server(){
@@ -64,6 +67,8 @@ public enum MuckServer {
         };
         kryoServer.start();
 
+        new ModelRegister().makemigrations();
+
         // Register the protocol classes with Kryo
         Protocol.register(kryoServer.getKryo());
 
@@ -72,7 +77,7 @@ public enum MuckServer {
 
         // The arraylist is only a temporary datastructure and is subject to change.
         ArrayList<String> players = new ArrayList<String>();
-        setupGroupChat();
+//        setupGroupChat();
         // Adds a listener to listen for new client connections, then adds the clients id to the players arraylist and sends to all clients.
         addListener(ListenerBuilder.forClass(Connected.class).onReceive((conn, connected) -> {
             players.add(Integer.toString(conn.getID()));
@@ -134,11 +139,16 @@ public enum MuckServer {
     public void createAccount(SignUpInfo signUpInfo, MuckConnection connection) {
         logger.info("Attempting to create account {}.", signUpInfo.getUsername());
 
-        PlayerManager playerManager = new PlayerManager(new User());
+        PlayerManager playerManager = new PlayerManager(new UserService());
         userMessage userMessage = new userMessage();
 
+        UserStructure userStructure = new UserStructure();
+        userStructure.username = signUpInfo.getUsername();
+        userStructure.displayName = signUpInfo.getDisplayName();
+        userStructure.password = signUpInfo.getPassword();
+
         try {
-            Player player = playerManager.signupPlayer(signUpInfo);
+            Player player = playerManager.signupPlayer(userStructure);
             logger.info("Sign up successful for {}", player.getUsername());
 
             userMessage.setMessage("Your account has been created successfully. Username: " + player.getUsername());
@@ -155,12 +165,16 @@ public enum MuckServer {
         logger.info("Attempting to log in");
         logger.debug("{} is trying to log in", login.getUsername());
 
-        PlayerManager playerManager = new PlayerManager(new User());
+        PlayerManager playerManager = new PlayerManager(new UserService());
+
+        UserStructure userStructure = new UserStructure();
+        userStructure.username = login.getUsername();
+        userStructure.password = login.getPassword();
 
         Player player = null;
 
         try {
-            player = playerManager.loginPlayer(login);
+            player = playerManager.loginPlayer(userStructure);
         } catch (DuplicateLoginException ex) {
             userMessage testMessage = new userMessage(); //Create new message to send back.
             testMessage.setMessage("Duplicate login");
@@ -178,7 +192,7 @@ public enum MuckServer {
 
         muckConnection.setCharacter(player);
 
-        logger.info("Login successful for {}", login.getUsername());
+        logger.info("Login successful for {}", userStructure.username);
 
         AddCharacter addCharacter = addCharacter(player);
 

@@ -37,6 +37,26 @@ public abstract class Character {
         _identifier = identifier;
     }
     
+    // Move character up
+    public void moveUp() {
+        //TODO - Collaboration needed with team doing movement controller
+    }
+    
+    // Move character down
+    public void moveDown() {
+        //TODO - Collaboration needed with team doing movement controller
+    }
+    
+    // Move character left
+    public void moveLeft() {
+        //TODO - Collaboration needed with team doing movement controller
+    }
+    
+    // Move character right
+    public void moveRight() {
+        //TODO - Collaboration needed with team doing movement controller
+    }
+    
     
     /* === PUBLIC API ===
     Public getters/setters appear below here. These serve as an API to all external modules to interact with
@@ -88,7 +108,7 @@ public abstract class Character {
      * Decreases health of the given character by the specified amount, and returns whether or not
      * the character has died (health = 0 returns true, otherwise false) as a result of this
      * @param amount Amount of health to decrease character by
-     * @return true if character has died true to a result of the health decrease, false if not
+     * @return true if character has died due to a result of the health decrease, false if not
      */
     public boolean decreaseHealth(int amount) {
         int health = getHealth();

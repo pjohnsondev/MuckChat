@@ -6,7 +6,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+<<<<<<< HEAD
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="807.0" prefWidth="1136.0" xmlns="javafx.com/javafx/16" xmlns:fx="javafx.com/fxml/1" fx:controller="muck.client.controllers.CardsGameController">
+=======
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="807.0" prefWidth="1136.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.controllers.CardsGameController">
+>>>>>>> 00daf6a (Merge branch 20-client-server-communication)
     <children>
         <TabPane prefHeight="807.0" prefWidth="1136.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>

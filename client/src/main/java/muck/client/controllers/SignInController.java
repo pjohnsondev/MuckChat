@@ -79,7 +79,7 @@ public class SignInController{
     public static void passToNextScene(MouseEvent event, String username) throws IOException{
         // Currently needs to go to muck via avatar controller until users can be brought from database
         AvatarController nextScene = new AvatarController();
-        nextScene.avatarCreation(event, username);
+        nextScene.avatarCreation(username);
     }
 
     public boolean isNotEmpty(String password, String username){

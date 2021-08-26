@@ -1,7 +1,11 @@
 package muck.core.character;
 
+import java.util.List;
+
 public class NPC extends Character {
     private int _difficulty = 1;
+    
+    public List<INPCBehaviour> AIBehaviours;
 
     /**
      * NPC constructor. This class is an extension of the Character class for NPC/monster characters.
@@ -31,6 +35,13 @@ public class NPC extends Character {
     //TODO - NPC should have a separate controller to the player. May incorporate AI based movement, behaviour etc.
 //    public npcController() {
 //    }
+
+    // To be called once per pre-determined fixed timestep
+    public void Update() {
+        for (var AIBehaviour : AIBehaviours) {
+            AIBehaviour.Update();
+        }
+    }
 
     /**
      * Sets the NPC difficulty. Must have difficulty of 1 or higher.
