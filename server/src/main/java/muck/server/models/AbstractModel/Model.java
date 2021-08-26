@@ -19,7 +19,7 @@ interface IModel {
  */
 abstract public class Model implements IModel {
     protected Database db;
-    protected String table;
+    public static final String table = null;
 
     /**
      * Constructor: creates a MuckDatabase instance
