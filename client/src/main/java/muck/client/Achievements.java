@@ -46,6 +46,17 @@ public class Achievements {
     public String achievement9Title = "I'm A Real Boy";
     public String achievement9Description = "Player has selected an avatar";
 
+    public boolean achievement10 = false;
+    public String achievement10Title = "The Skeleton King";
+    public String achievement10Description = "Player has unlocked Skeleton";
+
+    public boolean achievement11 = false;
+    public String achievement11Title = "Wonderful!";
+    public String achievement11Description = "Player has unlocked Wonder Woman";
+
+    public boolean achievement12 = false;
+    public String achievement12Title = "Better Than Luigi";
+    public String achievement12Description = "Player has unlocked Yoshi";
 
     /**
      * achievementUnlock Flips achievement boolean from false to true and then displays the achievement notification
