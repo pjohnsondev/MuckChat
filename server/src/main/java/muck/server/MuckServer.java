@@ -48,6 +48,10 @@ public enum MuckServer {
 
     CharacterLocationTracker<String> tracker = new CharacterLocationTracker<String>();
 
+
+    //Listens to the chat stream to handle interaction commands - added 26/8  - mhay23@myune.edu.au
+    InteractionListener interactionListener = new InteractionListener();
+
     /** Sets up the KryoNet server that will handle communication */
     synchronized void startKryo(KryoServerConfig config) throws IOException {
 
@@ -102,7 +106,12 @@ public enum MuckServer {
             logger.info("Recieved a message!");
             logger.info("Message received from {}", connID.getID());
             logger.info("Message is: {}", clientMessage.getMessage());
+
+            //Send to interaction listener - added 26/8  - mhay23@myune.edu.au
+            interactionListener.handle(connID.getID(), clientMessage.getMessage());
+
             logger.info(clientMessage);
+
             kryoServer.sendToAllTCP(clientMessage); //Send to all clients connected. Can be switched to send only to one client.
         }));
 
