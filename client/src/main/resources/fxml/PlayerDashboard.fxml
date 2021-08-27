@@ -16,11 +16,11 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<GridPane maxHeight="711.0" maxWidth="1130.0" minHeight="600.0" minWidth="700.0" prefHeight="631.0" prefWidth="1000.0" style="-fx-background-color: dimgrey;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.PlayerDashboardController">
-  <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="900.0" minWidth="200.0" prefWidth="462.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="100.0" prefWidth="215.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="100.0" prefWidth="227.0" />
+<GridPane fx:id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.PlayerDashboardController">
+    <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="900.0" minWidth="200.0" prefWidth="380.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="100.0" prefWidth="210.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="100.0" prefWidth="210.0" />
   </columnConstraints>
   <rowConstraints>
     <RowConstraints maxHeight="95.0" minHeight="0.0" prefHeight="75.0" vgrow="SOMETIMES" />
@@ -31,7 +31,7 @@
    <children>
       <Pane prefHeight="490.0" prefWidth="400.0" GridPane.rowIndex="1" GridPane.rowSpan="2">
          <children>
-            <ImageView fx:id="avatarFullBody" fitHeight="461.0" fitWidth="456.0" layoutX="19.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="avatarFullBody" fitHeight="480.0" fitWidth="265.0" layoutX="58.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
                <effect>
                   <DropShadow />
                </effect>
@@ -43,21 +43,16 @@
             <Font name="Arial Rounded MT Bold" size="20.0" />
          </font>
       </Button>
-      <Text fx:id="username" fill="#87cdff" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-alignment: center;" text="&lt;username&gt;" wrappingWidth="485.0">
+      <Text fx:id="username" fill="#87cdff" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-alignment: center;" text="&lt;username&gt;" wrappingWidth="334.0">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="28.0" />
          </font>
       </Text>
-      <TabPane prefHeight="200.0" prefWidth="200.0" style="color: dimgrey;" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
+      <TabPane prefHeight="515.0" prefWidth="437.0" style="color: dimgrey;" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
         <tabs>
-          <Tab fx:id="collectibles" closable="false" style="-fx-background-color: lightyellow;" text="Collectibles">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" opacity="0.33" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: lightyellow; -fx-border-color: lightyellow; -fx-border-width: 10;" />
-            </content>
-          </Tab>
           <Tab fx:id="achievements" closable="false" style="-fx-background-color: lightblue;" text="Achievements">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" opacity="0.33" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: lightblue;" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" opacity="0.33" prefHeight="494.0" prefWidth="474.0" style="-fx-background-color: lightblue;" />
             </content>
           </Tab>
         </tabs>
@@ -112,7 +107,7 @@
             <Insets left="80.0" />
          </GridPane.margin>
          <padding>
-            <Insets top="22.0" />
+            <Insets top="28.0" />
          </padding>
       </TextFlow>
       <ImageView fx:id="gameReturn" fitHeight="49.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
