@@ -19,8 +19,7 @@ public class MapTest {
 
     @BeforeEach
     public void beforeEachTest(){
-        //TileMapReader tm = new TileMapReader("client/src/main/resources/Test.tmx");
-        //TileMapReader tmerror = new TileMapReader("/T.tm");
+        //
     }
 
     @Test
@@ -46,10 +45,8 @@ public class MapTest {
         assertTrue(tm.getTileColumns() == 32);
         assertTrue(tm.getTileCount() == 1024);
         assertTrue(tm.getLayerId(0,1,1) == 307);
-        logger.info(tm.getLayerId(0,1,1));//Have been using this get actual value to data
+        //logger.info(tm.getLayerId(0,1,1));//Have been using this get actual value to data
 
-        //Tile read/path Error
-        //FileNotFoundError: No String data to read from map
-        //IO Exception Line Not Found
+
     }
 }
