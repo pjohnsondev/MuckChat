@@ -147,19 +147,19 @@ public class PlayerTest {
     public void testAchievementInteraction() {
         Player player = mock(Player.class);
         String achievement = "Wannabe";
+        String description = "I want an achievement";
 
         logger.info("Testing that the player should not have any achievements");
         assertNull(player.getAchievements(), "Player should have no achievements");
 
         logger.info("Testing that the player can receive and get achievements");
-        player.addAchievement(achievement);
+        player.addAchievement(achievement, description);
         assertTrue(
                 () -> {
-                    for(int i = 0; i < player.getAchievements().length; i++) {
-                        if(player.getAchievements()[i].equals(achievement)) {
+                        if(player.getAchievements()[0][0].equals(achievement) &&
+                                player.getAchievements()[0][1].equals(description)) {
                             return true;
                         }
-                    }
                     return false;
                 },
                 "Player should have the achievement"

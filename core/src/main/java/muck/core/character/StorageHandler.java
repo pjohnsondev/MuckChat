@@ -53,6 +53,17 @@ public class StorageHandler {
      * @param query SQL query to execute
      * @param identifier Players identifier
      * @param item Item to add
+     * @param description Item description
+     */
+    public static void addToPlayer(String query, String identifier, String item, String description) {
+        //TODO: implement with db
+    }
+
+    /**
+     * Adds an item to the database for the given Player
+     * @param query SQL query to execute
+     * @param identifier Players identifier
+     * @param item Item to add
      */
     public static void addToPlayer(String query, String identifier, String item) {
         //TODO: implement with db
