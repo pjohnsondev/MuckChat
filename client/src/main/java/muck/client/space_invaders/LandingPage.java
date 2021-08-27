@@ -118,25 +118,39 @@ public class LandingPage extends Node {
         // Create event when Play Button is clicked. For now it opens up a new window
         playButton.setOnAction(event -> {
 
-            Label secondLabel = new Label("Welcome to Space Invaders!");
-
-            StackPane secondaryLayout = new StackPane();
-            secondaryLayout.getChildren().add(secondLabel);
-
-            Scene secondScene = new Scene(secondaryLayout, WIDTH, HEIGHT);
-
-            // New window (Stage)
             Stage newWindow = new Stage();
             newWindow.setTitle("Muck 2021 Space Invaders");
-            newWindow.setScene(secondScene);
 
             newWindow.initModality(Modality.WINDOW_MODAL);
 
-            //newWindow.initOwner(stage);
-
-            // Set position of second window, related to primary window.
+            SpaceInvaders si = new SpaceInvaders();
+            try {
+                si.start(newWindow);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             newWindow.show();
+        });
+
+        gamePlayButton.setOnAction(event -> {
+            // Add elements
+            Label dummyText = new Label("Lorem ipsum dolor set amet");
+            Button goBack = new Button("Return to landing page");
+
+            // Create layout of the window
+            VBox layout = new VBox(20);
+            layout.getChildren().addAll(dummyText, goBack);
+            Scene gameInstructScene = new Scene(layout, WIDTH/2, HEIGHT/2);
+
+            // Create window for instructions to be displayed in
+            Stage gamePlayInstructionsWindow = new Stage();
+            gamePlayInstructionsWindow.setTitle("GAMEPLAY INSTRUCTIONS");
+            gamePlayInstructionsWindow.setScene(gameInstructScene);
+            gamePlayInstructionsWindow.show();
+
+            // Close window when pushing button
+            goBack.setOnAction(event1 -> gamePlayInstructionsWindow.close());
         });
 
         exitButton.setOnAction(event -> {
@@ -148,15 +162,16 @@ public class LandingPage extends Node {
     }
 
 
-
-
     /*****************************************************************************
      *
      * Function name: run
      * Purpose: To run the graphics for the Star background
      * Arguments: GraphicContext gc
      * Return: void
-     *
+     *Reference: Based on code from
+     *      URL: https://github.com/Gaspared/Space-Invaders.git
+     *      Author: Gaspared
+     *      Title: Space Invaders
      *****************************************************************************/
     private void run(GraphicsContext gc) {
         this.gc.setFill(Color.grayRgb(20));
@@ -200,7 +215,10 @@ public class LandingPage extends Node {
          * Purpose: To display the stars for the Star background
          * Arguments: nil
          * Return: void
-         *
+         * Reference: Based on code from
+         *      URL: https://github.com/Gaspared/Space-Invaders.git
+         *      Author: Gaspared
+         *      Title: Space Invaders
          *****************************************************************************/
         public void draw() {
             if (opacity > 0.8) opacity -= 0.01;

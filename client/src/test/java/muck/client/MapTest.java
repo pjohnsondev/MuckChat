@@ -19,8 +19,7 @@ public class MapTest {
 
     @BeforeEach
     public void beforeEachTest(){
-        TileMapReader tm = new TileMapReader("/Test.tmx");
-        //TileMapReader tmerror = new TileMapReader("/T.tm");
+        //
     }
 
     @Test
@@ -37,6 +36,17 @@ public class MapTest {
         // Test that an attempt to move into an object fails (throws some exception)
     }
     @Test void testTileMapReader() {
-        //assertThrows();
+        TileMapReader tm = new TileMapReader("/Test.tmx"); // This is Test/Resources
+        //Make sure public methods in TileMapReader don't get changed.
+        assertTrue(tm.getWidth() == 80);
+        assertTrue(tm.getHeight() == 64);
+        assertTrue(tm.getTileWidth() == 32);
+        assertTrue(tm.getTileHeight() == 32);
+        assertTrue(tm.getTileColumns() == 32);
+        assertTrue(tm.getTileCount() == 1024);
+        assertTrue(tm.getLayerId(0,1,1) == 307);
+        //logger.info(tm.getLayerId(0,1,1));//Have been using this get actual value to data
+
+
     }
 }

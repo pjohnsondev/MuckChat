@@ -35,7 +35,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 
 	List<Sprite> players = new ArrayList<Sprite>();
 	TileMapReader tm = new TileMapReader("/map.tmx");
-	Sprite hero = new Sprite(300, 300, playerSpriteXSize, playerSpriteYSize, "pikachu"); // Create the player sprite
+	Sprite hero = new Sprite(300, 300); // Create the player sprite
 	private int startX; // The first tile to be drawn
 	private int startY; // The first tile to be drawn
 	private int offX; // Tile offset in pixels as hero moves pixel by pixel
@@ -55,7 +55,6 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	Image image;
 	double cameraMaxX;
 	double cameraMaxY;
-
 	private BiConsumer<String, Location> updatePlayer;
 	private Supplier<List<Sprite>> otherPlayers;
 
@@ -128,7 +127,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 				}
 			    if (updatePlayer != null)
 				MuckClient.logInfo("Updating player location.");
-				updatePlayer.accept(hero.getAvatar(), new Location(hero.getPosX(), hero.getPosY()));
+			    updatePlayer.accept(hero.getAvatar(), new Location((int)hero.getPosX(), (int)hero.getPosY()));
 			}
 		}, 0, 500);
 
@@ -136,7 +135,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 		AnimationTimer timer = new AnimationTimer() {
 			@Override
 			public void handle(long currentNanoTime) {
-				hero.move(tm, hero, canvas);
+				hero.move(tm, hero);
 
 				gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 				cameraX = hero.getPosX() - centerX; // Camera top left relative to hero X
@@ -159,14 +158,14 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 				} // reset water animation timer
 				drawLayer(2);
 
-				Sprite.drawHero(gc, rectangle, tm, hero, centerX, centerY);
+				Sprite.drawHero(gc, tm, hero, centerX, centerY);
 
 				// Added by Trent - 20/08
 				// Gets a list of other player locations and draws them on screen
 				for (Sprite p : players) {
 					try {
 						if (p != null)
-							Sprite.drawHero(gc, rectangle, tm, p, p.getPosX(), p.getPosY());
+							Sprite.drawHero(gc, tm, p, p.getPosX(), p.getPosY());
 					} catch (NullPointerException ex) {
 						MuckClient.logError(ex);
 					}

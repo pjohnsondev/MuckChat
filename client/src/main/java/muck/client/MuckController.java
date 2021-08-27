@@ -41,6 +41,7 @@ import muck.core.Pair;
 
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import muck.client.enduring_fantasy.LandingPageEf;
 import muck.client.space_invaders.LandingPage;
 import muck.protocol.connection.*;
 import org.apache.logging.log4j.LogManager;
@@ -48,6 +49,10 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter;
 import org.checkerframework.common.reflection.qual.Invoke;
 import javafx.util.Duration;
+
+import javax.swing.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MuckController implements Initializable {
 
@@ -125,6 +130,9 @@ public class MuckController implements Initializable {
     @FXML // fx:id="game1Button" The space invaders button. This is supposed to be temporary
     private Button game1Button; // Value injected by FXMLLoader
 
+    @FXML
+    private Button game2Button;
+
     @FXML //fx:id="userNameDisplay"
     private Text userNameDisplay;
 
@@ -141,6 +149,7 @@ public class MuckController implements Initializable {
 
         closeChat.setOnAction(this::toggleChatWindow);
         game1Button.setOnAction(this::launchSpaceInvaders);
+        game2Button.setOnAction(this::launchEnduringFantasy);
         openChatOnly.setOnAction(this::openChatOnly);
         enter.setOnAction(this::sendMessage);
         openFullChat.setOnAction(this::openFullChat);
@@ -156,7 +165,12 @@ public class MuckController implements Initializable {
         });
         chatSection.setFocusTraversable(true);
         chatSection.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> chatSection.isFocused());
+        Timer messageChecker = new Timer();
+        messageChecker.scheduleAtFixedRate(new getMessagesTask(), 0, 200);
         quitMuck.setOnAction(this::quitMuck);
+
+
+
         // Creates and sets the player list service to be called every second, to update the current player list
         PlayerListService service = new PlayerListService(playerTextArea);
         service.setPeriod(Duration.seconds(1));
@@ -200,46 +214,19 @@ public class MuckController implements Initializable {
             Tab currentTab = chatPane1.getSelectionModel().getSelectedItem();
             String currentID = currentTab.getId();
             if (currentID.equals("groupChat")) {
-                groupChatBox.appendText(message + "\n");
+                groupChatBox.appendText(userName + ": " + message + "\n");
                 messageBox.clear();
 
-      /* **********************************************************************
-      Code edited for sending functionality.
-      Last updated: Harrison Liddell, utilising Ryan Birch development serverside, 27/07/2021
-      Adding Sending functionality by first creating a userMessage object and
-      then sending it to the server.
-      **NOTE**: No functionality for ChatId has been implemented serverside yet.
-                Also, this hasn't been tested extensively. Let me know if it causes
-                problems!
-      TODO: Create multiple chat groups serverside to filter messages. .
-      **NOTE**: The following line should append whatever message is in the currentMessage field on the
-                client. Not sure how we're going to implement checking for new messages, probably using
-                a timer and an array.
-                groupChatBox.appendText(MuckClient.getCurrentMessage().getMessage() + "\n")
 
-                In a similair way,we can retrieve user ID's and timestampes, although we will have to
-                implement those getters seperately.
-     */
                 userMessage currentMessage = new userMessage();
                 currentMessage.setMessage(message);
                 MuckClient.INSTANCE.send(currentMessage);
-     /*         This is a wait to retrieve the current message from the server. It should be moved from here when message
-                retrieval is implemented. This just helps to test current message retrieval implementation.
 
-                try{
-                  Thread.sleep(10);
-                }
-                catch(InterruptedException ex)
-                {
-                  Thread.currentThread().interrupt();
-                }
-
-                groupChatBox.appendText("UserName Here: "+ MuckClient.INSTANCE.getCurrentMessage()+ "\n");
-                */
+                //groupChatBox.appendText("UserName Here: "+ MuckClient.INSTANCE.getCurrentMessage()+ "\n");
             } else {
                 int num = chatPane1.getTabs().indexOf(currentTab) + 1;
                 TextArea currentChatBox = (TextArea) chatPane1.lookup("#chatbox" + num);
-                currentChatBox.appendText(message + "\n");
+                currentChatBox.appendText(userName + ": " + message + "\n");
                 messageBox.clear();
             }
         }
@@ -272,8 +259,6 @@ public class MuckController implements Initializable {
         newAnc.getChildren().add(chatX);
         chatPane1.getTabs().add(newTab);
         chatPane1.getSelectionModel().select(newTab);
-        windowPane.setDividerPositions(0.70);
-        chatSplitPane.setDividerPositions(0.989);
         openChatOnly.setVisible(false);
     }
 
@@ -334,8 +319,31 @@ public class MuckController implements Initializable {
         BorderPane.setAlignment(SICanvas, Pos.CENTER);
         LandingPage si = new LandingPage(gamePane1, SICanvas);
     }
+    @FXML
+    private void launchEnduringFantasy (ActionEvent event){
+        gameCanvas.setDisable(true);
+        gameCanvas.setVisible(false);
+        Canvas EFCanvas = new Canvas();
+        EFCanvas.setHeight(gameCanvas.getHeight());
+        EFCanvas.setWidth(gameCanvas.getWidth());
+        gamePane1.setCenter(EFCanvas);
+        BorderPane.setAlignment(EFCanvas, Pos.CENTER);
+        LandingPageEf ef = new LandingPageEf(gamePane1, EFCanvas);
+    }
 
     private void quitMuck(ActionEvent event) {
         Platform.exit();
+    }
+
+    public class getMessagesTask extends TimerTask {
+        public void run() {
+            System.out.println("Task ran!");
+            if (MuckClient.INSTANCE.getCurrentMessage() == null){
+
+            }else {
+                groupChatBox.appendText("UserName Here: "+ MuckClient.INSTANCE.getCurrentMessage()+ "\n");
+            }
+
+        }
     }
 }

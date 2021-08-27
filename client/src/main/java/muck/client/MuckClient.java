@@ -20,6 +20,7 @@ import muck.protocol.connection.*;
 
 import java.io.IOException;
 
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.ArrayList;
@@ -35,11 +36,11 @@ public enum MuckClient {
 
 	INSTANCE;
 
-	userMessage currentMessage;
+	String currentMessage;
 	ArrayList<String> players = new ArrayList<String>();
 	List<Sprite> playerSprites = new ArrayList<Sprite>();
 
-	public static MuckClient getINSTANCE() {
+	public static MuckClient getINSTANCE() throws SQLException {
 		return INSTANCE;
 	}
 
@@ -122,7 +123,8 @@ public enum MuckClient {
 
 		client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, clientMessage) -> {
 			logger.info("Message recieved was: {}", clientMessage.getMessage());
-			currentMessage = clientMessage;
+			currentMessage = clientMessage.getMessage();
+
 		}));
 
 		client.addListener(ListenerBuilder.forClass(LocationResponse.class).onReceive((connID, response) -> {
@@ -130,7 +132,7 @@ public enum MuckClient {
 			var data = response.data;
 			var xSize = GameMap.playerSpriteXSize;
 			var ySize = GameMap.playerSpriteYSize;
-			this.playerSprites = data.stream().map(p -> new Sprite(p.right().getX(), p.right().getY(), xSize, ySize, p.left())).collect(Collectors.toList());
+			this.playerSprites = data.stream().map(p -> new Sprite(p.right().getX(), p.right().getY())).collect(Collectors.toList());
 		}));
 	}
 
@@ -181,10 +183,14 @@ public enum MuckClient {
 		client.sendTCP(message);
 	}
 
-	// Simple getter for the currentMessage stored in the client.
-	// Note: Probably should add wayus to get timestamps/etc.
-	public synchronized Object getCurrentMessage() {
-		return currentMessage.getMessage();
+	/*
+    Simple getter for the currentMessage stored in the client.
+    TODO: Ensure that message buffer is cleared after it has been printed to the chatui to avoid old messages coming through again at the next timer.
+    Note: Probably should add ways to get timestamps/etc.
+
+    */
+	public synchronized String getCurrentMessage() {
+		return currentMessage;
 	}
 
 }

@@ -24,13 +24,14 @@ import muck.protocol.connection.*;
 
 import java.io.IOException;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import muck.core.LocationResponse;
 
 /**
- * The central body of the server. This should avoid getting too large, but
- * should have references to any of the necessary components. It is a singleton.
+ * The central body of the server. This should avoid getting too large, but should have references to
+ * any of the necessary components. It is a singleton.
  */
 public enum MuckServer {
 
@@ -97,24 +98,34 @@ public enum MuckServer {
 
 			logger.info("Ping received from {}", conn.getID());
 
-			// Let's just demonstrate how to send messages to worker actors, by sending this
-			// message to one.
-			workerManager.schedule(ping, reply -> {
-				logger.info("I sent my ping to a background worker, and all I got in return was this lousy {}", reply);
-			});
-		}));
-		/*
-		 * This listener listens for a message from client. Prints to logger when
-		 * received.
-		 */
-		addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, clientMessage) -> {
-			logger.info("Recieved a message!");
-			logger.info("Message received from {}", connID.getID());
-			logger.info("Message is: {}", clientMessage.getMessage());
-			logger.info(clientMessage);
-			kryoServer.sendToAllTCP(clientMessage); // Send to all clients connected. Can be switched to send only to
-													// one client.
-		}));
+            // Let's just demonstrate how to send messages to worker actors, by sending this message to one.
+            workerManager.schedule(ping, reply -> {
+                logger.info("I sent my ping to a background worker, and all I got in return was this lousy {}", reply);
+            });
+        }));
+        /**
+         * Listens for a userMessage class coming from the client.
+         * Calls a worker to handle storing the message in the chat log (not done yet).
+         */
+        addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, clientMessage) -> {
+            logger.info("Recieved a message!");
+            logger.info("Message received from {}", connID.getID());
+            logger.info("Message is: {}", clientMessage.getMessage());
+            logger.info(clientMessage);
+            kryoServer.sendToAllTCP(clientMessage); //Send to all clients connected. Can be switched to send only to one client.
+        }));
+        /**
+         * Listens for a newChatLog class coming from the client (or another class).
+         * Acts as a signal to tell chatCreateTable to create a new chat log with specified name.
+         */
+        addListener(ListenerBuilder.forClass(newChatLog.class).onReceive((connID, newChatLog) -> {
+                    try {
+                        chatCreateTable.createNewChat(newChatLog);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+        ));
 
 		addListener(ListenerBuilder.forClass(Login.class).onReceive((connection, login) -> {
 			loginPlayer(login, (MuckConnection) connection);
