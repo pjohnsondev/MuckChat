@@ -69,6 +69,9 @@ public class Sprite {
             }
     }
 
+	public String getAvatar() {
+		return this.avatar;
+	}
     // getters and setters
     public void setDx(int dx) { this.dx = dx; } // set direction x
     public void setDy(int dy) { this.dy = dy; } // set direction y
@@ -100,4 +103,3 @@ public class Sprite {
         gc.drawImage(hero.image, 0,0, 190,200, drawX - 13,drawY - 28,26,30);
     }
 }
-
