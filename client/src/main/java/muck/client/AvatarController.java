@@ -133,7 +133,7 @@ public class AvatarController implements Initializable  {
 
             // If there is already an avatar associated with a user, display the avatar
             // Will be used in the case of an avatar change
-            if (!avatar.equals("error")) { //TODO: What if avatar set to null??
+            if (!avatar.equals("error")) {
                 selection(avatar);
             }
         } catch (NullPointerException e) {
@@ -146,7 +146,11 @@ public class AvatarController implements Initializable  {
 
         submit.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             if (previous.equals("playerDashboard")) { //If the user previously came from player dashboard return there
-                submitToDashboard(event);
+                try {
+                    submitToDashboard(event);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else { //Else return to the map
                 submitToMap(event);
             }
@@ -163,34 +167,6 @@ public class AvatarController implements Initializable  {
         pikachu.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             selection("pikachu");
         });
-    }
-
-     /** NB: This method will become void once we have linked the player sign up page!!
-     * Sets the username for the avatar interaction so as to store the selection later.
-     * Calls the database to determine if there is an existing avatar selected for the user and the user's current muck
-     * point value.
-     * Opens the Avatar selection window
-     * @param username: the player's username.
-     */
-    public static void avatarCreation(String username) {
-        uname = username;
-            // TODO: Need to call the database for current avatar and muck point values
-        try {
-            FXMLLoader loader = new FXMLLoader(AvatarController.class.getResource("/fxml/Avatar.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            scene.setRoot(root);
-            scene.getStylesheets().add(AvatarController.class.getResource("/css/style.css").toExternalForm());
-            Stage stage = new Stage();
-            stage.setTitle("Muck 2021");
-            stage.setMaxWidth(1200);
-            stage.setMaxHeight(1100);
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -219,28 +195,18 @@ public class AvatarController implements Initializable  {
     }
 
     /**
-     * Overloaded Avatar creation method.
+     * Overloaded AvatarCreation method
      * From the player dashboard screen
-     * @param event
-     * @param username
+     * This is used purely to set the variables for the avatar creation screen.  The window
+     * is launched from the PlayerDashboardController
+     * @param username: The player's username
+     * @param avID: The player's avatarID
      */
-    public static void avatarCreation(MouseEvent event, String username, String avID) {
+    public static void avatarCreation(String username, String avID){
         //TODO: Call server for muck point value
         previous = "playerDashboard";
         uname = username;
         avatar = avID;
-        try {
-            Parent root = FXMLLoader.load(AvatarController.class.getResource("/fxml/Avatar.fxml"));
-            Scene scene = new Scene(root);
-            scene.setRoot(root);
-            scene.getStylesheets().add(AvatarController.class.getResource("/css/style.css").toExternalForm());
-            //This line gets the Stage Information
-            Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     /**
@@ -355,15 +321,29 @@ public class AvatarController implements Initializable  {
         }
     }*/
 
+    /**
+     * submitToMap method
+     * Will be used when moving from User SignUp >> Avatar Selection Screen >> Map
+     * @param event: The click event that is generated when the submit button is pressed
+     */
     private void submitToMap(MouseEvent event) {
         // TODO: Send username and avatar back to the server for storage
         MuckController.constructor(event, uname, avatar);
-        //AvatarController.avatarCreation(event, "Test");
         }
 
-    private void submitToDashboard(MouseEvent event) {
+    /**
+     * submitToDashboard method
+     * Will be used when moving from Dashboard >> Avatar Selection Screen >> Dashboard
+     * Will have the player dashboard take over the avatar selection screen
+     * @param event: The click event that is generated when the submit button is pressed
+     */
+    private void submitToDashboard(MouseEvent event) throws IOException{
         // TODO: Send username and avatar back to server for storage
-        PlayerDashboardController.playerDashboard(uname, event, avatar);
+        PlayerDashboardController.playerDashboard(uname, avatar);
+        Parent parent = FXMLLoader.load(getClass().getResource("/fxml/PlayerDashboard.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(parent));
+        stage.show();
     }
 
     private void hoverEvent(Text alertBox, String message) {
@@ -419,6 +399,10 @@ public class AvatarController implements Initializable  {
         }
     }
 
+    /**
+     Returns an image object of the sprite sheet of their avatar.
+     @param: avatarID. This will be passed into the method from the server
+     */
     public static Image getSprite(String avatarID) {
         switch (avatarID) {
             case "peach":
@@ -438,11 +422,16 @@ public class AvatarController implements Initializable  {
         }
     }
 
+    /**
+     * Get method for AvatarID
+     * @return: The avatarID
+     */
+    public static String getAvatarId() { return avatar;}
+
     // For testing purposes
     public static String getUserName() {
         return uname;
     }
-    public static String getAvatarId() { return avatar;}
     public static void setMuck(int points) { muckPoints = points;}
 
     // The below code is for formatting the changes to the avatar dashboard.
@@ -474,7 +463,7 @@ public class AvatarController implements Initializable  {
         }
     }
 
-    private void centreImage() { //TODO: This is not centring vertically???
+    private void centreImage() {
         Image img = avatarFullBody.getImage();
         if (img != null) {
             double w;
