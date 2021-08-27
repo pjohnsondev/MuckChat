@@ -62,6 +62,9 @@ public class Sprite {
             }
     }
 
+	public String getAvatar() {
+		return this.image.getUrl();
+	}
     // getters and setters
     public void setDx(double dx) { this.dx = dx; } // set direction x
     public void setDy(double dy) { this.dy = dy; } // set direction y
@@ -126,4 +129,3 @@ public class Sprite {
         }
     }
 }
-

@@ -13,25 +13,28 @@ import java.util.stream.Collectors;
 
 /**
  * Server class used for tracking locations of clients and their character
- * locations. //* @param TrackingType - Generic placeholder that is passed to
- * the Id for tracking purposes
+ * locations.
+ *
+ * @param TrackingType - Generic placeholder that is passed to the Id for
+ *                     tracking purposes
  */
 public class CharacterLocationTracker<TrackingType> implements ICharacterLocationTracker<TrackingType> {
 	// String is a stand-in for a unique ID, clientID?
-	private HashMap<Id<TrackingType>, Pair<Character, Location>> _clients;
+	private HashMap<Id<TrackingType>, Pair<String, Location>> _clients;
 
 	public CharacterLocationTracker() {
-		_clients = new HashMap<Id<TrackingType>, Pair<Character, Location>>();
+		_clients = new HashMap<Id<TrackingType>, Pair<String, Location>>();
 	}
 
 	/**
 	 * @return The internal list of all tracked clients, the associated character
 	 *         and that character's location
 	 */
-	public List<Triple<Id<TrackingType>, Character, Location>> getClients() {
+	public List<Triple<Id<TrackingType>, String, Location>> getClients() {
 
-		return _clients.keySet().stream().map(i -> new Triple<Id<TrackingType>, Character, Location>(i,
-				_clients.get(i).left(), _clients.get(i).right())).collect(Collectors.toList());
+		return _clients.keySet().stream().map(
+				i -> new Triple<Id<TrackingType>, String, Location>(i, _clients.get(i).left(), _clients.get(i).right()))
+				.collect(Collectors.toList());
 	}
 
 	/**
@@ -40,8 +43,8 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 	 * @return An ArrayList of pairs of characters and their locations
 	 */
 	@Override
-	public ArrayList<Pair<Character, Location>> getAllCharacterLocations() {
-		return new ArrayList<Pair<Character, Location>>(_clients.values());
+	public ArrayList<Pair<String, Location>> getAllPlayerLocations() {
+		return new ArrayList<Pair<String, Location>>(_clients.values());
 	}
 
 	/**
@@ -54,8 +57,8 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 	 *
 	 */
 	@Override
-	public void addClient(Id<TrackingType> clientId, Character character, Location loc) {
-		_clients.put(clientId, new Pair<Character, Location>(character, loc));
+	public void addClient(Id<TrackingType> clientId, String avatar, Location loc) {
+		_clients.put(clientId, new Pair<String, Location>(avatar, loc));
 
 	}
 
@@ -80,7 +83,7 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 	 */
 
 	@Override
-	public List<Pair<Character, Location>> getAllLocationsExceptId(Id<TrackingType> clientId) {
+	public List<Pair<String, Location>> getAllLocationsExceptId(Id<TrackingType> clientId) {
 		return _clients.keySet().stream().filter(p -> !p.equals(clientId)).map(p -> _clients.get(p))
 				.collect(Collectors.toList());
 
@@ -88,16 +91,16 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 
 	@Override
 
-	public List<Pair<Character, Location>> getCharactersWithin(Pair<Character, Location> me, Integer dist) {
+	public List<Pair<String, Location>> getPlayersWithin(Pair<String, Location> me, Integer dist) {
 		return _clients.values().stream().filter(p -> me.right() != p.right() && me.right().distance(p.right()) <= dist)
 				.collect(Collectors.toList());
 	}
 
 	@Override
-	public List<Pair<Character, Location>> getCharactersWithinById(Id<TrackingType> id, Integer dist) {
+	public List<Pair<String, Location>> getPlayersWithinById(Id<TrackingType> id, Integer dist) {
 		var myLoc = _clients.get(id);
 
-		return this.getCharactersWithin(myLoc, dist);
+		return this.getPlayersWithin(myLoc, dist);
 
 	}
 
@@ -108,9 +111,13 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 	 * @param loc - The new location data to update
 	 */
 	@Override
-	public void updateLocationById(Id<TrackingType> id, Location loc) {
-		var p = _clients.get(id);
-		_clients.replace(id, new Pair<Character, Location>(p.left(), loc));
+	public void updateLocationById(Id<TrackingType> id, String avatar, Location loc) {
+		var newData = new Pair<String, Location>(avatar, loc);
+		if (!_clients.containsKey(id)) {
+			_clients.put(id, newData);
+		} else {
+			_clients.replace(id, newData);
+		}
 
 	}
 
