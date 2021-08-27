@@ -1,5 +1,9 @@
 package muck.client;
 
+import javafx.scene.Group;
+import muck.client.controllers.SignInController;
+import muck.client.controllers.SignUpController;
+import muck.client.utilities.RandomNameGenerator;
 import muck.protocol.*;
 import muck.protocol.connection.*;
 
@@ -8,9 +12,10 @@ import org.apache.logging.log4j.Logger;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import java.awt.*;
+//import java.awt.geom.Rectangle2D;
 
 import java.io.IOException;
 
@@ -29,8 +34,11 @@ public class App extends Application {
     /** The port configuration for the client */
     static KryoClientConfig config = new KryoClientConfig();
 
+    /** Set stage */
+    private static Stage stage;
+
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage primaryStage) throws Exception {
         // start the network connection
         startConnection();
 
@@ -42,34 +50,58 @@ public class App extends Application {
         Scene scene = new Scene(new StackPane(l), 640, 480);
         stage.setScene(scene);
 
-        //To show the map
-        //GameMap map = new GameMap(stage); //uncomment to use map
-        stage.show();
         */
 
         //Creating a test userMessage to send to the server.
-        userMessage testMessage = new userMessage();
+        /* userMessage testMessage = new userMessage();
         testMessage.setMessage("Hello World! From client");
-        MuckClient.INSTANCE.send(testMessage);
+        MuckClient.INSTANCE.send(testMessage); */
 
         /* Last edited: 27/07/2021 by Harrison Liddell with assistance from W.Billingsley
           Imported work from the ChatUI group written in ChatJFX to work with the
           exsisting stand alone application/ gradle build.
         */
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MuckChat.fxml"));
+	/*FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MuckWindow.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         scene.setRoot(root);
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
         //Stage stage = new Stage();
+        stage.setMaxWidth(1200);
+        stage.setMaxHeight(1100);
+        stage.setResizable(false);
         stage.setTitle("Muck 2021");
         stage.setScene(scene);
+        stage.setOnCloseRequest(e -> shutdown()); // lambda function to ensure shutdown method is called on close
 
-        stage.show();
+        stage.show();*/
 
         /* End of Imported work */
+        try {
+            stage = primaryStage;
+            primaryStage.setResizable(false);
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/SignIn.fxml"));
+            primaryStage.setTitle("MUCK 2021");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (IOException e){
+            logger.error("Can't find primary stage FXML file");
+        }
 
+    }
+
+    public void changeScene(String fxml) throws IOException {
+        try {
+            Parent pane = FXMLLoader.load(getClass().getResource(fxml));
+            stage.setScene(new Scene(pane));
+        } catch (IOException e){
+            logger.error("Could not find file " + fxml);
+        }
+    }
+
+    public void changeScene(String fxml, String data) throws IOException {
+        Parent pane = FXMLLoader.load(getClass().getResource(fxml));
+        stage.setScene(new Scene(pane));
     }
 
 
@@ -89,8 +121,15 @@ public class App extends Application {
 
 
     void shutdown() {
-        // Exit the program
-        System.exit(0);
+        try {
+            // Disconnects the client from the server before closing the application
+            MuckClient.INSTANCE.disconnect();
+            System.exit(0);
+            logger.info("Client disconnected successfully");
+        } catch (IOException ex) {
+            System.exit(1);
+            logger.error("Client exited without disconnecting");
+        }
     }
 
     public static void main(String[] args) {
@@ -106,6 +145,7 @@ public class App extends Application {
         }
 
         launch();
+
     }
 
 }

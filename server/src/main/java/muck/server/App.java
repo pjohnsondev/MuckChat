@@ -1,11 +1,13 @@
 package muck.server;
 
 import muck.protocol.*;
+import muck.server.models.ModelRegister;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * The Main class called by the server:run task. 
@@ -34,10 +36,15 @@ public class App {
         try {
             // Start listening for messages from the client
             MuckServer.INSTANCE.startKryo(config);
-        } catch (IOException ex) {
+        } catch (IOException ex){
             logger.error("Start up failed", ex);
             System.exit(0);
+        } catch (SQLException ex) {
+            logger.error("SQL Exception thrown! Incorrect DB call.");
+            System.exit(0);
         }
+
+        new ModelRegister().makemigrations();
 
     }
 

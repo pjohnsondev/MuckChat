@@ -9,8 +9,8 @@ application {
 }
 
 javafx {
-    version = '11'
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
+    version = '16'
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.web' ]
 }
 
 dependencies {
@@ -24,7 +24,20 @@ dependencies {
     // JavaFX testing
     testImplementation "org.testfx:testfx-core:4.0.16-alpha"
     testImplementation "org.testfx:testfx-junit5:4.0.16-alpha"
+
+    // For Avatar images
+    //implementation "com.gluonhq:charm-glisten:6.0.2"
+
+    // For Social Media Posting - RestFB is a tool for using FaceBook Graph API with Java https://restfb.com/
+    implementation 'com.google.code.gson:gson:2.7'
 }
+
+// For the Avatar images
+/*repositories {
+    maven {
+        url ("https://nexus.gluonhq.com/nexus/content/repositories/releases/")
+    }
+}*/
 
 /**
  * This allows us to build a "fat jar" containing the JavaFX components, so that the client jar can be moved to another

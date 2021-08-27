@@ -15,6 +15,7 @@ subprojects {
         maven { url "https://hopper.une.edu.au/artifactory/libs-snapshot/" }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+        //maven { url "https://nexus.gluonhq.com/nexus/content/repositories/releases/" } // For avatar images
         mavenLocal()
         mavenCentral()
     }
@@ -39,6 +40,12 @@ subprojects {
 
         // javaFX testing
 
+        // For Avatar images
+        //implementation "com.gluonhq:charm-glisten:6.0.2"
+
+        // For Hashing Passwords
+        implementation "org.connectbot:jbcrypt:1.0.2"
+
     }
 
     test {
@@ -47,7 +54,7 @@ subprojects {
     }
     
     jacoco {
-        toolVersion = "0.8.4"
+        toolVersion = "0.8.7"
         reportsDir = file("$buildDir/customJacocoReportDir")
     }
 
