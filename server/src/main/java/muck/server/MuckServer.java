@@ -110,6 +110,10 @@ public enum MuckServer {
             //Send to interaction listener - added 26/8  - mhay23@myune.edu.au
             interactionListener.handle(connID.getID(), clientMessage.getMessage());
 
+            if (InteractionListener.isValidCommand(clientMessage.getMessage())) {
+                kryoServer.sendToAllTCP(new Interaction(clientMessage.getMessage(), connID.getID()));
+            }
+
             logger.info(clientMessage);
 
             kryoServer.sendToAllTCP(clientMessage); //Send to all clients connected. Can be switched to send only to one client.

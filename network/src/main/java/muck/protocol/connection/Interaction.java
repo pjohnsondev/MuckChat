@@ -15,7 +15,7 @@ public class Interaction {
      * @param commandArg
      * @param senderConnId
      */
-    Interaction(String commandArg, int senderConnId) {
+    public Interaction(String commandArg, int senderConnId) {
         this.command = commandArg;
         this.senderConnectionId = senderConnId;
     }
