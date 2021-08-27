@@ -110,25 +110,25 @@
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </Circle>
-      <Text fx:id="skeletonAlert" fill="#87cdff" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="182.9830722808838" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+      <Text fx:id="skeletonAlert" fill="#87cdff" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="163.9830722808838" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
          <font>
-            <Font name="Berlin Sans FB Demi Bold" size="14.0" />
+            <Font name="Arial Rounded MT Bold" size="11.0" />
          </font>
          <GridPane.margin>
             <Insets top="10.0" />
          </GridPane.margin>
       </Text>
-      <Text fx:id="wonderWomanAlert" fill="#87cdff" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="213.9830722808838" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+      <Text fx:id="wonderWomanAlert" fill="#87cdff" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="162.9830722808838" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
          <font>
-            <Font name="Berlin Sans FB Demi Bold" size="14.0" />
+            <Font name="Arial Rounded MT Bold" size="11.0" />
          </font>
          <GridPane.margin>
             <Insets top="10.0" />
          </GridPane.margin>
       </Text>
-      <Text fx:id="yoshiAlert" fill="#87cdff" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="178.9830722808838" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+      <Text fx:id="yoshiAlert" fill="#87cdff" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="167.9830722808838" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
          <font>
-            <Font name="Berlin Sans FB Demi Bold" size="14.0" />
+            <Font name="Arial Rounded MT Bold" size="11.0" />
          </font>
          <GridPane.margin>
             <Insets top="10.0" />
