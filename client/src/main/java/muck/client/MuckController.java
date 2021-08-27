@@ -25,7 +25,15 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+
+import java.util.function.Supplier;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.logging.Level;
+import muck.core.Location;
+import muck.core.Pair;
 
 import javafx.stage.Stage;
 import muck.client.space_invaders.LandingPage;
@@ -114,17 +122,22 @@ public class MuckController implements Initializable {
     String message;
 
     private static final Logger logger = LogManager.getLogger();
+    static Supplier<List<Sprite>> getPlayersfn = () -> MuckClient.INSTANCE.getPlayerSprites();
+    static BiConsumer<String, Location> updatePlayerfn = (avatar, loc) -> MuckClient.INSTANCE.updatePlayerLocation(avatar, loc);
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+	public void initialize(URL location, ResourceBundle resources) {
+
         closeChat.setOnAction(this::toggleChatWindow);
         game1Button.setOnAction(this::launchSpaceInvaders);
         openChatOnly.setOnAction(this::openChatOnly);
         enter.setOnAction(this::sendMessage);
         openFullChat.setOnAction(this::openFullChat);
         plus.setOnAction(this::addChatTab); // adds new tab
-        GameMap gm = new GameMap(gameCanvas); // Adds GameMap animation to the game window
-        Image chosenAvatar = AvatarController.getPortrait("peach"); // TODO: The avatar ID needs to the that attached to a username. Need server call!
+
+        GameMap gm = new GameMap(gameCanvas, updatePlayerfn, getPlayersfn); // Adds GameMap animation to the game window
+        Image chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
+        userNameDisplay.setText(userName);// // Sets username that has been passed in from Avatar class
         circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
         chatSection.setFocusTraversable(true);
         chatSection.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> chatSection.isFocused());

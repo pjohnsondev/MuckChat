@@ -11,6 +11,8 @@ import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import muck.core.Id;
+import muck.core.ClientId;
 
 import java.sql.SQLException;
 
@@ -52,7 +54,7 @@ public class PlayerManagerTest {
         String username = "test_username+1357";
         String password = "password";
         user.registerNewUser(username, password);
-        Login login = new Login(username, password);
+        Login login = new Login(username, password, new Id<ClientId>());
         PlayerManager playerManager = new PlayerManager(user);
 
         Player player = playerManager.loginPlayer(login);
@@ -66,7 +68,7 @@ public class PlayerManagerTest {
         String password = "password";
         user.registerNewUser(username, password);
 
-        Login login = new Login(username, "WrongPassword");
+        Login login = new Login(username, "WrongPassword", new Id<ClientId>());
         PlayerManager playerManager = new PlayerManager(user);
 
         assertThrows(AuthenticationFailedException.class, () -> playerManager.loginPlayer(login));
@@ -78,7 +80,7 @@ public class PlayerManagerTest {
         String password = "Test_Password";
         user.registerNewUser(username, password);
 
-        Login login = new Login(username, password);
+        Login login = new Login(username, password, new Id<ClientId>());
         PlayerManager playerManager = new PlayerManager(user);
 
         Player player = playerManager.loginPlayer(login);
@@ -110,7 +112,7 @@ public class PlayerManagerTest {
         String password = "test_password";
         user.registerNewUser(username, password);
 
-        Login login = new Login(username, "test_password");
+        Login login = new Login(username, "test_password", new Id<ClientId>());
         PlayerManager playerManager = new PlayerManager(user);
 
         playerManager.loginPlayer(login);
