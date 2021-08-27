@@ -13,6 +13,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -32,15 +33,22 @@ public class LandingPage extends Node {
 
     List<StarBackground> stars;
 
+    private ImageView titleView;
+    private static final Image TITLE = new Image("/images/space-invaders-title.png");
+
     private static final Random RAND = new Random();
     private static final int HEIGHT = 600;
     private static final int WIDTH = 1000;
     private GraphicsContext gc;
+
+    final Button playButton = new Button("PLAY");
+    final Button gamePlayButton = new Button("GAMEPLAY INSTRUCTIONS");
     final Button exitButton = new Button("EXIT");
+
     final GridPane grid = new GridPane();
 
     public LandingPage (BorderPane stage, Canvas canvas) {
-        //Canvas canvas = new Canvas(WIDTH, HEIGHT);
+
         gc = canvas.getGraphicsContext2D();
 
         var root = new Pane();
@@ -77,39 +85,37 @@ public class LandingPage extends Node {
         stars = new ArrayList<>();
 
         // Add "Muck Space Invaders" Image as title
+        ImageView titleView = new ImageView();
+        titleView.setFitWidth(350);
+        titleView.setFitHeight(130);
+        titleView.setImage(TITLE);
 
-        ImageView titleView = new ImageView
-                ("file:client/src/main/java/muck/client/space_invaders/images/space_invaders_title.png");
-        titleView.setFitWidth(WIDTH-100);
-        titleView.setPreserveRatio(true);
-        grid.add(titleView, 0,0,2,5);
+        grid.add(titleView, 0,0,3,5);
+
 
         // Add Play Button
-        final Button playButton = new Button("PLAY");
         playButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         playButton.setStyle("-fx-background-color: #00ff00");
-        grid.add(playButton, 0, 6, 2, 5);
+
+        grid.add(playButton, 0, 8, 2, 5);
 
         // Add Gameplay Button
-        final Button gamePlayButton = new Button("GAMEPLAY INSTRUCTIONS");
         gamePlayButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         gamePlayButton.setStyle("-fx-background-color: #00ff00");
-        grid.add(gamePlayButton, 0, 11, 2, 5);
+
+        grid.add(gamePlayButton, 0, 13, 2, 5);
 
         // Add Exit Button
-
         exitButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         exitButton.setStyle("-fx-background-color: #00ff00");
 
-        grid.add(exitButton, 0, 16, 2, 5);
+        grid.add(exitButton, 0, 18, 2, 5);
 
 
         stage.getChildren().add(grid);
-        //stage.setScene(new Scene(root, WIDTH, HEIGHT));
-        //stage.show();
+
 
         // Create event when Play Button is clicked. For now it opens up a new window
-        // TODO: Open game up in same canvas.
         playButton.setOnAction(event -> {
 
             Label secondLabel = new Label("Welcome to Space Invaders!");
@@ -179,9 +185,9 @@ public class LandingPage extends Node {
             posY = 0;
             w = RAND.nextInt(5) + 1;
             h = RAND.nextInt(5) + 1;
-            r = RAND.nextInt(100) + 150;
-            g = RAND.nextInt(100) + 150;
-            b = RAND.nextInt(100) + 150;
+            r = 255;
+            g = 255;
+            b = 255;
             opacity = RAND.nextFloat();
             if (opacity < 0) opacity *= -1;
             if (opacity > 0.5) opacity = 0.5;

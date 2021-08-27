@@ -55,7 +55,7 @@ public class App extends Application {
           Imported work from the ChatUI group written in ChatJFX to work with the
           exsisting stand alone application/ gradle build.
         */
-	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MuckWindow.fxml"));
+	/*FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MuckWindow.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         scene.setRoot(root);
@@ -68,9 +68,10 @@ public class App extends Application {
         stage.setScene(scene);
         stage.setOnCloseRequest(e -> shutdown()); // lambda function to ensure shutdown method is called on close
 
-        stage.show();
+        stage.show();*/
 
         /* End of Imported work */
+        AvatarController.avatarCreation("Test");
 
     }
 

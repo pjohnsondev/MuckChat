@@ -47,7 +47,7 @@ public class Game {
         // Game play
         // Loop manages turns as long as there are any cards still in play
         while (shuffled_deck.cards.size() != 0 && player1.hand.cards.size() != 0
-        && player2.hand.cards.size() != 0){
+                && player2.hand.cards.size() != 0){
             if (turn == 1){
                 player_turn(player1);
             }

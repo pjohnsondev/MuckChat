@@ -29,10 +29,15 @@ import javafx.animation.*;
  * The Game Map class...
  */
 public class GameMap extends Canvas implements EventHandler<KeyEvent> {
-
 	public static int playerSpriteXSize = 5;
 	public static int playerSpriteYSize = 5;
 
+<<<<<<< HEAD
+=======
+	public static int playerSpriteXSize = 5;
+	public static int playerSpriteYSize = 5;
+
+>>>>>>> main
 	List<Sprite> players = new ArrayList<Sprite>();
 	TileMapReader tm = new TileMapReader("/map.tmx");
 	Sprite hero = new Sprite(300, 300, playerSpriteXSize, playerSpriteYSize, "pikachu"); // Create the player sprite
@@ -147,6 +152,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 				startY = (int) (cameraY / tm.getTileHeight());
 				offX = (int) (cameraX % tm.getTileWidth());
 				offY = (int) (cameraY % tm.getTileWidth());
+<<<<<<< HEAD
 
 				drawLayer(0); // draws a single layer pass the layer number (floor)
 				n++;
@@ -159,6 +165,20 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 				} // reset water animation timer
 				drawLayer(2);
 
+=======
+
+				drawLayer(0); // draws a single layer pass the layer number (floor)
+				n++;
+				drawLayer(1);
+				if (n < 15) {
+					drawLayer(3); // Water animation layer
+				}
+				if (n > 30) {
+					n = 0;
+				} // reset water animation timer
+				drawLayer(2);
+
+>>>>>>> main
 				Sprite.drawHero(gc, rectangle, tm, hero, centerX, centerY);
 
 				// Added by Trent - 20/08

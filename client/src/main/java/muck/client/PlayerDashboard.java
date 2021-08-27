@@ -11,12 +11,12 @@ import javafx.stage.Stage;
 This class executes the Avatar FXML application.
  */
 
-public class Avatar extends Application {
+public class PlayerDashboard extends Application {
 
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Avatar.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PlayerDashboard.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
             scene.setRoot(root);
@@ -30,7 +30,9 @@ public class Avatar extends Application {
     }
 
 
-   public static void main(String[] args) {
-        AvatarController.avatarCreation("Test");
+    public static void main(String[] args) {
+        launch();
+
+        //PlayerDashboardController.playerDashboard("Test");
     }
 }
