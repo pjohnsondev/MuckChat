@@ -21,6 +21,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class PlayerDashboardController implements Initializable {
     private static String userName;
@@ -59,7 +60,16 @@ public class PlayerDashboardController implements Initializable {
             health.setText(String.valueOf(healthTotal));
 
             change.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                AvatarController.avatarCreation(event, userName, avatarID);
+                try {
+                    //This will take over the scene that currently holds the player dashboard screen
+                    AvatarController.avatarCreation(userName, avatarID);
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    Parent parent = FXMLLoader.load(getClass().getResource("/fxml/Avatar.fxml"));
+                    stage.setScene(new Scene(parent));
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             });
 
             gameReturn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -91,6 +101,24 @@ public class PlayerDashboardController implements Initializable {
         }
     }
 
+    public static void playerDashboard(String uname, String avID) {
+        userName = uname;
+        avatarID = avID;
+        //TODO: Call the server to get all the relevant information
+        /*try {
+            Parent root = FXMLLoader.load(PlayerDashboardController.class.getResource("/fxml/PlayerDashboard.fxml"));
+            Scene scene = new Scene(root);
+            scene.setRoot(root);
+            scene.getStylesheets().add(PlayerDashboardController.class.getResource("/css/style.css").toExternalForm());
+            //This line gets the Stage Information
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+    }
+
     public static void playerDashboard(String uname, MouseEvent event, String avID) {
         userName = uname;
         avatarID = avID;
@@ -111,7 +139,9 @@ public class PlayerDashboardController implements Initializable {
 
     private void returnToGame(MouseEvent event, String uname, String avID) {
         // TODO: Send username and avatar back to the server for storage
-        MuckController.constructor(event, uname, avID);
+        MuckController.constructor(uname, avID);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.close();
     }
 
     private void centreImage() { //TODO: This is not centring vertically???

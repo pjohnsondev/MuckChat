@@ -35,6 +35,7 @@ import java.util.logging.Level;
 
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import muck.client.enduring_fantasy.LandingPageEf;
 import muck.client.space_invaders.LandingPage;
 import muck.protocol.connection.*;
@@ -151,7 +152,17 @@ public class MuckController implements Initializable {
         circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
         circle.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             System.out.println("Circle pressed");
-            PlayerDashboardController.playerDashboard(userName, event, avatarID);
+            try {
+                PlayerDashboardController.playerDashboard(userName, avatarID);
+                Parent parent = FXMLLoader.load(getClass().getResource("/fxml/PlayerDashboard.fxml"));
+                Stage stage = new Stage(StageStyle.DECORATED);
+                stage.setTitle("Muck2021");
+                stage.setScene(new Scene(parent));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //PlayerDashboardController.playerDashboard(userName, event, avatarID);
         });
         chatSection.setFocusTraversable(true);
         chatSection.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> chatSection.isFocused());
@@ -195,6 +206,11 @@ public class MuckController implements Initializable {
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public static void constructor(String name, String avatar) {
+        userName = name;
+        avatarID = avatar;
     }
 
     //Function that displays message in chat box
