@@ -127,21 +127,17 @@ public class CardsGameController implements Initializable {
     @FXML //fx:id="draw from deck" - pick up from deck 
     public Button draw_from_deck;
 
-
     @FXML // fx:id="menu"
     private MenuBar menu;
 
-
-
-
- /*   //Image initialisation
+    //Image initialisation
     private Image twoOfClubs = new Image("images/cards/2_of_clubs.png");
     private Image twoOfDiamonds = new Image("images/cards/2_of_diamonds.png");
     private Image twoOfHearts = new Image("images/cards/2_of_hearts.png");
     private Image threeOfClubs = new Image("images/cards/3_of_clubs.png");
     private Image threeOfDiamonds = new Image("images/cards/3_of_diamonds.png");
     private Image threeOfHearts = new Image("images/cards/3_of_hearts.png");
-    private Image threeOfSpades = new Image("resources/images/cards/3_of_spades.png");
+    private Image threeOfSpades = new Image("images/cards/3_of_spades.png");
     private Image fourOfClubs = new Image("images/cards/4_of_clubs.png");
     private Image fourOfDiamonds = new Image("images/cards/4_of_diamonds.png");
     private Image fourOfHearts = new Image("images/cards/4_of_hearts.png");
@@ -174,75 +170,20 @@ public class CardsGameController implements Initializable {
     private Image aceOfDiamonds = new Image("images/cards/ace_of_diamonds.png");
     private Image aceOfHearts = new Image("images/cards/ace_of_hearts.png");
     private Image aceOfSpades = new Image("images/cards/ace_of_spades2.png");
-    private Image jackOfClubs = new Image("images/cards/jack_of_clubs2.png");
-    private Image jackOfDiamonds = new Image("images/cards/jack_of_diamonds2.png");
-    private Image jackOfHearts = new Image("images/cards/jack_of_hearts2.png");
-    private Image jackOfSpades = new Image("images/cards/jack_of_hearts2.png");
-    private Image kingOfClubs = new Image("images/cards/king_of_clubs2.png");
-    private Image kingOfDiamonds = new Image("images/cards/king_of_diamonds2.png");
-    private Image kingOfHearts = new Image("images/cards/king_of_hearts2.png");
-    private Image kingOfSpades = new Image("images/cards/king_of_spades2.png");
-    private Image queenOfClubs = new Image("images/cards/queen_of_clubs2.png");
-    private Image queenOfDiamonds = new Image("images/cards/queen_of_diamonds2.png");
-    private Image queenOfHearts = new Image("images/cards/queen_of_hearts2.png");
-    private Image queenOfSpades = new Image("images/cards/queen_of_spades2.png");
+    private Image jackOfClubs = new Image("images/cards/jack_of_clubs.png");
+    private Image jackOfDiamonds = new Image("images/cards/jack_of_diamonds.png");
+    private Image jackOfHearts = new Image("images/cards/jack_of_hearts.png");
+    private Image jackOfSpades = new Image("images/cards/jack_of_spades.png");
+    private Image kingOfClubs = new Image("images/cards/king_of_clubs.png");
+    private Image kingOfDiamonds = new Image("images/cards/king_of_diamonds.png");
+    private Image kingOfHearts = new Image("images/cards/king_of_hearts.png");
+    private Image kingOfSpades = new Image("images/cards/king_of_spades.png");
+    private Image queenOfClubs = new Image("images/cards/queen_of_clubs.png");
+    private Image queenOfDiamonds = new Image("images/cards/queen_of_diamonds.png");
+    private Image queenOfHearts = new Image("images/cards/queen_of_hearts.png");
+    private Image queenOfSpades = new Image("images/cards/queen_of_spades.png");
     private Image backOfCard = new Image("images/cards/backofdeck.png");
-    private Image two_of_clubs = new Image("images/cards/2_of_clubs.png");
-    private Image two_of_diamonds = new Image("images/cards/2_of_diamonds.png");
-    private Image two_of_hearts = new Image("images/cards/2_of_hearts.png");
-    private Image three_of_clubs = new Image("images/cards/3_of_clubs.png");
-    private Image three_of_diamonds = new Image("images/cards/3_of_diamonds.png");
-    private Image three_of_hearts = new Image("images/cards/3_of_hearts.png");
-    private Image three_of_spades = new Image("resources/images/cards/3_of_spades.png");
-    private Image four_of_clubs = new Image("images/cards/4_of_clubs.png");
-    private Image four_of_diamonds = new Image("images/cards/4_of_diamonds.png");
-    private Image four_of_hearts = new Image("images/cards/4_of_hearts.png");
-    private Image four_of_spades = new Image("images/cards/4_of_spades.png");
-    private Image five_of_clubs = new Image("images/cards/5_of_clubs.png");
-    private Image five_of_diamonds = new Image("images/cards/5_of_diamonds.png");
-    private Image five_of_hearts = new Image("images/cards/5_of_hearts.png");
-    private Image five_of_spades = new Image("images/cards/5_of_spades.png");
-    private Image six_of_clubs = new Image("images/cards/6_of_clubs.png");
-    private Image six_of_diamonds = new Image("images/cards/6_of_diamonds.png");
-    private Image six_of_hearts = new Image("images/cards/6_of_hearts.png");
-    private Image six_of_spades = new Image("images/cards/6_of_spades.png");
-    private Image seven_of_clubs = new Image("images/cards/7_of_clubs.png");
-    private Image seven_of_diamonds = new Image("images/cards/7_of_diamonds.png");
-    private Image seven_of_hearts = new Image("images/cards/7_of_hearts.png");
-    private Image seven_of_spades = new Image("images/cards/7_of_spades.png");
-    private Image eight_of_clubs = new Image("images/cards/8_of_clubs.png");
-    private Image eight_of_diamonds = new Image("images/cards/8_of_diamonds.png");
-    private Image eight_of_hearts = new Image("images/cards/8_of_hearts.png");
-    private Image eight_of_spades = new Image("images/cards/8_of_spades.png");
-    private Image nine_of_clubs = new Image("images/cards/9_of_clubs.png");
-    private Image nine_of_diamonds = new Image("images/cards/9_of_diamonds.png");
-    private Image nine_of_hearts = new Image("images/cards/9_of_hearts.png");
-    private Image nine_of_spades = new Image("images/cards/9_of_spades.png");
-    private Image ten_of_clubs = new Image("images/cards/10_of_clubs.png");
-    private Image ten_of_diamonds = new Image("images/cards/10_of_diamonds.png");
-    private Image ten_of_hearts = new Image("images/cards/10_of_hearts.png");
-    private Image ten_of_spades = new Image("images/cards/10_of_spades.png");
-    private Image ace_of_clubs = new Image("images/cards/ace_of_clubs.png");
-    private Image ace_of_diamonds = new Image("images/cards/ace_of_diamonds.png");
-    private Image ace_of_hearts = new Image("images/cards/ace_of_hearts.png");
-    private Image ace_of_spades = new Image("images/cards/ace_of_spades.png");
-    private Image jack_of_clubs = new Image("images/cards/jack_of_clubs.png");
-    private Image jack_of_diamonds = new Image("images/cards/jack_of_diamonds.png");
-    private Image jack_of_hearts = new Image("images/cards/jack_of_hearts.png");
-    private Image jack_of_spades = new Image("images/cards/jack_of_hearts.png");
-    private Image king_of_clubs = new Image("images/cards/king_of_clubs.png");
-    private Image king_of_diamonds = new Image("images/cards/king_of_diamonds.png");
-    private Image king_of_hearts = new Image("images/cards/king_of_hearts.png");
-    private Image king_of_spades = new Image("images/cards/king_of_spades.png");
-    private Image queen_of_clubs = new Image("images/cards/queen_of_clubs.png");
-    private Image queen_of_diamonds = new Image("images/cards/queen_of_diamonds.png");
-    private Image queen_of_hearts = new Image("images/cards/queen_of_hearts.png");
-    private Image queen_of_spades = new Image("images/cards/queen_of_spades.png");
- */
-    /*protected CardsGameController(Button goFish, Label sets_made) {
-        this.go_fish = goFish;
-        this.sets_made = sets_made;
-    }*/
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -258,9 +199,15 @@ public class CardsGameController implements Initializable {
             try {
                 Button close = new Button();
                 close.setText("Close");
-                BorderPane root = new BorderPane(new TextArea("You've gone fishin' !\n\nYou'vee caught a CARD SUIT/COLOR card"));
-                // need to add the cards that the player asks for and maybe also add if the other player has/hasnt got that card
+                BorderPane root = new BorderPane(new TextArea());
                 Scene scene = new Scene(root, 300, 145);
+
+                //box for text area
+                HBox textHB = new HBox();
+                textHB.setAlignment(Pos.TOP_CENTER);
+                textHB.getChildren().add(new TextArea("You've gone fishin' !\n\nYou've caught a CARD SUIT/COLOR card"));
+                // just add the card that the player's picked up
+                root.setCenter(textHB);
 
                 HBox butbox = new HBox();
                 butbox.setAlignment(Pos.CENTER);
@@ -285,15 +232,21 @@ public class CardsGameController implements Initializable {
             try {
                 Button close = new Button();
                 close.setText("Close");
-                BorderPane root = new BorderPane(new TextArea("You have asked for the card: ***\n\nYour opponent DOES/DOES NOT have that card"));
-                // need to add the cards that the player asks for and maybe also add if the other player has/hasnt got that card
+                BorderPane root = new BorderPane();
                 Scene scene = new Scene(root, 300, 145);
 
+                //box for text area
+                HBox textHB = new HBox();
+                textHB.setAlignment(Pos.TOP_CENTER);
+                textHB.getChildren().add(new TextArea("You have asked for the card: ***\n\nYour opponent DOES/DOES NOT have that card"));
+                // need to add the cards that the player asks for and maybe also add if the other player has/hasnt got that card
+                root.setCenter(textHB);
+
+                //box for close button
                 HBox butbox = new HBox();
                 butbox.setAlignment(Pos.CENTER);
                 butbox.getChildren().add(close);
                 root.setBottom(butbox);
-
                 Stage stage = new Stage();
                 stage.setTitle("Ask for a card!");
                 stage.setScene(scene);
@@ -317,9 +270,16 @@ public class CardsGameController implements Initializable {
             try {
                Button close = new Button();
                close.setText("Close");
-               BorderPane root = new BorderPane(new TextArea("You have received the cards: *** ")); // need to add the cards that the player gets
+               BorderPane root = new BorderPane(new TextArea());
                Scene scene = new Scene(root, 300, 145);
 
+                //box for text area
+                HBox textHB = new HBox();
+                textHB.setAlignment(Pos.TOP_CENTER);
+                textHB.getChildren().add(new TextArea("You have received the cards: *** ")); // need to add the cards that the player gets
+                root.setCenter(textHB);
+
+                //box for button
                HBox butbox = new HBox();
                butbox.setAlignment(Pos.CENTER);
                butbox.getChildren().add(close);
