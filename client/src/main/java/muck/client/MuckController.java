@@ -44,6 +44,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import muck.client.enduring_fantasy.LandingPageEf;
 import muck.client.space_invaders.LandingPage;
+import muck.client.AvatarController;
 import muck.protocol.connection.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -151,7 +152,6 @@ public class MuckController implements Initializable {
         closeChat.setOnAction(this::toggleChatWindow);
         game1Button.setOnAction(this::launchSpaceInvaders);
         game2Button.setOnAction(this::launchEnduringFantasy);
-        openChatOnly.setOnAction(this::openChatOnly);
         enter.setOnAction(this::sendMessage);
         openFullChat.setOnAction(this::openFullChat);
         plus.setOnAction(this::addChatTab); // adds new tab
@@ -169,7 +169,7 @@ public class MuckController implements Initializable {
                 stage.setTitle("Muck2021");
                 stage.setScene(new Scene(parent));
                 windowPane.addEventHandler(MouseEvent.MOUSE_MOVED, MouseEvent -> updateAvatar(circle));
-                windowPane.addEventHandler(MouseEvent.MOUSE_MOVED, MouseEvent -> new GameMap(gameCanvas));
+                gameCanvas.addEventHandler(MouseEvent.MOUSE_CLICKED, MouseEvent -> refreshGameMap(gameCanvas));
                 stage.show();
 
             } catch (IOException e) {
@@ -216,6 +216,7 @@ public class MuckController implements Initializable {
             stage.setScene(scene);
             stage.setOnCloseRequest(e -> stage.close());
             stage.show();
+
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -224,6 +225,10 @@ public class MuckController implements Initializable {
     public static void constructor(String name, String avatar) {
         userName = name;
         avatarID = avatar;
+    }
+
+    public static void refreshGameMap(Canvas canvas) {
+        new GameMap(canvas, updatePlayerfn, getPlayersfn);
     }
 
     public static void updateAvatar(Circle circle){
@@ -291,15 +296,6 @@ public class MuckController implements Initializable {
     private void openFullChat(ActionEvent event) {
         windowPane.setDividerPositions(0.43);
         chatSplitPane.setDividerPositions(0.6);
-        openChatOnly.setVisible(false);
-    }
-
-
-    @FXML
-    //Function that opens the chat window only
-    private void openChatOnly(ActionEvent event) {
-        windowPane.setDividerPositions(0.70);
-        chatSplitPane.setDividerPositions(0.989);
         openChatOnly.setVisible(false);
     }
 
