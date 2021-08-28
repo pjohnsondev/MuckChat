@@ -156,7 +156,7 @@ public class MuckController implements Initializable {
         openFullChat.setOnAction(this::openFullChat);
         plus.setOnAction(this::addChatTab); // adds new tab
 
-        GameMap gm = new GameMap(gameCanvas, updatePlayerfn, getPlayersfn); // Adds GameMap animation to the game window
+        GameMap gm = new GameMap(gameCanvas); // Adds GameMap animation to the game window
         Image chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
         userNameDisplay.setText(userName);// // Sets username that has been passed in from Avatar class
         circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
