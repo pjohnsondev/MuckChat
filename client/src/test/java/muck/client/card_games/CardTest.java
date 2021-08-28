@@ -46,27 +46,27 @@ public class CardTest {
     public void testShuffle() {
         logger.info("Testing that a random card in the deck is not in the same place after a shuffle");
         int randomID = rand.nextInt(52);
-        int beforeShuffle = myDeck.cards.get(randomID).getValue();
+        int beforeShuffle = myDeck.cards.get(randomID).getCardId();
         myDeck.shuffle_cards();
-        int afterShuffle = myDeck.cards.get(randomID).getValue();
+        int afterShuffle = myDeck.cards.get(randomID).getCardId();
         assertNotEquals(beforeShuffle, afterShuffle);
         logger.info("Testing that a random card in the deck is not in the same place after a second shuffle");
         myDeck.shuffle_cards();
-        int afterSecondShuffle = myDeck.cards.get(randomID).getValue();
+        int afterSecondShuffle = myDeck.cards.get(randomID).getCardId();
         assertNotEquals(afterShuffle, afterSecondShuffle);
     }
 
     @Test
     public void testDrawCard() {
         logger.info("Testing that drawing the top card from the deck, deletes it from the main deck array and adds ths same card to the hand");
-        int cardID = myDeck.cards.get(0).getValue();
+        int cardID = myDeck.cards.get(0).getCardId();
         myHand.draw_top_card(myDeck);
 
         assertAll(
                 () -> assertEquals(51, myDeck.cards.size()),
                 () -> assertEquals(1, myHand.cards.size()),
-                () -> assertNotEquals(cardID, myDeck.cards.get(0).getValue()),
-                () -> assertEquals(myHand.cards.get(0).getValue(), cardID),
+                () -> assertNotEquals(cardID, myDeck.cards.get(0).getCardId()),
+                () -> assertEquals(myHand.cards.get(0).getCardId(), cardID),
                 () -> assertEquals(myHand.cards.size(), 1)
         );
     }
