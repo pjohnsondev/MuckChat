@@ -8,8 +8,8 @@ import java.util.Collections;
  * Player Class. Instantiates a Player
  */
 public class Player {
-    private int score;
-    Hand hand;
+    public int score;
+    public Hand hand;
     int score_incr = 10;
 
     /**

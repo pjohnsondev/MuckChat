@@ -184,10 +184,9 @@ public class CardsGameController implements Initializable {
     private Image queenOfSpades = new Image("images/cards/queen_of_spades.png");
     private Image backOfCard = new Image("images/cards/backofdeck.png");
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        Game game = new Game();
         go_fish.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             //go fish needs to basically pass back a variable switch that makes the
             //draw card popup visible for other player.
@@ -226,7 +225,6 @@ public class CardsGameController implements Initializable {
 
 
         ask_for_card.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            //Player_turn.ask_for_card(enter card value here);
             //TODO: make function body
             //NEED TO ADD THE FUNCTION FOR ASKING FOR A CARD
             try {
@@ -258,7 +256,8 @@ public class CardsGameController implements Initializable {
         });
         
         draw_from_deck.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            //Hand.draw_cards(enter deck name here);
+            game.player1.hand.draw_top_card(game.deck);
+            game.print_cards(1);
             //I got this function fully written. Another separate one that deals the hand.
             //Maybe just need to change it so it doesn't need the deck name input? Some this.deck scenario.
             //MIGHT ADD A COUNTER OR SOMETHING SO WHEN THEY START THE GAME - FIRST UP THEY
@@ -276,7 +275,7 @@ public class CardsGameController implements Initializable {
                 //box for text area
                 HBox textHB = new HBox();
                 textHB.setAlignment(Pos.TOP_CENTER);
-                textHB.getChildren().add(new TextArea("You have received the cards: *** ")); // need to add the cards that the player gets
+                textHB.getChildren().add(new TextArea("You have received the cards: " + game.card_list)); // need to add the cards that the player gets
                 root.setCenter(textHB);
 
                 //box for button

@@ -5,7 +5,9 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Hand extends Deck{
-    ArrayList<Card> sets;
+    public ArrayList<Card> sets;
+    public ArrayList<Card> cards;
+
     /**
      * Constructor Function for the Hand Class
      *
@@ -24,7 +26,7 @@ public class Hand extends Deck{
      * draw_top_card Method.
      * Takes a deck as a parameter. Takes a Card object from that deck and places it into the Hand
      */
-    void draw_top_card(Deck deck){
+    public void draw_top_card(Deck deck){
         this.cards.add(deck.cards.get(0));
         deck.cards.remove(0);
     }
@@ -33,7 +35,7 @@ public class Hand extends Deck{
      * draw_hand Method.
      * Takes a deck as a parameter. Takes 7 Card objects from that deck and places it into the Hand
      */
-    void draw_hand(Deck deck){
+    public void draw_hand(Deck deck){
         if (deck.cards.size() >= 7) {
             for (int i = 0; i < 7; i++) {
                 this.cards.add(deck.cards.get(i));

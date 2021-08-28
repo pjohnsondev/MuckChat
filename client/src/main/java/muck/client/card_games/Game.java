@@ -7,18 +7,19 @@ import java.sql.SQLOutput;
  */
 public class Game {
     //This needs to create an id that is an incremented number on the last created id
-    private int game_id;
+    public int game_id;
     //keeping track of who's turn it is.
     public static int current_round;
     //unique id to the game to send information to database for other player to receive.
     public static int round_id;
     //this player
-    Player player1;
+    public Player player1;
     //other player
-    Other_player player2;
-    Deck deck;
+    public Other_player player2;
+    public Deck deck;
     //as long as active is true, the current round remains active. once it is changed to false, the turn ends
-    boolean active;
+    public boolean active;
+    public String card_list;
 
     /**
      * Constructor Function for the Game Class
@@ -63,6 +64,10 @@ public class Game {
 
     }
 
+    public void print_cards(int number){
+        card_list = player1.hand.cards.get(player1.hand.cards.size() - 1).getCardName() + " of " +
+                player1.hand.cards.get(player1.hand.cards.size() - 1).getSuit() + ".";
+    }
 
   public static void main(String[] args){
         // Creating instance of game
