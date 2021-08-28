@@ -73,10 +73,10 @@ public class MuckController implements Initializable {
     private BorderPane gamePane1; // Value injected by FXMLLoader
 
     @FXML // fx:id="gameCanvas" the original game canvas with the Map. Map displays in here
-    private Canvas gameCanvas; // Value injected by FXMLLoader
+    public Canvas gameCanvas; // Value injected by FXMLLoader
 
     @FXML // fx:id="circle" Circle image area for avatar
-    private Circle circle; // Value injected by FXMLLoader
+    public Circle circle; // Value injected by FXMLLoader
 
     /*@FXML // fx:id="avatar" Actual avatar picture
     private ImageView avatar; // Value injected by FXMLLoader*/
@@ -168,7 +168,10 @@ public class MuckController implements Initializable {
                 Stage stage = new Stage(StageStyle.DECORATED);
                 stage.setTitle("Muck2021");
                 stage.setScene(new Scene(parent));
+                windowPane.addEventHandler(MouseEvent.MOUSE_MOVED, MouseEvent -> updateAvatar(circle));
+                windowPane.addEventHandler(MouseEvent.MOUSE_MOVED, MouseEvent -> new GameMap(gameCanvas));
                 stage.show();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -221,6 +224,11 @@ public class MuckController implements Initializable {
     public static void constructor(String name, String avatar) {
         userName = name;
         avatarID = avatar;
+    }
+
+    public static void updateAvatar(Circle circle){
+        Image chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
+        circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
     }
 
     //Function that displays message in chat box
