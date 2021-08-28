@@ -5,9 +5,14 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
-import javafx.scene.paint.*;
 import javafx.scene.shape.*;
 import javafx.animation.*;
+import muck.core.Location;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 /**
  * The Game Map class...
@@ -27,14 +32,38 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	private int layer = 0;
 	private int tileId = 0;
 	private int GID = 0;
-	int n =0; //water animation
-	Rectangle rectangle = new Rectangle();
+	int n = 0; //water animation
+	int uP = 0; //update players
 	double screenHeightInTiles;
 	double screenWidthInTiles;
 	GraphicsContext gc;
 	Image image;
 	double cameraMaxX;
 	double cameraMaxY;
+	private BiConsumer<String, Location> updatePlayer;
+	private Supplier<List<Sprite>> otherPlayers;
+	List<Sprite> players = new ArrayList<Sprite>();
+
+	public GameMap(Canvas canvas) {
+		setupCanvas(canvas, "/texture.png");
+		updatePlayer = (s, l) -> {
+		};
+		//MuckClient.logInfo("Canvas only constructor called");
+		otherPlayers = () -> new ArrayList<Sprite>();
+	}
+
+	/**
+	 * GameMap constructor accepts the canvas to be drawn onto. 	 *
+	 * @param canvas       The gameWindow canvas to be drawn onto.
+	 * @param updatePlayer function to handle updating a player location.
+	 * @param getPlayers   function to handle getting all client locations other
+	 *                     than the calling client.
+	 */
+	public GameMap(Canvas canvas, BiConsumer<String, Location> updatePlayer, Supplier<List<Sprite>> getPlayers) {
+		this.updatePlayer = updatePlayer;
+		this.otherPlayers = getPlayers;
+		setupCanvas(canvas, "/texture.png");
+	}
 
 	/**
 	 * GameMap constructor accepts the canvas to be drawn onto.
@@ -44,11 +73,11 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	 * Provides the animation loop using AnimationTimer
 	 * @param canvas The gameWindow canvas to be drawn onto.
 	 */
-	public GameMap(Canvas canvas) {
+	public void setupCanvas(Canvas canvas, String world) {
 		//Get the graphic context of the canvas
 		gc = canvas.getGraphicsContext2D();
 		//Load the image
-		String imagePath = "/texture.png"; //hard coded needs to be passable
+		String imagePath = world; //hard coded needs to be passable
 		image = new Image(imagePath);
 
 		centerX = canvas.getWidth() / 2; //Viewport midpoint (half the width of the canvas size)
@@ -72,6 +101,13 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 			@Override
 			public void handle(long currentNanoTime) {
 				hero.move(tm, hero);
+
+				if (uP == 10) { //Update players every 10 frames
+					updatePlayers();
+					uP = 0;
+				} else {
+					uP = uP++;
+				}
 				gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 				cameraX = hero.getPosX() - centerX; //Camera top left relative to hero X
 				cameraY = hero.getPosY() - centerY; //Camera top left relative to hero Y
@@ -92,7 +128,19 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 				drawLayer(2);
 
 				Sprite.drawHero(gc, tm, hero, centerX,centerY);
-				//TODO render all other player sprites here
+
+				Sprite.drawHero(gc, tm, hero, centerX, centerY);
+
+				// Added by Trent - 20/08
+				// Gets a list of other player locations and draws them on screen
+				for (Sprite p : players) {
+					try {
+						if (p != null)
+							Sprite.drawHero(gc, tm, p, p.getPosX(), p.getPosY());
+					} catch (NullPointerException ex) {
+						MuckClient.logError(ex);
+					}
+				}
 				drawLayer(4);
 			}
 		};
@@ -172,6 +220,13 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 		}
 	}
 
+	public void updatePlayers() {
+		if (otherPlayers != null) {
+			players = otherPlayers.get();
+		}
+		if (updatePlayer != null)
+		updatePlayer.accept(hero.getAvatar(), new Location((int)hero.getPosX(), (int)hero.getPosY()));
+	}
 
 
 	@Override
