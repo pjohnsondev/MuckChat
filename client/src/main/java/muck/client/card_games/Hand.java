@@ -25,7 +25,7 @@ public class Hand extends Deck{
      * Takes a deck as a parameter. Takes a Card object from that deck and places it into the Hand
      */
     void draw_top_card(Deck deck){
-        cards.add(deck.cards.get(0));
+        this.cards.add(deck.cards.get(0));
         deck.cards.remove(0);
     }
 
@@ -36,7 +36,7 @@ public class Hand extends Deck{
     void draw_hand(Deck deck){
         if (deck.cards.size() >= 7) {
             for (int i = 0; i < 7; i++) {
-                this.sets.add(deck.cards.get(i));
+                this.cards.add(deck.cards.get(i));
                 deck.cards.remove(i);
             }
         }

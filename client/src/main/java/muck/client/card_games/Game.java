@@ -13,7 +13,32 @@ public class Game {
      */
     public Game(){ }
 
-  /*public static void main(String[] args){
+  public static void main(String[] args){
+      Deck shuffled_deck = new Deck();
+      System.out.println("There are " + shuffled_deck.cards.size() + " cards in the deck. \nShuffling the " +
+              "deck and dealing cards to both players.");
+      Player player1 = new Player();
+      Other_player player2 = new Other_player();
+      shuffled_deck.shuffle_cards();
+      System.out.println("Testing players. Player 1's score: " + player1.get_score()
+              + ". Player 2's score: " + player2.get_score());
+      player1.add_score();
+      player2.add_score();
+      System.out.println("Testing add score function. Player 1's score: "
+              + player1.get_score() + ". Player 2's score: " + player2.get_score() + "\nNow testing Draw hand" +
+              " function:");
+      player1.hand.draw_hand(shuffled_deck);
+      player2.hand.draw_hand(shuffled_deck);
+      System.out.println("Player 1 has " + player1.hand.cards.size() + " cards in their hand, and " +
+              "Player 1 has " + player1.hand.cards.size());
+      System.out.println("The deck now has " + shuffled_deck.cards.size() + " cards left in it.");
+
+      for (int i = 0; i < player1.hand.cards.size(); i++ ) {
+          System.out.println(shuffled_deck.cards.get(i).getCardName() + " of " +  shuffled_deck.cards.get(i).getSuit() );
+      }
+
+  }
+        /*
         // Initial setup
         // Variable to manage turns
         current_turn = 1;

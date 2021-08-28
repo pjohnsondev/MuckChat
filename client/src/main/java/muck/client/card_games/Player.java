@@ -31,25 +31,11 @@ public class Player {
         this.score += score_incr;
     }
 
+    int get_score(){
+        return this.score;
+    }
 
-/*    public static void main(String[] args) {
-        Deck shuffled_deck = new Deck();
-        Player player1 = new Player();
-        Player player2 = new Player();
-        shuffled_deck.shuffle_cards();
-        System.out.println("Testing players. Player 1's score: " + player1.score
-                + ". Player 2's score: " + player2.score);
-        player1.add_score();
-        player2.add_score();
-        player1.hand.draw_hand(shuffled_deck);
-        player2.hand.draw_hand(shuffled_deck);
-        System.out.println("Testing draw hand function. Player 1's score: "
-                + player1.score + ". Player 2's score: " + player2.score);
-        for (int i = 0; i < player1.hand.cards.size(); i++ ) {
-            System.out.println(shuffled_deck.cards.get(i).getCardName() + " of " +  shuffled_deck.cards.get(i).getSuit() );
-            System.out.println("This cards ID is " + shuffled_deck.cards.get(i).getValue());
-        }
-
-    }*/
+    public static void main(String[] args) {
+    }
 
 }
