@@ -3,6 +3,7 @@ package muck.client;
 import com.google.errorprone.annotations.FormatMethod;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,7 +18,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -133,7 +134,7 @@ public class CardsGameController implements Initializable {
 
 
 
-  /* // Image initialisation
+ /*   //Image initialisation
     private Image twoOfClubs = new Image("images/cards/2_of_clubs.png");
     private Image twoOfDiamonds = new Image("images/cards/2_of_diamonds.png");
     private Image twoOfHearts = new Image("images/cards/2_of_hearts.png");
@@ -254,11 +255,53 @@ public class CardsGameController implements Initializable {
             //TODO: create a boolean variable for go fish to make the response pop up
             // to other player.
             //NEED TO ADD THE GO FISH FUNCTION HERE
+            try {
+                Button close = new Button();
+                close.setText("Close");
+                BorderPane root = new BorderPane(new TextArea("You've gone fishin' !\n\nYou'vee caught a CARD SUIT/COLOR card"));
+                // need to add the cards that the player asks for and maybe also add if the other player has/hasnt got that card
+                Scene scene = new Scene(root, 300, 145);
+
+                HBox butbox = new HBox();
+                butbox.setAlignment(Pos.CENTER);
+                butbox.getChildren().add(close);
+                root.setBottom(butbox);
+
+                Stage stage = new Stage();
+                stage.setTitle("Go Fish!");
+                stage.setScene(scene);
+                stage.show();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
+
+
         ask_for_card.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             //Player_turn.ask_for_card(enter card value here);
             //TODO: make function body
             //NEED TO ADD THE FUNCTION FOR ASKING FOR A CARD
+            try {
+                Button close = new Button();
+                close.setText("Close");
+                BorderPane root = new BorderPane(new TextArea("You have asked for the card: ***\n\nYour opponent DOES/DOES NOT have that card"));
+                // need to add the cards that the player asks for and maybe also add if the other player has/hasnt got that card
+                Scene scene = new Scene(root, 300, 145);
+
+                HBox butbox = new HBox();
+                butbox.setAlignment(Pos.CENTER);
+                butbox.getChildren().add(close);
+                root.setBottom(butbox);
+
+                Stage stage = new Stage();
+                stage.setTitle("Ask for a card!");
+                stage.setScene(scene);
+                stage.show();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
         
         draw_from_deck.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -272,16 +315,20 @@ public class CardsGameController implements Initializable {
            //NEED TO ADD FUNCTION FOR PICKING UP FROM DECK - done.
 
             try {
-                FXMLLoader loader = new FXMLLoader(GoFish.class.getResource("/fxml/cards_game.fxml"));
-                Parent root = loader.load();
-                StackPane layout = new StackPane();
-                Scene scene = new Scene(layout, 400, 245);
-                scene.setFill(Color.web("#FDFEFE"));
-                //scene.setRoot(root);
-                Stage stage = new Stage();
-                stage.setTitle("New Cards!");
-                stage.setScene(scene);
-                stage.show();
+               Button close = new Button();
+               close.setText("Close");
+               BorderPane root = new BorderPane(new TextArea("You have received the cards: *** ")); // need to add the cards that the player gets
+               Scene scene = new Scene(root, 300, 145);
+
+               HBox butbox = new HBox();
+               butbox.setAlignment(Pos.CENTER);
+               butbox.getChildren().add(close);
+               root.setBottom(butbox);
+
+               Stage stage = new Stage();
+               stage.setTitle("New Cards!");
+               stage.setScene(scene);
+               stage.show();
 
             } catch (Exception e) {
                 e.printStackTrace();
