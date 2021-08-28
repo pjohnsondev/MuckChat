@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
  * Card Class. Instantiates an individual regular playing card.
  */
 public class Card {
-    private int id;
+    private int cardId, matchId;
     private String suit, cardName;
     private Image cardImage;
     private String fileName;
@@ -16,31 +16,35 @@ public class Card {
      * Constructor Function for the Card Class
      * Sets the Cards Id, Suit and Card Name
      * Sets the image file location, and the individual Card Image
-     * @param id
+     * @param cardId
      * @param suit
      * @param cardName
      */
-    public Card(int id, String suit, String cardName) {
-        setValue(id);
+    public Card(int cardId, int matchId, String suit, String cardName) {
+        setCardId(cardId);
         setSuit(suit);
         setCardName(cardName);
+        setMatchId(matchId);
         selected = false;
 //        fileName = "/images/cards/" + cardName + "_of_" + suit.toLowerCase() + ".png";
 //        cardImage = new Image(fileName);
     }
+
 
     /**
      * getValue Method.
      * Returns the ID of any Card. Each Card has a unique idea between 1 and 52
      * @return id
      */
-    public int getValue() {
-        return id;
+    public int getCardId() {
+        return cardId;
     }
+
 
     public boolean getSelectedValue() {
         return selected;
     }
+
 
     /**
      * getSuit Method.
@@ -51,6 +55,7 @@ public class Card {
         return suit;
     }
 
+
     /**
      * getCardName Method.
      * Returns the individual card name as a string. from "two" through to "ace"
@@ -59,6 +64,16 @@ public class Card {
     public String getCardName() {
         return cardName;
     }
+
+
+    /**
+     *
+     * @return matchId
+     */
+    public int getMatchId() {
+        return matchId;
+    }
+
 
     /**
      * getCardImage Method.
@@ -69,18 +84,25 @@ public class Card {
 //        return cardImage;
 //    }
 
+
     /**
-     * setValue Method.
+     * setCardId Method.
      * Sets the unique card ID as an Int
      * @param id
      */
-    public void setValue(int id) {
-        this.id = id;
+    public void setCardId(int id) {
+        this.cardId = id;
     }
 
+
+    /**
+     *
+     * @param setValue
+     */
     public void setSelected(boolean setValue) {
         selected = setValue;
     }
+
 
     /**
      * setSuit Method.
@@ -92,6 +114,7 @@ public class Card {
         this.suit = suit;
     }
 
+
     /**
      * setCardName Method.
      * Sets the individual card name as a lowercase string. From "two" through to "ace"
@@ -100,6 +123,15 @@ public class Card {
     public void setCardName(String cardName) {
         cardName = cardName.toLowerCase();
         this.cardName = cardName;
+    }
+
+
+    /**
+     *
+     * @param matchId
+     */
+    public void setMatchId(int matchId) {
+        this.matchId = matchId;
     }
 
 
