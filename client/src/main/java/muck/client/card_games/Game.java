@@ -29,7 +29,6 @@ public class Game {
         player1 = new Player();
         player2 = new Other_player();
         deck = new Deck();
-        ask = false;
     }
 
     void init_game(){
