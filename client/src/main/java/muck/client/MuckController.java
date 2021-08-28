@@ -228,7 +228,7 @@ public class MuckController implements Initializable {
     }
 
     public static void refreshGameMap(Canvas canvas) {
-        new GameMap(canvas, updatePlayerfn, getPlayersfn);
+        new GameMap(canvas);
     }
 
     public static void updateAvatar(Circle circle){
