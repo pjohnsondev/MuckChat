@@ -16,7 +16,7 @@ import java.util.function.Supplier;
  * The Game Map class...
  */
 public class GameMap extends Canvas implements EventHandler<KeyEvent> {
-	TileMapReader tm = new TileMapReader("/maps/map.tmx");
+	TileMapReader tm = new TileMapReader("/maps/homeTown.tmx");
 	Sprite hero = new Sprite(300,300); //Create the player sprite
 	private int startX; //The first tile to be drawn
 	private int startY; //The first tile to be drawn
