@@ -130,8 +130,6 @@ public enum MuckClient {
 		client.addListener(ListenerBuilder.forClass(LocationResponse.class).onReceive((connID, response) -> {
 			logger.info("List of locations receieved, building sprites");
 			var data = response.data;
-			var xSize = GameMap.playerSpriteXSize;
-			var ySize = GameMap.playerSpriteYSize;
 			this.playerSprites = data.stream().map(p -> new Sprite(p.right().getX(), p.right().getY())).collect(Collectors.toList());
 		}));
 	}

@@ -90,9 +90,9 @@ public class App extends Application {
 
     }
 
-    public void changeScene(String fxml) throws IOException {
+    public static void changeScene(String fxml) throws IOException {
         try {
-            Parent pane = FXMLLoader.load(getClass().getResource(fxml));
+            Parent pane = FXMLLoader.load(App.class.getResource(fxml));
             stage.setScene(new Scene(pane));
         } catch (IOException e){
             logger.error("Could not find file " + fxml);

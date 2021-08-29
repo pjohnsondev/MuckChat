@@ -1,9 +1,11 @@
 package muck.client;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
 
@@ -18,11 +20,12 @@ import static org.mockito.Mockito.mock;
 public class ChatJFXTest {
 
     private static final Logger logger = LogManager.getLogger(ChatJFXTest.class);
+    Stage stage;
 
     @Test
     public void stageLaunchesTest() throws Exception {
         ChatJFX app = mock(ChatJFX.class);
-        Stage stage = mock(Stage.class);
+        stage = mock(Stage.class);
         app.start(stage);
     }
 
