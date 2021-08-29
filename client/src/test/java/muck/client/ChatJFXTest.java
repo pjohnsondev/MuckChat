@@ -77,11 +77,5 @@ public class ChatJFXTest {
             assertTrue(success);
         }
 
-    @AfterAll
-    public void testWindowClose() {
-        stage.close();
-        Platform.exit();
-    }
-
 }
 
