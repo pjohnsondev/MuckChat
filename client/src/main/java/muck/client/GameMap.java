@@ -108,7 +108,6 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 				if (WorldController.locationCheck(new Location((int)hero.getPosX(),(int) hero.getPosY()), worldID, canvas) != 0) {
 					this.stop(); //stop this instance new instance for new world started.
 				}
-					System.out.println(hero.getPosX() + " " + hero.getPosY());
 				if (uP == 10) { //Update players every 10 frames
 					updatePlayers();
 					uP = 0;
