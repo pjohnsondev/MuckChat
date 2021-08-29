@@ -68,7 +68,7 @@ public class UserModel extends Model{
      * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      */
     public ResultSet findUserByUsername(String username) throws SQLException {
-        return this.selectOne("username", username);
+        return this.select("username", username);
     }
 
     /**
@@ -79,7 +79,7 @@ public class UserModel extends Model{
      * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      */
     public ResultSet findUserById(int id) throws SQLException {
-        return this.selectOne("id", id);
+        return this.select("id", id);
     }
 
 }
