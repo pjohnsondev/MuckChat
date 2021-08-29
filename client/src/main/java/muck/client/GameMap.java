@@ -5,7 +5,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
-import javafx.scene.shape.*;
 import javafx.animation.*;
 import muck.core.Location;
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ import java.util.function.Supplier;
  * The Game Map class...
  */
 public class GameMap extends Canvas implements EventHandler<KeyEvent> {
-	TileMapReader tm = new TileMapReader("/map.tmx");
+	TileMapReader tm = new TileMapReader("/maps/map.tmx");
 	Sprite hero = new Sprite(300,300); //Create the player sprite
 	private int startX; //The first tile to be drawn
 	private int startY; //The first tile to be drawn
@@ -44,7 +43,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	public int worldID = 1;
 
 	public GameMap(Canvas canvas) {
-		setupCanvas(canvas, "/texture.png", tm);
+		setupCanvas(canvas, "/tilesets/texture.png", tm);
 		updatePlayer = (s, l) -> {
 		};
 		otherPlayers = () -> new ArrayList<Sprite>();
@@ -66,7 +65,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	public GameMap(Canvas canvas, BiConsumer<String, Location> updatePlayer, Supplier<List<Sprite>> getPlayers) {
 		this.updatePlayer = updatePlayer;
 		this.otherPlayers = getPlayers;
-		setupCanvas(canvas, "/texture.png", tm);
+		setupCanvas(canvas, "/tilesets/texture.png", tm);
 	}
 
 	/**
@@ -106,18 +105,17 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 			public void handle(long currentNanoTime) {
 				hero.move(tm, hero); //controls hero movement
 				//Check the location to move to new worlds
-				if (WorldController.locationCheck(new Location((int)hero.getPosX(),(int) hero.getPosY()), worldID, canvas, hero) != 0) {
-					this.stop();
+				if (WorldController.locationCheck(new Location((int)hero.getPosX(),(int) hero.getPosY()), worldID, canvas) != 0) {
+					this.stop(); //stop this instance new instance for new world started.
 				}
 					System.out.println(hero.getPosX() + " " + hero.getPosY());
-				System.out.println("World ID: " + worldID);
 				if (uP == 10) { //Update players every 10 frames
 					updatePlayers();
 					uP = 0;
 				} else {
 					uP = uP++;
 				}
-				gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+				gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight()); //blank the screen
 				cameraX = hero.getPosX() - centerX; //Camera top left relative to hero X
 				cameraY = hero.getPosY() - centerY; //Camera top left relative to hero Y
 				//Ensure the camera does not go outside the game boundaries
@@ -129,12 +127,12 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 
 				drawLayer(0); //draws a single layer pass the layer number (floor)
 				n++;
-				drawLayer(1);
+				drawLayer(1); //passableOver
 				if (n <15 ) {
 					drawLayer(3); //Water animation layer
 				}
 				if (n > 30) { n=0;} //reset water animation timer
-				drawLayer(2);
+				drawLayer(2); //Solid
 
 				Sprite.drawHero(gc, tm, hero, centerX,centerY);
 
@@ -148,7 +146,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 						MuckClient.logError(ex);
 					}
 				}
-				drawLayer(4);
+				drawLayer(4); //passable under
 			}
 		};
 		timer.start();
