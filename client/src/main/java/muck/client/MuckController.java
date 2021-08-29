@@ -40,6 +40,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import muck.client.enduring_fantasy.LandingPageEf;
 import muck.client.space_invaders.LandingPage;
+import muck.client.frogger.LandingPageFrogger;
 import muck.protocol.connection.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -113,6 +114,9 @@ public class MuckController implements Initializable {
     @FXML
     private Button game2Button;
 
+    @FXML
+    private Button game3Button;
+
     @FXML //fx:id="userNameDisplay"
     private Text userNameDisplay;
 
@@ -130,6 +134,7 @@ public class MuckController implements Initializable {
         closeChat.setOnAction(this::toggleChatWindow);
         game1Button.setOnAction(this::launchSpaceInvaders);
         game2Button.setOnAction(this::launchEnduringFantasy);
+        game3Button.setOnAction(this::launchFrogger);
         enter.setOnAction(this::sendMessage);
         openFullChat.setOnAction(this::openFullChat);
         plus.setOnAction(this::addChatTab); // adds new tab
@@ -329,6 +334,18 @@ public class MuckController implements Initializable {
         gamePane1.setCenter(EFCanvas);
         BorderPane.setAlignment(EFCanvas, Pos.CENTER);
         LandingPageEf ef = new LandingPageEf(gamePane1, EFCanvas);
+    }
+
+    @FXML
+    private void launchFrogger (ActionEvent event){
+        gameCanvas.setDisable(true);
+        gameCanvas.setVisible(false);
+        Canvas EFCanvas = new Canvas();
+        EFCanvas.setHeight(gameCanvas.getHeight());
+        EFCanvas.setWidth(gameCanvas.getWidth());
+        gamePane1.setCenter(EFCanvas);
+        BorderPane.setAlignment(EFCanvas, Pos.CENTER);
+        LandingPageFrogger fr = new LandingPageFrogger(gamePane1, EFCanvas);
     }
 
     private void quitMuck(ActionEvent event) {
