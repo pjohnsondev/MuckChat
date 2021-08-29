@@ -3,6 +3,7 @@ package muck.client.card_games;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Hand extends Deck{
     public ArrayList<Card> sets;
@@ -57,7 +58,7 @@ public class Hand extends Deck{
      */
     void selectAll(Card thisCard){
         for (int i = 0; i < this.cards.size(); i++){
-            if (cards.get(i).getCardName() == thisCard.getCardName()){
+            if (cards.get(i).getMatchId() == thisCard.getMatchId()){
                 cards.get(i).setSelected(true);
             }
             else {
@@ -84,11 +85,15 @@ public class Hand extends Deck{
         }
     }
 
+    void reorderHand(){
+        //Collections.sort();
+    }
+
     public static void main(String[] args) {
         Hand hand = new Hand();
         Deck deck = new Deck();
 
-        // Trying to draw enough that we should have multiple of the same
+        // Trying to draw enough that we have multiple of the same
         for (int i = 0; i < 52; i++){
             hand.drawTopCard(deck);
         }

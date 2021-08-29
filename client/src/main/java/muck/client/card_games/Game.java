@@ -30,7 +30,7 @@ public class Game {
         deck = new Deck();
     }
 
-    void initGame(){
+    public void initGame(){
         deck.shuffle_cards();
         player1.hand.drawHand(deck);
         player2.hand.drawHand(deck);
