@@ -8,27 +8,28 @@ import java.util.logging.Level;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Circle;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class PlayerDashboardController implements Initializable {
     private static String userName;
-    private static String avatarID = "peach";
+    private static String avatarID;
     private Image fullAvatar = AvatarController.getFullAvatar(avatarID);
-    private int muckPointTotal = 25;
-    private int healthTotal = 80;
+    private int muckPointTotal = 100; //TODO: Remove
+    private int healthTotal = 80; //TODO: Remove
 
+    @FXML
+    private GridPane gridPane;
 
     @FXML
     private ImageView avatarFullBody;
@@ -48,18 +49,32 @@ public class PlayerDashboardController implements Initializable {
     @FXML
     private ImageView gameReturn;
 
+    private final BackgroundImage background = new BackgroundImage(new Image("/images/BackgroundAvSelection.jpg"), null, null, null, null);
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
             avatarFullBody.setPreserveRatio(true);
+            gridPane.setBackground(new Background(background));
             avatarFullBody.setImage(fullAvatar);
+            selection(avatarID);
             centreImage();
             username.setText(userName);
             muckPoints.setText(String.valueOf(muckPointTotal));
             health.setText(String.valueOf(healthTotal));
 
             change.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                AvatarController.avatarCreation(event, userName, avatarID);
+                try {
+                    //This will take over the scene that currently holds the player dashboard screen
+                    AvatarController.avatarCreation(userName, avatarID);
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    Parent parent = FXMLLoader.load(getClass().getResource("/fxml/Avatar.fxml"));
+                    stage.setScene(new Scene(parent));
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             });
 
             gameReturn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -78,6 +93,7 @@ public class PlayerDashboardController implements Initializable {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             scene.setRoot(root);
+            scene.getStylesheets().add(PlayerDashboardController.class.getResource("/css/style.css").toExternalForm());
             Stage stage = new Stage();
             stage.setTitle("Muck 2021");
             stage.setMaxWidth(1200);
@@ -90,6 +106,12 @@ public class PlayerDashboardController implements Initializable {
         }
     }
 
+    public static void playerDashboard(String uname, String avID) {
+        userName = uname;
+        avatarID = avID;
+        //TODO: Call the server to get all the relevant information
+    }
+
     public static void playerDashboard(String uname, MouseEvent event, String avID) {
         userName = uname;
         avatarID = avID;
@@ -98,6 +120,7 @@ public class PlayerDashboardController implements Initializable {
             Parent root = FXMLLoader.load(PlayerDashboardController.class.getResource("/fxml/PlayerDashboard.fxml"));
             Scene scene = new Scene(root);
             scene.setRoot(root);
+            scene.getStylesheets().add(PlayerDashboardController.class.getResource("/css/style.css").toExternalForm());
             //This line gets the Stage Information
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -109,7 +132,9 @@ public class PlayerDashboardController implements Initializable {
 
     private void returnToGame(MouseEvent event, String uname, String avID) {
         // TODO: Send username and avatar back to the server for storage
-        MuckController.constructor(event, uname, avID);
+        MuckController.constructor(uname, avID);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.close();
     }
 
     private void centreImage() { //TODO: This is not centring vertically???
@@ -137,7 +162,40 @@ public class PlayerDashboardController implements Initializable {
         }
     }
 
-    public static void main(String[] args) {
-        PlayerDashboardController.playerDashboard("Test");
+    private void selection(String character) {
+        try {
+            switch (character) {
+                case "peach":
+                    avatarFullBody.setLayoutY(90.0);
+                    avatarFullBody.setFitHeight(390);
+                    break;
+                case "batman":
+                    avatarFullBody.setLayoutY(40.0);
+                    break;
+                case "pikachu":
+                    avatarFullBody.setLayoutY(210.0);
+                    avatarFullBody.setFitHeight(250);
+                    break;
+                case "skeleton":
+                    avatarFullBody.setLayoutY(120.0);
+                    avatarFullBody.setFitHeight(410);
+                    break;
+                case "wonderWoman":
+                    avatarFullBody.setLayoutY(70.0);
+                    avatarFullBody.setFitHeight(400);
+                    break;
+                case "yoshi":
+                    avatarFullBody.setLayoutY(180.0);
+                    avatarFullBody.setFitHeight(300);
+                    break;
+                case "error":
+                    break;
+                default:
+                    break;
+            }
+            centreImage();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -60,7 +60,7 @@ public class CardTest {
     public void testDrawCard() {
         logger.info("Testing that drawing the top card from the deck, deletes it from the main deck array and adds ths same card to the hand");
         int cardID = myDeck.cards.get(0).getCardId();
-        myHand.draw_top_card(myDeck);
+        myHand.drawTopCard(myDeck);
 
         assertAll(
                 () -> assertEquals(51, myDeck.cards.size()),

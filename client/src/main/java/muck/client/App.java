@@ -1,6 +1,8 @@
 package muck.client;
 
 import javafx.scene.Group;
+import muck.client.controllers.SignInController;
+import muck.client.controllers.SignUpController;
 import muck.client.utilities.RandomNameGenerator;
 import muck.protocol.*;
 import muck.protocol.connection.*;
@@ -32,8 +34,11 @@ public class App extends Application {
     /** The port configuration for the client */
     static KryoClientConfig config = new KryoClientConfig();
 
+    /** Set stage */
+    private static Stage stage;
+
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage primaryStage) throws Exception {
         // start the network connection
         startConnection();
 
@@ -72,9 +77,31 @@ public class App extends Application {
         stage.show();*/
 
         /* End of Imported work */
-        RandomNameGenerator rng = new RandomNameGenerator();
-        AvatarController.avatarCreation(rng.generateName());
+        try {
+            stage = primaryStage;
+            primaryStage.setResizable(false);
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/SignIn.fxml"));
+            primaryStage.setTitle("MUCK 2021");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (IOException e){
+            logger.error("Can't find primary stage FXML file");
+        }
 
+    }
+
+    public static void changeScene(String fxml) throws IOException {
+        try {
+            Parent pane = FXMLLoader.load(App.class.getResource(fxml));
+            stage.setScene(new Scene(pane));
+        } catch (IOException e){
+            logger.error("Could not find file " + fxml);
+        }
+    }
+
+    public void changeScene(String fxml, String data) throws IOException {
+        Parent pane = FXMLLoader.load(getClass().getResource(fxml));
+        stage.setScene(new Scene(pane));
     }
 
 

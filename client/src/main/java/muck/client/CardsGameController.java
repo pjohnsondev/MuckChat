@@ -1,49 +1,33 @@
 package muck.client;
 
-import com.google.errorprone.annotations.FormatMethod;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
 import java.net.URL;
-import java.time.Year;
 import java.util.ResourceBundle;
-import javafx.fxml.FXML;
+
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
-import javafx.application.Application;
-import javafx.stage.Popup;
-import javafx.stage.Window;
 import javafx.stage.Stage;
-import muck.client.card_games.Player;
-import muck.client.card_games.Player_turn;
 import muck.client.card_games.Game;
 //TODO: why are these below not working?
-import muck.client.card_games.Deck;
-import muck.client.card_games.Card;
-import muck.client.card_games.Hand;
 
 
 public class CardsGameController implements Initializable {
     @FXML // fx:id="ask_for_card"
-    public Button ask_for_card;
+    public Button askForCard;
 
     @FXML // fx:id="go_fish"
-    public Button go_fish;
+    public Button goFish;
 
     @FXML // set up for cards for row 1 - this will fill first 
     public ImageView cardRow1Card1;
@@ -129,7 +113,7 @@ public class CardsGameController implements Initializable {
     private Label opponents_sets_made;
     
     @FXML //fx:id="draw from deck" - pick up from deck 
-    public Button draw_from_deck;
+    public Button drawFromDeck;
 
     @FXML // fx:id="menu"
     private MenuBar menu;
@@ -197,7 +181,7 @@ public class CardsGameController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Game game = new Game();
-        go_fish.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+        goFish.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             //go fish needs to basically pass back a variable switch that makes the
             //draw card popup visible for other player.
             //"Player 2 does not have any *card value*:
@@ -234,7 +218,7 @@ public class CardsGameController implements Initializable {
         });
 
 
-        ask_for_card.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+        askForCard.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             //TODO: make function body
             //NEED TO ADD THE FUNCTION FOR ASKING FOR A CARD
             try {
@@ -265,9 +249,9 @@ public class CardsGameController implements Initializable {
             }
         });
 
-        draw_from_deck.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            game.player1.hand.draw_top_card(game.deck);
-            game.print_cards(1);
+        drawFromDeck.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            game.player1.hand.drawTopCard(game.deck);
+            game.printCards(1);
             //I got this function fully written. Another separate one that deals the hand.
             //Maybe just need to change it so it doesn't need the deck name input? Some this.deck scenario.
             //MIGHT ADD A COUNTER OR SOMETHING SO WHEN THEY START THE GAME - FIRST UP THEY

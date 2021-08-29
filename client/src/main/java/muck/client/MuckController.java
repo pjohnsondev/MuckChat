@@ -30,13 +30,21 @@ import javafx.scene.text.Font;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.Supplier;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.logging.Level;
+import muck.core.Location;
+import muck.core.Pair;
 
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import muck.client.enduring_fantasy.LandingPageEf;
 import muck.client.space_invaders.LandingPage;
+import muck.client.AvatarController;
 import muck.protocol.connection.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,6 +53,8 @@ import org.checkerframework.common.reflection.qual.Invoke;
 import javafx.util.Duration;
 
 import javax.swing.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MuckController implements Initializable {
 
@@ -64,10 +74,10 @@ public class MuckController implements Initializable {
     private BorderPane gamePane1; // Value injected by FXMLLoader
 
     @FXML // fx:id="gameCanvas" the original game canvas with the Map. Map displays in here
-    private Canvas gameCanvas; // Value injected by FXMLLoader
+    public Canvas gameCanvas; // Value injected by FXMLLoader
 
     @FXML // fx:id="circle" Circle image area for avatar
-    private Circle circle; // Value injected by FXMLLoader
+    public Circle circle; // Value injected by FXMLLoader
 
     /*@FXML // fx:id="avatar" Actual avatar picture
     private ImageView avatar; // Value injected by FXMLLoader*/
@@ -133,27 +143,48 @@ public class MuckController implements Initializable {
     private static String avatarID;
 
     private static final Logger logger = LogManager.getLogger();
+    static Supplier<List<Sprite>> getPlayersfn = () -> MuckClient.INSTANCE.getPlayerSprites();
+    static BiConsumer<String, Location> updatePlayerfn = (avatar, loc) -> MuckClient.INSTANCE.updatePlayerLocation(avatar, loc);
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+	public void initialize(URL location, ResourceBundle resources) {
+
         closeChat.setOnAction(this::toggleChatWindow);
         game1Button.setOnAction(this::launchSpaceInvaders);
         game2Button.setOnAction(this::launchEnduringFantasy);
-        openChatOnly.setOnAction(this::openChatOnly);
         enter.setOnAction(this::sendMessage);
         openFullChat.setOnAction(this::openFullChat);
         plus.setOnAction(this::addChatTab); // adds new tab
+
         GameMap gm = new GameMap(gameCanvas); // Adds GameMap animation to the game window
         Image chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
         userNameDisplay.setText(userName);// // Sets username that has been passed in from Avatar class
         circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
         circle.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             System.out.println("Circle pressed");
-            PlayerDashboardController.playerDashboard(userName, event, avatarID);
+            try {
+                PlayerDashboardController.playerDashboard(userName, avatarID);
+                Parent parent = FXMLLoader.load(getClass().getResource("/fxml/PlayerDashboard.fxml"));
+                Stage stage = new Stage(StageStyle.DECORATED);
+                stage.setTitle("Muck2021");
+                stage.setScene(new Scene(parent));
+                windowPane.addEventHandler(MouseEvent.MOUSE_MOVED, MouseEvent -> updateAvatar(circle));
+                gameCanvas.addEventHandler(MouseEvent.MOUSE_CLICKED, MouseEvent -> refreshGameMap(gameCanvas));
+                stage.show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //PlayerDashboardController.playerDashboard(userName, event, avatarID);
         });
         chatSection.setFocusTraversable(true);
         chatSection.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> chatSection.isFocused());
+        Timer messageChecker = new Timer();
+        messageChecker.scheduleAtFixedRate(new getMessagesTask(), 0, 200);
         quitMuck.setOnAction(this::quitMuck);
+
+
+
         // Creates and sets the player list service to be called every second, to update the current player list
         PlayerListService service = new PlayerListService(playerTextArea);
         service.setPeriod(Duration.seconds(1));
@@ -185,9 +216,24 @@ public class MuckController implements Initializable {
             stage.setScene(scene);
             stage.setOnCloseRequest(e -> stage.close());
             stage.show();
+
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public static void constructor(String name, String avatar) {
+        userName = name;
+        avatarID = avatar;
+    }
+
+    public static void refreshGameMap(Canvas canvas) {
+        new GameMap(canvas);
+    }
+
+    public static void updateAvatar(Circle circle){
+        Image chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
+        circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
     }
 
     //Function that displays message in chat box
@@ -197,46 +243,19 @@ public class MuckController implements Initializable {
             Tab currentTab = chatPane1.getSelectionModel().getSelectedItem();
             String currentID = currentTab.getId();
             if (currentID.equals("groupChat")) {
-                groupChatBox.appendText(message + "\n");
+                groupChatBox.appendText(userName + ": " + message + "\n");
                 messageBox.clear();
 
-      /* **********************************************************************
-      Code edited for sending functionality.
-      Last updated: Harrison Liddell, utilising Ryan Birch development serverside, 27/07/2021
-      Adding Sending functionality by first creating a userMessage object and
-      then sending it to the server.
-      **NOTE**: No functionality for ChatId has been implemented serverside yet.
-                Also, this hasn't been tested extensively. Let me know if it causes
-                problems!
-      TODO: Create multiple chat groups serverside to filter messages. .
-      **NOTE**: The following line should append whatever message is in the currentMessage field on the
-                client. Not sure how we're going to implement checking for new messages, probably using
-                a timer and an array.
-                groupChatBox.appendText(MuckClient.getCurrentMessage().getMessage() + "\n")
 
-                In a similair way,we can retrieve user ID's and timestampes, although we will have to
-                implement those getters seperately.
-     */
                 userMessage currentMessage = new userMessage();
                 currentMessage.setMessage(message);
                 MuckClient.INSTANCE.send(currentMessage);
-     /*         This is a wait to retrieve the current message from the server. It should be moved from here when message
-                retrieval is implemented. This just helps to test current message retrieval implementation.
 
-                try{
-                  Thread.sleep(10);
-                }
-                catch(InterruptedException ex)
-                {
-                  Thread.currentThread().interrupt();
-                }
-
-                groupChatBox.appendText("UserName Here: "+ MuckClient.INSTANCE.getCurrentMessage()+ "\n");
-                */
+                //groupChatBox.appendText("UserName Here: "+ MuckClient.INSTANCE.getCurrentMessage()+ "\n");
             } else {
                 int num = chatPane1.getTabs().indexOf(currentTab) + 1;
                 TextArea currentChatBox = (TextArea) chatPane1.lookup("#chatbox" + num);
-                currentChatBox.appendText(message + "\n");
+                currentChatBox.appendText(userName + ": " + message + "\n");
                 messageBox.clear();
             }
         }
@@ -277,15 +296,6 @@ public class MuckController implements Initializable {
     private void openFullChat(ActionEvent event) {
         windowPane.setDividerPositions(0.43);
         chatSplitPane.setDividerPositions(0.6);
-        openChatOnly.setVisible(false);
-    }
-
-
-    @FXML
-    //Function that opens the chat window only
-    private void openChatOnly(ActionEvent event) {
-        windowPane.setDividerPositions(0.70);
-        chatSplitPane.setDividerPositions(0.989);
         openChatOnly.setVisible(false);
     }
 
@@ -345,4 +355,15 @@ public class MuckController implements Initializable {
         Platform.exit();
     }
 
+    public class getMessagesTask extends TimerTask {
+        public void run() {
+            System.out.println("Task ran!");
+            if (MuckClient.INSTANCE.getCurrentMessage() == null){
+
+            }else {
+                groupChatBox.appendText("UserName Here: "+ MuckClient.INSTANCE.getCurrentMessage()+ "\n");
+            }
+
+        }
+    }
 }

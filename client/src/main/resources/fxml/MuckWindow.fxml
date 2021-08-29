@@ -34,6 +34,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -122,29 +123,37 @@
                            <font>
                               <Font size="9.0" />
                            </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </Button>
-                         <Button id="game2Button" fx:id="game2Button" contentDisplay="TOP" layoutX="617.0" layoutY="450.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="77.0" text="Enduring Fantasy">
+                         <Button id="game2Button" fx:id="game2Button" contentDisplay="TOP" layoutX="617.0" layoutY="464.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="77.0" text="Enduring Fantasy">
                              <effect>
                                  <Blend />
                              </effect>
                              <graphic>
                                  <ImageView fitHeight="38.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
                                      <image>
-                                         <Image url="@../images/dragoon.png"/>
+                                         <Image url="@../images/dragoon.png" />
                                      </image>
                                  </ImageView>
                              </graphic>
                              <font>
                                  <Font size="9.0" />
                              </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                          </Button>
                         <BorderPane id="gamePane1" fx:id="gamePane1" layoutX="14.0" layoutY="14.0" prefHeight="593.0" prefWidth="522.0" style="-fx-border-color: black; -fx-border-width: 6; -fx-border-radius: 10;">
                            <center>
                               <Canvas id="gameCanvas" fx:id="gameCanvas" height="585.0" width="512.0" BorderPane.alignment="CENTER" />
                            </center>
                         </BorderPane>
-                        <Circle id="circle" fx:id="circle" fill="#1f93ff00" layoutX="665.0" layoutY="89.0" radius="74.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Button id="openChatOnly" fx:id="openChatOnly" contentDisplay="TOP" layoutX="746.0" layoutY="308.0" mnemonicParsing="false" rotate="-90.0" snapToPixel="false" text="Open Chat" AnchorPane.rightAnchor="-34.0" />
+                        <Circle id="circle" fx:id="circle" fill="#1f93ff00" layoutX="665.0" layoutY="89.0" radius="74.0" stroke="BLACK" strokeType="INSIDE">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Circle>
                         <Text id="userNameDisplay" fx:id="userNameDisplay" layoutX="580.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UserName" textAlignment="CENTER" wrappingWidth="168.13671875">
                            <font>
                               <Font size="36.0" />
@@ -161,8 +170,14 @@
                            <effect>
                               <Blend />
                            </effect>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </Button>
                      </children>
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
                   </AnchorPane>
                </content>
         </ScrollPane>
@@ -195,8 +210,14 @@
                                        <viewport>
                                           <Rectangle2D />
                                        </viewport>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </ImageView>
                                  </graphic>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
                               <Button id="closeChat" fx:id="closeChat" contentDisplay="GRAPHIC_ONLY" layoutX="94.0" layoutY="80.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="41.0" style="-fx-background-color: none;" textOverrun="CLIP" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="94.0" AnchorPane.rightAnchor="90.66666666666666" AnchorPane.topAnchor="80.0">
                                  <graphic>
@@ -204,11 +225,17 @@
                                        <image>
                                           <Image url="@../images/free-icon-40405.png" />
                                        </image>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </ImageView>
                                  </graphic>
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
                            </children>
                         </AnchorPane>
@@ -222,11 +249,17 @@
                                  <content>
                                     <TextArea id="channelTextArea" fx:id="channelTextArea" editable="false" prefHeight="255.0" prefWidth="173.0" />
                                  </content>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </TitledPane>
                               <TitledPane animated="false" prefHeight="367.0" prefWidth="177.0" text="Players" VBox.vgrow="ALWAYS">
                                  <content>
                                     <TextArea id="playerTextArea" fx:id="playerTextArea" editable="false" prefHeight="189.0" prefWidth="127.0" />
                                  </content>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </TitledPane>
                            </children>
                         </VBox>

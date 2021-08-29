@@ -26,7 +26,7 @@ public class Hand extends Deck{
      * draw_top_card Method.
      * Takes a deck as a parameter. Takes a Card object from that deck and places it into the Hand
      */
-    public void draw_top_card(Deck deck){
+    public void drawTopCard(Deck deck){
         this.cards.add(deck.cards.get(0));
         deck.cards.remove(0);
     }
@@ -35,7 +35,7 @@ public class Hand extends Deck{
      * draw_hand Method.
      * Takes a deck as a parameter. Takes 7 Card objects from that deck and places it into the Hand
      */
-    public void draw_hand(Deck deck){
+    public void drawHand(Deck deck){
         if (deck.cards.size() >= 7) {
             for (int i = 0; i < 7; i++) {
                 this.cards.add(deck.cards.get(i));
@@ -55,9 +55,9 @@ public class Hand extends Deck{
      * Takes a card as input and changes that card and others with the same value's selected value to true
      * Also makes sure all other cards are changed to false
      */
-    void select_all(Card this_card){
+    void selectAll(Card thisCard){
         for (int i = 0; i < this.cards.size(); i++){
-            if (cards.get(i).getCardName() == this_card.getCardName()){
+            if (cards.get(i).getCardName() == thisCard.getCardName()){
                 cards.get(i).setSelected(true);
             }
             else {
@@ -74,10 +74,10 @@ public class Hand extends Deck{
      *    for input
      *    TODO: make sure it only makes set if there's four of the same.
      */
-    void make_set(Card this_card){
+    void makeSet(Card thisCard){
         for (int i = 0; i < this.cards.size(); i++){
             if (this.cards.get(i).getSelectedValue() &&
-                    this.cards.get(i).getCardName() == this_card.getCardName()){
+                    this.cards.get(i).getMatchId() == thisCard.getMatchId()){
                 this.sets.add(this.cards.get(i));
                 this.cards.remove(i);
             }
@@ -90,21 +90,21 @@ public class Hand extends Deck{
 
         // Trying to draw enough that we should have multiple of the same
         for (int i = 0; i < 52; i++){
-            hand.draw_top_card(deck);
+            hand.drawTopCard(deck);
         }
-        hand.select_all(hand.cards.get(0));
+        hand.selectAll(hand.cards.get(0));
         for (int i = 0; i < hand.cards.size(); i++){
             if (hand.cards.get(i).getSelectedValue()) {
                 System.out.println(hand.cards.get(i).getCardName());
             }
         }
-        hand.select_all(hand.cards.get(1));
+        hand.selectAll(hand.cards.get(1));
         for (int i = 0; i < hand.cards.size(); i++){
             if (hand.cards.get(i).getSelectedValue()) {
                 System.out.println(hand.cards.get(i).getCardName());
             }
         }
-        hand.make_set(hand.cards.get(0));
+        hand.makeSet(hand.cards.get(0));
         System.out.println("Player has collected all: ");
         for (int i = 0; i < hand.sets.size(); i++){
             if (i%4 == 0) {
@@ -113,8 +113,8 @@ public class Hand extends Deck{
             }
         }
         System.out.println("next card is: " + hand.cards.get(0).getCardName());
-        hand.select_all(hand.cards.get(0));
-        hand.make_set(hand.cards.get(0));
+        hand.selectAll(hand.cards.get(0));
+        hand.makeSet(hand.cards.get(0));
         System.out.println("Player has collected all: ");
         for (int i = 0; i < hand.sets.size(); i++){
             if (i%4 == 0) {

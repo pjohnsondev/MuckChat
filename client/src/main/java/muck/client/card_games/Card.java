@@ -26,7 +26,7 @@ public class Card {
         setCardName(cardName);
         setMatchId(matchId);
         selected = false;
-//        fileName = "/images/cards/" + cardName + "_of_" + suit.toLowerCase() + ".png";
+        fileName = "/images/cards/" + cardName + "_of_" + suit.toLowerCase() + ".png";
 //        cardImage = new Image(fileName);
     }
 
@@ -38,6 +38,11 @@ public class Card {
      */
     public int getCardId() {
         return cardId;
+    }
+
+
+    public String getFileName() {
+        return fileName;
     }
 
 

@@ -3,7 +3,7 @@ package muck.client.card_games;
 /**
  * Player_turn Class. Instantiates a player's turn
  */
-public class Player_turn extends Player {
+public class PlayerTurn extends Player {
     // Creating boolean to ensure players can only ask for a card once per turn
     boolean ask = false;
     int turn;
@@ -14,7 +14,7 @@ public class Player_turn extends Player {
      * Takes a Player and turn number. Sets the turn number
      * @param turn
      */
-    public Player_turn(){}
+    public PlayerTurn(){}
 
     void take_turn(Player player) {
         this.turn = turn;

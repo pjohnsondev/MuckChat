@@ -40,6 +40,37 @@ public class Player extends Character {
     }
 
     /**
+     * Adds a single new achievement to players profile
+     * @param achievement Name of achievement
+     */
+    public void addAchievement(String achievement, String achievementDescription) {
+        //TODO: Confirm query
+        String query = "INSERT INTO Player(identifier, achievement, description) VALUES (?, ?, ?)";
+        StorageHandler.addToPlayer(query, this.getIdentifier(), achievement, achievementDescription);
+    }
+
+    /**
+     * Retrieves Players achievements
+     * @return A String array of all player achievements
+     */
+    public String[][] getAchievements() {
+        //TODO: Confirm query
+        String query = "SELECT achievement, achievementDescription FROM Player WHERE identifier = ?";
+        ArrayList<String> achievementList = StorageHandler.queryPlayer(query, this.getIdentifier());
+
+        // Convert from ArrayList to Two Dim Array
+        String[][] playerAchievements = new String[achievementList.size()/2][2];
+
+        for(int i = 0; i < achievementList.size(); i += 2){
+            playerAchievements[i][0] = achievementList.get(i);
+            playerAchievements[i][1] = achievementList.get(i+1);
+        }
+
+        return playerAchievements;
+    }
+
+    /**
+     * Feature has been abandoned current group, however, it may be picked up later on
      * Trades a single collectable currently held by the player with another existing player
      * Collaborate with Issue 10
      * @param collectable Collectable item to trade
@@ -79,6 +110,7 @@ public class Player extends Character {
     }
 
     /**
+     * Feature has been abandoned current group, however, it may be picked up later on
      * Adds an item to the Players Inventory
      * @param item item to be added to inventory
      */
@@ -89,6 +121,7 @@ public class Player extends Character {
     }
 
     /**
+     * Feature has been abandoned current group, however, it may be picked up later on
      * Removes an item from the Players Inventory
      * @param item item to be removed/consumed
      */
@@ -99,6 +132,7 @@ public class Player extends Character {
     }
 
     /**
+     * Feature has been abandoned current group, however, it may be picked up later on
      * Retrieves Players current inventory holdings
      * @return A String array of the players inventory
      */
@@ -115,34 +149,4 @@ public class Player extends Character {
 
         return playerInventory;
     }
-
-    /**
-     * Adds a single new achievement to players profile
-     * @param achievement Name of achievement
-     */
-    public void addAchievement(String achievement) {
-        //TODO: Confirm query
-        String query = "INSERT INTO Player(identifier, achievements) VALUES (?, ?)";
-        StorageHandler.addToPlayer(query, this.getIdentifier(), achievement);
-    }
-
-    /**
-     * Retrieves Players achievements
-     * @return A String array of all player achievements
-     */
-    public String[] getAchievements() {
-        //TODO: Confirm query
-        String query = "SELECT achievements FROM Player WHERE identifier = ?";
-        ArrayList<String> achievementList = StorageHandler.queryPlayer(query, this.getIdentifier());
-
-        // Convert from ArrayList to Array
-        String[] playerAchievements = new String[achievementList.size()];
-        for(int i = 0; i < achievementList.size(); i++){
-            playerAchievements[i] = achievementList.get(i);
-        }
-
-        return playerAchievements;
-    }
-
-
 }

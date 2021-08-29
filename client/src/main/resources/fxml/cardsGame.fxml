@@ -16,8 +16,8 @@
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="783.0" prefWidth="1135.0" style="-fx-background-color: green;">
                             <children>
                                 <Rectangle fx:id="card1row1select" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="132.0" layoutX="10.0" layoutY="410.0" stroke="TRANSPARENT" strokeType="INSIDE" width="87.0" />
-                                <Button fx:id="ask_for_card" layoutX="172.0" layoutY="678.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Ask For Card" />
-                                <Button fx:id="go_fish" layoutX="849.0" layoutY="677.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="150.0" text="Go Fish " />
+                                <Button fx:id="askForCard" layoutX="172.0" layoutY="678.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Ask For Card" />
+                                <Button fx:id="goFish" layoutX="849.0" layoutY="677.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="150.0" text="Go Fish " />
                                 <Label layoutX="991.0" layoutY="37.0" text="Opponents Sets Made: " textAlignment="CENTER">
                                     <font>
                                         <Font name="System Bold" size="12.0" />
@@ -80,7 +80,7 @@
                                 <ImageView fx:id="cardRow3Card12" fitHeight="121.0" fitWidth="80.0" layoutX="884.0" layoutY="487.0" pickOnBounds="true" preserveRatio="true" />
                                 <ImageView fx:id="cardRow3Card13" fitHeight="121.0" fitWidth="80.0" layoutX="963.0" layoutY="487.0" pickOnBounds="true" preserveRatio="true" />
                                 <ImageView fx:id="the_deck" fitHeight="121.0" fitWidth="80.0" layoutX="449.0" layoutY="228.0" pickOnBounds="true" preserveRatio="true" />
-                                <Button fx:id="draw_from_deck" layoutX="567.0" layoutY="264.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Draw from Deck" textAlignment="CENTER" />
+                                <Button fx:id="drawFromDeck" layoutX="567.0" layoutY="264.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Draw from Deck" textAlignment="CENTER" />
                                 <ImageView fx:id="cardRow4Card1" fitHeight="121.0" fitWidth="80.0" layoutX="14.0" layoutY="526.0" pickOnBounds="true" preserveRatio="true" />
                                 <ImageView fx:id="cardRow4Card2" fitHeight="121.0" fitWidth="80.0" layoutX="93.0" layoutY="526.0" pickOnBounds="true" preserveRatio="true" />
                                 <ImageView fx:id="cardRow4Card3" fitHeight="121.0" fitWidth="80.0" layoutX="172.0" layoutY="526.0" pickOnBounds="true" preserveRatio="true" />

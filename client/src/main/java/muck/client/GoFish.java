@@ -12,7 +12,7 @@ public class GoFish extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader loader = new FXMLLoader(GoFish.class.getResource("/fxml/cards_game.fxml"));
+            FXMLLoader loader = new FXMLLoader(GoFish.class.getResource("/fxml/cardsGame.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root, 1130, 800);
             scene.setRoot(root);

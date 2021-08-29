@@ -1,16 +1,12 @@
 package muck.client.card_games;
 
-import java.awt.*;
-import java.sql.SQLOutput;
-import java.util.ArrayList;
-import java.util.Collections;
 /**
  * Player Class. Instantiates a Player
  */
 public class Player {
     public int score;
     public Hand hand;
-    int score_incr = 10;
+    int scoreIncrement = 10;
 
     /**
      * Constructor Function for the Player Class
@@ -28,7 +24,7 @@ public class Player {
      * Increments player's score by score_incr
      */
     void add_score(){
-        this.score += score_incr;
+        this.score += scoreIncrement;
     }
 
     int get_score(){
