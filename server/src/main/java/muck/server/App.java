@@ -40,6 +40,9 @@ public class App {
             logger.error("Start up failed", ex);
             System.exit(0);
         }
+
+        new ModelRegister().makemigrations();
+
     }
 
 }
