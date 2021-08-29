@@ -4,9 +4,9 @@
 
 package muck.client;
 
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,10 +15,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -34,25 +32,19 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Supplier;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.logging.Level;
 import muck.core.Location;
-import muck.core.Pair;
 
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import muck.client.enduring_fantasy.LandingPageEf;
 import muck.client.space_invaders.LandingPage;
-import muck.client.AvatarController;
 import muck.protocol.connection.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter;
-import org.checkerframework.common.reflection.qual.Invoke;
 import javafx.util.Duration;
 
-import javax.swing.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -79,24 +71,14 @@ public class MuckController implements Initializable {
     @FXML // fx:id="circle" Circle image area for avatar
     public Circle circle; // Value injected by FXMLLoader
 
-    /*@FXML // fx:id="avatar" Actual avatar picture
-    private ImageView avatar; // Value injected by FXMLLoader*/
-    //NB: CA - No longer needed as the portrait image is set to fill the background of the circle
-
     @FXML // fx:id="chatPane1" The tab pane for the chat - tabs sit in this. Despite the name there is only 1
     private TabPane chatPane1; // Value injected by FXMLLoader
-
-    @FXML // fx:id="channelTextArea" The pane for the channel list
-    private TextArea channelTextArea; // Value injected by FXMLLoader
 
     @FXML // fx:id="playerTextArea" The pane for the player list
     private TextArea playerTextArea; // Value injected by FXMLLoader
 
     @FXML // fx:id="groupChat" The tab for the group chat. It sits in chatPane1
     private Tab groupChat; // Value injected by FXMLLoader
-
-    @FXML // fx:id="chatAnchor" Makes a border for the chat text area
-    private AnchorPane chatAnchor; // Value injected by FXMLLoader
 
     @FXML // fx:id="groupChatBox" The text area for the group chat
     private TextArea groupChatBox; // Value injected by FXMLLoader
@@ -113,7 +95,6 @@ public class MuckController implements Initializable {
     @FXML // fx:id="enter" The button to submit your text
     private Button enter; // Value injected by FXMLLoader
 
-
     @FXML // fx:id="x3"
     private Font x3; // Value injected by FXMLLoader
 
@@ -122,9 +103,6 @@ public class MuckController implements Initializable {
 
     @FXML // fx:id="openFullChat" The image button to open chat in the corner
     private Button openFullChat; // Value injected by FXMLLoader
-
-    @FXML // fx:id="openChatOnly" The side tab button to open the chat window
-    private Button openChatOnly; // Value injected by FXMLLoader
 
     @FXML // fx:id="closeChat" The x button when the chat is open
     private Button closeChat; // Value injected by FXMLLoader
@@ -168,15 +146,19 @@ public class MuckController implements Initializable {
                 Stage stage = new Stage(StageStyle.DECORATED);
                 stage.setTitle("Muck2021");
                 stage.setScene(new Scene(parent));
-                windowPane.addEventHandler(MouseEvent.MOUSE_MOVED, MouseEvent -> updateAvatar(circle));
-                gameCanvas.addEventHandler(MouseEvent.MOUSE_CLICKED, MouseEvent -> refreshGameMap(gameCanvas));
+                windowPane.addEventHandler(MouseEvent.MOUSE_MOVED, handler);
                 stage.show();
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
             //PlayerDashboardController.playerDashboard(userName, event, avatarID);
+
+
+
+
         });
+
         chatSection.setFocusTraversable(true);
         chatSection.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> chatSection.isFocused());
         Timer messageChecker = new Timer();
@@ -217,6 +199,7 @@ public class MuckController implements Initializable {
             stage.setOnCloseRequest(e -> stage.close());
             stage.show();
 
+
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -227,14 +210,15 @@ public class MuckController implements Initializable {
         avatarID = avatar;
     }
 
-    public static void refreshGameMap(Canvas canvas) {
-        new GameMap(canvas, updatePlayerfn, getPlayersfn );
-    }
-
-    public static void updateAvatar(Circle circle){
-        Image chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
-        circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
-    }
+    EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            Image chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
+            new GameMap(gameCanvas, updatePlayerfn, getPlayersfn);
+            circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
+            windowPane.removeEventHandler(MouseEvent.MOUSE_MOVED, handler);
+        }
+    };
 
     //Function that displays message in chat box
     private void displayAndSend() {
@@ -260,7 +244,6 @@ public class MuckController implements Initializable {
             }
         }
     }
-
 
     // Function that creates new chat tab
     @FXML
@@ -288,7 +271,6 @@ public class MuckController implements Initializable {
         newAnc.getChildren().add(chatX);
         chatPane1.getTabs().add(newTab);
         chatPane1.getSelectionModel().select(newTab);
-        openChatOnly.setVisible(false);
     }
 
     @FXML
@@ -296,7 +278,6 @@ public class MuckController implements Initializable {
     private void openFullChat(ActionEvent event) {
         windowPane.setDividerPositions(0.43);
         chatSplitPane.setDividerPositions(0.6);
-        openChatOnly.setVisible(false);
     }
 
     @FXML
@@ -318,7 +299,6 @@ public class MuckController implements Initializable {
     private void hideChatWindow(ActionEvent event) {
         windowPane.setDividerPositions(0.999);
         chatSplitPane.setDividerPositions(1.0);
-        openChatOnly.setVisible(true);
     }
 
 
