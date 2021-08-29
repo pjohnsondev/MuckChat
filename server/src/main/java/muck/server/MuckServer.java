@@ -7,7 +7,6 @@ import muck.core.Login;
 import muck.core.Pair;
 import muck.core.UpdatePlayerRequest;
 import muck.core.character.AddCharacter;
-import muck.core.character.Character;
 import muck.core.character.CharacterDoesNotExistException;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
