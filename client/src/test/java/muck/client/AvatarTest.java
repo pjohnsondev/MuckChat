@@ -260,6 +260,7 @@ public class AvatarTest extends ApplicationTest {
 
     //TODO: Test uname/avID/MuckPoints update with mock character. Full image shows. Correct avatars unlocked
     //TODO: Test details are sent to server on submit
+    //TODO: Test username Text field updates
 
     @AfterAll
     public static void testWindowClose() {
