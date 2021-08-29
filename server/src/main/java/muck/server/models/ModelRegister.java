@@ -1,6 +1,7 @@
 package muck.server.models;
 import java.sql.SQLException;
 
+import muck.server.database.MuckDatabase;
 import muck.server.models.AbstractModel.Model;
 import muck.server.models.models.*;
 

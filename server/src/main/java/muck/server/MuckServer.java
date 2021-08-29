@@ -159,11 +159,15 @@ public enum MuckServer {
 	public void createAccount(SignUpInfo signUpInfo, MuckConnection connection) {
 		logger.info("Attempting to create account {}.", signUpInfo.getUsername());
 
-		PlayerManager playerManager = new PlayerManager(new User());
+		PlayerManager playerManager = new PlayerManager(new UserService());
 		userMessage userMessage = new userMessage();
+		UserStructure userStructure = new UserStructure();
+		userStructure.username = signUpInfo.getUsername();
+		userStructure.password = signUpInfo.getPassword();
+		userStructure.displayName = signUpInfo.getDisplayName();
 
 		try {
-			Player player = playerManager.signupPlayer(signUpInfo);
+			Player player = playerManager.signupPlayer(userStructure);
 			logger.info("Sign up successful for {}", player.getUsername());
 
 			userMessage.setMessage("Your account has been created successfully. Username: " + player.getUsername());
@@ -181,7 +185,6 @@ public enum MuckServer {
 		logger.info("Attempting to log in");
 		logger.debug("{} is trying to log in", login.getUsername());
 
-		PlayerManager playerManager = new PlayerManager(new User());
         PlayerManager playerManager = new PlayerManager(new UserService());
 
         UserStructure userStructure = new UserStructure();
@@ -191,7 +194,7 @@ public enum MuckServer {
 		Player player = null;
 
 		try {
-			player = playerManager.loginPlayer(login);
+			player = playerManager.loginPlayer(userStructure);
 		} catch (DuplicateLoginException ex) {
 			userMessage testMessage = new userMessage(); // Create new message to send back.
 			testMessage.setMessage("Duplicate login");

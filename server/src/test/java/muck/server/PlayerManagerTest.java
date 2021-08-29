@@ -19,8 +19,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PlayerManagerTest {
 
     private static final Logger logger = LogManager.getLogger(PlayerManagerTest.class);
-    private UserModel userModel = new UserModel();
     private TestDatabase testDb = new TestDatabase();
+    private UserModel userModel = new UserModel(testDb);
+    private UserService userService = new UserService(userModel);
+
 
     /**
      * Establish a new database connection before each test
@@ -30,8 +32,11 @@ public class PlayerManagerTest {
         logger.info("This message prints BEFORE each test runs");
         // reset database using testDB
         testDb = new TestDatabase();
-        userModel = new UserModel();
-        resetTable(userModel, testDb);
+        userModel = new UserModel(testDb);
+        if (!testDb.tableExists("users")) {
+            userModel.createTable();
+        }
+        userService = new UserService(userModel);
     }
 
     @AfterEach
@@ -46,6 +51,7 @@ public class PlayerManagerTest {
         userModel.closeDbConnection();
         userModel.changeDb(testDb);
         testDb.dropTable("users");
+        userService = new UserService(userModel);
         userModel.createTable();
     }
 
@@ -63,7 +69,6 @@ public class PlayerManagerTest {
         userStructure.username = username;
         userStructure.password = password;
 
-        UserService userService = new UserService();
         if (userService.findByUsername(username) == null) {
             userService.registerNewUser(userStructure);
         }
@@ -83,7 +88,6 @@ public class PlayerManagerTest {
         userStructure.username = username;
         userStructure.password = password;
 
-        UserService userService = new UserService();
         if (userService.findByUsername(username) == null) {
             userService.registerNewUser(userStructure);
         }
@@ -102,8 +106,11 @@ public class PlayerManagerTest {
         userStructure.username = username;
         userStructure.password = password;
 
-        UserService userService = new UserService();
         PlayerManager playerManager = new PlayerManager(userService);
+
+        if (userService.findByUsername(username) == null) {
+            userService.registerNewUser(userStructure);
+        }
 
         Player player = playerManager.loginPlayer(userStructure);
 
@@ -122,7 +129,6 @@ public class PlayerManagerTest {
         userStructure.password = password;
         userStructure.displayName = displayName;
 
-        UserService userService = new UserService();
         PlayerManager playerManager = new PlayerManager(userService);
 
         if (userService.findByUsername(username) == null) {
@@ -143,7 +149,6 @@ public class PlayerManagerTest {
         userStructure.username = username;
         userStructure.password = password;
 
-        UserService userService = new UserService();
 
 
         if (userService.findByUsername(username) == null) {
@@ -168,7 +173,6 @@ public class PlayerManagerTest {
         userStructure.password = password;
         userStructure.displayName = displayName;
 
-        UserService userService = new UserService();
         PlayerManager playerManager = new PlayerManager(userService);
 
         // Username tests
@@ -206,7 +210,6 @@ public class PlayerManagerTest {
         userStructure.password = password;
         userStructure.displayName = displayName;
 
-        UserService userService = new UserService();
         PlayerManager playerManager = new PlayerManager(userService);
 
         if (userService.findByUsername(username) == null) {

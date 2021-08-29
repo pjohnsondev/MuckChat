@@ -4,6 +4,7 @@ import java.security.InvalidParameterException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import muck.server.database.Database;
 import muck.server.models.AbstractModel.Model;
 import muck.server.structures.UserStructure;
 
@@ -16,8 +17,11 @@ public class UserModel extends Model{
     public static final String PASSWORD_COL  = "password";
     public static final String SALT_COL = "salt";
 
-
     public UserModel () {
+        this.table = "users";
+    }
+    public UserModel (Database db) {
+        super(db);
         this.table = "users";
     }
 
