@@ -20,6 +20,7 @@ public class GoFish extends Application {
             stage.setTitle("Go Fish");
             stage.setScene(scene);
             stage.show();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

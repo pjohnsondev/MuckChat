@@ -5,6 +5,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="807.0" prefWidth="1136.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.CardsGameController">
     <children>
@@ -14,6 +15,7 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="783.0" prefWidth="1135.0" style="-fx-background-color: green;">
                             <children>
+                                <Rectangle fx:id="card1row1select" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="132.0" layoutX="10.0" layoutY="410.0" stroke="TRANSPARENT" strokeType="INSIDE" width="87.0" />
                                 <Button fx:id="ask_for_card" layoutX="172.0" layoutY="678.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Ask For Card" />
                                 <Button fx:id="go_fish" layoutX="849.0" layoutY="677.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="150.0" text="Go Fish " />
                                 <Label layoutX="991.0" layoutY="37.0" text="Opponents Sets Made: " textAlignment="CENTER">
@@ -38,6 +40,7 @@
                                     </effect>
                                 </Label>
                                 <ImageView fx:id="cardRow1Card1" fitHeight="121.0" fitWidth="80.0" layoutX="14.0" layoutY="416.0" pickOnBounds="true" preserveRatio="true" />
+                                <Rectangle fx:id="card1Row2select" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="132.0" layoutX="11.0" layoutY="446.0" stroke="TRANSPARENT" strokeType="INSIDE" width="87.0" />
                                 <ImageView fx:id="cardRow1Card2" fitHeight="121.0" fitWidth="80.0" layoutX="93.0" layoutY="416.0" pickOnBounds="true" preserveRatio="true" />
                                 <ImageView fx:id="cardRow1Card3" fitHeight="121.0" fitWidth="80.0" layoutX="172.0" layoutY="416.0" pickOnBounds="true" preserveRatio="true" />
                                 <ImageView fx:id="cardRow1Card4" fitHeight="121.0" fitWidth="80.0" layoutX="252.0" layoutY="416.0" pickOnBounds="true" preserveRatio="true" />

@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
 import java.net.URL;
+import java.time.Year;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,6 +23,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.application.Application;
 import javafx.stage.Popup;
@@ -45,7 +47,9 @@ public class CardsGameController implements Initializable {
 
     @FXML // set up for cards for row 1 - this will fill first 
     public ImageView cardRow1Card1;
+    public Rectangle card1row1select;
     public ImageView cardRow1Card2;
+    public Rectangle card1Row2select;
     public ImageView cardRow1Card3;
     public ImageView cardRow1Card4;
     public ImageView cardRow1Card5;
@@ -131,8 +135,9 @@ public class CardsGameController implements Initializable {
     private MenuBar menu;
 
     //Image initialisation
-    private Image twoOfClubs = new Image("images/cards/2_of_clubs.png");
-    private Image twoOfDiamonds = new Image("images/cards/2_of_diamonds.png");
+    private static final Image twoOfClubs = new Image("images/cards/2_of_clubs.png");
+    private static final Image twoOfDiamonds = new Image("images/cards/2_of_diamonds.png");
+    //private Image twoOfDiamonds = new Image("images/cards/2_of_diamonds.png");
     private Image twoOfHearts = new Image("images/cards/2_of_hearts.png");
     private Image threeOfClubs = new Image("images/cards/3_of_clubs.png");
     private Image threeOfDiamonds = new Image("images/cards/3_of_diamonds.png");
@@ -183,6 +188,11 @@ public class CardsGameController implements Initializable {
     private Image queenOfHearts = new Image("images/cards/queen_of_hearts.png");
     private Image queenOfSpades = new Image("images/cards/queen_of_spades.png");
     private Image backOfCard = new Image("images/cards/backofdeck.png");
+
+
+
+
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -254,7 +264,7 @@ public class CardsGameController implements Initializable {
                 e.printStackTrace();
             }
         });
-        
+
         draw_from_deck.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             game.player1.hand.draw_top_card(game.deck);
             game.print_cards(1);
@@ -295,19 +305,25 @@ public class CardsGameController implements Initializable {
 
 
         });
-
+        final boolean displayHigh = true;
         //THIS IS JUST A THOUGHT ABOUT HOW TO HIGHLIGHT CARDS WHEN PRESSED
-        cardRow1Card1.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
-            cardRow1Card1.setLayoutX(408);
-            cardRow1Card1.addEventHandler(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
-                cardRow1Card1.setLayoutX(416);
-            });
+        cardRow1Card1.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+            card1row1select.setFill(Color.valueOf("#f6ff14"));
+            /*if (displayHigh) {
+                card1row1select.setFill(Color.valueOf("#f6ff14"));
+            }
+            */
+                });
+        cardRow2Card1.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+            card1Row2select.setFill(Color.valueOf("#f6ff14"));
         });
 
-        
-        
-        
+        cardRow1Card1.setImage(twoOfDiamonds);
+
     }
+
+
+
 
     public static void set_score(){
                 // I did have an increment score function made under :
@@ -329,7 +345,7 @@ public class CardsGameController implements Initializable {
 
     }
     
-    
+
 
 
 
