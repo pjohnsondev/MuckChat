@@ -70,6 +70,8 @@ public class Sprite {
     public void setDy(double dy) { this.dy = dy; } // set direction y
     public double getPosX() { return x; } // get player x Pos
     public double getPosY() { return y; } // get player y pos
+    public void setPosX(double x) { this.x = x; } // get player x Pos
+    public void setPosY(double y) { this.y = y; } // get player y pos
     public String getPlayerPos() { return getPosX()+","+getPosY(); } // concatenate x and y pos as x,y - will be used to retrieve current player pos
     public Image getImage() { return image; } // get image (resized one)
 

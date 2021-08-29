@@ -357,7 +357,6 @@ public class MuckController implements Initializable {
 
     public class getMessagesTask extends TimerTask {
         public void run() {
-            System.out.println("Task ran!");
             if (MuckClient.INSTANCE.getCurrentMessage() == null){
 
             }else {
