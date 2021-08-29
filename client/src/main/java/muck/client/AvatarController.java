@@ -78,7 +78,7 @@ public class AvatarController implements Initializable  {
 
     // IMAGE INITIALISATION
     // Peach
-    public static final Image PEACH_FULL = new Image("/images/peach.png");
+    private static final Image PEACH_FULL = new Image("/images/peach.png");
     private static final Image PEACH_PORTRAIT = new Image("/images/peach-portrait.png");
     private static final Image PEACH_SPRITE = new Image("/images/peachSprite.png");
 

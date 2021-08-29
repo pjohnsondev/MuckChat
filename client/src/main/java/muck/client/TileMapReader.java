@@ -18,7 +18,6 @@ import java.util.List;
 public class TileMapReader {
 
     private String path;
-
     String imagePath; //The path to the tileset for the map
     int width = 0; //Width of the map in tiles
     int height = 0; //Height of the map in tiles
