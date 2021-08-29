@@ -2,6 +2,8 @@ package muck.client.card_games;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 
+import java.util.Locale;
+
 /**
  * Card Class. Instantiates an individual regular playing card.
  */
@@ -140,12 +142,20 @@ public class Card {
     }
 
 
+    /**
+     *
+     * @return card name of suit as a String - e.g "ace of hearts"
+     */
+    public String toString() {
+        return cardName.substring(0, 1).toUpperCase() + cardName.substring(1) + " of " + suit.substring(0,1).toUpperCase() + suit.substring(1);
+    }
+
+
 //    public static void main(String[] args) {
 //        Card card;
 //
-//        card = new Card(5, "Hearts", "5");
+//        card = new Card(5, 5,"Hearts", "king");
 //
-//        System.out.println("TESTING");
-//        System.out.println(card.cardName + " of " + card.suit);
+//        System.out.println(card);
 //    }
 }
