@@ -1,6 +1,5 @@
 /*package muck.client;
 
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,37 +7,25 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import javafx.scene.image.Image;
-import org.mockito.Mock;
-import org.mockito.internal.matchers.Null;
 import org.testfx.framework.junit5.ApplicationTest;
-
-import static org.testfx.api.FxAssert.verifyThat;
-import static org.testfx.matcher.control.LabeledMatchers.hasText;
-
-import org.testfx.robot.Motion;
-
+import static org.junit.jupiter.api.Assertions.*;
 import java.io.IOException;
-import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
 
-public class AvatarTest extends ApplicationTest{
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+public class AvatarTest extends ApplicationTest {
 
     private static final Logger logger = LogManager.getLogger(AvatarTest.class);
 
-    private static ModuleLayer.Controller controller;
-    private static Stage stage;
+    String avatar;
 
     @Override
     public void start(Stage stage) throws IOException {
         // TODO: Do this with a mock character???
-        AvatarController.avatarCreation("Test");
+        logger.info("Initializing window");
+        AvatarController.avatarCreation("Test", "error");
         FXMLLoader loader = new FXMLLoader(AvatarController.class.getResource("/fxml/Avatar.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
@@ -47,48 +34,239 @@ public class AvatarTest extends ApplicationTest{
     }
 
     @Test
+    @Order(1)
+    // Tests that the avatar id changes when you click on the appropriate unlocked avatars
+    // Tests that the avatar id DOESN'T change when you click on a locked avatar
     public void testAvatarID() {
-        String avatar;
 
+        logger.info("Checking unlocked avatarIDs");
         // Check unlocked avatars
         clickOn("#peach");
         avatar = AvatarController.getAvatarId();
-        assertTrue(avatar.equals("peach"));
+        assertEquals("peach", avatar);
         clickOn("#batman");
         avatar = AvatarController.getAvatarId();
-        assertTrue(avatar.equals("batman"));
+        assertEquals("batman", avatar);
         clickOn("#pikachu");
         avatar = AvatarController.getAvatarId();
-        assertTrue(avatar.equals("pikachu"));
+        assertEquals("pikachu", avatar);
 
-        /* This bit doesn't work. Does not unlock avatars once window opens by changing muck points
-        // Increase muckPoints to unlock remaining avatars
-        AvatarController.setMuck(100);
-
-        // Check locked avatars
+        logger.info("Checking locked avatarIDs");
+        // Check clicking on locked avatars does not update avatarID
         clickOn("#skeleton");
         avatar = AvatarController.getAvatarId();
-        assertTrue(avatar.equals("skeleton"));
+        assertNotEquals("skeleton", avatar);
         clickOn("#wonderWoman");
         avatar = AvatarController.getAvatarId();
-        assertTrue(avatar.equals("wonderWoman"));
+        assertNotEquals("wonderWoman", avatar);
         clickOn("#yoshi");
         avatar = AvatarController.getAvatarId();
-        assertTrue(avatar.equals("yoshi"));
+        assertNotEquals("yoshi", avatar);
 
-        // Return muckPoints to 0 for remaining tests
-        AvatarController.setMuck(0);*/
+        AvatarController.setMuck(19); // Increases Muck Points for next test
 
-    //}
+    }
 
-    /*@Test
-    public void testLockedAvatars() {
+    @Test
+    @Order(2)
+    //Tests that the locked skeleton avatar doesn't unlock early
+    public void testLockedSkeleton() {
+        logger.info("Checking Skeleton");
+        //Making sure the skeleton image doesn't open up early
+        clickOn("#skeleton");
+        avatar = AvatarController.getAvatarId();
+        assertNotEquals("skeleton", avatar);
 
-    }*/
+        AvatarController.setMuck(29);
+    }
 
-    /*@AfterAll
+    @Test
+    @Order(3)
+      //Tests that the avatar id changes when you click on the skeleton
+      //Tests that the Wonder Woman avatar doesn't unlock early
+    public void testSkeletonLockedWW() {
+        logger.info("Checking unlocked skeleton");
+        clickOn("#skeleton");
+        avatar = AvatarController.getAvatarId();
+        assertEquals("skeleton", avatar);
+
+        logger.info("Checking locked wonder woman");
+        clickOn("#wonderWoman");
+        avatar = AvatarController.getAvatarId();
+        assertNotEquals("wonderWoman", avatar);
+
+        AvatarController.setMuck(49);
+    }
+
+    @Test
+    @Order(4)
+    //Tests that the avatar id changes when you click on Wonder Woman
+    //Tests that the Yoshi avatar doesn't unlock early
+    public void testWWLockedYoshi() {
+        logger.info("Checking unlocked wonderwoman");
+        clickOn("#wonderWoman");
+        avatar = AvatarController.getAvatarId();
+        assertEquals("wonderWoman", avatar);
+
+        logger.info("Checking locked Yoshi");
+        clickOn("#yoshi");
+        avatar = AvatarController.getAvatarId();
+        assertNotEquals("yoshi", avatar);
+
+        AvatarController.setMuck(50);
+    }
+
+    @Test
+    @Order(5)
+    //Tests that the avatar id changes when you click on Yoshi
+    public void testUnlockedYoshi() {
+        logger.info("Checking unlocked Yoshi");
+        clickOn("#yoshi");
+        avatar = AvatarController.getAvatarId();
+        assertEquals("yoshi", avatar);
+    }
+
+    @Test
+    @Order(6)
+    public void testGetPortrait() {
+        String[] avatarIDs = {"peach", "batman", "pikachu", "skeleton", "wonderWoman", "yoshi"};
+        // IMAGE INITIALISATION
+        Image PEACH_PORTRAIT = new Image("/images/peach-portrait.png");
+        Image BATMAN_PORTRAIT = new Image("/images/batman-portrait.png");
+        Image PIKACHU_PORTRAIT = new Image("/images/pikachu-portrait.png");
+        Image SKELETON_PORTRAIT = new Image("/images/skeleton-portrait.png");
+        Image WONDER_WOMAN_PORTRAIT = new Image("/images/wonderWoman-portrait.png");
+        Image YOSHI_PORTRAIT = new Image("/images/yoshi-portrait.png");
+
+        for (String id : avatarIDs) {
+            Image portrait = AvatarController.getPortrait(id);
+
+            switch (id) {
+                case ("peach"):
+                    assertTrue(checkImageEquality(PEACH_PORTRAIT, portrait));
+                    break;
+                case ("batman"):
+                    assertTrue(checkImageEquality(BATMAN_PORTRAIT, portrait));
+                    break;
+                case ("pikachu"):
+                    assertTrue(checkImageEquality(PIKACHU_PORTRAIT, portrait));
+                    break;
+                case ("skeleton"):
+                    assertTrue(checkImageEquality(SKELETON_PORTRAIT, portrait));
+                    break;
+                case ("wonderWoman"):
+                    assertTrue(checkImageEquality(WONDER_WOMAN_PORTRAIT, portrait));
+                    break;
+                case ("yoshi"):
+                    assertTrue(checkImageEquality(YOSHI_PORTRAIT, portrait));
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    @Test
+    @Order(7)
+    public void testGetFull() {
+        String[] avatarIDs = {"peach", "batman", "pikachu", "skeleton", "wonderWoman", "yoshi"};
+        // IMAGE INITIALISATION
+        Image PEACH_FULL = new Image("/images/peach.png");
+        Image BATMAN_FULL = new Image("/images/batman.png");
+        Image PIKACHU_FULL = new Image("/images/pikachu.png");
+        Image SKELETON_FULL = new Image("/images/skeleton.png");
+        Image WONDER_WOMAN_FULL = new Image("/images/wonderWoman.png");
+        Image YOSHI_FULL = new Image("/images/yoshi.png");
+
+        for (String id : avatarIDs) {
+            Image full = AvatarController.getFullAvatar(id);
+
+            switch (id) {
+                case ("peach"):
+                    assertTrue(checkImageEquality(PEACH_FULL, full));
+                    break;
+                case ("batman"):
+                    assertTrue(checkImageEquality(BATMAN_FULL, full));
+                    break;
+                case ("pikachu"):
+                    assertTrue(checkImageEquality(PIKACHU_FULL, full));
+                    break;
+                case ("skeleton"):
+                    assertTrue(checkImageEquality(SKELETON_FULL, full));
+                    break;
+                case ("wonderWoman"):
+                    assertTrue(checkImageEquality(WONDER_WOMAN_FULL, full));
+                    break;
+                case ("yoshi"):
+                    assertTrue(checkImageEquality(YOSHI_FULL, full));
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    @Test
+    @Order(8)
+    public void testGetSprite() {
+        String[] avatarIDs = {"peach", "batman", "pikachu", "skeleton", "wonderWoman", "yoshi"};
+        // IMAGE INITIALISATION
+        Image PEACH_SPRITE = new Image("/images/peachSprite.png");
+        Image BATMAN_SPRITE = new Image("/images/batmanSprite.png");
+        Image PIKACHU_SPRITE = new Image("/images/pikachuSprite.png");
+        Image SKELETON_SPRITE = new Image("/images/skeletonSprite.png");
+        Image WONDER_WOMAN_SPRITE = new Image("/images/wonderWomanSprite.png");
+        Image YOSHI_SPRITE = new Image("/images/yoshiSprite.png");
+
+        for (String id : avatarIDs) {
+            Image sprite = AvatarController.getSprite(id);
+
+            switch (id) {
+                case ("peach"):
+                    assertTrue(checkImageEquality(PEACH_SPRITE, sprite));
+                    break;
+                case ("batman"):
+                    assertTrue(checkImageEquality(BATMAN_SPRITE, sprite));
+                    break;
+                case ("pikachu"):
+                    assertTrue(checkImageEquality(PIKACHU_SPRITE, sprite));
+                    break;
+                case ("skeleton"):
+                    assertTrue(checkImageEquality(SKELETON_SPRITE, sprite));
+                    break;
+                case ("wonderWoman"):
+                    assertTrue(checkImageEquality(WONDER_WOMAN_SPRITE, sprite));
+                    break;
+                case ("yoshi"):
+                    assertTrue(checkImageEquality(YOSHI_SPRITE, sprite));
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    private boolean checkImageEquality(Image official, Image test) {
+
+        for(int x = 0; x < test.getWidth(); x++) {
+            for(int y = 0; y < test.getHeight(); y++) {
+                if (!test.getPixelReader().getColor(x, y).equals(official.getPixelReader().getColor(x, y))) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    //TODO: Test uname/avID/MuckPoints update with mock character. Full image shows. Correct avatars unlocked
+    //TODO: Test details are sent to server on submit
+    //TODO: Test username Text field updates
+
+    @AfterAll
     public static void testWindowClose() {
-        stage.close();
+        logger.info("Closing window");
+        //avatarStage.close();
+        Platform.exit();
     }
 
 }*/
