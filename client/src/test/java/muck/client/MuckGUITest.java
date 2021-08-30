@@ -30,7 +30,7 @@ public class MuckGUITest extends ApplicationTest {
     String avatar;
     Stage stage;
 
-
+    // ********* START AVATAR CONTROLLER TESTING ***************
     @Override
     public void start(Stage stage) throws IOException {
         // TODO: Do this with a mock character???
@@ -134,6 +134,18 @@ public class MuckGUITest extends ApplicationTest {
         clickOn("#yoshi");
         avatar = AvatarController.getAvatarId();
         assertEquals("yoshi", avatar);
+    }
+
+    private boolean checkImageEquality(Image official, Image test) {
+
+        for(int x = 0; x < test.getWidth(); x++) {
+            for(int y = 0; y < test.getHeight(); y++) {
+                if (!test.getPixelReader().getColor(x, y).equals(official.getPixelReader().getColor(x, y))) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Test
@@ -256,45 +268,13 @@ public class MuckGUITest extends ApplicationTest {
         }
     }
 
-    private boolean checkImageEquality(Image official, Image test) {
-
-        for(int x = 0; x < test.getWidth(); x++) {
-            for(int y = 0; y < test.getHeight(); y++) {
-                if (!test.getPixelReader().getColor(x, y).equals(official.getPixelReader().getColor(x, y))) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-
     //TODO: Test uname/avID/MuckPoints update with mock character. Full image shows. Correct avatars unlocked
     //TODO: Test details are sent to server on submit
     //TODO: Test username Text field updates
 
-    @AfterAll
-    public static void testWindowClose() {
-        logger.info("Closing window");
-        //avatarStage.close();
-        Platform.exit();
-    }
+    // *********** END AVATAR CONTROLLER TESTING *************
 
-    @Test
-    @Order(2)
-    public void stageLaunchesTest() throws Exception {
-        ChatJFX app = mock(ChatJFX.class);
-        stage = mock(Stage.class);
-        app.start(stage);
-    }
-
-    @Test
-    @Order(3)
-    public void testChatController() {
-        MuckController chatController = mock(MuckController.class);
-        chatController.initialize(null, null);
-    }
-
+    // *********** START MUCK CONTROLLER TESTING *************
 
     // Wrapper thread updates this if
     // the JavaFX application runs without a problem.
@@ -307,7 +287,7 @@ public class MuckGUITest extends ApplicationTest {
      */
 
     @Test
-    @Order(1)
+    @Order(9)
     public void testChatJFX() {
         // Wrapper thread.
         Thread thread = new Thread(() -> {
@@ -334,6 +314,29 @@ public class MuckGUITest extends ApplicationTest {
         } catch(InterruptedException ex) {
         }
         assertTrue(success);
+    }
+
+    @Test
+    @Order(10)
+    public void stageLaunchesTest() throws Exception {
+        ChatJFX app = mock(ChatJFX.class);
+        stage = mock(Stage.class);
+        app.start(stage);
+    }
+
+    @Test
+    @Order(11)
+    public void testChatController() {
+        MuckController chatController = mock(MuckController.class);
+        chatController.initialize(null, null);
+    }
+
+    // *********** END MUCK CONTROLLER TESTING ****************
+
+    @AfterAll
+    public static void testWindowClose() {
+        logger.info("Closing window");
+        Platform.exit();
     }
 
 }
