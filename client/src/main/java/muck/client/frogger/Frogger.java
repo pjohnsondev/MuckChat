@@ -149,7 +149,6 @@ public class Frogger {
                     frog.setTranslateY(frog.getTranslateY() - FROG_WIDTH);
                     break;
                 case S:
-                    System.out.println("Current Y:" + frog.getTranslateY() + "\n");
                     if (frog.getTranslateY() + FROG_HEIGHT >= HEIGHT) {
                         frog.setTranslateY(HEIGHT - FROG_HEIGHT);
                     } else {
@@ -174,7 +173,8 @@ public class Frogger {
                 default:
                     break;
             }
-            System.out.println("Frog X: " + frog.getTranslateX() + " Frog Y: " + frog.getTranslateY() + "\n");
+            //Debug output for testing
+            //System.out.println("Frog X: " + frog.getTranslateX() + " Frog Y: " + frog.getTranslateY() + "\n");
         });
 
         stage.show();
