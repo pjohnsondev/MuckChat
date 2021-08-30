@@ -4,7 +4,6 @@
 
 package muck.client;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -121,6 +120,7 @@ public class MuckController implements Initializable {
     private Text userNameDisplay;
 
     String message;
+    int x = 0;
     private static String userName;
     private static String avatarID;
 
@@ -144,7 +144,7 @@ public class MuckController implements Initializable {
         userNameDisplay.setText(userName);// // Sets username that has been passed in from Avatar class
         circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
         circle.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            System.out.println("Circle pressed");
+            //System.out.println("Circle pressed");
             try {
                 PlayerDashboardController.playerDashboard(userName, avatarID);
                 Parent parent = FXMLLoader.load(getClass().getResource("/fxml/PlayerDashboard.fxml"));
@@ -218,12 +218,16 @@ public class MuckController implements Initializable {
     EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
+            int x = gamePane1.getChildren().size();
+            //System.out.println(x);
+            Canvas currentCanvas = (Canvas) gamePane1.getChildren().get(x-1);
+            GameMap GM = new GameMap(currentCanvas, updatePlayerfn, getPlayersfn);
             Image chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
-            new GameMap(gameCanvas, updatePlayerfn, getPlayersfn);
             circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
             windowPane.removeEventHandler(MouseEvent.MOUSE_MOVED, handler);
         }
     };
+
 
     //Function that displays message in chat box
     private void displayAndSend() {
@@ -302,8 +306,7 @@ public class MuckController implements Initializable {
      When the user presses exit, it essentially removes the content and adds the game map back
      */
     private void launchSpaceInvaders (ActionEvent event) {
-        gameCanvas.setDisable(true);
-        gameCanvas.setVisible(false);
+        gamePane1.getChildren().clear();
         Canvas SICanvas = new Canvas();
         SICanvas.setHeight(gameCanvas.getHeight());
         SICanvas.setWidth(gameCanvas.getWidth());
@@ -313,8 +316,7 @@ public class MuckController implements Initializable {
     }
     @FXML
     private void launchEnduringFantasy (ActionEvent event){
-        gameCanvas.setDisable(true);
-        gameCanvas.setVisible(false);
+        gamePane1.getChildren().clear();
         Canvas EFCanvas = new Canvas();
         EFCanvas.setHeight(gameCanvas.getHeight());
         EFCanvas.setWidth(gameCanvas.getWidth());
@@ -325,8 +327,7 @@ public class MuckController implements Initializable {
 
     @FXML
     private void launchFrogger (ActionEvent event){
-        gameCanvas.setDisable(true);
-        gameCanvas.setVisible(false);
+        gamePane1.getChildren().clear();
         Canvas EFCanvas = new Canvas();
         EFCanvas.setHeight(gameCanvas.getHeight());
         EFCanvas.setWidth(gameCanvas.getWidth());
