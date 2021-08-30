@@ -29,6 +29,9 @@ public class PlayerDashboardController implements Initializable {
     private int healthTotal = 80; //TODO: Remove
 
     @FXML
+    private Button achievement; //TODO: Remove (Achievement Testing)
+
+    @FXML
     private GridPane gridPane;
 
     @FXML
@@ -76,6 +79,16 @@ public class PlayerDashboardController implements Initializable {
                     e.printStackTrace();
                 }
             });
+
+            // ********* ACHIEVEMENT TESTING *********
+            boolean achievement1 = false;
+            String achievement1Title = "Hotel California";
+            String achievement1Description = "Player has visited the Inn";
+            achievement.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                Achievements achieve = new Achievements();
+                achieve.achievementUnlock(achievement1, achievement1Title, achievement1Description);
+            });
+            // ********* ACHIEVEMENT TESTING *********
 
             gameReturn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                 returnToGame(event, userName, avatarID);
