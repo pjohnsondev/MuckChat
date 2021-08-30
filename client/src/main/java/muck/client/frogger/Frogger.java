@@ -39,9 +39,13 @@ public class Frogger {
 
     private static final double HEIGHT = 600;
 
-    private static final double FROG_WIDTH = 40;
+    private static final double MOVEMENT_X = 40;
 
-    private static final double FROG_HEIGHT = 39;
+    private static final double MOVEMENT_Y = 40;
+
+    private static final double FROG_WIDTH = 38;
+
+    private static final double FROG_HEIGHT = 38;
 
     private static final double CAR_WIDTH = 40;
 
@@ -74,7 +78,7 @@ public class Frogger {
     // TODO: Replace rect with Sprite
     private Node initFrog() {
         Rectangle rect = new Rectangle(FROG_WIDTH, FROG_HEIGHT, Color.GREEN);
-        rect.setTranslateY(HEIGHT - FROG_HEIGHT);
+        rect.setTranslateY(HEIGHT - (FROG_HEIGHT + 1));
 
         return rect;
     }
@@ -109,7 +113,7 @@ public class Frogger {
                 frog.setTranslateX(0);
                 //Debug output for testing
                 //System.out.println("Collision!");
-                frog.setTranslateY(HEIGHT - FROG_HEIGHT);
+                frog.setTranslateY(HEIGHT - (FROG_HEIGHT + 1));
                 return;
             }
         }
@@ -148,27 +152,27 @@ public class Frogger {
         stage.getScene().setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case W:
-                    frog.setTranslateY(frog.getTranslateY() - FROG_WIDTH);
+                    frog.setTranslateY(frog.getTranslateY() - MOVEMENT_Y);
                     break;
                 case S:
-                    if (frog.getTranslateY() + FROG_HEIGHT >= HEIGHT) {
-                        frog.setTranslateY(HEIGHT - FROG_HEIGHT);
+                    if (frog.getTranslateY() + MOVEMENT_Y >= HEIGHT) {
+                        frog.setTranslateY(HEIGHT - (FROG_HEIGHT + 1));
                     } else {
-                        frog.setTranslateY(frog.getTranslateY() + FROG_WIDTH);
+                        frog.setTranslateY(frog.getTranslateY() + MOVEMENT_Y);
                     }
                     break;
                 case A:
-                    if (frog.getTranslateX() - FROG_WIDTH <= 0) {
+                    if (frog.getTranslateX() - MOVEMENT_X <= 0) {
                         frog.setTranslateX(0);
                     } else {
-                        frog.setTranslateX(frog.getTranslateX() - FROG_WIDTH);
+                        frog.setTranslateX(frog.getTranslateX() - MOVEMENT_X);
                     }
                     break;
                 case D:
-                    if (frog.getTranslateX() + FROG_WIDTH >= WIDTH) {
-                        frog.setTranslateX(WIDTH - FROG_WIDTH);
+                    if (frog.getTranslateX() + MOVEMENT_X >= WIDTH) {
+                        frog.setTranslateX(WIDTH - MOVEMENT_X);
                     } else {
-                        frog.setTranslateX(frog.getTranslateX() + FROG_WIDTH);
+                        frog.setTranslateX(frog.getTranslateX() + MOVEMENT_X);
                     }
 
                     break;
