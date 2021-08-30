@@ -61,7 +61,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.MuckController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.MuckController">
   <children>
     <MenuBar id="menu" fx:id="menu" VBox.vgrow="NEVER">
       <menus>
@@ -103,18 +103,18 @@
         </Menu>
       </menus>
     </MenuBar>
-    <SplitPane id="windowPane" fx:id="windowPane" dividerPositions="0.9962406015037594" focusTraversable="true" prefHeight="633.0" prefWidth="784.0" VBox.vgrow="SOMETIMES">
+    <SplitPane id="windowPane" fx:id="windowPane" dividerPositions="0.996993987975952" focusTraversable="true" prefHeight="633.0" prefWidth="784.0" VBox.vgrow="SOMETIMES">
       <items>
-        <ScrollPane prefHeight="645.0" prefWidth="791.0">
+        <ScrollPane prefHeight="651.0" prefWidth="996.0">
                <content>
-                  <AnchorPane id="gamePane" fx:id="gamePane" maxWidth="824.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="618.0" prefWidth="778.0">
+                  <AnchorPane id="gamePane" fx:id="gamePane" maxWidth="1011.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="636.0" prefWidth="989.0">
                      <children>
-                        <Button id="game1Button" fx:id="game1Button" contentDisplay="TOP" layoutX="617.0" layoutY="542.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="77.0" text="Space Invaders">
+                        <Button id="game1Button" fx:id="game1Button" contentDisplay="TOP" layoutX="845.0" layoutY="136.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="120.0" text="Space Invaders">
                            <effect>
                               <Blend />
                            </effect>
                            <graphic>
-                              <ImageView fitHeight="38.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="46.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/416-4164135_space-invaders-clipart.png" />
                                  </image>
@@ -127,12 +127,12 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                         <Button id="game2Button" fx:id="game2Button" contentDisplay="TOP" layoutX="617.0" layoutY="464.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="77.0" text="Enduring Fantasy">
+                         <Button id="game2Button" fx:id="game2Button" contentDisplay="TOP" layoutX="845.0" layoutY="234.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="120.0" text="Enduring Fantasy">
                              <effect>
                                  <Blend />
                              </effect>
                              <graphic>
-                                 <ImageView fitHeight="38.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
+                                 <ImageView fitHeight="54.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
                                      <image>
                                          <Image url="@../images/dragoon.png" />
                                      </image>
@@ -145,12 +145,12 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                          </Button>
-                         <Button id="game3Button" fx:id="game3Button" contentDisplay="TOP" layoutX="708.0" layoutY="464.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="77.0" text="Frogger">
+                         <Button id="game3Button" fx:id="game3Button" contentDisplay="TOP" layoutX="846.0" layoutY="332.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="118.0" text="Frogger">
                              <effect>
                                  <Blend />
                              </effect>
                              <graphic>
-                                 <ImageView fitHeight="38.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
+                                 <ImageView fitHeight="49.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                      <image>
                                          <Image url="@../images/frogger/Frogger_Icon.png" />
                                      </image>
@@ -163,21 +163,21 @@
                                  <Cursor fx:constant="HAND" />
                              </cursor>
                          </Button>
-                        <BorderPane id="gamePane1" fx:id="gamePane1" layoutX="14.0" layoutY="14.0" prefHeight="593.0" prefWidth="522.0" style="-fx-border-color: black; -fx-border-width: 6; -fx-border-radius: 10;">
+                        <BorderPane id="gamePane1" fx:id="gamePane1" layoutX="14.0" layoutY="14.0" prefHeight="605.0" prefWidth="524.0" style="-fx-border-color: black; -fx-border-width: 6; -fx-border-radius: 10;">
                            <center>
-                              <Canvas id="gameCanvas" fx:id="gameCanvas" height="585.0" width="512.0" BorderPane.alignment="CENTER" />
+                              <Canvas id="gameCanvas" fx:id="gameCanvas" height="593.0" width="512.0" BorderPane.alignment="CENTER" />
                            </center>
                         </BorderPane>
-                        <Circle id="circle" fx:id="circle" fill="#1f93ff00" layoutX="665.0" layoutY="89.0" radius="74.0" stroke="BLACK" strokeType="INSIDE">
+                        <Circle id="circle" fx:id="circle" fill="#1f93ff00" layoutX="696.0" layoutY="126.0" radius="109.0" stroke="BLACK" strokeType="INSIDE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></Circle>
-                        <Text id="userNameDisplay" fx:id="userNameDisplay" layoutX="580.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UserName" textAlignment="CENTER" wrappingWidth="168.13671875">
+                        <Text id="userNameDisplay" fx:id="userNameDisplay" layoutX="612.0" layoutY="273.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UserName" textAlignment="CENTER" wrappingWidth="168.13671875">
                            <font>
                               <Font size="36.0" />
                            </font>
                         </Text>
-                        <Button id="openFullChat" fx:id="openFullChat" layoutX="708.0" layoutY="542.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="70.0">
+                        <Button id="openFullChat" fx:id="openFullChat" contentDisplay="TOP" layoutX="845.0" layoutY="32.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="121.0" text="Chat">
                            <graphic>
                               <ImageView id="openChatImage" fitHeight="61.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -192,6 +192,40 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
+                        <Button id="gameButton4" fx:id="game4" contentDisplay="TOP" layoutX="847.0" layoutY="430.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="118.0" text="Go Fish">
+                           <effect>
+                              <Blend />
+                           </effect>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                           <graphic>
+                              <ImageView id="openChatImage" fitHeight="60.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/CardClipArt.png" />
+                                 </image></ImageView>
+                           </graphic>
+                        </Button>
+                        <Button id="gameButton5" fx:id="game5" contentDisplay="TOP" layoutX="847.0" layoutY="527.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="117.0" text="Tic Tac To">
+                           <effect>
+                              <Blend />
+                           </effect>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                           <graphic>
+                              <ImageView id="openChatImage" fitHeight="62.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/TicTacTo.png" />
+                                 </image></ImageView>
+                           </graphic>
+                        </Button>
                      </children>
                      <cursor>
                         <Cursor fx:constant="DEFAULT" />
@@ -199,7 +233,7 @@
                   </AnchorPane>
                </content>
         </ScrollPane>
-            <SplitPane id="chatSplitPane" fx:id="chatSplitPane" dividerPositions="0.0" maxWidth="451.0" minWidth="0.0" prefHeight="630.0" prefWidth="0.0" snapToPixel="false">
+            <SplitPane id="chatSplitPane" fx:id="chatSplitPane" dividerPositions="0.589" maxWidth="451.0" minWidth="0.0" prefHeight="400.0" prefWidth="0.0" snapToPixel="false">
               <items>
                   <VBox id="chatSection" fx:id="chatSection" maxWidth="350.0" minWidth="0.0" prefHeight="703.0" prefWidth="268.0">
                      <children>
@@ -287,7 +321,7 @@
             </SplitPane>
       </items>
     </SplitPane>
-    <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
+    <HBox id="HBox" alignment="CENTER_LEFT" prefHeight="8.0" prefWidth="1000.0" spacing="5.0" VBox.vgrow="NEVER">
       <children>
         <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" HBox.hgrow="ALWAYS">
           <font>

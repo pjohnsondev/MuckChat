@@ -319,7 +319,7 @@ public class MuckGUITest extends ApplicationTest {
     @Test
     @Order(10)
     public void stageLaunchesTest() throws Exception {
-        ChatJFX app = mock(ChatJFX.class);
+        App app = mock(App.class);
         stage = mock(Stage.class);
         app.start(stage);
     }

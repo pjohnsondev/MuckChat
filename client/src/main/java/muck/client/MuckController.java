@@ -131,7 +131,7 @@ public class MuckController implements Initializable {
     @Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-        closeChat.setOnAction(this::toggleChatWindow);
+        closeChat.setOnAction(this::hideChatWindow);
         game1Button.setOnAction(this::launchSpaceInvaders);
         game2Button.setOnAction(this::launchEnduringFantasy);
         game3Button.setOnAction(this::launchFrogger);
@@ -281,23 +281,10 @@ public class MuckController implements Initializable {
     @FXML
     //Function that opens chat window and list window
     private void openFullChat(ActionEvent event) {
-        windowPane.setDividerPositions(0.43);
-        chatSplitPane.setDividerPositions(0.6);
+        windowPane.setDividerPositions(0.565);
+        chatSplitPane.setDividerPositions(0.589);
     }
 
-    @FXML
-    // Function that opens and closes the chat area depening on how far open it is
-    private void toggleChatWindow(ActionEvent event) {
-        double[] windowDivider = windowPane.getDividerPositions();
-        double[] chatDiv = chatSplitPane.getDividerPositions();
-
-        if (windowDivider[0] >= 0.68 && chatDiv[0] >= 0.9) { //if only the chat is open then is closes the chat area
-            hideChatWindow(event);
-        }
-        if (!(windowDivider[0] == 0.99)) { // if the chat is open slightly it also closes the entire chat area
-            hideChatWindow(event);
-        }
-    }
 
     @FXML
     //Function that hides both chat window and list window
