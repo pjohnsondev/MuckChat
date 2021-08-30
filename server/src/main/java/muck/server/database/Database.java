@@ -1,10 +1,6 @@
 package muck.server.database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * Database class connects to the database and provides sql query execution on the database.
@@ -311,5 +307,8 @@ abstract public class Database {
         statement.setBytes(pIndex, parameter);
     }
 
+    public void bindDate(int pIndex, Date parameter) throws SQLException {
+        statement.setDate(pIndex,parameter);
+    }
     //END PREPARED STATEMENT BINDINGS
 }
