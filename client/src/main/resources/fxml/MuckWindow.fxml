@@ -168,11 +168,11 @@
                               <Canvas id="gameCanvas" fx:id="gameCanvas" height="593.0" width="512.0" BorderPane.alignment="CENTER" />
                            </center>
                         </BorderPane>
-                        <Circle id="circle" fx:id="circle" fill="#1f93ff00" layoutX="696.0" layoutY="126.0" radius="109.0" stroke="BLACK" strokeType="INSIDE">
+                        <Circle id="circle" fx:id="circle" fill="#1f93ff00" layoutX="696.0" layoutY="119.0" radius="92.0" stroke="BLACK" strokeType="INSIDE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></Circle>
-                        <Text id="userNameDisplay" fx:id="userNameDisplay" layoutX="612.0" layoutY="273.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UserName" textAlignment="CENTER" wrappingWidth="168.13671875">
+                        <Text id="userNameDisplay" fx:id="userNameDisplay" layoutX="612.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UserName" textAlignment="CENTER" wrappingWidth="168.13671875">
                            <font>
                               <Font size="36.0" />
                            </font>

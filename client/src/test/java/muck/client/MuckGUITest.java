@@ -288,7 +288,7 @@ public class MuckGUITest extends ApplicationTest {
 
     @Test
     @Order(9)
-    public void testChatJFX() {
+    public void testMuckWindow() {
         // Wrapper thread.
         Thread thread = new Thread(() -> {
             try {

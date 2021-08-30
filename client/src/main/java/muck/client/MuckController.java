@@ -336,7 +336,7 @@ public class MuckController implements Initializable {
     }
 
     private void quitMuck(ActionEvent event) {
-        Platform.exit();
+        System.exit(0);
     }
 
     public class getMessagesTask extends TimerTask {

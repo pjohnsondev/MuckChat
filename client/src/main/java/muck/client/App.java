@@ -1,6 +1,15 @@
 package muck.client;
 
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.WindowEvent;
 import muck.client.controllers.SignInController;
 import muck.client.controllers.SignUpController;
 import muck.client.utilities.RandomNameGenerator;
@@ -18,6 +27,7 @@ import java.awt.*;
 //import java.awt.geom.Rectangle2D;
 
 import java.io.IOException;
+import java.util.Optional;
 
 //Chat JFX imports. This allows the group working on Chat UI to be used in the main application.
 import javafx.fxml.FXMLLoader;
@@ -28,13 +38,19 @@ import javafx.scene.Parent;
  */
 public class App extends Application {
 
-    /** A logger for logging output */
+    /**
+     * A logger for logging output
+     */
     private static final Logger logger = LogManager.getLogger(App.class);
 
-    /** The port configuration for the client */
+    /**
+     * The port configuration for the client
+     */
     static KryoClientConfig config = new KryoClientConfig();
 
-    /** Set stage */
+    /**
+     * Set stage
+     */
     private static Stage stage;
 
     @Override
@@ -84,11 +100,32 @@ public class App extends Application {
             primaryStage.setTitle("MUCK 2021");
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
-        } catch (IOException e){
+            primaryStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowEvent);
+        } catch (IOException e) {
             logger.error("Can't find primary stage FXML file");
         }
-
     }
+
+    private void closeWindowEvent(WindowEvent event) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.getButtonTypes().remove(ButtonType.OK);
+        alert.getButtonTypes().add(ButtonType.CANCEL);
+        alert.getButtonTypes().add(ButtonType.YES);
+        alert.setTitle("Quit Muck?");
+        alert.setContentText(String.format("Are you sure you want to quit?"));
+        Optional<ButtonType> res = alert.showAndWait();
+        if (res.isPresent()) {
+            if (res.get().equals(ButtonType.CANCEL)) {
+                event.consume();
+            } else {
+                System.exit(0);
+            }
+    }
+}
+
+
+
+
 
     public static void changeScene(String fxml) throws IOException {
         try {
