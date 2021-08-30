@@ -107,7 +107,8 @@ public class Frogger {
         for (Node car : cars) {
             if (car.getBoundsInParent().intersects(frog.getBoundsInParent())) {
                 frog.setTranslateX(0);
-                System.out.println("Collision!");
+                //Debug output for testing
+                //System.out.println("Collision!");
                 frog.setTranslateY(HEIGHT - FROG_HEIGHT);
                 return;
             }
@@ -136,6 +137,7 @@ public class Frogger {
                 ft.setDelay(Duration.seconds(i * 0.15));
                 ft.play();
             }
+            // TODO: Setup post-win
         }
     }
 
