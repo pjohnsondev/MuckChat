@@ -118,5 +118,10 @@
             <Insets right="20.0" />
          </GridPane.margin>
       </ImageView>
+      <Button fx:id="achievement" mnemonicParsing="false" prefHeight="42.0" prefWidth="187.0" style="-fx-background-color: #87cdff;" text="Achievement" textAlignment="CENTER" textFill="DIMGRAY" GridPane.columnIndex="1" GridPane.rowIndex="3">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="20.0" />
+         </font>
+      </Button>
    </children>
 </GridPane>
