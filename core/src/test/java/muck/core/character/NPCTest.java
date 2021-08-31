@@ -77,7 +77,8 @@ public class NPCTest {
         logger.info("Testing NPC health can increase by 30");
         int healthIncrement = 30;
         npc.increaseHealth(healthIncrement);
-        assertEquals(npc.getHealth(),
+        assertEquals(
+                npc.getHealth(),
                 initialHealth + healthIncrement,
                 "NPC health should now be 130");
     }
@@ -93,10 +94,12 @@ public class NPCTest {
         logger.info("Testing the health decrease of a NPC, that is still alive");
         int healthDecrement1 = 40;
         boolean status = npc.decreaseHealth(healthDecrement1);
-        assertEquals(npc.getHealth(),
+        assertEquals(
+                npc.getHealth(),
                 60,
                 "Health should be 60");
-        assertFalse(status,
+        assertFalse(
+                status,
                 "NPC is still alive");
 
         npc.setHealth(initialHealth);
@@ -106,10 +109,12 @@ public class NPCTest {
         int healthDecrement2 = 101;
         npc.decreaseHealth(healthDecrement2);
         status = npc.decreaseHealth(healthDecrement2);
-        assertEquals(npc.getHealth(),
+        assertEquals(
+                npc.getHealth(),
                 0,
                 "Health should be 0");
-        assertTrue(status,
+        assertTrue(
+                status,
                 "NPC is now dead");
     }
 }
