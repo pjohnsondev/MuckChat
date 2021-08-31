@@ -7,10 +7,11 @@ public abstract class Character {
 
     public Character(){ }
 
-    public String getCharName() {return this.charName;}
+    public String getCharName() { return this.charName; }
     //public int getHealth() {return this.maxHp;}
     //public int getDamage() {return this.maxDmg;}
 
-    //public void damage?
-
+    //public void setDamage(int newDmg){ this.maxDmg = newDmg; }
+    //public void setHealth(int newHealth) { this.maxHp = newHealth; }
+    //public void setName(String newName) { this.charName = newName; }
 }
