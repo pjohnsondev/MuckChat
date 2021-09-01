@@ -95,7 +95,7 @@
                <content>
                   <AnchorPane id="gamePane" fx:id="gamePane" maxWidth="1011.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="636.0" prefWidth="989.0">
                      <children>
-                        <Button id="game1Button" fx:id="game1Button" contentDisplay="TOP" layoutX="845.0" layoutY="136.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="120.0" text="Space Invaders">
+                        <Button id="game1Button" fx:id="game1Button" contentDisplay="TOP" layoutX="845.0" layoutY="122.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="120.0" text="Space Invaders">
                            <effect>
                               <Blend />
                            </effect>
@@ -113,7 +113,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                         <Button id="game2Button" fx:id="game2Button" contentDisplay="TOP" layoutX="845.0" layoutY="234.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="120.0" text="Enduring Fantasy">
+                         <Button id="game2Button" fx:id="game2Button" contentDisplay="TOP" layoutX="845.0" layoutY="220.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="120.0" text="Enduring Fantasy">
                              <effect>
                                  <Blend />
                              </effect>
@@ -131,7 +131,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                          </Button>
-                         <Button id="game3Button" fx:id="game3Button" contentDisplay="TOP" layoutX="846.0" layoutY="332.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="118.0" text="Frogger">
+                         <Button id="game3Button" fx:id="game3Button" contentDisplay="TOP" layoutX="846.0" layoutY="318.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="118.0" text="Frogger">
                              <effect>
                                  <Blend />
                              </effect>
@@ -163,7 +163,7 @@
                               <Font size="36.0" />
                            </font>
                         </Text>
-                        <Button id="openFullChat" fx:id="openFullChat" contentDisplay="TOP" layoutX="845.0" layoutY="32.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="121.0" text="Chat">
+                        <Button id="openFullChat" fx:id="openFullChat" contentDisplay="TOP" layoutX="845.0" layoutY="18.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="121.0" text="Chat">
                            <graphic>
                               <ImageView id="openChatImage" fitHeight="61.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -178,7 +178,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button id="gameButton4" fx:id="game4" contentDisplay="TOP" layoutX="847.0" layoutY="430.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="118.0" text="Go Fish">
+                        <Button id="gameButton4" fx:id="game4" contentDisplay="TOP" layoutX="847.0" layoutY="418.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="118.0" text="Go Fish">
                            <effect>
                               <Blend />
                            </effect>
@@ -195,7 +195,7 @@
                                  </image></ImageView>
                            </graphic>
                         </Button>
-                        <Button id="gameButton5" fx:id="game5" contentDisplay="TOP" layoutX="847.0" layoutY="527.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="117.0" text="Tic Tac To">
+                        <Button id="gameButton5" fx:id="game5" contentDisplay="TOP" layoutX="847.0" layoutY="515.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="117.0" text="Tic Tac To">
                            <effect>
                               <Blend />
                            </effect>

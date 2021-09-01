@@ -143,11 +143,15 @@ public class MuckController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 
         closeChat.setOnAction(this::hideChatWindow);
+        spaceInvadersMenu.setOnAction(this::launchSpaceInvaders);
+        enduringFantasyMenu.setOnAction(this::launchEnduringFantasy);
+        froggerMenu.setOnAction(this::launchFrogger);
         game1Button.setOnAction(this::launchSpaceInvaders);
         game2Button.setOnAction(this::launchEnduringFantasy);
         game3Button.setOnAction(this::launchFrogger);
         enter.setOnAction(this::sendMessage);
         openFullChat.setOnAction(this::openFullChat);
+        chatMenuOpen.setOnAction(this::openFullChat);
         plus.setOnAction(this::addChatTab); // adds new tab
 
         GameMap gm = new GameMap(gameCanvas,updatePlayerfn, getPlayersfn); // Adds GameMap animation to the game window
