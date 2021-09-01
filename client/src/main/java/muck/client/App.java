@@ -106,13 +106,12 @@ public class App extends Application {
         }
     }
 
-    private void closeWindowEvent(WindowEvent event) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.getButtonTypes().remove(ButtonType.OK);
+    public void closeWindowEvent(WindowEvent event) {
+        Alert alert = new Alert(Alert.AlertType.NONE);
         alert.getButtonTypes().add(ButtonType.CANCEL);
         alert.getButtonTypes().add(ButtonType.YES);
         alert.setTitle("Quit Muck?");
-        alert.setContentText(String.format("Are you sure you want to quit?"));
+        alert.setContentText(String.format("Are you sure you want to quit Muck?"));
         Optional<ButtonType> res = alert.showAndWait();
         if (res.isPresent()) {
             if (res.get().equals(ButtonType.CANCEL)) {

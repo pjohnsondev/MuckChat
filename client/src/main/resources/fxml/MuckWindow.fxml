@@ -67,38 +67,24 @@
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-            <MenuItem mnemonicParsing="false" text="New" />
                   <MenuItem id="plus" fx:id="plus" mnemonicParsing="false" text="New Chat Tab" />
-            <MenuItem mnemonicParsing="false" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
+                  <Menu mnemonicParsing="false" text="Open">
+                    <items>
+                      <MenuItem id="chatMenuOpen" fx:id="chatMenuOpen" mnemonicParsing="false" text="Chat" />
+                        <MenuItem id="spaceInvadersMenu" fx:id="spaceInvadersMenu" mnemonicParsing="false" text="Space Invaders" />
+                        <MenuItem id="enduringFantasyMenu" fx:id="enduringFantasyMenu" mnemonicParsing="false" text="Enduring Fantasy" />
+                        <MenuItem id="froggerMenu" fx:id="froggerMenu" mnemonicParsing="false" text="Frogger" />
+                    </items>
+                  </Menu>
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
+            <MenuItem id="playerDashboardMenu" fx:id="playerDashboardMenu" mnemonicParsing="false" text="Player Dashboard" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem id="quitMuck" fx:id="quitMuck" mnemonicParsing="false" text="Quit" />
           </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
-          </items>
-        </Menu>
         <Menu mnemonicParsing="false" text="Help">
           <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+            <MenuItem mnemonicParsing="false" text="About Muck" />
           </items>
         </Menu>
       </menus>
