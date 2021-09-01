@@ -1,10 +1,8 @@
-/**
- * Sample Skeleton for 'MuckWindow.fxml' Controller Class
- */
 
 package muck.client;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,7 +21,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
-import javafx.scene.text.Font;
 
 import java.io.IOException;
 import java.net.URL;
@@ -31,6 +28,8 @@ import java.util.*;
 import java.util.function.Supplier;
 import java.util.function.BiConsumer;
 import java.util.logging.Level;
+
+import javafx.scene.text.Font;
 import muck.core.Location;
 
 import javafx.scene.text.Text;
@@ -40,15 +39,14 @@ import muck.client.enduring_fantasy.LandingPageEf;
 import muck.client.space_invaders.LandingPage;
 import muck.client.frogger.LandingPageFrogger;
 import muck.protocol.connection.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+//import org.apache.logging.log4j.LogManager;
+//import org.apache.logging.log4j.Logger;
 import javafx.util.Duration;
 
 public class MuckController implements Initializable {
 
-    @FXML // fx:id="menu" The menu bar at the top
-    private MenuBar menu; // Value injected by FXMLLoader
-
+    public Font x3;
+    public Color x4;
     @FXML // fx:id="windowPane" The pane that seperated the game area and the chat area
     private SplitPane windowPane; // Value injected by FXMLLoader
 
@@ -73,13 +71,10 @@ public class MuckController implements Initializable {
     @FXML // fx:id="playerTextArea" The pane for the player list
     private TextArea playerTextArea; // Value injected by FXMLLoader
 
-    @FXML // fx:id="groupChat" The tab for the group chat. It sits in chatPane1
-    private Tab groupChat; // Value injected by FXMLLoader
-
     @FXML // fx:id="groupChatBox" The text area for the group chat
     private TextArea groupChatBox; // Value injected by FXMLLoader
 
-    @FXML // fx:id="messageBox" The box you type in to send a pessage
+    @FXML // fx:id="messageBox" The box you type in to send a message
     private TextField messageBox; // Value injected by FXMLLoader
 
     @FXML // fx:id="plus"   The menu item to add another tab
@@ -106,12 +101,6 @@ public class MuckController implements Initializable {
     @FXML // fx:id="enter" The button to submit your text
     private Button enter; // Value injected by FXMLLoader
 
-    @FXML // fx:id="x3"
-    private Font x3; // Value injected by FXMLLoader
-
-    @FXML // fx:id="x4"
-    private Color x4; // Value injected by FXMLLoader
-
     @FXML // fx:id="openFullChat" The image button to open chat in the corner
     private Button openFullChat; // Value injected by FXMLLoader
 
@@ -131,17 +120,16 @@ public class MuckController implements Initializable {
     private Text userNameDisplay;
 
     String message;
-    int x = 0;
     private static String userName;
     private static String avatarID;
 
-    private static final Logger logger = LogManager.getLogger();
-    static Supplier<List<Sprite>> getPlayersfn = () -> MuckClient.INSTANCE.getPlayerSprites();
-    static BiConsumer<String, Location> updatePlayerfn = (avatar, loc) -> MuckClient.INSTANCE.updatePlayerLocation(avatar, loc);
+    //static final Logger logger = LogManager.getLogger();
+    static Supplier<List<Sprite>> getPlayersfn = MuckClient.INSTANCE::getPlayerSprites;
+    static BiConsumer<String, Location> updatePlayerfn = MuckClient.INSTANCE::updatePlayerLocation;
 
     @Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+        //Button and menu functionality
         closeChat.setOnAction(this::hideChatWindow);
         spaceInvadersMenu.setOnAction(this::launchSpaceInvaders);
         enduringFantasyMenu.setOnAction(this::launchEnduringFantasy);
@@ -153,19 +141,17 @@ public class MuckController implements Initializable {
         openFullChat.setOnAction(this::openFullChat);
         chatMenuOpen.setOnAction(this::openFullChat);
         plus.setOnAction(this::addChatTab); // adds new tab
-
-        GameMap gm = new GameMap(gameCanvas,updatePlayerfn, getPlayersfn); // Adds GameMap animation to the game window
+        new GameMap(gameCanvas,updatePlayerfn, getPlayersfn); // Adds GameMap animation to the game window
         Image chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
         userNameDisplay.setText(userName);// // Sets username that has been passed in from Avatar class
         circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
-        circle.addEventHandler(MouseEvent.MOUSE_CLICKED,openPlayerDashboard);
-        playerDashboardMenu.setOnAction(this::openPlayerDashboardMenu);
+        circle.setOnMouseClicked(this::openPlayerDashboardMenu);
         chatSection.setFocusTraversable(true);
         chatSection.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> chatSection.isFocused());
         Timer messageChecker = new Timer();
         messageChecker.scheduleAtFixedRate(new getMessagesTask(), 0, 200);
         quitMuck.setOnAction(this::quitMuck);
-
+        playerDashboardMenu.setOnAction(this::openPlayerDashboardMenu); //Opens player Dashboard
         // Creates and sets the player list service to be called every second, to update the current player list
         PlayerListService service = new PlayerListService(playerTextArea);
         service.setPeriod(Duration.seconds(1));
@@ -174,7 +160,7 @@ public class MuckController implements Initializable {
 
     @FXML
         //Method that sends message when user presses enter
-    void onEnter(ActionEvent event) {
+    void onEnter() {
         displayAndSend();
     }
 
@@ -188,10 +174,10 @@ public class MuckController implements Initializable {
         userName = name;
         avatarID = avatar;
         try {
-            Parent root = FXMLLoader.load(MuckController.class.getResource("/fxml/MuckWindow.fxml"));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(MuckController.class.getResource("/fxml/MuckWindow.fxml")));
             Scene scene = new Scene(root);
             scene.setRoot(root);
-            scene.getStylesheets().add(MuckController.class.getResource("/css/style.css").toExternalForm());
+            scene.getStylesheets().add(Objects.requireNonNull(MuckController.class.getResource("/css/style.css")).toExternalForm());
             //This line gets the Stage Information
             Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -209,46 +195,42 @@ public class MuckController implements Initializable {
         avatarID = avatar;
     }
 
-    EventHandler<MouseEvent> openPlayerDashboard = new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent event) {
-            openPlayerDashboardMenu(getClass().getResource("/fxml/PlayerDashboard.fxml"));
-        }
-    };
-
-    private void openPlayerDashboardMenu (ActionEvent event) {
-        openPlayerDashboardMenu(getClass().getResource("/fxml/PlayerDashboard.fxml"));
-    }
-
-    public void openPlayerDashboardMenu(URL resource) {
+    public void openPlayerDashboardMenu(Event event) {
         try {
             PlayerDashboardController.playerDashboard(userName, avatarID);
-            Parent parent = FXMLLoader.load(resource);
+            Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/PlayerDashboard.fxml")));
             Stage stage = new Stage(StageStyle.DECORATED);
             stage.setTitle("Muck2021");
             stage.setScene(new Scene(parent));
-            windowPane.addEventHandler(MouseEvent.MOUSE_MOVED, userChangesAvatar);
             stage.show();
-
+            windowPane.addEventHandler(MouseEvent.MOUSE_MOVED, userChangesAvatar);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
 
+
     //Method that changes the avatar and sprite when the user changes it in player dashboard
-    EventHandler<MouseEvent> userChangesAvatar = new EventHandler<MouseEvent>() {
+    EventHandler<MouseEvent> userChangesAvatar = new EventHandler<>() {
         @Override
         public void handle(MouseEvent event) {
-            int x = gamePane1.getChildren().size();
-            Canvas currentCanvas = (Canvas) gamePane1.getChildren().get(x-1); //Finds the current canvas
-            GameMap GM = new GameMap(currentCanvas, updatePlayerfn, getPlayersfn);
-            Image chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
-            circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
-            windowPane.removeEventHandler(MouseEvent.MOUSE_MOVED, userChangesAvatar);
+            try {
+                Image chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
+                circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
+                int x = gamePane1.getChildren().size();
+                Canvas currentCanvas = (Canvas) gamePane1.getChildren().get(x-1); //Finds the current canvas
+                new GameMap(currentCanvas, updatePlayerfn, getPlayersfn);
+                windowPane.removeEventHandler(MouseEvent.MOUSE_MOVED, userChangesAvatar);
+                System.out.println("avatar Successfully updated");
+        } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Error: Avatar not updated");
+
+            }
+
         }
     };
-
 
     //Method that displays message in chat box
     private void displayAndSend() {
@@ -283,21 +265,21 @@ public class MuckController implements Initializable {
         Tab newTab = new Tab("Chat Name Here");
         newTab.setId("Chat" + tabNum);
         AnchorPane newAnc = new AnchorPane();
-        newAnc.setStyle("-fx-background-color: lightgrey");
+        newAnc.setStyle("-fx-background-color: #847f7f");
         newTab.setContent(newAnc);
         newTab.setClosable(true);
         TextArea chatX = new TextArea();
         chatX.setId("chatbox" + tabNum);
         chatX.setEditable(false);
-        chatX.setPrefWidth(246);
-        chatX.setPrefHeight(473);
+        chatX.setPrefWidth(groupChatBox.getWidth());
+        chatX.setPrefHeight(groupChatBox.getHeight());
         chatX.setWrapText(true);
-        AnchorPane.setLeftAnchor(chatX, 11.0);
-        AnchorPane.setRightAnchor(chatX, 11.0);
-        AnchorPane.setTopAnchor(chatX, 22.0);
-        AnchorPane.setBottomAnchor(chatX, 22.0);
-        chatX.setLayoutX(14);
-        chatX.setLayoutY(17);
+        AnchorPane.setLeftAnchor(chatX, AnchorPane.getLeftAnchor(groupChatBox));
+        AnchorPane.setRightAnchor(chatX, AnchorPane.getRightAnchor(groupChatBox));
+        AnchorPane.setTopAnchor(chatX, AnchorPane.getTopAnchor(groupChatBox));
+        AnchorPane.setBottomAnchor(chatX, AnchorPane.getBottomAnchor(groupChatBox));
+        chatX.setLayoutX(groupChatBox.getLayoutX());
+        chatX.setLayoutY(groupChatBox.getLayoutX());
         newAnc.getChildren().add(chatX);
         chatPane1.getTabs().add(newTab);
         chatPane1.getSelectionModel().select(newTab);
@@ -306,8 +288,8 @@ public class MuckController implements Initializable {
     @FXML
     //Method that opens chat window and list window
     private void openFullChat(ActionEvent event) {
-        windowPane.setDividerPositions(0.565);
-        chatSplitPane.setDividerPositions(0.589);
+        windowPane.setDividerPositions(0.6363);
+        chatSplitPane.setDividerPositions(0.6056);
     }
 
 
@@ -320,7 +302,7 @@ public class MuckController implements Initializable {
 
 
     @FXML
-    /** Function to launch the game. The game exists in the LandingPage.class.
+    /* Function to launch the game. The game exists in the LandingPage.class.
     Basically what this is doing is removing the existing canvas and creating a new canvas
     for the new game. It then adds this canvas as a child of the pane.
 
@@ -333,7 +315,7 @@ public class MuckController implements Initializable {
         SICanvas.setWidth(gameCanvas.getWidth());
         gamePane1.setCenter(SICanvas);
         BorderPane.setAlignment(SICanvas, Pos.CENTER);
-        LandingPage si = new LandingPage(gamePane1, SICanvas);
+        new LandingPage(gamePane1, SICanvas);
     }
     @FXML
     private void launchEnduringFantasy (ActionEvent event){
@@ -343,7 +325,7 @@ public class MuckController implements Initializable {
         EFCanvas.setWidth(gameCanvas.getWidth());
         gamePane1.setCenter(EFCanvas);
         BorderPane.setAlignment(EFCanvas, Pos.CENTER);
-        LandingPageEf ef = new LandingPageEf(gamePane1, EFCanvas);
+        new LandingPageEf(gamePane1, EFCanvas);
     }
 
     @FXML
@@ -354,7 +336,7 @@ public class MuckController implements Initializable {
         EFCanvas.setWidth(gameCanvas.getWidth());
         gamePane1.setCenter(EFCanvas);
         BorderPane.setAlignment(EFCanvas, Pos.CENTER);
-        LandingPageFrogger fr = new LandingPageFrogger(gamePane1, EFCanvas);
+        new LandingPageFrogger(gamePane1, EFCanvas);
     }
 
     //Exits Muck consistent with the 'X' button when you choose exit from menu
@@ -363,7 +345,7 @@ public class MuckController implements Initializable {
         alert.getButtonTypes().add(ButtonType.CANCEL);
         alert.getButtonTypes().add(ButtonType.YES);
         alert.setTitle("Quit Muck?");
-        alert.setContentText(String.format("Are you sure you want to quit Muck?"));
+        alert.setContentText("Are you sure you want to quit Muck?");
         Optional<ButtonType> res = alert.showAndWait();
         if (res.isPresent()) {
             if (res.get().equals(ButtonType.CANCEL)) {
@@ -377,7 +359,7 @@ public class MuckController implements Initializable {
     public class getMessagesTask extends TimerTask {
         public void run() {
             if (MuckClient.INSTANCE.getCurrentMessage() == null){
-
+                
             }else {
                 groupChatBox.appendText("UserName Here: "+ MuckClient.INSTANCE.getCurrentMessage()+ "\n");
             }
