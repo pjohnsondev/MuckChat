@@ -12,77 +12,77 @@
    <bottom>
       <AnchorPane prefHeight="101.0" prefWidth="600.0" style="-fx-background-color: #003366;" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="14.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Attack" />
-            <Button layoutX="14.0" layoutY="51.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Magic" />
-            <Button layoutX="14.0" layoutY="75.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Item" />
-            <Button layoutX="14.0" layoutY="27.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Defend" />
-            <TextField layoutX="451.0" layoutY="2.0" style="-fx-background-color: #FFFFFF;" text="Enemy 1" />
-            <TextField layoutX="451.0" layoutY="27.0" text="Enemy 2" />
-            <TextField layoutX="451.0" layoutY="51.0" text="Enemy 3" />
-            <TextField layoutX="451.0" layoutY="75.0" text="Enemy 4" />
-            <TextField layoutX="252.0" layoutY="27.0" prefHeight="25.0" prefWidth="72.0" text="1000/1000" />
-            <TextField layoutX="252.0" layoutY="2.0" prefHeight="25.0" prefWidth="72.0" text="1000/1000" />
-            <TextField layoutX="252.0" layoutY="51.0" prefHeight="25.0" prefWidth="72.0" text="1000/1000" />
-            <TextField layoutX="252.0" layoutY="75.0" prefHeight="25.0" prefWidth="72.0" text="1000/1000" />
+            <Button id="atk_button" layoutX="14.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Attack" />
+            <Button id="mag_button" layoutX="14.0" layoutY="51.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Magic" />
+            <Button id="itm_button" layoutX="14.0" layoutY="75.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Item" />
+            <Button id="def_button" layoutX="14.0" layoutY="27.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Defend" />
+            <TextField id="e_list_1" layoutX="451.0" layoutY="2.0" style="-fx-background-color: #FFFFFF;" text="Enemy 1" />
+            <TextField id="e_list_2" layoutX="451.0" layoutY="27.0" text="Enemy 2" />
+            <TextField id="e_list_3" layoutX="451.0" layoutY="51.0" text="Enemy 3" />
+            <TextField id="e_list_4" layoutX="451.0" layoutY="75.0" text="Enemy 4" />
+            <TextField id="player_char_2_HP" layoutX="252.0" layoutY="27.0" prefHeight="25.0" prefWidth="72.0" text="1000/1000" />
+            <TextField id="player_char_1_HP" layoutX="252.0" layoutY="2.0" prefHeight="25.0" prefWidth="72.0" text="1000/1000" />
+            <TextField id="player_char_3_HP" layoutX="252.0" layoutY="51.0" prefHeight="25.0" prefWidth="72.0" text="1000/1000" />
+            <TextField id="player_char_4_HP" layoutX="252.0" layoutY="75.0" prefHeight="25.0" prefWidth="72.0" text="1000/1000" />
             <TextField layoutX="126.0" layoutY="2.0" prefHeight="25.0" prefWidth="119.0" text="Player 1" />
             <TextField layoutX="126.0" layoutY="27.0" prefHeight="25.0" prefWidth="119.0" text="Player 2" />
             <TextField layoutX="126.0" layoutY="51.0" prefHeight="25.0" prefWidth="119.0" text="Player 3" />
             <TextField layoutX="126.0" layoutY="75.0" prefHeight="25.0" prefWidth="119.0" text="Player 4" />
-            <TextField layoutX="324.0" layoutY="2.0" prefHeight="25.0" prefWidth="72.0" text="100/100" />
-            <TextField layoutX="324.0" layoutY="27.0" prefHeight="25.0" prefWidth="72.0" text="100/100" />
-            <TextField layoutX="324.0" layoutY="51.0" prefHeight="25.0" prefWidth="72.0" text="100/100" />
-            <TextField layoutX="324.0" layoutY="75.0" prefHeight="25.0" prefWidth="72.0" text="100/100" />
+            <TextField id="player_char_1_MP" layoutX="324.0" layoutY="2.0" prefHeight="25.0" prefWidth="72.0" text="100/100" />
+            <TextField id="player_char_2_MP" layoutX="324.0" layoutY="27.0" prefHeight="25.0" prefWidth="72.0" text="100/100" />
+            <TextField id="player_char_3_MP" layoutX="324.0" layoutY="51.0" prefHeight="25.0" prefWidth="72.0" text="100/100" />
+            <TextField id="player_char_4_MP" layoutX="324.0" layoutY="75.0" prefHeight="25.0" prefWidth="72.0" text="100/100" />
          </children></AnchorPane>
    </bottom>
    <center>
       <AnchorPane prefHeight="230.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="251.0" fitWidth="600.0">
+            <ImageView id="bg_image" fitHeight="251.0" fitWidth="600.0">
                <image>
-                  <Image url="@grass_battle_bg.png" />
+                  <Image url="@../images/EnduringFantasy/grass_battle_bg.png" />
                </image>
             </ImageView>
             <StackPane layoutX="509.0" layoutY="45.0" prefHeight="71.0" prefWidth="66.0">
                <children>
-                  <ImageView fitHeight="70.0" fitWidth="67.0">
+                  <ImageView id="player_char_1" fitHeight="70.0" fitWidth="67.0">
                      <image>
-                        <Image url="@blm.png" />
+                        <Image url="@../images/EnduringFantasy/blm.png" />
                      </image>
                   </ImageView>
                </children>
             </StackPane>
             <StackPane layoutX="459.0" layoutY="70.0" prefHeight="71.0" prefWidth="66.0">
                <children>
-                  <ImageView fitHeight="72.0" fitWidth="66.0">
+                  <ImageView id="player_char_2" fitHeight="72.0" fitWidth="66.0">
                      <image>
-                        <Image url="@warrior.png" />
+                        <Image url="@../images/EnduringFantasy/pal.png" />
                      </image>
                   </ImageView>
                </children>
             </StackPane>
             <StackPane layoutX="459.0" layoutY="126.0" prefHeight="71.0" prefWidth="66.0">
                <children>
-                  <ImageView fitHeight="68.0" fitWidth="59.0">
+                  <ImageView id="player_char_3" fitHeight="68.0" fitWidth="59.0">
                      <image>
-                        <Image url="@pal.png" />
+                        <Image url="@../images/EnduringFantasy/warrior.png" />
                      </image>
                   </ImageView>
                </children>
             </StackPane>
             <StackPane layoutX="510.0" layoutY="180.0" prefHeight="71.0" prefWidth="66.0">
                <children>
-                  <ImageView fitHeight="67.0" fitWidth="68.0">
+                  <ImageView id="player_char_4" fitHeight="67.0" fitWidth="68.0">
                      <image>
-                        <Image url="@whm.png" />
+                        <Image url="@../images/EnduringFantasy/whm.png" />
                      </image>
                   </ImageView>
                </children>
             </StackPane>
             <StackPane layoutX="39.0" layoutY="28.0" prefHeight="146.0" prefWidth="143.0">
                <children>
-                  <ImageView fitHeight="157.0" fitWidth="151.0">
+                  <ImageView id="Enemy_1" fitHeight="157.0" fitWidth="151.0">
                      <image>
-                        <Image url="@441-4418388_epic-gengar-gengar-pokemon-pixel.png" />
+                        <Image url="@../images/EnduringFantasy/441-4418388_epic-gengar-gengar-pokemon-pixel.png" />
                      </image>
                   </ImageView>
                </children>
