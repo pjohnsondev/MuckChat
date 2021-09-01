@@ -22,7 +22,7 @@ abstract public class Model implements IModel {
      * Constructor: creates a MuckDatabase instance
      */
     public Model() {
-        db = new MuckDatabase();
+        db = MuckDatabase.getINSTANCE();
     }
 
     /**

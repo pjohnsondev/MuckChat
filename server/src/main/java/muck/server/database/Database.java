@@ -37,8 +37,10 @@ abstract public class Database {
      */
     protected void connect() {
         try {
-            conn = DriverManager.getConnection(connectionString);
-            System.out.println("Connection to database established");
+            if (!this.databaseIsConnected()) {
+                conn = DriverManager.getConnection(connectionString);
+                System.out.println("Connection to database established");
+            }
         } catch (SQLException exception) {
             System.out.println(exception.getMessage());
         }
@@ -91,6 +93,7 @@ abstract public class Database {
         try {
             statement = conn.prepareStatement(sql);
         } catch (SQLException exception) {
+            System.out.println("Failed to connect to the database");
             System.out.println(exception.getMessage());
         }
     }
@@ -309,6 +312,21 @@ abstract public class Database {
 
     public void bindDate(int pIndex, Date parameter) throws SQLException {
         statement.setDate(pIndex,parameter);
+    }
+
+    public void finalize() throws Throwable {
+        try {
+            DriverManager.getConnection("jdbc:derby:;shutdown=true");
+
+        } catch (SQLException ex) {
+            if (ex.getSQLState().equals("XJ015")) {
+                System.out.println("Derby shutdown normally");
+            } else {
+                // could not shutdown the database
+                // handle appropriately
+                System.out.println("Derby shutdown Was not achieved");
+            }
+        }
     }
     //END PREPARED STATEMENT BINDINGS
 }
