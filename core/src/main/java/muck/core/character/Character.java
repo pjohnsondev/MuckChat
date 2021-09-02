@@ -20,7 +20,9 @@ public abstract class Character {
     //TODO
     // Character location on the world map. x, y coords? Which group is handling world map?
     //    private int _xCoord; - Example
-    
+    private int xPos;
+    private int yPos;
+
     //TODO
     // Common stats next, eg: attack, defense, strength, constitution, wisdom, etc? 
     // Up to Issue: #14. Collaboration required
@@ -208,6 +210,36 @@ public abstract class Character {
         return false;
     }
 
-   
+    /**
+     * set X position
+     * @param xPos New X position
+     */
+   public void setXPos(int xPos) {
+        this.xPos = xPos;
+   }
+
+    /**
+     * Set Y position
+     * @param yPos new N position
+     */
+    public void setYPos(int yPos) {
+        this.yPos = yPos;
+    }
+
+    /**
+     * Get X position
+     * @return X position
+     */
+    public int getXPos() {
+        return this.xPos;
+    }
+
+    /**
+     * Get Y position
+     * @return Y position
+     */
+    public int getYPos() {
+        return this.yPos;
+    }
     
 }
