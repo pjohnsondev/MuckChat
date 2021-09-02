@@ -119,7 +119,7 @@ public class LandingPageFrogger extends Node {
         exitButton.setOnAction(event -> {
             stage.getChildren().removeAll(grid, canvas);
             GameMap gm = new GameMap(canvas);
-
+            canvas.setId("gameCanvas");
             stage.getChildren().add(canvas);
         });
     }
