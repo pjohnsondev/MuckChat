@@ -69,7 +69,7 @@ public class SignUpController {
             // retrieve user id from database and pass to the next scene
 
             // Pass to next scene
-            passToAvatar(event, username);
+            passToAvatar(event, username, displayname);
         }
     }
 
@@ -155,9 +155,9 @@ public class SignUpController {
 
 
     // TODO: Add Pass to Avatar Selection Display
-    public void passToAvatar(MouseEvent event, String username) throws IOException{
+    public void passToAvatar(MouseEvent event, String username, String displayName) throws IOException{
         AvatarController nextScene = new AvatarController();
-        nextScene.avatarCreation(event, username);
+        nextScene.avatarCreation(event, username, displayName);
     }
 
     public void displayErrors(String username, String displayname, String password, String passwordtwo){

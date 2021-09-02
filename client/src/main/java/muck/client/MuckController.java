@@ -120,6 +120,7 @@ public class MuckController implements Initializable {
 
     String message;
     private static String userName;
+    private static String displayName;
     private static String avatarID;
 
     //static final Logger logger = LogManager.getLogger();
@@ -142,7 +143,7 @@ public class MuckController implements Initializable {
         plus.setOnAction(this::addChatTab); // adds new tab
         new GameMap(gameCanvas,updatePlayerfn, getPlayersfn); // Adds GameMap animation to the game window
         Image chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
-        userNameDisplay.setText(userName);// // Sets username that has been passed in from Avatar class
+        userNameDisplay.setText(displayName);// // Sets username that has been passed in from Avatar class
         circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
         circle.setOnMouseClicked(this::openPlayerDashboardMenu);
         chatSection.setFocusTraversable(true);
@@ -169,9 +170,10 @@ public class MuckController implements Initializable {
     }
 
     // Use this method from external classes to open the gameplay window. Added by CA 14 Aug
-    public static void constructor(MouseEvent event, String name, String avatar) {
+    public static void constructor(MouseEvent event, String name, String display, String avatar) {
         userName = name;
         avatarID = avatar;
+        displayName = display;
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(MuckController.class.getResource("/fxml/MuckWindow.fxml")));
             Scene scene = new Scene(root);
@@ -196,7 +198,7 @@ public class MuckController implements Initializable {
 
     public void openPlayerDashboardMenu(Event event) {
         try {
-            PlayerDashboardController.playerDashboard(userName, avatarID);
+            PlayerDashboardController.playerDashboard(userName, displayName, avatarID);
             Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/PlayerDashboard.fxml")));
             Stage stage = new Stage(StageStyle.DECORATED);
             stage.setTitle("Muck2021");

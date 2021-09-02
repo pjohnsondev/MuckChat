@@ -29,7 +29,8 @@ import javafx.stage.Stage;
 public class AvatarController implements Initializable  {
 
     // This will be the associated attributes of the user
-    private static String uname; //Will be updated when constructing AvatarController
+    private static String uname;//Will be updated when constructing AvatarController
+    private static String displayName; //Will be updated when constructing AvatarController
     private static int muckPoints = 0; //Dummy value for testing purposes TODO: Remove
     public static String avatar = "error"; //Default. No image.
     private static String previous = "login"; //Previous screen. Will determine where the submit button leads.
@@ -142,7 +143,7 @@ public class AvatarController implements Initializable  {
 
         }
 
-        username.setText(uname);
+        username.setText(displayName);
 
         submit.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             if (previous.equals("playerDashboard")) { //If the user previously came from player dashboard return there
@@ -176,9 +177,10 @@ public class AvatarController implements Initializable  {
      * @param event: The mouse event that has prompted the opening of the window.
      * @param username: The username of the current player
      */
-    public static void avatarCreation(MouseEvent event, String username) {
+    public static void avatarCreation(MouseEvent event, String username, String display) {
         previous = "login";
         uname = username;
+        displayName = display;
         avatar = "error";
         try {
             Parent root = FXMLLoader.load(AvatarController.class.getResource("/fxml/Avatar.fxml"));
@@ -202,11 +204,32 @@ public class AvatarController implements Initializable  {
      * @param username: The player's username
      * @param avID: The player's avatarID
      */
-    public static void avatarCreation(String username, String avID){
+    public static void avatarCreation(String username, String display, String avID){
         //TODO: Call server for muck point value
         previous = "playerDashboard";
         uname = username;
+        displayName = display;
         avatar = avID;
+    }
+
+    //TODO: Remove this method once the SignIn Screen sends the window to Muck
+    public static void avatarCreation(MouseEvent event, String username) {
+        previous = "login";
+        uname = username;
+        displayName = "DisplayName";
+        avatar = "error";
+        try {
+            Parent root = FXMLLoader.load(AvatarController.class.getResource("/fxml/Avatar.fxml"));
+            Scene scene = new Scene(root);
+            scene.setRoot(root);
+            scene.getStylesheets().add(AvatarController.class.getResource("/css/style.css").toExternalForm());
+            //This line gets the Stage Information
+            Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -328,7 +351,7 @@ public class AvatarController implements Initializable  {
      */
     private void submitToMap(MouseEvent event) {
         // TODO: Send username and avatar back to the server for storage
-        MuckController.constructor(event, uname, avatar);
+        MuckController.constructor(event, uname, displayName, avatar);
         }
 
     /**
@@ -339,7 +362,7 @@ public class AvatarController implements Initializable  {
      */
     private void submitToDashboard(MouseEvent event) throws IOException{
         // TODO: Send username and avatar back to server for storage
-        PlayerDashboardController.playerDashboard(uname, avatar);
+        PlayerDashboardController.playerDashboard(uname, displayName, avatar);
         Parent parent = FXMLLoader.load(getClass().getResource("/fxml/PlayerDashboard.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(parent));

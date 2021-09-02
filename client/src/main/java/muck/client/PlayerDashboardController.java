@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 
 public class PlayerDashboardController implements Initializable {
     private static String userName;
+    private static String displayName;
     private static String avatarID;
     private Image fullAvatar = AvatarController.getFullAvatar(avatarID);
     private int muckPointTotal = 100; //TODO: Remove
@@ -63,14 +64,14 @@ public class PlayerDashboardController implements Initializable {
             avatarFullBody.setImage(fullAvatar);
             selection(avatarID);
             centreImage();
-            username.setText(userName);
+            username.setText(displayName);
             muckPoints.setText(String.valueOf(muckPointTotal));
             health.setText(String.valueOf(healthTotal));
 
             change.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                 try {
                     //This will take over the scene that currently holds the player dashboard screen
-                    AvatarController.avatarCreation(userName, avatarID);
+                    AvatarController.avatarCreation(userName, displayName, avatarID);
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     Parent parent = FXMLLoader.load(getClass().getResource("/fxml/Avatar.fxml"));
                     stage.setScene(new Scene(parent));
@@ -119,14 +120,16 @@ public class PlayerDashboardController implements Initializable {
         }
     }
 
-    public static void playerDashboard(String uname, String avID) {
+    public static void playerDashboard(String uname, String display, String avID) {
         userName = uname;
+        displayName = display;
         avatarID = avID;
         //TODO: Call the server to get all the relevant information
     }
 
-    public static void playerDashboard(String uname, MouseEvent event, String avID) {
+    /*public static void playerDashboard(String uname, String display, MouseEvent event, String avID) {
         userName = uname;
+        displayName = display;
         avatarID = avID;
         //TODO: Call the server to get all the relevant information
         try {
@@ -141,7 +144,7 @@ public class PlayerDashboardController implements Initializable {
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    }*/
 
     private void returnToGame(MouseEvent event, String uname, String avID) {
         // TODO: Send username and avatar back to the server for storage

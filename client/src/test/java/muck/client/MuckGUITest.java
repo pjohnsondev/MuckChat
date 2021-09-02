@@ -35,7 +35,7 @@ public class MuckGUITest extends ApplicationTest {
     public void start(Stage stage) throws IOException {
         // TODO: Do this with a mock character???
         logger.info("Initializing window");
-        AvatarController.avatarCreation("Test", "error");
+        AvatarController.avatarCreation("Username", "DisplayName", "error");
         FXMLLoader loader = new FXMLLoader(AvatarController.class.getResource("/fxml/Avatar.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
@@ -288,7 +288,7 @@ public class MuckGUITest extends ApplicationTest {
 
     @Test
     @Order(9)
-    public void testMuckWindow() {
+    public void testMuckWindows() {
         // Wrapper thread.
         Thread thread = new Thread(() -> {
             try {
@@ -329,6 +329,12 @@ public class MuckGUITest extends ApplicationTest {
     public void testChatController() {
         MuckController chatController = mock(MuckController.class);
         chatController.initialize(null, null);
+    }
+
+    @Test
+    @Order(12)
+    public void testMuckWindow() {
+        clickOn("#submit");
     }
 
     // *********** END MUCK CONTROLLER TESTING ****************
