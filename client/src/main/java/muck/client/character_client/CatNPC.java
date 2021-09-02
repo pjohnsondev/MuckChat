@@ -4,7 +4,6 @@ import javafx.scene.canvas.GraphicsContext;
 import muck.client.TileMapReader;
 import javafx.scene.image.Image;
 import muck.core.character.NPC;
-import muck.core.character.NPCRandomWalk;
 
 public class CatNPC extends NPC {
     private final Image image;
@@ -28,9 +27,6 @@ public class CatNPC extends NPC {
         setYPos(yPos);
         setNPCStats(10, 1, 1, 1);
         setColour(colour);
-
-        NPCRandomWalk npcRandomWalk = new NPCRandomWalk(this);
-        this.AIBehaviours.add(npcRandomWalk);
     }
 
     /**
@@ -49,9 +45,6 @@ public class CatNPC extends NPC {
         setNPCStats(10, 1, 1, 1);
         setColour(colour);
         setDirection(direction);
-
-        NPCRandomWalk npcRandomWalk = new NPCRandomWalk(this);
-        this.AIBehaviours.add(npcRandomWalk);
     }
 
     /**
