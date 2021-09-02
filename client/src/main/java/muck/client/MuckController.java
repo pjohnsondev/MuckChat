@@ -3,7 +3,6 @@ package muck.client;
 
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -202,8 +201,20 @@ public class MuckController implements Initializable {
             Stage stage = new Stage(StageStyle.DECORATED);
             stage.setTitle("Muck2021");
             stage.setScene(new Scene(parent));
+            stage.setOnHiding(avatarEvent -> {
+                try {
+                    Image chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
+                    circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
+                    int x = gamePane1.getChildren().size();
+                    Canvas currentCanvas = (Canvas) gamePane1.getChildren().get(x-1); //Finds the current canvas
+                    new GameMap(currentCanvas, updatePlayerfn, getPlayersfn);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("Error: Avatar not updated");
+
+                }
+            });
             stage.show();
-            windowPane.addEventHandler(MouseEvent.MOUSE_MOVED, userChangesAvatar);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -211,26 +222,6 @@ public class MuckController implements Initializable {
 
 
 
-    //Method that changes the avatar and sprite when the user changes it in player dashboard
-    EventHandler<MouseEvent> userChangesAvatar = new EventHandler<>() {
-        @Override
-        public void handle(MouseEvent event) {
-            try {
-                Image chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
-                circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
-                int x = gamePane1.getChildren().size();
-                Canvas currentCanvas = (Canvas) gamePane1.getChildren().get(x-1); //Finds the current canvas
-                new GameMap(currentCanvas, updatePlayerfn, getPlayersfn);
-                windowPane.removeEventHandler(MouseEvent.MOUSE_MOVED, userChangesAvatar);
-                System.out.println("avatar Successfully updated");
-        } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("Error: Avatar not updated");
-
-            }
-
-        }
-    };
 
     //Method that displays message in chat box
     private void displayAndSend() {

@@ -139,7 +139,7 @@
                         <Canvas id="gameCanvas" fx:id="gameCanvas" height="598.0" width="789.0" BorderPane.alignment="CENTER" />
                     </center>
                 </BorderPane>
-                <Circle id="circle" fx:id="circle" accessibleRole="BUTTON" fill="#f5f0f000" layoutX="905.0" layoutY="72.0" radius="58.0" stroke="BLACK" strokeType="INSIDE">
+                <Circle id="circle" fx:id="circle" accessibleRole="IMAGE_VIEW" fill="#f5f0f000" layoutX="905.0" layoutY="72.0" radius="58.0" stroke="BLACK" strokeType="INSIDE">
                     <cursor>
                         <Cursor fx:constant="HAND" />
                     </cursor>
