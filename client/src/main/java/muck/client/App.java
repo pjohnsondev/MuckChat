@@ -77,17 +77,26 @@ public class App extends Application {
         stage.show();*/
 
         /* End of Imported work */
-        stage = primaryStage;
-        primaryStage.setResizable(false);
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/SignIn.fxml"));
-        primaryStage.setTitle("Sign In");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+        try {
+            stage = primaryStage;
+            primaryStage.setResizable(false);
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/SignIn.fxml"));
+            primaryStage.setTitle("MUCK 2021");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (IOException e){
+            logger.error("Can't find primary stage FXML file");
+        }
+
     }
 
     public void changeScene(String fxml) throws IOException {
-        Parent pane = FXMLLoader.load(getClass().getResource(fxml));
-        stage.setScene(new Scene(pane));
+        try {
+            Parent pane = FXMLLoader.load(getClass().getResource(fxml));
+            stage.setScene(new Scene(pane));
+        } catch (IOException e){
+            logger.error("Could not find file " + fxml);
+        }
     }
 
     public void changeScene(String fxml, String data) throws IOException {

@@ -21,6 +21,7 @@ import muck.protocol.connection.*;
 
 import java.io.IOException;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -49,7 +50,7 @@ public enum MuckServer {
     CharacterLocationTracker<String> tracker = new CharacterLocationTracker<String>();
 
     /** Sets up the KryoNet server that will handle communication */
-    synchronized void startKryo(KryoServerConfig config) throws IOException {
+    synchronized void startKryo(KryoServerConfig config) throws IOException, SQLException {
 
         if (kryoServer != null) {
             throw new IllegalStateException("Attempted to start KryoServer when it was already started");
@@ -71,6 +72,7 @@ public enum MuckServer {
 
         // The arraylist is only a temporary datastructure and is subject to change.
         ArrayList<String> players = new ArrayList<String>();
+        setupGroupChat();
         // Adds a listener to listen for new client connections, then adds the clients id to the players arraylist and sends to all clients.
         addListener(ListenerBuilder.forClass(Connected.class).onReceive((conn, connected) -> {
             players.add(Integer.toString(conn.getID()));
@@ -95,8 +97,9 @@ public enum MuckServer {
                 logger.info("I sent my ping to a background worker, and all I got in return was this lousy {}", reply);
             });
         }));
-        /*
-        This listener listens for a message from client. Prints to logger when received.
+        /**
+         * Listens for a userMessage class coming from the client.
+         * Calls a worker to handle storing the message in the chat log (not done yet).
          */
         addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, clientMessage) -> {
             logger.info("Recieved a message!");
@@ -105,6 +108,18 @@ public enum MuckServer {
             logger.info(clientMessage);
             kryoServer.sendToAllTCP(clientMessage); //Send to all clients connected. Can be switched to send only to one client.
         }));
+        /**
+         * Listens for a newChatLog class coming from the client (or another class).
+         * Acts as a signal to tell chatCreateTable to create a new chat log with specified name.
+         */
+        addListener(ListenerBuilder.forClass(newChatLog.class).onReceive((connID, newChatLog) -> {
+                    try {
+                        chatCreateTable.createNewChat(newChatLog);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+        ));
 
         addListener(ListenerBuilder.forClass(Login.class).onReceive((connection, login) -> {
             loginPlayer(login, (MuckConnection)connection);
@@ -113,6 +128,7 @@ public enum MuckServer {
         addListener(ListenerBuilder.forClass(SignUpInfo.class).onReceive((connection, signup) -> {
             createAccount(signup, (MuckConnection)connection);
         }));
+
     }
 
     public void createAccount(SignUpInfo signUpInfo, MuckConnection connection) {
@@ -197,6 +213,14 @@ public enum MuckServer {
         }
 
         kryoServer.addListener(l);
+    }
+
+    /**
+     * Method called upon startup to create the group chat log. Not accessible to another class.
+     * @throws SQLException
+     */
+    private void setupGroupChat() throws SQLException {
+        chatCreateTable.createGroupChat();
     }
 
 

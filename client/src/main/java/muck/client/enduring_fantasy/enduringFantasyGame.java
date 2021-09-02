@@ -18,6 +18,8 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import muck.client.GameMap;
 
+import java.io.FileInputStream;
+
 //TODO the is the class to run the actual game
 public class enduringFantasyGame extends Node {
 
@@ -38,6 +40,18 @@ public class enduringFantasyGame extends Node {
         ImageView titleView = new ImageView();
         titleView.setFitWidth(480);
         titleView.setFitHeight(130);
+
+
+        //set battle background image
+        Image image = new Image("resources/images/EnduringFantasy/grass_battle_bg.png");
+        BackgroundImage backgroundimage = new BackgroundImage(image,
+                                                BackgroundRepeat.NO_REPEAT,
+                                                BackgroundRepeat.NO_REPEAT,
+                                                BackgroundPosition.DEFAULT,
+                                                BackgroundSize.DEFAULT);
+
+        Background background = new Background(backgroundimage);
+
 
 
         grid.add(titleView, 1, 50, 3, 5);
@@ -65,4 +79,5 @@ public class enduringFantasyGame extends Node {
             stage.getChildren().removeAll(grid, canvas);
         });
     }
+
 }
