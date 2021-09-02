@@ -7,7 +7,6 @@ import muck.core.Login;
 import muck.core.Pair;
 import muck.core.UpdatePlayerRequest;
 import muck.core.character.AddCharacter;
-import muck.core.character.Character;
 import muck.core.character.CharacterDoesNotExistException;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -15,7 +14,9 @@ import com.esotericsoftware.kryonet.Server;
 
 import muck.core.character.Player;
 import muck.core.user.SignUpInfo;
-import muck.server.models.models.User;
+import muck.server.models.ModelRegister;
+import muck.server.services.UserService;
+import muck.server.structures.UserStructure;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,13 +25,14 @@ import muck.protocol.connection.*;
 
 import java.io.IOException;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import muck.core.LocationResponse;
 
 /**
- * The central body of the server. This should avoid getting too large, but
- * should have references to any of the necessary components. It is a singleton.
+ * The central body of the server. This should avoid getting too large, but should have references to
+ * any of the necessary components. It is a singleton.
  */
 public enum MuckServer {
 
@@ -70,6 +72,12 @@ public enum MuckServer {
 
 		// Register the protocol classes with Kryo
 		Protocol.register(kryoServer.getKryo());
+        // Make necessary migrations to set up database (their not really migrations but what can you do)
+        new ModelRegister().makeMigrations();
+
+
+        // Register the protocol classes with Kryo
+        Protocol.register(kryoServer.getKryo());
 
 		// Bind the server to the configured ports
 		kryoServer.bind(config.getTcpPort(), config.getUdpPort());
@@ -97,24 +105,34 @@ public enum MuckServer {
 
 			logger.info("Ping received from {}", conn.getID());
 
-			// Let's just demonstrate how to send messages to worker actors, by sending this
-			// message to one.
-			workerManager.schedule(ping, reply -> {
-				logger.info("I sent my ping to a background worker, and all I got in return was this lousy {}", reply);
-			});
-		}));
-		/*
-		 * This listener listens for a message from client. Prints to logger when
-		 * received.
-		 */
-		addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, clientMessage) -> {
-			logger.info("Recieved a message!");
-			logger.info("Message received from {}", connID.getID());
-			logger.info("Message is: {}", clientMessage.getMessage());
-			logger.info(clientMessage);
-			kryoServer.sendToAllTCP(clientMessage); // Send to all clients connected. Can be switched to send only to
-													// one client.
-		}));
+            // Let's just demonstrate how to send messages to worker actors, by sending this message to one.
+            workerManager.schedule(ping, reply -> {
+                logger.info("I sent my ping to a background worker, and all I got in return was this lousy {}", reply);
+            });
+        }));
+        /**
+         * Listens for a userMessage class coming from the client.
+         * Calls a worker to handle storing the message in the chat log (not done yet).
+         */
+        addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, clientMessage) -> {
+            logger.info("Recieved a message!");
+            logger.info("Message received from {}", connID.getID());
+            logger.info("Message is: {}", clientMessage.getMessage());
+            logger.info(clientMessage);
+            kryoServer.sendToAllTCP(clientMessage); //Send to all clients connected. Can be switched to send only to one client.
+        }));
+        /**
+         * Listens for a newChatLog class coming from the client (or another class).
+         * Acts as a signal to tell chatCreateTable to create a new chat log with specified name.
+         */
+        addListener(ListenerBuilder.forClass(newChatLog.class).onReceive((connID, newChatLog) -> {
+                    try {
+                        chatCreateTable.createNewChat(newChatLog);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+        ));
 
 		addListener(ListenerBuilder.forClass(Login.class).onReceive((connection, login) -> {
 			loginPlayer(login, (MuckConnection) connection);
@@ -140,11 +158,15 @@ public enum MuckServer {
 	public void createAccount(SignUpInfo signUpInfo, MuckConnection connection) {
 		logger.info("Attempting to create account {}.", signUpInfo.getUsername());
 
-		PlayerManager playerManager = new PlayerManager(new User());
+		PlayerManager playerManager = new PlayerManager(new UserService());
 		userMessage userMessage = new userMessage();
+		UserStructure userStructure = new UserStructure();
+		userStructure.username = signUpInfo.getUsername();
+		userStructure.password = signUpInfo.getPassword();
+		userStructure.displayName = signUpInfo.getDisplayName();
 
 		try {
-			Player player = playerManager.signupPlayer(signUpInfo);
+			Player player = playerManager.signupPlayer(userStructure);
 			logger.info("Sign up successful for {}", player.getUsername());
 
 			userMessage.setMessage("Your account has been created successfully. Username: " + player.getUsername());
@@ -162,12 +184,16 @@ public enum MuckServer {
 		logger.info("Attempting to log in");
 		logger.debug("{} is trying to log in", login.getUsername());
 
-		PlayerManager playerManager = new PlayerManager(new User());
+        PlayerManager playerManager = new PlayerManager(new UserService());
+
+        UserStructure userStructure = new UserStructure();
+        userStructure.username = login.getUsername();
+        userStructure.password = login.getPassword();
 
 		Player player = null;
 
 		try {
-			player = playerManager.loginPlayer(login);
+			player = playerManager.loginPlayer(userStructure);
 		} catch (DuplicateLoginException ex) {
 			userMessage testMessage = new userMessage(); // Create new message to send back.
 			testMessage.setMessage("Duplicate login");

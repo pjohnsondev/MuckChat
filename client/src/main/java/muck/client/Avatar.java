@@ -28,9 +28,4 @@ public class Avatar extends Application {
             e.printStackTrace();
         }
     }
-
-
-   public static void main(String[] args) {
-        AvatarController.avatarCreation("Test");
-    }
 }

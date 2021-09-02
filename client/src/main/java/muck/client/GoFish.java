@@ -6,27 +6,29 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class SignIn extends Application{
+
+public class GoFish extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/SignIn.fxml"));
+            FXMLLoader loader = new FXMLLoader(GoFish.class.getResource("/fxml/cardsGame.fxml"));
             Parent root = loader.load();
-            Scene scene = new Scene(root, 300, 275);
+            Scene scene = new Scene(root, 1130, 800);
             scene.setRoot(root);
-            scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
             Stage stage = new Stage();
-            stage.setTitle("Sign In");
+            stage.setTitle("Go Fish");
             stage.setScene(scene);
             stage.show();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-}
+    }
+
+
     public static void main(String[] args) {
-        launch(args);
+        launch();
     }
 }
-
 

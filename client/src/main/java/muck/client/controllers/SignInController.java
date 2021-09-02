@@ -2,44 +2,55 @@ package muck.client.controllers;
 /*Sign in - Issue 11 */
 
 
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
-import javafx.scene.text.Text;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.control.*;
+import muck.client.App;
 import org.mindrot.jbcrypt.*;
+import muck.client.AvatarController;
+
+import java.io.IOException;
 
 
-
-public class SignInController {
+public class SignInController{
     @FXML
-    private Text actiontarget;
+    Label error;
 
     @FXML
-    PasswordField passwordField;
+    PasswordField password;
 
     @FXML
-    TextField userName;
+    TextField username;
+
+    @FXML
+    Button signUp;
+
+    @FXML
+    Button signIn;
 
     // Todo add logic to
     @FXML
-    protected void signIn(ActionEvent event) {
-        String hashed = BCrypt.hashpw(passwordField.getText(), BCrypt.gensalt());
-        String uName = userName.getText();
+    protected void signIn(MouseEvent event) throws IOException {
+        String hashed = BCrypt.hashpw(password.getText(), BCrypt.gensalt());
+        String uName = username.getText();
 
-        if(validateSignIn()){
-            actiontarget.setText("Congratulations!\n\r" +
-                    "User Name and Password Match");
-        }
+        if(isNotEmpty(password.getText(), uName) && validateSignIn(uName, hashed)){
+                // forward on to next scene
+                passToNextScene(event, uName);
+        };
+
+
 
     }
 
     // TODO: Sign in validation method - implement functionality
 
-    public boolean validateSignIn(){
+    public boolean validateSignIn(String username, String password){
         // Check that user exists in database
-        if(!userExists() || !passwordMatches()) {
+        if(!userExists(username) || !passwordMatches(username, password)) {
             // Handle NoUserExists
-            actiontarget.setText("User Name or Password are Incorrect");
+            error.setText("User Name or Password are Incorrect");
             return false;
         } else {
             return true;
@@ -47,17 +58,41 @@ public class SignInController {
     }
 
     //TODO: User validation method - implement functionality
-    public boolean userExists(){
+    public boolean userExists(String username){
+        // check database for user
         return true;
     }
 
     //TODO: Password validation method - implement functionality
-    public boolean passwordMatches(){
+    public boolean passwordMatches(String username, String password){
+        //match password to user from database
         return true;
     }
 
+    // TODO: Add Pass to SignUp Display
+    public void signUp() throws IOException{
+        App a = new App();
+        a.changeScene("/fxml/SignUp.fxml");
+    }
 
+    // TODO: Add Pass to Avatar Selection Display - work out how to pass data between scenes
+    public static void passToNextScene(MouseEvent event, String username) throws IOException{
+        // Currently needs to go to muck via avatar controller until users can be brought from database
+        AvatarController nextScene = new AvatarController();
+        nextScene.avatarCreation(event, username);
+    }
 
+    public boolean isNotEmpty(String password, String username){
+        if(username.isEmpty()){
+            error.setText("You must enter a user name");
+            return false;
+        } else if(password.isEmpty()){
+            error.setText("You must enter your password");
+            return false;
+        } else {
+            return true;
+        }
+    }
 
 }
 
