@@ -76,13 +76,13 @@ public class SignUpController {
 
             // retrieve user id from database and pass to the next scene
 
-            // Pass to next scene
-            passToAvatar(event, username);
+            // Pass display name to the next scene
+            passToAvatar(event, displayname);
             return true;
 
         } else {
-
-//            error.setText("Unable to validate new user information : ");
+            // Catches and displays the corresponding error from the display method.
+            displayErrors();
             return  false;
         }
 
@@ -94,7 +94,7 @@ public class SignUpController {
         return true;
     }
 
-    // TODO: Username Length Validation method
+    // Username Length Validation method
     public boolean validUserNameLength(String username) {
         if (username.length() > maxUsernameLength) {
             return false;
@@ -103,7 +103,7 @@ public class SignUpController {
         }
     }
 
-    // TODO: Display name Length Validation method
+    // Display name Length Validation method
     public boolean validDisplayNameLength(String displayname) {
         if (displayname.length() > maxDisplayNameLength) {
             return false;
@@ -112,7 +112,7 @@ public class SignUpController {
         }
     }
 
-    // TODO: Password Length Validation method
+    // Password Length Validation method
     public boolean validPasswordLength(String password) {
         if (password.length() > maxPasswordLength) {
             return false;
@@ -122,11 +122,14 @@ public class SignUpController {
     }
 
 
-    // TODO: Passwords match Validation method
+    // Passwords match Validation method
     public boolean passwordsMatch(String passWordText, String passwordTwo) {
-        if (passWordText.equals(passwordTwo))
+        if (passWordText.equals(passwordTwo)) {
+//            error.setText("Passwords do not match");
             return true;
-        return false;
+        } else {
+            return false;
+        }
     }
 
     //TODO: Add User to Database - Add functionality
@@ -150,7 +153,7 @@ public class SignUpController {
 //            return false;
 //        }
     }
-
+    // Password not empty validation
     public boolean passwordIsNotEmpty(String password) {
         if (password.isEmpty()) {
             return false;
@@ -158,7 +161,7 @@ public class SignUpController {
             return true;
         }
     }
-
+    // Username not empty validation
     public boolean userNameIsNotEmpty(String username) {
         if (username.isEmpty()) {
             return false;
@@ -166,7 +169,7 @@ public class SignUpController {
             return true;
         }
     }
-
+    // Display name not empty validation
     public boolean displayNameIsNotEmpty(String displayname) {
         if (displayname.isEmpty()) {
             return false;
@@ -176,26 +179,31 @@ public class SignUpController {
     }
 
 
-    // TODO: Add Pass to Avatar Selection Display
+    // Add Pass to Avatar Selection Display
     public void passToAvatar(MouseEvent event, String username) throws IOException {
         AvatarController nextScene = new AvatarController();
         nextScene.avatarCreation(event, username);
     }
-
-    public void displayErrors(String username, String displayname, String password, String passwordtwo) {
-        if (!validUserNameLength(username)) {
+    // display errors method for signup screen validations
+    public void displayErrors() {
+        // Pass and stores the signup form's inputs into corresponding variables
+        String passWordText = password.getText();
+        String userName = username.getText();
+        String displayName = displayname.getText();
+        String passwordTwo = passwordtwo.getText();
+        if (!validUserNameLength(userName)) {
             error.setText("Username must be less than " + maxUsernameLength + " characters");
-        } else if (!validPasswordLength(password)) {
+        } else if (!validPasswordLength(passWordText)) {
             error.setText("Password must be less than " + maxPasswordLength + " characters");
-        } else if (!validDisplayNameLength(displayname)) {
+        } else if (!validDisplayNameLength(displayName)) {
             error.setText("Display name must be less than " + maxDisplayNameLength + " characters");
-        } else if (!userNameIsNotEmpty(username)) {
+        } else if (!userNameIsNotEmpty(userName)) {
             error.setText("You must enter a user name");
-        } else if (!displayNameIsNotEmpty(displayname)) {
+        } else if (!displayNameIsNotEmpty(displayName)) {
             error.setText("You must enter a display name");
-        } else if (!passwordIsNotEmpty(password)) {
+        } else if (!passwordIsNotEmpty(passWordText)) {
             error.setText("You must enter a password");
-        } else if (!passwordsMatch(password, passwordtwo)) {
+        } else if (!passwordsMatch(passWordText, passwordTwo)) {
             error.setText("Passwords do not match");
         }
     }
