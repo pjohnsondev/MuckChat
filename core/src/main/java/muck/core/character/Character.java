@@ -24,11 +24,11 @@ public abstract class Character {
     //TODO
     // Common stats next, eg: attack, defense, strength, constitution, wisdom, etc? 
     // Up to Issue: #14. Collaboration required
-    //    private int _strength; - Example
+
     // Character stats
-    private int _health = 100;
-    private int _attack = 0;
-    private int _defence = 0;
+    private int _health;
+    private int _attack;
+    private int _defence;
 
     /**
      * Set the unique ID for this Character. Should be used cautiously, should probably not be used externally
