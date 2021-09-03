@@ -105,10 +105,18 @@ public class CatNPC extends NPC {
         this.setDirection(direction);
         System.out.println(this.getDirection());
         switch (getDirection()) {
-            case "left" -> sh = base + 48;
-            case "right" -> sh = base + 96;
-            case "up" -> sh = base + 144;
-            default -> sh = base;
+            case "left":
+                sh = base + 48;
+                break;
+            case "right":
+                sh = base + 96;
+                break;
+            case "up":
+                sh = base + 144;
+                break;
+            default:
+                sh = base;
+                break;
         }
     }
 
@@ -120,10 +128,18 @@ public class CatNPC extends NPC {
     public String dialog(int option) {
         String message;
         switch (option) {
-            case 1 -> message = "Meow!";
-            case 2 -> message = "Hiss!!!";
-            case 3 -> message = "Purr";
-            default -> message = "...";
+            case 1:
+                message = "Meow!";
+                break;
+            case 2:
+                message = "Hiss!!!";
+                break;
+            case 3:
+                message = "Purr";
+                break;
+            default:
+                message = "...";
+                break;
         }
         return message;
     }
