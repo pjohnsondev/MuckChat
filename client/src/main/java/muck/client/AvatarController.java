@@ -32,7 +32,7 @@ public class AvatarController implements Initializable  {
     private static String uname;//Will be updated when constructing AvatarController
     private static String displayName; //Will be updated when constructing AvatarController
     private static int muckPoints = 0; //Dummy value for testing purposes TODO: Remove
-    public static String avatar = "error"; //Default. No image.
+    private static String avatar = "error"; //Default. No image.
     private static String previous = "login"; //Previous screen. Will determine where the submit button leads.
     private final int OPEN_SKELETON = 20; // Muck points required to activate skeleton avatar
     private final int OPEN_WW = 30; // Muck points required to activate Wonder Woman avatar
@@ -138,24 +138,12 @@ public class AvatarController implements Initializable  {
                 selection(avatar);
             }
         } catch (NullPointerException e) {
-            // TODO: What if image isn't available exception
-            System.out.print("In initialize");
-
+            e.printStackTrace();
         }
 
         username.setText(displayName);
 
-        submit.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if (previous.equals("playerDashboard")) { //If the user previously came from player dashboard return there
-                try {
-                    submitToDashboard(event);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else { //Else return to the map
-                submitToMap(event);
-            }
-        });
+        submit.addEventHandler(MouseEvent.MOUSE_CLICKED, this::submit);
 
         peach.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             selection("peach");
@@ -231,6 +219,8 @@ public class AvatarController implements Initializable  {
             java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+
 
     /**
      * LockedAvatars method.
@@ -337,6 +327,24 @@ public class AvatarController implements Initializable  {
     }
 
     /**
+     * Submit event.
+     * If the avatar screen was opened from the Sign Up page the submit event will send to map.
+     * Otherwise if the avatar screen was opened from the Player Dashboard, the submit event will send back to the dashboard.
+     * @param event: The mouse click event
+     */
+    private void submit(MouseEvent event) {
+        try {
+            if (previous.equals("playerDashboard")) { //If the user previously came from player dashboard return there
+                submitToDashboard(event);
+            } else {
+                submitToMap(event); // Otherwise send them to the map
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * submitToMap method
      * Will be used when moving from User SignUp >> Avatar Selection Screen >> Map
      * @param event: The click event that is generated when the submit button is pressed
@@ -363,6 +371,12 @@ public class AvatarController implements Initializable  {
         stage.show();
     }
 
+    /**
+     * Hover Event Method.
+     * Will update the associated text boxes when a player hovers over a locked avatar.
+     * @param alertBox: The Text element associated with a locked Avatar
+     * @param message: The message to be displayed in the text element upon hover
+     */
     private void hoverEvent(Text alertBox, String message) {
         alertBox.setText(message);
     }
@@ -450,6 +464,7 @@ public class AvatarController implements Initializable  {
         return uname;
     }
     public static void setMuck(int points) { muckPoints = points;}
+    //public static String getTextUName() { return username.getText(); }
 
     // The below code is for formatting the changes to the avatar dashboard.
 

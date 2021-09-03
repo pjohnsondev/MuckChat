@@ -2,6 +2,7 @@ package muck.client;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 
@@ -31,7 +32,8 @@ public class PlayerDashboardController implements Initializable {
     private static String userName;
     private static String displayName;
     private static String avatarID;
-    private static String[][] achievements;
+    private static ArrayList<String[]> achievements = new ArrayList<>();
+    //private static String[][] achievements;
     private static int muckPointTotal;
     private static int healthTotal;
     private Image fullAvatar = AvatarController.getFullAvatar(avatarID);
@@ -75,7 +77,9 @@ public class PlayerDashboardController implements Initializable {
             selection(avatarID);
             centreImage();
             achievementWindow.setStyle("-fx-text-fill: white;");
-            updateAchievements();
+            if (achievements.size() > 0) {
+                updateAchievements();
+            }
             username.setText(displayName);
             muckPoints.setText(String.valueOf(muckPointTotal));
             health.setText(String.valueOf(healthTotal));
@@ -117,12 +121,22 @@ public class PlayerDashboardController implements Initializable {
         displayName = display;
         avatarID = avID;
         //TODO: Call the server to get achievements muckPoints and health
-        achievements = new String[][]{{"Hotel California", "Player has visited the Inn"}, {"Retail Therapy", "Player has visited the Shops"}, {"Alien Exterminator", "Player has won a game of Space Invaders"},{"Hotel California", "Player has visited the Inn"}, {"Retail Therapy", "Player has visited the Shops"}, {"Alien Exterminator", "Player has won a game of Space Invaders"},{"Hotel California", "Player has visited the Inn"}, {"Retail Therapy", "Player has visited the Shops"}, {"Alien Exterminator", "Player has won a game of Space Invaders"},{"Hotel California", "Player has visited the Inn"}, {"Retail Therapy", "Player has visited the Shops"}, {"Alien Exterminator", "Player has won a game of Space Invaders"}};
+        achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
+        achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
+        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
+        achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
+        achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
+        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
+        achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
+        achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
+        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
+        //achievements = new String[][]{{"Hotel California", "Player has visited the Inn"}, {"Retail Therapy", "Player has visited the Shops"}, {"Alien Exterminator", "Player has won a game of Space Invaders"},{"Hotel California", "Player has visited the Inn"}, {"Retail Therapy", "Player has visited the Shops"}, {"Alien Exterminator", "Player has won a game of Space Invaders"},{"Hotel California", "Player has visited the Inn"}, {"Retail Therapy", "Player has visited the Shops"}, {"Alien Exterminator", "Player has won a game of Space Invaders"},{"Hotel California", "Player has visited the Inn"}, {"Retail Therapy", "Player has visited the Shops"}, {"Alien Exterminator", "Player has won a game of Space Invaders"}};
         muckPointTotal = 100; //TODO: Remove
         healthTotal = 80; //TODO: Remove
     }
 
     private void updateAchievements() {
+        achievementWindow.clear(); // Not clearing window
         for (String[] achieve : achievements ) {
             String[] indivAchievement = achieve;
             String achievement = indivAchievement[0] + ": " + indivAchievement[1] +"\n\n";

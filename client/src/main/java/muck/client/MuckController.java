@@ -118,6 +118,10 @@ public class MuckController implements Initializable {
     @FXML //fx:id="userNameDisplay"
     private Text userNameDisplay;
 
+    private static final Image goToDashboard = new Image("/images/PlayerDashboardHover.png");
+    private static final Image PEACH_PORTRAIT = new Image("/images/peach-portrait.png");
+    private Image chosenAvatar;
+
     String message;
     private static String userName;
     private static String displayName;
@@ -142,9 +146,11 @@ public class MuckController implements Initializable {
         chatMenuOpen.setOnAction(this::openFullChat);
         plus.setOnAction(this::addChatTab); // adds new tab
         new GameMap(gameCanvas,updatePlayerfn, getPlayersfn); // Adds GameMap animation to the game window
-        Image chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
+        chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
         userNameDisplay.setText(displayName);// // Sets username that has been passed in from Avatar class
         circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
+        circle.setOnMouseEntered(event -> {circle.setFill(new ImagePattern(goToDashboard));});
+        circle.setOnMouseExited(event -> { circle.setFill(new ImagePattern(chosenAvatar)); });
         circle.setOnMouseClicked(this::openPlayerDashboardMenu);
         chatSection.setFocusTraversable(true);
         chatSection.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> chatSection.isFocused());
@@ -196,6 +202,9 @@ public class MuckController implements Initializable {
         avatarID = avatar;
     }
 
+    public void dashboardPrompt(Event event) {
+        circle.setFill(new ImagePattern(goToDashboard));
+    }
     public void openPlayerDashboardMenu(Event event) {
         try {
             PlayerDashboardController.playerDashboard(userName, displayName, avatarID);
@@ -207,7 +216,7 @@ public class MuckController implements Initializable {
             stage.setScene(scene);
             stage.setOnHiding(avatarEvent -> {
                 try {
-                    Image chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
+                    chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
                     circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
                     int x = gamePane1.getChildren().size();
                     Canvas currentCanvas = (Canvas) gamePane1.getChildren().get(x-1); //Finds the current canvas
