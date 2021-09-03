@@ -19,7 +19,7 @@ public class CatNPC extends NPC {
      * @param colour Colour of cat
      */
     public CatNPC(String identifier, int xPos, int yPos, String colour) {
-        image = new Image("/images/catSprite.png");
+        image = new Image("/images/NPC_Characters/catSprite.png");
         setIdentifier(identifier);
         setXPos(xPos);
         setYPos(yPos);
@@ -36,13 +36,13 @@ public class CatNPC extends NPC {
      * @param direction Starting facing direction
      */
     public CatNPC(String identifier, int xPos, int yPos, String colour, String direction) {
-        image = new Image("/images/catSprite.png");
+        image = new Image("/images/NPC_Characters/catSprite.png");
         setIdentifier(identifier);
         setXPos(xPos);
         setYPos(yPos);
         setNPCStats(10, 1, 1, 1);
         setColour(colour);
-        setDirection(direction);
+        changeDirection(direction);
     }
 
     /**
@@ -103,6 +103,7 @@ public class CatNPC extends NPC {
      */
     public void changeDirection(String direction) {
         this.setDirection(direction);
+        System.out.println(this.getDirection());
         switch (getDirection()) {
             case "left" -> sh = base + 48;
             case "right" -> sh = base + 96;
