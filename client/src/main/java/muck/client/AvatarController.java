@@ -336,14 +336,6 @@ public class AvatarController implements Initializable  {
         }
     }
 
-    // TODO: Add something for when you press enter. The below doesn't work
-    /*@FXML
-    private void onEnter(KeyEvent event) {
-        if (!avatar.equals("error")) {
-            submit();
-        }
-    }*/
-
     /**
      * submitToMap method
      * Will be used when moving from User SignUp >> Avatar Selection Screen >> Map
@@ -365,7 +357,9 @@ public class AvatarController implements Initializable  {
         PlayerDashboardController.playerDashboard(uname, displayName, avatar);
         Parent parent = FXMLLoader.load(getClass().getResource("/fxml/PlayerDashboard.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(parent));
+        Scene scene = new Scene(parent);
+        scene.getStylesheets().add("/css/style.css");
+        stage.setScene(scene);
         stage.show();
     }
 

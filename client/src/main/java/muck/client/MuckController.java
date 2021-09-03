@@ -202,7 +202,9 @@ public class MuckController implements Initializable {
             Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/PlayerDashboard.fxml")));
             Stage stage = new Stage(StageStyle.DECORATED);
             stage.setTitle("Muck2021");
-            stage.setScene(new Scene(parent));
+            Scene scene = new Scene(parent);
+            scene.getStylesheets().add("/css/style.css");
+            stage.setScene(scene);
             stage.setOnHiding(avatarEvent -> {
                 try {
                     Image chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
