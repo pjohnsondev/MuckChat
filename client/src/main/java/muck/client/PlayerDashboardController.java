@@ -33,6 +33,7 @@ public class PlayerDashboardController implements Initializable {
     private static String displayName;
     private static String avatarID;
     private static ArrayList<String[]> achievements = new ArrayList<>();
+
     //private static String[][] achievements;
     private static int muckPointTotal;
     private static int healthTotal;
@@ -98,6 +99,10 @@ public class PlayerDashboardController implements Initializable {
                 }
             });
 
+            gameReturn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                returnToGame(event, userName, avatarID);
+            });
+
             // ********* ACHIEVEMENT TESTING *********
             boolean achievement1 = false;
             String achievement1Title = "Hotel California";
@@ -108,9 +113,6 @@ public class PlayerDashboardController implements Initializable {
             });
             // ********* ACHIEVEMENT TESTING *********
 
-            gameReturn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                returnToGame(event, userName, avatarID);
-            });
         } catch (Exception e) {
             System.out.print("Error in initialize");
         }
@@ -120,23 +122,26 @@ public class PlayerDashboardController implements Initializable {
         userName = uname;
         displayName = display;
         avatarID = avID;
-        //TODO: Call the server to get achievements muckPoints and health
-        achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
-        achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
-        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
-        achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
-        achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
-        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
-        achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
-        achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
-        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
+        //TODO: Call the server to get achievements muckPoints and health. Remove below
+        achievements.clear();
         //achievements = new String[][]{{"Hotel California", "Player has visited the Inn"}, {"Retail Therapy", "Player has visited the Shops"}, {"Alien Exterminator", "Player has won a game of Space Invaders"},{"Hotel California", "Player has visited the Inn"}, {"Retail Therapy", "Player has visited the Shops"}, {"Alien Exterminator", "Player has won a game of Space Invaders"},{"Hotel California", "Player has visited the Inn"}, {"Retail Therapy", "Player has visited the Shops"}, {"Alien Exterminator", "Player has won a game of Space Invaders"},{"Hotel California", "Player has visited the Inn"}, {"Retail Therapy", "Player has visited the Shops"}, {"Alien Exterminator", "Player has won a game of Space Invaders"}};
+
+        achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
+        achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
+        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
+        achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
+        achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
+        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
+        achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
+        achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
+        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
+
         muckPointTotal = 100; //TODO: Remove
         healthTotal = 80; //TODO: Remove
     }
 
     private void updateAchievements() {
-        achievementWindow.clear(); // Not clearing window
+        //achievementWindow.setText(""+'\u0000'); // Not clearing window
         for (String[] achieve : achievements ) {
             String[] indivAchievement = achieve;
             String achievement = indivAchievement[0] + ": " + indivAchievement[1] +"\n\n";
