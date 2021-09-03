@@ -3,8 +3,8 @@ package muck.client;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,13 +21,8 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class PlayerDashboardController implements Initializable {
-
-    private static final Logger logger = LogManager.getLogger(PlayerDashboardController.class);
-
 
     private static String userName;
     private static String displayName;
@@ -91,7 +86,7 @@ public class PlayerDashboardController implements Initializable {
                     //This will take over the scene that currently holds the player dashboard screen
                     AvatarController.avatarCreation(userName, displayName, avatarID);
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    Parent parent = FXMLLoader.load(getClass().getResource("/fxml/Avatar.fxml"));
+                    Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Avatar.fxml")));
                     stage.setScene(new Scene(parent));
                     stage.show();
                 } catch (IOException e) {
@@ -99,9 +94,7 @@ public class PlayerDashboardController implements Initializable {
                 }
             });
 
-            gameReturn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                returnToGame(event, userName, avatarID);
-            });
+            gameReturn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> returnToGame(event, userName, avatarID));
 
             // ********* ACHIEVEMENT TESTING *********
             boolean achievement1 = false;
@@ -143,8 +136,7 @@ public class PlayerDashboardController implements Initializable {
     private void updateAchievements() {
         //achievementWindow.setText(""+'\u0000'); // Not clearing window
         for (String[] achieve : achievements ) {
-            String[] indivAchievement = achieve;
-            String achievement = indivAchievement[0] + ": " + indivAchievement[1] +"\n\n";
+            String achievement = achieve[0] + ": " + achieve[1] +"\n\n";
             achievementWindow.appendText(achievement);
         }
     }
@@ -165,12 +157,7 @@ public class PlayerDashboardController implements Initializable {
             double ratioX = avatarFullBody.getFitWidth() / img.getWidth();
             double ratioY = avatarFullBody.getFitHeight() / img.getHeight();
 
-            double reducCoeff;
-            if (ratioX >= ratioY) {
-                reducCoeff = ratioY;
-            } else {
-                reducCoeff = ratioX;
-            }
+            double reducCoeff = Math.min(ratioX, ratioY);
 
             w = img.getWidth() * reducCoeff;
             h = img.getHeight() * reducCoeff;

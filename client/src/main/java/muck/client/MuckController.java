@@ -190,8 +190,6 @@ public class MuckController implements Initializable {
             stage.setScene(scene);
             stage.setOnCloseRequest(e -> stage.close());
             stage.show();
-
-
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -202,22 +200,23 @@ public class MuckController implements Initializable {
         avatarID = avatar;
     }
 
-    public void dashboardPrompt(Event event) {
-        circle.setFill(new ImagePattern(goToDashboard));
-    }
     public void openPlayerDashboardMenu(Event event) {
         try {
             PlayerDashboardController.playerDashboard(userName, displayName, avatarID);
+            circle.setDisable(true);
             Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/PlayerDashboard.fxml")));
             Stage stage = new Stage(StageStyle.DECORATED);
             stage.setTitle("Muck2021");
             Scene scene = new Scene(parent);
             scene.getStylesheets().add("/css/style.css");
             stage.setScene(scene);
+            stage.setAlwaysOnTop(true);
+            stage.initStyle(StageStyle.UTILITY);
             stage.setOnHiding(avatarEvent -> {
                 try {
                     chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
                     circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
+                    circle.setDisable(false);
                     int x = gamePane1.getChildren().size();
                     Canvas currentCanvas = (Canvas) gamePane1.getChildren().get(x-1); //Finds the current canvas
                     new GameMap(currentCanvas, updatePlayerfn, getPlayersfn);
