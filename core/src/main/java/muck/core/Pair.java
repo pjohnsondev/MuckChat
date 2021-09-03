@@ -29,6 +29,14 @@ public class Pair<L, R> {
 	}
 
 	@Override
+	public String toString() {
+		var leftString = this._left != null ? this._left.toString() : "null";
+		var rightString = this._right != null ? this._right.toString() : "null";
+		return String.format("(%s, %s)", leftString, rightString);
+
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

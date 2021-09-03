@@ -25,32 +25,32 @@ public class CharacterLocationTrackerTests {
 	public void AddingClientsViaUpdateMethodCorrectlyAddsClientsToInternalList() {
 		ICharacterLocationTracker<String> tracker = new CharacterLocationTracker<String>();
 
-		assertEquals(0, tracker.getAllCharacterLocations().size());
+		assertEquals(0, tracker.getAllPlayerLocations().size());
 
-		tracker.addClient(new Id<String>("1234"), new Player("Test Name"), new Location(1, 2));
-		tracker.addClient(new Id<String>("3232"), new Player("Test Name 2"), new Location(4, 2));
-		assertEquals(2, tracker.getAllCharacterLocations().size());
+		tracker.addClient(new Id<String>("1234"), new String("Test Name"), new Location(1, 2));
+		tracker.addClient(new Id<String>("3232"), new String("Test Name 2"), new Location(4, 2));
+		assertEquals(2, tracker.getAllPlayerLocations().size());
 	}
 
 	@Test
 	public void AddingAClientThatAlreadyExistsInTheTrackerUpdatesExistingRecord() {
 		ICharacterLocationTracker<String> tracker = new CharacterLocationTracker<String>();
 
-		tracker.addClient(new Id<String>("1234"), new Player("Test Name"), new Location(1, 2));
-		tracker.addClient(new Id<String>("1234"), new Player("Test Name 2"), new Location(3, 2));
+		tracker.addClient(new Id<String>("1234"), new String("Test Name"), new Location(1, 2));
+		tracker.addClient(new Id<String>("1234"), new String("Test Name 2"), new Location(3, 2));
 
-		assertEquals(1, tracker.getAllCharacterLocations().size());
-		assertEquals(new Location(3, 2), tracker.getAllCharacterLocations().get(0).right());
+		assertEquals(1, tracker.getAllPlayerLocations().size());
+		assertEquals(new Location(3, 2), tracker.getAllPlayerLocations().get(0).right());
 	}
 
 	@Test
-	public void CharacterTrackingInformationCanBeUpdatedByClientId() {
+	public void PlayerTrackingInformationCanBeUpdatedByClientId() {
 
 		ICharacterLocationTracker<String> tracker = new CharacterLocationTracker<String>();
 
 		var trackingId = new Id<String>("1234");
-		tracker.addClient(trackingId, new Player("Test Name"), new Location(1, 2));
-		tracker.updateLocationById(trackingId, new Location(3, 4));
+		tracker.addClient(trackingId, new String("Test Name"), new Location(1, 2));
+		tracker.updateLocationById(trackingId, "Test Name", new Location(3, 4));
 		assertEquals(new Location(3, 4), tracker.getLocationById(trackingId));
 	}
 
@@ -59,9 +59,9 @@ public class CharacterLocationTrackerTests {
 
 		ICharacterLocationTracker<String> tracker = new CharacterLocationTracker<String>();
 		var trackingId = new Id<String>("1234");
-		tracker.addClient(trackingId, new Player("Test Name"), new Location(1, 2));
-		tracker.addClient(new Id<String>("1232"), new Player("Test Name"), new Location(1, 2));
-		tracker.addClient(new Id<String>("1233"), new Player("Test Name"), new Location(1, 2));
+		tracker.addClient(trackingId, new String("Test Name"), new Location(1, 2));
+		tracker.addClient(new Id<String>("1232"), new String("Test Name"), new Location(1, 2));
+		tracker.addClient(new Id<String>("1233"), new String("Test Name"), new Location(1, 2));
 
 		assertEquals(2, tracker.getAllLocationsExceptId(trackingId).size());
 	}
@@ -71,12 +71,12 @@ public class CharacterLocationTrackerTests {
 	{
 		ICharacterLocationTracker<String> track = new CharacterLocationTracker<String>();
 
-		track.addClient(new Id<String>("1111"), new Player("Me"), new Location(0,0));
-		track.addClient(new Id<String>("1234"), new Player("Test Name 1"), new Location(1, 0));
-		track.addClient(new Id<String>("1231"), new Player("Test Name 2"), new Location(2, 0));
-		track.addClient(new Id<String>("1232"), new Player("Test Name 3"), new Location(0, 1));
+		track.addClient(new Id<String>("1111"), new String("Me"), new Location(0,0));
+		track.addClient(new Id<String>("1234"), new String("Test Name 1"), new Location(1, 0));
+		track.addClient(new Id<String>("1231"), new String("Test Name 2"), new Location(2, 0));
+		track.addClient(new Id<String>("1232"), new String("Test Name 3"), new Location(0, 1));
 
-		var result = track.getCharactersWithin(track.getAllCharacterLocations().get(0), 1).size();
+		var result = track.getPlayersWithin(track.getAllPlayerLocations().get(0), 1).size();
 		assertEquals(2, result);
 	}
 
@@ -85,12 +85,12 @@ public class CharacterLocationTrackerTests {
 	{
 		ICharacterLocationTracker<String> track = new CharacterLocationTracker<String>();
 
-		track.addClient(new Id<String>("1111"), new Player("Me"), new Location(0,0));
-		track.addClient(new Id<String>("1234"), new Player("Test Name 1"), new Location(1, 0));
-		track.addClient(new Id<String>("1231"), new Player("Test Name 2"), new Location(2, 0));
-		track.addClient(new Id<String>("1232"), new Player("Test Name 3"), new Location(0, 1));
+		track.addClient(new Id<String>("1111"), new String("Me"), new Location(0,0));
+		track.addClient(new Id<String>("1234"), new String("Test Name 1"), new Location(1, 0));
+		track.addClient(new Id<String>("1231"), new String("Test Name 2"), new Location(2, 0));
+		track.addClient(new Id<String>("1232"), new String("Test Name 3"), new Location(0, 1));
 
-		assertEquals(2, track.getCharactersWithinById(new Id<String>("1111"), 1).size());
+		assertEquals(2, track.getPlayersWithinById(new Id<String>("1111"), 1).size());
 	}
 
 	@Test
@@ -98,10 +98,10 @@ public class CharacterLocationTrackerTests {
 	{
 		ICharacterLocationTracker<String> track = new CharacterLocationTracker<String>();
 
-		track.addClient(new Id<String>("1111"), new Player("Me"), new Location(0,0));
-		track.addClient(new Id<String>("1234"), new Player("Test Name 1"), new Location(1, 0));
-		track.addClient(new Id<String>("1231"), new Player("Test Name 2"), new Location(2, 0));
-		track.addClient(new Id<String>("1232"), new Player("Test Name 3"), new Location(0, 1));
+		track.addClient(new Id<String>("1111"), new String("Me"), new Location(0,0));
+		track.addClient(new Id<String>("1234"), new String("Test Name 1"), new Location(1, 0));
+		track.addClient(new Id<String>("1231"), new String("Test Name 2"), new Location(2, 0));
+		track.addClient(new Id<String>("1232"), new String("Test Name 3"), new Location(0, 1));
 
 		Id<String> testId = new Id<String>("1111");
 

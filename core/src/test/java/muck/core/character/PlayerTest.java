@@ -55,6 +55,41 @@ public class PlayerTest {
                 () -> assertEquals(50, player.getDefence())
         );
     }
+    
+    // Test health increment function
+    @Test
+    public void testHealthIncrease() {
+        int initialHealth = 100;
+        Player player = new Player();
+        player.setHealth(initialHealth);
+        
+        int healthIncrement = 30;
+        player.increaseHealth(healthIncrement);
+        assertEquals(player.getHealth(), initialHealth + healthIncrement);
+    }
+    
+    // Test health decrement function
+    @Test
+    public void testHealthDecrease() {
+        int initialHealth = 100;
+        Player player = new Player();
+        player.setHealth(initialHealth);
+
+        // Reduce player health, but still alive
+        int healthDecrement1 = 40;
+        boolean status = player.decreaseHealth(healthDecrement1);
+        assertEquals(player.getHealth(), 60);
+        assertFalse(status);
+
+        player.setHealth(initialHealth);
+
+        // Reduce player health, but now dead
+        int healthDecrement2 = 101;
+        player.decreaseHealth(healthDecrement2);
+        status = player.decreaseHealth(healthDecrement2);
+        assertEquals(player.getHealth(), 0);
+        assertTrue(status);
+    }
 
     /* TODO: ===Currently commented out until database is up====
     // Test players interaction with collectables and inventory
@@ -112,19 +147,19 @@ public class PlayerTest {
     public void testAchievementInteraction() {
         Player player = mock(Player.class);
         String achievement = "Wannabe";
+        String description = "I want an achievement";
 
         logger.info("Testing that the player should not have any achievements");
         assertNull(player.getAchievements(), "Player should have no achievements");
 
         logger.info("Testing that the player can receive and get achievements");
-        player.addAchievement(achievement);
+        player.addAchievement(achievement, description);
         assertTrue(
                 () -> {
-                    for(int i = 0; i < player.getAchievements().length; i++) {
-                        if(player.getAchievements()[i].equals(achievement)) {
+                        if(player.getAchievements()[0][0].equals(achievement) &&
+                                player.getAchievements()[0][1].equals(description)) {
                             return true;
                         }
-                    }
                     return false;
                 },
                 "Player should have the achievement"

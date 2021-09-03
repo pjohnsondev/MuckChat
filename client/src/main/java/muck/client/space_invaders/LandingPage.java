@@ -51,8 +51,6 @@ public class LandingPage extends Node {
 
         gc = canvas.getGraphicsContext2D();
 
-        var root = new Pane();
-
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), e -> run(gc)));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
@@ -65,7 +63,7 @@ public class LandingPage extends Node {
 
         grid.setHgap(10);
         grid.setVgap(20);
-        grid.setPadding(new Insets(50, 50, 50, 95));
+        grid.setPadding(new Insets(50, 50, 50, 50));
 
 
         ColumnConstraints cc;
@@ -90,26 +88,26 @@ public class LandingPage extends Node {
         titleView.setFitHeight(130);
         titleView.setImage(TITLE);
 
-        grid.add(titleView, 0,0,3,5);
+        grid.add(titleView, 1,0,2,5);
 
 
         // Add Play Button
         playButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         playButton.setStyle("-fx-background-color: #00ff00");
 
-        grid.add(playButton, 0, 8, 2, 5);
+        grid.add(playButton, 1, 8, 2, 5);
 
         // Add Gameplay Button
         gamePlayButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         gamePlayButton.setStyle("-fx-background-color: #00ff00");
 
-        grid.add(gamePlayButton, 0, 13, 2, 5);
+        grid.add(gamePlayButton, 1, 13, 2, 5);
 
         // Add Exit Button
         exitButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         exitButton.setStyle("-fx-background-color: #00ff00");
 
-        grid.add(exitButton, 0, 18, 2, 5);
+        grid.add(exitButton, 1, 18, 2, 5);
 
 
         stage.getChildren().add(grid);
@@ -118,23 +116,17 @@ public class LandingPage extends Node {
         // Create event when Play Button is clicked. For now it opens up a new window
         playButton.setOnAction(event -> {
 
-            Label secondLabel = new Label("Welcome to Space Invaders!");
-
-            StackPane secondaryLayout = new StackPane();
-            secondaryLayout.getChildren().add(secondLabel);
-
-            Scene secondScene = new Scene(secondaryLayout, WIDTH, HEIGHT);
-
-            // New window (Stage)
             Stage newWindow = new Stage();
             newWindow.setTitle("Muck 2021 Space Invaders");
-            newWindow.setScene(secondScene);
 
             newWindow.initModality(Modality.WINDOW_MODAL);
 
-            //newWindow.initOwner(stage);
-
-            // Set position of second window, related to primary window.
+            SpaceInvaders si = new SpaceInvaders();
+            try {
+                si.start(newWindow);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             newWindow.show();
         });
@@ -162,12 +154,11 @@ public class LandingPage extends Node {
         exitButton.setOnAction(event -> {
             stage.getChildren().removeAll(grid, canvas);
             GameMap gm = new GameMap(canvas);
+            canvas.setId("gameCanvas");
             stage.getChildren().add(canvas);
         });
 
     }
-
-
 
 
     /*****************************************************************************
@@ -176,7 +167,10 @@ public class LandingPage extends Node {
      * Purpose: To run the graphics for the Star background
      * Arguments: GraphicContext gc
      * Return: void
-     *
+     *Reference: Based on code from
+     *      URL: https://github.com/Gaspared/Space-Invaders.git
+     *      Author: Gaspared
+     *      Title: Space Invaders
      *****************************************************************************/
     private void run(GraphicsContext gc) {
         this.gc.setFill(Color.grayRgb(20));
@@ -220,7 +214,10 @@ public class LandingPage extends Node {
          * Purpose: To display the stars for the Star background
          * Arguments: nil
          * Return: void
-         *
+         * Reference: Based on code from
+         *      URL: https://github.com/Gaspared/Space-Invaders.git
+         *      Author: Gaspared
+         *      Title: Space Invaders
          *****************************************************************************/
         public void draw() {
             if (opacity > 0.8) opacity -= 0.01;
