@@ -112,14 +112,14 @@ public class AvatarController implements Initializable  {
     // Default
     private static final Image ERROR = new Image("/images/error.png");
     private final Image UNAVAILABLE = new Image("/images/Unknown.png");
-    private final BackgroundImage background = new BackgroundImage(new Image("/images/BackgroundAvSelection.jpg"), null, null, null, null);
+    private final BackgroundImage BACKGROUND = new BackgroundImage(new Image("/images/BackgroundAvSelection.jpg"), null, null, null, null);
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
             avatarFullBody.setPreserveRatio(true);
-            gridPane.setBackground(new Background(background));
+            gridPane.setBackground(new Background(BACKGROUND));
 
             peach.setFill(new ImagePattern(PEACH_PORTRAIT));
             batman.setFill(new ImagePattern(BATMAN_PORTRAIT));
@@ -178,6 +178,7 @@ public class AvatarController implements Initializable  {
             //This line gets the Stage Information
             Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             stage.setScene(scene);
+            stage.sizeToScene();
             stage.show();
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
