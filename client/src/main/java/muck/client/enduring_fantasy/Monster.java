@@ -28,7 +28,7 @@ public class Monster extends Character {
             this.setName("Bear");
             this.setHealth(monsHealth + 100);
             this.setDmg(monsDmg + 150);
-            this.monsDesc = "A large Bear");
+            this.monsDesc = "A large Bear";
         }
     }
 }
