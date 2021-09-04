@@ -29,6 +29,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import muck.core.LocationResponse;
+import java.util.HashMap;
 
 /**
  * The central body of the server. This should avoid getting too large, but should have references to
@@ -56,7 +57,8 @@ public enum MuckServer {
 	ICharacterLocationTracker<ClientId> tracker = new CharacterLocationTracker<ClientId>();
 
 	// The arraylist is only a temporary datastructure and is subject to change.
-	ArrayList<String> players = new ArrayList<String>();
+	HashMap<Integer, String> players = new HashMap<Integer, String>();
+	//ArrayList<String> players = new ArrayList<String>();
 
 	/** Sets up the KryoNet server that will handle communication */
 	synchronized void startKryo(KryoServerConfig config) throws IOException {
@@ -87,16 +89,16 @@ public enum MuckServer {
 
 		// Adds a listener to listen for new client connections, then adds the clients
 		// id to the players arraylist and sends to all clients.
-		addListener(ListenerBuilder.forClass(Connected.class).onReceive((conn, connected) -> {
-			players.add(Integer.toString(conn.getID()));
-			logger.info("Player connection id's are: {}", players);
-			kryoServer.sendToAllTCP(players);
-		}));
+//		addListener(ListenerBuilder.forClass(Connected.class).onReceive((conn, connected) -> {
+//			players.add(Integer.toString(conn.getID()));
+//			logger.info("Player connection id's are: {}", players);
+//			kryoServer.sendToAllTCP(players);
+//		}));
 
 		// Adds a listener to listen for clients disconnecting from the server, then
 		// removes them from the players arraylist and sends to all connected clients.
 		addListener(ListenerBuilder.forClass(Disconnect.class).onReceive((conn, disconnect) -> {
-			players.remove(Integer.toString(conn.getID())); // This will obtain the index of the player
+			players.remove(conn.getID()); // This will obtain the index of the player
 			logger.info("Player connection id's are: {} disconnected: {}", players, disconnect);
 			kryoServer.sendToAllExceptTCP(conn.getID(), players);
 		}));
@@ -170,6 +172,8 @@ public enum MuckServer {
 			Player player = playerManager.signupPlayer(userStructure);
 			logger.info("Sign up successful for {}", player.getUsername());
 
+			players.put(connection.getID(), player.getUsername());
+
 			userMessage.setMessage("Your account has been created successfully. Username: " + player.getUsername());
 			kryoServer.sendToTCP((connection.getID()), userMessage);
 		} catch (BadRequestException ex) {
@@ -212,6 +216,10 @@ public enum MuckServer {
 		muckConnection.setCharacter(player);
 
 		logger.info("Login successful for {}", login.getUsername());
+
+		if (!players.containsKey(muckConnection.getID())) {
+			players.put(muckConnection.getID(),login.getUsername());
+		}
 
 		AddCharacter addCharacter = addCharacter(login.getClientId(), player);
 
