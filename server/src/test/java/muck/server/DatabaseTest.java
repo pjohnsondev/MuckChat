@@ -42,6 +42,7 @@ public class DatabaseTest {
     /**
      * Test that database can connect
      */
+    @Disabled
     @Test
     public void dbCanConnectTest(){
         assertTrue(db.databaseIsConnected());
@@ -64,6 +65,7 @@ public class DatabaseTest {
      *
      * @throws SQLException
      */
+    @Disabled
     @Test
     public void dbCanCreateTableTest() throws SQLException{
         // create a new table
@@ -86,6 +88,7 @@ public class DatabaseTest {
      * @throws SQLException
      * @throws Exception
      */
+    @Disabled
     @Test
     public void dbCanInsertTest() throws SQLException, Exception {
     // create a new table if it doesn't already exist
@@ -135,6 +138,7 @@ public class DatabaseTest {
      *
      * @throws SQLException
      */
+    @Disabled
     @Test
     public void dbCanDropTableTest() throws SQLException {
     // create a new table if it doesn't already exist
@@ -151,4 +155,5 @@ public class DatabaseTest {
         db.dropTable("test_table");
         assertFalse(db.tableExists("test_table"));
     }
+
 }

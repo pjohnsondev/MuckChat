@@ -314,7 +314,7 @@ abstract public class Database {
         statement.setDate(pIndex,parameter);
     }
 
-    public void finalize() throws Throwable {
+    protected void finalize() throws Throwable {
         try {
             DriverManager.getConnection("jdbc:derby:;shutdown=true");
 
@@ -322,9 +322,9 @@ abstract public class Database {
             if (ex.getSQLState().equals("XJ015")) {
                 System.out.println("Derby shutdown normally");
             } else {
-                // could not shutdown the database
+                // could not shut down the database
                 // handle appropriately
-                System.out.println("Derby shutdown Was not achieved");
+                System.out.println("Derby shutdown was not achieved");
             }
         }
     }

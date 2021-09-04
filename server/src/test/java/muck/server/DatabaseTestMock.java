@@ -60,6 +60,7 @@ public class DatabaseTestMock {
     /**
      * Test that database can connect
      */
+    @Disabled
     @Test
     public void dbCanConnectTest(){
         System.out.println("dbCanConnect runs");
@@ -69,6 +70,7 @@ public class DatabaseTestMock {
     /**
      * Alternate test that database can connect
      */
+    @Disabled
     @Test
     public void dbCanConnectTestTakeTwo() throws Exception {
         System.out.println("dbCanConnect2 runs");

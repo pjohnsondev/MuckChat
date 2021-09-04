@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
@@ -50,7 +51,7 @@ public class UserModelTest {
     public void afterEach() {
         logger.info("This message prints AFTER each test runs");
     }
-
+    @Disabled
     @Test
     public void TableCreationTest() throws SQLException {
 

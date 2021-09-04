@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.security.InvalidParameterException;
@@ -83,6 +84,7 @@ public class UserModelModelTest {
      *
      * @throws SQLException
      */
+    @Disabled
     @Test
     public void TableCreationTest() throws SQLException {
 
@@ -98,6 +100,7 @@ public class UserModelModelTest {
      * @throws SQLException
      * @throws InvalidParameterException
      */
+    @Disabled
     @Test
     public void UserRegistrationTest() throws SQLException, InvalidParameterException {
 
@@ -122,6 +125,7 @@ public class UserModelModelTest {
      *
      * @throws SQLException
      */
+    @Disabled
     @Test
     public void findUserByNameTest() throws SQLException, ModelNotFoundException {
 
@@ -141,6 +145,7 @@ public class UserModelModelTest {
      *
      * @throws SQLException
      */
+    @Disabled
     @Test
     public void findUserByIdTest() throws SQLException, ModelNotFoundException {
 
@@ -160,6 +165,7 @@ public class UserModelModelTest {
      * Test that ...
      * @throws SQLException
      */
+    @Disabled
     @Test
     public void authenticateUserTest() throws SQLException, ModelNotFoundException {
         userService.registerNewUser(userStructure);//"newUser69", "myreallyGoodPassword");
