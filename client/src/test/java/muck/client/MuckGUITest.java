@@ -1,23 +1,21 @@
 
 package muck.client;
 
-import javafx.application.Platform;
-import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
 import javafx.scene.image.Image;
-import org.mockito.Mockito;
+import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -31,17 +29,24 @@ public class MuckGUITest extends ApplicationTest {
     Stage stage;
 
     // ********* START AVATAR CONTROLLER TESTING ***************
+
+    @Override
+    public void init() throws Exception {
+        FxToolkit.registerStage(Stage::new);
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
         // TODO: Do this with a mock character???
         logger.info("Initializing window");
-        AvatarController.avatarCreation("Test", "error");
-        FXMLLoader loader = new FXMLLoader(AvatarController.class.getResource("/fxml/Avatar.fxml"));
+        AvatarController.avatarCreation("Username", "DisplayName", "error");
+        FXMLLoader loader = new FXMLLoader(MuckGUITest.class.getResource("/fxml/Avatar.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
+
 
     @Test
     @Order(1)
@@ -274,6 +279,14 @@ public class MuckGUITest extends ApplicationTest {
 
     // *********** END AVATAR CONTROLLER TESTING *************
 
+
+   /* @Test
+    @Order(9)
+    public void testMuckWindow() {
+     clickon(submitbutton);
+
+    } */
+
     // *********** START MUCK CONTROLLER TESTING *************
 
     // Wrapper thread updates this if
@@ -288,7 +301,7 @@ public class MuckGUITest extends ApplicationTest {
 
     @Test
     @Order(9)
-    public void testMuckWindow() {
+    public void testMuckWindows() {
         // Wrapper thread.
         Thread thread = new Thread(() -> {
             try {
@@ -331,12 +344,45 @@ public class MuckGUITest extends ApplicationTest {
         chatController.initialize(null, null);
     }
 
+    /*
+    @Test
+    @Order(12)
+    public void testMuckWindow() {
+        clickOn("#submit");
+    }
+
     // *********** END MUCK CONTROLLER TESTING ****************
 
+    // *********** START PLAYER DASHBOARD TESTING ****************
+
+    /*private void changeToDashboard() throws IOException {
+        PlayerDashboardController.playerDashboard("Test", "DisplayName", "peach");
+        App.changeScene("/fxml/PlayerDashboard.fxml");}
+
+    @Test
+    @Order(13)
+    public void testDashboardOpens() throws IOException{
+        PlayerDashboardController.playerDashboard("Test", "DisplayName", "peach");
+
+        Parent parent = FXMLLoader.load(getClass().getResource("/fxml/PlayerDashboard.fxml"));
+        Scene scene = new Scene(parent);
+        scene.getStylesheets().add("/css/style.css");
+        stage.setScene(scene);
+        stage.show();
+
+    }*/
+
+
+
+
+    //TODO:
+
+    // *********** END PLAYER DASHBOARD TESTING ****************
+
     @AfterAll
-    public static void testWindowClose() {
+    public static void testWindowClose() throws TimeoutException {
         logger.info("Closing window");
-        Platform.exit();
+        FxToolkit.cleanupStages();
     }
 
 }

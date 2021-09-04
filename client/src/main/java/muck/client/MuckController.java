@@ -118,8 +118,13 @@ public class MuckController implements Initializable {
     @FXML //fx:id="userNameDisplay"
     private Text userNameDisplay;
 
+    private static final Image goToDashboard = new Image("/images/PlayerDashboardHover.png");
+    private static final Image PEACH_PORTRAIT = new Image("/images/peach-portrait.png");
+    private Image chosenAvatar;
+
     String message;
     private static String userName;
+    private static String displayName;
     private static String avatarID;
 
     //static final Logger logger = LogManager.getLogger();
@@ -141,9 +146,11 @@ public class MuckController implements Initializable {
         chatMenuOpen.setOnAction(this::openFullChat);
         plus.setOnAction(this::addChatTab); // adds new tab
         new GameMap(gameCanvas,updatePlayerfn, getPlayersfn); // Adds GameMap animation to the game window
-        Image chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
-        userNameDisplay.setText(userName);// // Sets username that has been passed in from Avatar class
+        chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
+        userNameDisplay.setText(displayName);// // Sets username that has been passed in from Avatar class
         circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
+        circle.setOnMouseEntered(event -> {circle.setFill(new ImagePattern(goToDashboard));});
+        circle.setOnMouseExited(event -> { circle.setFill(new ImagePattern(chosenAvatar)); });
         circle.setOnMouseClicked(this::openPlayerDashboardMenu);
         chatSection.setFocusTraversable(true);
         chatSection.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> chatSection.isFocused());
@@ -169,9 +176,10 @@ public class MuckController implements Initializable {
     }
 
     // Use this method from external classes to open the gameplay window. Added by CA 14 Aug
-    public static void constructor(MouseEvent event, String name, String avatar) {
+    public static void constructor(MouseEvent event, String name, String display, String avatar) {
         userName = name;
         avatarID = avatar;
+        displayName = display;
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(MuckController.class.getResource("/fxml/MuckWindow.fxml")));
             Scene scene = new Scene(root);
@@ -182,8 +190,6 @@ public class MuckController implements Initializable {
             stage.setScene(scene);
             stage.setOnCloseRequest(e -> stage.close());
             stage.show();
-
-
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -196,15 +202,21 @@ public class MuckController implements Initializable {
 
     public void openPlayerDashboardMenu(Event event) {
         try {
-            PlayerDashboardController.playerDashboard(userName, avatarID);
+            PlayerDashboardController.playerDashboard(userName, displayName, avatarID);
+            circle.setDisable(true);
             Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/PlayerDashboard.fxml")));
             Stage stage = new Stage(StageStyle.DECORATED);
             stage.setTitle("Muck2021");
-            stage.setScene(new Scene(parent));
+            Scene scene = new Scene(parent);
+            scene.getStylesheets().add("/css/style.css");
+            stage.setScene(scene);
+            stage.setAlwaysOnTop(true);
+            stage.initStyle(StageStyle.UTILITY);
             stage.setOnHiding(avatarEvent -> {
                 try {
-                    Image chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
+                    chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
                     circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
+                    circle.setDisable(false);
                     int x = gamePane1.getChildren().size();
                     Canvas currentCanvas = (Canvas) gamePane1.getChildren().get(x-1); //Finds the current canvas
                     new GameMap(currentCanvas, updatePlayerfn, getPlayersfn);
@@ -278,9 +290,16 @@ public class MuckController implements Initializable {
 
     @FXML
     //Method that opens chat window and list window
+    //The size of the chat depends on the size of the window. If the window is below under 1175px then only the chat opens
+    //If the window is greater than the lists open as well
     private void openFullChat(ActionEvent event) {
-        windowPane.setDividerPositions(0.6363);
-        chatSplitPane.setDividerPositions(0.6056);
+        if (chatPane1.getScene().getWindow().getWidth() < 1175.0) {
+            windowPane.setDividerPositions(0.7600);
+            chatSplitPane.setDividerPositions(1.000);
+        } else {
+            windowPane.setDividerPositions(0.7300);
+            chatSplitPane.setDividerPositions(0.6056);
+        }
     }
 
 
