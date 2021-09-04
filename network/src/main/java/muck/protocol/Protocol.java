@@ -10,6 +10,7 @@ import muck.core.character.AddCharacter;
 import muck.core.character.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.esotericsoftware.kryo.Kryo;
@@ -48,6 +49,7 @@ public class Protocol {
 		kryo.register(Pair.class);
 		kryo.register(AddCharacter.class);
 		kryo.register(ArrayList.class);
+		kryo.register(HashMap.class);
 		kryo.register(List.class);
 		kryo.register(Location.class);
 		kryo.register(LocationRequest.class);
