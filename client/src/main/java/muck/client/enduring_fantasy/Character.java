@@ -7,6 +7,7 @@ public abstract class Character {
 
     public Character(){ }
 
+    /** Basic stats, all have a name, health and can do damage **/
     public String getCharName() { return this.charName; }
     public int getHealth() { return this.maxHp; }
     public int getDamage() { return this.maxDmg; }

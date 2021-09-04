@@ -2,16 +2,17 @@ package muck.client.enduring_fantasy;
 
 public class Player extends Character {
     private String type = "";
-    private int magicStr;
-    private int nextLevel;
     private int playerLevel;
+    private int nextLevel;
     private int magicPoints;
+    private int magicStr;
 
     public Player(){
-        this.magicStr = 0;
-        this.nextLevel = 200;
+        /** Setting base stats **/
         this.playerLevel = 1;
+        this.nextLevel = 200;
         this.magicPoints = 0;
+        this.magicStr = 0;
     }
 
     public void setNextLvl(int nextLevel) { this.nextLevel = nextLevel;}
@@ -23,7 +24,7 @@ public class Player extends Character {
 
     public String getType() {return this.type;}
     public void setType(String newType){
-        //???
+        /** FINISH ME TOMARROW - SET MY Job Classes**/
     }
 
 }
