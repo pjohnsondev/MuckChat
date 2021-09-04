@@ -55,6 +55,9 @@ public enum MuckServer {
 
 	ICharacterLocationTracker<ClientId> tracker = new CharacterLocationTracker<ClientId>();
 
+	// The arraylist is only a temporary datastructure and is subject to change.
+	ArrayList<String> players = new ArrayList<String>();
+
 	/** Sets up the KryoNet server that will handle communication */
 	synchronized void startKryo(KryoServerConfig config) throws IOException {
 
@@ -82,8 +85,6 @@ public enum MuckServer {
 		// Bind the server to the configured ports
 		kryoServer.bind(config.getTcpPort(), config.getUdpPort());
 
-		// The arraylist is only a temporary datastructure and is subject to change.
-		ArrayList<String> players = new ArrayList<String>();
 		// Adds a listener to listen for new client connections, then adds the clients
 		// id to the players arraylist and sends to all clients.
 		addListener(ListenerBuilder.forClass(Connected.class).onReceive((conn, connected) -> {
