@@ -2,18 +2,14 @@
 package muck.client;
 
 import javafx.application.Platform;
-import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
 import javafx.scene.image.Image;
-import org.mockito.Mockito;
 import org.testfx.framework.junit5.ApplicationTest;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -275,6 +271,14 @@ public class MuckGUITest extends ApplicationTest {
     //TODO: Test username Text field updates
 
     // *********** END AVATAR CONTROLLER TESTING *************
+
+
+   /* @Test
+    @Order(9)
+    public void testMuckWindow() {
+     clickon(submitbutton);
+
+    } */
 
     // *********** START MUCK CONTROLLER TESTING *************
 

@@ -290,9 +290,16 @@ public class MuckController implements Initializable {
 
     @FXML
     //Method that opens chat window and list window
+    //The size of the chat depends on the size of the window. If the window is below under 1175px then only the chat opens
+    //If the window is greater than the lists open as well
     private void openFullChat(ActionEvent event) {
-        windowPane.setDividerPositions(0.6363);
-        chatSplitPane.setDividerPositions(0.6056);
+        if (chatPane1.getScene().getWindow().getWidth() < 1175.0) {
+            windowPane.setDividerPositions(0.7600);
+            chatSplitPane.setDividerPositions(1.000);
+        } else {
+            windowPane.setDividerPositions(0.7300);
+            chatSplitPane.setDividerPositions(0.6056);
+        }
     }
 
 
