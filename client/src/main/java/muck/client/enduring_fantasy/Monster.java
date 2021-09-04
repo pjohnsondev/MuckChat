@@ -1,13 +1,14 @@
 package muck.client.enduring_fantasy;
-import muck.client.Dice;
+//import muck.client.Dice;
+import java.util.Random;
 
 public class Monster extends Character {
-    private Dice monster = new Dice(1);
+    //private Dice monster = new Dice(1);
+    private Random monster = new Random();
     private String monsDesc = " ";
     private int dmgtotal = 0;
 
-    public Monster() {
-    }
+    public Monster() { }
 
     public void genMonster(int num) {
         int monsGen = this.monster.nextInt(4);
@@ -29,8 +30,6 @@ public class Monster extends Character {
             this.setDmg(monsDmg + 150);
             this.monsDesc = "A large Bear");
         }
-
     }
-
 }
 
