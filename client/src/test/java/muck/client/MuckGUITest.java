@@ -1,7 +1,6 @@
 
 package muck.client;
 
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,11 +9,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
 import javafx.scene.image.Image;
+import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -28,6 +29,12 @@ public class MuckGUITest extends ApplicationTest {
     Stage stage;
 
     // ********* START AVATAR CONTROLLER TESTING ***************
+
+    @Override
+    public void init() throws Exception {
+        FxToolkit.registerStage(Stage::new);
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
         // TODO: Do this with a mock character???
@@ -337,6 +344,7 @@ public class MuckGUITest extends ApplicationTest {
         chatController.initialize(null, null);
     }
 
+    /*
     @Test
     @Order(12)
     public void testMuckWindow() {
@@ -372,9 +380,9 @@ public class MuckGUITest extends ApplicationTest {
     // *********** END PLAYER DASHBOARD TESTING ****************
 
     @AfterAll
-    public static void testWindowClose() {
+    public static void testWindowClose() throws TimeoutException {
         logger.info("Closing window");
-        Platform.exit();
+        FxToolkit.cleanupStages();
     }
 
 }
