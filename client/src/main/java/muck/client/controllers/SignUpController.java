@@ -76,16 +76,18 @@ public class SignUpController {
 
             // retrieve user id from database and pass to the next scene
 
+
             // Pass display name to the next scene
-            passToAvatar(event, displayname);
+            // Pass to next scene
+            passToAvatar(event, username, displayname);
             return true;
 
         } else {
             // Catches and displays the corresponding error from the display method.
             displayErrors();
             return  false;
-        }
 
+        }
     }
 
     // TODO: User name Available method - implement functionality
@@ -179,10 +181,11 @@ public class SignUpController {
     }
 
 
-    // Add Pass to Avatar Selection Display
-    public void passToAvatar(MouseEvent event, String username) throws IOException {
+
+    // TODO: Add Pass to Avatar Selection Display
+    public void passToAvatar(MouseEvent event, String username, String displayName) throws IOException{
         AvatarController nextScene = new AvatarController();
-        nextScene.avatarCreation(event, username);
+        nextScene.avatarCreation(event, username, displayName);
     }
     // display errors method for signup screen validations
     public void displayErrors() {
