@@ -57,7 +57,7 @@ public class MuckGUITest extends ApplicationTest {
         logger.info("Checking unlocked avatarIDs");
         // Check unlocked avatars
         clickOn("#peach");
-        /*avatar = AvatarController.getAvatarId();
+        avatar = AvatarController.getAvatarId();
         assertEquals("peach", avatar);
         clickOn("#batman");
         avatar = AvatarController.getAvatarId();
