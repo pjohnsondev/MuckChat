@@ -56,9 +56,7 @@ public enum MuckServer {
 
 	ICharacterLocationTracker<ClientId> tracker = new CharacterLocationTracker<ClientId>();
 
-	// The arraylist is only a temporary datastructure and is subject to change.
 	HashMap<Integer, String> players = new HashMap<Integer, String>();
-	//ArrayList<String> players = new ArrayList<String>();
 
 	/** Sets up the KryoNet server that will handle communication */
 	synchronized void startKryo(KryoServerConfig config) throws IOException {
@@ -87,17 +85,10 @@ public enum MuckServer {
 		// Bind the server to the configured ports
 		kryoServer.bind(config.getTcpPort(), config.getUdpPort());
 
-		// Adds a listener to listen for new client connections, then adds the clients
-		// id to the players arraylist and sends to all clients.
-//		addListener(ListenerBuilder.forClass(Connected.class).onReceive((conn, connected) -> {
-//			players.add(Integer.toString(conn.getID()));
-//			logger.info("Player connection id's are: {}", players);
-//			kryoServer.sendToAllTCP(players);
-//		}));
-
 		// Adds a listener to listen for clients disconnecting from the server, then
 		// removes them from the players arraylist and sends to all connected clients.
 		addListener(ListenerBuilder.forClass(Disconnect.class).onReceive((conn, disconnect) -> {
+			logger.info("Disconnect has been called");
 			players.remove(conn.getID()); // This will obtain the index of the player
 			logger.info("Player connection id's are: {} disconnected: {}", players, disconnect);
 			kryoServer.sendToAllExceptTCP(conn.getID(), players);
@@ -173,6 +164,8 @@ public enum MuckServer {
 			logger.info("Sign up successful for {}", player.getUsername());
 
 			players.put(connection.getID(), player.getUsername());
+			kryoServer.sendToAllTCP(players);
+			logger.info("Players are {}", players.values());
 
 			userMessage.setMessage("Your account has been created successfully. Username: " + player.getUsername());
 			kryoServer.sendToTCP((connection.getID()), userMessage);
@@ -219,6 +212,8 @@ public enum MuckServer {
 
 		if (!players.containsKey(muckConnection.getID())) {
 			players.put(muckConnection.getID(),login.getUsername());
+			kryoServer.sendToAllTCP(players);
+			logger.info("Players are {}", players.values());
 		}
 
 		AddCharacter addCharacter = addCharacter(login.getClientId(), player);

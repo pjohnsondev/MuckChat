@@ -108,7 +108,7 @@ public class App extends Application {
             if (res.get().equals(ButtonType.CANCEL)) {
                 event.consume();
             } else {
-                System.exit(0);
+                shutdown();
             }
     }
 }
