@@ -278,10 +278,6 @@ public class AvatarTest extends ApplicationTest {
 
     // *********** END AVATAR CONTROLLER TESTING *************
 
-
-
-
-
     @AfterAll
     public static void testWindowClose() throws TimeoutException {
         logger.info("Closing window");

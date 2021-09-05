@@ -18,17 +18,13 @@ import org.junit.jupiter.api.*;
 import org.testfx.api.FxAssert;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
-import org.testfx.matcher.base.NodeMatchers;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.concurrent.TimeoutException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
-import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.isEnabled;
 
 
@@ -53,15 +49,12 @@ public class MuckWindowTest extends ApplicationTest {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-
     }
 
     @Override
     public void stop() throws Exception {
         FxToolkit.hideStage();
     }
-
-
 
     // *********** START MUCK CONTROLLER TESTING *************
 
@@ -105,6 +98,7 @@ public class MuckWindowTest extends ApplicationTest {
         assertTrue(success);
     }
 
+    //Mocks an App.java instance and a stage and starts it
     @Test
     @Order(2)
     public void stageLaunchesTest() throws Exception {
@@ -113,6 +107,7 @@ public class MuckWindowTest extends ApplicationTest {
         app.start(stage);
     }
 
+    //Checks if the chat open and close buttons works
     @Test
     @Order(3)
     public void chatOpensClosesTest() {
@@ -122,6 +117,8 @@ public class MuckWindowTest extends ApplicationTest {
         assertEquals(1, lookup("#chatSplitPane").queryAs(SplitPane.class).getDividerPositions()[0]);
 
     }
+
+    //Checks if the a new tab is added when method is called
     @Test
     @Order(4)
     public void newTabTest() {
@@ -131,6 +128,7 @@ public class MuckWindowTest extends ApplicationTest {
         assertTrue(lookup("#chatPane1").queryAs(TabPane.class).getTabs().size()>currentTabs);
     }
 
+    //Checks if the dashboard can be opened by clicking on the circle and the menu item and checks if the avatar is changed
     @Test
     @Order(5)
     public void dashboardOpensAvatarChangesTest() {
@@ -151,6 +149,7 @@ public class MuckWindowTest extends ApplicationTest {
         assertNotSame(avatar, lookup("#circle").queryAs(Circle.class).getFill());
     }
 
+    //Checks that a message submitted will appear in the text area
     /** Currently fails due to server error but once fixed the final 3 lines can be uncommented out and should run and pass */
     @Test
     @Order(6)
@@ -163,6 +162,7 @@ public class MuckWindowTest extends ApplicationTest {
         //assertEquals("test: testing", lookup("#groupChatBox").queryAs(TextArea.class).getText(0, 13));
     }
 
+    //Checks that the game Frogger launches
     @Test
     @Order(7)
     public void openFroggerTest()  {
@@ -171,6 +171,7 @@ public class MuckWindowTest extends ApplicationTest {
         assertNotEquals(oldID, lookup("#gamePane1").queryAs(BorderPane.class).getChildren().get(0).getId());
     }
 
+    //Checks that the game Space Invaders launches
     @Test
     @Order(8)
     public void openSpaceInvadersTest()  {
@@ -179,6 +180,7 @@ public class MuckWindowTest extends ApplicationTest {
         assertNotEquals(oldID, lookup("#gamePane1").queryAs(BorderPane.class).getChildren().get(0).getId());
     }
 
+    //Checks that the game Enduring Fantasy launches
     @Test
     @Order(9)
     public void openEnduringFantasyTest()  {
@@ -187,6 +189,7 @@ public class MuckWindowTest extends ApplicationTest {
         assertNotEquals(oldID, lookup("#gamePane1").queryAs(BorderPane.class).getChildren().get(0).getId());
     }
 
+    //Checks that alert pops up when quitting and that cancel button is enabled
     @Test
     @Order(10)
     public void quitMuckTest() {
@@ -204,5 +207,4 @@ public class MuckWindowTest extends ApplicationTest {
         logger.info("Closing window");
         FxToolkit.cleanupStages();
     }
-
 }

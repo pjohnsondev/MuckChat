@@ -52,9 +52,6 @@ public class MuckController implements Initializable {
     @FXML // The pane that separates the chat area and list area
     private SplitPane chatSplitPane; // Value injected by FXMLLoader
 
-    @FXML // The pane that separates the chat area and list area
-    private Menu file; // Value injected by FXMLLoader
-
     @FXML // fx:id="chatSection" The chat area part of the second pane
     private VBox chatSection; // Value injected by FXMLLoader
 
@@ -151,8 +148,8 @@ public class MuckController implements Initializable {
         chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
         userNameDisplay.setText(displayName);// // Sets username that has been passed in from Avatar class
         circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
-        circle.setOnMouseEntered(event -> {circle.setFill(new ImagePattern(goToDashboard));});
-        circle.setOnMouseExited(event -> { circle.setFill(new ImagePattern(chosenAvatar)); });
+        circle.setOnMouseEntered(event -> circle.setFill(new ImagePattern(goToDashboard)));
+        circle.setOnMouseExited(event -> circle.setFill(new ImagePattern(chosenAvatar)));
         circle.setOnMouseClicked(this::openPlayerDashboardMenu);
         chatSection.setFocusTraversable(true);
         chatSection.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> chatSection.isFocused());
