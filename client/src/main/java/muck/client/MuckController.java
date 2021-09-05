@@ -52,6 +52,9 @@ public class MuckController implements Initializable {
     @FXML // The pane that separates the chat area and list area
     private SplitPane chatSplitPane; // Value injected by FXMLLoader
 
+    @FXML // The pane that separates the chat area and list area
+    private Menu file; // Value injected by FXMLLoader
+
     @FXML // fx:id="chatSection" The chat area part of the second pane
     private VBox chatSection; // Value injected by FXMLLoader
 
@@ -59,10 +62,10 @@ public class MuckController implements Initializable {
     private BorderPane gamePane1; // Value injected by FXMLLoader
 
     @FXML // fx:id="gameCanvas" the original game canvas with the Map. Map displays in here
-    public Canvas gameCanvas; // Value injected by FXMLLoader
+    private Canvas gameCanvas; // Value injected by FXMLLoader
 
     @FXML // fx:id="circle" Circle image area for avatar
-    public Circle circle; // Value injected by FXMLLoader
+    private Circle circle; // Value injected by FXMLLoader
 
     @FXML // fx:id="chatPane1" The tab pane for the chat - tabs sit in this. Despite the name there is only 1
     private TabPane chatPane1; // Value injected by FXMLLoader

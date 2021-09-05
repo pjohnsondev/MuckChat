@@ -4,6 +4,12 @@ package muck.client;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.control.*;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import org.apache.logging.log4j.LogManager;
@@ -11,21 +17,25 @@ import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.matcher.base.NodeMatchers;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.TimeoutException;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.testfx.api.FxAssert.verifyThat;
 
 
-//@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class MuckWindowTest extends ApplicationTest {
 
     Stage stage;
-    int num = 4;
     private static final Logger logger = LogManager.getLogger(MuckWindowTest.class);
+
 
     @Override
     public void init() throws Exception {
@@ -41,6 +51,7 @@ public class MuckWindowTest extends ApplicationTest {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+
     }
 
     @Override
@@ -48,11 +59,7 @@ public class MuckWindowTest extends ApplicationTest {
         FxToolkit.hideStage();
     }
 
-    @Test
-    public void anotherTest() {
-        clickOn("#openFullChat");
-        assertTrue(true);
-    }
+
 
     // *********** START MUCK CONTROLLER TESTING *************
 
@@ -67,7 +74,7 @@ public class MuckWindowTest extends ApplicationTest {
      */
 
     @Test
-    @Order(9)
+    @Order(1)
     public void testMuckWindows() {
         // Wrapper thread.
         Thread thread = new Thread(() -> {
@@ -97,7 +104,7 @@ public class MuckWindowTest extends ApplicationTest {
     }
 
     @Test
-    @Order(10)
+    @Order(2)
     public void stageLaunchesTest() throws Exception {
         App app = mock(App.class);
         stage = mock(Stage.class);
@@ -105,14 +112,81 @@ public class MuckWindowTest extends ApplicationTest {
     }
 
     @Test
-    @Order(11)
-    public void testChatController() {
-        MuckController chatController = mock(MuckController.class);
-        chatController.initialize(null, null);
+    @Order(3)
+    public void chatOpensClosesTest() {
+        clickOn("#openFullChat");
+        assertTrue(lookup("#windowPane").queryAs(SplitPane.class).getDividerPositions()[0] < 1);
+        clickOn("#closeChat");
+        assertEquals(1, lookup("#chatSplitPane").queryAs(SplitPane.class).getDividerPositions()[0]);
+
+    }
+    @Test
+    @Order(4)
+    public void newTabTest() {
+        int currentTabs = lookup("#chatPane1").queryAs(TabPane.class).getTabs().size();
+        clickOn("#file");
+        clickOn("#plus");
+        assertTrue(lookup("#chatPane1").queryAs(TabPane.class).getTabs().size()>currentTabs);
+    }
+
+    @Test
+    @Order(5)
+    public void dashboardOpensAvatarChangesTest() {
+        Paint avatar =  lookup("#circle").queryAs(Circle.class).getFill();
+        System.out.println(avatar);
+        clickOn("#circle");
+        clickOn("#change");
+        clickOn("#batman");
+        clickOn("#submit");
+        clickOn("#gameReturn");
+        assertNotSame(avatar, lookup("#circle").queryAs(Circle.class).getFill());
+        clickOn("#file");
+        clickOn("#playerDashboardMenu");
+        clickOn("#change");
+        clickOn("#pikachu");
+        clickOn("#submit");
+        clickOn("#gameReturn");
+        assertNotSame(avatar, lookup("#circle").queryAs(Circle.class).getFill());
+    }
+
+    /** Currently fails due to server error but once fixed the final 3 lines can be uncommented out and should run and pass */
+    @Test
+    @Order(6)
+    public void messageDisplaysTest() {
+        clickOn("#openFullChat");
+        clickOn("#chatPane1");
+        lookup("#messageBox").queryAs(TextField.class).setText("testing");
+        //clickOn("#enter");
+        //System.out.println(lookup("#groupChatBox").queryAs(TextArea.class).getText());
+        //assertEquals("test: testing", lookup("#groupChatBox").queryAs(TextArea.class).getText(0, 13));
+    }
+
+    @Test
+    @Order(7)
+    public void openFroggerTest()  {
+        String oldID = lookup("#gameCanvas").queryAs(Canvas.class).getId();
+        clickOn("#game3Button");
+        assertNotEquals(oldID, lookup("#gamePane1").queryAs(BorderPane.class).getChildren().get(0).getId());
+    }
+
+    @Test
+    @Order(8)
+    public void openSpaceInvadersTest()  {
+        String oldID = lookup("#gameCanvas").queryAs(Canvas.class).getId();
+        clickOn("#game1Button");
+        assertNotEquals(oldID, lookup("#gamePane1").queryAs(BorderPane.class).getChildren().get(0).getId());
+
+    }
+
+    @Test
+    @Order(9)
+    public void openEnduringFantasyTest()  {
+        String oldID = lookup("#gameCanvas").queryAs(Canvas.class).getId();
+        clickOn("#game2Button");
+        assertNotEquals(oldID, lookup("#gamePane1").queryAs(BorderPane.class).getChildren().get(0).getId());
     }
 
     // *********** END MUCK CONTROLLER TESTING ****************
-
 
     @AfterAll
     public static void testWindowClose() throws TimeoutException {
