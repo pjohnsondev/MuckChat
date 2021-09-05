@@ -12,18 +12,17 @@ import javafx.scene.image.Image;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class MuckGUITest extends ApplicationTest {
+public class AvatarTest extends ApplicationTest {
 
 
 
-    private static final Logger logger = LogManager.getLogger(MuckGUITest.class);
+    private static final Logger logger = LogManager.getLogger(AvatarTest.class);
 
     String avatar;
 
@@ -40,7 +39,7 @@ public class MuckGUITest extends ApplicationTest {
         // TODO: Do this with a mock character???
         logger.info("Initializing window");
         AvatarController.avatarCreation("Username", "DisplayName", "error");
-        FXMLLoader loader = new FXMLLoader(MuckGUITest.class.getResource("/fxml/Avatar.fxml"));
+        FXMLLoader loader = new FXMLLoader(AvatarTest.class.getResource("/fxml/Avatar.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -278,10 +277,6 @@ public class MuckGUITest extends ApplicationTest {
     //TODO: Test username Text field updates
 
     // *********** END AVATAR CONTROLLER TESTING *************
-
-
-
-
 
     @AfterAll
     public static void testWindowClose() throws TimeoutException {

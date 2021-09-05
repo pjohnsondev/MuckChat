@@ -38,8 +38,10 @@ class PlayerListService extends ScheduledService<Void> {
     */
     public void fillPlayerList(TextArea someTextBox) {
         someTextBox.clear();
-        for (String player: MuckClient.INSTANCE.players.values()) {
-            someTextBox.appendText(player + "\n");
+        if (!MuckClient.INSTANCE.players.isEmpty()) {
+            for (String player : MuckClient.INSTANCE.players.values()) {
+                someTextBox.appendText(player + "\n");
+            }
         }
     }
 }

@@ -88,6 +88,7 @@ public class SignUpController {
             return  false;
 
         }
+
     }
 
     // TODO: User name Available method - implement functionality
@@ -185,6 +186,7 @@ public class SignUpController {
     // TODO: Add Pass to Avatar Selection Display
     public void passToAvatar(MouseEvent event, String username, String displayName) throws IOException{
         AvatarController nextScene = new AvatarController();
+        App.hideStage();
         nextScene.avatarCreation(event, username, displayName);
     }
     // display errors method for signup screen validations
