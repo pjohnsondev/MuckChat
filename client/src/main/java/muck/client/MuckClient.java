@@ -114,7 +114,8 @@ public enum MuckClient {
 		// then stored on the client instance as the player array
 		client.addListener(ListenerBuilder.forClass(HashMap.class).onReceive((conn, playerList) -> {
 			logger.info("Player list: {} received from {}", playerList, conn.getID());
-			players = playerList;
+			players.clear();
+			players.putAll(playerList);
 			logger.info("Clients playerlist is {}", players);
 		}));
 
