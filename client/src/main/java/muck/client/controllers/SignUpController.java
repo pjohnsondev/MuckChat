@@ -88,6 +88,7 @@ public class SignUpController {
             return  false;
 
         }
+
     }
 
     // TODO: User name Available method - implement functionality
