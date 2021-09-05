@@ -221,7 +221,6 @@ public class MuckController implements Initializable {
                     new GameMap(currentCanvas, updatePlayerfn, getPlayersfn);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    System.out.println("Error: Avatar not updated");
 
                 }
             });
