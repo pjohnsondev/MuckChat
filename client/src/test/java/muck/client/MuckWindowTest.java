@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
+import org.testfx.api.FxAssert;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.matcher.base.NodeMatchers;
@@ -28,6 +29,7 @@ import java.util.concurrent.TimeoutException;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.testfx.api.FxAssert.verifyThat;
+import static org.testfx.matcher.base.NodeMatchers.isEnabled;
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -175,7 +177,6 @@ public class MuckWindowTest extends ApplicationTest {
         String oldID = lookup("#gameCanvas").queryAs(Canvas.class).getId();
         clickOn("#game1Button");
         assertNotEquals(oldID, lookup("#gamePane1").queryAs(BorderPane.class).getChildren().get(0).getId());
-
     }
 
     @Test
@@ -184,6 +185,16 @@ public class MuckWindowTest extends ApplicationTest {
         String oldID = lookup("#gameCanvas").queryAs(Canvas.class).getId();
         clickOn("#game2Button");
         assertNotEquals(oldID, lookup("#gamePane1").queryAs(BorderPane.class).getChildren().get(0).getId());
+    }
+
+    @Test
+    @Order(10)
+    public void quitMuckTest() {
+        clickOn("#file");
+        clickOn("#quitMuck");
+        FxAssert.verifyThat("#cancel",isEnabled());
+        FxAssert.verifyThat("#confirmQuit",isEnabled());
+        clickOn("#cancel");
     }
 
     // *********** END MUCK CONTROLLER TESTING ****************

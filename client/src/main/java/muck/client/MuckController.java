@@ -355,6 +355,10 @@ public class MuckController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.getButtonTypes().add(ButtonType.CANCEL);
         alert.getButtonTypes().add(ButtonType.YES);
+        Button yesButton = (Button) alert.getDialogPane().lookupButton(ButtonType.YES);
+        Button cancel = (Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL);
+        yesButton.setId("confirmQuit");
+        cancel.setId("cancel");
         alert.setTitle("Quit Muck?");
         alert.setContentText("Are you sure you want to quit Muck?");
         Optional<ButtonType> res = alert.showAndWait();
