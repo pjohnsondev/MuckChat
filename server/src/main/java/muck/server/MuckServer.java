@@ -26,7 +26,6 @@ import muck.protocol.connection.*;
 import java.io.IOException;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import muck.core.LocationResponse;
 import java.util.HashMap;
@@ -86,7 +85,7 @@ public enum MuckServer {
 		kryoServer.bind(config.getTcpPort(), config.getUdpPort());
 
 		// Adds a listener to listen for clients disconnecting from the server, then
-		// removes them from the players arraylist and sends to all connected clients.
+		// removes them from the players hashmap and sends to all connected clients.
 		addListener(ListenerBuilder.forClass(Disconnect.class).onReceive((conn, disconnect) -> {
 			logger.info("Disconnect has been called");
 			players.remove(conn.getID()); // This will obtain the index of the player
@@ -209,7 +208,6 @@ public enum MuckServer {
 		muckConnection.setCharacter(player);
 
 		logger.info("Login successful for {}", login.getUsername());
-
 		if (!players.containsKey(muckConnection.getID())) {
 			players.put(muckConnection.getID(),login.getUsername());
 			kryoServer.sendToAllTCP(players);
