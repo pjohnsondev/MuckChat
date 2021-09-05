@@ -82,6 +82,7 @@ public class SignInController{
         // This will likely need to be updated to pass in the display name from the database to be consistent
         // with the sign up class otherwise only username will be passed in both.
         AvatarController nextScene = new AvatarController();
+        App.hideStage();
         nextScene.avatarCreation(event, username);
     }
 

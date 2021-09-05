@@ -37,8 +37,9 @@ public class Sprite {
     public Sprite(int x, int y) {
         this.x = x; //spawn location
         this.y = y; //spawn location
-        String avatarInitial = "/images/" + AvatarController.getAvatarId() + "Sprite.png";
-        this.image = new Image(avatarInitial);
+        this.image = AvatarController.getSprite(AvatarController.getAvatarId());
+        /*String avatarInitial = "/images/" + AvatarController.getAvatarId() + "Sprite.png";
+        this.image = new Image(avatarInitial);*/
     }
 
     /**

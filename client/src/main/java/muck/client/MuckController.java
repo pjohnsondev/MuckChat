@@ -119,7 +119,6 @@ public class MuckController implements Initializable {
     private Text userNameDisplay;
 
     private static final Image goToDashboard = new Image("/images/PlayerDashboardHover.png");
-    private static final Image PEACH_PORTRAIT = new Image("/images/peach-portrait.png");
     private Image chosenAvatar;
 
     String message;
@@ -222,7 +221,6 @@ public class MuckController implements Initializable {
                     new GameMap(currentCanvas, updatePlayerfn, getPlayersfn);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    System.out.println("Error: Avatar not updated");
 
                 }
             });
