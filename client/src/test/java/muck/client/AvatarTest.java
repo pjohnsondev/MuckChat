@@ -1,47 +1,51 @@
 
 package muck.client;
 
-import javafx.application.Platform;
-import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
 import javafx.scene.image.Image;
-import org.mockito.Mockito;
+import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class MuckGUITest extends ApplicationTest {
+public class AvatarTest extends ApplicationTest {
 
 
 
-    private static final Logger logger = LogManager.getLogger(MuckGUITest.class);
+    private static final Logger logger = LogManager.getLogger(AvatarTest.class);
 
     String avatar;
-    Stage stage;
+
 
     // ********* START AVATAR CONTROLLER TESTING ***************
+
+    @Override
+    public void init() throws Exception {
+        FxToolkit.registerStage(Stage::new);
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
         // TODO: Do this with a mock character???
         logger.info("Initializing window");
-        AvatarController.avatarCreation("Test", "error");
-        FXMLLoader loader = new FXMLLoader(AvatarController.class.getResource("/fxml/Avatar.fxml"));
+        AvatarController.avatarCreation("Username", "DisplayName", "error");
+        FXMLLoader loader = new FXMLLoader(AvatarTest.class.getResource("/fxml/Avatar.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
+
 
     @Test
     @Order(1)
@@ -73,7 +77,7 @@ public class MuckGUITest extends ApplicationTest {
         avatar = AvatarController.getAvatarId();
         assertNotEquals("yoshi", avatar);
 
-        AvatarController.setMuck(19); // Increases Muck Points for next test
+        AvatarController.setMuck(19); // Increases Muck Points for next test*/
 
     }
 
@@ -274,69 +278,10 @@ public class MuckGUITest extends ApplicationTest {
 
     // *********** END AVATAR CONTROLLER TESTING *************
 
-    // *********** START MUCK CONTROLLER TESTING *************
-
-    // Wrapper thread updates this if
-    // the JavaFX application runs without a problem.
-    // Declared volatile to ensure that writes are visible to every thread.
-    private volatile boolean success = false;
-
-    /**
-     * Test that a JavaFX application launches.
-     * Copied from https://stackoverflow.com/questions/24851886/how-to-unit-test-that-a-javafx-application-launches
-     */
-
-    @Test
-    @Order(9)
-    public void testMuckWindow() {
-        // Wrapper thread.
-        Thread thread = new Thread(() -> {
-            try {
-                ApplicationTest.launch(App.class); // Run JavaFX application.
-                success = true;
-            } catch(Throwable t) {
-                if(t.getCause() != null && t.getCause().getClass().equals(InterruptedException.class)) {
-                    // We expect to get this exception since we interrupted
-                    // the JavaFX application.
-                    success = true;
-                }
-            }
-        });
-        thread.setDaemon(true);
-        thread.start();
-        try {
-            Thread.sleep(3000);  // Wait for 3 seconds before interrupting JavaFX application
-        } catch(InterruptedException ex) {
-        }
-        thread.interrupt();
-        try {
-            thread.join(1); // Wait 1 second for our wrapper thread to finish.
-        } catch(InterruptedException ex) {
-        }
-        assertTrue(success);
-    }
-
-    @Test
-    @Order(10)
-    public void stageLaunchesTest() throws Exception {
-        App app = mock(App.class);
-        stage = mock(Stage.class);
-        app.start(stage);
-    }
-
-    @Test
-    @Order(11)
-    public void testChatController() {
-        MuckController chatController = mock(MuckController.class);
-        chatController.initialize(null, null);
-    }
-
-    // *********** END MUCK CONTROLLER TESTING ****************
-
     @AfterAll
-    public static void testWindowClose() {
+    public static void testWindowClose() throws TimeoutException {
         logger.info("Closing window");
-        Platform.exit();
+        FxToolkit.cleanupStages();
     }
 
 }

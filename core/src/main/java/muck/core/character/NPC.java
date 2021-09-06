@@ -3,8 +3,7 @@ package muck.core.character;
 import java.util.List;
 
 public class NPC extends Character {
-    private int _difficulty = 1;
-    
+    private int _difficulty;
     public List<INPCBehaviour> AIBehaviours;
 
     /**
@@ -28,7 +27,7 @@ public class NPC extends Character {
      * Dummy constructor for a NPC object with a "null" identifier. Does not
      * check with backend storage for a valid username. Should only be used for unit tests that don't use backend
      */
-    protected NPC() {
+    public NPC() {
         this.setIdentifier(null);
     }
     
@@ -41,6 +40,20 @@ public class NPC extends Character {
         for (var AIBehaviour : AIBehaviours) {
             AIBehaviour.Update();
         }
+    }
+
+    /**
+     * Set NPC stats. Should only be called once on creation of new or existing NPC.
+     * @param health NPC health
+     * @param attack NPC attack level
+     * @param defence NPC defence level
+     * @param difficulty NPC difficulty level
+     */
+    public void setNPCStats(int health, int attack, int defence, int difficulty) {
+        this.setHealth(health);
+        this.setAttack(attack);
+        this.setDefence(defence);
+        this.setDifficulty(difficulty);
     }
 
     /**
@@ -62,4 +75,13 @@ public class NPC extends Character {
         return this._difficulty;
     }
 
+    /**
+     * Increases and retrieves the NPC difficulty level.
+     * @param level NPC difficulty level to increase
+     * @return NPC difficulty level
+     */
+    public int increaseDifficulty(int level) {
+        setDifficulty(level + getDifficulty());
+        return this._difficulty;
+    }
 }

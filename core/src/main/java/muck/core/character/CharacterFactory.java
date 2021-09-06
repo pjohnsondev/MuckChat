@@ -55,8 +55,8 @@ public class CharacterFactory {
         NPCRandomWalk npcRandomWalk = new NPCRandomWalk(villager);
         villager.AIBehaviours.add(npcRandomWalk);
         
-        // Villagers should have a pre-determined amount of health
-        villager.setHealth(30);
+        // Villagers should have a pre-determined stats
+        villager.setNPCStats(30,0,0, 1);
         
         return villager; // If wishing to retrieve the villager id from this object, use villager.getIdentifier(); 
     }

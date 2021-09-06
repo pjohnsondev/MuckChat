@@ -1,0 +1,2 @@
+Character class is situated in core but needs dependencies within client. We'll place some functionality here
+to do this for cross-communication between client and core.

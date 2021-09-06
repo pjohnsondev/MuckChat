@@ -35,8 +35,24 @@ public class Player extends Character {
         this.setIdentifier(null);
     }
 
+    /**
+     * Returns the Players username
+     * @return Player username
+     */
     public String getUsername() {
         return username;
+    }
+
+    /***
+     * Set Player stats. Should only be called once on creation of new or existing Player
+     * @param health Player health
+     * @param attack Player attack level
+     * @param defence Player defence level
+     */
+    public void setPlayerStats(int health, int attack, int defence) {
+        this.setHealth(health);
+        this.setAttack(attack);
+        this.setDefence(defence);
     }
 
     /**
