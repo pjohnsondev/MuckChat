@@ -59,10 +59,10 @@ public class MuckController implements Initializable {
     private BorderPane gamePane1; // Value injected by FXMLLoader
 
     @FXML // fx:id="gameCanvas" the original game canvas with the Map. Map displays in here
-    public Canvas gameCanvas; // Value injected by FXMLLoader
+    private Canvas gameCanvas; // Value injected by FXMLLoader
 
     @FXML // fx:id="circle" Circle image area for avatar
-    public Circle circle; // Value injected by FXMLLoader
+    private Circle circle; // Value injected by FXMLLoader
 
     @FXML // fx:id="chatPane1" The tab pane for the chat - tabs sit in this. Despite the name there is only 1
     private TabPane chatPane1; // Value injected by FXMLLoader
@@ -122,6 +122,9 @@ public class MuckController implements Initializable {
     private Image chosenAvatar;
 
     String message;
+
+    int x = 0;
+
     private static String userName;
     private static String displayName;
     private static String avatarID;
@@ -148,13 +151,13 @@ public class MuckController implements Initializable {
         chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
         userNameDisplay.setText(displayName);// // Sets username that has been passed in from Avatar class
         circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
-        circle.setOnMouseEntered(event -> {circle.setFill(new ImagePattern(goToDashboard));});
-        circle.setOnMouseExited(event -> { circle.setFill(new ImagePattern(chosenAvatar)); });
+        circle.setOnMouseEntered(event -> circle.setFill(new ImagePattern(goToDashboard)));
+        circle.setOnMouseExited(event -> circle.setFill(new ImagePattern(chosenAvatar)));
         circle.setOnMouseClicked(this::openPlayerDashboardMenu);
         chatSection.setFocusTraversable(true);
         chatSection.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> chatSection.isFocused());
-        Timer messageChecker = new Timer();
-        messageChecker.scheduleAtFixedRate(new getMessagesTask(), 0, 200);
+        //Timer messageChecker = new Timer();
+        //messageChecker.scheduleAtFixedRate(new getMessagesTask(), 0, 200);
         quitMuck.setOnAction(this::quitMuck);
         playerDashboardMenu.setOnAction(this::openPlayerDashboardMenu); //Opens player Dashboard
         // Creates and sets the player list service to be called every second, to update the current player list
@@ -352,6 +355,10 @@ public class MuckController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.getButtonTypes().add(ButtonType.CANCEL);
         alert.getButtonTypes().add(ButtonType.YES);
+        Button yesButton = (Button) alert.getDialogPane().lookupButton(ButtonType.YES);
+        Button cancel = (Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL);
+        yesButton.setId("confirmQuit");
+        cancel.setId("cancel");
         alert.setTitle("Quit Muck?");
         alert.setContentText("Are you sure you want to quit Muck?");
         Optional<ButtonType> res = alert.showAndWait();
@@ -364,14 +371,14 @@ public class MuckController implements Initializable {
         }
     }
 
-    public class getMessagesTask extends TimerTask {
+    /*public class getMessagesTask extends TimerTask {
         public void run() {
             if (MuckClient.INSTANCE.getCurrentMessage() == null){
                 
             }else {
                 groupChatBox.appendText("UserName Here: "+ MuckClient.INSTANCE.getCurrentMessage()+ "\n");
             }
-
         }
     }
+    */
 }
