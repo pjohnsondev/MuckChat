@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
@@ -16,6 +17,7 @@ import org.testfx.framework.junit5.ApplicationTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.concurrent.TimeoutException;
 
 
@@ -27,6 +29,7 @@ public class AvatarTest extends ApplicationTest {
     private static final Logger logger = LogManager.getLogger(AvatarTest.class);
 
     private String avatar;
+    private Stage stage;
     private Image avatarImage;
     private Image peach_full;
     private Image batman_full;
@@ -34,35 +37,6 @@ public class AvatarTest extends ApplicationTest {
     private Image skeleton_full;
     private Image wonder_woman_full;
     private Image yoshi_full;
-
-    /*private static final Image PEACH_PORTRAIT = new Image("/images/peach-portrait.png");
-    private static final Image PEACH_SPRITE = new Image("/images/peachSprite.png");
-
-    // Batman
-    private static final Image BATMAN_FULL = new Image("/images/batman.png");
-    private static final Image BATMAN_PORTRAIT = new Image("/images/batman-portrait.png");
-    private static final Image BATMAN_SPRITE = new Image("/images/batmanSprite.png");
-
-    // Pikachu
-    private static final Image PIKACHU_FULL = new Image("/images/pikachu.png");
-    private static final Image PIKACHU_PORTRAIT = new Image("/images/pikachu-portrait.png");
-    private static final Image PIKACHU_SPRITE = new Image("/images/pikachuSprite.png");
-
-    // Skeleton
-    private static final Image SKELETON_FULL = new Image("/images/skeleton.png");
-    private static final Image SKELETON_PORTRAIT = new Image("/images/skeleton-portrait.png");
-    private static final Image SKELETON_SPRITE = new Image("/images/skeletonSprite.png");
-
-    // Wonder Woman
-    private static final Image WONDER_WOMAN_FULL = new Image("/images/wonderWoman.png");
-    private static final Image WONDER_WOMAN_PORTRAIT = new Image("/images/wonderWoman-portrait.png");
-    private static final Image WONDER_WOMAN_SPRITE = new Image("/images/wonderWomanSprite.png");
-
-    // Yoshi
-    private static final Image YOSHI_FULL = new Image("/images/yoshi.png");
-    private static final Image YOSHI_PORTRAIT = new Image("/images/yoshi-portrait.png");
-    private static final Image YOSHI_SPRITE = new Image("/images/yoshiSprite.png");*/
-
 
     // ********* START AVATAR CONTROLLER TESTING ***************
 
@@ -81,6 +55,7 @@ public class AvatarTest extends ApplicationTest {
     public void start(Stage stage) throws IOException {
         // TODO: Do this with a mock character???
         logger.info("Initializing window");
+        this.stage = stage;
         AvatarController.avatarCreation("Username", "DisplayName", "error");
         FXMLLoader loader = new FXMLLoader(AvatarTest.class.getResource("/fxml/Avatar.fxml"));
         Parent root = loader.load();
@@ -365,8 +340,18 @@ public class AvatarTest extends ApplicationTest {
 
     @Test
     @Order(11)
-    public void testSubmitToDashboard() {
-
+    public void testSubmitToDashboard() throws IOException {
+        Scene avatarCont = new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Avatar.fxml"))));
+        Scene pane1 = lookup("#gridPane").queryAs(GridPane.class).getScene();
+        logger.info(pane1);
+        logger.info(avatarCont);
+        /*Scene pane1ID = lookup("#gridPane").queryAs(GridPane.class).getScene();
+        logger.info(pane1ID);
+        clickOn("#submit");
+        Scene pane2ID = lookup("#gridPane").queryAs(GridPane.class).getScene();
+        logger.info(pane2ID);
+        /*String pane2ID = lookup("#gridPane").queryAs(GridPane.class).getId();
+        assertNotEquals(pane1ID, pane2ID);*/
     }
 
     //TODO: Test uname/avID/MuckPoints update with mock character. Full image shows. Correct avatars unlocked
@@ -380,7 +365,7 @@ public class AvatarTest extends ApplicationTest {
         FxToolkit.cleanupStages();
     }
 
-    private boolean checkImageEquality(Image official, Image test) {
+    public static boolean checkImageEquality(Image official, Image test) {
 
         for(int x = 0; x < test.getWidth(); x++) {
             for(int y = 0; y < test.getHeight(); y++) {

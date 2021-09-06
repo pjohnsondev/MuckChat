@@ -5,6 +5,10 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +18,12 @@ import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.TimeoutException;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 //@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -23,17 +32,29 @@ public class PlayerDashboardTest extends ApplicationTest {
 
 
     private static final Logger logger = LogManager.getLogger(PlayerDashboardTest.class);
-
+    private Image peach_full;
+    private Image batman_full;
+    private Image pikachu_full;
+    private Image skeleton_full;
+    private Image wonder_woman_full;
+    private Image yoshi_full;
 
     @Override
     public void init() throws Exception {
         FxToolkit.registerStage(Stage::new);
+        peach_full = new Image("/images/peach.png");
+        batman_full = new Image("/images/batman.png");
+        pikachu_full = new Image("/images/pikachu.png");
+        skeleton_full = new Image("/images/skeleton.png");
+        wonder_woman_full = new Image("/images/wonderWoman.png");
+        yoshi_full = new Image("/images/yoshi.png");
     }
 
     @Override
     public void start(Stage stage) throws IOException {
         logger.info("Initializing window");
-        PlayerDashboardController.playerDashboard("Username", "DisplayName", "error");
+        //TODO: Need to do this with a mock player incl Muck and Health
+        PlayerDashboardController.playerDashboard("Username", "DisplayName", "peach");
         FXMLLoader loader = new FXMLLoader(PlayerDashboardTest.class.getResource("/fxml/PlayerDashboard.fxml"));
         stage.initStyle(StageStyle.DECORATED);
         Parent root = loader.load();
@@ -49,9 +70,89 @@ public class PlayerDashboardTest extends ApplicationTest {
 
 
     @Test
-    public void testTest() {
-        clickOn("#gameReturn");
+    public void testNameMuckHealthUpdates() {
+        String display = lookup("#username").queryAs(Text.class).getText();
+        assertEquals("DisplayName", display);
+
+        //TODO: Update the below with appropriate muck and health with test person
+        String muck = lookup("#muckPoints").queryAs(Text.class).getText();
+        assertEquals(muck, "100");
+        String health = lookup("#health").queryAs(Text.class).getText();
+        assertEquals(health, "80");
     }
+
+    @Test
+    public void testAvatarImageUpdates() {
+        Image avatarImage = lookup("#avatarFullBody").queryAs(ImageView.class).getImage();
+        assertTrue(AvatarTest.checkImageEquality(peach_full, avatarImage));
+
+        AvatarController.setMuck(50);
+
+        clickOn("#change");
+        clickOn("#batman");
+        clickOn("#submit");
+        avatarImage = lookup("#avatarFullBody").queryAs(ImageView.class).getImage();
+        assertTrue(AvatarTest.checkImageEquality(batman_full, avatarImage));
+
+        clickOn("#change");
+        clickOn("#pikachu");
+        clickOn("#submit");
+        avatarImage = lookup("#avatarFullBody").queryAs(ImageView.class).getImage();
+        assertTrue(AvatarTest.checkImageEquality(pikachu_full, avatarImage));
+
+        clickOn("#change");
+        clickOn("#skeleton");
+        clickOn("#submit");
+        avatarImage = lookup("#avatarFullBody").queryAs(ImageView.class).getImage();
+        assertTrue(AvatarTest.checkImageEquality(skeleton_full, avatarImage));
+
+        clickOn("#change");
+        clickOn("#wonderWoman");
+        clickOn("#submit");
+        avatarImage = lookup("#avatarFullBody").queryAs(ImageView.class).getImage();
+        assertTrue(AvatarTest.checkImageEquality(wonder_woman_full, avatarImage));
+
+        clickOn("#change");
+        clickOn("#yoshi");
+        clickOn("#submit");
+        avatarImage = lookup("#avatarFullBody").queryAs(ImageView.class).getImage();
+        assertTrue(AvatarTest.checkImageEquality(yoshi_full, avatarImage));
+    }
+
+    @Test
+    public void testAchievementsUpdate() {
+        //TODO: Call achievements for character (or might need to add achievements for mock character
+        ArrayList<String[]> achievements = new ArrayList<>();
+
+        achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
+        achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
+        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
+        achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
+        achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
+        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
+        achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
+        achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
+        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
+
+        logger.info("Turning player achievements into a String arrayList");
+        ArrayList<String> achieved = new ArrayList<>();
+        for (String[] achievement: achievements) {
+            achieved.add(achievement[0] + ": " + achievement[1]);
+        }
+        ArrayList<String> text = new ArrayList<>(Arrays.asList(lookup("#achievementWindow").queryAs(TextArea.class).getText().split("\n\n")));
+        logger.info(achieved);
+        logger.info(text);
+
+        logger.info("Checking the ArrayLists are the same size");
+        assertEquals(achieved.size(), text.size());
+
+        logger.info("Checking each achievement is the same");
+        for (int i = 0; i<achievements.size(); i++) {
+            assertEquals(achieved.get(i), text.get(i));
+        }
+    }
+
+
 
     @AfterAll
     public static void testWindowClose() throws TimeoutException {
