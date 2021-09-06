@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.*;
 import muck.client.AvatarController;
+import muck.client.MuckClient;
+import muck.client.components.ActiveUser;
 import muck.core.models.models.UserModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -52,7 +54,8 @@ public class SignUpController {
         boolean validated = validateSignUp(event, displayName, userName, passWordText, passwordTwo);
         if (validated) {
             try {
-                UserModel.getInstance().registerNewUser(userName, passWordText);
+//                UserModel.getInstance().registerNewUser(userName, passWordText);
+                MuckClient.getINSTANCE().signUp(userName, passWordText, displayName);
                 error.setText("New muck user created" + userName);
             } catch (Exception ex) {
                 error.setText("Unable to create new user: {}" + userName);

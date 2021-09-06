@@ -1,5 +1,6 @@
 package muck.client;
 
+import muck.client.components.ActiveUser;
 import muck.core.Login;
 import muck.core.Pair;
 import muck.core.UpdatePlayerRequest;
@@ -9,6 +10,8 @@ import muck.core.LocationRequest;
 import muck.core.LocationResponse;
 import muck.core.ClientId;
 import muck.core.character.AddCharacter;
+import muck.core.interfaces.IActiveUser;
+import muck.core.structures.UserStructure;
 import muck.core.user.SignUpInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,7 +41,7 @@ public enum MuckClient {
 	HashMap<Integer, String> players = new HashMap<Integer, String>();
 	List<Sprite> playerSprites = new ArrayList<Sprite>();
 
-	public static MuckClient getINSTANCE() throws SQLException {
+	public static MuckClient getINSTANCE() {
 		return INSTANCE;
 	}
 
@@ -62,6 +65,10 @@ public enum MuckClient {
 	public List<Sprite> getPlayerSprites() {
 	    client.sendTCP(new LocationRequest(clientId));
 	    return this.playerSprites;
+	}
+
+	public Client getClient() {
+		return client;
 	}
 
 	public void updatePlayerLocation(String avatar, Location location) {
@@ -130,6 +137,13 @@ public enum MuckClient {
 			logger.info("List of locations receieved, building sprites");
 			var data = response.data;
 			this.playerSprites = data.stream().map(p -> new Sprite(p.right().getX(), p.right().getY())).collect(Collectors.toList());
+		}));
+
+		//setActiveUser
+		client.addListener(ListenerBuilder.forClass(UserStructure.class).onReceive((connID, response) -> {
+			ActiveUser.getInstance().setUserStructure(response);
+			logger.info("Signing up user: ");
+			logger.info(ActiveUser.getInstance().getUser());
 		}));
 	}
 

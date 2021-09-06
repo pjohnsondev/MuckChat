@@ -15,6 +15,7 @@ import java.util.List;
 
 import com.esotericsoftware.kryo.Kryo;
 import muck.core.Id;
+import muck.core.structures.UserStructure;
 import muck.core.user.SignUpInfo;
 import muck.protocol.connection.*;
 
@@ -55,6 +56,9 @@ public class Protocol {
 		kryo.register(LocationRequest.class);
 		kryo.register(LocationResponse.class);
 		kryo.register(UpdatePlayerRequest.class);
+
+		kryo.register(byte[].class);
+		kryo.register(UserStructure.class);
 
 	}
 }
