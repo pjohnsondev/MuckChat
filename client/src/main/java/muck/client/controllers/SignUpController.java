@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.*;
 import muck.client.AvatarController;
+import muck.client.MuckClient;
 import muck.core.models.models.UserModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,39 +48,24 @@ public class SignUpController {
         String userName = username.getText();
         String displayName = displayname.getText();
         String passwordTwo = passwordtwo.getText();
+        // Hash password for security
+        String hashed = BCrypt.hashpw(passWordText, BCrypt.gensalt());
 
         // Validate the sign up
         boolean validated = validateSignUp(event, displayName, userName, passWordText, passwordTwo);
-        if (validated) {
-            try {
-                UserModel.getInstance().registerNewUser(userName, passWordText);
-                error.setText("New muck user created" + userName);
-            } catch (Exception ex) {
-                error.setText("Unable to create new user: {}" + userName);
-
-                throw new RuntimeException(String.format("Unable to create new user: %s.", userName));
-            }
+        boolean user = createUser(validated, userName, hashed, displayName);
+        if(user){
+            passToAvatar(event, userName, displayName);
         }
+
     }
 
     // TODO: Sign Up validation method - implement functionality
-    public boolean validateSignUp(MouseEvent event, String displayname, String username, String password, String passwordtwo) throws IOException {
+    public boolean validateSignUp(MouseEvent event, String displayname, String username, String password, String passwordtwo) {
         if (validUserNameLength(username) && validPasswordLength(password) && validDisplayNameLength(displayname) &&
                 userNameAvailable(username) && passwordsMatch(password, passwordtwo) && passwordIsNotEmpty(password) && passwordIsNotEmpty(passwordtwo) &&
                 userNameIsNotEmpty(username) && displayNameIsNotEmpty(displayname) ) {
 
-            // Hash password for security
-            String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
-            // Add user to database
-
-            // addUser(uName, displayName, hashed);
-
-            // retrieve user id from database and pass to the next scene
-
-
-            // Pass display name to the next scene
-            // Pass to next scene
-            passToAvatar(event, username, displayname);
             return true;
 
         } else {
@@ -180,6 +166,22 @@ public class SignUpController {
         }
     }
 
+    public boolean createUser(boolean validated, String userName, String hashed, String displayName){
+
+        if (validated) {
+            try {
+                MuckClient.getINSTANCE().signUp(userName, hashed, displayName);
+                error.setText("New muck user created" + userName);
+                return true;
+            } catch (Exception ex) {
+                error.setText("Unable to create new user: {}" + userName);
+
+                throw new RuntimeException(String.format("Unable to create new user: %s.", userName));
+
+            }
+        }
+        return false;
+    }
 
 
     // TODO: Add Pass to Avatar Selection Display
@@ -188,6 +190,8 @@ public class SignUpController {
         App.hideStage();
         nextScene.avatarCreation(event, username, displayName);
     }
+
+
     // display errors method for signup screen validations
     public void displayErrors() {
         // Pass and stores the signup form's inputs into corresponding variables
