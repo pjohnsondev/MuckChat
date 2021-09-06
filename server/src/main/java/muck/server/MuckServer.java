@@ -13,9 +13,7 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
 import muck.core.character.Player;
-import muck.core.interfaces.IActiveUser;
 import muck.core.user.SignUpInfo;
-import muck.server.Exceptions.ModelNotFoundException;
 import muck.server.models.ModelRegister;
 import muck.server.services.UserService;
 import muck.core.structures.UserStructure;

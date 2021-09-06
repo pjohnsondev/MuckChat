@@ -2,7 +2,6 @@ package muck.client;
 
 import muck.client.components.ActiveUser;
 import muck.core.Login;
-import muck.core.Pair;
 import muck.core.UpdatePlayerRequest;
 import muck.core.Id;
 import muck.core.Location;
@@ -10,7 +9,6 @@ import muck.core.LocationRequest;
 import muck.core.LocationResponse;
 import muck.core.ClientId;
 import muck.core.character.AddCharacter;
-import muck.core.interfaces.IActiveUser;
 import muck.core.structures.UserStructure;
 import muck.core.user.SignUpInfo;
 import org.apache.logging.log4j.LogManager;
@@ -91,14 +89,14 @@ public enum MuckClient {
 		// Connect to the server
 		client.connect(config.getTimeOut(), config.getDestinationIp(), config.getTcpPort(), config.getUdpPort());
 
-		// Create random dummy credentials
-		String username = "TestUser_" + Calendar.getInstance().get(Calendar.SECOND) % 100;
-
-		// Create a new user account
-		signUp(username, "TestPassword", "Test User");
-
-		// Login an existing user
-		login(username, "TestPassword");
+//		// Create random dummy credentials
+//		String username = "TestUser_" + Calendar.getInstance().get(Calendar.SECOND) % 100;
+//
+//		// Create a new user account
+//		signUp(username, "TestPassword", "Test User");
+//
+//		// Login an existing user
+//		login(username, "TestPassword");
 
 		// Add a Ping listener. Still being used for debugging.
 		client.addListener(ListenerBuilder.forClass(Ping.class)
@@ -142,8 +140,6 @@ public enum MuckClient {
 		//setActiveUser
 		client.addListener(ListenerBuilder.forClass(UserStructure.class).onReceive((connID, response) -> {
 			ActiveUser.getInstance().setUserStructure(response);
-			logger.info("Signing up user: ");
-			logger.info(ActiveUser.getInstance().getUser());
 		}));
 	}
 
