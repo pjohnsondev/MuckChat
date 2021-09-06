@@ -21,11 +21,12 @@ import java.util.Arrays;
 import java.util.concurrent.TimeoutException;
 import static org.junit.jupiter.api.Assertions.*;
 
-
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class PlayerDashboardTest extends ApplicationTest {
 
     private static final Logger logger = LogManager.getLogger(PlayerDashboardTest.class);
     private Stage stage;
+    private ArrayList<String[]> achievements; //TODO: Remove once we have the ability to call the server
     private Image peach_full;
     private Image batman_full;
     private Image pikachu_full;
@@ -44,6 +45,21 @@ public class PlayerDashboardTest extends ApplicationTest {
         skeleton_full = new Image("/images/skeleton.png");
         wonder_woman_full = new Image("/images/wonderWoman.png");
         yoshi_full = new Image("/images/yoshi.png");
+
+        //TODO: Remove the below once we have the ability to call the server
+        achievements = new ArrayList<>();
+        achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
+        achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
+        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
+        achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
+        achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
+        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
+        achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
+        achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
+        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
+
+        // ************************************************************************
+
     }
 
     @Override
@@ -51,6 +67,7 @@ public class PlayerDashboardTest extends ApplicationTest {
         logger.info("Initializing window");
         //TODO: Need to do this with a mock player incl Muck and Health
         PlayerDashboardController.playerDashboard("Username", "DisplayName", "peach");
+
         FXMLLoader loader = new FXMLLoader(PlayerDashboardTest.class.getResource("/fxml/PlayerDashboard.fxml"));
         stage.initStyle(StageStyle.DECORATED);
         this.stage = stage;
@@ -66,6 +83,7 @@ public class PlayerDashboardTest extends ApplicationTest {
     }
 
     @Test
+    @Order(1)
     // Checks the player statistics update as expected
     public void testNameMuckHealthUpdates() {
         logger.info("Checking player details updating on window");
@@ -82,6 +100,7 @@ public class PlayerDashboardTest extends ApplicationTest {
     //TODO: Make sure the avatar screen appears when you click on change
 
     @Test
+    @Order(2)
     // Checks the full body avatar image displays correctly
     public void testAvatarImageUpdates() {
         logger.info("Checking the avatar image updates on avatar change");
@@ -122,21 +141,13 @@ public class PlayerDashboardTest extends ApplicationTest {
     }
 
     @Test
+    @Order(3)
     // Checks that the achievements logged on the screen are the same as the achievements stored for a player
     public void testAchievementsUpdate() {
+        //TODO: Why do achievements not initially show?
         logger.info("Checking achievements update");
         //TODO: Call achievements for character (or might need to add achievements for mock character
-        ArrayList<String[]> achievements = new ArrayList<>();
-
-        achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
-        achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
-        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
-        achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
-        achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
-        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
-        achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
-        achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
-        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
+        //ArrayList<String[]> achievements = new ArrayList<>();
 
         logger.info("Turning player achievements into a String arrayList");
         ArrayList<String> achieved = new ArrayList<>();
@@ -157,6 +168,7 @@ public class PlayerDashboardTest extends ApplicationTest {
     }
 
     @Test
+    @Order(4)
     // Makes sure the window closes when the returnToGame button is pressed.
     // Checks the correct details are sent to Muck on return
     public void testReturnToGame() {
