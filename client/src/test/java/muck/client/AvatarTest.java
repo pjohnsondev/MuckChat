@@ -2,10 +2,10 @@
 package muck.client;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +17,6 @@ import org.testfx.framework.junit5.ApplicationTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
-import java.util.Objects;
 import java.util.concurrent.TimeoutException;
 
 
@@ -29,6 +28,8 @@ public class AvatarTest extends ApplicationTest {
     private static final Logger logger = LogManager.getLogger(AvatarTest.class);
 
     private String avatar;
+    private Cursor cursorActual;
+    private FXMLLoader loader;
     private Stage stage;
     private Image avatarImage;
     private Image peach_full;
@@ -57,7 +58,7 @@ public class AvatarTest extends ApplicationTest {
         logger.info("Initializing window");
         this.stage = stage;
         AvatarController.avatarCreation("Username", "DisplayName", "error");
-        FXMLLoader loader = new FXMLLoader(AvatarTest.class.getResource("/fxml/Avatar.fxml"));
+        /*FXMLLoader */loader = new FXMLLoader(AvatarTest.class.getResource("/fxml/Avatar.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -66,6 +67,7 @@ public class AvatarTest extends ApplicationTest {
 
     @Test
     @Order(1)
+    // Checks the display name passed into the interface is the name that displays
     public void testDisplayNameUpdates() {
         String display = lookup("#username").queryAs(Text.class).getText();
         assertEquals("DisplayName", display);
@@ -87,6 +89,10 @@ public class AvatarTest extends ApplicationTest {
         assertEquals("peach", avatar);
         avatarImage = lookup("#avatarFullBody").queryAs(ImageView.class).getImage();
         assertTrue(checkImageEquality(peach_full, avatarImage));
+        //TODO: Cursor comparisons
+        /*cursorActual = lookup("#peach").queryAs(Circle.class).getCursor();
+        logger.info(cursorActual);
+        assertEquals(cursorActual, "HAND");*/
 
         logger.info("Checking Batman");
         clickOn("#batman");
@@ -128,6 +134,7 @@ public class AvatarTest extends ApplicationTest {
 
     @Test
     @Order(3)
+    // Checks that the correct messages are displayed when a user hovers over a locked avatar
     public void testHoverMessage() {
         String message;
         AvatarController.setMuck(19); // Increases Muck Points for next test (If this test fails the next test will be able to run successfully)
@@ -206,7 +213,7 @@ public class AvatarTest extends ApplicationTest {
         avatar = AvatarController.getAvatarId();
         assertNotEquals("yoshi", avatar);
         avatarImage = lookup("#avatarFullBody").queryAs(ImageView.class).getImage();
-        assertThrows(IndexOutOfBoundsException.class, () -> { checkImageEquality(yoshi_full, avatarImage); });
+        assertThrows(IndexOutOfBoundsException.class, () -> checkImageEquality(yoshi_full, avatarImage));
         //assertFalse(checkImageEquality(yoshi_full, avatarImage)); TODO: IndexOutOfBoundsException
     }
 
@@ -338,9 +345,13 @@ public class AvatarTest extends ApplicationTest {
         }
     }
 
-    @Test
+    /*@Test
     @Order(11)
     public void testSubmitToDashboard() throws IOException {
+        AvatarController currentController = loader.getController();
+        clickOn("#submit");
+        logger.info(currentController);
+
         Scene avatarCont = new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Avatar.fxml"))));
         Scene pane1 = lookup("#gridPane").queryAs(GridPane.class).getScene();
         logger.info(pane1);
@@ -351,9 +362,10 @@ public class AvatarTest extends ApplicationTest {
         Scene pane2ID = lookup("#gridPane").queryAs(GridPane.class).getScene();
         logger.info(pane2ID);
         /*String pane2ID = lookup("#gridPane").queryAs(GridPane.class).getId();
-        assertNotEquals(pane1ID, pane2ID);*/
-    }
+        assertNotEquals(pane1ID, pane2ID);
+    }*/
 
+    //TODO: Test the map or dashboard opens
     //TODO: Test uname/avID/MuckPoints update with mock character. Full image shows. Correct avatars unlocked
     //TODO: Test details are sent to server on submit
 

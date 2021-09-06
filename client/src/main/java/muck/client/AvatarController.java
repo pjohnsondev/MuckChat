@@ -118,8 +118,15 @@ public class AvatarController implements Initializable  {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            avatarFullBody.setPreserveRatio(true);
             gridPane.setBackground(new Background(BACKGROUND));
+        } catch (Exception e) {
+            gridPane.setStyle("-fx-background-color: steelgray");
+            System.out.println("Error with background image");
+            e.printStackTrace();
+        }
+
+        try {
+            avatarFullBody.setPreserveRatio(true);
 
             peach.setFill(new ImagePattern(PEACH_PORTRAIT));
             batman.setFill(new ImagePattern(BATMAN_PORTRAIT));

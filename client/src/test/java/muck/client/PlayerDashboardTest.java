@@ -32,6 +32,7 @@ public class PlayerDashboardTest extends ApplicationTest {
 
 
     private static final Logger logger = LogManager.getLogger(PlayerDashboardTest.class);
+    private Stage stage;
     private Image peach_full;
     private Image batman_full;
     private Image pikachu_full;
@@ -42,6 +43,8 @@ public class PlayerDashboardTest extends ApplicationTest {
     @Override
     public void init() throws Exception {
         FxToolkit.registerStage(Stage::new);
+
+        //IMAGE INITIALISATION
         peach_full = new Image("/images/peach.png");
         batman_full = new Image("/images/batman.png");
         pikachu_full = new Image("/images/pikachu.png");
@@ -57,6 +60,7 @@ public class PlayerDashboardTest extends ApplicationTest {
         PlayerDashboardController.playerDashboard("Username", "DisplayName", "peach");
         FXMLLoader loader = new FXMLLoader(PlayerDashboardTest.class.getResource("/fxml/PlayerDashboard.fxml"));
         stage.initStyle(StageStyle.DECORATED);
+        this.stage = stage;
         Parent root = loader.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -70,6 +74,7 @@ public class PlayerDashboardTest extends ApplicationTest {
 
 
     @Test
+    // Checks the player statistics update as expected
     public void testNameMuckHealthUpdates() {
         String display = lookup("#username").queryAs(Text.class).getText();
         assertEquals("DisplayName", display);
@@ -82,6 +87,7 @@ public class PlayerDashboardTest extends ApplicationTest {
     }
 
     @Test
+    // Checks the full body avatar image displays correctly
     public void testAvatarImageUpdates() {
         Image avatarImage = lookup("#avatarFullBody").queryAs(ImageView.class).getImage();
         assertTrue(AvatarTest.checkImageEquality(peach_full, avatarImage));
@@ -120,6 +126,7 @@ public class PlayerDashboardTest extends ApplicationTest {
     }
 
     @Test
+    // Checks that the achievements logged on the screen are the same as the achievements stored for a player
     public void testAchievementsUpdate() {
         //TODO: Call achievements for character (or might need to add achievements for mock character
         ArrayList<String[]> achievements = new ArrayList<>();
@@ -150,6 +157,17 @@ public class PlayerDashboardTest extends ApplicationTest {
         for (int i = 0; i<achievements.size(); i++) {
             assertEquals(achieved.get(i), text.get(i));
         }
+    }
+
+    @Test
+    // Makes sure the window closes when the returnToGame button is pressed.
+    // Checks the correct details are sent to Muck on return
+    public void testReturnToGame() {
+        logger.info("Testing the window closes on game return");
+        clickOn("#gameReturn");
+        assertFalse(stage.isShowing());
+
+        //TODO: Check the avatar portrait, displayName and spite update correctly on closing
     }
 
 
