@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.*;
 import muck.client.App;
+import muck.client.MuckClient;
 import org.mindrot.jbcrypt.*;
 import muck.client.AvatarController;
 
@@ -35,9 +36,13 @@ public class SignInController{
         String hashed = BCrypt.hashpw(password.getText(), BCrypt.gensalt());
         String uName = username.getText();
 
-        if(isNotEmpty(password.getText(), uName) && validateSignIn(uName, hashed)){
+        if(isNotEmpty(username.getText(), password.getText())){
+            boolean validated = validateSignIn(uName, hashed);
+            boolean success = success(validated, uName, hashed);
+            if(success){
                 // forward on to next scene
                 passToNextScene(event, uName);
+            }
         };
 
 
@@ -46,9 +51,9 @@ public class SignInController{
 
     // TODO: Sign in validation method - implement functionality
 
-    public boolean validateSignIn(String username, String password){
+    public boolean validateSignIn(String username, String password) {
         // Check that user exists in database
-        if(!userExists(username) || !passwordMatches(username, password)) {
+        if( !userExists(username) || !passwordMatches(username, password)) {
             // Handle NoUserExists
             error.setText("User Name or Password are Incorrect");
             return false;
@@ -84,6 +89,22 @@ public class SignInController{
         AvatarController nextScene = new AvatarController();
         App.hideStage();
         nextScene.avatarCreation(event, username);
+    }
+
+    public boolean success(boolean validated, String userName, String hashed){
+        if (validated) {
+            try {
+                MuckClient.getINSTANCE().login(userName, hashed);
+                error.setText("New muck user created" + userName);
+                return true;
+            } catch (Exception ex) {
+                error.setText("Unable to create new user: {}" + userName);
+
+                throw new RuntimeException(String.format("Unable to create new user: %s.", userName));
+
+            }
+        }
+        return false;
     }
 
     public boolean isNotEmpty(String password, String username){

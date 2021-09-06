@@ -88,10 +88,10 @@ public enum MuckClient {
 		String username = "TestUser_" + Calendar.getInstance().get(Calendar.SECOND) % 100;
 
 		// Create a new user account
-		signUp(username, "TestPassword", "Test User");
+//		signUp(username, "TestPassword", "Test User");
 
 		// Login an existing user
-		login(username, "TestPassword");
+//		login(username, "TestPassword");
 
 		// Add a Ping listener. Still being used for debugging.
 		client.addListener(ListenerBuilder.forClass(Ping.class)
