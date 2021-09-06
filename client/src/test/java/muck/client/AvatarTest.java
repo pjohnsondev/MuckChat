@@ -6,6 +6,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
@@ -233,6 +234,7 @@ public class AvatarTest extends ApplicationTest {
     @Order(8)
     // Tests the correct portrait image is returned with the get method
     public void testGetPortrait() {
+        logger.info("Checking getPortrait() method");
         String[] avatarIDs = {"peach", "batman", "pikachu", "skeleton", "wonderWoman", "yoshi"};
         // IMAGE INITIALISATION
         Image PEACH_PORTRAIT = new Image("/images/peach-portrait.png");
@@ -274,6 +276,7 @@ public class AvatarTest extends ApplicationTest {
     @Order(9)
     // Tests the correct full body image is returned with the get method
     public void testGetFull() {
+        logger.info("Checking getFullAvatar() method");
         String[] avatarIDs = {"peach", "batman", "pikachu", "skeleton", "wonderWoman", "yoshi"};
 
         for (String id : avatarIDs) {
@@ -308,6 +311,7 @@ public class AvatarTest extends ApplicationTest {
     @Order(10)
     // Tests the correct sprite image is returned with the get method
     public void testGetSprite() {
+        logger.info("Checking getSprite() method");
         String[] avatarIDs = {"peach", "batman", "pikachu", "skeleton", "wonderWoman", "yoshi"};
         // IMAGE INITIALISATION
         Image PEACH_SPRITE = new Image("/images/peachSprite.png");
@@ -345,25 +349,13 @@ public class AvatarTest extends ApplicationTest {
         }
     }
 
-    /*@Test
+    @Test
     @Order(11)
     public void testSubmitToDashboard() throws IOException {
-        AvatarController currentController = loader.getController();
         clickOn("#submit");
-        logger.info(currentController);
 
-        Scene avatarCont = new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Avatar.fxml"))));
-        Scene pane1 = lookup("#gridPane").queryAs(GridPane.class).getScene();
-        logger.info(pane1);
-        logger.info(avatarCont);
-        /*Scene pane1ID = lookup("#gridPane").queryAs(GridPane.class).getScene();
-        logger.info(pane1ID);
-        clickOn("#submit");
-        Scene pane2ID = lookup("#gridPane").queryAs(GridPane.class).getScene();
-        logger.info(pane2ID);
-        /*String pane2ID = lookup("#gridPane").queryAs(GridPane.class).getId();
-        assertNotEquals(pane1ID, pane2ID);
-    }*/
+
+    }
 
     //TODO: Test the map or dashboard opens
     //TODO: Test uname/avID/MuckPoints update with mock character. Full image shows. Correct avatars unlocked
