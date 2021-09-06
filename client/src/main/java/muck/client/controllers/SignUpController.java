@@ -7,8 +7,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.control.*;
 import muck.client.AvatarController;
 import muck.client.MuckClient;
-import muck.client.components.ActiveUser;
-import muck.core.models.models.UserModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mindrot.jbcrypt.*;
