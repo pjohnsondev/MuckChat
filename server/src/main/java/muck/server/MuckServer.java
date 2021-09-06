@@ -204,6 +204,9 @@ public enum MuckServer {
 
         try {
             player = playerManager.loginPlayer(userStructure);
+            // set user as active user
+            kryoServer.sendToTCP((muckConnection.getID()), userStructure);
+
         } catch (DuplicateLoginException ex) {
             userMessage testMessage = new userMessage(); // Create new message to send back.
             testMessage.setMessage("Duplicate login");
