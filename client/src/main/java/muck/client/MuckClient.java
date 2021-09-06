@@ -38,6 +38,7 @@ public enum MuckClient {
 
 	String currentMessage;
 	ArrayList<String> players = new ArrayList<String>();
+	ArrayList<String> messageBuffer = new ArrayList<String>();
 	List<Sprite> playerSprites = new ArrayList<Sprite>();
 
 	public static MuckClient getINSTANCE() throws SQLException {
@@ -188,6 +189,7 @@ public enum MuckClient {
 
     */
 	public synchronized String getCurrentMessage() {
+
 		return currentMessage;
 	}
 
