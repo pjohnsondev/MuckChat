@@ -124,6 +124,9 @@ public class MuckController implements Initializable {
     private Image chosenAvatar;
 
     String message;
+
+    int x = 0;
+
     private static String userName;
     private static String displayName;
     private static String avatarID;
@@ -155,8 +158,8 @@ public class MuckController implements Initializable {
         circle.setOnMouseClicked(this::openPlayerDashboardMenu);
         chatSection.setFocusTraversable(true);
         chatSection.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> chatSection.isFocused());
-        Timer messageChecker = new Timer();
-        messageChecker.scheduleAtFixedRate(new getMessagesTask(), 0, 200);
+        //Timer messageChecker = new Timer();
+        //messageChecker.scheduleAtFixedRate(new getMessagesTask(), 0, 200);
         quitMuck.setOnAction(this::quitMuck);
         playerDashboardMenu.setOnAction(this::openPlayerDashboardMenu); //Opens player Dashboard
         // Creates and sets the player list service to be called every second, to update the current player list
@@ -370,14 +373,14 @@ public class MuckController implements Initializable {
         }
     }
 
-    public class getMessagesTask extends TimerTask {
+    /*public class getMessagesTask extends TimerTask {
         public void run() {
             if (MuckClient.INSTANCE.getCurrentMessage() == null){
                 
             }else {
                 groupChatBox.appendText("UserName Here: "+ MuckClient.INSTANCE.getCurrentMessage()+ "\n");
             }
-
         }
     }
+    */
 }

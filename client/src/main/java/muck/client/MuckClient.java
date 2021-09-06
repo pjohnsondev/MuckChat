@@ -34,6 +34,7 @@ public enum MuckClient {
 	INSTANCE;
 
 	String currentMessage;
+	ArrayList<String> messageBuffer = new ArrayList<String>();
 	HashMap<Integer, String> players = new HashMap<Integer, String>();
 	List<Sprite> playerSprites = new ArrayList<Sprite>();
 
@@ -186,6 +187,7 @@ public enum MuckClient {
 
     */
 	public synchronized String getCurrentMessage() {
+
 		return currentMessage;
 	}
 
