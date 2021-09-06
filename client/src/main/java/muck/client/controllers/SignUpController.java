@@ -48,12 +48,10 @@ public class SignUpController {
         String userName = username.getText();
         String displayName = displayname.getText();
         String passwordTwo = passwordtwo.getText();
-        // Hash password for security
-        String hashed = BCrypt.hashpw(passWordText, BCrypt.gensalt());
 
         // Validate the sign up
         boolean validated = validateSignUp(event, displayName, userName, passWordText, passwordTwo);
-        boolean user = createUser(validated, userName, hashed, displayName);
+        boolean user = createUser(validated, userName, passWordText, displayName);
         if(user){
             passToAvatar(event, userName, displayName);
         }
@@ -167,11 +165,11 @@ public class SignUpController {
         }
     }
 
-    public boolean createUser(boolean validated, String userName, String hashed, String displayName){
+    public boolean createUser(boolean validated, String userName, String passwordText, String displayName){
 
         if (validated) {
             try {
-                MuckClient.getINSTANCE().signUp(userName, hashed, displayName);
+                MuckClient.getINSTANCE().signUp(userName, passwordText, displayName);
                 error.setText("New muck user created" + userName);
                 return true;
             } catch (Exception ex) {

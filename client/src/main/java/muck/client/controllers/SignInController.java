@@ -33,12 +33,14 @@ public class SignInController{
     // Todo add logic to
     @FXML
     protected void signIn(MouseEvent event) throws IOException {
-        String hashed = BCrypt.hashpw(password.getText(), BCrypt.gensalt());
+        String passwordText = password.getText();
+
         String uName = username.getText();
 
+
         if(isNotEmpty(username.getText(), password.getText())){
-            boolean validated = validateSignIn(uName, hashed);
-            boolean success = success(validated, uName, hashed);
+            boolean validated = validateSignIn(uName, passwordText);
+            boolean success = success(validated, uName, passwordText);
             if(success){
                 // forward on to next scene
                 passToNextScene(event, uName);
@@ -91,10 +93,10 @@ public class SignInController{
         nextScene.avatarCreation(event, username);
     }
 
-    public boolean success(boolean validated, String userName, String hashed){
+    public boolean success(boolean validated, String userName, String passwordText){
         if (validated) {
             try {
-                MuckClient.getINSTANCE().login(userName, hashed);
+                MuckClient.getINSTANCE().login(userName, passwordText);
                 error.setText("New muck user created" + userName);
                 return true;
             } catch (Exception ex) {
