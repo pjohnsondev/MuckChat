@@ -1,10 +1,9 @@
 package muck.core.character;
 
-import java.util.List;
-
 public class NPC extends Character {
     private int _difficulty;
-    public List<INPCBehaviour> AIBehaviours;
+    public INPCState stateBehaviour;
+    public NPCState npcState;
 
     /**
      * NPC constructor. This class is an extension of the Character class for NPC/monster characters.
@@ -21,6 +20,7 @@ public class NPC extends Character {
         }
 
         setIdentifier(NPCId);
+        setState(NPCState.None);
     }
 
     /**
@@ -37,9 +37,24 @@ public class NPC extends Character {
 
     // To be called once per pre-determined fixed timestep
     public void Update() {
-        for (var AIBehaviour : AIBehaviours) {
-            AIBehaviour.Update();
+        stateBehaviour.handle();
+    }
+    
+    /* Sets the state of the NPC object */
+    public void setState(NPCState npcState) {
+        if (npcState == NPCState.None) {
+            this.stateBehaviour = new NPCStateNone();
         }
+        else if (npcState == NPCState.RandomWalk) {
+            this.stateBehaviour = new NPCStateRandomWalk(this);
+        }
+    }
+    
+    /* 
+        Retrieve the current NPC state
+     */
+    public NPCState getState() {
+        return this.npcState;
     }
 
     /**
