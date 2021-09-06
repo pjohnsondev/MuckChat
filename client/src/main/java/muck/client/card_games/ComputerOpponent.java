@@ -46,6 +46,14 @@ public class ComputerOpponent extends Player {
         computerTurns[0] = card.getMatchId();
     }
 
+    public void addToArray(int[] array, Card card) {
+        for (int i = array.length - 1; i > 0; i--) {
+            array[i] = array[i - 1];
+        }
+        array[0] = card.getMatchId();
+
+    }
+
     // Choosing best move based on previous turns
     public int askForCard(){
         // The int i for loop compares the most recent player moves against
