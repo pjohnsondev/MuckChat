@@ -120,6 +120,7 @@ public class MuckController implements Initializable {
     private Text userNameDisplay;
 
     String message;
+
     int x = 0;
     private static String userName;
     private static String avatarID;
@@ -166,8 +167,8 @@ public class MuckController implements Initializable {
 
         chatSection.setFocusTraversable(true);
         chatSection.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> chatSection.isFocused());
-        Timer messageChecker = new Timer();
-        messageChecker.scheduleAtFixedRate(new getMessagesTask(), 0, 200);
+        //Timer messageChecker = new Timer();
+        //messageChecker.scheduleAtFixedRate(new getMessagesTask(), 0, 200);
         quitMuck.setOnAction(this::quitMuck);
 
 
@@ -340,14 +341,14 @@ public class MuckController implements Initializable {
         System.exit(0);
     }
 
-    public class getMessagesTask extends TimerTask {
+    /*public class getMessagesTask extends TimerTask {
         public void run() {
             if (MuckClient.INSTANCE.getCurrentMessage() == null){
 
             }else {
                 groupChatBox.appendText("UserName Here: "+ MuckClient.INSTANCE.getCurrentMessage()+ "\n");
             }
-
         }
     }
+    */
 }
