@@ -4,5 +4,5 @@ public enum NPCState {
     None,
     RandomWalk,
     Attack,
-    Ignoring
+    Follow
 }
