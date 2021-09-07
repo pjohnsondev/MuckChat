@@ -61,7 +61,6 @@ public class MuckWindowTest extends ApplicationTest {
     // Wrapper thread updates this if
     // the JavaFX application runs without a problem.
     // Declared volatile to ensure that writes are visible to every thread.
-    private volatile boolean success = false;
 
     /**
      * Test that a JavaFX application launches.
@@ -107,14 +106,14 @@ public class MuckWindowTest extends ApplicationTest {
         System.out.println(avatar);
         clickOn("#circle");
         clickOn("#change");
-        clickOn("#batman");
+        clickOn("#pikachu");
         clickOn("#submit");
         clickOn("#gameReturn");
         assertNotSame(avatar, lookup("#circle").queryAs(Circle.class).getFill());
         clickOn("#file");
         clickOn("#playerDashboardMenu");
         clickOn("#change");
-        clickOn("#pikachu");
+        clickOn("#peach");
         clickOn("#submit");
         clickOn("#gameReturn");
         assertNotSame(avatar, lookup("#circle").queryAs(Circle.class).getFill());
@@ -165,7 +164,7 @@ public class MuckWindowTest extends ApplicationTest {
     @Order(10)
     public void quitMuckTest() {
         clickOn("#file");
-        clickOn("#quitMuck");
+        //clickOn("#quitMuck");
         FxAssert.verifyThat("#cancel",isEnabled());
         FxAssert.verifyThat("#confirmQuit",isEnabled());
         clickOn("#cancel");
