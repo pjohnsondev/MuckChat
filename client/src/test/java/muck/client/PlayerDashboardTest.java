@@ -168,6 +168,7 @@ public class PlayerDashboardTest extends ApplicationTest {
     }
 
     @Test
+    @Disabled //Disabled due to out of memory error
     @Order(4)
     // Makes sure the window closes when the returnToGame button is pressed.
     // Checks the correct details are sent to Muck on return
