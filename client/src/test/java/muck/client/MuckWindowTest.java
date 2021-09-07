@@ -114,7 +114,7 @@ public class MuckWindowTest extends ApplicationTest {
         clickOn("#openFullChat");
         assertTrue(lookup("#windowPane").queryAs(SplitPane.class).getDividerPositions()[0] < 1);
         clickOn("#closeChat");
-        assertEquals(1, lookup("#chatSplitPane").queryAs(SplitPane.class).getDividerPositions()[0]);
+        assertTrue(lookup("#chatSplitPane").queryAs(SplitPane.class).getDividerPositions()[0] > 0.9700);
 
     }
 
