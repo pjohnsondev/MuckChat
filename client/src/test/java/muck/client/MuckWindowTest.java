@@ -7,8 +7,12 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import org.apache.logging.log4j.LogManager;
@@ -17,11 +21,9 @@ import org.junit.jupiter.api.*;
 import org.testfx.api.FxAssert;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
-import org.testfx.util.WaitForAsyncUtils;
 
 import java.io.IOException;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,16 +34,29 @@ import static org.testfx.matcher.base.NodeMatchers.isEnabled;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class MuckWindowTest extends ApplicationTest {
 
-
     Stage stage;
     private static final Logger logger = LogManager.getLogger(MuckWindowTest.class);
+    private Image peach_full;
+    private Image batman_full;
+    private Image pikachu_full;
+    private Image skeleton_full;
+    private Image wonder_woman_full;
+    private Image yoshi_full;
 
-
+    @Override
     public void init() throws Exception {
         FxToolkit.registerStage(Stage::new);
+
+        //IMAGE INITIALISATION
+        peach_full = new Image("/images/peach.png");
+        batman_full = new Image("/images/batman.png");
+        pikachu_full = new Image("/images/pikachu.png");
+        skeleton_full = new Image("/images/skeleton.png");
+        wonder_woman_full = new Image("/images/wonderWoman.png");
+        yoshi_full = new Image("/images/yoshi.png");
     }
 
-
+    @Override
     public void start(Stage stage) throws IOException {
         // TODO: Do this with a mock character???
         logger.info("Initializing window");
@@ -52,12 +67,12 @@ public class MuckWindowTest extends ApplicationTest {
         stage.show();
     }
 
+    @Override
     public void stop() throws Exception {
         FxToolkit.hideStage();
     }
 
     // *********** START MUCK CONTROLLER TESTING *************
-
 
     // Wrapper thread updates this if
     // the JavaFX application runs without a problem.
@@ -100,7 +115,6 @@ public class MuckWindowTest extends ApplicationTest {
         assertTrue(success);
     }
 
-
     //Mocks an App.java instance and a stage and starts it
     @Test
     @Order(2)
@@ -133,6 +147,87 @@ public class MuckWindowTest extends ApplicationTest {
         clickOn("#"+id);
         WaitForAsyncUtils.sleep(1, TimeUnit.SECONDS);
         assertTrue(lookup("#chatPane1").queryAs(TabPane.class).getTabs().size()>currentTabs);
+    }
+
+    @Test
+    @Order(5)
+    public void testDashboardOpensAvatarUpdates() {
+        Paint avatar =  lookup("#circle").queryAs(Circle.class).getFill();
+        System.out.println(avatar);
+
+        Image avatarImage;
+
+        logger.info("Opening player dashboard");
+
+        AvatarController.setMuck(50);
+        clickOn("#circle");
+        avatarImage = lookup("#avatarFullBody").queryAs(ImageView.class).getImage();
+        assertTrue(AvatarTest.checkImageEquality(peach_full, avatarImage));
+
+        clickOn("#change");
+        clickOn("#batman");
+        clickOn("#submit");
+        logger.info("Checking Batman image the same");
+        avatarImage = lookup("#avatarFullBody").queryAs(ImageView.class).getImage();
+        assertTrue(AvatarTest.checkImageEquality(batman_full, avatarImage));
+
+        clickOn("#gameReturn");
+        assertNotSame(avatar, lookup("#circle").queryAs(Circle.class).getFill());
+        clickOn("#file");
+        clickOn("#playerDashboardMenu");
+        clickOn("#change");
+        clickOn("#pikachu");
+        clickOn("#submit");
+        logger.info("Checking pikachu image the same");
+        avatarImage = lookup("#avatarFullBody").queryAs(ImageView.class).getImage();
+        assertTrue(AvatarTest.checkImageEquality(pikachu_full, avatarImage));
+        clickOn("#gameReturn");
+        assertNotSame(avatar, lookup("#circle").queryAs(Circle.class).getFill());
+
+        clickOn("#circle");
+        clickOn("#change");
+        clickOn("#skeleton");
+        clickOn("#submit");
+        logger.info("Checking skeleton image the same");
+        avatarImage = lookup("#avatarFullBody").queryAs(ImageView.class).getImage();
+        assertTrue(AvatarTest.checkImageEquality(skeleton_full, avatarImage));
+
+        clickOn("#change");
+        clickOn("#wonderWoman");
+        clickOn("#submit");
+        logger.info("Checking wonder woman image the same");
+        avatarImage = lookup("#avatarFullBody").queryAs(ImageView.class).getImage();
+        assertTrue(AvatarTest.checkImageEquality(wonder_woman_full, avatarImage));
+
+        clickOn("#change");
+        clickOn("#yoshi");
+        clickOn("#submit");
+        logger.info("Checking yoshi image the same");
+        avatarImage = lookup("#avatarFullBody").queryAs(ImageView.class).getImage();
+        assertTrue(AvatarTest.checkImageEquality(yoshi_full, avatarImage));
+    }
+
+    //The original test before merging with PlayerDashboard test
+    //Checks if the dashboard can be opened by clicking on the circle and the menu item and checks if the avatar is changed
+    @Test
+    @Disabled //This test has been merged with testAvatarImageUpdates in PlayerDashboardTest. Merged test is above
+    @Order(5)
+    public void dashboardOpensAvatarChangesTest() {
+        Paint avatar =  lookup("#circle").queryAs(Circle.class).getFill();
+        System.out.println(avatar);
+        clickOn("#circle");
+        clickOn("#change");
+        clickOn("#batman");
+        clickOn("#submit");
+        clickOn("#gameReturn");
+        assertNotSame(avatar, lookup("#circle").queryAs(Circle.class).getFill());
+        clickOn("#file");
+        clickOn("#playerDashboardMenu");
+        clickOn("#change");
+        clickOn("#pikachu");
+        clickOn("#submit");
+        clickOn("#gameReturn");
+        assertNotSame(avatar, lookup("#circle").queryAs(Circle.class).getFill());
     }
 
     //Checks that a message submitted will appear in the text area

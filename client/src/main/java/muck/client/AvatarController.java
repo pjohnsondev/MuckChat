@@ -3,6 +3,7 @@ package muck.client;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 
@@ -118,8 +119,15 @@ public class AvatarController implements Initializable  {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            avatarFullBody.setPreserveRatio(true);
             gridPane.setBackground(new Background(BACKGROUND));
+        } catch (Exception e) {
+            gridPane.setStyle("-fx-background-color: steelgray");
+            System.out.println("Error with background image");
+            e.printStackTrace();
+        }
+
+        try {
+            avatarFullBody.setPreserveRatio(true);
 
             peach.setFill(new ImagePattern(PEACH_PORTRAIT));
             batman.setFill(new ImagePattern(BATMAN_PORTRAIT));
@@ -145,17 +153,11 @@ public class AvatarController implements Initializable  {
 
         submit.addEventHandler(MouseEvent.MOUSE_CLICKED, this::submit);
 
-        peach.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            selection("peach");
-        });
+        peach.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selection("peach"));
 
-        batman.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            selection("batman");
-        });
+        batman.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selection("batman"));
 
-        pikachu.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            selection("pikachu");
-        });
+        pikachu.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selection("pikachu"));
     }
 
     /**
@@ -171,10 +173,10 @@ public class AvatarController implements Initializable  {
         displayName = display;
         avatar = "error";
         try {
-            Parent root = FXMLLoader.load(AvatarController.class.getResource("/fxml/Avatar.fxml"));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(AvatarController.class.getResource("/fxml/Avatar.fxml")));
             Scene scene = new Scene(root);
             scene.setRoot(root);
-            scene.getStylesheets().add(AvatarController.class.getResource("/css/style.css").toExternalForm());
+            scene.getStylesheets().add(Objects.requireNonNull(AvatarController.class.getResource("/css/style.css")).toExternalForm());
             //This line gets the Stage Information
             Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -208,10 +210,10 @@ public class AvatarController implements Initializable  {
         displayName = "DisplayName";
         avatar = "error";
         try {
-            Parent root = FXMLLoader.load(AvatarController.class.getResource("/fxml/Avatar.fxml"));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(AvatarController.class.getResource("/fxml/Avatar.fxml")));
             Scene scene = new Scene(root);
             scene.setRoot(root);
-            scene.getStylesheets().add(AvatarController.class.getResource("/css/style.css").toExternalForm());
+            scene.getStylesheets().add(Objects.requireNonNull(AvatarController.class.getResource("/css/style.css")).toExternalForm());
             //This line gets the Stage Information
             Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -235,17 +237,11 @@ public class AvatarController implements Initializable  {
         if (muckPoints >= open_muck) {
             portrait.setFill(new ImagePattern(avatarPortrait));
             portrait.setCursor(Cursor.HAND);
-            portrait.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                selection(avatarID);
-            });
+            portrait.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selection(avatarID));
         } else {
             portrait.setFill(new ImagePattern(UNAVAILABLE));
-            portrait.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
-                hoverEvent(avatarAlert, ("Earn " + open_muck + " MuckPoints to unlock!"));
-            });
-            portrait.addEventHandler(MouseEvent.MOUSE_EXITED, event -> {
-                hoverEvent(avatarAlert, "");
-            });
+            portrait.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> hoverEvent(avatarAlert, ("Earn " + open_muck + " MuckPoints to unlock!")));
+            portrait.addEventHandler(MouseEvent.MOUSE_EXITED, event -> hoverEvent(avatarAlert, ""));
         }
     }
 
@@ -364,7 +360,7 @@ public class AvatarController implements Initializable  {
     private void submitToDashboard(MouseEvent event) throws IOException{
         // TODO: Send username and avatar back to server for storage
         PlayerDashboardController.playerDashboard(uname, displayName, avatar);
-        Parent parent = FXMLLoader.load(getClass().getResource("/fxml/PlayerDashboard.fxml"));
+        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/PlayerDashboard.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(parent);
         scene.getStylesheets().add("/css/style.css");
@@ -456,7 +452,7 @@ public class AvatarController implements Initializable  {
 
     /**
      * Get method for AvatarID
-     * @return: The avatarID
+     * @return The avatarID
      */
     public static String getAvatarId() { return avatar;}
 
@@ -505,12 +501,7 @@ public class AvatarController implements Initializable  {
             double ratioX = avatarFullBody.getFitWidth() / img.getWidth();
             double ratioY = avatarFullBody.getFitHeight() / img.getHeight();
 
-            double reducCoeff;
-            if(ratioX >= ratioY) {
-                reducCoeff = ratioY;
-            } else {
-                reducCoeff = ratioX;
-            }
+            double reducCoeff = Math.min(ratioX, ratioY);
 
             w = img.getWidth() * reducCoeff;
             h = img.getHeight() * reducCoeff;
