@@ -117,4 +117,26 @@ public class NPCTest {
                 status,
                 "NPC is now dead");
     }
+    
+    @Test
+    // Test the NPCMediator is working correctly, including its global tracking instance
+    public void testNPCMediator() throws CharacterDoesNotExistException {
+        ConcreteNPCMediator concreteNPCMediator = GlobalTracker.concreteNPCMediator;
+        
+        // We will not mock these objects, as we must ensure they actually work interdependently (technically integration)
+        NPC npc1 = new NPC("dummy1");
+        NPC npc2 = new NPC("dummy2");
+
+        // Subscribe NPCs to mediator
+        concreteNPCMediator.addNPCToMediator(npc1);
+        concreteNPCMediator.addNPCToMediator(npc2);
+
+        // Send message from npc1 to npc2
+        concreteNPCMediator.messageToOtherNPC(npc1, npc2.getIdentifier(), Action.Follow);
+        
+        // Ensure the message successfully set the state of the npc2 object, and the source is recognized as
+        // being from the npc1 object
+        assertEquals(npc2.otherNPCAction, Action.Follow);
+        assertEquals(npc2.otherNPCIdentifier, npc1.getIdentifier());
+    }
 }

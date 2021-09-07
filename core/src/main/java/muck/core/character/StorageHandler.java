@@ -17,9 +17,11 @@ public class StorageHandler {
         boolean saveSuccessful = false;
         if (character.getClass() == Player.class) {
             //TODO save Player object
+            
         }
         else if (character.getClass() == NPC.class) {
             //TODO save NPC object
+            return false;
         }
         return saveSuccessful;
     }
