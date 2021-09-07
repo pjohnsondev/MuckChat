@@ -86,7 +86,7 @@ public abstract class Character {
     }
 
     /**
-     * Sets the character's health.
+     * Sets the character's health and controls if character is dead.
      * @param health Set the character's health to this value. Negative values are converted to 0
      */
     public void setHealth(int health) {
@@ -94,7 +94,12 @@ public abstract class Character {
             //0 represents death, health cannot be set below 0
             health = 0;
         }
-        
+
+        if(health > 100) {
+            // Maximum health
+            health = 100;
+        }
+
         _health = health;
     }
 
