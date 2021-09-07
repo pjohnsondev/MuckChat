@@ -1,7 +1,5 @@
 package muck.core.character;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 /**
  * An easy factory to create Players, and NPCs with default values, avatars, and other things
  */
@@ -52,8 +50,8 @@ public class CharacterFactory {
         NPC villager = createNewNPC(villagerId);
         
         // Villager should have random walk behaviour
-        NPCRandomWalk npcRandomWalk = new NPCRandomWalk(villager);
-        villager.AIBehaviours.add(npcRandomWalk);
+        NPCStateRandomWalk npcStateRandomWalk = new NPCStateRandomWalk(villager);
+        villager.setState(NPCState.RandomWalk);
         
         // Villagers should have a pre-determined stats
         villager.setNPCStats(30,0,0, 1);
