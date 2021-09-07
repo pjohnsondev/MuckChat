@@ -36,6 +36,14 @@ public class MuckWindowTest extends ApplicationTest {
     Stage stage;
     private static final Logger logger = LogManager.getLogger(MuckWindowTest.class);
 
+    static {
+        if (Boolean.getBoolean("headless")) {
+            System.setProperty("testfx.robot", "glass");
+            System.setProperty("testfx.headless", "true");
+            System.setProperty("prism.order", "sw");
+            System.setProperty("prism.text", "t2k");
+        }
+    }
 
     @Override
     public void init() throws Exception {
@@ -169,8 +177,9 @@ public class MuckWindowTest extends ApplicationTest {
     @Order(10)
     public void quitMuckTest() {
         clickOn("#file");
-        WaitForAsyncUtils.sleep(2, TimeUnit.SECONDS);
+        WaitForAsyncUtils.sleep(1, TimeUnit.SECONDS);
         clickOn("#quitMuck");
+        WaitForAsyncUtils.sleep(1, TimeUnit.SECONDS);
         FxAssert.verifyThat("#cancel",isEnabled());
         FxAssert.verifyThat("#confirmQuit",isEnabled());
         clickOn("#cancel");

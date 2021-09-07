@@ -24,12 +24,21 @@ dependencies {
     // JavaFX testing
     testImplementation "org.testfx:testfx-core:4.0.16-alpha"
     testImplementation "org.testfx:testfx-junit5:4.0.16-alpha"
+    testImplementation group: 'org.testfx', name: 'openjfx-monocle', version: '1.8.0_20'
+    testImplementation group: 'org.testfx', name: 'testfx-core', version: '4.0.1-alpha'
+
+
+
 
     // For Avatar images
     //implementation "com.gluonhq:charm-glisten:6.0.2"
 
     // For Social Media Posting - RestFB is a tool for using FaceBook Graph API with Java https://restfb.com/
     implementation 'com.google.code.gson:gson:2.7'
+}
+
+test {
+    jvmArgs "-Dheadless=${project.hasProperty('headless') ? project.headless : false}"
 }
 
 // For the Avatar images
