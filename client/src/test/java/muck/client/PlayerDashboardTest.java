@@ -97,9 +97,8 @@ public class PlayerDashboardTest extends ApplicationTest {
         assertEquals(health, "80");
     }
 
-    //TODO: Make sure the avatar screen appears when you click on change
-
     @Test
+    @Disabled //This test has been merged with dashboardOpensAvatarChangesTest() to prevent out of memory error
     @Order(2)
     // Checks the full body avatar image displays correctly
     public void testAvatarImageUpdates() {
@@ -144,8 +143,9 @@ public class PlayerDashboardTest extends ApplicationTest {
     @Order(3)
     // Checks that the achievements logged on the screen are the same as the achievements stored for a player
     public void testAchievementsUpdate() {
-        //TODO: Why do achievements not initially show?
         logger.info("Checking achievements update");
+        clickOn("#change");
+        clickOn("#submit");
         //TODO: Call achievements for character (or might need to add achievements for mock character
         //ArrayList<String[]> achievements = new ArrayList<>();
 
@@ -176,8 +176,6 @@ public class PlayerDashboardTest extends ApplicationTest {
         clickOn("#gameReturn");
         assertFalse(stage.isShowing());
  }
-
-
 
     @AfterAll
     public static void testWindowClose() throws TimeoutException {
