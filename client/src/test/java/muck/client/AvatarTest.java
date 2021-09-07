@@ -207,7 +207,6 @@ public class AvatarTest extends ApplicationTest {
         assertNotEquals("yoshi", avatar);
         avatarImage = lookup("#avatarFullBody").queryAs(ImageView.class).getImage();
         assertThrows(IndexOutOfBoundsException.class, () -> checkImageEquality(yoshi_full, avatarImage));
-        //assertFalse(checkImageEquality(yoshi_full, avatarImage)); TODO: IndexOutOfBoundsException
     }
 
     @Test
