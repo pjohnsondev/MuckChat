@@ -61,14 +61,14 @@ public class PlayerDashboardController implements Initializable {
     @FXML
     private ImageView gameReturn;
 
-    private final BackgroundImage background = new BackgroundImage(new Image("/images/BackgroundAvSelection.jpg"), null, null, null, null);
+    private final BackgroundImage BACKGROUND = new BackgroundImage(new Image("/images/BackgroundAvSelection.jpg"), null, null, null, null);
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
             avatarFullBody.setPreserveRatio(true);
-            gridPane.setBackground(new Background(background));
+            gridPane.setBackground(new Background(BACKGROUND));
             avatarFullBody.setImage(fullAvatar);
             selection(avatarID);
             centreImage();
@@ -134,7 +134,6 @@ public class PlayerDashboardController implements Initializable {
     }
 
     private void updateAchievements() {
-        //achievementWindow.setText(""+'\u0000'); // Not clearing window
         for (String[] achieve : achievements ) {
             String achievement = achieve[0] + ": " + achieve[1] +"\n\n";
             achievementWindow.appendText(achievement);

@@ -12,21 +12,20 @@ import javafx.scene.image.Image;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class MuckGUITest extends ApplicationTest {
+public class AvatarTest extends ApplicationTest {
 
 
 
-    private static final Logger logger = LogManager.getLogger(MuckGUITest.class);
+    private static final Logger logger = LogManager.getLogger(AvatarTest.class);
 
     String avatar;
-    Stage stage;
+
 
     // ********* START AVATAR CONTROLLER TESTING ***************
 
@@ -40,7 +39,7 @@ public class MuckGUITest extends ApplicationTest {
         // TODO: Do this with a mock character???
         logger.info("Initializing window");
         AvatarController.avatarCreation("Username", "DisplayName", "error");
-        FXMLLoader loader = new FXMLLoader(MuckGUITest.class.getResource("/fxml/Avatar.fxml"));
+        FXMLLoader loader = new FXMLLoader(AvatarTest.class.getResource("/fxml/Avatar.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -78,7 +77,7 @@ public class MuckGUITest extends ApplicationTest {
         avatar = AvatarController.getAvatarId();
         assertNotEquals("yoshi", avatar);
 
-        AvatarController.setMuck(19); // Increases Muck Points for next test
+        AvatarController.setMuck(19); // Increases Muck Points for next test*/
 
     }
 
@@ -278,106 +277,6 @@ public class MuckGUITest extends ApplicationTest {
     //TODO: Test username Text field updates
 
     // *********** END AVATAR CONTROLLER TESTING *************
-
-
-   /* @Test
-    @Order(9)
-    public void testMuckWindow() {
-     clickon(submitbutton);
-
-    } */
-
-    // *********** START MUCK CONTROLLER TESTING *************
-
-    // Wrapper thread updates this if
-    // the JavaFX application runs without a problem.
-    // Declared volatile to ensure that writes are visible to every thread.
-    private volatile boolean success = false;
-
-    /**
-     * Test that a JavaFX application launches.
-     * Copied from https://stackoverflow.com/questions/24851886/how-to-unit-test-that-a-javafx-application-launches
-     */
-
-    @Test
-    @Order(9)
-    public void testMuckWindows() {
-        // Wrapper thread.
-        Thread thread = new Thread(() -> {
-            try {
-                ApplicationTest.launch(App.class); // Run JavaFX application.
-                success = true;
-            } catch(Throwable t) {
-                if(t.getCause() != null && t.getCause().getClass().equals(InterruptedException.class)) {
-                    // We expect to get this exception since we interrupted
-                    // the JavaFX application.
-                    success = true;
-                }
-            }
-        });
-        thread.setDaemon(true);
-        thread.start();
-        try {
-            Thread.sleep(3000);  // Wait for 3 seconds before interrupting JavaFX application
-        } catch(InterruptedException ex) {
-        }
-        thread.interrupt();
-        try {
-            thread.join(1); // Wait 1 second for our wrapper thread to finish.
-        } catch(InterruptedException ex) {
-        }
-        assertTrue(success);
-    }
-
-    @Test
-    @Order(10)
-    public void stageLaunchesTest() throws Exception {
-        App app = mock(App.class);
-        stage = mock(Stage.class);
-        app.start(stage);
-    }
-
-    @Test
-    @Order(11)
-    public void testChatController() {
-        MuckController chatController = mock(MuckController.class);
-        chatController.initialize(null, null);
-    }
-
-    /*
-    @Test
-    @Order(12)
-    public void testMuckWindow() {
-        clickOn("#submit");
-    }
-
-    // *********** END MUCK CONTROLLER TESTING ****************
-
-    // *********** START PLAYER DASHBOARD TESTING ****************
-
-    /*private void changeToDashboard() throws IOException {
-        PlayerDashboardController.playerDashboard("Test", "DisplayName", "peach");
-        App.changeScene("/fxml/PlayerDashboard.fxml");}
-
-    @Test
-    @Order(13)
-    public void testDashboardOpens() throws IOException{
-        PlayerDashboardController.playerDashboard("Test", "DisplayName", "peach");
-
-        Parent parent = FXMLLoader.load(getClass().getResource("/fxml/PlayerDashboard.fxml"));
-        Scene scene = new Scene(parent);
-        scene.getStylesheets().add("/css/style.css");
-        stage.setScene(scene);
-        stage.show();
-
-    }*/
-
-
-
-
-    //TODO:
-
-    // *********** END PLAYER DASHBOARD TESTING ****************
 
     @AfterAll
     public static void testWindowClose() throws TimeoutException {
