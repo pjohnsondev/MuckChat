@@ -63,7 +63,7 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.MuckController">
     <MenuBar id="menu" VBox.vgrow="NEVER">
-        <Menu fx:id="file" mnemonicParsing="false" text="File">
+        <Menu id="file" fx:id="file" mnemonicParsing="false" text="File">
             <MenuItem id="plus" fx:id="plus" mnemonicParsing="false" text="New Chat Tab" />
             <Menu mnemonicParsing="false" text="Open">
                 <MenuItem id="chatMenuOpen" fx:id="chatMenuOpen" mnemonicParsing="false" text="Chat" />

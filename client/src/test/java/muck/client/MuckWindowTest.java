@@ -68,35 +68,7 @@ public class MuckWindowTest extends ApplicationTest {
      * Copied from https://stackoverflow.com/questions/24851886/how-to-unit-test-that-a-javafx-application-launches
      */
 
-    @Test
-    @Order(1)
-    public void testMuckWindows() {
-        // Wrapper thread.
-        Thread thread = new Thread(() -> {
-            try {
-                ApplicationTest.launch(App.class); // Run JavaFX application.
-                success = true;
-            } catch(Throwable t) {
-                if(t.getCause() != null && t.getCause().getClass().equals(InterruptedException.class)) {
-                    // We expect to get this exception since we interrupted
-                    // the JavaFX application.
-                    success = true;
-                }
-            }
-        });
-        thread.setDaemon(true);
-        thread.start();
-        try {
-            Thread.sleep(3000);  // Wait for 3 seconds before interrupting JavaFX application
-        } catch(InterruptedException ex) {
-        }
-        thread.interrupt();
-        try {
-            thread.join(1); // Wait 1 second for our wrapper thread to finish.
-        } catch(InterruptedException ex) {
-        }
-        assertTrue(success);
-    }
+
 
     //Mocks an App.java instance and a stage and starts it
     @Test
@@ -112,10 +84,9 @@ public class MuckWindowTest extends ApplicationTest {
     @Order(3)
     public void chatOpensClosesTest() {
         clickOn("#openFullChat");
-        assertTrue(lookup("#windowPane").queryAs(SplitPane.class).getDividerPositions()[0] < 1);
+        assertTrue(lookup("#windowPane").queryAs(SplitPane.class).getDividerPositions()[0] < 1.000);
         clickOn("#closeChat");
         assertTrue(lookup("#chatSplitPane").queryAs(SplitPane.class).getDividerPositions()[0] > 0.9700);
-
     }
 
     //Checks if the a new tab is added when method is called
