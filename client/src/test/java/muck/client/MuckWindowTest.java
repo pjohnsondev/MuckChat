@@ -7,9 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import org.apache.logging.log4j.LogManager;
@@ -18,9 +17,11 @@ import org.junit.jupiter.api.*;
 import org.testfx.api.FxAssert;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.util.WaitForAsyncUtils;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,16 +32,16 @@ import static org.testfx.matcher.base.NodeMatchers.isEnabled;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class MuckWindowTest extends ApplicationTest {
 
+
     Stage stage;
     private static final Logger logger = LogManager.getLogger(MuckWindowTest.class);
 
 
-    @Override
     public void init() throws Exception {
         FxToolkit.registerStage(Stage::new);
     }
 
-    @Override
+
     public void start(Stage stage) throws IOException {
         // TODO: Do this with a mock character???
         logger.info("Initializing window");
@@ -51,12 +52,12 @@ public class MuckWindowTest extends ApplicationTest {
         stage.show();
     }
 
-    @Override
     public void stop() throws Exception {
         FxToolkit.hideStage();
     }
 
     // *********** START MUCK CONTROLLER TESTING *************
+
 
     // Wrapper thread updates this if
     // the JavaFX application runs without a problem.
@@ -71,6 +72,7 @@ public class MuckWindowTest extends ApplicationTest {
     @Test
     @Order(1)
     public void testMuckWindows() {
+        logger.info("Testing that Muck launches");
         // Wrapper thread.
         Thread thread = new Thread(() -> {
             try {
@@ -98,10 +100,12 @@ public class MuckWindowTest extends ApplicationTest {
         assertTrue(success);
     }
 
+
     //Mocks an App.java instance and a stage and starts it
     @Test
     @Order(2)
     public void stageLaunchesTest() throws Exception {
+        logger.info("Testing that stage can be started");
         App app = mock(App.class);
         stage = mock(Stage.class);
         app.start(stage);
@@ -111,42 +115,24 @@ public class MuckWindowTest extends ApplicationTest {
     @Test
     @Order(3)
     public void chatOpensClosesTest() {
+        logger.info("Testing that chat pane can be opened and closed");
         clickOn("#openFullChat");
-        assertTrue(lookup("#windowPane").queryAs(SplitPane.class).getDividerPositions()[0] < 1);
+        assertTrue(lookup("#windowPane").queryAs(SplitPane.class).getDividerPositions()[0] < 1.000);
         clickOn("#closeChat");
         assertTrue(lookup("#chatSplitPane").queryAs(SplitPane.class).getDividerPositions()[0] > 0.9700);
-
     }
 
     //Checks if the a new tab is added when method is called
     @Test
     @Order(4)
     public void newTabTest() {
+        logger.info("Testing that new chat tab can be added");
         int currentTabs = lookup("#chatPane1").queryAs(TabPane.class).getTabs().size();
         clickOn("#file");
-        clickOn("#plus");
+        String id = lookup("#plusImg").queryAs(ImageView.class).getId();
+        clickOn("#"+id);
+        WaitForAsyncUtils.sleep(1, TimeUnit.SECONDS);
         assertTrue(lookup("#chatPane1").queryAs(TabPane.class).getTabs().size()>currentTabs);
-    }
-
-    //Checks if the dashboard can be opened by clicking on the circle and the menu item and checks if the avatar is changed
-    @Test
-    @Order(5)
-    public void dashboardOpensAvatarChangesTest() {
-        Paint avatar =  lookup("#circle").queryAs(Circle.class).getFill();
-        System.out.println(avatar);
-        clickOn("#circle");
-        clickOn("#change");
-        clickOn("#batman");
-        clickOn("#submit");
-        clickOn("#gameReturn");
-        assertNotSame(avatar, lookup("#circle").queryAs(Circle.class).getFill());
-        clickOn("#file");
-        clickOn("#playerDashboardMenu");
-        clickOn("#change");
-        clickOn("#pikachu");
-        clickOn("#submit");
-        clickOn("#gameReturn");
-        assertNotSame(avatar, lookup("#circle").queryAs(Circle.class).getFill());
     }
 
     //Checks that a message submitted will appear in the text area
@@ -154,6 +140,7 @@ public class MuckWindowTest extends ApplicationTest {
     @Test
     @Order(6)
     public void messageDisplaysTest() {
+        logger.info("Testing messages typed and submitted and displayed");
         clickOn("#openFullChat");
         clickOn("#chatPane1");
         lookup("#messageBox").queryAs(TextField.class).setText("testing");
@@ -166,6 +153,7 @@ public class MuckWindowTest extends ApplicationTest {
     @Test
     @Order(7)
     public void openFroggerTest()  {
+        logger.info("Testing that the game Frogger launches");
         String oldID = lookup("#gameCanvas").queryAs(Canvas.class).getId();
         clickOn("#game3Button");
         assertNotEquals(oldID, lookup("#gamePane1").queryAs(BorderPane.class).getChildren().get(0).getId());
@@ -175,6 +163,7 @@ public class MuckWindowTest extends ApplicationTest {
     @Test
     @Order(8)
     public void openSpaceInvadersTest()  {
+        logger.info("Testing that the game Space Invaders launches");
         String oldID = lookup("#gameCanvas").queryAs(Canvas.class).getId();
         clickOn("#game1Button");
         assertNotEquals(oldID, lookup("#gamePane1").queryAs(BorderPane.class).getChildren().get(0).getId());
@@ -184,6 +173,7 @@ public class MuckWindowTest extends ApplicationTest {
     @Test
     @Order(9)
     public void openEnduringFantasyTest()  {
+        logger.info("Testing that the game Enduring Fastasy launches");
         String oldID = lookup("#gameCanvas").queryAs(Canvas.class).getId();
         clickOn("#game2Button");
         assertNotEquals(oldID, lookup("#gamePane1").queryAs(BorderPane.class).getChildren().get(0).getId());
@@ -193,8 +183,10 @@ public class MuckWindowTest extends ApplicationTest {
     @Test
     @Order(10)
     public void quitMuckTest() {
+        logger.info("Testing that user can access the quit alert");
         clickOn("#file");
-        clickOn("#quitMuck");
+        String id = lookup("#exitImg").queryAs(ImageView.class).getId();
+        clickOn("#"+id);
         FxAssert.verifyThat("#cancel",isEnabled());
         FxAssert.verifyThat("#confirmQuit",isEnabled());
         clickOn("#cancel");
