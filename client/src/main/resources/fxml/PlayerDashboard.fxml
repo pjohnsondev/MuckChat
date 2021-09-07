@@ -43,6 +43,9 @@
         <font>
           <Font name="Arial Rounded MT Bold" size="20.0" />
         </font>
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
     </Button>
     <ImageView fitHeight="49.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
         <GridPane.margin>
