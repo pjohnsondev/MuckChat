@@ -24,9 +24,6 @@ dependencies {
     // JavaFX testing
     testImplementation "org.testfx:testfx-core:4.0.16-alpha"
     testImplementation "org.testfx:testfx-junit5:4.0.16-alpha"
-    testImplementation group: 'org.testfx', name: 'openjfx-monocle', version: '1.8.0_20'
-    testImplementation group: 'org.testfx', name: 'testfx-core', version: '4.0.1-alpha'
-
 
 
 
