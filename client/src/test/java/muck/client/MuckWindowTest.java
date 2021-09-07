@@ -2,8 +2,6 @@ package muck.client;
 
 
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Point2D;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -21,8 +19,6 @@ import org.testfx.api.FxAssert;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
-import org.testfx.service.adapter.impl.GlassRobotAdapter;
-import org.testfx.service.query.PointQuery;
 import org.testfx.util.WaitForAsyncUtils;
 
 import java.io.IOException;
@@ -109,6 +105,7 @@ public class MuckWindowTest extends ApplicationTest {
     //Checks if the a new tab is added when method is called
     @Test
     @Order(4)
+    @Disabled
     public void newTabTest() {
         FxRobot robot = new FxRobot();
         int currentTabs = lookup("#chatPane1").queryAs(TabPane.class).getTabs().size();
@@ -121,6 +118,7 @@ public class MuckWindowTest extends ApplicationTest {
     //Checks if the dashboard can be opened by clicking on the circle and the menu item and checks if the avatar is changed
     @Test
     @Order(5)
+    @Disabled
     public void dashboardOpensAvatarChangesTest() {
         Paint avatar =  lookup("#circle").queryAs(Circle.class).getFill();
         System.out.println(avatar);
@@ -183,6 +181,7 @@ public class MuckWindowTest extends ApplicationTest {
 
     //Checks that alert pops up when quitting and that cancel button is enabled
     @Test
+    @Disabled
     @Order(10)
     public void quitMuckTest() {
         clickOn("#file");
