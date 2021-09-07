@@ -2,6 +2,8 @@ package muck.client;
 
 
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -16,8 +18,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
 import org.testfx.api.FxAssert;
+import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.service.adapter.impl.GlassRobotAdapter;
+import org.testfx.service.query.PointQuery;
 import org.testfx.util.WaitForAsyncUtils;
 
 import java.io.IOException;
@@ -27,30 +32,34 @@ import java.util.concurrent.TimeoutException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.testfx.api.FxToolkit.registerPrimaryStage;
 import static org.testfx.matcher.base.NodeMatchers.isEnabled;
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class MuckWindowTest extends ApplicationTest {
 
-    Stage stage;
-    private static final Logger logger = LogManager.getLogger(MuckWindowTest.class);
-
-    static {
+    @BeforeAll
+    public static void setupSpec() throws Exception {
         if (Boolean.getBoolean("headless")) {
             System.setProperty("testfx.robot", "glass");
             System.setProperty("testfx.headless", "true");
             System.setProperty("prism.order", "sw");
             System.setProperty("prism.text", "t2k");
+            System.setProperty("java.awt.headless", "true");
         }
+        registerPrimaryStage();
     }
 
-    @Override
+    Stage stage;
+    private static final Logger logger = LogManager.getLogger(MuckWindowTest.class);
+
+
     public void init() throws Exception {
         FxToolkit.registerStage(Stage::new);
     }
 
-    @Override
+
     public void start(Stage stage) throws IOException {
         // TODO: Do this with a mock character???
         logger.info("Initializing window");
@@ -61,7 +70,6 @@ public class MuckWindowTest extends ApplicationTest {
         stage.show();
     }
 
-    @Override
     public void stop() throws Exception {
         FxToolkit.hideStage();
     }
@@ -102,10 +110,11 @@ public class MuckWindowTest extends ApplicationTest {
     @Test
     @Order(4)
     public void newTabTest() {
+        FxRobot robot = new FxRobot();
         int currentTabs = lookup("#chatPane1").queryAs(TabPane.class).getTabs().size();
-        clickOn("#file");
-        WaitForAsyncUtils.sleep(2, TimeUnit.SECONDS);
-        clickOn("#plus");
+        robot.clickOn("#file");
+        WaitForAsyncUtils.sleep(1, TimeUnit.SECONDS);
+        robot.clickOn("#plus");
         assertTrue(lookup("#chatPane1").queryAs(TabPane.class).getTabs().size()>currentTabs);
     }
 
