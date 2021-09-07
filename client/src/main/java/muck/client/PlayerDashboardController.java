@@ -88,6 +88,7 @@ public class PlayerDashboardController implements Initializable {
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Avatar.fxml")));
                     stage.setScene(new Scene(parent));
+                    stage.setResizable(false);
                     stage.show();
                 } catch (IOException e) {
                     e.printStackTrace();

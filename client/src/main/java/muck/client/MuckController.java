@@ -205,6 +205,7 @@ public class MuckController implements Initializable {
             Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             stage.setScene(scene);
             stage.setOnCloseRequest(e -> stage.close());
+            App.hideStage();
             stage.show();
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
@@ -228,6 +229,7 @@ public class MuckController implements Initializable {
             stage.setScene(scene);
             stage.setAlwaysOnTop(true);
             stage.initStyle(StageStyle.UTILITY);
+            stage.setResizable(false);
             stage.setOnHiding(avatarEvent -> {
                 try {
                     chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
