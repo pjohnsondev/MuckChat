@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -16,9 +17,11 @@ import org.junit.jupiter.api.*;
 import org.testfx.api.FxAssert;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.util.WaitForAsyncUtils;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -126,7 +129,9 @@ public class MuckWindowTest extends ApplicationTest {
         logger.info("Testing that new chat tab can be added");
         int currentTabs = lookup("#chatPane1").queryAs(TabPane.class).getTabs().size();
         clickOn("#file");
-        clickOn("#plusImg");
+        String id = lookup("#plusImg").queryAs(ImageView.class).getId();
+        clickOn("#"+id);
+        WaitForAsyncUtils.sleep(1, TimeUnit.SECONDS);
         assertTrue(lookup("#chatPane1").queryAs(TabPane.class).getTabs().size()>currentTabs);
     }
 
@@ -180,7 +185,8 @@ public class MuckWindowTest extends ApplicationTest {
     public void quitMuckTest() {
         logger.info("Testing that user can access the quit alert");
         clickOn("#file");
-        clickOn("#exitImg");
+        String id = lookup("#exitImg").queryAs(ImageView.class).getId();
+        clickOn("#"+id);
         FxAssert.verifyThat("#cancel",isEnabled());
         FxAssert.verifyThat("#confirmQuit",isEnabled());
         clickOn("#cancel");

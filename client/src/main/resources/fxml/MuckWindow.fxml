@@ -66,20 +66,20 @@
         <Menu id="file" mnemonicParsing="false" text="File">
             <MenuItem id="plus" fx:id="plus" mnemonicParsing="false" text="New Chat Tab">
             <graphic>
-               <ImageView id="plusImg" fx:id="plusImg" fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+               <ImageView id="plusImg" fx:id="plusImg" accessibleRole="BUTTON" fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <Image url="@../images/plus_icon_152556.png" />
                </ImageView>
             </graphic></MenuItem>
             <Menu mnemonicParsing="false" text="Open">
                 <MenuItem id="chatMenuOpen" fx:id="chatMenuOpen" mnemonicParsing="false" text="Chat">
                <graphic>
-                  <ImageView id="chatMenuImg" fx:id="chatMenuImg" fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView id="chatMenuImg" fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../images/chatSymbol.png" />
                   </ImageView>
                </graphic></MenuItem>
                 <MenuItem id="spaceInvadersMenu" fx:id="spaceInvadersMenu" mnemonicParsing="false" text="Space Invaders">
                <graphic>
-                  <ImageView id="siMenuImg" fx:id="siMenuImg" fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView id="siMenuImg" fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../images/416-4164135_space-invaders-clipart.png" />
                   </ImageView>
                </graphic></MenuItem>
@@ -213,7 +213,7 @@
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button id="gameButton5" contentDisplay="TOP" layoutX="849.0" layoutY="547.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="117.0" text="Tic Tac To">
+                <Button id="game5Button" fx:id="game5Button" contentDisplay="TOP" layoutX="849.0" layoutY="547.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="117.0" text="Tic Tac Toe">
                     <effect>
                         <Blend />
                     </effect>
