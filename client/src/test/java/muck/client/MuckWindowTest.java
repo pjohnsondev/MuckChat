@@ -18,9 +18,11 @@ import org.junit.jupiter.api.*;
 import org.testfx.api.FxAssert;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.util.WaitForAsyncUtils;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -94,6 +96,7 @@ public class MuckWindowTest extends ApplicationTest {
     public void newTabTest() {
         int currentTabs = lookup("#chatPane1").queryAs(TabPane.class).getTabs().size();
         clickOn("#file");
+        WaitForAsyncUtils.sleep(2, TimeUnit.SECONDS);
         clickOn("#plus");
         assertTrue(lookup("#chatPane1").queryAs(TabPane.class).getTabs().size()>currentTabs);
     }
@@ -106,6 +109,7 @@ public class MuckWindowTest extends ApplicationTest {
         System.out.println(avatar);
         clickOn("#circle");
         clickOn("#change");
+        WaitForAsyncUtils.sleep(2, TimeUnit.SECONDS);
         clickOn("#pikachu");
         clickOn("#submit");
         clickOn("#gameReturn");
@@ -113,6 +117,7 @@ public class MuckWindowTest extends ApplicationTest {
         clickOn("#file");
         clickOn("#playerDashboardMenu");
         clickOn("#change");
+        WaitForAsyncUtils.sleep(2, TimeUnit.SECONDS);
         clickOn("#peach");
         clickOn("#submit");
         clickOn("#gameReturn");
@@ -164,7 +169,8 @@ public class MuckWindowTest extends ApplicationTest {
     @Order(10)
     public void quitMuckTest() {
         clickOn("#file");
-        //clickOn("#quitMuck");
+        WaitForAsyncUtils.sleep(2, TimeUnit.SECONDS);
+        clickOn("#quitMuck");
         FxAssert.verifyThat("#cancel",isEnabled());
         FxAssert.verifyThat("#confirmQuit",isEnabled());
         clickOn("#cancel");
