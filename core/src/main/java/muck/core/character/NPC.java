@@ -2,12 +2,12 @@ package muck.core.character;
 
 public class NPC extends Character implements INPCColleague {
     private int _difficulty;
-    public INPCState stateBehaviour;
-    public NPCState npcState;
+    private INPCState stateBehaviour;
+    private NPCState npcState;
 
     // If this NPC is currently interacting with another NPC, this is the other NPC's identifier & Action
-    public String otherNPCIdentifier;  
-    public Action otherNPCAction;
+    private String otherNPCIdentifier;  
+    private Action otherNPCAction;
 
     /**
      * NPC constructor. This class is an extension of the Character class for NPC/monster characters.
@@ -43,16 +43,16 @@ public class NPC extends Character implements INPCColleague {
 
     // To be called once per pre-determined fixed timestep
     public void Update() {
-        stateBehaviour.handle();
+        getStateBehaviour().handle();
     }
     
     /* Sets the state of the NPC object */
     public void setState(NPCState npcState) {
         if (npcState == NPCState.None) {
-            this.stateBehaviour = new NPCStateNone();
+            this.setStateBehaviour(new NPCStateNone());
         }
         else if (npcState == NPCState.RandomWalk) {
-            this.stateBehaviour = new NPCStateRandomWalk(this);
+            this.setStateBehaviour(new NPCStateRandomWalk(this));
         }
     }
     
@@ -60,7 +60,7 @@ public class NPC extends Character implements INPCColleague {
         Retrieve the current NPC state
      */
     public NPCState getState() {
-        return this.npcState;
+        return this.getNpcState();
     }
 
     /**
@@ -119,9 +119,41 @@ public class NPC extends Character implements INPCColleague {
      */
     @Override
     public void receive(String sendingNPCIdentifier, Action action) {
-        this.otherNPCIdentifier = sendingNPCIdentifier;
-        this.otherNPCAction = action;
+        this.setOtherNPCIdentifier(sendingNPCIdentifier);
+        this.setOtherNPCAction(action);
         
         // We can further extend the NPC-to-NPC logic with any individual NPC instance (possibly using decorator)
+    }
+
+    public Action getOtherNPCAction() {
+        return otherNPCAction;
+    }
+
+    public void setOtherNPCAction(Action otherNPCAction) {
+        this.otherNPCAction = otherNPCAction;
+    }
+
+    public String getOtherNPCIdentifier() {
+        return otherNPCIdentifier;
+    }
+
+    public void setOtherNPCIdentifier(String otherNPCIdentifier) {
+        this.otherNPCIdentifier = otherNPCIdentifier;
+    }
+
+    public NPCState getNpcState() {
+        return npcState;
+    }
+
+    public void setNpcState(NPCState npcState) {
+        this.npcState = npcState;
+    }
+
+    public INPCState getStateBehaviour() {
+        return stateBehaviour;
+    }
+
+    public void setStateBehaviour(INPCState stateBehaviour) {
+        this.stateBehaviour = stateBehaviour;
     }
 }

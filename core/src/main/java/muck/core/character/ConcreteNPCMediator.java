@@ -15,8 +15,8 @@ public class ConcreteNPCMediator implements INPCMediator {
         return instance;
     }
     
-    // <String identifier, NPC object? for each NPC subscribed to the Mediator
-    HashMap<String, NPC> npcList = new HashMap<>();
+    // <String identifier, NPC object> for each NPC subscribed to the Mediator
+    private final HashMap<String, NPC> npcList = new HashMap<>();
     
     /* 
         Add an NPC to the Mediator to allow communication from other NPCs

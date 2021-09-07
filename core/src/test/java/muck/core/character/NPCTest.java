@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import static org.mockito.Mockito.*;
 
 public class NPCTest {
 
@@ -136,7 +135,7 @@ public class NPCTest {
         
         // Ensure the message successfully set the state of the npc2 object, and the source is recognized as
         // being from the npc1 object
-        assertEquals(npc2.otherNPCAction, Action.Follow);
-        assertEquals(npc2.otherNPCIdentifier, npc1.getIdentifier());
+        assertEquals(npc2.getOtherNPCAction(), Action.Follow);
+        assertEquals(npc2.getOtherNPCIdentifier(), npc1.getIdentifier());
     }
 }
