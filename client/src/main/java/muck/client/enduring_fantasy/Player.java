@@ -42,17 +42,19 @@ public class Player extends Character {
             } else if (this.getType().equalsIgnoreCase("RedMage")){
                 this.setHealth(this.getHealth() + 75);
                 this.setDmg(this.getDamage() + 15);
-                this.magicStr += 15
-                this.incMagPoints(15
+                this.magicStr += 15;
+                this.incMagPoints(15);
             } else if (this.getType().equalsIgnoreCase("Wizard")){
-                this.setHealth(this.getHealth() + 50
-                this.setDmg(this.getDamage() + 10
-                this.magicStr += 20
-                this.incMagPoints(20;
+                this.setHealth(this.getHealth() + 50);
+                this.setDmg(this.getDamage() + 10);
+                this.magicStr += 20;
+                this.incMagPoints(20);
             }
-        }
+
         this.resetLvl();
     } else { System.out.println("Your have gained experience");}
+
+    }
 
 
 

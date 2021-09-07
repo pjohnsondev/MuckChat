@@ -24,10 +24,10 @@
             <TextField id="player_char_1_HP" layoutX="252.0" layoutY="2.0" prefHeight="25.0" prefWidth="72.0" text="1000/1000" />
             <TextField id="player_char_3_HP" layoutX="252.0" layoutY="51.0" prefHeight="25.0" prefWidth="72.0" text="1000/1000" />
             <TextField id="player_char_4_HP" layoutX="252.0" layoutY="75.0" prefHeight="25.0" prefWidth="72.0" text="1000/1000" />
-            <TextField layoutX="126.0" layoutY="2.0" prefHeight="25.0" prefWidth="119.0" text="Player 1" />
-            <TextField layoutX="126.0" layoutY="27.0" prefHeight="25.0" prefWidth="119.0" text="Player 2" />
-            <TextField layoutX="126.0" layoutY="51.0" prefHeight="25.0" prefWidth="119.0" text="Player 3" />
-            <TextField layoutX="126.0" layoutY="75.0" prefHeight="25.0" prefWidth="119.0" text="Player 4" />
+            <TextField id="player_char_1_name" layoutX="126.0" layoutY="2.0" prefHeight="25.0" prefWidth="119.0" text="Player 1" />
+            <TextField id="player_char_2_name" layoutX="126.0" layoutY="27.0" prefHeight="25.0" prefWidth="119.0" text="Player 2" />
+            <TextField id="player_char_3_name" layoutX="126.0" layoutY="51.0" prefHeight="25.0" prefWidth="119.0" text="Player 3" />
+            <TextField id="player_char_4_name" layoutX="126.0" layoutY="75.0" prefHeight="25.0" prefWidth="119.0" text="Player 4" />
             <TextField id="player_char_1_MP" layoutX="324.0" layoutY="2.0" prefHeight="25.0" prefWidth="72.0" text="100/100" />
             <TextField id="player_char_2_MP" layoutX="324.0" layoutY="27.0" prefHeight="25.0" prefWidth="72.0" text="100/100" />
             <TextField id="player_char_3_MP" layoutX="324.0" layoutY="51.0" prefHeight="25.0" prefWidth="72.0" text="100/100" />
