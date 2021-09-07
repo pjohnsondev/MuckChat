@@ -289,7 +289,7 @@ public class MuckWindowTest extends ApplicationTest {
     public void quitMuckTest() {
         logger.info("Testing that user can access the quit alert");
         clickOn("#file");
-        String id = lookup("#exitImg").queryAs(ImageView.class).getId();
+        String id = lookup("#exitImg").queryAs(Button.class).getId();
         clickOn("#"+id);
         FxAssert.verifyThat("#cancel",isEnabled());
         FxAssert.verifyThat("#confirmQuit",isEnabled());

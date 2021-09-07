@@ -1,23 +1,29 @@
 package muck.client.tictactoe;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import muck.client.GameMap;
 
+import java.awt.*;
 
 
-public class TTTLandingPage extends Node{
+public class TTTLandingPage extends Node {
 
 
     private static final Image TITLE = new Image("images/TicTacToe/TicTacToeTitle.JPG");
@@ -30,11 +36,18 @@ public class TTTLandingPage extends Node{
     final Button exitButton = new Button("EXIT");
 
     final GridPane grid = new GridPane();
+    private GraphicsContext gc;
 
-    public TTTLandingPage (BorderPane stage, Canvas canvas) {
+    public TTTLandingPage(BorderPane stage, Canvas canvas) {
+
+        gc = canvas.getGraphicsContext2D();
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), e -> background(gc)));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
 
         for (int i = 0; i < 4; i++) {
-            ColumnConstraints column = new ColumnConstraints(WIDTH/6);
+            ColumnConstraints column = new ColumnConstraints(WIDTH / 6);
             grid.getColumnConstraints().add(column);
         }
 
@@ -64,20 +77,19 @@ public class TTTLandingPage extends Node{
         titleView.setFitHeight(300);
         titleView.setImage(TITLE);
 
-        grid.add(titleView, 1,8,2,3);
+        grid.add(titleView, 1, 8, 2, 3);
 
 
         // Add Play Button
         playButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         playButton.setStyle("-fx-background-color: rgba(227,89,89,0.98)");
-
         grid.add(playButton, 1, 19, 2, 3);
-
+        playButton.setStyle("-fx-cursor: hand;");
 
         // Add Exit Button
         exitButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         exitButton.setStyle("-fx-background-color: rgba(227,89,89,0.98)");
-
+        exitButton.setStyle("-fx-cursor: hand;");
         grid.add(exitButton, 1, 22, 2, 3);
 
 
@@ -110,7 +122,7 @@ public class TTTLandingPage extends Node{
             // Create layout of the window
             VBox layout = new VBox(20);
             layout.getChildren().addAll(dummyText, goBack);
-            Scene gameInstructScene = new Scene(layout, WIDTH/2, HEIGHT/2);
+            Scene gameInstructScene = new Scene(layout, WIDTH / 2, HEIGHT / 2);
 
             // Create window for instructions to be displayed in
             Stage gamePlayInstructionsWindow = new Stage();
@@ -128,8 +140,13 @@ public class TTTLandingPage extends Node{
             canvas.setId("gameCanvas");
             stage.getChildren().add(canvas);
         });
+    }
+        private void background (GraphicsContext gc) {
+            this.gc.setFill(Color.WHITE);
+            this.gc.fillRect(0, 0, WIDTH, HEIGHT);
+            this.gc.setFill(Color.WHITE);
+        }
 
     }
 
-}
 
