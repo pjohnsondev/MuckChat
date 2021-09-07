@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -106,6 +107,22 @@ public class MuckController implements Initializable {
     @FXML // fx:id="closeChat" The x button when the chat is open
     private Button closeChat; // Value injected by FXMLLoader
 
+    @FXML // fx:id="plusImg" The x button when the chat is open
+    private ImageView plusImg; // Value injected by FXMLLoader
+
+    @FXML // fx:id="chatMenuImg" The x button when the chat is open
+    private ImageView chatMenuImg; // Value injected by FXMLLoader
+
+    @FXML // fx:id="siMenuImg" The x button when the chat is open
+    private ImageView siMenuImg; // Value injected by FXMLLoader
+
+    @FXML // fx:id="exitImg" The x button when the chat is open
+    private ImageView exitImg; // Value injected by FXMLLoader
+
+    @FXML // fx:id="dashboardMenuImg" The x button when the chat is open
+    private ImageView dashboardMenuImg; // Value injected by FXMLLoader
+
+
     @FXML // fx:id="game1Button" The space invaders button. This is supposed to be temporary
     private Button game1Button; // Value injected by FXMLLoader
 
@@ -159,6 +176,7 @@ public class MuckController implements Initializable {
         //Timer messageChecker = new Timer();
         //messageChecker.scheduleAtFixedRate(new getMessagesTask(), 0, 200);
         quitMuck.setOnAction(this::quitMuck);
+        dashboardMenuImg.setImage(chosenAvatar);
         playerDashboardMenu.setOnAction(this::openPlayerDashboardMenu); //Opens player Dashboard
         // Creates and sets the player list service to be called every second, to update the current player list
         PlayerListService service = new PlayerListService(playerTextArea);
