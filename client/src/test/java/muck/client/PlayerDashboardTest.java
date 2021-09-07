@@ -179,6 +179,7 @@ public class PlayerDashboardTest extends ApplicationTest {
  }
 
     @AfterAll
+    @Disabled //Disabled due to out of memory error
     public static void testWindowClose() throws TimeoutException {
         logger.info("Closing window");
         FxToolkit.cleanupStages();
