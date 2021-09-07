@@ -97,6 +97,13 @@
 
                   </ImageView>
                </graphic></MenuItem>
+            <MenuItem id="tttMenu" fx:id="tttMenu" mnemonicParsing="false" text="Tic Tac Toe">
+               <graphic>
+                  <ImageView fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/TicTacTo.png" />
+                  </ImageView>
+               </graphic>
+            </MenuItem>
             </Menu>
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem id="playerDashboardMenu" fx:id="playerDashboardMenu" mnemonicParsing="false" text="Player Dashboard">

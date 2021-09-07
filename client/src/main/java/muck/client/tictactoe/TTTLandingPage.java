@@ -20,7 +20,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import muck.client.GameMap;
 
-import java.awt.*;
 
 
 public class TTTLandingPage extends Node {

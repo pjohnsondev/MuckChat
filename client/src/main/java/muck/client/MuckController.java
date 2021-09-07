@@ -43,8 +43,6 @@ import muck.protocol.connection.*;
 //import org.apache.logging.log4j.LogManager;
 //import org.apache.logging.log4j.Logger;
 import javafx.util.Duration;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class MuckController implements Initializable {
 
@@ -98,6 +96,9 @@ public class MuckController implements Initializable {
 
     @FXML // fx:id="froggerMenu"   The menu item to add another tab
     private MenuItem froggerMenu; // Value injected by FXMLLoader
+
+    @FXML // fx:id="tttMenu"   The menu item to add another tab
+    private MenuItem tttMenu; // Value injected by FXMLLoader
 
     @FXML
     private MenuItem quitMuck; // Value injected by FXMLLoader
@@ -154,6 +155,7 @@ public class MuckController implements Initializable {
         game2Button.setOnAction(this::launchEnduringFantasy);
         game3Button.setOnAction(this::launchFrogger);
         game5Button.setOnAction(this::launchTicTacToe);
+        tttMenu.setOnAction(this::launchTicTacToe);
         enter.setOnAction(this::sendMessage);
         openFullChat.setOnAction(this::openFullChat);
         chatMenuOpen.setOnAction(this::openFullChat);
