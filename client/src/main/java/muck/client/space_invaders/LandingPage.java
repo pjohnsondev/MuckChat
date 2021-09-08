@@ -46,8 +46,10 @@ public class LandingPage extends Node {
     final Button exitButton = new Button("EXIT");
 
     final GridPane grid = new GridPane();
+    private BorderPane gamePane;
 
     public LandingPage (BorderPane stage, Canvas canvas) {
+        gamePane = stage;
 
         gc = canvas.getGraphicsContext2D();
 
@@ -153,7 +155,10 @@ public class LandingPage extends Node {
 
         exitButton.setOnAction(event -> {
             stage.getChildren().removeAll(grid, canvas);
-            GameMap gm = new GameMap(canvas);
+            GameMap gm = new GameMap(canvas, gamePane);
+            gm.hero.sh = 0; //point hero downwards
+            gm.hero.setPosX(145); // Sets the sprite outside the door they entered for the game
+            gm.hero.setPosY(262);
             canvas.setId("gameCanvas");
             stage.getChildren().add(canvas);
         });

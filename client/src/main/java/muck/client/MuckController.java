@@ -160,7 +160,7 @@ public class MuckController implements Initializable {
         openFullChat.setOnAction(this::openFullChat);
         chatMenuOpen.setOnAction(this::openFullChat);
         plus.setOnAction(this::addChatTab); // adds new tab
-        new GameMap(gameCanvas,updatePlayerfn, getPlayersfn); // Adds GameMap animation to the game window
+        new GameMap(gameCanvas,gamePane1, updatePlayerfn, getPlayersfn); // Adds GameMap animation to the game window
         chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
         userNameDisplay.setText(displayName);// // Sets username that has been passed in from Avatar class
         circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
@@ -205,6 +205,7 @@ public class MuckController implements Initializable {
             Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             stage.setScene(scene);
             stage.setOnCloseRequest(e -> stage.close());
+            App.hideStage();
             stage.show();
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
@@ -228,6 +229,7 @@ public class MuckController implements Initializable {
             stage.setScene(scene);
             stage.setAlwaysOnTop(true);
             stage.initStyle(StageStyle.UTILITY);
+            stage.setResizable(false);
             stage.setOnHiding(avatarEvent -> {
                 try {
                     chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
@@ -235,7 +237,7 @@ public class MuckController implements Initializable {
                     circle.setDisable(false);
                     int x = gamePane1.getChildren().size();
                     Canvas currentCanvas = (Canvas) gamePane1.getChildren().get(x-1); //Finds the current canvas
-                    new GameMap(currentCanvas, updatePlayerfn, getPlayersfn);
+                    new GameMap(currentCanvas, gamePane1, updatePlayerfn, getPlayersfn);
                 } catch (Exception e) {
                     e.printStackTrace();
 
@@ -325,6 +327,9 @@ public class MuckController implements Initializable {
         chatSplitPane.setDividerPositions(1.0);
     }
 
+    //public static BorderPane getGamePane() { return gamePane1; }
+
+    //public static static Canvas getGameCanvas() { return gameCanvas; }
 
     @FXML
     /* Function to launch the game. The game exists in the LandingPage.class.

@@ -217,6 +217,8 @@ public class AvatarController implements Initializable  {
             //This line gets the Stage Information
             Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             stage.setScene(scene);
+            stage.setResizable(false);
+            App.hideStage();
             stage.show();
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
