@@ -4,6 +4,11 @@
     /* -fx-background-color:rgb(255,255,255)*/
 }
 
+  #achievementWindow, #achievementWindow, #achievementWindow .viewport, #achievementWindow .content {
+      -fx-background-color: transparent;
+      -fx-text-fill: white;
+  }
+
 /*
 String os = System.getProperty("os.name","generic").toLowerCase(Locale.US);
 if (os.indexOf("mac") > 0) {

@@ -6,18 +6,20 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.animation.*;
+import javafx.scene.layout.BorderPane;
 import muck.core.Location;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
+import muck.client.character_client.CatNPC;
 
 /**
  * The Game Map class...
  */
 public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	TileMapReader tm = new TileMapReader("/maps/homeTown.tmx");
-	Sprite hero = new Sprite(300,300); //Create the player sprite
+	public Sprite hero = new Sprite(300,300); //Create the player sprite
 	private int startX; //The first tile to be drawn
 	private int startY; //The first tile to be drawn
 	private int offX; //Tile offset in pixels as hero moves pixel by pixel
@@ -39,8 +41,20 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	double cameraMaxY;
 	private BiConsumer<String, Location> updatePlayer;
 	private Supplier<List<Sprite>> otherPlayers;
+	private BorderPane gamePane;
 	List<Sprite> players = new ArrayList<Sprite>();
 	public int worldID = 1;
+	CatNPC cat = new CatNPC("1", 400,300, "brown", "right" );
+
+	// CA - Infinite Loops
+	// Use this method when returning from a game landing page
+	public GameMap(Canvas canvas, BorderPane borderPane) {
+		setupCanvas(canvas, "/tilesets/texture.png", tm);
+		gamePane = borderPane;
+		updatePlayer = (s, l) -> {
+		};
+		otherPlayers = () -> new ArrayList<Sprite>();
+	}
 
 	public GameMap(Canvas canvas) {
 		setupCanvas(canvas, "/tilesets/texture.png", tm);
@@ -58,13 +72,17 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	/**
 	 * GameMap constructor accepts the canvas to be drawn onto. 	 *
 	 * @param canvas       The gameWindow canvas to be drawn onto.
+	 * @param borderPane   The muck borderPane to be passed into the WorldController
+	 *                     for game landing page updates
 	 * @param updatePlayer function to handle updating a player location.
 	 * @param getPlayers   function to handle getting all client locations other
 	 *                     than the calling client.
 	 */
-	public GameMap(Canvas canvas, BiConsumer<String, Location> updatePlayer, Supplier<List<Sprite>> getPlayers) {
+	public GameMap(Canvas canvas, BorderPane borderPane, BiConsumer<String, Location> updatePlayer, Supplier<List<Sprite>> getPlayers) {
 		this.updatePlayer = updatePlayer;
 		this.otherPlayers = getPlayers;
+		this.gamePane = borderPane;
+
 		setupCanvas(canvas, "/tilesets/texture.png", tm);
 	}
 
@@ -105,18 +123,15 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 			public void handle(long currentNanoTime) {
 				hero.move(tm, hero); //controls hero movement
 				//Check the location to move to new worlds
-				if (WorldController.locationCheck(new Location((int)hero.getPosX(),(int) hero.getPosY()), worldID, canvas) != 0) {
+				if (WorldController.locationCheck(new Location((int)hero.getPosX(),(int) hero.getPosY()), gamePane, worldID, canvas) != 0) {
 					this.stop(); //stop this instance new instance for new world started.
 				}
-				if (uP == 10) { //Update players every 10 frames
-					updatePlayers();
-					uP = 0;
-				} else {
-					uP = uP++;
-				}
+				updatePlayers();
+
 				gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight()); //blank the screen
 				cameraX = hero.getPosX() - centerX; //Camera top left relative to hero X
 				cameraY = hero.getPosY() - centerY; //Camera top left relative to hero Y
+
 				//Ensure the camera does not go outside the game boundaries
 				cameraPositionCheck();
 				startX = (int) (cameraX / tm.getTileWidth());
@@ -134,6 +149,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 				drawLayer(2); //Solid
 
 				Sprite.drawHero(gc, tm, hero, centerX,centerY);
+				cat.drawCatNPC(gc, cameraX, cameraY);
 
 				// Added by Trent - 20/08
 				// Gets a list of other player locations and draws them on screen
@@ -225,6 +241,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	}
 
 	public void updatePlayers() {
+		players = otherPlayers.get();
 		if (otherPlayers != null) {
 			players = otherPlayers.get();
 		}

@@ -49,8 +49,8 @@ public class LandingPageFrogger extends Node {
             grid.getColumnConstraints().add(column);
         }
 
-        grid.setPadding(new Insets(10, 10, 10, 10));
-        grid.setVgap(8);
+        grid.setPadding(new Insets(50, 50, 50, 50));
+        grid.setVgap(20);
         grid.setHgap(10);
 
         ColumnConstraints cc;
@@ -69,25 +69,25 @@ public class LandingPageFrogger extends Node {
 
         // Title
         ImageView titleView = new ImageView();
-        titleView.setFitWidth(480);
-        titleView.setFitHeight(130);
+        titleView.setFitWidth(720);
+        titleView.setFitHeight(190);
         titleView.setImage(TITLE);
-        grid.add(titleView, 0,25,3,5);
+        grid.add(titleView, 0,5,2,5);
 
         // Play button
         playButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        playButton.setStyle("-fx-background-color: #FFFFF");
-        grid.add(playButton, 1, 35, 1, 5);
+        playButton.setStyle("-fx-background-color: #15f51f");
+        grid.add(playButton, 1, 11, 2, 3);
 
         // Instructions
         instructionsButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        instructionsButton.setStyle("-fx-background-color: #FFFFF");
-        grid.add(instructionsButton, 1, 40, 1, 5);
+        instructionsButton.setStyle("-fx-background-color: #15f51f");
+        grid.add(instructionsButton, 1, 14, 2, 3);
 
         // Exit button
         exitButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        exitButton.setStyle("-fx-background-color: #FFFFF");
-        grid.add(exitButton, 1, 45, 1, 5);
+        exitButton.setStyle("-fx-background-color: #15f51f");
+        grid.add(exitButton, 1, 17, 2, 3);
 
         stage.getChildren().add(grid);
 

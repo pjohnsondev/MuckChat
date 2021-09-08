@@ -1,28 +1,33 @@
 package muck.client;
 
+import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.layout.BorderPane;
+import muck.client.space_invaders.LandingPage;
 import muck.core.Location;
 
 public class WorldController {
     static int x, y;
+    private static BorderPane gamePane;
 
-    public static int locationCheck(Location player, int id, Canvas canvas) {
+    public static int locationCheck(Location player, BorderPane borderPane, int id, Canvas canvas) {
         x = player.getX();
         y = player.getY();
+        gamePane = borderPane;
         //id 1 = world (homeTown.tmx)
-        if( id == 1) {
+        /*if( id == 1) {
             if (x > 128 && x < 160) { //Inn
                 if (y > 224 && y < 260) {
                     //TODO Achievement "You explored the Inn"
                     TileMapReader tm = new TileMapReader("/maps/homeTown.tmx");
                     GameMap gm = new GameMap(canvas, "/tilesets/texture.png", tm);
-                    gm.worldID = 2;
-                    gm.hero.setPosX(10);
-                    gm.hero.setPosY(10);
+                    gm.worldID = 1;
+                    gm.hero.setPosX(145);
+                    gm.hero.setPosY(290);
                     return 1;
                 }
             }
-        }
+        }*/
         //id 1 = world (homeTown.tmx)
         if (id == 1 ){
             if (x > 100 && x < 120) { // Cave
@@ -39,6 +44,22 @@ public class WorldController {
                 }
             }
         }
+
+        if (id == 1) {
+            if (x > 128 && x < 160) { //Inn
+                if (y > 224 && y < 260) {
+                    gamePane.getChildren().clear();
+                    Canvas SICanvas = new Canvas();
+                    SICanvas.setHeight(canvas.getHeight());
+                    SICanvas.setWidth(canvas.getWidth());
+                    gamePane.setCenter(SICanvas);
+                    BorderPane.setAlignment(SICanvas, Pos.CENTER);
+                    new LandingPage(gamePane, SICanvas);
+                    return 1;
+                }
+            }
+        }
+
         //Secret Cave = 2
         if (id == 2 ){
             if (x > 480 && x < 540) { // Cave entrance
@@ -55,4 +76,5 @@ public class WorldController {
         }
         return 0;
     }
+
 }

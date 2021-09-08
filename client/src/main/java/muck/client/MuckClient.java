@@ -21,10 +21,7 @@ import muck.protocol.connection.*;
 import java.io.IOException;
 
 import java.sql.SQLException;
-import java.util.Calendar;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -37,7 +34,8 @@ public enum MuckClient {
 	INSTANCE;
 
 	String currentMessage;
-	ArrayList<String> players = new ArrayList<String>();
+	ArrayList<String> messageBuffer = new ArrayList<String>();
+	HashMap<Integer, String> players = new HashMap<Integer, String>();
 	List<Sprite> playerSprites = new ArrayList<Sprite>();
 
 	public static MuckClient getINSTANCE() throws SQLException {
@@ -121,9 +119,10 @@ public enum MuckClient {
 
 		// Add a listener to listen for an arraylist message from the server, this is
 		// then stored on the client instance as the player array
-		client.addListener(ListenerBuilder.forClass(ArrayList.class).onReceive((conn, playerList) -> {
+		client.addListener(ListenerBuilder.forClass(HashMap.class).onReceive((conn, playerList) -> {
 			logger.info("Player list: {} received from {}", playerList, conn.getID());
-			players = playerList;
+			players.clear();
+			players.putAll(playerList);
 			logger.info("Clients playerlist is {}", players);
 		}));
 
@@ -194,6 +193,7 @@ public enum MuckClient {
 
     */
 	public synchronized String getCurrentMessage() {
+
 		return currentMessage;
 	}
 

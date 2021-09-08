@@ -26,19 +26,24 @@ public class SignUpTest {
     @Test
     // TODO: Check if username and password are within length limits
     public void testValidPassword(){
+        logger.info("Test password is valid");
         SignUpController user = new SignUpController();
         String password = "passwordistoolong";
-        assertEquals(false, user.validPasswordLength(password));
         String username = "usernameistoolong";
-        assertEquals(false, user.validUserNameLength(username));
         String passwordOne = "passwordone";
         String passwordTwo = "passwordtwo";
-        assertEquals(false, user.passwordsMatch(passwordOne, passwordTwo));
+
+        assertAll(
+                () -> assertFalse(user.validPasswordLength(password)),
+                () -> assertFalse(user.validUserNameLength(username)),
+                () -> assertFalse(user.passwordsMatch(passwordOne, passwordTwo))
+        );
     }
 
     @Test
     // TODO: check if Fields are empty alert is added to front end
     public void testFieldsAreNotEmpty(){
+        logger.info("Test field display an error if empty");
         String password = "password";
         String passwordTwo = "passwordtwo";
         String username = "username";
