@@ -36,7 +36,6 @@ public class PlayerDashboardTest extends ApplicationTest {
     private Image yoshi_full;
 
     @Override
-    @Disabled //Disabled due to out of memory error
     public void init() throws Exception {
         FxToolkit.registerStage(Stage::new);
 
@@ -65,7 +64,6 @@ public class PlayerDashboardTest extends ApplicationTest {
     }
 
     @Override
-    @Disabled //Disabled due to out of memory error
     public void start(Stage stage) throws IOException {
         logger.info("Initializing window");
         //TODO: Need to do this with a mock player incl Muck and Health
@@ -81,13 +79,11 @@ public class PlayerDashboardTest extends ApplicationTest {
     }
 
     @Override
-    @Disabled //Disabled due to out of memory error
     public void stop() throws Exception {
         FxToolkit.hideStage();
     }
 
     @Test
-    @Disabled //Disabled due to out of memory error
     @Order(1)
     // Checks the player statistics update as expected
     public void testNameMuckHealthUpdates() {
@@ -145,7 +141,6 @@ public class PlayerDashboardTest extends ApplicationTest {
     }
 
     @Test
-    @Disabled //Disabled due to out of memory error
     @Order(3)
     // Checks that the achievements logged on the screen are the same as the achievements stored for a player
     public void testAchievementsUpdate() {
@@ -174,7 +169,6 @@ public class PlayerDashboardTest extends ApplicationTest {
     }
 
     @Test
-    @Disabled //Disabled due to out of memory error
     @Order(4)
     // Makes sure the window closes when the returnToGame button is pressed.
     // Checks the correct details are sent to Muck on return
@@ -185,7 +179,6 @@ public class PlayerDashboardTest extends ApplicationTest {
  }
 
     @AfterAll
-    @Disabled //Disabled due to out of memory error
     public static void testWindowClose() throws TimeoutException {
         logger.info("Closing window");
         FxToolkit.cleanupStages();
