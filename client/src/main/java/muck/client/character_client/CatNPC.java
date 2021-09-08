@@ -1,7 +1,6 @@
 package muck.client.character_client;
 
 import javafx.scene.canvas.GraphicsContext;
-import muck.client.TileMapReader;
 import javafx.scene.image.Image;
 import muck.core.character.NPC;
 
@@ -88,13 +87,21 @@ public class CatNPC extends NPC {
     }
 
     /**
-     * TODO: Draw image so it remains still while player is moving
-     * Draw cat
-     * @param gc
+     * Draw cat to the map
+     * @param gc The graphics context to draw to map
      * @param cameraX,cameraY The top left corner co-ordinate of the viewport - Added by dandre20
      */
     public void drawCatNPC(GraphicsContext gc, Double cameraX, Double cameraY) {
-        gc.drawImage(this.image, this.sx, this.sh, 48,48, getXPos()- cameraX,getYPos() - cameraY,26,30);
+        gc.drawImage(
+                this.image,
+                this.sx,
+                this.sh,
+                48,
+                48,
+                this.getXPos() - cameraX,
+                this.getYPos() - cameraY,
+                26,
+                30);
     }
 
     /**

@@ -1,12 +1,15 @@
 package muck.client.character_client;
 
+import javafx.scene.canvas.*;
+import javafx.scene.canvas.Canvas;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import static org.mockito.Mockito.*;
-
 public class CatNPCTest {
 
     private static final Logger logger = LogManager.getLogger(CatNPCTest.class);
@@ -111,5 +114,17 @@ public class CatNPCTest {
                 () -> assertEquals("Purr", cat.dialog(3)),
                 () -> assertEquals("...", cat.dialog(9))
         );
+    }
+
+    // Test cat NPC draw method is invoked
+    @Test
+    public void testDrawCatNPC() {
+        final Canvas canvas = new Canvas(250,250);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        logger.info("Testing draw cat npc can invoke");
+        doNothing().when(cat).drawCatNPC(gc, 0.0, 0.0);
+        cat.drawCatNPC(gc, 0.0, 0.0);
+        verify(cat, times(1)).drawCatNPC(gc, 0.0, 0.0);
     }
 }
