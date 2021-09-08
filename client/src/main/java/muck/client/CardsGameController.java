@@ -7,7 +7,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.net.URL;
+import java.nio.Buffer;
 import java.util.ResourceBundle;
 
 import javafx.fxml.Initializable;
@@ -18,7 +22,11 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import muck.client.card_games.Card;
 import muck.client.card_games.Game;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
 //TODO: why are these below not working?
 
 
@@ -172,9 +180,58 @@ public class CardsGameController implements Initializable {
     private Image queenOfHearts = new Image("images/cards/queen_of_hearts.png");
     private Image queenOfSpades = new Image("images/cards/queen_of_spades.png");
     private Image backOfCard = new Image("images/cards/backofdeck.png");
-
-
-
+/*
+    private Image BtwoOfHearts = new Image("images/cards/B_2_of_hearts.PNG");
+    private Image BtwoOfClubs = new Image("images/cards/B_2_of_clubs.PNG");
+    private Image BthreeOfDiamonds = new Image("images/cards/B_3_of_diamonds.png");
+    private Image BthreeOfHearts = new Image("images/cards/B_3_of_hearts.PNG");
+    private Image BthreeOfSpades = new Image("images/cards/B_3_of_spades.PNG");
+    private Image BfourOfClubs = new Image("images/cards/B_4_of_clubs.PNG");
+    private Image BfourOfDiamonds = new Image("images/cards/B_4_of_diamonds.PNG");
+    private Image BfourOfHearts = new Image("images/cards/B_4_of_hearts.PNG");
+    private Image BfourOfSpades = new Image("images/cards/B_4_of_spades.PNG");
+    private Image BfiveOfClubs = new Image("images/cards/B_5_of_clubs.PNG");
+    private Image BfiveOfDiamonds = new Image("images/cards/B_5_of_diamonds.PNG");
+    private Image BfiveOfHearts = new Image("images/cards/B_5_of_hearts.PNG");
+    private Image BfiveOfSpades = new Image("images/cards/B_6_of_diamonds.PNG");
+    private Image BsixOfClubs = new Image("images/cards/B_6_of_clubs.PNG");
+    private Image BsixOfDiamonds = new Image("images/cards/B_6_of_diamonds.PNG");
+    private Image BsixOfHearts = new Image("images/cards/B_6_of_hearts.PNG");
+    private Image BsixOfSpades = new Image("images/cards/B_6_of_spades.png");
+    private Image BsevenOfClubs = new Image("images/cards/B_7_of_clubs.PNG");
+    private Image BsevenOfDiamonds = new Image("images/cards/7_of_diamonds.png");
+    private Image BsevenOfHearts = new Image("images/cards/7_of_hearts.png");
+    private Image BsevenOfSpades = new Image("images/cards/B_6_of_spades.PNG");
+    private Image BeightOfClubs = new Image("images/cards/B_8_of_clubs.png");
+    private Image BeightOfDiamonds = new Image("images/cards/8_of_diamonds.png");
+    private Image BeightOfHearts = new Image("images/cards/8_of_hearts.png");
+    private Image BeightOfSpades = new Image("images/cards/8_of_spades.png");
+    private Image BnineOfClubs = new Image("images/cards/9_of_clubs.png");
+    private Image BnineOfDiamonds = new Image("images/cards/9_of_diamonds.png");
+    private Image BnineOfHearts = new Image("images/cards/9_of_hearts.png");
+    private Image BnineOfSpades = new Image("images/cards/9_of_spades.png");
+    private Image BtenOfClubs = new Image("images/cards/10_of_clubs.png");
+    private Image BtenOfDiamonds = new Image("images/cards/10_of_diamonds.png");
+    private Image BtenOfHearts = new Image("images/cards/10_of_hearts.png");
+    private Image BtenOfSpades = new Image("images/cards/10_of_spades.png");
+    private Image BaceOfClubs = new Image("images/cards/ace_of_clubs.png");
+    private Image BaceOfDiamonds = new Image("images/cards/ace_of_diamonds.png");
+    private Image BaceOfHearts = new Image("images/cards/ace_of_hearts.png");
+    private Image BaceOfSpades = new Image("images/cards/ace_of_spades2.png");
+    private Image BjackOfClubs = new Image("images/cards/jack_of_clubs.png");
+    private Image BjackOfDiamonds = new Image("images/cards/jack_of_diamonds.png");
+    private Image BjackOfHearts = new Image("images/cards/jack_of_hearts.png");
+    private Image BjackOfSpades = new Image("images/cards/jack_of_spades.png");
+    private Image BkingOfClubs = new Image("images/cards/king_of_clubs.png");
+    private Image BkingOfDiamonds = new Image("images/cards/king_of_diamonds.png");
+    private Image BkingOfHearts = new Image("images/cards/king_of_hearts.png");
+    private Image BkingOfSpades = new Image("images/cards/king_of_spades.png");
+    private Image BqueenOfClubs = new Image("images/cards/queen_of_clubs.png");
+    private Image BqueenOfDiamonds = new Image("images/cards/queen_of_diamonds.png");
+    private Image BqueenOfHearts = new Image("images/cards/queen_of_hearts.png");
+    private Image BqueenOfSpades = new Image("images/cards/queen_of_spades.png");
+    private Image backOfCard = new Image("images/cards/backofdeck.png");
+*/
 
 
 
@@ -290,10 +347,11 @@ public class CardsGameController implements Initializable {
 
 
         });
+        //tenOfDiamonds
         final boolean displayHigh = true;
         //THIS IS JUST A THOUGHT ABOUT HOW TO HIGHLIGHT CARDS WHEN PRESSED
         cardRow1Card1.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-            card1row1select.setFill(Color.valueOf("#f6ff14"));
+            cardRow1Card1.setImage(nineOfClubs);
             /*if (displayHigh) {
                 card1row1select.setFill(Color.valueOf("#f6ff14"));
             }
@@ -303,11 +361,17 @@ public class CardsGameController implements Initializable {
             card1Row2select.setFill(Color.valueOf("#f6ff14"));
         });
 
-        cardRow1Card1.setImage(twoOfDiamonds);
+        cardRow1Card1.setImage(threeOfClubs);
 
     }
-
-
+/*
+// this wants an image value for setImage and i am working to figure out how to give it that
+    void set_card(String filename){
+    //below wont work - ImageIO.read is for a buffered image
+        Image cardpic = ImageIO.read(new File(filename));
+        this.cardRow1Card1.setImage(cardpic);
+    }
+*/
 
 
     public static void set_score(){
@@ -329,7 +393,8 @@ public class CardsGameController implements Initializable {
         // ECT.. SO THAT THEIR CARDS GET LESS SLOWLY
 
     }
-    
+
+
 
 
 

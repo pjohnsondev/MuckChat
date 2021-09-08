@@ -1,7 +1,9 @@
 package muck.client.card_games;
 import javafx.application.Application;
 import javafx.scene.image.Image;
+import muck.client.CardsGameController;
 
+import javax.swing.*;
 import java.util.Locale;
 
 /**
@@ -29,6 +31,7 @@ public class Card {
         setMatchId(matchId);
         selected = false;
         fileName = "/images/cards/" + cardName + "_of_" + suit.toLowerCase() + ".png";
+        //fileName = cardName + "_of_" + suit.toLowerCase();
 //        cardImage = new Image(fileName);
     }
 
@@ -87,9 +90,9 @@ public class Card {
      * Returns the Image of an individual card. Connected through the filename - path to the card image.
      * @return cardImage
      */
-//    public Image getCardImage() {
-//        return cardImage;
-//    }
+    public Image getCardImage() {
+        return cardImage;
+    }
 
 
     /**
@@ -150,6 +153,14 @@ public class Card {
         return cardName.substring(0, 1).toUpperCase() + cardName.substring(1) + " of " + suit.substring(0,1).toUpperCase() + suit.substring(1);
     }
 
+    //working with controller to get cards diplayed
+    /*void setCardDisplay(){
+            String filename = getFileName();
+            new ImageIcon(filename);
+
+            CardsGameController.set_card();
+        }
+*/
 
 //    public static void main(String[] args) {
 //        Card card;
