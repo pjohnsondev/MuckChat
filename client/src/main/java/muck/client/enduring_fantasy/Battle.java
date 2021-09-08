@@ -32,10 +32,10 @@ public class Battle {
         System.out.println("*----------*");
 
         /** Rest of action window code?**/
-    }
+    }}
 
-    public void battleInput(String input){
-        /** Lets set up the action command window options  **/
+    //public void battleInput(String input){
+        /** Lets set up the action command window options
         if (input.equalsIgnoreCase("Attack")){ this.pcAttack();
         } else if (input.equalsIgnoreCase("Rest")){ this.pcRest();
         } else if (input.equalsIgnoreCase("Item")){ this.itemSelector();
@@ -51,7 +51,7 @@ public class Battle {
     public void itemSelector(){ Place holder }
 
     public void pcCheckMon(){ Place holder }
-    **/
-}
+ }
 
+**/
 

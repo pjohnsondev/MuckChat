@@ -2,10 +2,13 @@ package muck.client.enduring_fantasy;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
@@ -17,8 +20,11 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import muck.client.GameMap;
+
+import java.io.IOException;
 
 
 public class LandingPageEf extends Node {
@@ -96,19 +102,19 @@ public class LandingPageEf extends Node {
         // Create on-click events
         playButton.setOnAction(event -> {
 
-            Label secondLabel = new Label("Welcome!");
-            StackPane secondaryLayout = new StackPane();
-            secondaryLayout.getChildren().add(secondLabel);
-            Scene secondScene = new Scene(secondaryLayout, WIDTH, HEIGHT);
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/EnduringFantasyGame.fxml"));
+                Parent root1 = (Parent) fxmlLoader.load();
+                Stage stage1 = new Stage();
+                stage1.initModality(Modality.WINDOW_MODAL);
 
-            // Lets crack open a new window
-            Stage newWindow = new Stage();
-            newWindow.setTitle("Enduring Fantasy");
-            newWindow.setScene(secondScene);
-            newWindow.initModality(Modality.WINDOW_MODAL);
+                stage1.setTitle("Enduring Fantasy");
+                stage1.setScene(new Scene(root1));
+                stage1.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-            // Set position of second window, related to primary window.
-            newWindow.show();
         });
 
         exitButton.setOnAction(event -> {
