@@ -6,6 +6,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.animation.*;
+import javafx.scene.layout.BorderPane;
 import muck.core.Location;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	double cameraMaxY;
 	private BiConsumer<String, Location> updatePlayer;
 	private Supplier<List<Sprite>> otherPlayers;
+	private BorderPane gamePane;
 	List<Sprite> players = new ArrayList<Sprite>();
 	public int worldID = 1;
 
@@ -58,13 +60,17 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	/**
 	 * GameMap constructor accepts the canvas to be drawn onto. 	 *
 	 * @param canvas       The gameWindow canvas to be drawn onto.
+	 * @param borderPane   The muck borderPane to be passed into the WorldController
+	 *                     for game landing page updates
 	 * @param updatePlayer function to handle updating a player location.
 	 * @param getPlayers   function to handle getting all client locations other
 	 *                     than the calling client.
 	 */
-	public GameMap(Canvas canvas, BiConsumer<String, Location> updatePlayer, Supplier<List<Sprite>> getPlayers) {
+	public GameMap(Canvas canvas, BorderPane borderPane, BiConsumer<String, Location> updatePlayer, Supplier<List<Sprite>> getPlayers) {
 		this.updatePlayer = updatePlayer;
 		this.otherPlayers = getPlayers;
+		this.gamePane = borderPane;
+
 		setupCanvas(canvas, "/tilesets/texture.png", tm);
 	}
 
@@ -105,7 +111,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 			public void handle(long currentNanoTime) {
 				hero.move(tm, hero); //controls hero movement
 				//Check the location to move to new worlds
-				if (WorldController.locationCheck(new Location((int)hero.getPosX(),(int) hero.getPosY()), worldID, canvas) != 0) {
+				if (WorldController.locationCheck(new Location((int)hero.getPosX(),(int) hero.getPosY()), gamePane, worldID, canvas) != 0) {
 					this.stop(); //stop this instance new instance for new world started.
 				}
 				updatePlayers();
