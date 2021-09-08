@@ -76,17 +76,17 @@ public class LandingPageFrogger extends Node {
 
         // Play button
         playButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        playButton.setStyle("-fx-background-color: #FFFFF");
+        playButton.setStyle("-fx-background-color: #15f51f");
         grid.add(playButton, 1, 11, 2, 3);
 
         // Instructions
         instructionsButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        instructionsButton.setStyle("-fx-background-color: #FFFFF");
+        instructionsButton.setStyle("-fx-background-color: #15f51f");
         grid.add(instructionsButton, 1, 14, 2, 3);
 
         // Exit button
         exitButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        exitButton.setStyle("-fx-background-color: #FFFFF");
+        exitButton.setStyle("-fx-background-color: #15f51f");
         grid.add(exitButton, 1, 17, 2, 3);
 
         stage.getChildren().add(grid);

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
+import muck.client.character_client.CatNPC;
 
 /**
  * The Game Map class...
@@ -41,6 +42,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	private Supplier<List<Sprite>> otherPlayers;
 	List<Sprite> players = new ArrayList<Sprite>();
 	public int worldID = 1;
+	CatNPC cat = new CatNPC("1", 400,300, "brown", "right" );
 
 	public GameMap(Canvas canvas) {
 		setupCanvas(canvas, "/tilesets/texture.png", tm);
@@ -108,15 +110,12 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 				if (WorldController.locationCheck(new Location((int)hero.getPosX(),(int) hero.getPosY()), worldID, canvas) != 0) {
 					this.stop(); //stop this instance new instance for new world started.
 				}
-				if (uP == 10) { //Update players every 10 frames
-					updatePlayers();
-					uP = 0;
-				} else {
-					uP = uP++;
-				}
+				updatePlayers();
+
 				gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight()); //blank the screen
 				cameraX = hero.getPosX() - centerX; //Camera top left relative to hero X
 				cameraY = hero.getPosY() - centerY; //Camera top left relative to hero Y
+
 				//Ensure the camera does not go outside the game boundaries
 				cameraPositionCheck();
 				startX = (int) (cameraX / tm.getTileWidth());
@@ -134,6 +133,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 				drawLayer(2); //Solid
 
 				Sprite.drawHero(gc, tm, hero, centerX,centerY);
+				cat.drawCatNPC(gc, cameraX, cameraY);
 
 				// Added by Trent - 20/08
 				// Gets a list of other player locations and draws them on screen
@@ -225,6 +225,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	}
 
 	public void updatePlayers() {
+		players = otherPlayers.get();
 		if (otherPlayers != null) {
 			players = otherPlayers.get();
 		}

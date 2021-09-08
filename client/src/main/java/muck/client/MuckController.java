@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -29,6 +30,7 @@ import java.util.function.BiConsumer;
 import java.util.logging.Level;
 
 import javafx.scene.text.Font;
+import muck.client.tictactoe.TTTLandingPage;
 import muck.core.Location;
 
 import javafx.scene.text.Text;
@@ -46,6 +48,7 @@ public class MuckController implements Initializable {
 
     public Font x3;
     public Color x4;
+    public ImageView plusImg;
     @FXML // fx:id="windowPane" The pane that seperated the game area and the chat area
     private SplitPane windowPane; // Value injected by FXMLLoader
 
@@ -94,6 +97,9 @@ public class MuckController implements Initializable {
     @FXML // fx:id="froggerMenu"   The menu item to add another tab
     private MenuItem froggerMenu; // Value injected by FXMLLoader
 
+    @FXML // fx:id="tttMenu"   The menu item to add another tab
+    private MenuItem tttMenu; // Value injected by FXMLLoader
+
     @FXML
     private MenuItem quitMuck; // Value injected by FXMLLoader
 
@@ -106,6 +112,10 @@ public class MuckController implements Initializable {
     @FXML // fx:id="closeChat" The x button when the chat is open
     private Button closeChat; // Value injected by FXMLLoader
 
+    @FXML // fx:id="dashboardMenuImg" The x button when the chat is open
+    private ImageView dashboardMenuImg; // Value injected by FXMLLoader
+
+
     @FXML // fx:id="game1Button" The space invaders button. This is supposed to be temporary
     private Button game1Button; // Value injected by FXMLLoader
 
@@ -115,6 +125,9 @@ public class MuckController implements Initializable {
     @FXML
     private Button game3Button;
 
+    @FXML
+    private Button game5Button;
+
     @FXML //fx:id="userNameDisplay"
     private Text userNameDisplay;
 
@@ -122,8 +135,6 @@ public class MuckController implements Initializable {
     private Image chosenAvatar;
 
     String message;
-
-    int x = 0;
 
     private static String userName;
     private static String displayName;
@@ -143,6 +154,8 @@ public class MuckController implements Initializable {
         game1Button.setOnAction(this::launchSpaceInvaders);
         game2Button.setOnAction(this::launchEnduringFantasy);
         game3Button.setOnAction(this::launchFrogger);
+        game5Button.setOnAction(this::launchTicTacToe);
+        tttMenu.setOnAction(this::launchTicTacToe);
         enter.setOnAction(this::sendMessage);
         openFullChat.setOnAction(this::openFullChat);
         chatMenuOpen.setOnAction(this::openFullChat);
@@ -159,6 +172,7 @@ public class MuckController implements Initializable {
         //Timer messageChecker = new Timer();
         //messageChecker.scheduleAtFixedRate(new getMessagesTask(), 0, 200);
         quitMuck.setOnAction(this::quitMuck);
+        dashboardMenuImg.setImage(chosenAvatar);
         playerDashboardMenu.setOnAction(this::openPlayerDashboardMenu); //Opens player Dashboard
         // Creates and sets the player list service to be called every second, to update the current player list
         PlayerListService service = new PlayerListService(playerTextArea);
@@ -243,7 +257,7 @@ public class MuckController implements Initializable {
             Tab currentTab = chatPane1.getSelectionModel().getSelectedItem();
             String currentID = currentTab.getId();
             if (currentID.equals("groupChat")) {
-                groupChatBox.appendText(userName + ": " + message + "\n");
+                groupChatBox.appendText(displayName + ": " + message + "\n");
                 messageBox.clear();
 
 
@@ -251,11 +265,11 @@ public class MuckController implements Initializable {
                 currentMessage.setMessage(message);
                 MuckClient.INSTANCE.send(currentMessage);
 
-                //groupChatBox.appendText("UserName Here: "+ MuckClient.INSTANCE.getCurrentMessage()+ "\n");
+                //groupChatBox.appendText("displayName Here: "+ MuckClient.INSTANCE.getCurrentMessage()+ "\n");
             } else {
                 int num = chatPane1.getTabs().indexOf(currentTab) + 1;
                 TextArea currentChatBox = (TextArea) chatPane1.lookup("#chatbox" + num);
-                currentChatBox.appendText(userName + ": " + message + "\n");
+                currentChatBox.appendText(displayName + ": " + message + "\n");
                 messageBox.clear();
             }
         }
@@ -331,23 +345,34 @@ public class MuckController implements Initializable {
     @FXML
     private void launchEnduringFantasy (ActionEvent event){
         gamePane1.getChildren().clear();
-        Canvas EFCanvas = new Canvas();
-        EFCanvas.setHeight(gameCanvas.getHeight());
-        EFCanvas.setWidth(gameCanvas.getWidth());
-        gamePane1.setCenter(EFCanvas);
-        BorderPane.setAlignment(EFCanvas, Pos.CENTER);
-        new LandingPageEf(gamePane1, EFCanvas);
+        Canvas canvas = new Canvas();
+        canvas.setHeight(gameCanvas.getHeight());
+        canvas.setWidth(gameCanvas.getWidth());
+        gamePane1.setCenter(canvas);
+        BorderPane.setAlignment(canvas, Pos.CENTER);
+        new LandingPageEf(gamePane1, canvas);
     }
 
     @FXML
     private void launchFrogger (ActionEvent event){
         gamePane1.getChildren().clear();
-        Canvas EFCanvas = new Canvas();
-        EFCanvas.setHeight(gameCanvas.getHeight());
-        EFCanvas.setWidth(gameCanvas.getWidth());
-        gamePane1.setCenter(EFCanvas);
-        BorderPane.setAlignment(EFCanvas, Pos.CENTER);
-        new LandingPageFrogger(gamePane1, EFCanvas);
+        Canvas canvas = new Canvas();
+        canvas.setHeight(gameCanvas.getHeight());
+        canvas.setWidth(gameCanvas.getWidth());
+        gamePane1.setCenter(canvas);
+        BorderPane.setAlignment(canvas, Pos.CENTER);
+        new LandingPageFrogger(gamePane1, canvas);
+    }
+
+    @FXML
+    private void launchTicTacToe (ActionEvent event){
+        gamePane1.getChildren().clear();
+        Canvas canvas = new Canvas();
+        canvas.setHeight(gameCanvas.getHeight());
+        canvas.setWidth(gameCanvas.getWidth());
+        gamePane1.setCenter(canvas);
+        BorderPane.setAlignment(canvas, Pos.CENTER);
+        new TTTLandingPage(gamePane1, canvas);
     }
 
     //Exits Muck consistent with the 'X' button when you choose exit from menu
