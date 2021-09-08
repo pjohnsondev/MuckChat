@@ -46,6 +46,16 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	public int worldID = 1;
 	CatNPC cat = new CatNPC("1", 400,300, "brown", "right" );
 
+	// CA - Infinite Loops
+	// Use this method when returning from a game landing page
+	public GameMap(Canvas canvas, BorderPane borderPane) {
+		setupCanvas(canvas, "/tilesets/texture.png", tm);
+		gamePane = borderPane;
+		updatePlayer = (s, l) -> {
+		};
+		otherPlayers = () -> new ArrayList<Sprite>();
+	}
+
 	public GameMap(Canvas canvas) {
 		setupCanvas(canvas, "/tilesets/texture.png", tm);
 		updatePlayer = (s, l) -> {
