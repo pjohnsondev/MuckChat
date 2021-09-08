@@ -19,7 +19,7 @@ import muck.client.character_client.CatNPC;
  */
 public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	TileMapReader tm = new TileMapReader("/maps/homeTown.tmx");
-	Sprite hero = new Sprite(300,300); //Create the player sprite
+	public Sprite hero = new Sprite(300,300); //Create the player sprite
 	private int startX; //The first tile to be drawn
 	private int startY; //The first tile to be drawn
 	private int offX; //Tile offset in pixels as hero moves pixel by pixel
