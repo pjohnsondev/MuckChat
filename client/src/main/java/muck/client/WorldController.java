@@ -16,9 +16,9 @@ public class WorldController {
                     //TODO Achievement "You explored the Inn"
                     TileMapReader tm = new TileMapReader("/maps/homeTown.tmx");
                     GameMap gm = new GameMap(canvas, "/tilesets/texture.png", tm);
-                    gm.worldID = 2;
-                    gm.hero.setPosX(10);
-                    gm.hero.setPosY(10);
+                    gm.worldID = 1;
+                    gm.hero.setPosX(145);
+                    gm.hero.setPosY(290);
                     return 1;
                 }
             }

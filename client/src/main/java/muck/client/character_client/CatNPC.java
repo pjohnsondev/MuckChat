@@ -91,10 +91,10 @@ public class CatNPC extends NPC {
      * TODO: Draw image so it remains still while player is moving
      * Draw cat
      * @param gc
-     * @param tm
+     * @param cameraX,cameraY The top left corner co-ordinate of the viewport - Added by dandre20
      */
-    public void drawCatNPC(GraphicsContext gc, TileMapReader tm) {
-        gc.drawImage(this.image, this.sx, this.sh, 48,48, getXPos(),getYPos(),26,30);
+    public void drawCatNPC(GraphicsContext gc, Double cameraX, Double cameraY) {
+        gc.drawImage(this.image, this.sx, this.sh, 48,48, getXPos()- cameraX,getYPos() - cameraY,26,30);
     }
 
     /**
