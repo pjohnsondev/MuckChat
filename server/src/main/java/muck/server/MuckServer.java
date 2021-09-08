@@ -177,6 +177,8 @@ public enum MuckServer {
 			userMessage.setMessage("Invalid sign up details provided. Please provide valid details. Username: "
 					+ signUpInfo.getUsername());
 			kryoServer.sendToTCP(connection.getID(), userMessage);
+		} catch (RuntimeException ex) {
+			ex.printStackTrace();
 		}
 	}
 

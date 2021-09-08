@@ -61,14 +61,20 @@ public enum MuckClient {
 	Client client;
 	public static final Id<ClientId> clientId = new Id<ClientId>();
 
+	/**
+	 * Triggers a request for new sprites and returns the current ones
+	 * This method is intended to be recalled on a regular interval.
+	 */
 	public List<Sprite> getPlayerSprites() {
+	    logger.info("Requesting more player sprites");
 	    client.sendTCP(new LocationRequest(clientId));
 	    return this.playerSprites;
 	}
 
 	public void updatePlayerLocation(String avatar, Location location) {
-	    var req = new UpdatePlayerRequest(clientId, avatar, location);
 	    logger.info("Updating my location in the gamemap...");
+	    var req = new UpdatePlayerRequest(clientId, avatar, location);
+
 	    client.sendTCP(req);
 	}
 
