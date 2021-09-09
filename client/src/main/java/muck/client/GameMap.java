@@ -42,7 +42,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	private Supplier<List<Sprite>> otherPlayers;
 	List<Sprite> players = new ArrayList<Sprite>();
 	public int worldID = 1;
-	CatNPC cat = new CatNPC("1", 400,300, "brown", "right" );
+	CatNPC cat = new CatNPC("1", 400,250, "brown", "right" );
 
 	public GameMap(Canvas canvas) {
 		setupCanvas(canvas, "/tilesets/texture.png", tm);
@@ -111,7 +111,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 					this.stop(); //stop this instance new instance for new world started.
 				}
 				updatePlayers();
-
+				cat.handle(tm); // added cat movement - @kgusti
 				gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight()); //blank the screen
 				cameraX = hero.getPosX() - centerX; //Camera top left relative to hero X
 				cameraY = hero.getPosY() - centerY; //Camera top left relative to hero Y
