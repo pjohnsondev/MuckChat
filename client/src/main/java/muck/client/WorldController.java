@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.BorderPane;
 import muck.client.enduring_fantasy.LandingPageEf;
+import muck.client.frogger.LandingPageFrogger;
 import muck.client.space_invaders.LandingPage;
 import muck.core.Location;
 
@@ -16,6 +17,8 @@ public class WorldController {
     private static BorderPane gamePane;
 
     public static int locationCheck(Location player, BorderPane borderPane, int id, Canvas canvas) {
+        x = player.getX();
+        y = player.getY();
         gamePane = borderPane;
         //id 1 = world (homeTown.tmx)
         if (id == 1 ){
@@ -61,6 +64,23 @@ public class WorldController {
                     gamePane.setCenter(EFCanvas);
                     BorderPane.setAlignment(EFCanvas, Pos.CENTER);
                     new LandingPageEf(gamePane, EFCanvas);
+                    return 1;
+                }
+            }
+        }
+
+        //id 1 = homeTown
+        if (id == 1) {
+            if (x > 778 && x < 793) { //Shop house
+                if (y > 288 && y < 295) {
+                    //Opens space invaders game
+                    gamePane.getChildren().clear();
+                    Canvas FrCanvas = new Canvas();
+                    FrCanvas.setHeight(canvas.getHeight());
+                    FrCanvas.setWidth(canvas.getWidth());
+                    gamePane.setCenter(FrCanvas);
+                    BorderPane.setAlignment(FrCanvas, Pos.CENTER);
+                    new LandingPageFrogger(gamePane, FrCanvas);
                     return 1;
                 }
             }
