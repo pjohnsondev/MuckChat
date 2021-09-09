@@ -6,6 +6,7 @@ import javafx.scene.layout.BorderPane;
 import muck.client.enduring_fantasy.LandingPageEf;
 import muck.client.frogger.LandingPageFrogger;
 import muck.client.space_invaders.LandingPage;
+import muck.client.tictactoe.TTTLandingPage;
 import muck.core.Location;
 
 /**
@@ -56,7 +57,7 @@ public class WorldController {
         if (id == 1) {
             if (x > 552 && x < 565) { //Small house
                 if (y > 192 && y < 198) {
-                    //Opens space invaders game
+                    //Opens Enduring Fantasy
                     gamePane.getChildren().clear();
                     Canvas EFCanvas = new Canvas();
                     EFCanvas.setHeight(canvas.getHeight());
@@ -73,7 +74,7 @@ public class WorldController {
         if (id == 1) {
             if (x > 778 && x < 793) { //Shop house
                 if (y > 288 && y < 295) {
-                    //Opens space invaders game
+                    //Opens Frogger game
                     gamePane.getChildren().clear();
                     Canvas FrCanvas = new Canvas();
                     FrCanvas.setHeight(canvas.getHeight());
@@ -81,6 +82,22 @@ public class WorldController {
                     gamePane.setCenter(FrCanvas);
                     BorderPane.setAlignment(FrCanvas, Pos.CENTER);
                     new LandingPageFrogger(gamePane, FrCanvas);
+                    return 1;
+                }
+            }
+        }
+        //id 1 = homeTown
+        if (id == 1) {
+            if (x > 808 && x < 822) { //Cottage house
+                if (y > 512 && y < 519) {
+                    //Opens tic-tac-toe game
+                    gamePane.getChildren().clear();
+                    Canvas TTTCanvas = new Canvas();
+                    TTTCanvas.setHeight(canvas.getHeight());
+                    TTTCanvas.setWidth(canvas.getWidth());
+                    gamePane.setCenter(TTTCanvas);
+                    BorderPane.setAlignment(TTTCanvas, Pos.CENTER);
+                    new TTTLandingPage(gamePane, TTTCanvas);
                     return 1;
                 }
             }
