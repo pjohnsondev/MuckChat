@@ -7,13 +7,36 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class NPCStateRandomWalk implements INPCState {
     NPC npc;
-    float timeWait = 30;
+    float timeWait;
     float elapsed = 0;
-    String walkDirection = "left";
+    float timeWalk;
+    double speed;
     boolean walking = false;
 
+    /**
+     * Initialise with a prefixed random walk times
+     * @param npc NPC
+     */
     public NPCStateRandomWalk(NPC npc) {
         this.npc = npc;
+        this.timeWait = 30;
+        this.timeWalk = 30;
+        this.speed = 1;
+
+    }
+
+    /**
+     * Initialise with optional random walk times
+     * @param npc NPC
+     * @param speed Speed of NPC walk
+     * @param timeWait Time waiting in a spot
+     * @param timeWalk Time while walking
+     */
+    public NPCStateRandomWalk(NPC npc, double speed, float timeWait, float timeWalk) {
+        this.npc = npc;
+        this.timeWait = timeWait;
+        this.timeWalk = timeWalk;
+        this.speed = speed;
     }
 
     @Override
@@ -28,37 +51,37 @@ public class NPCStateRandomWalk implements INPCState {
             int randNum = ThreadLocalRandom.current().nextInt(1, 5);
             switch (randNum) {
                 case 1:
-                    walkDirection="left";
+                    npc.setDirection("left");
                     break;
                 case 2:
-                    walkDirection="right";
+                    npc.setDirection("right");
                     break;
                 case 3:
-                    walkDirection="up";
+                    npc.setDirection("up");
                     break;
                 case 4:
-                    walkDirection="down";
+                    npc.setDirection("down");
                     break;
             }
         }
-        else if (walking && elapsed >= timeWait) {
+        else if (walking && elapsed >= timeWalk) {
             // Now stop walking
             elapsed = 0;
             walking = false;
         }
         else if (walking) {
-            switch (walkDirection) {
+            switch (npc.getDirection()) {
                 case "left":
-                    npc.moveLeft();
+                    npc.moveLeft(speed);
                     break;
                 case "right":
-                    npc.moveRight();
+                    npc.moveRight(speed);
                     break;
                 case "up":
-                    npc.moveUp();
+                    npc.moveUp(speed);
                     break;
                 case "down":
-                    npc.moveDown();
+                    npc.moveDown(speed);
                     break;
             }
         }

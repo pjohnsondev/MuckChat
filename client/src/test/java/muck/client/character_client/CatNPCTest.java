@@ -2,6 +2,7 @@ package muck.client.character_client;
 
 import javafx.scene.canvas.*;
 import javafx.scene.canvas.Canvas;
+import muck.client.TileMapReader;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import static org.mockito.Mockito.*;
+
 public class CatNPCTest {
 
     private static final Logger logger = LogManager.getLogger(CatNPCTest.class);
@@ -87,19 +89,19 @@ public class CatNPCTest {
 
         cat.changeDirection("left");
         assertArrayEquals(
-                (new int[]{0, 48}),
+                (new int[]{0, 49}),
                 cat.getSourceRectangle(),
                 "Direction should be left");
 
         cat.changeDirection("right");
         assertArrayEquals(
-                (new int[]{0, 96}),
+                (new int[]{0, 97}),
                 cat.getSourceRectangle(),
                 "Direction should be right");
 
         cat.changeDirection("up");
         assertArrayEquals(
-                (new int[]{0, 144}),
+                (new int[]{0, 145}),
                 cat.getSourceRectangle(),
                 "Direction should be up");
     }
@@ -126,5 +128,17 @@ public class CatNPCTest {
         doNothing().when(cat).drawCatNPC(gc, 0.0, 0.0);
         cat.drawCatNPC(gc, 0.0, 0.0);
         verify(cat, times(1)).drawCatNPC(gc, 0.0, 0.0);
+    }
+
+    // Test cat NPC walk is invoked
+    @Test
+    public void testHandle() {
+        TileMapReader tm = new TileMapReader("/maps/homeTown.tmx");
+        cat.setNpcRandomWalk(0.3, 60, 30);
+
+        logger.info("Testing handle random walk can invoke");
+        doNothing().when(cat).handle(tm);
+        cat.handle(tm);
+        verify(cat, times(1)).handle(tm);
     }
 }
