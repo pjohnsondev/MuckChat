@@ -16,7 +16,6 @@ public class WorldController {
     private static BorderPane gamePane;
 
     public static int locationCheck(Location player, BorderPane borderPane, int id, Canvas canvas) {
-        System.out.println("x: " + x + " y: " + y);
         gamePane = borderPane;
         //id 1 = world (homeTown.tmx)
         if (id == 1 ){
