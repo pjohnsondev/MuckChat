@@ -63,7 +63,8 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 		otherPlayers = () -> new ArrayList<Sprite>();
 	}
 
-	public GameMap(Canvas canvas, String world, TileMapReader tmNew) {
+	public GameMap(Canvas canvas, BorderPane boarderPane, String world, TileMapReader tmNew) {
+		this.gamePane = boarderPane;
 		setupCanvas(canvas, world, tmNew);
 		updatePlayer = (s, l) -> {
 		};
