@@ -18,8 +18,6 @@ public class userMessage {
     private int senderConnectionId;
 
 
-    // public userMessage() {}
-
     /**
      * setMessage sets the message to be sent.
      * @param messageIn

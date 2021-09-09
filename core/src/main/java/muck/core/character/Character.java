@@ -20,21 +20,43 @@ public abstract class Character {
     //TODO
     // Character location on the world map. x, y coords? Which group is handling world map?
     //    private int _xCoord; - Example
-    
+    private int xPos;
+    private int yPos;
+
     //TODO
     // Common stats next, eg: attack, defense, strength, constitution, wisdom, etc? 
     // Up to Issue: #14. Collaboration required
-    //    private int _strength; - Example
+
     // Character stats
-    private int _health = 100;
-    private int _attack = 0;
-    private int _defence = 0;
+    private int _health;
+    private int _attack;
+    private int _defence;
 
     /**
      * Set the unique ID for this Character. Should be used cautiously, should probably not be used externally
      */
     protected void setIdentifier(String identifier) {
         _identifier = identifier;
+    }
+    
+    // Move character up
+    public void moveUp() {
+        //TODO - Collaboration needed with team doing movement controller
+    }
+    
+    // Move character down
+    public void moveDown() {
+        //TODO - Collaboration needed with team doing movement controller
+    }
+    
+    // Move character left
+    public void moveLeft() {
+        //TODO - Collaboration needed with team doing movement controller
+    }
+    
+    // Move character right
+    public void moveRight() {
+        //TODO - Collaboration needed with team doing movement controller
     }
     
     
@@ -88,7 +110,7 @@ public abstract class Character {
      * Decreases health of the given character by the specified amount, and returns whether or not
      * the character has died (health = 0 returns true, otherwise false) as a result of this
      * @param amount Amount of health to decrease character by
-     * @return true if character has died true to a result of the health decrease, false if not
+     * @return true if character has died due to a result of the health decrease, false if not
      */
     public boolean decreaseHealth(int amount) {
         int health = getHealth();
@@ -188,6 +210,36 @@ public abstract class Character {
         return false;
     }
 
-   
+    /**
+     * set X position
+     * @param xPos New X position
+     */
+   public void setXPos(int xPos) {
+        this.xPos = xPos;
+   }
+
+    /**
+     * Set Y position
+     * @param yPos new N position
+     */
+    public void setYPos(int yPos) {
+        this.yPos = yPos;
+    }
+
+    /**
+     * Get X position
+     * @return X position
+     */
+    public int getXPos() {
+        return this.xPos;
+    }
+
+    /**
+     * Get Y position
+     * @return Y position
+     */
+    public int getYPos() {
+        return this.yPos;
+    }
     
 }

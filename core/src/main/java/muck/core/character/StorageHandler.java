@@ -17,9 +17,11 @@ public class StorageHandler {
         boolean saveSuccessful = false;
         if (character.getClass() == Player.class) {
             //TODO save Player object
+            
         }
         else if (character.getClass() == NPC.class) {
             //TODO save NPC object
+            return false;
         }
         return saveSuccessful;
     }
@@ -46,6 +48,17 @@ public class StorageHandler {
         ArrayList<String> list = new ArrayList<String>();
         //TODO: implement with db
         return list;
+    }
+
+    /**
+     * Adds an item to the database for the given Player
+     * @param query SQL query to execute
+     * @param identifier Players identifier
+     * @param item Item to add
+     * @param description Item description
+     */
+    public static void addToPlayer(String query, String identifier, String item, String description) {
+        //TODO: implement with db
     }
 
     /**
