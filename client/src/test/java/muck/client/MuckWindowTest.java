@@ -33,6 +33,7 @@ import static org.testfx.matcher.base.NodeMatchers.isEnabled;
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Disabled //Disabled due to out of memory error
 public class MuckWindowTest extends ApplicationTest {
 
     Stage stage;
@@ -86,7 +87,6 @@ public class MuckWindowTest extends ApplicationTest {
      */
 
     @Test
-    @Disabled //Disabled due to out of memory error
     @Order(1)
     public void testMuckWindows() {
         logger.info("Testing that Muck launches");
@@ -119,7 +119,6 @@ public class MuckWindowTest extends ApplicationTest {
 
     //Mocks an App.java instance and a stage and starts it
     @Test
-    @Disabled //Disabled due to out of memory error
     @Order(2)
     public void stageLaunchesTest() throws Exception {
         logger.info("Testing that stage can be started");
@@ -141,7 +140,6 @@ public class MuckWindowTest extends ApplicationTest {
 
     //Checks if the a new tab is added when method is called
     @Test
-    @Disabled //Disabled due to out of memory error
     @Order(4)
     public void newTabTest() {
         logger.info("Testing that new chat tab can be added");
@@ -154,7 +152,6 @@ public class MuckWindowTest extends ApplicationTest {
     }
 
     @Test
-    @Disabled //Disabled due to out of memory error
     @Order(5)
     public void testDashboardOpensAvatarUpdates() {
         Paint avatar =  lookup("#circle").queryAs(Circle.class).getFill();
@@ -252,7 +249,6 @@ public class MuckWindowTest extends ApplicationTest {
 
     //Checks that the game Frogger launches
     @Test
-    @Disabled //Disabled due to out of memory error
     @Order(7)
     public void openFroggerTest()  {
         logger.info("Testing that the game Frogger launches");
@@ -263,7 +259,6 @@ public class MuckWindowTest extends ApplicationTest {
 
     //Checks that the game Space Invaders launches
     @Test
-    @Disabled //Disabled due to out of memory error
     @Order(8)
     public void openSpaceInvadersTest()  {
         logger.info("Testing that the game Space Invaders launches");
@@ -274,7 +269,6 @@ public class MuckWindowTest extends ApplicationTest {
 
     //Checks that the game Enduring Fantasy launches
     @Test
-    @Disabled //Disabled due to out of memory error
     @Order(9)
     public void openEnduringFantasyTest()  {
         logger.info("Testing that the game Enduring Fastasy launches");
@@ -285,7 +279,6 @@ public class MuckWindowTest extends ApplicationTest {
 
     //Checks that alert pops up when quitting and that cancel button is enabled
     @Test
-    @Disabled //Disabled due to out of memory error
     @Order(10)
     public void quitMuckTest() {
         logger.info("Testing that user can access the quit alert");
@@ -300,7 +293,6 @@ public class MuckWindowTest extends ApplicationTest {
     // *********** END MUCK CONTROLLER TESTING ****************
 
     @AfterAll
-    @Disabled //Disabled due to out of memory error
     public static void testWindowClose() throws TimeoutException {
         logger.info("Closing window");
         FxToolkit.cleanupStages();

@@ -92,6 +92,7 @@ abstract public class Database {
      * @param sql   An Apache Derby compliant SQL query.
      */
     public void query(String sql) {
+
         try {
             statement = conn.prepareStatement(sql);
         } catch (SQLException exception) {

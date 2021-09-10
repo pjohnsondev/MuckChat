@@ -36,9 +36,10 @@ public class TTTLandingPage extends Node {
 
     final GridPane grid = new GridPane();
     private GraphicsContext gc;
+    private BorderPane gamePane;
 
     public TTTLandingPage(BorderPane stage, Canvas canvas) {
-
+        gamePane = stage;
         gc = canvas.getGraphicsContext2D();
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), e -> background(gc)));
@@ -135,7 +136,10 @@ public class TTTLandingPage extends Node {
 
         exitButton.setOnAction(event -> {
             stage.getChildren().removeAll(grid, canvas);
-            new GameMap(canvas);
+            GameMap gm = new GameMap(canvas, gamePane);
+            gm.hero.sh = 0; //point hero downwards
+            gm.hero.setPosX(815); // Sets the sprite outside the door they entered for the game
+            gm.hero.setPosY(524);
             canvas.setId("gameCanvas");
             stage.getChildren().add(canvas);
         });

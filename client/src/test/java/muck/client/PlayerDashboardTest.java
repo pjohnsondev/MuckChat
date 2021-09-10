@@ -22,6 +22,7 @@ import java.util.concurrent.TimeoutException;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Disabled //Disabled due to out of memory error
 public class PlayerDashboardTest extends ApplicationTest {
 
     private static final Logger logger = LogManager.getLogger(PlayerDashboardTest.class);
@@ -140,7 +141,6 @@ public class PlayerDashboardTest extends ApplicationTest {
     }
 
     @Test
-    @Disabled //Disabled due to out of memory error
     @Order(3)
     // Checks that the achievements logged on the screen are the same as the achievements stored for a player
     public void testAchievementsUpdate() {
@@ -169,7 +169,6 @@ public class PlayerDashboardTest extends ApplicationTest {
     }
 
     @Test
-    @Disabled //Disabled due to out of memory error
     @Order(4)
     // Makes sure the window closes when the returnToGame button is pressed.
     // Checks the correct details are sent to Muck on return
@@ -180,7 +179,6 @@ public class PlayerDashboardTest extends ApplicationTest {
  }
 
     @AfterAll
-    @Disabled //Disabled due to out of memory error
     public static void testWindowClose() throws TimeoutException {
         logger.info("Closing window");
         FxToolkit.cleanupStages();
