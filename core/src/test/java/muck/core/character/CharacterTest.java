@@ -13,7 +13,7 @@ public class CharacterTest {
     private static Character player;
 
     @BeforeAll
-    public static void init() {
+    public static void setup() {
         player = mock(Player.class, CALLS_REAL_METHODS);
     }
 
@@ -53,6 +53,27 @@ public class CharacterTest {
         assertAll("Testing setting a valid direction, then an invalid one",
                 () -> assertTrue(player.setDirection("down")),
                 () -> assertFalse(player.setDirection("notValid")));
+    }
+
+    // Test Character movement
+    @Test
+    public void testMove() {
+        player.setXPos(0);
+        player.setYPos(0);
+
+        logger.info("Testing movement of character");
+
+        player.moveDown(1);
+        assertNotEquals(0, player.getYPos());
+
+        player.moveUp(2);
+        assertNotEquals(0, player.getYPos());
+
+        player.moveRight(1);
+        assertNotEquals(0, player.getXPos());
+
+        player.moveLeft(2);
+        assertNotEquals(0, player.getXPos());
     }
 
     // Test player health changes behave as expected
