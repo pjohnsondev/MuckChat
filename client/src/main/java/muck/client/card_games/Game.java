@@ -13,7 +13,7 @@ public class Game {
     //this player
     public Player player1;
     //other player
-    public Opponent player2;
+    public ComputerOpponent player2;
     public Deck deck;
     //as long as active is true, the current round remains active. once it is changed to false, the turn ends
     public boolean active;
@@ -26,7 +26,7 @@ public class Game {
         currentRound = 1;
         roundId = 0;
         player1 = new Player();
-        player2 = new Opponent();
+        player2 = new ComputerOpponent(1);
         deck = new Deck();
     }
 
@@ -65,6 +65,39 @@ public class Game {
     public void printCards(int number){
         card_list = player1.hand.cards.get(player1.hand.cards.size() - 1).getCardName() + " of " +
                 player1.hand.cards.get(player1.hand.cards.size() - 1).getSuit() + ".";
+    }
+
+    public void computersTurn(){
+        int card = player2.askForCard();
+        boolean goFish = checkForMatch(card);
+        if (goFish == true){
+            //popup with button that says "go fish" to close window
+            player2.hand.drawTopCard(deck);
+        }
+        else {
+            //popup with button that says "Player 2 asked for *** " to close window
+            giveComputerCard(card);
+        }
+    }
+
+    public boolean checkForMatch(int matchId){
+        for (int i = 0; i < player1.hand.cards.size(); i++) {
+            if (matchId == player1.hand.cards.get(i).getMatchId()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    //This function is called by an event handler if the computer asked for a card the player has
+    public void giveComputerCard(int matchId){
+        for (int i = 0; i < player1.hand.cards.size(); i++){
+            if (matchId == player1.hand.cards.get(i).getMatchId()){
+                player2.hand.cards.add(player1.hand.cards.get(i));
+                player1.hand.cards.remove(player1.hand.cards.get(i));
+            }
+        }
     }
 
   public static void main(String[] args){
