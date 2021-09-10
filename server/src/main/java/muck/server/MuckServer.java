@@ -53,7 +53,7 @@ public enum MuckServer {
 	// Tries to make handling background tasks easier
 	WorkerManager workerManager = new WorkerManager();
 
-	ICharacterLocationTracker<ClientId> tracker = new CharacterLocationTracker<ClientId>();
+	static ICharacterLocationTracker<ClientId> tracker = new CharacterLocationTracker<ClientId>();
 
 	HashMap<Integer, String> players = new HashMap<Integer, String>();
 
@@ -132,9 +132,7 @@ public enum MuckServer {
 		}));
 
 		addListener(ListenerBuilder.forClass(muck.core.LocationRequest.class).onReceive((connection, lr) -> {
-			logger.info(String.format("Recieved a request for player locations from clientId: %s", lr.id));
 			List<Pair<String, Location>> locs = tracker.getAllLocationsExceptId(lr.id);
-			logger.info(String.format("Sending back: %s", locs.toString()));
 			kryoServer.sendToTCP(connection.getID(), new LocationResponse(locs));
 		}));
 
