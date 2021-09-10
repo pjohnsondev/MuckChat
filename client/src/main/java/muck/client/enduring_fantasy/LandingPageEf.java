@@ -85,7 +85,7 @@ public class LandingPageEf extends Node {
 
         // Play button
         playButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        playButton.setStyle("-fx-background-color: #cebfbf");
+        playButton.setStyle("-fx-background-color:  #003366");
         grid.add(playButton, 1, 25, 3, 5);
 
         // Instructions
