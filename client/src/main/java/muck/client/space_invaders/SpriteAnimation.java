@@ -1,6 +1,8 @@
 package muck.client.space_invaders;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 
 public class SpriteAnimation extends Image {
 
@@ -16,7 +18,9 @@ public class SpriteAnimation extends Image {
     private String type;
     // Default sprite size
     private static final Double SPRITE_SIZE = 50.00;
-
+    // Sprite movement distance
+    private static final int SPRITE_MOVEMENT = 4;
+    private KeyCode direction;
 
     /**
      * Default constructor
@@ -63,9 +67,7 @@ public class SpriteAnimation extends Image {
     }
 
     // Set and get methods
-    public void setHealth(int health) {
-        this.health = health;
-    }
+    public void setHealth(int health) { this.health = health; }
 
     public int getHealth() {
         return health;
@@ -87,12 +89,36 @@ public class SpriteAnimation extends Image {
         this.x = x;
     }
 
-    public int getY() {
-        return y;
+    public int getY() { return y; }
+
+    public void setY(int y) { this.y = y; }
+
+    public void setDirection(KeyCode direction) {
+        this.direction = direction;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public KeyCode getDirection() { return direction; }
+
+    // Movement methods
+    public void moveRight(){
+        this.setX(this.getX() + SPRITE_MOVEMENT);
+    }
+
+    public void moveLeft(){
+        this.setX(this.getX() - SPRITE_MOVEMENT);
+    }
+
+    public void moveUp(){
+        this.setY(this.getY() - SPRITE_MOVEMENT);
+    }
+
+    public void moveDown(){
+        this.setY(this.getY() + SPRITE_MOVEMENT);
+    }
+
+    // Overloaded movement method for enemies
+    public void moveDown(int movementRate){
+        this.setY(this.getY() + movementRate);
     }
 
     @Override

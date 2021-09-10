@@ -1,15 +1,18 @@
 package muck.client.character_client;
 
 import javafx.scene.canvas.GraphicsContext;
-import muck.client.TileMapReader;
 import javafx.scene.image.Image;
+import muck.client.TileMapReader;
 import muck.core.character.NPC;
+import muck.core.character.NPCState;
+import muck.core.character.NPCStateRandomWalk;
 
 public class CatNPC extends NPC {
     private final Image image;
     private int base; // Top and Bottom Colours (0/192)
     private int sx; // Colour (0/144/288/432)
     private int sh; // Direction (48/96/144)
+    public NPCStateRandomWalk npcStateRandomWalk;
 
     /**
      * Constructor - Position and colour
@@ -25,6 +28,7 @@ public class CatNPC extends NPC {
         setYPos(yPos);
         setNPCStats(10, 1, 1, 1);
         setColour(colour);
+        setNpcRandomWalk(0.3, 60, 30);
     }
 
     /**
@@ -43,6 +47,7 @@ public class CatNPC extends NPC {
         setNPCStats(10, 1, 1, 1);
         setColour(colour);
         changeDirection(direction);
+        setNpcRandomWalk(0.3, 60, 30);
     }
 
     /**
@@ -88,13 +93,21 @@ public class CatNPC extends NPC {
     }
 
     /**
-     * TODO: Draw image so it remains still while player is moving
-     * Draw cat
-     * @param gc
+     * Draw cat to the map
+     * @param gc The graphics context to draw to map
      * @param cameraX,cameraY The top left corner co-ordinate of the viewport - Added by dandre20
      */
     public void drawCatNPC(GraphicsContext gc, Double cameraX, Double cameraY) {
-        gc.drawImage(this.image, this.sx, this.sh, 48,48, getXPos()- cameraX,getYPos() - cameraY,26,30);
+        gc.drawImage(
+                this.image,
+                this.sx,
+                this.sh,
+                48,
+                48,
+                this.getXPos() - cameraX,
+                this.getYPos() - cameraY,
+                26,
+                30);
     }
 
     /**
@@ -103,16 +116,15 @@ public class CatNPC extends NPC {
      */
     public void changeDirection(String direction) {
         this.setDirection(direction);
-        System.out.println(this.getDirection());
         switch (getDirection()) {
             case "left":
-                sh = base + 48;
+                sh = base + 49;
                 break;
             case "right":
-                sh = base + 96;
+                sh = base + 97;
                 break;
             case "up":
-                sh = base + 144;
+                sh = base + 145;
                 break;
             default:
                 sh = base;
@@ -150,5 +162,40 @@ public class CatNPC extends NPC {
      */
     public int[] getSourceRectangle() {
         return new int[]{this.sx, this.sh};
+    }
+
+    /**
+     * Set NPC Random Walk speed and times
+     * @param speed Speed of NPC walk
+     * @param timeWait Time waiting in a spot
+     * @param timeWalk Time while walking
+     */
+    public void setNpcRandomWalk(double speed, float timeWait, float timeWalk) {
+        npcStateRandomWalk = new NPCStateRandomWalk(this, speed, timeWait, timeWalk);
+        setState(NPCState.RandomWalk);
+    }
+
+    /**
+     * Implements npcStateRandomWalk and allows cat to walk in random directions
+     * @param tm TileMapReader of map for collision detection
+     */
+    public void handle(TileMapReader tm) {
+        double previousX = this.getXPos();
+        double previousY = this.getYPos();
+
+        this.npcStateRandomWalk.handle();
+        this.changeDirection(this.getDirection());
+
+        // get layer 1 at center of cat image
+        int GID = tm.getLayerId(
+                2,
+                (int)Math.floor((getXPos()+24)/tm.getTileWidth()),
+                (int)Math.abs((getYPos()+24)/tm.getTileHeight()));
+
+        // collision detection for layer 1 objects and boundaries
+        if (GID != -1 || getXPos() == 0 || getYPos() + 10 == 0) {
+            setXPos(previousX);
+            setYPos(previousY);
+        }
     }
 }

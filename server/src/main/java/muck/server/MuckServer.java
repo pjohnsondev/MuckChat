@@ -16,7 +16,7 @@ import muck.core.character.Player;
 import muck.core.user.SignUpInfo;
 import muck.server.models.ModelRegister;
 import muck.server.services.UserService;
-import muck.server.structures.UserStructure;
+import muck.core.structures.UserStructure;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,7 +27,9 @@ import java.io.IOException;
 
 import java.sql.SQLException;
 import java.util.List;
+
 import muck.core.LocationResponse;
+
 import java.util.HashMap;
 
 /**
@@ -36,67 +38,70 @@ import java.util.HashMap;
  */
 public enum MuckServer {
 
-	/** The single instance of the server that exists */
-	INSTANCE;
+    /**
+     * The single instance of the server that exists
+     */
+    INSTANCE;
 
-	/** Gets the MuckServer object */
-	public static MuckServer getINSTANCE() {
-		return INSTANCE;
-	}
+    /**
+     * Gets the MuckServer object
+     */
+    public static MuckServer getINSTANCE() {
+        return INSTANCE;
+    }
 
-	/** A logger for logging output */
-	private static final Logger logger = LogManager.getLogger(MuckServer.class);
+    /**
+     * A logger for logging output
+     */
+    private static final Logger logger = LogManager.getLogger(MuckServer.class);
 
-	// Create a new KryoNet server
-	Server kryoServer;
+    // Create a new KryoNet server
+    Server kryoServer;
 
-	// Tries to make handling background tasks easier
-	WorkerManager workerManager = new WorkerManager();
+    // Tries to make handling background tasks easier
+    WorkerManager workerManager = new WorkerManager();
 
-	static ICharacterLocationTracker<ClientId> tracker = new CharacterLocationTracker<ClientId>();
+    ICharacterLocationTracker<ClientId> tracker = new CharacterLocationTracker<ClientId>();
 
-	HashMap<Integer, String> players = new HashMap<Integer, String>();
+    HashMap<Integer, String> players = new HashMap<Integer, String>();
 
-	/** Sets up the KryoNet server that will handle communication */
-	synchronized void startKryo(KryoServerConfig config) throws IOException {
+    /**
+     * Sets up the KryoNet server that will handle communication
+     */
+    synchronized void startKryo(KryoServerConfig config) throws IOException {
 
-		if (kryoServer != null) {
-			throw new IllegalStateException("Attempted to start KryoServer when it was already started");
-		}
+        if (kryoServer != null) {
+            throw new IllegalStateException("Attempted to start KryoServer when it was already started");
+        }
 
-		// Create a new KryoNet server
-		kryoServer = new Server() {
-			protected Connection newConnection() {
-				return new MuckConnection();
-			}
-		};
-		kryoServer.start();
-
-		// Register the protocol classes with Kryo
-		Protocol.register(kryoServer.getKryo());
-        // Make necessary migrations to set up database (their not really migrations but what can you do)
-        new ModelRegister().makeMigrations();
-
+        // Create a new KryoNet server
+        kryoServer = new Server() {
+            protected Connection newConnection() {
+                return new MuckConnection();
+            }
+        };
+        kryoServer.start();
 
         // Register the protocol classes with Kryo
         Protocol.register(kryoServer.getKryo());
+        // Make necessary migrations to set up database (their not really migrations but what can you do)
+        new ModelRegister().makeMigrations();
+        // Bind the server to the configured ports
+        kryoServer.bind(config.getTcpPort(), config.getUdpPort());
 
-		// Bind the server to the configured ports
-		kryoServer.bind(config.getTcpPort(), config.getUdpPort());
+        // Adds a listener to listen for clients disconnecting from the server, then
+        // removes them from the players hashmap and sends to all connected clients.
+        addListener(ListenerBuilder.forClass(Disconnect.class).onReceive((conn, disconnect) -> {
+            logger.info("Disconnect has been called");
+            players.remove(conn.getID()); // This will obtain the index of the player
+            logger.info("Player connection id's are: {} disconnected: {}", players, disconnect);
+            kryoServer.sendToAllExceptTCP(conn.getID(), players);
+        }));
 
-		// Adds a listener to listen for clients disconnecting from the server, then
-		// removes them from the players hashmap and sends to all connected clients.
-		addListener(ListenerBuilder.forClass(Disconnect.class).onReceive((conn, disconnect) -> {
-			logger.info("Disconnect has been called");
-			players.remove(conn.getID()); // This will obtain the index of the player
-			logger.info("Player connection id's are: {} disconnected: {}", players, disconnect);
-			kryoServer.sendToAllExceptTCP(conn.getID(), players);
-		}));
+        // Add a Ping listener. Still being used for debugging.
+        addListener(ListenerBuilder.forClass(Ping.class).onReceive((conn, ping) -> {
 
-		// Add a Ping listener. Still being used for debugging.
-		addListener(ListenerBuilder.forClass(Ping.class).onReceive((conn, ping) -> {
-
-			logger.info("Ping received from {}", conn.getID());
+            logger.info("Ping received from {}", conn.getID());
 
             // Let's just demonstrate how to send messages to worker actors, by sending this message to one.
             workerManager.schedule(ping, reply -> {
@@ -127,9 +132,6 @@ public enum MuckServer {
                 }
         ));
 
-		addListener(ListenerBuilder.forClass(Login.class).onReceive((connection, login) -> {
-			loginPlayer(login, (MuckConnection) connection);
-		}));
 
 		addListener(ListenerBuilder.forClass(muck.core.LocationRequest.class).onReceive((connection, lr) -> {
 			List<Pair<String, Location>> locs = tracker.getAllLocationsExceptId(lr.id);
@@ -141,7 +143,6 @@ public enum MuckServer {
 		}));
 
 		addListener(ListenerBuilder.forClass(UpdatePlayerRequest.class).onReceive((connection, req) -> {
-			logger.info(String.format("Recieved a request to update player for clientId: %s", req.id));
 			tracker.updateLocationById(req.id, req.avatar, req.location);
 		}));
 	}
@@ -181,73 +182,79 @@ public enum MuckServer {
 		logger.info("Attempting to log in");
 		logger.debug("{} is trying to log in", login.getUsername());
 
+
         PlayerManager playerManager = new PlayerManager(new UserService());
 
         UserStructure userStructure = new UserStructure();
         userStructure.username = login.getUsername();
         userStructure.password = login.getPassword();
 
-		Player player = null;
+        Player player = null;
 
-		try {
-			player = playerManager.loginPlayer(userStructure);
-		} catch (DuplicateLoginException ex) {
-			userMessage testMessage = new userMessage(); // Create new message to send back.
-			testMessage.setMessage("Duplicate login");
-			kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
-		} catch (CharacterDoesNotExistException ex) {
-			userMessage testMessage = new userMessage(); // Create new message to send back.
-			testMessage.setMessage("Character does not exist. Please register.");
-			kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
-		} catch (AuthenticationFailedException ex) {
-			userMessage testMessage = new userMessage(); // Create new message to send back.
-			testMessage.setMessage("Supplied credentials are invalid.");
-			kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
-		}
+        try {
+            player = playerManager.loginPlayer(userStructure);
+            // set user as active user
+            kryoServer.sendToTCP((muckConnection.getID()), userStructure);
 
-		muckConnection.setCharacter(player);
+        } catch (DuplicateLoginException ex) {
+            userMessage testMessage = new userMessage(); // Create new message to send back.
+            testMessage.setMessage("Duplicate login");
+            kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
+        } catch (CharacterDoesNotExistException ex) {
+            userMessage testMessage = new userMessage(); // Create new message to send back.
+            testMessage.setMessage("Character does not exist. Please register.");
+            kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
+        } catch (AuthenticationFailedException ex) {
+            userMessage testMessage = new userMessage(); // Create new message to send back.
+            testMessage.setMessage("Supplied credentials are invalid.");
+            kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
+        }
 
-		logger.info("Login successful for {}", login.getUsername());
-		if (!players.containsKey(muckConnection.getID())) {
-			players.put(muckConnection.getID(),login.getUsername());
-			kryoServer.sendToAllTCP(players);
-			logger.info("Players are {}", players.values());
-		}
+        muckConnection.setCharacter(player);
 
-		AddCharacter addCharacter = addCharacter(login.getClientId(), player);
+        logger.info("Login successful for {}", login.getUsername());
+        if (!players.containsKey(muckConnection.getID())) {
+            players.put(muckConnection.getID(), login.getUsername());
+            kryoServer.sendToAllTCP(players);
+            logger.info("Players are {}", players.values());
+        }
 
-		kryoServer.sendToAllTCP(addCharacter);
-	}
+        AddCharacter addCharacter = addCharacter(login.getClientId(), player);
 
-	public AddCharacter addCharacter(Id<ClientId> id, Player character) {
-		Location location = new muck.core.Location(0, 0);
+        kryoServer.sendToAllTCP(addCharacter);
+    }
 
-		AddCharacter addCharacter = new AddCharacter(character, location);
+    public AddCharacter addCharacter(Id<ClientId> id, Player character) {
+        Location location = new muck.core.Location(0, 0);
 
-		tracker.addClient(id, null, new muck.core.Location(location.getX(), location.getY()));
+        AddCharacter addCharacter = new AddCharacter(character, location);
 
-		logger.info("Character added successfully {}", character.getIdentifier());
+        tracker.addClient(id, null, new muck.core.Location(location.getX(), location.getY()));
 
-		return addCharacter;
-	}
+        logger.info("Character added successfully {}", character.getIdentifier());
 
-	/** Stops the KryoNet server. */
-	synchronized void stopKryo() {
-		kryoServer.stop();
-		kryoServer = null;
-	}
+        return addCharacter;
+    }
 
-	/**
-	 * Registers a listener with the KryoNet server.
-	 *
-	 * @param l
-	 */
-	public void addListener(Listener l) {
-		if (kryoServer == null) {
-			throw new IllegalStateException("Attempted to register listener when stopped.");
-		}
+    /**
+     * Stops the KryoNet server.
+     */
+    synchronized void stopKryo() {
+        kryoServer.stop();
+        kryoServer = null;
+    }
 
-		kryoServer.addListener(l);
-	}
+    /**
+     * Registers a listener with the KryoNet server.
+     *
+     * @param l
+     */
+    public void addListener(Listener l) {
+        if (kryoServer == null) {
+            throw new IllegalStateException("Attempted to register listener when stopped.");
+        }
+
+        kryoServer.addListener(l);
+    }
 
 }

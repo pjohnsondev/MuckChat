@@ -1,4 +1,4 @@
-package muck.server.structures;
+package muck.core.structures;
 
 public class UserStructure {
     public Integer id = null;

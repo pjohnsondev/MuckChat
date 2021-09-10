@@ -1,6 +1,5 @@
 package muck.core.character;
 
-//import javafx.scene.image.Image;
 import java.util.Arrays;
 
 /**
@@ -10,22 +9,13 @@ import java.util.Arrays;
  this type, eg: (Character)
  **/
 public abstract class Character {
-    /* === PRIVATE (can be ignored) ===
-    Private fields, please access and modify these stats via the corresponding public API getters/setters instead
-     */
     private String _identifier; //identifier, eg: username, NPC ID, etc
     private String _avatar; //Character avatar, collaboration needed with Issue #7
     private String _direction_facing = "down"; //What direction is the avatar facing?
-    
-    //TODO
-    // Character location on the world map. x, y coords? Which group is handling world map?
-    //    private int _xCoord; - Example
-    private int xPos;
-    private int yPos;
 
-    //TODO
-    // Common stats next, eg: attack, defense, strength, constitution, wisdom, etc? 
-    // Up to Issue: #14. Collaboration required
+    // Character position
+    private double xPos;
+    private double yPos;
 
     // Character stats
     private int _health;
@@ -40,31 +30,25 @@ public abstract class Character {
     }
     
     // Move character up
-    public void moveUp() {
-        //TODO - Collaboration needed with team doing movement controller
+    public void moveUp(double speed) {
+        setYPos(getYPos() - speed);
     }
     
     // Move character down
-    public void moveDown() {
-        //TODO - Collaboration needed with team doing movement controller
+    public void moveDown(double speed) {
+        setYPos(getYPos() + speed);
     }
     
     // Move character left
-    public void moveLeft() {
-        //TODO - Collaboration needed with team doing movement controller
+    public void moveLeft(double speed) {
+        setXPos(getXPos() - speed);
     }
     
     // Move character right
-    public void moveRight() {
-        //TODO - Collaboration needed with team doing movement controller
+    public void moveRight(double speed) {
+        setXPos(getXPos() + speed);
     }
     
-    
-    /* === PUBLIC API ===
-    Public getters/setters appear below here. These serve as an API to all external modules to interact with
-    this class.
-    */
-
     /**
      * Update all backend storage attributes with the values currently in this class
      * @return Boolean whether the save was successful or not
@@ -86,7 +70,7 @@ public abstract class Character {
     }
 
     /**
-     * Sets the character's health.
+     * Sets the character's health and controls if character is dead.
      * @param health Set the character's health to this value. Negative values are converted to 0
      */
     public void setHealth(int health) {
@@ -94,7 +78,12 @@ public abstract class Character {
             //0 represents death, health cannot be set below 0
             health = 0;
         }
-        
+
+        if(health > 100) {
+            // Maximum health
+            health = 100;
+        }
+
         _health = health;
     }
 
@@ -214,7 +203,7 @@ public abstract class Character {
      * set X position
      * @param xPos New X position
      */
-   public void setXPos(int xPos) {
+    public void setXPos(double xPos) {
         this.xPos = xPos;
    }
 
@@ -222,7 +211,7 @@ public abstract class Character {
      * Set Y position
      * @param yPos new N position
      */
-    public void setYPos(int yPos) {
+    public void setYPos(double yPos) {
         this.yPos = yPos;
     }
 
@@ -230,7 +219,7 @@ public abstract class Character {
      * Get X position
      * @return X position
      */
-    public int getXPos() {
+    public double getXPos() {
         return this.xPos;
     }
 
@@ -238,7 +227,7 @@ public abstract class Character {
      * Get Y position
      * @return Y position
      */
-    public int getYPos() {
+    public double getYPos() {
         return this.yPos;
     }
     

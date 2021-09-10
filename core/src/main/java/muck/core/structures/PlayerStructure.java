@@ -1,4 +1,4 @@
-package muck.server.structures;
+package muck.core.structures;
 
 // Player Structure for Feature 9 - Character Class
 public class PlayerStructure {
