@@ -4,11 +4,16 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+
 public class SpriteAnimation extends Image {
 
     // Instance variables
     private double requestedWidth;
     private double requestedHeight;
+    private double positionX;
+    private double positionY;
     private int x;
     private int y;
     private int health;
@@ -84,6 +89,7 @@ public class SpriteAnimation extends Image {
     public int getX() {
         return x;
     }
+    public void doubleGetX() {double x = getX();};
 
     public void setX(int x) {
         this.x = x;
@@ -92,6 +98,10 @@ public class SpriteAnimation extends Image {
     public int getY() { return y; }
 
     public void setY(int y) { this.y = y; }
+
+    public String getType() { return type; }
+
+    public void setType(String type) { this.type = type; }
 
     public void setDirection(KeyCode direction) {
         this.direction = direction;
@@ -119,6 +129,12 @@ public class SpriteAnimation extends Image {
     // Overloaded movement method for enemies
     public void moveDown(int movementRate){
         this.setY(this.getY() + movementRate);
+    }
+
+    // Method used for collision detection between SpriteAnimation objects
+    public Rectangle getBounds() {
+        return new Rectangle(this.getX(), this.getY(), (int) this.getRequestedWidth(),
+                (int) this.getRequestedHeight());
     }
 
     @Override
