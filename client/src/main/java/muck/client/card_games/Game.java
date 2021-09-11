@@ -5,7 +5,7 @@ package muck.client.card_games;
  */
 public class Game {
     //This needs to create an id that is an incremented number on the last created id
-    public int game_id;
+    public int gameId;
     //keeping track of who's turn it is.
     public static int currentRound;
     //unique id to the game to send information to database for other player to receive.
@@ -31,22 +31,22 @@ public class Game {
     }
 
     public void initGame(){
-        deck.shuffle_cards();
+        deck.shuffleCards();
         player1.hand.drawHand(deck);
         player2.hand.drawHand(deck);
     }
 
-    void playerTurn(int round_number){
+    void playerTurn(int roundNumber){
         PlayerTurn player_go = new PlayerTurn();
-        while (round_number == 1){
-            player_go.take_turn(player1);
+        while (roundNumber == 1){
+            player_go.takeTurn(player1);
             currentRound = 2;
             break;
 
         }
 
-        while (round_number == 2){
-            player_go.take_turn(player2);
+        while (roundNumber == 2){
+            player_go.takeTurn(player2);
             currentRound = 1;
             break;
 
@@ -88,6 +88,7 @@ public class Game {
                 return false;
             }
         }
+        return false;
     }
 
     //This function is called by an event handler if the computer asked for a card the player has

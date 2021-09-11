@@ -10,22 +10,22 @@ public class PlayerTurn extends Player {
     Player player;
 
     /**
-     * Constructor Function for the Player_turn Class
+     * Constructor Function for the PlayerTurn Class
      * Takes a Player and turn number. Sets the turn number
      * @param turn
      */
     public PlayerTurn(){}
 
-    void take_turn(Player player) {
+    void takeTurn(Player player) {
         this.turn = turn;
     }
 
     /**
-     * highlight_card Method.
+     * highlightCard Method.
      * TODO: create header for function
      * Is this function needed?
      */
-    void highlight_card(){
+    void highlightCard(){
         /*
             if (card is clicked && no other cards are highlighted && ask == false){
                 all cards of that value are highlighted
@@ -38,10 +38,10 @@ public class PlayerTurn extends Player {
     }
 
     /**
-     * ask_for_card Method.
+     * askForCard Method.
      * TODO: create header for function
      */
-    void ask_for_card(){
+    void askForCard(){
         /*
             if ("ask button" is clicked && ask == false && card(s) are highlighted) {
                 ask other player for card
@@ -54,10 +54,10 @@ public class PlayerTurn extends Player {
     }
 
     /**
-     * create_set Method.
+     * createSet Method.
      * TODO: create header for function
      */
-    void create_set(){
+    void createSet(){
         /*
             if (four cards the same are highlighted && put set away button is clicked) {
                 four cards are moved to player's

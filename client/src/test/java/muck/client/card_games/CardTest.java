@@ -47,11 +47,11 @@ public class CardTest {
         logger.info("Testing that a random card in the deck is not in the same place after a shuffle");
         int randomID = rand.nextInt(52);
         int beforeShuffle = myDeck.cards.get(randomID).getCardId();
-        myDeck.shuffle_cards();
+        myDeck.shuffleCards();
         int afterShuffle = myDeck.cards.get(randomID).getCardId();
         assertNotEquals(beforeShuffle, afterShuffle);
         logger.info("Testing that a random card in the deck is not in the same place after a second shuffle");
-        myDeck.shuffle_cards();
+        myDeck.shuffleCards();
         int afterSecondShuffle = myDeck.cards.get(randomID).getCardId();
         assertNotEquals(afterShuffle, afterSecondShuffle);
     }

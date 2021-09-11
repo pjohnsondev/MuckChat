@@ -1,7 +1,5 @@
 package muck.client.card_games;
 
-import muck.client.CardsGameController;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -26,7 +24,7 @@ public class Hand extends Deck {
     }
 
     /**
-     * draw_top_card Method.
+     * drawTopCard Method.
      * Takes a deck as a parameter. Takes a Card object from that deck and places it into the Hand
      */
     public void drawTopCard(Deck deck) {
@@ -36,7 +34,7 @@ public class Hand extends Deck {
     }
 
     /**
-     * draw_hand Method.
+     * drawHand Method.
      * Takes a deck as a parameter. Takes 7 Card objects from that deck and places it into the Hand
      */
     public void drawHand(Deck deck) {
@@ -55,7 +53,7 @@ public class Hand extends Deck {
     }
 
     /**
-     * select_all Method.
+     * selectAll Method.
      * Takes a card as input and changes that card and others with the same value's selected value to true
      * Also makes sure all other cards are changed to false
      */
@@ -70,7 +68,7 @@ public class Hand extends Deck {
     }
 
     /**
-     * make_set Method.
+     * makeSet Method.
      * Takes a card as input and finds all cards with the same value and moves them to sets Hand if they
      * are all currently selected
      * This is to be called when 4 cards of one type are in the hand together, giving that card type
@@ -110,7 +108,7 @@ public class Hand extends Deck {
     public static void main(String[] args) {
         Hand hand = new Hand();
         Deck deck = new Deck();
-        deck.shuffle_cards();
+        deck.shuffleCards();
         // Trying to draw enough that we have multiple of the same
         for (int i = 0; i < 10; i++) {
             hand.drawTopCard(deck);
