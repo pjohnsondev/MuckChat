@@ -14,7 +14,7 @@ public class PlayerModel extends Model {
     public static final String USER_ID_COL = "user_id";
     public static final String HEALTH_COL = "health";
     public static final String ATTACK_COL = "attack";
-    public static final String DEFENCE_COL = "defence";
+    public static final String DEFENCE_COL = "defense";
 
     public PlayerModel() {
         this.table = "players";
@@ -49,7 +49,7 @@ public class PlayerModel extends Model {
      */
     public void insertNewPlayer(PlayerStructure player) throws SQLException, InvalidParameterException {
         //Insert the new user into the database table
-        db.query("INSERT INTO users (user_id, attack, defence, health) VALUES (?, ?, ?)");
+        db.query("INSERT INTO players (user_id, attack, defense, health) VALUES (?, ?, ?, ?)");
         db.bindInt(1, player.userId);
         db.bindInt(2, player.attack);
         db.bindInt(3, player.defense);

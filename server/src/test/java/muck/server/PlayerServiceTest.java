@@ -3,6 +3,7 @@ package muck.server;
 import muck.core.models.models.User;
 import muck.core.structures.PlayerStructure;
 import muck.core.structures.UserStructure;
+import muck.server.Exceptions.MissingNecessaryPlayerInfoException;
 import muck.server.Exceptions.UserNameAlreadyTakenException;
 import muck.server.models.models.PlayerModel;
 import muck.server.models.models.UserModel;
@@ -13,6 +14,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -43,34 +46,18 @@ public class PlayerServiceTest {
         }
         userService = new UserService(userModel);
         UserStructure userStructure = new UserStructure();
-        userStructure.username = "testUser";
-        userStructure.password = "testUser";
+        userStructure.username = "timTheTester";
+        userStructure.password = "timTheTester";
         try {
             userService.registerNewUser(userStructure);
         } catch (UserNameAlreadyTakenException e) {
             // forget about it we already have the user;
         }
-        this.userStructure = userService.findByUsername("testUser");
+        this.userStructure = userService.findByUsername("timTheTester");
     }
 
-    @AfterEach
-    public void afterEach() throws SQLException {
-        logger.info("This message gets printed after each test runs");
-        dropAndClose(userModel, testDb);
-        dropAndClose(playerModel, testDb);
-    }
-
-    private void dropAndClose(UserModel userModel, TestDatabase testDb) throws SQLException {
-        testDb.dropTable("users");
-        userModel.closeDbConnection();
-    }
-    private void dropAndClose(PlayerModel userModel, TestDatabase testDb) throws SQLException {
-        testDb.dropTable("players");
-        userModel.closeDbConnection();
-    }
-
-
-    public void insertPlayerStatsWithCorrectStatsIsSuccessful() throws SQLException {
+    @Test
+    public void testInsertPlayerStatsWithCorrectStatsIsSuccessful() throws SQLException, MissingNecessaryPlayerInfoException {
         PlayerStructure playerStructure = new PlayerStructure();
         playerStructure.userId = this.userStructure.id;
         playerStructure.defense = 20;

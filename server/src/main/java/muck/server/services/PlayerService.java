@@ -1,6 +1,7 @@
 package muck.server.services;
 
 import muck.core.structures.PlayerStructure;
+import muck.server.Exceptions.MissingNecessaryPlayerInfoException;
 import muck.server.models.models.PlayerModel;
 
 import java.sql.ResultSet;
@@ -18,7 +19,7 @@ public class PlayerService {
         this.playerModel = playerModel;
     }
 
-    public PlayerStructure findByUserId(int userId)  throws SQLException {
+    public PlayerStructure findByUserId(int userId) throws SQLException {
         ResultSet result = playerModel.findByUserId(userId);
         return returnPlayerStructure(result);
     }
@@ -27,7 +28,15 @@ public class PlayerService {
         return returnPlayerStructure(result);
     }
 
-    public void addPlayerInformationToUser(PlayerStructure playerStructure) throws SQLException {
+    public void addPlayerInformationToUser(PlayerStructure playerStructure) throws SQLException, MissingNecessaryPlayerInfoException {
+        if (
+                playerStructure.userId == null
+                || playerStructure.health == null
+                || playerStructure.defense == null
+                || playerStructure.attack == null
+        ) {
+            throw new MissingNecessaryPlayerInfoException();
+        }
         playerModel.insertNewPlayer(playerStructure);
     }
 
