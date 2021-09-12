@@ -95,14 +95,6 @@ public enum MuckServer {
         // Bind the server to the configured ports
         kryoServer.bind(config.getTcpPort(), config.getUdpPort());
 
-        PlayerService playerService = new PlayerService();
-        try {
-            PlayerStructure playerStructure = playerService.findByUserId(1);
-            System.out.println(playerStructure.attack);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
         // Adds a listener to listen for clients disconnecting from the server, then
         // removes them from the players hashmap and sends to all connected clients.
         addListener(ListenerBuilder.forClass(Disconnect.class).onReceive((conn, disconnect) -> {
