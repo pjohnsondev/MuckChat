@@ -54,7 +54,6 @@ public class UserModel extends Model {
     public void insertNewUser(UserStructure user) throws SQLException, InvalidParameterException {
         //Insert the new user into the database table
         db.query("INSERT INTO users (username, password, salt) VALUES (?, ?, ?)");
-        System.out.println(user);
         db.bindString(1, user.username);
         db.bindBytes(2, user.hashedPassword);
         db.bindBytes(3, user.salt);
