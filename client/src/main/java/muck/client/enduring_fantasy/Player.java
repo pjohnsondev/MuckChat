@@ -24,13 +24,13 @@ public class Player extends Character {
 
     /** Lets set level stats **/
     public void setNextLvl(int nextLevel) { this.nextLevel = nextLevel;}
-    public int getNextLevel(){ return this.nextLevel;}
+    public int getNextLvl(){ return this.nextLevel;}
     public void decNextLvl(int newLvl){ this.nextLevel -= newLvl;}
     public void resetLvl(){ this.nextLevel = this.playerLevel * 150;}
     public int getPlayerLvl(){ return this.playerLevel;}
     public void setPlayerLvl(int newLvl){ this.playerLevel = newLvl;}
 
-    public void incPlayLvl() {
+    public void incPcLvl() {
         if (this.nextLevel <= 0) {
             ++this.playerLevel;
             System.out.println("You have increased your level");
@@ -53,7 +53,6 @@ public class Player extends Character {
 
         this.resetLvl();
     } else { System.out.println("Your have gained experience");}
-
     }
 
 

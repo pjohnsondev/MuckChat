@@ -62,7 +62,7 @@ public class Battle {
 
     public void battleInput(String input){
         /** Lets set up the action command window options **/
-        if (input.equalsIgnoreCase("Attack")){ this.pcAttack();
+        if (input.equalsIgnoreCase("Attack")){ this.pcAtk();
         //} else if (input.equalsIgnoreCase("Magic")){ this.magTree();
         } else if (input.equalsIgnoreCase("Rest")){ this.pcRest();
         } else if (input.equalsIgnoreCase("Check")){ this.pcCheck();
@@ -72,10 +72,26 @@ public class Battle {
 
     public void pcCheck(){ this.monster.mobDets(); }
 
-    public void pcAttack(){
+    public boolean pcDeath(){
+        boolean dead = false;
+        if (this.pcHp <= 0){ dead = true;}
+        return dead;
+    }
+
+    public void pcAtk(){
         this.decMobHp(this.pcStr);
         System.out.println("*----------*");
         System.out.println(this.player.getName() + " lands a blow for " + this.pcStr + " on the " + this.monster.getName());
+    }
+
+    public void mobAtk() {
+        if (this.getMobName().equalsIgnoreCase("Rat")) {
+            System.out.println("the Rat bites " + this.player.getName());
+        } else if (this.getMobName().equalsIgnoreCase("Wolf")) {
+            System.out.println("The lone Wolf lunges at " + this.player.getName());
+        } else if (this.getMobName().equalsIgnoreCase("Bear")) {
+            System.out.println("The feral Bear mauls " + this.player.getName()); }
+        this.pcHp -= this.getMobDmg();
     }
 
     public void pcRest(){
