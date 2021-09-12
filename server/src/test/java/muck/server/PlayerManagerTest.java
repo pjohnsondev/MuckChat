@@ -2,9 +2,10 @@ package muck.server;
 
 import muck.core.character.CharacterDoesNotExistException;
 import muck.core.character.Player;
+import muck.server.Exceptions.UserNameAlreadyTakenException;
 import muck.server.models.models.UserModel;
 import muck.server.services.UserService;
-import muck.server.structures.UserStructure;
+import muck.core.structures.UserStructure;
 import muck.server.testHelpers.TestDatabase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -61,7 +62,7 @@ public class PlayerManagerTest {
     }
 
     @Test
-    public void loginIsSuccessfulWithValidCredentials() throws SQLException, CharacterDoesNotExistException, DuplicateLoginException, AuthenticationFailedException {
+    public void loginIsSuccessfulWithValidCredentials() throws SQLException, CharacterDoesNotExistException, DuplicateLoginException, AuthenticationFailedException, UserNameAlreadyTakenException {
         String username = "test_username+1357";
         String password = "password";
 
@@ -81,7 +82,7 @@ public class PlayerManagerTest {
     }
 
     @Test
-    public void loginIsFailedWitInvalidPassword() throws SQLException {
+    public void loginIsFailedWitInvalidPassword() throws SQLException, UserNameAlreadyTakenException {
         String username = "test_username";
         String password = "password";
         UserStructure userStructure = new UserStructure();
@@ -99,7 +100,7 @@ public class PlayerManagerTest {
     }
 
     @Test
-    public void CharacterGetsCreatedOnLoginWithSuppliedUsername() throws CharacterDoesNotExistException, DuplicateLoginException, AuthenticationFailedException, SQLException {
+    public void CharacterGetsCreatedOnLoginWithSuppliedUsername() throws CharacterDoesNotExistException, DuplicateLoginException, AuthenticationFailedException, SQLException, UserNameAlreadyTakenException {
         String username = "test_username";
         String password = "password";
         UserStructure userStructure = new UserStructure();
@@ -142,7 +143,7 @@ public class PlayerManagerTest {
     }
 
     @Test
-    public void ExceptionIsThrownWhenThereIsADuplicateLogin() throws SQLException, CharacterDoesNotExistException, DuplicateLoginException, AuthenticationFailedException {
+    public void ExceptionIsThrownWhenThereIsADuplicateLogin() throws SQLException, CharacterDoesNotExistException, DuplicateLoginException, AuthenticationFailedException, UserNameAlreadyTakenException {
         String username = "test_user";
         String password = "test_pass";
         UserStructure userStructure = new UserStructure();
@@ -200,7 +201,7 @@ public class PlayerManagerTest {
     }
 
     @Test
-    public void TestUniqueUsernameConstraint() throws RuntimeException, SQLException {
+    public void TestUniqueUsernameConstraint() throws RuntimeException, SQLException, UserNameAlreadyTakenException {
         String username = "Test_Username";
         String password = "Test_Password";
         String displayName = "Test Display";

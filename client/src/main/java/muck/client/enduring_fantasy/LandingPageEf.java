@@ -35,9 +35,10 @@ public class LandingPageEf extends Node {
     final Button exitButton = new Button("Exit Game");
 
     final GridPane grid = new GridPane();
+    private BorderPane gamePane;
 
     public LandingPageEf(BorderPane stage, Canvas canvas) {
-
+        gamePane = stage;
         gc = canvas.getGraphicsContext2D();
 
         var root = new Pane();
@@ -47,13 +48,13 @@ public class LandingPageEf extends Node {
         timeline.play();
 
         for (int i = 0; i < 4; i++) {
-            ColumnConstraints column = new ColumnConstraints(WIDTH/6);
+            ColumnConstraints column = new ColumnConstraints(WIDTH/7);
             grid.getColumnConstraints().add(column);
         }
 
         grid.setPadding(new Insets(10, 10, 10, 10));
-        grid.setVgap(8);
-        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setHgap(20);
 
         ColumnConstraints cc;
         cc = new ColumnConstraints();
@@ -71,25 +72,25 @@ public class LandingPageEf extends Node {
 
         // Title
         ImageView titleView = new ImageView();
-        titleView.setFitWidth(480);
-        titleView.setFitHeight(130);
+        titleView.setFitWidth(780);
+        titleView.setFitHeight(190);
         titleView.setImage(TITLE);
-        grid.add(titleView, 0,25,3,5);
+        grid.add(titleView, 0,15,3,5);
 
         // Play button
         playButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        playButton.setStyle("-fx-background-color: #FFFFF");
-        grid.add(playButton, 1, 35, 1, 5);
+        playButton.setStyle("-fx-background-color: #cebfbf");
+        grid.add(playButton, 1, 25, 3, 5);
 
         // Instructions
         instructionsButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        instructionsButton.setStyle("-fx-background-color: #FFFFF");
-        grid.add(instructionsButton, 1, 40, 1, 5);
+        instructionsButton.setStyle("-fx-background-color: #cebfbf");
+        grid.add(instructionsButton, 1, 30, 3, 5);
 
         // Exit button
         exitButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        exitButton.setStyle("-fx-background-color: #FFFFF");
-        grid.add(exitButton, 1, 45, 1, 5);
+        exitButton.setStyle("-fx-background-color: #cebfbf");
+        grid.add(exitButton, 1, 35, 3, 5);
 
         stage.getChildren().add(grid);
 
@@ -113,7 +114,10 @@ public class LandingPageEf extends Node {
 
         exitButton.setOnAction(event -> {
             stage.getChildren().removeAll(grid, canvas);
-            GameMap gm = new GameMap(canvas);
+            GameMap gm = new GameMap(canvas, gamePane);
+            gm.hero.sh = 0; //point hero downwards
+            gm.hero.setPosX(559); // Sets the sprite outside the door they entered for the game
+            gm.hero.setPosY(200);
             canvas.setId("gameCanvas");
             stage.getChildren().add(canvas);
         });

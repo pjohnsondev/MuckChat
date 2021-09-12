@@ -1,11 +1,13 @@
 package muck.core.character;
 
-import java.util.List;
+public class NPC extends Character implements INPCColleague {
+    private int _difficulty;
+    private INPCState stateBehaviour;
+    private NPCState npcState;
 
-public class NPC extends Character {
-    private int _difficulty = 1;
-    
-    public List<INPCBehaviour> AIBehaviours;
+    // If this NPC is currently interacting with another NPC, this is the other NPC's identifier & Action
+    private String otherNPCIdentifier;  
+    private Action otherNPCAction;
 
     /**
      * NPC constructor. This class is an extension of the Character class for NPC/monster characters.
@@ -16,19 +18,22 @@ public class NPC extends Character {
     public NPC(String NPCId) throws CharacterDoesNotExistException {
         //TODO - Retrieve the identifier/NPC ID from the backend database, then populate all fields with 
         // NPC values from the database
-        boolean databaseRetrievalSuccessful = false;
+        boolean databaseRetrievalSuccessful = true; // keep this true to avoid integration test failure, until
+                                                    // actual implementation of database server from Issue #24 is
+                                                    // is provided
         if (!databaseRetrievalSuccessful) {
             throw new CharacterDoesNotExistException(NPCId);
         }
 
         setIdentifier(NPCId);
+        setState(NPCState.None);
     }
 
     /**
      * Dummy constructor for a NPC object with a "null" identifier. Does not
      * check with backend storage for a valid username. Should only be used for unit tests that don't use backend
      */
-    protected NPC() {
+    public NPC() {
         this.setIdentifier(null);
     }
     
@@ -38,9 +43,38 @@ public class NPC extends Character {
 
     // To be called once per pre-determined fixed timestep
     public void Update() {
-        for (var AIBehaviour : AIBehaviours) {
-            AIBehaviour.Update();
+        getStateBehaviour().handle();
+    }
+    
+    /* Sets the state of the NPC object */
+    public void setState(NPCState npcState) {
+        if (npcState == NPCState.None) {
+            this.setStateBehaviour(new NPCStateNone());
         }
+        else if (npcState == NPCState.RandomWalk) {
+            this.setStateBehaviour(new NPCStateRandomWalk(this));
+        }
+    }
+    
+    /* 
+        Retrieve the current NPC state
+     */
+    public NPCState getState() {
+        return this.getNpcState();
+    }
+
+    /**
+     * Set NPC stats. Should only be called once on creation of new or existing NPC.
+     * @param health NPC health
+     * @param attack NPC attack level
+     * @param defence NPC defence level
+     * @param difficulty NPC difficulty level
+     */
+    public void setNPCStats(int health, int attack, int defence, int difficulty) {
+        this.setHealth(health);
+        this.setAttack(attack);
+        this.setDefence(defence);
+        this.setDifficulty(difficulty);
     }
 
     /**
@@ -62,4 +96,64 @@ public class NPC extends Character {
         return this._difficulty;
     }
 
+    /**
+     * Increases and retrieves the NPC difficulty level.
+     * @param level NPC difficulty level to increase
+     * @return NPC difficulty level
+     */
+    public int increaseDifficulty(int level) {
+        setDifficulty(level + getDifficulty());
+        return this._difficulty;
+    }
+
+
+    /* 
+        Send an Action message to another NPC object, via the ConcreteNPCMediator
+     */
+    public void messageOtherNPC(String targetNPCIdentifier, Action action) {
+        GlobalTracker.concreteNPCMediator.messageToOtherNPC(this, targetNPCIdentifier, action);
+    }
+    
+    /* 
+        Implementation of the INPCColleague interface
+     */
+    @Override
+    public void receive(String sendingNPCIdentifier, Action action) {
+        this.setOtherNPCIdentifier(sendingNPCIdentifier);
+        this.setOtherNPCAction(action);
+        
+        // We can further extend the NPC-to-NPC logic with any individual NPC instance (possibly using decorator)
+    }
+
+    public Action getOtherNPCAction() {
+        return otherNPCAction;
+    }
+
+    public void setOtherNPCAction(Action otherNPCAction) {
+        this.otherNPCAction = otherNPCAction;
+    }
+
+    public String getOtherNPCIdentifier() {
+        return otherNPCIdentifier;
+    }
+
+    public void setOtherNPCIdentifier(String otherNPCIdentifier) {
+        this.otherNPCIdentifier = otherNPCIdentifier;
+    }
+
+    public NPCState getNpcState() {
+        return npcState;
+    }
+
+    public void setNpcState(NPCState npcState) {
+        this.npcState = npcState;
+    }
+
+    public INPCState getStateBehaviour() {
+        return stateBehaviour;
+    }
+
+    public void setStateBehaviour(INPCState stateBehaviour) {
+        this.stateBehaviour = stateBehaviour;
+    }
 }

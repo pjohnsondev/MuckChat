@@ -5,7 +5,7 @@ import muck.core.character.CharacterFactory;
 import muck.core.character.Player;
 import muck.server.Exceptions.ModelNotFoundException;
 import muck.server.services.UserService;
-import muck.server.structures.UserStructure;
+import muck.core.structures.UserStructure;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -94,6 +94,8 @@ public class PlayerManager {
 
         // Create the new user
         try {
+
+
             userService.registerNewUser(userStructure);
 
             player = CharacterFactory.createOrLoadPlayer(userStructure.username);

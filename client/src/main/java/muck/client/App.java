@@ -108,19 +108,24 @@ public class App extends Application {
             if (res.get().equals(ButtonType.CANCEL)) {
                 event.consume();
             } else {
-                System.exit(0);
+                shutdown();
             }
     }
 }
 
 
+    public static void hideStage(){
+        stage.hide();
+    }
 
 
-
-    public static void changeScene(String fxml) throws IOException {
+    public void changeScene(String fxml) throws IOException {
         try {
             Parent pane = FXMLLoader.load(Objects.requireNonNull(App.class.getResource(fxml)));
+            hideStage();
             stage.setScene(new Scene(pane));
+            stage.show();
+            stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowEvent);
         } catch (IOException e){
             logger.error("Could not find file " + fxml);
         }
