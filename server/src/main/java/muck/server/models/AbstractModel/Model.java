@@ -24,6 +24,9 @@ abstract public class Model implements IModel {
     public Model() {
         db = MuckDatabase.getINSTANCE();
     }
+    public Model(Database db) {
+        this.db = db;
+    }
 
     /**
      * Changes databases
@@ -43,7 +46,7 @@ abstract public class Model implements IModel {
     }
 
 
-    public ResultSet selectOne(String column, String condition) throws SQLException {
+    public ResultSet select(String column, String condition) throws SQLException {
         this.db.query("SELECT * FROM " + this.table + " WHERE " + column + " = ?");
         db.bindString(1, condition);
         ResultSet result = db.getResultSet();
@@ -53,7 +56,7 @@ abstract public class Model implements IModel {
         return result;
     }
 
-    public ResultSet selectOne(String column, int condition) throws SQLException {
+    public ResultSet select(String column, int condition) throws SQLException {
         this.db.query("SELECT * FROM " + this.table + " WHERE " + column + " = ?");
         db.bindInt(1, condition);
         ResultSet result = db.getResultSet();

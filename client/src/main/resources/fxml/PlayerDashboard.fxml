@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -16,112 +17,112 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<GridPane maxHeight="711.0" maxWidth="1130.0" minHeight="600.0" minWidth="700.0" prefHeight="631.0" prefWidth="1000.0" style="-fx-background-color: dimgrey;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.PlayerDashboardController">
-  <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="900.0" minWidth="200.0" prefWidth="462.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="100.0" prefWidth="215.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="100.0" prefWidth="227.0" />
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints maxHeight="95.0" minHeight="0.0" prefHeight="75.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="320.0" minHeight="10.0" prefHeight="250.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="320.0" minHeight="10.0" prefHeight="250.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="95.0" minHeight="0.0" prefHeight="75.0" vgrow="SOMETIMES" />
-  </rowConstraints>
-   <children>
-      <Pane prefHeight="490.0" prefWidth="400.0" GridPane.rowIndex="1" GridPane.rowSpan="2">
-         <children>
-            <ImageView fx:id="avatarFullBody" fitHeight="461.0" fitWidth="456.0" layoutX="19.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
-               <effect>
-                  <DropShadow />
-               </effect>
-            </ImageView>
-         </children>
-      </Pane>
-      <Button fx:id="change" mnemonicParsing="false" prefHeight="42.0" prefWidth="187.0" style="-fx-background-color: #87cdff;" text="Change Avatar" textAlignment="CENTER" textFill="DIMGRAY" GridPane.halignment="CENTER" GridPane.rowIndex="3">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="20.0" />
-         </font>
-      </Button>
-      <Text fx:id="username" fill="#87cdff" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-alignment: center;" text="&lt;username&gt;" wrappingWidth="485.0">
-         <font>
-            <Font name="Berlin Sans FB Demi Bold" size="28.0" />
-         </font>
-      </Text>
-      <TabPane prefHeight="200.0" prefWidth="200.0" style="color: dimgrey;" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
-        <tabs>
-          <Tab fx:id="collectibles" closable="false" style="-fx-background-color: lightyellow;" text="Collectibles">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" opacity="0.33" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: lightyellow; -fx-border-color: lightyellow; -fx-border-width: 10;" />
-            </content>
-          </Tab>
-          <Tab fx:id="achievements" closable="false" style="-fx-background-color: lightblue;" text="Achievements">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" opacity="0.33" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: lightblue;" />
-            </content>
-          </Tab>
-        </tabs>
-         <GridPane.margin>
-            <Insets right="20.0" />
-         </GridPane.margin>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </TabPane>
-      <ImageView fitHeight="49.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
-         <image>
-            <Image url="@../images/MuckPoints.png" />
-         </image>
-         <GridPane.margin>
-            <Insets left="20.0" />
-         </GridPane.margin>
-      </ImageView>
-      <Text fx:id="muckPoints" strokeType="OUTSIDE" strokeWidth="0.0" text="&lt;MuckPoints&gt;" wrappingWidth="161.26171875" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="18.0" />
-         </font>
-         <GridPane.margin>
-            <Insets left="80.0" />
-         </GridPane.margin>
-      </Text>
-      <ImageView fitHeight="49.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
-         <image>
-            <Image url="@../images/health.png" />
-         </image>
-         <GridPane.margin>
-            <Insets left="20.0" />
-         </GridPane.margin>
-      </ImageView>
-      <TextFlow prefHeight="24.0" prefWidth="179.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-         <children>
-            <Text fx:id="health" strokeType="OUTSIDE" strokeWidth="0.0" text="&lt;Health&gt;">
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="18.0" />
-               </font>
-            </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="/100">
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="18.0" />
-               </font>
-            </Text>
-         </children>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-         <GridPane.margin>
-            <Insets left="80.0" />
-         </GridPane.margin>
-         <padding>
-            <Insets top="22.0" />
-         </padding>
-      </TextFlow>
-      <ImageView fx:id="gameReturn" fitHeight="49.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
-         <image>
-            <Image url="@../images/return.png" />
-         </image>
-         <GridPane.margin>
-            <Insets right="20.0" />
-         </GridPane.margin>
-      </ImageView>
-   </children>
+<GridPane fx:id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+          prefHeight="680.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="muck.client.PlayerDashboardController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="900.0" minWidth="200.0" prefWidth="380.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="100.0" prefWidth="210.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="100.0" prefWidth="210.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="95.0" minHeight="0.0" prefHeight="75.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="320.0" minHeight="10.0" prefHeight="250.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="320.0" minHeight="10.0" prefHeight="250.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="95.0" minHeight="0.0" prefHeight="75.0" vgrow="SOMETIMES"/>
+    </rowConstraints>
+    <Pane prefHeight="490.0" prefWidth="400.0" GridPane.rowIndex="1" GridPane.rowSpan="2">
+        <ImageView fx:id="avatarFullBody" fitHeight="480.0" fitWidth="265.0" layoutX="58.0" layoutY="43.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <effect>
+                <DropShadow/>
+            </effect>
+        </ImageView>
+    </Pane>
+    <Button fx:id="change" mnemonicParsing="false" prefHeight="42.0" prefWidth="187.0"
+            style="-fx-background-color: #87cdff;" text="Change Avatar" textAlignment="CENTER" textFill="DIMGRAY"
+            GridPane.halignment="CENTER" GridPane.rowIndex="3">
+        <font>
+          <Font name="Arial Rounded MT Bold" size="20.0"/>
+        </font>
+    </Button>
+    <Text fx:id="username" fill="#87cdff" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-alignment: center;"
+          text="&lt;username&gt;" wrappingWidth="334.0">
+        <font>
+          <Font name="Berlin Sans FB Demi Bold" size="28.0"/>
+        </font>
+    </Text>
+    <TabPane prefHeight="515.0" prefWidth="437.0" style="color: dimgrey;" tabClosingPolicy="UNAVAILABLE"
+             GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
+        <GridPane.margin>
+            <Insets right="20.0"/>
+        </GridPane.margin>
+        <opaqueInsets>
+            <Insets/>
+        </opaqueInsets>
+        <Tab closable="false" style="-fx-background-color: lightblue;" text="Achievements">
+            <AnchorPane minHeight="0.0" minWidth="0.0" opacity="0.33" prefHeight="494.0" prefWidth="474.0"
+                        style="-fx-background-color: lightblue;"/>
+        </Tab>
+    </TabPane>
+    <ImageView fitHeight="49.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+        <GridPane.margin>
+            <Insets left="20.0"/>
+        </GridPane.margin>
+        <Image url="@../images/MuckPoints.png"/>
+    </ImageView>
+    <Text fx:id="muckPoints" strokeType="OUTSIDE" strokeWidth="0.0" text="&lt;MuckPoints&gt;"
+          wrappingWidth="161.26171875" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+        <font>
+          <Font name="Arial Rounded MT Bold" size="18.0"/>
+        </font>
+        <GridPane.margin>
+          <Insets left="80.0"/>
+        </GridPane.margin>
+    </Text>
+    <ImageView fitHeight="49.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
+        <GridPane.margin>
+            <Insets left="20.0"/>
+        </GridPane.margin>
+        <Image url="@../images/health.png"/>
+    </ImageView>
+    <TextFlow prefHeight="24.0" prefWidth="179.0" GridPane.columnIndex="2" GridPane.halignment="CENTER"
+              GridPane.valignment="CENTER">
+        <opaqueInsets>
+            <Insets/>
+        </opaqueInsets>
+        <GridPane.margin>
+            <Insets left="80.0"/>
+        </GridPane.margin>
+        <padding>
+            <Insets top="28.0"/>
+        </padding>
+        <Text fx:id="health" strokeType="OUTSIDE" strokeWidth="0.0" text="&lt;Health&gt;">
+            <font>
+                <Font name="Arial Rounded MT Bold" size="18.0"/>
+            </font>
+        </Text>
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="/100">
+            <font>
+                <Font name="Arial Rounded MT Bold" size="18.0"/>
+            </font>
+        </Text>
+    </TextFlow>
+    <ImageView fx:id="gameReturn" accessibleRole="BUTTON" fitHeight="49.0" fitWidth="44.0" pickOnBounds="true"
+               preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+        <GridPane.margin>
+            <Insets right="20.0"/>
+        </GridPane.margin>
+        <cursor>
+            <Cursor fx:constant="HAND"/>
+        </cursor>
+        <Image url="@../images/return.png"/>
+    </ImageView>
+    <Button fx:id="achievement" mnemonicParsing="false" prefHeight="42.0" prefWidth="187.0"
+            style="-fx-background-color: #87cdff;" text="Achievement" textAlignment="CENTER" textFill="DIMGRAY"
+            GridPane.columnIndex="1" GridPane.rowIndex="3">
+        <font>
+          <Font name="Arial Rounded MT Bold" size="20.0"/>
+        </font>
+    </Button>
 </GridPane>

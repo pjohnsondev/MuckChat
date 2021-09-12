@@ -10,7 +10,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserService {
-    private final UserModel userModel = new UserModel();
+    private final UserModel userModel;
+
+    public UserService() {
+        this.userModel = new UserModel();
+    }
+
+    public UserService(UserModel userModel) {
+        this.userModel = userModel;
+    }
 
     public UserStructure findByUsername(String userName) throws SQLException {
         ResultSet result = userModel.findUserByUsername(userName);
