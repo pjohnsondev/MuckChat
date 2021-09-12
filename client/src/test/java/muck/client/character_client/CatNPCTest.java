@@ -5,38 +5,35 @@ import javafx.scene.canvas.*;
 import javafx.scene.canvas.Canvas;
 import muck.client.TileMapReader;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 public class CatNPCTest {
 
     private static final Logger logger = LogManager.getLogger(CatNPCTest.class);
     private static CatNPC cat1;
     private static CatNPC cat2;
+    private static TileMapReader tm;
 
+    // Setup before all tests
     @BeforeAll
     public static void setup() throws InterruptedException {
-        // setup JavaFX Runtime
-        CountDownLatch latch = new CountDownLatch(1);
-        Platform.startup(() -> {
-            latch.countDown();
-        });
-        latch.await(5, TimeUnit.SECONDS);
+        // setup JavaFX Runtime if not already running
+        try {
+            Platform.startup(() -> {
+            });
+        } catch (java.lang.IllegalStateException e) {
+            logger.info("Platform has already been started");
+        }
 
         // setup cat NPCs
-        cat1 = new CatNPC("cat1", 0, 0, "white");
-        cat2 = new CatNPC("cat1", 0, 0, "white", "right");
-    }
-
-    @AfterAll
-    public static void tearDownJavaFXRuntime() throws InterruptedException {
-        Platform.exit();
+        tm = new TileMapReader("/maps/homeTown.tmx");
+        cat1 = new CatNPC("cat1", 0, 0, "white", tm);
+        cat2 = new CatNPC("cat1", 0, 0, "white", tm,
+                "right", 10, 0,5);
     }
 
     // Test catNPC can be any colour
@@ -100,7 +97,7 @@ public class CatNPCTest {
 
     // Test catNPC can change directions
     @Test
-    public void testDirection() {
+    public void testChangeDirection() {
         logger.info("Testing directions for the cat npc");
 
         assertArrayEquals(
@@ -152,20 +149,19 @@ public class CatNPCTest {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         logger.info("Testing draw cat npc is called");
-        cat1.drawCatNPC(gc, 0.0, 0.0);
+        cat1.drawCatNPC(gc, 0.0, 0.0, tm);
     }
 
-    // Test cat NPC walk is invoked
+    // Test cat NPC random walk
     @Test
     public void testHandle() {
-        TileMapReader tm = new TileMapReader("/maps/homeTown.tmx");
         cat1.setNpcRandomWalk(1, 0, 2);
         boolean x = false;
         boolean y = false;
 
         logger.info("Testing handle of random walk");
         for(int i = 0; i < 50; i++) {
-            cat1.handle(tm);
+            cat1.handle();
             if (cat1.getXPos() != 0) {
                 x = true;
             }
