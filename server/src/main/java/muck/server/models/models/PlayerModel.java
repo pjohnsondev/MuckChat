@@ -9,11 +9,11 @@ import java.sql.SQLException;
 
 public class PlayerModel extends Model {
 
-    private static final String ID_COL = "id";
-    private static final String USER_ID_COL = "user_id";
-    private static final String HEALTH_COL = "health";
-    private static final String ATTACK_COL = "attack";
-    private static final String DEFENCE_COL = "defence";
+    public static final String ID_COL = "id";
+    public static final String USER_ID_COL = "user_id";
+    public static final String HEALTH_COL = "health";
+    public static final String ATTACK_COL = "attack";
+    public static final String DEFENCE_COL = "defence";
 
     public void createTable() throws SQLException {
         // create a new table
