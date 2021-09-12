@@ -1,7 +1,7 @@
 package muck.server.database;
 
 /**
- * Connects (or creates) to the database called "muckdb", which is a derby database, through JDBC.
+ * Connects to (or creates) the database called "muckdb", which is a derby database, through JDBC.
  * Extends the database class
  */
 public class MuckDatabase extends Database {
@@ -10,11 +10,11 @@ public class MuckDatabase extends Database {
 
     /** Gets the MuckServer object */
     public static MuckDatabase getINSTANCE() {
-        if (INSTANCE ==null){
+        if (INSTANCE == null) {
             System.out.println("attempting to create Muck Database");
             INSTANCE = new MuckDatabase();
         }
-        else{
+        else {
             System.out.println("Muck Database is up and running");
         }
         return INSTANCE;
