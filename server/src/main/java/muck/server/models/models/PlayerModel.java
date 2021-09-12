@@ -22,7 +22,7 @@ public class PlayerModel extends Model {
                 "players",
                 "CREATE TABLE players "
                         + "(id INTEGER UNIQUE GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
-                        + " user_id INTEGER REFERENCES users(id), "
+                        + " user_id INTEGER NOT NULL REFERENCES users(id), "
                         + " health INTEGER NOT NULL, "
                         + " attack INTEGER NOT NULL,"
                         + " defense INTEGER NOT NULL,"
