@@ -20,6 +20,7 @@ import muck.protocol.*;
 import muck.protocol.connection.*;
 
 import java.io.IOException;
+import java.util.LinkedList;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -35,6 +36,8 @@ public enum MuckClient {
 	INSTANCE;
 
 	String currentMessage;
+	List<String> inMessages = new ArrayList<String>();
+
 	ArrayList<String> messageBuffer = new ArrayList<String>();
 	HashMap<Integer, String> players = new HashMap<Integer, String>();
 	List<Sprite> playerSprites = new ArrayList<Sprite>();
@@ -71,7 +74,7 @@ public enum MuckClient {
 
 	public void updatePlayerLocation(String avatar, Location location) {
 	    var req = new UpdatePlayerRequest(clientId, avatar, location);
-	    logger.info("Updating my location in the gamemap...");
+	    //logger.info("Updating my location in the gamemap..."); //Commented this out because it was spamming the client logger.
 	    client.sendTCP(req);
 	}
 
@@ -102,9 +105,11 @@ public enum MuckClient {
 		client.addListener(ListenerBuilder.forClass(Ping.class)
 				.onReceive((conn, ping) -> logger.info("Ping received from {}", conn.getID())));
 
+		/*
 		// Listener for the message sent back from the server.
 		client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive(
 				(connID, serverMessage) -> logger.info("Message from the server was: {}", serverMessage.getMessage())));
+		*/
 
 		client.addListener(ListenerBuilder.forClass(AddCharacter.class).onReceive((connection, addCharacter) -> {
 			logger.info("Received new character from the server: {}", addCharacter.getCharacter().getIdentifier());
@@ -128,7 +133,15 @@ public enum MuckClient {
 		client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, clientMessage) -> {
 			logger.info("Message recieved was: {}", clientMessage.getMessage());
 			currentMessage = clientMessage.getMessage();
+			inMessages.add(clientMessage.getMessage());
+		}));
 
+			//When a chatlog object is detected, add it to the queue.
+		client.addListener(ListenerBuilder.forClass(chatLog.class).onReceive((connID, chatLog) -> {
+			List<String> newChatLog = chatLog.getChatLog();
+			for(int i = 0; i < newChatLog.size();i++){
+				inMessages.add(newChatLog.get(i));
+			}
 		}));
 
 		client.addListener(ListenerBuilder.forClass(LocationResponse.class).onReceive((connID, response) -> {
@@ -190,15 +203,26 @@ public enum MuckClient {
 		client.sendTCP(message);
 	}
 
+	public synchronized void getChatHistroy() {
+		chatLog newChat = new chatLog();
+		client.sendTCP(newChat);
+	}
+
+
 	/*
     Simple getter for the currentMessage stored in the client.
-    TODO: Ensure that message buffer is cleared after it has been printed to the chatui to avoid old messages coming through again at the next timer.
     Note: Probably should add ways to get timestamps/etc.
 
     */
-	public synchronized String getCurrentMessage() {
+	public synchronized List<String> getCurrentMessage() {
+		List<String> outMessages = inMessages;
+			inMessages.clear();
 
-		return currentMessage;
+		if(inMessages.size() > 0){
+			return outMessages;
+		}
+		else return inMessages;
+		}
+
+
 	}
-
-}
