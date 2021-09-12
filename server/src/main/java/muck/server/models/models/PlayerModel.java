@@ -1,6 +1,7 @@
 package muck.server.models.models;
 
 import muck.core.structures.PlayerStructure;
+import muck.server.database.Database;
 import muck.server.models.AbstractModel.Model;
 
 import java.security.InvalidParameterException;
@@ -14,6 +15,16 @@ public class PlayerModel extends Model {
     public static final String HEALTH_COL = "health";
     public static final String ATTACK_COL = "attack";
     public static final String DEFENCE_COL = "defence";
+
+    public PlayerModel() {
+        this.table = "players";
+    }
+
+    public PlayerModel(Database db) {
+        super(db);
+        this.table = "players";
+    }
+
 
     public void createTable() throws SQLException {
         // create a new table
