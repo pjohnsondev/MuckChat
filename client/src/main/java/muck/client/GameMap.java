@@ -7,6 +7,7 @@ import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.animation.*;
 import javafx.scene.layout.BorderPane;
+import muck.client.character_client.VillagerNPC;
 import muck.core.Location;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,12 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	private BorderPane gamePane;
 	List<Sprite> players = new ArrayList<Sprite>();
 	public int worldID = 1;
-	CatNPC cat = new CatNPC("1", 400,250, "brown", "right" );
+	// Added NPC's - @kgusti
+	CatNPC cat = new CatNPC("1", 400,250, "brown", tm);
+	VillagerNPC villager1 = new VillagerNPC("V1", 280, 750, "male1", tm);
+	VillagerNPC villager2 = new VillagerNPC("V2", 650, 250, "female1", tm);
+	VillagerNPC villager3 = new VillagerNPC("V3", 750, 500, "female4", tm,
+			"down", 0, 100, 0);
 
 	// CA - Infinite Loops
 	// Use this method when returning from a game landing page
@@ -128,7 +134,6 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 					this.stop(); //stop this instance new instance for new world started.
 				}
 				updatePlayers();
-				cat.handle(tm); // added cat movement - @kgusti
 				gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight()); //blank the screen
 				cameraX = hero.getPosX() - centerX; //Camera top left relative to hero X
 				cameraY = hero.getPosY() - centerY; //Camera top left relative to hero Y
@@ -150,8 +155,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 				drawLayer(2); //Solid
 
 				Sprite.drawHero(gc, tm, hero, centerX,centerY);
-				cat.drawCatNPC(gc, cameraX, cameraY);
-
+				handleNPC(); // handle all NPCs - @kgusti
 				// Added by Trent - 20/08
 				// Gets a list of other player locations and draws them on screen
 				for (Sprite p : players) {
@@ -285,6 +289,24 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 		if (type == "KEY_RELEASED" & keyCode == KeyCode.W) {
 			hero.setDy(0);
 		}
+	}
+
+	/**
+	 * Handle all NPC movement and draw
+	 * @kgusti - Anyone Welcome
+	 */
+	public void handleNPC() {
+		// NPC movement
+		cat.handle();
+		villager1.handle();
+		villager2.handle();
+		villager3.handle();
+
+		// draw NPCs
+		cat.drawCatNPC(gc, cameraX, cameraY, tm);
+		villager1.drawVillagerNPC(gc, cameraX, cameraY, tm);
+		villager2.drawVillagerNPC(gc, cameraX, cameraY, tm);
+		villager3.drawVillagerNPC(gc, cameraX, cameraY, tm);
 	}
 }
 
