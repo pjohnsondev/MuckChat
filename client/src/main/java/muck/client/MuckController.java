@@ -134,10 +134,14 @@ public class MuckController implements Initializable {
     @FXML //fx:id="userNameDisplay"
     private Text userNameDisplay;
 
+    @FXML
+    private Timer messageChecker = new Timer(); //Used to update chatlog without user input
+
     private static final Image goToDashboard = new Image("/images/PlayerDashboardHover.png");
     private Image chosenAvatar;
 
-    String message;
+    private String message; ////
+    private List<String> inMessages;
 
     private static String userName;
     private static String displayName;
@@ -172,13 +176,19 @@ public class MuckController implements Initializable {
         circle.setOnMouseClicked(this::openPlayerDashboardMenu);
         chatSection.setFocusTraversable(true);
         chatSection.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> chatSection.isFocused());
-        //Timer messageChecker = new Timer();
-        //messageChecker.scheduleAtFixedRate(new getMessagesTask(), 0, 200);
         quitMuck.setOnAction(this::quitMuck);
         dashboardMenuImg.setImage(chosenAvatar);
         playerDashboardMenu.setOnAction(this::openPlayerDashboardMenu); //Opens player Dashboard
         // Creates and sets the player list service to be called every second, to update the current player list
         PlayerListService service = new PlayerListService(playerTextArea);
+
+        messageChecker.scheduleAtFixedRate(new TimerTask(){
+          @Override
+          public void run(){
+            display();
+          }
+        }, 0, 1000); //Checks for new messages every second
+
         service.setPeriod(Duration.seconds(1));
         service.start();
     }
@@ -207,6 +217,7 @@ public class MuckController implements Initializable {
             //This line gets the Stage Information
             Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             stage.setScene(scene);
+            stage.setResizable(true);
             stage.setOnCloseRequest(e -> stage.close());
             App.hideStage();
             stage.show();
@@ -278,6 +289,29 @@ public class MuckController implements Initializable {
                 messageBox.clear();
             }
         }
+    }
+
+    //Method to display message variable as a message without sending anything
+    private void display(){
+      inMessages = MuckClient.INSTANCE.getCurrentMessage();
+
+      for(int i = 0; i <inMessages.size(); i++){
+        message = inMessages.get(i);
+
+        if ((message.length() != 0)) {
+            Tab currentTab = chatPane1.getSelectionModel().getSelectedItem();
+            String currentID = currentTab.getId();
+            if (currentID.equals("groupChat")) {
+                groupChatBox.appendText(displayName + ": " + message + "\n");
+                messageBox.clear();
+            } else {
+                int num = chatPane1.getTabs().indexOf(currentTab) + 1;
+                TextArea currentChatBox = (TextArea) chatPane1.lookup("#chatbox" + num);
+                currentChatBox.appendText(displayName + ": " + message + "\n");
+                messageBox.clear();
+          }
+        }
+      }
     }
 
     // Method that creates new chat tab
@@ -407,7 +441,7 @@ public class MuckController implements Initializable {
     /*public class getMessagesTask extends TimerTask {
         public void run() {
             if (MuckClient.INSTANCE.getCurrentMessage() == null){
-                
+
             }else {
                 groupChatBox.appendText("UserName Here: "+ MuckClient.INSTANCE.getCurrentMessage()+ "\n");
             }

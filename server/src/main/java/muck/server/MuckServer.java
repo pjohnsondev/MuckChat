@@ -13,8 +13,10 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
 import muck.core.character.Player;
+import muck.core.structures.PlayerStructure;
 import muck.core.user.SignUpInfo;
 import muck.server.models.ModelRegister;
+import muck.server.services.PlayerService;
 import muck.server.services.UserService;
 import muck.core.structures.UserStructure;
 import org.apache.logging.log4j.LogManager;
@@ -26,7 +28,8 @@ import muck.protocol.connection.*;
 import java.io.IOException;
 
 import java.sql.SQLException;
-import java.util.List;
+import java.util.*;
+
 
 import muck.core.LocationResponse;
 
@@ -64,6 +67,9 @@ public enum MuckServer {
     ICharacterLocationTracker<ClientId> tracker = new CharacterLocationTracker<ClientId>();
 
     HashMap<Integer, String> players = new HashMap<Integer, String>();
+
+    //A temporary queue to store chatlogs.
+    List<String> chatQueue = new ArrayList<String>();
 
     /**
      * Sets up the KryoNet server that will handle communication
@@ -117,18 +123,15 @@ public enum MuckServer {
             logger.info("Message received from {}", connID.getID());
             logger.info("Message is: {}", clientMessage.getMessage());
             logger.info(clientMessage);
+            chatQueue.add(clientMessage.getMessage());
             kryoServer.sendToAllTCP(clientMessage); //Send to all clients connected. Can be switched to send only to one client.
         }));
         /**
          * Listens for a newChatLog class coming from the client (or another class).
          * Acts as a signal to tell chatCreateTable to create a new chat log with specified name.
          */
-        addListener(ListenerBuilder.forClass(newChatLog.class).onReceive((connID, newChatLog) -> {
-                    try {
-                        chatCreateTable.createNewChat(newChatLog);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+        addListener(ListenerBuilder.forClass(chatLog.class).onReceive((connID, recievedLog) -> {
+                  connID.sendTCP(recievedLog);
                 }
         ));
 

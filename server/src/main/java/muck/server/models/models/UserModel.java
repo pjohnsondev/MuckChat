@@ -7,17 +7,6 @@ import java.sql.SQLException;
 import muck.server.database.Database;
 import muck.server.models.AbstractModel.Model;
 import muck.core.structures.UserStructure;
-//=======
-//import muck.server.helpers.security.Hasher;
-//import muck.server.models.AbstractModel.Model;
-//
-//import java.security.InvalidParameterException;
-//import java.sql.ResultSet;
-//import java.sql.SQLException;
-//import java.util.ArrayList;
-//import java.util.Collections;
-//import java.util.List;
-//>>>>>>> 11-user-sign-in-ssquad
 
 /**
  * Creates and manages users on the database
@@ -65,7 +54,6 @@ public class UserModel extends Model {
     public void insertNewUser(UserStructure user) throws SQLException, InvalidParameterException {
         //Insert the new user into the database table
         db.query("INSERT INTO users (username, password, salt) VALUES (?, ?, ?)");
-        System.out.println(user);
         db.bindString(1, user.username);
         db.bindBytes(2, user.hashedPassword);
         db.bindBytes(3, user.salt);
