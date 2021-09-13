@@ -100,8 +100,7 @@ public class SignInController{
                 error.setText("New muck user created" + userName);
                 return true;
             } catch (Exception ex) {
-                error.setText("Unable to create new user: {}" + userName);
-
+                error.setText("Username or Password are incorrect: {}" + userName);
                 throw new RuntimeException(String.format("Unable to create new user: %s.", userName));
 
             }
