@@ -76,47 +76,6 @@ public class MuckWindowTest extends ApplicationTest {
 
     // *********** START MUCK CONTROLLER TESTING *************
 
-    // Wrapper thread updates this if
-    // the JavaFX application runs without a problem.
-    // Declared volatile to ensure that writes are visible to every thread.
-    private volatile boolean success = false;
-
-    /**
-     * Test that a JavaFX application launches.
-     * Copied from https://stackoverflow.com/questions/24851886/how-to-unit-test-that-a-javafx-application-launches
-     */
-
-    @Test
-    @Order(1)
-    public void testMuckWindows() {
-        logger.info("Testing that Muck launches");
-        // Wrapper thread.
-        Thread thread = new Thread(() -> {
-            try {
-                ApplicationTest.launch(App.class); // Run JavaFX application.
-                success = true;
-            } catch(Throwable t) {
-                if(t.getCause() != null && t.getCause().getClass().equals(InterruptedException.class)) {
-                    // We expect to get this exception since we interrupted
-                    // the JavaFX application.
-                    success = true;
-                }
-            }
-        });
-        thread.setDaemon(true);
-        thread.start();
-        try {
-            Thread.sleep(3000);  // Wait for 3 seconds before interrupting JavaFX application
-        } catch(InterruptedException ex) {
-        }
-        thread.interrupt();
-        try {
-            thread.join(1); // Wait 1 second for our wrapper thread to finish.
-        } catch(InterruptedException ex) {
-        }
-        assertTrue(success);
-    }
-
     //Mocks an App.java instance and a stage and starts it
     @Test
     @Order(2)
@@ -283,7 +242,7 @@ public class MuckWindowTest extends ApplicationTest {
     public void quitMuckTest() {
         logger.info("Testing that user can access the quit alert");
         clickOn("#file");
-        String id = lookup("#exitImg").queryAs(Button.class).getId();
+        String id = lookup("#exitImg").queryAs(ImageView.class).getId();
         clickOn("#"+id);
         FxAssert.verifyThat("#cancel",isEnabled());
         FxAssert.verifyThat("#confirmQuit",isEnabled());

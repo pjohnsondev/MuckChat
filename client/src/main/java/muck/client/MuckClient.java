@@ -52,20 +52,22 @@ public enum MuckClient {
 	public static void logError(Exception message) {
 		logger.error(message);
 	}
+
 	public static void logError(String message) {
-	    logger.error(message);
+		logger.error(message);
 	}
 
 	public static void logInfo(String info) {
 		logger.info(info);
 	}
+
 	/** The KryoNet client */
 	Client client;
 	public static final Id<ClientId> clientId = new Id<ClientId>();
 
 	public List<Sprite> getPlayerSprites() {
-	    client.sendTCP(new LocationRequest(clientId));
-	    return this.playerSprites;
+		client.sendTCP(new LocationRequest(clientId));
+		return this.playerSprites;
 	}
 
 	public Client getClient() {
@@ -73,9 +75,10 @@ public enum MuckClient {
 	}
 
 	public void updatePlayerLocation(String avatar, Location location) {
-	    var req = new UpdatePlayerRequest(clientId, avatar, location);
-	    //logger.info("Updating my location in the gamemap..."); //Commented this out because it was spamming the client logger.
-	    client.sendTCP(req);
+		var req = new UpdatePlayerRequest(clientId, avatar, location);
+		// logger.info("Updating my location in the gamemap..."); //Commented this out
+		// because it was spamming the client logger.
+		client.sendTCP(req);
 	}
 
 	public synchronized void connect(KryoClientConfig config) throws IOException {
@@ -92,24 +95,26 @@ public enum MuckClient {
 		// Connect to the server
 		client.connect(config.getTimeOut(), config.getDestinationIp(), config.getTcpPort(), config.getUdpPort());
 
-//		// Create random dummy credentials
-//		String username = "TestUser_" + Calendar.getInstance().get(Calendar.SECOND) % 100;
-//
-//		// Create a new user account
-//		signUp(username, "TestPassword", "Test User");
-//
-//		// Login an existing user
-//		login(username, "TestPassword");
+		// // Create random dummy credentials
+		// String username = "TestUser_" + Calendar.getInstance().get(Calendar.SECOND) %
+		// 100;
+		//
+		// // Create a new user account
+		// signUp(username, "TestPassword", "Test User");
+		//
+		// // Login an existing user
+		// login(username, "TestPassword");
 
 		// Add a Ping listener. Still being used for debugging.
 		client.addListener(ListenerBuilder.forClass(Ping.class)
 				.onReceive((conn, ping) -> logger.info("Ping received from {}", conn.getID())));
 
 		/*
-		// Listener for the message sent back from the server.
-		client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive(
-				(connID, serverMessage) -> logger.info("Message from the server was: {}", serverMessage.getMessage())));
-		*/
+		 * // Listener for the message sent back from the server.
+		 * client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive(
+		 * (connID, serverMessage) -> logger.info("Message from the server was: {}",
+		 * serverMessage.getMessage())));
+		 */
 
 		client.addListener(ListenerBuilder.forClass(AddCharacter.class).onReceive((connection, addCharacter) -> {
 			logger.info("Received new character from the server: {}", addCharacter.getCharacter().getIdentifier());
@@ -136,10 +141,10 @@ public enum MuckClient {
 			inMessages.add(clientMessage.getMessage());
 		}));
 
-			//When a chatlog object is detected, add it to the queue.
+		// When a chatlog object is detected, add it to the queue.
 		client.addListener(ListenerBuilder.forClass(chatLog.class).onReceive((connID, chatLog) -> {
 			List<String> newChatLog = chatLog.getChatLog();
-			for(int i = 0; i < newChatLog.size();i++){
+			for (int i = 0; i < newChatLog.size(); i++) {
 				inMessages.add(newChatLog.get(i));
 			}
 		}));
@@ -147,10 +152,10 @@ public enum MuckClient {
 		client.addListener(ListenerBuilder.forClass(LocationResponse.class).onReceive((connID, response) -> {
 			logger.info("List of locations receieved, building sprites");
 			var data = response.data;
-			this.playerSprites = data.stream().map(p -> new Sprite(p.right().getX(), p.right().getY())).collect(Collectors.toList());
+			this.playerSprites = data.stream().map(p -> new Sprite(p.x, p.y)).collect(Collectors.toList());
 		}));
 
-		//setActiveUser
+		// setActiveUser
 		client.addListener(ListenerBuilder.forClass(UserStructure.class).onReceive((connID, response) -> {
 			ActiveUser.getInstance().setUserStructure(response);
 		}));
@@ -208,21 +213,22 @@ public enum MuckClient {
 		client.sendTCP(newChat);
 	}
 
-
 	/*
-    Simple getter for the currentMessage stored in the client.
-    Note: Probably should add ways to get timestamps/etc.
-
-    */
+	 * Simple getter for the currentMessage stored in the client. TODO: Ensure that
+	 * message buffer is cleared after it has been printed to the chatui to avoid
+	 * old messages coming through again at the next timer. Note: Probably should
+	 * add ways to get timestamps/etc.
+	 *
+	 */
 	public synchronized List<String> getCurrentMessage() {
 		List<String> outMessages = inMessages;
-			inMessages.clear();
+		inMessages.clear();
 
-		if(inMessages.size() > 0){
+		if (inMessages.size() > 0) {
 			return outMessages;
+		} else {
+			return inMessages;
 		}
-		else return inMessages;
-		}
-
-
 	}
+
+}

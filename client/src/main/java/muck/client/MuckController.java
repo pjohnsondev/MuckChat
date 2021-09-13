@@ -24,6 +24,9 @@ import javafx.scene.shape.Circle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
+
 import java.util.*;
 import java.util.function.Supplier;
 import java.util.function.BiConsumer;
@@ -214,6 +217,7 @@ public class MuckController implements Initializable {
             //This line gets the Stage Information
             Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             stage.setScene(scene);
+            stage.setResizable(true);
             stage.setOnCloseRequest(e -> stage.close());
             App.hideStage();
             stage.show();

@@ -113,7 +113,7 @@
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem id="quitMuck" fx:id="quitMuck" mnemonicParsing="false" text="Quit">
             <graphic>
-               <ImageView id="exitImg" fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+               <ImageView id="exitImg" fx:id="exitImg" fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <Image url="@../images/power_on_off_log_out_exit_icon_141949.png" />
                </ImageView>
             </graphic></MenuItem>

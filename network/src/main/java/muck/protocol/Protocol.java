@@ -5,6 +5,7 @@ import muck.core.Pair;
 import muck.core.LocationRequest;
 import muck.core.LocationResponse;
 import muck.core.Location;
+import muck.core.LocationResponseData;
 import muck.core.UpdatePlayerRequest;
 import muck.core.character.AddCharacter;
 import muck.core.character.Player;
@@ -55,6 +56,7 @@ public class Protocol {
 		kryo.register(Location.class);
 		kryo.register(LocationRequest.class);
 		kryo.register(LocationResponse.class);
+		kryo.register(LocationResponseData.class);
 		kryo.register(UpdatePlayerRequest.class);
 
 		kryo.register(byte[].class);

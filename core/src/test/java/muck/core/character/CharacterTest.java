@@ -2,20 +2,19 @@ package muck.core.character;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
+import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CharacterTest {
 
     private static final Logger logger = LogManager.getLogger(CharacterTest.class);
+    private static Character player;
 
-    private Character player;
-
-    @BeforeEach
-    public void setup() {
-        player = new Player();
+    @BeforeAll
+    public static void setup() {
+        player = mock(Player.class, CALLS_REAL_METHODS);
     }
 
     // Test avatar
@@ -30,6 +29,7 @@ public class CharacterTest {
     }
 
     // Test X and Y position
+    @Test
     public void testXYPosition() {
         int x = 200;
         int y = 300;
@@ -53,6 +53,27 @@ public class CharacterTest {
         assertAll("Testing setting a valid direction, then an invalid one",
                 () -> assertTrue(player.setDirection("down")),
                 () -> assertFalse(player.setDirection("notValid")));
+    }
+
+    // Test Character movement
+    @Test
+    public void testMove() {
+        player.setXPos(0);
+        player.setYPos(0);
+
+        logger.info("Testing movement of character");
+
+        player.moveDown(1);
+        assertNotEquals(0, player.getYPos());
+
+        player.moveUp(2);
+        assertNotEquals(0, player.getYPos());
+
+        player.moveRight(1);
+        assertNotEquals(0, player.getXPos());
+
+        player.moveLeft(2);
+        assertNotEquals(0, player.getXPos());
     }
 
     // Test player health changes behave as expected
