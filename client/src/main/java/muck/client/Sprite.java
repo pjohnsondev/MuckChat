@@ -19,7 +19,7 @@ public class Sprite {
     //direction y - should always be at 0 to be still, otherwise it's moving
     private double dx, dy; // define directional x and y var
     private Image image; // Image of the avatar to be drawn
-    private int sh; //The starting height for the sprite sheet 0/55/110/165 LEFT/RIGHT/UP/DOWN
+    public int sh; //The starting height for the sprite sheet 0/55/110/165 LEFT/RIGHT/UP/DOWN
 
     private double x, y;
     private int width, height;
@@ -37,8 +37,9 @@ public class Sprite {
     public Sprite(int x, int y) {
         this.x = x; //spawn location
         this.y = y; //spawn location
-        String avatarInitial = "/images/" + AvatarController.getAvatarId() + "Sprite.png";
-        this.image = new Image(avatarInitial);
+        this.image = AvatarController.getSprite(AvatarController.getAvatarId());
+        /*String avatarInitial = "/images/" + AvatarController.getAvatarId() + "Sprite.png";
+        this.image = new Image(avatarInitial);*/
     }
 
     /**
@@ -52,7 +53,7 @@ public class Sprite {
         double newY = hero.getPosY() + dy;  //newY is checked for collision or other action here
 
         //Layer 1 solid not passable (Collision)
-        int GID = tm.getLayerId(1,  (int)Math.floor(newX/tm.getTileWidth()), (int)Math.abs(newY/tm.getTileHeight()) );
+        int GID = tm.getLayerId(2,  (int)Math.floor(newX/tm.getTileWidth()), (int)Math.abs(newY/tm.getTileHeight()) );
         if (GID == -1 ) { //collision detection -1 is nothing drawn on that layer (no collision)
             if(newX > 5 && newX < tm.getWidth()*tm.getTileWidth()-5) { //map boundaries x
                 x += dx;
@@ -62,11 +63,16 @@ public class Sprite {
             }
     }
 
+	public String getAvatar() {
+		return this.image.getUrl();
+	}
     // getters and setters
     public void setDx(double dx) { this.dx = dx; } // set direction x
     public void setDy(double dy) { this.dy = dy; } // set direction y
     public double getPosX() { return x; } // get player x Pos
     public double getPosY() { return y; } // get player y pos
+    public void setPosX(double x) { this.x = x; } // get player x Pos
+    public void setPosY(double y) { this.y = y; } // get player y pos
     public String getPlayerPos() { return getPosX()+","+getPosY(); } // concatenate x and y pos as x,y - will be used to retrieve current player pos
     public Image getImage() { return image; } // get image (resized one)
 
@@ -126,4 +132,3 @@ public class Sprite {
         }
     }
 }
-

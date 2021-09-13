@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.*;
 import muck.client.App;
+import muck.client.MuckClient;
 import org.mindrot.jbcrypt.*;
 import muck.client.AvatarController;
 
@@ -32,12 +33,18 @@ public class SignInController{
     // Todo add logic to
     @FXML
     protected void signIn(MouseEvent event) throws IOException {
-        String hashed = BCrypt.hashpw(password.getText(), BCrypt.gensalt());
+        String passwordText = password.getText();
+
         String uName = username.getText();
 
-        if(isNotEmpty(password.getText(), uName) && validateSignIn(uName, hashed)){
+
+        if(isNotEmpty(username.getText(), password.getText())){
+            boolean validated = validateSignIn(uName, passwordText);
+            boolean success = success(validated, uName, passwordText);
+            if(success){
                 // forward on to next scene
                 passToNextScene(event, uName);
+            }
         };
 
 
@@ -46,9 +53,9 @@ public class SignInController{
 
     // TODO: Sign in validation method - implement functionality
 
-    public boolean validateSignIn(String username, String password){
+    public boolean validateSignIn(String username, String password) {
         // Check that user exists in database
-        if(!userExists(username) || !passwordMatches(username, password)) {
+        if( !userExists(username) || !passwordMatches(username, password)) {
             // Handle NoUserExists
             error.setText("User Name or Password are Incorrect");
             return false;
@@ -78,8 +85,28 @@ public class SignInController{
     // TODO: Add Pass to Avatar Selection Display - work out how to pass data between scenes
     public static void passToNextScene(MouseEvent event, String username) throws IOException{
         // Currently needs to go to muck via avatar controller until users can be brought from database
+
+        // This will likely need to be updated to pass in the display name from the database to be consistent
+        // with the sign up class otherwise only username will be passed in both.
         AvatarController nextScene = new AvatarController();
+        App.hideStage();
         nextScene.avatarCreation(event, username);
+    }
+
+    public boolean success(boolean validated, String userName, String passwordText){
+        if (validated) {
+            try {
+                MuckClient.getINSTANCE().login(userName, passwordText);
+                error.setText("New muck user created" + userName);
+                return true;
+            } catch (Exception ex) {
+                error.setText("Unable to create new user: {}" + userName);
+
+                throw new RuntimeException(String.format("Unable to create new user: %s.", userName));
+
+            }
+        }
+        return false;
     }
 
     public boolean isNotEmpty(String password, String username){

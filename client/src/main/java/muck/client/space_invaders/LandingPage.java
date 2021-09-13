@@ -46,12 +46,12 @@ public class LandingPage extends Node {
     final Button exitButton = new Button("EXIT");
 
     final GridPane grid = new GridPane();
+    private BorderPane gamePane;
 
     public LandingPage (BorderPane stage, Canvas canvas) {
+        gamePane = stage;
 
         gc = canvas.getGraphicsContext2D();
-
-        var root = new Pane();
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), e -> run(gc)));
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -65,7 +65,7 @@ public class LandingPage extends Node {
 
         grid.setHgap(10);
         grid.setVgap(20);
-        grid.setPadding(new Insets(50, 50, 50, 95));
+        grid.setPadding(new Insets(50, 50, 50, 50));
 
 
         ColumnConstraints cc;
@@ -90,26 +90,26 @@ public class LandingPage extends Node {
         titleView.setFitHeight(130);
         titleView.setImage(TITLE);
 
-        grid.add(titleView, 0,0,3,5);
+        grid.add(titleView, 1,0,2,5);
 
 
         // Add Play Button
         playButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         playButton.setStyle("-fx-background-color: #00ff00");
 
-        grid.add(playButton, 0, 8, 2, 5);
+        grid.add(playButton, 1, 8, 2, 5);
 
         // Add Gameplay Button
         gamePlayButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         gamePlayButton.setStyle("-fx-background-color: #00ff00");
 
-        grid.add(gamePlayButton, 0, 13, 2, 5);
+        grid.add(gamePlayButton, 1, 13, 2, 5);
 
         // Add Exit Button
         exitButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         exitButton.setStyle("-fx-background-color: #00ff00");
 
-        grid.add(exitButton, 0, 18, 2, 5);
+        grid.add(exitButton, 1, 18, 2, 5);
 
 
         stage.getChildren().add(grid);
@@ -155,7 +155,11 @@ public class LandingPage extends Node {
 
         exitButton.setOnAction(event -> {
             stage.getChildren().removeAll(grid, canvas);
-            GameMap gm = new GameMap(canvas);
+            GameMap gm = new GameMap(canvas, gamePane);
+            gm.hero.sh = 0; //point hero downwards
+            gm.hero.setPosX(145); // Sets the sprite outside the door they entered for the game
+            gm.hero.setPosY(262);
+            canvas.setId("gameCanvas");
             stage.getChildren().add(canvas);
         });
 

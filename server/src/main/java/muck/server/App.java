@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 /**
- * The Main class called by the server:run task. 
+ * The Main class called by the server:run task.
  */
 public class App {
 
@@ -38,9 +38,6 @@ public class App {
             MuckServer.INSTANCE.startKryo(config);
         } catch (IOException ex){
             logger.error("Start up failed", ex);
-            System.exit(0);
-        } catch (SQLException ex) {
-            logger.error("SQL Exception thrown! Incorrect DB call.");
             System.exit(0);
         }
     }

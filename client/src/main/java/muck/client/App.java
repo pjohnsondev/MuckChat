@@ -1,9 +1,9 @@
 package muck.client;
 
-import javafx.scene.Group;
-import muck.client.controllers.SignInController;
-import muck.client.controllers.SignUpController;
-import muck.client.utilities.RandomNameGenerator;
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.stage.WindowEvent;
 import muck.protocol.*;
 import muck.protocol.connection.*;
 
@@ -14,10 +14,11 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.awt.*;
 //import java.awt.geom.Rectangle2D;
 
 import java.io.IOException;
+import java.util.Objects;
+import java.util.Optional;
 
 //Chat JFX imports. This allows the group working on Chat UI to be used in the main application.
 import javafx.fxml.FXMLLoader;
@@ -28,13 +29,19 @@ import javafx.scene.Parent;
  */
 public class App extends Application {
 
-    /** A logger for logging output */
+    /**
+     * A logger for logging output
+     */
     private static final Logger logger = LogManager.getLogger(App.class);
 
-    /** The port configuration for the client */
+    /**
+     * The port configuration for the client
+     */
     static KryoClientConfig config = new KryoClientConfig();
 
-    /** Set stage */
+    /**
+     * Set stage
+     */
     private static Stage stage;
 
     @Override
@@ -79,28 +86,53 @@ public class App extends Application {
         /* End of Imported work */
         try {
             stage = primaryStage;
-            primaryStage.setResizable(false);
-            Parent root = FXMLLoader.load(getClass().getResource("/fxml/SignIn.fxml"));
+            primaryStage.setResizable(true);
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/SignIn.fxml")));
             primaryStage.setTitle("MUCK 2021");
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
-        } catch (IOException e){
+            primaryStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowEvent);
+        } catch (IOException e) {
             logger.error("Can't find primary stage FXML file");
         }
-
     }
+
+    public void closeWindowEvent(WindowEvent event) {
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.getButtonTypes().add(ButtonType.CANCEL);
+        alert.getButtonTypes().add(ButtonType.YES);
+        alert.setTitle("Quit Muck?");
+        alert.setContentText("Are you sure you want to quit Muck?");
+        Optional<ButtonType> res = alert.showAndWait();
+        if (res.isPresent()) {
+            if (res.get().equals(ButtonType.CANCEL)) {
+                event.consume();
+            } else {
+                shutdown();
+            }
+    }
+}
+
+
+    public static void hideStage(){
+        stage.hide();
+    }
+
 
     public void changeScene(String fxml) throws IOException {
         try {
-            Parent pane = FXMLLoader.load(getClass().getResource(fxml));
+            Parent pane = FXMLLoader.load(Objects.requireNonNull(App.class.getResource(fxml)));
+            hideStage();
             stage.setScene(new Scene(pane));
+            stage.show();
+            stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowEvent);
         } catch (IOException e){
             logger.error("Could not find file " + fxml);
         }
     }
 
     public void changeScene(String fxml, String data) throws IOException {
-        Parent pane = FXMLLoader.load(getClass().getResource(fxml));
+        Parent pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxml)));
         stage.setScene(new Scene(pane));
     }
 

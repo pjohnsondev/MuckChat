@@ -4,20 +4,25 @@ import java.security.InvalidParameterException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import muck.server.database.Database;
 import muck.server.models.AbstractModel.Model;
-import muck.server.structures.UserStructure;
+import muck.core.structures.UserStructure;
 
 /**
  * Creates and manages users on the database
  */
-public class UserModel extends Model{
+public class UserModel extends Model {
     public static final String ID_COL = "id";
     public static final String USERNAME_COL = "username";
-    public static final String PASSWORD_COL  = "password";
+    public static final String PASSWORD_COL = "password";
     public static final String SALT_COL = "salt";
 
+    public UserModel() {
+        this.table = "users";
+    }
 
-    public UserModel () {
+    public UserModel(Database db) {
+        super(db);
         this.table = "users";
     }
 
@@ -43,13 +48,12 @@ public class UserModel extends Model{
     /**
      * Creates a user within the database
      *
-     * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
+     * @throws SQLException              Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      * @throws InvalidParameterException Thrown when an invalid parameter is passed to a method. See: https://docs.oracle.com/javase/7/docs/api/java/security/InvalidParameterException.html
      */
     public void insertNewUser(UserStructure user) throws SQLException, InvalidParameterException {
         //Insert the new user into the database table
         db.query("INSERT INTO users (username, password, salt) VALUES (?, ?, ?)");
-        System.out.println(user);
         db.bindString(1, user.username);
         db.bindBytes(2, user.hashedPassword);
         db.bindBytes(3, user.salt);
@@ -60,22 +64,21 @@ public class UserModel extends Model{
      * Retrieves user information from the database using the UserName is the criteria
      *
      * @param username The username to search for within the database
-     *
+     * @return returns found user object or null
      * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      */
+
     public ResultSet findUserByUsername(String username) throws SQLException {
-        return this.selectOne("username", username);
+        return this.select("username", username);
     }
 
     /**
-     * Retrieves user information from the database using the user id is the criteria
+     * Retrieves user information from the database using the UserName is the criteria
      *
      * @param id The user id to search for within the database
-     *
      * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      */
     public ResultSet findUserById(int id) throws SQLException {
-        return this.selectOne("id", id);
+        return this.select("id", id);
     }
-
 }

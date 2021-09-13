@@ -3,6 +3,7 @@ package muck.client;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 
@@ -18,6 +19,9 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
@@ -26,13 +30,17 @@ import javafx.stage.Stage;
 public class AvatarController implements Initializable  {
 
     // This will be the associated attributes of the user
-    private static String uname; //Will be updated when constructing AvatarController
-    private static int muckPoints = 15; //Dummy value for testing purposes TODO: Remove
-    public static String avatar = "error"; //Default. No image.
+    private static String uname;//Will be updated when constructing AvatarController
+    private static String displayName; //Will be updated when constructing AvatarController
+    private static int muckPoints = 0; //Dummy value for testing purposes TODO: Remove
+    private static String avatar = "error"; //Default. No image.
     private static String previous = "login"; //Previous screen. Will determine where the submit button leads.
     private final int OPEN_SKELETON = 20; // Muck points required to activate skeleton avatar
     private final int OPEN_WW = 30; // Muck points required to activate Wonder Woman avatar
     private final int OPEN_YOSHI = 50; // Muck points required to activate Yoshi avatar
+
+    @FXML
+    private GridPane gridPane;
 
     @FXML
     private Button submit;
@@ -72,7 +80,7 @@ public class AvatarController implements Initializable  {
 
     // IMAGE INITIALISATION
     // Peach
-    public static final Image PEACH_FULL = new Image("/images/peach.png");
+    private static final Image PEACH_FULL = new Image("/images/peach.png");
     private static final Image PEACH_PORTRAIT = new Image("/images/peach-portrait.png");
     private static final Image PEACH_SPRITE = new Image("/images/peachSprite.png");
 
@@ -105,10 +113,19 @@ public class AvatarController implements Initializable  {
     // Default
     private static final Image ERROR = new Image("/images/error.png");
     private final Image UNAVAILABLE = new Image("/images/Unknown.png");
+    private final BackgroundImage BACKGROUND = new BackgroundImage(new Image("/images/BackgroundAvSelection.jpg"), null, null, null, null);
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        try {
+            gridPane.setBackground(new Background(BACKGROUND));
+        } catch (Exception e) {
+            gridPane.setStyle("-fx-background-color: steelgray");
+            System.out.println("Error with background image");
+            e.printStackTrace();
+        }
+
         try {
             avatarFullBody.setPreserveRatio(true);
 
@@ -125,64 +142,22 @@ public class AvatarController implements Initializable  {
 
             // If there is already an avatar associated with a user, display the avatar
             // Will be used in the case of an avatar change
-            if (!avatar.equals("error")) { //TODO: What if avatar set to null??
+            if (!avatar.equals("error")) {
                 selection(avatar);
             }
         } catch (NullPointerException e) {
-            // TODO: What if image isn't available exception
-            System.out.print("In initialize");
-
-        }
-
-        username.setText(uname);
-
-        submit.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if (previous.equals("playerDashboard")) { //If the user previously came from player dashboard return there
-                submitToDashboard(event);
-            } else { //Else return to the map
-                submitToMap(event);
-            }
-        });
-
-        peach.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            selection("peach");
-        });
-
-        batman.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            selection("batman");
-        });
-
-        pikachu.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            selection("pikachu");
-        });
-    }
-
-     /** NB: This method will become void once we have linked the player sign up page!!
-     * Sets the username for the avatar interaction so as to store the selection later.
-     * Calls the database to determine if there is an existing avatar selected for the user and the user's current muck
-     * point value.
-     * Opens the Avatar selection window
-     * @param username: the player's username.
-     */
-    public static void avatarCreation(String username) {
-        uname = username;
-            // TODO: Need to call the database for current avatar and muck point values
-        try {
-            FXMLLoader loader = new FXMLLoader(AvatarController.class.getResource("/fxml/Avatar.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            scene.setRoot(root);
-            scene.getStylesheets().add(AvatarController.class.getResource("/css/style.css").toExternalForm());
-            Stage stage = new Stage();
-            stage.setTitle("Muck 2021");
-            stage.setMaxWidth(1200);
-            stage.setMaxHeight(1100);
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
             e.printStackTrace();
         }
+
+        username.setText(displayName);
+
+        submit.addEventHandler(MouseEvent.MOUSE_CLICKED, this::submit);
+
+        peach.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selection("peach"));
+
+        batman.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selection("batman"));
+
+        pikachu.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selection("pikachu"));
     }
 
     /**
@@ -192,18 +167,21 @@ public class AvatarController implements Initializable  {
      * @param event: The mouse event that has prompted the opening of the window.
      * @param username: The username of the current player
      */
-    public static void avatarCreation(MouseEvent event, String username) {
+    public static void avatarCreation(MouseEvent event, String username, String display) {
         previous = "login";
         uname = username;
+        displayName = display;
         avatar = "error";
         try {
-            Parent root = FXMLLoader.load(AvatarController.class.getResource("/fxml/Avatar.fxml"));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(AvatarController.class.getResource("/fxml/Avatar.fxml")));
             Scene scene = new Scene(root);
             scene.setRoot(root);
-            scene.getStylesheets().add(AvatarController.class.getResource("/css/style.css").toExternalForm());
+            scene.getStylesheets().add(Objects.requireNonNull(AvatarController.class.getResource("/css/style.css")).toExternalForm());
             //This line gets the Stage Information
             Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             stage.setScene(scene);
+            stage.sizeToScene();
+            stage.setResizable(false);
             stage.show();
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
@@ -211,29 +189,44 @@ public class AvatarController implements Initializable  {
     }
 
     /**
-     * Overloaded Avatar creation method.
+     * Overloaded AvatarCreation method
      * From the player dashboard screen
-     * @param event
-     * @param username
+     * This is used purely to set the variables for the avatar creation screen.  The window
+     * is launched from the PlayerDashboardController
+     * @param username: The player's username
+     * @param avID: The player's avatarID
      */
-    public static void avatarCreation(MouseEvent event, String username, String avID) {
+    public static void avatarCreation(String username, String display, String avID){
         //TODO: Call server for muck point value
         previous = "playerDashboard";
         uname = username;
+        displayName = display;
         avatar = avID;
+    }
+
+    //TODO: Remove this method once the SignIn Screen sends the window to Muck
+    public static void avatarCreation(MouseEvent event, String username) {
+        previous = "login";
+        uname = username;
+        displayName = "DisplayName";
+        avatar = "error";
         try {
-            Parent root = FXMLLoader.load(AvatarController.class.getResource("/fxml/Avatar.fxml"));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(AvatarController.class.getResource("/fxml/Avatar.fxml")));
             Scene scene = new Scene(root);
             scene.setRoot(root);
-            scene.getStylesheets().add(AvatarController.class.getResource("/css/style.css").toExternalForm());
+            scene.getStylesheets().add(Objects.requireNonNull(AvatarController.class.getResource("/css/style.css")).toExternalForm());
             //This line gets the Stage Information
             Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             stage.setScene(scene);
+            stage.setResizable(false);
+            App.hideStage();
             stage.show();
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+
 
     /**
      * LockedAvatars method.
@@ -247,17 +240,11 @@ public class AvatarController implements Initializable  {
         if (muckPoints >= open_muck) {
             portrait.setFill(new ImagePattern(avatarPortrait));
             portrait.setCursor(Cursor.HAND);
-            portrait.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                selection(avatarID);
-            });
+            portrait.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selection(avatarID));
         } else {
             portrait.setFill(new ImagePattern(UNAVAILABLE));
-            portrait.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
-                hoverEvent(avatarAlert, ("Earn " + open_muck + " MuckPoints to unlock!"));
-            });
-            portrait.addEventHandler(MouseEvent.MOUSE_EXITED, event -> {
-                hoverEvent(avatarAlert, "");
-            });
+            portrait.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> hoverEvent(avatarAlert, ("Earn " + open_muck + " MuckPoints to unlock!")));
+            portrait.addEventHandler(MouseEvent.MOUSE_EXITED, event -> hoverEvent(avatarAlert, ""));
         }
     }
 
@@ -273,47 +260,56 @@ public class AvatarController implements Initializable  {
             blur();
             switch (character) {
                 case "peach":
-                    peach.setRadius(80.0);
+                    peach.setRadius(65.0);
                     peach.setEffect(null);
                     avatar = "peach";
                     avatarFullBody.setImage(PEACH_FULL);
+                    avatarFullBody.setLayoutY(90.0);
+                    avatarFullBody.setFitHeight(390);
                     break;
                 case "batman":
-                    batman.setRadius(80.0);
+                    batman.setRadius(65.0);
                     batman.setEffect(null);
                     avatar = "batman";
                     avatarFullBody.setImage(BATMAN_FULL);
+                    avatarFullBody.setLayoutY(40.0);
                     break;
                 case "pikachu":
-                    pikachu.setRadius(80.0);
+                    pikachu.setRadius(65.0);
                     pikachu.setEffect(null);
                     avatar = "pikachu";
                     avatarFullBody.setImage(PIKACHU_FULL);
+                    avatarFullBody.setLayoutY(210.0);
                     avatarFullBody.setFitHeight(250); // Changes the height of the image so pikachu is a more realistic
                     // How do I set pikachu in the centre of the screen (by height)
                     break;
                 case "skeleton":
                     if (muckPoints >= OPEN_SKELETON) {
-                        skeleton.setRadius(80.0);
+                        skeleton.setRadius(65.0);
                         skeleton.setEffect(null);
                         avatar = "skeleton";
                         avatarFullBody.setImage(SKELETON_FULL);
+                        avatarFullBody.setLayoutY(120.0);
+                        avatarFullBody.setFitHeight(410);
                         break;
                     }
                 case "wonderWoman":
                     if (muckPoints >= OPEN_WW) {
-                        wonderWoman.setRadius(80.0);
+                        wonderWoman.setRadius(65.0);
                         wonderWoman.setEffect(null);
                         avatar = "wonderWoman";
                         avatarFullBody.setImage(WONDER_WOMAN_FULL);
+                        avatarFullBody.setLayoutY(70.0);
+                        avatarFullBody.setFitHeight(400);
                         break;
                     }
                 case "yoshi":
                     if (muckPoints >= OPEN_YOSHI) {
-                        yoshi.setRadius(80.0);
+                        yoshi.setRadius(65.0);
                         yoshi.setEffect(null);
                         avatar = "yoshi";
                         avatarFullBody.setImage(YOSHI_FULL);
+                        avatarFullBody.setLayoutY(180.0);
                         avatarFullBody.setFitHeight(300);
                         break;
                     }
@@ -330,25 +326,57 @@ public class AvatarController implements Initializable  {
         }
     }
 
-    // TODO: Add something for when you press enter. The below doesn't work
-    /*@FXML
-    private void onEnter(KeyEvent event) {
-        if (!avatar.equals("error")) {
-            submit();
+    /**
+     * Submit event.
+     * If the avatar screen was opened from the Sign Up page the submit event will send to map.
+     * Otherwise if the avatar screen was opened from the Player Dashboard, the submit event will send back to the dashboard.
+     * @param event: The mouse click event
+     */
+    private void submit(MouseEvent event) {
+        try {
+            if (previous.equals("playerDashboard")) { //If the user previously came from player dashboard return there
+                submitToDashboard(event);
+            } else {
+                submitToMap(event); // Otherwise send them to the map
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    }*/
-
-    private void submitToMap(MouseEvent event) {
-        // TODO: Send username and avatar back to the server for storage
-        MuckController.constructor(event, uname, avatar);
-        //AvatarController.avatarCreation(event, "Test");
-        }
-
-    private void submitToDashboard(MouseEvent event) {
-        // TODO: Send username and avatar back to server for storage
-        PlayerDashboardController.playerDashboard(uname, event, avatar);
     }
 
+    /**
+     * submitToMap method
+     * Will be used when moving from User SignUp >> Avatar Selection Screen >> Map
+     * @param event: The click event that is generated when the submit button is pressed
+     */
+    private void submitToMap(MouseEvent event) {
+        // TODO: Send username and avatar back to the server for storage
+        MuckController.constructor(event, uname, displayName, avatar);
+        }
+
+    /**
+     * submitToDashboard method
+     * Will be used when moving from Dashboard >> Avatar Selection Screen >> Dashboard
+     * Will have the player dashboard take over the avatar selection screen
+     * @param event: The click event that is generated when the submit button is pressed
+     */
+    private void submitToDashboard(MouseEvent event) throws IOException{
+        // TODO: Send username and avatar back to server for storage
+        PlayerDashboardController.playerDashboard(uname, displayName, avatar);
+        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/PlayerDashboard.fxml")));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(parent);
+        scene.getStylesheets().add("/css/style.css");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    /**
+     * Hover Event Method.
+     * Will update the associated text boxes when a player hovers over a locked avatar.
+     * @param alertBox: The Text element associated with a locked Avatar
+     * @param message: The message to be displayed in the text element upon hover
+     */
     private void hoverEvent(Text alertBox, String message) {
         alertBox.setText(message);
     }
@@ -402,6 +430,10 @@ public class AvatarController implements Initializable  {
         }
     }
 
+    /**
+     Returns an image object of the sprite sheet of their avatar.
+     @param: avatarID. This will be passed into the method from the server
+     */
     public static Image getSprite(String avatarID) {
         switch (avatarID) {
             case "peach":
@@ -421,23 +453,30 @@ public class AvatarController implements Initializable  {
         }
     }
 
+    /**
+     * Get method for AvatarID
+     * @return The avatarID
+     */
+    public static String getAvatarId() { return avatar;}
+
     // For testing purposes
     public static String getUserName() {
         return uname;
     }
-    public static String getAvatarId() { return avatar;}
     public static void setMuck(int points) { muckPoints = points;}
+    //public static String getTextUName() { return username.getText(); }
 
     // The below code is for formatting the changes to the avatar dashboard.
 
     private void restorePortraitSize() {
-        avatarFullBody.setFitHeight(538.0);
-        peach.setRadius(75.0);
-        batman.setRadius(75.0);
-        pikachu.setRadius(75.0);
-        skeleton.setRadius(75.0);
-        wonderWoman.setRadius(75.0);
-        yoshi.setRadius(75.0);
+        avatarFullBody.setFitHeight(470.0);
+        avatarFullBody.setLayoutY(58.0);
+        peach.setRadius(60.0);
+        batman.setRadius(60.0);
+        pikachu.setRadius(60.0);
+        skeleton.setRadius(60.0);
+        wonderWoman.setRadius(60.0);
+        yoshi.setRadius(60.0);
     }
 
     private void blur() {
@@ -456,7 +495,7 @@ public class AvatarController implements Initializable  {
         }
     }
 
-    private void centreImage() { //TODO: This is not centring vertically???
+    private void centreImage() {
         Image img = avatarFullBody.getImage();
         if (img != null) {
             double w;
@@ -465,12 +504,7 @@ public class AvatarController implements Initializable  {
             double ratioX = avatarFullBody.getFitWidth() / img.getWidth();
             double ratioY = avatarFullBody.getFitHeight() / img.getHeight();
 
-            double reducCoeff;
-            if(ratioX >= ratioY) {
-                reducCoeff = ratioY;
-            } else {
-                reducCoeff = ratioX;
-            }
+            double reducCoeff = Math.min(ratioX, ratioY);
 
             w = img.getWidth() * reducCoeff;
             h = img.getHeight() * reducCoeff;

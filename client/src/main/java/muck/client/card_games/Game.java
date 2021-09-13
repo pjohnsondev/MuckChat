@@ -1,59 +1,92 @@
 package muck.client.card_games;
 
+/**
+ * Game Class. Instantiates an individual game.
+ */
 public class Game {
-    private int game_id;
+    //This needs to create an id that is an incremented number on the last created id
+    public int game_id;
+    //keeping track of who's turn it is.
+    public static int currentRound;
+    //unique id to the game to send information to database for other player to receive.
+    public static int roundId;
+    //this player
+    public Player player1;
+    //other player
+    public Opponent player2;
+    public Deck deck;
+    //as long as active is true, the current round remains active. once it is changed to false, the turn ends
+    public boolean active;
+    public String card_list;
 
-    public Game(){ }
+    /**
+     * Constructor Function for the Game Class
+     */
+    public Game(){
+        currentRound = 1;
+        roundId = 0;
+        player1 = new Player();
+        player2 = new Opponent();
+        deck = new Deck();
+    }
 
-    //TODO:  make this function into its own class to run the if statements as functions instead
-    static void player_turn(Player player) {
-        // Creating boolean to ensure players can only ask for a card once per turn
-        boolean ask = false;
-        /* Pseudocode:
-        if (card is clicked && no other cards are highlighted && ask == false){
-            all cards of that value are highlighted
+    void initGame(){
+        deck.shuffle_cards();
+        player1.hand.drawHand(deck);
+        player2.hand.drawHand(deck);
+    }
+
+    void playerTurn(int round_number){
+        PlayerTurn player_go = new PlayerTurn();
+        while (round_number == 1){
+            player_go.take_turn(player1);
+            currentRound = 2;
+            break;
+
         }
-        if (card is clicked && other cards are highlighted && ask == false){
-            all cards of that value are highlighted and others are no longer highlighted
+
+        while (round_number == 2){
+            player_go.take_turn(player2);
+            currentRound = 1;
+            break;
+
         }
-        if ("ask button" is clicked && ask == false && card(s) are highlighted) {
-            ask other player for card
-            ask = true
+
+        if (roundId == 5){
+            //this is a test to break out of turn loops
+            currentRound = 3;
         }
-        if (four cards the same are highlighted && put set away button is clicked) {
-            four cards are moved to player's
-        }
-        if (end turn button is clicked) {
-            turn changes from 1 to 2 or from 2 to 1 and player_turn() ends
-        }
-        */
+    }
+
+    void end_turn(){
 
     }
 
-    public static void main(String[] args){
-        // Initial setup
-        // Variable to manage turns
-        int turn = 1;
-        // Creating 2 players
-        Player player1 = new Player();
-        Player player2 = new Player();
-        // Creating and shuffling deck
-        Deck shuffled_deck = new Deck();
-        shuffled_deck.shuffle_cards();
-        // Dealing 7 cards to each player
-        player1.hand.draw_hand(shuffled_deck);
-        player2.hand.draw_hand(shuffled_deck);
+    public void printCards(int number){
+        card_list = player1.hand.cards.get(player1.hand.cards.size() - 1).getCardName() + " of " +
+                player1.hand.cards.get(player1.hand.cards.size() - 1).getSuit() + ".";
+    }
 
+  public static void main(String[] args){
+        // Creating instance of game
+        Game game = new Game();
+        // Initialising game
+        game.initGame();
         // Game play
         // Loop manages turns as long as there are any cards still in play
-        while (shuffled_deck.cards.size() != 0 && player1.hand.cards.size() != 0
-                && player2.hand.cards.size() != 0){
-            if (turn == 1){
-                player_turn(player1);
+        while (game.deck.cards.size() != 0 && game.player1.hand.cards.size() != 0
+                && game.player2.hand.cards.size() != 0 && currentRound != 3){
+            if (currentRound == 1){
+                roundId++;
+                System.out.println(roundId);
+                game.playerTurn(1);
             }
-            if (turn == 2) {
-                player_turn(player2);
+            if (currentRound == 2) {
+                roundId++;
+                System.out.println(roundId);
+                game.playerTurn(2);
             }
         }
+        System.out.println("Exiting turns. Game is finished.");
     }
 }

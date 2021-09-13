@@ -1,16 +1,25 @@
 package muck.server.services;
 
 import muck.server.Exceptions.ModelNotFoundException;
+import muck.server.Exceptions.UserNameAlreadyTakenException;
 import muck.server.helpers.security.Hasher;
 import muck.server.models.models.UserModel;
-import muck.server.structures.UserStructure;
+import muck.core.structures.UserStructure;
 
 import java.security.InvalidParameterException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserService {
-    private final UserModel userModel = new UserModel();
+    private final UserModel userModel;
+
+    public UserService() {
+        this.userModel = new UserModel();
+    }
+
+    public UserService(UserModel userModel) {
+        this.userModel = userModel;
+    }
 
     public UserStructure findByUsername(String userName) throws SQLException {
         ResultSet result = userModel.findUserByUsername(userName);
@@ -27,10 +36,10 @@ public class UserService {
         return userStructure;
     }
 
-    public UserStructure findById(Integer id) throws SQLException, ModelNotFoundException {
+    public UserStructure findById(Integer id) throws SQLException {
         ResultSet result = this.userModel.findUserById(id);
         if (result.wasNull()) {
-            throw new ModelNotFoundException();
+            return null;
         }
         UserStructure userStructure = new UserStructure();
         userStructure.id = id;
@@ -46,11 +55,13 @@ public class UserService {
      * @param userStructure
      * @return true if successful
      */
-    public boolean registerNewUser(UserStructure userStructure) throws SQLException {
+    public boolean registerNewUser(UserStructure userStructure) throws SQLException, UserNameAlreadyTakenException {
         if (userStructure.username.length() > 80) {
             throw new InvalidParameterException("Username must be less than 80 characters long");
         }
-        System.out.println(userStructure);
+        if (this.findByUsername(userStructure.username) != null) {
+            throw new UserNameAlreadyTakenException("Username has already been taken");
+        }
         //set up hashed password
         Hasher hasher = new Hasher();
         hasher.setNewPasswordHash(userStructure.password);

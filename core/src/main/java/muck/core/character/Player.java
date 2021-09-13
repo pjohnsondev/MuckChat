@@ -12,31 +12,56 @@ public class Player extends Character {
      */
     private String username;
 
+    /**
+     * Create new Player or retrieve an existing Player from database
+     * @param username Player username
+     */
     public Player(String username) {
-        //TODO - Retrieve the username identifier from the backend database, then populate all fields with 
+        this.username = username;
+        //TODO - Retrieve the username identifier from the backend database, then populate all fields with
         // player values from the database
-        /*boolean databaseRetrievalSuccessful = StorageHandler.isPlayerValid(username);
+        /*
+        boolean databaseRetrievalSuccessful = StorageHandler.isPlayerValid(username);
         if (!databaseRetrievalSuccessful) {
             throw new CharacterDoesNotExistException(username);
         }
-
         this.setAvatar("some avatar retrieved from backend"); //further colab with issue #7 required
         this.setIdentifier(username);
         */
-
-        this.username = username;
     }
 
     /**
-     * Dummy constructor for a player object with a "null" identifier. Does not
-     * check with backend storage for a valid username. Should only be used for unit tests that don't use backend
+     * Create new Player or retrieve an existing Player from database
+     * @param username Player username
+     * @param create True if creating new Player. False if retrieving an existing Player
      */
-    public Player() {
-        this.setIdentifier(null);
+    public Player(String username, boolean create) {
+        this.username = username;
+        this.setIdentifier(username);
+
+        if (create) {
+            // TODO: add new Player to db? or when saveCharacter is called?
+        }
     }
 
+    /**
+     * Returns the Players username
+     * @return Player username
+     */
     public String getUsername() {
         return username;
+    }
+
+    /***
+     * Set Player stats. Should only be called once on creation of new or existing Player
+     * @param health Player health
+     * @param attack Player attack level
+     * @param defence Player defence level
+     */
+    public void setPlayerStats(int health, int attack, int defence) {
+        this.setHealth(health);
+        this.setAttack(attack);
+        this.setDefence(defence);
     }
 
     /**
@@ -51,21 +76,17 @@ public class Player extends Character {
 
     /**
      * Retrieves Players achievements
-     * @return A String array of all player achievements
+     * @return A String array ArrayList of all player achievements
      */
-    public String[][] getAchievements() {
+    public ArrayList<String[]> getAchievements() {
         //TODO: Confirm query
         String query = "SELECT achievement, achievementDescription FROM Player WHERE identifier = ?";
         ArrayList<String> achievementList = StorageHandler.queryPlayer(query, this.getIdentifier());
+        ArrayList<String[]> playerAchievements = new ArrayList<>();
 
-        // Convert from ArrayList to Two Dim Array
-        String[][] playerAchievements = new String[achievementList.size()/2][2];
-
-        for(int i = 0; i < achievementList.size(); i += 2){
-            playerAchievements[i][0] = achievementList.get(i);
-            playerAchievements[i][1] = achievementList.get(i+1);
+        for(int i = 0; i < achievementList.size(); i += 2) {
+            playerAchievements.add(new String[]{achievementList.get(i), achievementList.get(i+1)});
         }
-
         return playerAchievements;
     }
 
@@ -82,7 +103,7 @@ public class Player extends Character {
         boolean otherPlayerExists = false;
         boolean tradeSuccessful = false;
 
-        String[] currentCollectables = this.getInventory();
+        ArrayList<String> currentCollectables = this.getInventory();
 
         // Check if the Player currently holds the collectable
         for(String item : currentCollectables) {
@@ -136,17 +157,11 @@ public class Player extends Character {
      * Retrieves Players current inventory holdings
      * @return A String array of the players inventory
      */
-    public String[] getInventory() {
+    public ArrayList<String> getInventory() {
         //TODO: Confirm query
         String query = "SELECT inventory FROM Player WHERE identifier = ?";
         ArrayList<String> inventoryList = StorageHandler.queryPlayer(query, this.getIdentifier());
 
-        // Convert from ArrayList to Array
-        String[] playerInventory = new String[inventoryList.size()];
-        for(int i = 0; i < inventoryList.size(); i++){
-            playerInventory[i] = inventoryList.get(i);
-        }
-
-        return playerInventory;
+        return inventoryList;
     }
 }

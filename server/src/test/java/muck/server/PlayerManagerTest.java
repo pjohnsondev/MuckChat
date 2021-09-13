@@ -2,9 +2,10 @@ package muck.server;
 
 import muck.core.character.CharacterDoesNotExistException;
 import muck.core.character.Player;
+import muck.server.Exceptions.UserNameAlreadyTakenException;
 import muck.server.models.models.UserModel;
 import muck.server.services.UserService;
-import muck.server.structures.UserStructure;
+import muck.core.structures.UserStructure;
 import muck.server.testHelpers.TestDatabase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,8 +21,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PlayerManagerTest {
 
     private static final Logger logger = LogManager.getLogger(PlayerManagerTest.class);
-    private UserModel userModel = new UserModel();
     private TestDatabase testDb = new TestDatabase();
+    private UserModel userModel = new UserModel(testDb);
+    private UserService userService = new UserService(userModel);
+
 
     /**
      * Establish a new database connection before each test
@@ -31,15 +34,18 @@ public class PlayerManagerTest {
         logger.info("This message prints BEFORE each test runs");
         // reset database using testDB
         testDb = new TestDatabase();
-        userModel = new UserModel();
-        resetTable(userModel, testDb);
+        userModel = new UserModel(testDb);
+        if (!testDb.tableExists("users")) {
+            userModel.createTable();
+        }
+        userService = new UserService(userModel);
     }
 
-    @AfterEach
-    public void afterEach() throws SQLException {
-        logger.info("This message gets printed after each test runs");
-        dropAndClose(userModel, testDb);
-    }
+//    @AfterEach
+//    public void afterEach() throws SQLException {
+//        logger.info("This message gets printed after each test runs");
+//        dropAndClose(userModel, testDb);
+//    }
 
     // A little test helper
     private void resetTable(UserModel userModel, TestDatabase testDb) throws SQLException {
@@ -47,6 +53,7 @@ public class PlayerManagerTest {
         userModel.closeDbConnection();
         userModel.changeDb(testDb);
         testDb.dropTable("users");
+        userService = new UserService(userModel);
         userModel.createTable();
     }
 
@@ -56,7 +63,7 @@ public class PlayerManagerTest {
     }
     @Disabled
     @Test
-    public void loginIsSuccessfulWithValidCredentials() throws SQLException, CharacterDoesNotExistException, DuplicateLoginException, AuthenticationFailedException {
+    public void loginIsSuccessfulWithValidCredentials() throws SQLException, CharacterDoesNotExistException, DuplicateLoginException, AuthenticationFailedException, UserNameAlreadyTakenException {
         String username = "test_username+1357";
         String password = "password";
 
@@ -64,7 +71,6 @@ public class PlayerManagerTest {
         userStructure.username = username;
         userStructure.password = password;
 
-        UserService userService = new UserService();
         if (userService.findByUsername(username) == null) {
             userService.registerNewUser(userStructure);
         }
@@ -77,14 +83,13 @@ public class PlayerManagerTest {
     }
     @Disabled
     @Test
-    public void loginIsFailedWitInvalidPassword() throws SQLException {
+    public void loginIsFailedWitInvalidPassword() throws SQLException, UserNameAlreadyTakenException {
         String username = "test_username";
         String password = "password";
         UserStructure userStructure = new UserStructure();
         userStructure.username = username;
         userStructure.password = password;
 
-        UserService userService = new UserService();
         if (userService.findByUsername(username) == null) {
             userService.registerNewUser(userStructure);
         }
@@ -96,15 +101,18 @@ public class PlayerManagerTest {
     }
     @Disabled
     @Test
-    public void CharacterGetsCreatedOnLoginWithSuppliedUsername() throws CharacterDoesNotExistException, DuplicateLoginException, AuthenticationFailedException, SQLException {
+    public void CharacterGetsCreatedOnLoginWithSuppliedUsername() throws CharacterDoesNotExistException, DuplicateLoginException, AuthenticationFailedException, SQLException, UserNameAlreadyTakenException {
         String username = "test_username";
         String password = "password";
         UserStructure userStructure = new UserStructure();
         userStructure.username = username;
         userStructure.password = password;
 
-        UserService userService = new UserService();
         PlayerManager playerManager = new PlayerManager(userService);
+
+        if (userService.findByUsername(username) == null) {
+            userService.registerNewUser(userStructure);
+        }
 
         Player player = playerManager.loginPlayer(userStructure);
 
@@ -123,7 +131,6 @@ public class PlayerManagerTest {
         userStructure.password = password;
         userStructure.displayName = displayName;
 
-        UserService userService = new UserService();
         PlayerManager playerManager = new PlayerManager(userService);
 
         if (userService.findByUsername(username) == null) {
@@ -137,14 +144,13 @@ public class PlayerManagerTest {
     }
     @Disabled
     @Test
-    public void ExceptionIsThrownWhenThereIsADuplicateLogin() throws SQLException, CharacterDoesNotExistException, DuplicateLoginException, AuthenticationFailedException {
+    public void ExceptionIsThrownWhenThereIsADuplicateLogin() throws SQLException, CharacterDoesNotExistException, DuplicateLoginException, AuthenticationFailedException, UserNameAlreadyTakenException {
         String username = "test_user";
         String password = "test_pass";
         UserStructure userStructure = new UserStructure();
         userStructure.username = username;
         userStructure.password = password;
 
-        UserService userService = new UserService();
 
 
         if (userService.findByUsername(username) == null) {
@@ -169,7 +175,6 @@ public class PlayerManagerTest {
         userStructure.password = password;
         userStructure.displayName = displayName;
 
-        UserService userService = new UserService();
         PlayerManager playerManager = new PlayerManager(userService);
 
         // Username tests
@@ -197,7 +202,7 @@ public class PlayerManagerTest {
     }
     @Disabled
     @Test
-    public void TestUniqueUsernameConstraint() throws RuntimeException, SQLException {
+    public void TestUniqueUsernameConstraint() throws RuntimeException, SQLException, UserNameAlreadyTakenException {
         String username = "Test_Username";
         String password = "Test_Password";
         String displayName = "Test Display";
@@ -207,7 +212,6 @@ public class PlayerManagerTest {
         userStructure.password = password;
         userStructure.displayName = displayName;
 
-        UserService userService = new UserService();
         PlayerManager playerManager = new PlayerManager(userService);
 
         if (userService.findByUsername(username) == null) {

@@ -18,8 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class UserModelTest {
     private static final Logger logger = LogManager.getLogger(DatabaseTest.class);
 
-    private TestDatabase testDb;
-    private UserModel userModel;
+    private TestDatabase testDb = new TestDatabase();
+    private UserModel userModel = new UserModel(testDb);
 
 
     private void dropAndClose(UserModel userModel, TestDatabase testDb) throws SQLException {
@@ -38,10 +38,12 @@ public class UserModelTest {
     @BeforeEach
     public void beforeEach() throws SQLException{
         logger.info("This message prints BEFORE each test runs");
-        // reset database using testDB
+//         reset database using testDB
         testDb = new TestDatabase();
-        userModel = new UserModel();
-        resetTable(userModel, testDb);
+        userModel = new UserModel(testDb);
+        if (!testDb.tableExists("users")) {
+            userModel.createTable();
+        }
     }
 
     /**
@@ -51,10 +53,8 @@ public class UserModelTest {
     public void afterEach() {
         logger.info("This message prints AFTER each test runs");
     }
-    @Disabled
-    @Test
-    public void TableCreationTest() throws SQLException {
 
+    public void TableCreationTest() throws SQLException {
         assertTrue(testDb.tableExists("users"));
         testDb.dropTable("users");
         assertFalse(testDb.tableExists("users"));
