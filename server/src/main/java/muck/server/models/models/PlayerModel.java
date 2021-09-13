@@ -48,12 +48,26 @@ public class PlayerModel extends Model {
      * @throws InvalidParameterException Thrown when an invalid parameter is passed to a method. See: https://docs.oracle.com/javase/7/docs/api/java/security/InvalidParameterException.html
      */
     public void insertNewPlayer(PlayerStructure player) throws SQLException, InvalidParameterException {
-        //Insert the new user into the database table
         db.query("INSERT INTO players (user_id, attack, defense, health) VALUES (?, ?, ?, ?)");
         db.bindInt(1, player.userId);
         db.bindInt(2, player.attack);
         db.bindInt(3, player.defense);
         db.bindInt(4, player.health);
+        db.executeInsert();
+    }
+
+    /**
+     * Used to update already existing characters
+     *
+     * @param player
+     * @throws SQLException
+     */
+    public void insertWhereId(PlayerStructure player) throws SQLException {
+        db.query("INSERT INTO players (attack, defense, health) VALUES (?, ?, ?) WHERE id = ?");
+        db.bindInt(1, player.attack);
+        db.bindInt(2, player.defense);
+        db.bindInt(3, player.health);
+        db.bindInt(4, player.identifier);
         db.executeInsert();
     }
 
