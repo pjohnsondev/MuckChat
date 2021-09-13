@@ -38,8 +38,20 @@
       </Text>
       <Button id="exit" fx:id="exit" cancelButton="true" layoutX="130.0" layoutY="427.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="88.0" style="-fx-background-color: black;" text="Exit" textFill="WHITE" />
       <Button id="play" fx:id="play" layoutX="275.0" layoutY="427.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="88.0" style="-fx-background-color: black;" text="Play again?" textFill="#f8f8f8" />
-      <Text layoutX="134.0" layoutY="486.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Computer:" wrappingWidth="62.13671875" />
-      <Text layoutX="280.0" layoutY="487.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player:" wrappingWidth="62.13671875" />
-      <Text id="compTally" fx:id="compTally" layoutX="203.0" layoutY="486.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="39.0" />
-      <Text id="playerTally" fx:id="playerTally" layoutX="329.0" layoutY="487.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="39.0" />
+      <Text layoutX="130.0" layoutY="490.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Computer:" wrappingWidth="88.0">
+      <font>
+         <Font size="15.0" />
+      </font></Text>
+      <Text layoutX="287.0" layoutY="489.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player:" wrappingWidth="62.13671875">
+      <font>
+         <Font size="15.0" />
+      </font></Text>
+      <Text id="compTally" fx:id="compTally" layoutX="207.0" layoutY="490.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="39.0">
+      <font>
+         <Font size="15.0" />
+      </font></Text>
+      <Text id="playerTally" fx:id="playerTally" layoutX="339.0" layoutY="490.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="39.0">
+      <font>
+         <Font size="15.0" />
+      </font></Text>
 </AnchorPane>

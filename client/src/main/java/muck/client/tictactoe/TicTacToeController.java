@@ -4,12 +4,10 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -17,7 +15,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.util.List;
 import java.util.Random;
 
 
@@ -129,7 +126,7 @@ public class TicTacToeController {
         }
     }
 
-    //Pauses before the computer so it looks like the computer is thinking
+    //Pauses before the computer takes a turn so it looks like the computer is thinking
     public void computersTurn() {
         final IntegerProperty i = new SimpleIntegerProperty(0);
         Timeline timeline;
@@ -139,7 +136,6 @@ public class TicTacToeController {
                         event -> {
                             i.set(i.get() + 1);
                             computersSelection();
-
                         }
                 )
         );
@@ -147,7 +143,7 @@ public class TicTacToeController {
         timeline.play();
     }
 
-    //Gets a random number
+    //Gets a random number for the computers turn
     public ImageView getRandomSquare() {
         ImageView selectedImage;
         Random rand = new Random();
@@ -186,7 +182,7 @@ public class TicTacToeController {
         return selectedImage;
     }
 
-    //Checks if there is a winner and updates the text field
+    //Checks if there is a winner and updates the text field and the tally
     public boolean checkWinner() {
         if ((one.getImage()==cross && two.getImage()==cross && three.getImage()==cross) ||
                 (four.getImage()==cross && five.getImage()==cross && six.getImage()==cross) ||

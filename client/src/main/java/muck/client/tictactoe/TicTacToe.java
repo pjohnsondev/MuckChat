@@ -13,7 +13,7 @@ public class TicTacToe extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(TicTacToe.class.getResource("/fxml/TicTacToe.fxml"));
             Parent root = loader.load();
-            Scene scene = new Scene(root, 500, 500);
+            Scene scene = new Scene(root, 500, 510);
             scene.setRoot(root);
             Stage stage = new Stage();
             stage.setTitle("Muck Tic Tac Toe");
