@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.Buffer;
 import java.util.ResourceBundle;
@@ -24,7 +25,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import muck.client.card_games.Card;
 import muck.client.card_games.Game;
-
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import javax.swing.JButton;
+import javax.swing.SwingUtilities;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 //TODO: why are these below not working?
@@ -321,6 +327,7 @@ public class CardsGameController implements Initializable {
             try {
                Button close = new Button();
                close.setText("Close");
+
                BorderPane root = new BorderPane(new TextArea());
                Scene scene = new Scene(root, 300, 145);
 
@@ -366,10 +373,11 @@ public class CardsGameController implements Initializable {
     }
 /*
 // this wants an image value for setImage and i am working to figure out how to give it that
-    void set_card(String filename){
+    void set_card(String filename) throws IOException {
     //below wont work - ImageIO.read is for a buffered image
-        Image cardpic = ImageIO.read(new File(filename));
-        this.cardRow1Card1.setImage(cardpic);
+        BufferedImage cardpic = ImageIO.read(new File(filename));
+        Image cardpic2 = SwingFXUtils.toFXImage(cardpic,null);
+        this.cardRow1Card1.setImage(cardpic2);
     }
 */
 

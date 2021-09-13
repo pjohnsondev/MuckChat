@@ -20,7 +20,7 @@
                                 <Button fx:id="goFish" layoutX="849.0" layoutY="677.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="150.0" text="Go Fish " />
                                 <Label layoutX="991.0" layoutY="37.0" text="Opponents Sets Made: " textAlignment="CENTER">
                                     <font>
-                                        <Font name="System Bold" size="12.0" />
+                                        <Font name="Ariel" size="12.0" />
                                     </font>
                                 </Label>
                                 <ImageView fitHeight="149.0" fitWidth="84.0" layoutX="1014.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true"/>
