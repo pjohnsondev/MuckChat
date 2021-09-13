@@ -4,10 +4,12 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -15,6 +17,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.List;
 import java.util.Random;
 
 
@@ -63,8 +66,19 @@ public class TicTacToeController {
     Image cross = new Image("images/x-png-35400.png");
     Image circle = new Image("images/blue-circle-634067.png");
 
+    @FXML
+    private Text compTally;
+
+    @FXML
+    private Text playerTally;
+
+
+    int compTallyNum = 0;
+    int playerTallyNum = 0;
+
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
+        status.setText("It's your turn! Select a square..");
         one.setOnMouseClicked(event -> playersTurn(one));
         two.setOnMouseClicked(event -> playersTurn(two));
         three.setOnMouseClicked(event -> playersTurn(three));
@@ -78,12 +92,24 @@ public class TicTacToeController {
         exit.setOnAction(this::exitGame);
     }
 
-    //Adds cross to square based on the players selection via a mouse click
+    public ImageView getFirstSquare() {
+        return one;
+    }
+
+    public ImageView getFifthSquare() {
+        return five;
+    }
+
+    public ImageView getNinthSquare() {
+        return nine;
+    }
+
+    //Adds cross to square based on the player's selection via a mouse click
     public void playersTurn(ImageView img) {
+        status.setText("..Computer's turn");
         if (img.getImage() == null) {
             img.setImage(cross);
             img.setDisable(true);
-            checkWinner();
             if (!checkWinner()) {
                 computersTurn();
             }
@@ -92,6 +118,7 @@ public class TicTacToeController {
 
     //Adds a circle to an empty square on behalf of the computers
     public void computersSelection() {
+        status.setText("Your turn...");
         ImageView img = getRandomSquare();
         if (img.getImage() == null) {
             img.setImage(circle);
@@ -111,9 +138,8 @@ public class TicTacToeController {
                         Duration.seconds(0.5),
                         event -> {
                             i.set(i.get() + 1);
-                            if (!checkWinner()) {
-                                computersSelection();
-                            }
+                            computersSelection();
+
                         }
                 )
         );
@@ -126,7 +152,6 @@ public class TicTacToeController {
         ImageView selectedImage;
         Random rand = new Random();
         int number = rand.nextInt(9) + 1;
-        System.out.println(number);
         switch(number) {
             case 1:
                 selectedImage = one;
@@ -173,6 +198,8 @@ public class TicTacToeController {
                 (three.getImage()==cross && five.getImage()==cross && seven.getImage()==cross)
         ) {
             status.setText("You win!!!");
+            playerTallyNum = playerTallyNum + 1;
+            playerTally.setText(Integer.toString(playerTallyNum));
             game.setDisable(true);
             return true;
         } else if ((one.getImage()==circle && two.getImage()==circle && three.getImage()==circle) ||
@@ -183,8 +210,10 @@ public class TicTacToeController {
                 (three.getImage()==circle && six.getImage()==circle && nine.getImage()==circle) ||
                 (one.getImage()==circle && five.getImage()==circle && nine.getImage()==circle) ||
                 (three.getImage()==circle && five.getImage()==circle && seven.getImage()==circle)
-        ){
+        ) {
             status.setText("Sorry you lose");
+            compTallyNum++;
+            compTally.setText(Integer.toString(compTallyNum));
             game.setDisable(true);
             return true;
         } else if (one.getImage() != null && two.getImage() != null && three.getImage() != null && four.getImage() != null
@@ -218,7 +247,8 @@ public class TicTacToeController {
         nine.setImage(null);
         nine.setDisable(false);
         game.setDisable(false);
-        status.setText(null);
+        status.setText("It's your turn! Select a square..");
+
     }
 
     //Method that quits the game
@@ -227,5 +257,3 @@ public class TicTacToeController {
         stage.close();
     }
 }
-
-
