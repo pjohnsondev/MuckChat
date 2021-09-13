@@ -53,7 +53,6 @@ public class UserModelTest {
         logger.info("This message prints AFTER each test runs");
     }
 
-    @Test
     public void TableCreationTest() throws SQLException {
         assertTrue(testDb.tableExists("users"));
         testDb.dropTable("users");
