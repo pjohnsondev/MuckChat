@@ -204,6 +204,7 @@ public class MuckController implements Initializable {
             //This line gets the Stage Information
             Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             stage.setScene(scene);
+            stage.setResizable(true);
             stage.setOnCloseRequest(e -> stage.close());
             App.hideStage();
             stage.show();
