@@ -97,9 +97,7 @@ public class TTTLandingPage extends Node {
         playButton.setOnAction(event -> {
 
             Stage newWindow = new Stage();
-            newWindow.setTitle("Muck Tic Tac Toe");
 
-            newWindow.initModality(Modality.WINDOW_MODAL);
 
             TicTacToe ttt = new TicTacToe();
             try {
@@ -107,8 +105,6 @@ public class TTTLandingPage extends Node {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            newWindow.show();
         });
 
         //Function when exiting the game
