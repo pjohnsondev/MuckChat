@@ -11,6 +11,7 @@ import muck.server.models.models.*;
 public class ModelRegister {
     private final Model[] models = {
         new UserModel(),
+        new PlayerModel()
     };
 
     public void makeMigrations() {
