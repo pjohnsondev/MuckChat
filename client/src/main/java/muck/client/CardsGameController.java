@@ -350,9 +350,9 @@ public class CardsGameController implements Initializable {
         //tenOfDiamonds
         final boolean displayHigh = true;
         //THIS IS JUST A THOUGHT ABOUT HOW TO HIGHLIGHT CARDS WHEN PRESSED
-        Image filename2 = new Image(game.player1.hand.cards.get(0).getFileName());
+        Image filename0 = new Image(game.player1.hand.cards.get(0).getFileName());
         cardRow1Card1.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-            cardRow1Card1.setImage(filename2);
+            cardRow1Card1.setImage(filename0);
             /*if (displayHigh) {
                 card1row1select.setFill(Color.valueOf("#f6ff14"));
             }
@@ -361,8 +361,7 @@ public class CardsGameController implements Initializable {
         cardRow2Card1.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             card1Row2select.setFill(Color.valueOf("#f6ff14"));
         });
-
-        cardRow1Card1.setImage(filename2);
+            cardRow1Card1.setImage(filename0);
 
     }
 /*
@@ -394,6 +393,7 @@ public class CardsGameController implements Initializable {
         // ECT.. SO THAT THEIR CARDS GET LESS SLOWLY
 
     }
+
 
 
 
