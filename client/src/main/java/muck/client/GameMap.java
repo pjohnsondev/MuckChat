@@ -242,7 +242,6 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	}
 
 	public void updatePlayers() {
-		players = otherPlayers.get();
 		if (otherPlayers != null) {
 			players = otherPlayers.get();
 		}
@@ -287,4 +286,3 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 		}
 	}
 }
-
