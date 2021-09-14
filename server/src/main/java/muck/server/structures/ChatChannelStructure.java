@@ -5,6 +5,12 @@ import java.util.ArrayList;
 public class ChatChannelStructure {
     private int channelId;
 
+
+
+    private int cuID;
+    private String channelName;
+    private ArrayList<String> userList;
+
     public int getChannelId() {
         return channelId;
     }
@@ -29,8 +35,8 @@ public class ChatChannelStructure {
         this.userList = userList;
     }
 
-    private String channelName;
-    private ArrayList<String> userList;
+    public int getCuID() {return cuID;}
 
+    public void setCuID(int cuID) {this.cuID = cuID;}
 
 }
