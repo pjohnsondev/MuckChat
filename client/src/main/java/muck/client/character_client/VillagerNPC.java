@@ -4,29 +4,29 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import muck.client.TileMapReader;
 import muck.core.character.NPC;
-import muck.core.character.NPCStateRandomWalk;
 
-public class CatNPC extends NPC {
+public class VillagerNPC extends NPC{
     private final Image image;
-    private int base;
-    private TileMapReader tm;
+    private final TileMapReader tm; // map NPC should be on
+    private int base; // top or bottom row villager type
 
     /**
      * Constructor - Position and colour
      * @param identifier Unique identifier
      * @param xPos Starting x position
      * @param yPos Starting y position
-     * @param colour Colour of cat
+     * @param villager Type of villager
+     * @param tm Tile Map NPC should be on
      */
-    public CatNPC(String identifier, int xPos, int yPos, String colour, TileMapReader tm) {
-        image = new Image("/images/NPC_Characters/catSprite.png");
+    public VillagerNPC(String identifier, int xPos, int yPos, String villager, TileMapReader tm) {
+        image = new Image("/images/NPC_Characters/villagerSprite.png");
         setIdentifier(identifier);
         setXPos(xPos);
         setYPos(yPos);
-        setNPCStats(10, 1, 1, 1);
-        setColour(colour);
+        setNPCStats(50, 10, 10, 5);
+        setVillager(villager);
         this.tm = tm;
-        setNpcRandomWalk(0.3, 60, 30);
+        setNpcRandomWalk(0.4, (float)Math.random() * (50) + 30, (float)Math.random() * (30) + 40);
     }
 
     /**
@@ -34,55 +34,59 @@ public class CatNPC extends NPC {
      * @param identifier Unique identifier
      * @param xPos Starting x position
      * @param yPos Starting y position
-     * @param colour Colour of cat
+     * @param villager Type of villager
+     * @param tm Tile Map NPC should be on
      * @param direction Starting facing direction
+     * @param speed Speed of random walk
+     * @param timeWait Time waiting in random walk
+     * @param timeWalk Time walking in random walk
      */
-    public CatNPC(String identifier, int xPos, int yPos, String colour, TileMapReader tm, String direction,
-                  int speed, int timeWait, int timeWalk) {
-        image = new Image("/images/NPC_Characters/catSprite.png");
+    public VillagerNPC(String identifier, int xPos, int yPos, String villager, TileMapReader tm, String direction,
+                       int speed, int timeWait, int timeWalk) {
+        image = new Image("/images/NPC_Characters/villagerSprite.png");
         setIdentifier(identifier);
         setXPos(xPos);
         setYPos(yPos);
-        setNPCStats(10, 1, 1, 1);
-        setColour(colour);
+        setNPCStats(50, 10, 10, 5);
+        setVillager(villager);
         this.tm = tm;
         changeDirection(direction);
         setNpcRandomWalk(speed, timeWait, timeWalk);
     }
 
     /**
-     * Set the colour of the cat. Default is white
-     * @param colour Colour of cat (grey, brown, black, beige, tip, tiger, white)
+     * Set the villager type
+     * @param villager villager type
      */
-    public void setColour(String colour) {
-        switch (colour) {
-            case "grey":
-                setSx(144);
+    public void setVillager(String villager) {
+        switch (villager) {
+            case "female1":
+                setSx(156);
                 base = 0;
                 break;
-            case "brown":
-                setSx(288);
+            case "male2":
+                setSx(311);
                 base = 0;
                 break;
-            case "black":
-                setSx(432);
+            case "female2":
+                setSx(467);
                 base = 0;
                 break;
-            case "beige":
+            case "female3":
                 setSx(0);
-                base = 192;
+                base = 221;
                 break;
-            case "tip":
-                setSx(144);
-                base = 192;
+            case "male3":
+                setSx(156);
+                base = 221;
                 break;
-            case "spot":
-                setSx(288);
-                base = 192;
+            case "female4":
+                setSx(311);
+                base = 221;
                 break;
-            case "tiger":
-                setSx(432);
-                base = 192;
+            case "male4":
+                setSx(467);
+                base = 221;
                 break;
             default:
                 setSx(0);
@@ -93,18 +97,18 @@ public class CatNPC extends NPC {
     }
 
     /**
-     * Draw cat to the map
+     * Draw villager to the map
      * @param gc The graphics context to draw to map
      * @param cameraX,cameraY The top left corner co-ordinate of the viewport - Added by dandre20
      */
-    public void drawCatNPC(GraphicsContext gc, Double cameraX, Double cameraY, TileMapReader tm) {
+    public void drawVillagerNPC(GraphicsContext gc, Double cameraX, Double cameraY, TileMapReader tm) {
         if (this.tm.getHeight() == tm.getHeight() && this.tm.getWidth() == tm.getWidth()) {
             gc.drawImage(
                     this.image,
                     getSourceRectangle()[0],
                     getSourceRectangle()[1],
-                    48,
-                    48,
+                    52,
+                    55,
                     this.getXPos() - cameraX,
                     this.getYPos() - cameraY,
                     26,
@@ -113,20 +117,20 @@ public class CatNPC extends NPC {
     }
 
     /**
-     * Change the facing direction of cat NPC
+     * Change the facing direction
      * @param direction New direction
      */
     public void changeDirection(String direction) {
         this.setDirection(direction);
         switch (getDirection()) {
             case "left":
-                setSh(base + 49);
+                setSh(base + 56);
                 break;
             case "right":
-                setSh(base + 97);
+                setSh(base + 111);
                 break;
             case "up":
-                setSh(base + 145);
+                setSh(base + 166);
                 break;
             default:
                 setSh(base);
@@ -135,7 +139,7 @@ public class CatNPC extends NPC {
     }
 
     /**
-     * Dialog option for cat NPC
+     * Dialog option for villager NPC
      * @param option dialog option
      * @return String of chosen dialog option
      */
@@ -143,13 +147,13 @@ public class CatNPC extends NPC {
         String message;
         switch (option) {
             case 1:
-                message = "Meow!";
+                message = "Hello!";
                 break;
             case 2:
-                message = "Hiss!!!";
+                message = "How can I help you?";
                 break;
             case 3:
-                message = "Purr";
+                message = "There's a cave around here, somewhere.";
                 break;
             default:
                 message = "...";
@@ -159,7 +163,7 @@ public class CatNPC extends NPC {
     }
 
     /**
-     * Implements npcStateRandomWalk and allows cat to walk in random directions
+     * Implements npcStateRandomWalk and allows villager to walk in random directions
      */
     @Override
     public void handle() {
@@ -171,8 +175,8 @@ public class CatNPC extends NPC {
         // get layer 1
         int GID = tm.getLayerId(
                 2,
-                (int)Math.floor((getXPos()+24)/tm.getTileWidth()),
-                (int)Math.abs((getYPos()+24)/tm.getTileHeight()));
+                (int)Math.floor((getXPos()+27)/tm.getTileWidth()),
+                (int)Math.abs((getYPos()+27)/tm.getTileHeight()));
 
         // collision detection for layer 1 objects and boundaries
         if (GID != -1 || getXPos() == 0 || getYPos() + 10 == 0) {

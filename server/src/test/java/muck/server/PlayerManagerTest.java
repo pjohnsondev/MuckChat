@@ -41,11 +41,11 @@ public class PlayerManagerTest {
         userService = new UserService(userModel);
     }
 
-    @AfterEach
-    public void afterEach() throws SQLException {
-        logger.info("This message gets printed after each test runs");
-        dropAndClose(userModel, testDb);
-    }
+//    @AfterEach
+//    public void afterEach() throws SQLException {
+//        logger.info("This message gets printed after each test runs");
+//        dropAndClose(userModel, testDb);
+//    }
 
     // A little test helper
     private void resetTable(UserModel userModel, TestDatabase testDb) throws SQLException {

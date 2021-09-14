@@ -12,27 +12,36 @@ public class Player extends Character {
      */
     private String username;
 
+    /**
+     * Create new Player or retrieve an existing Player from database
+     * @param username Player username
+     */
     public Player(String username) {
-        //TODO - Retrieve the username identifier from the backend database, then populate all fields with 
+        this.username = username;
+        //TODO - Retrieve the username identifier from the backend database, then populate all fields with
         // player values from the database
-        /*boolean databaseRetrievalSuccessful = StorageHandler.isPlayerValid(username);
+        /*
+        boolean databaseRetrievalSuccessful = StorageHandler.isPlayerValid(username);
         if (!databaseRetrievalSuccessful) {
             throw new CharacterDoesNotExistException(username);
         }
-
         this.setAvatar("some avatar retrieved from backend"); //further colab with issue #7 required
         this.setIdentifier(username);
         */
-
-        this.username = username;
     }
 
     /**
-     * Dummy constructor for a player object with a "null" identifier. Does not
-     * check with backend storage for a valid username. Should only be used for unit tests that don't use backend
+     * Create new Player or retrieve an existing Player from database
+     * @param username Player username
+     * @param create True if creating new Player. False if retrieving an existing Player
      */
-    public Player() {
-        this.setIdentifier(null);
+    public Player(String username, boolean create) {
+        this.username = username;
+        this.setIdentifier(username);
+
+        if (create) {
+            // TODO: add new Player to db? or when saveCharacter is called?
+        }
     }
 
     /**

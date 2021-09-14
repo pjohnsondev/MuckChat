@@ -72,7 +72,7 @@ public class SpaceInvaders {
 
     //private double mouseX;
     private int lives;
-    private int level =1;
+    private int level = 1;
     private int score = 0;
     private int maxMissiles;
     final int MAX_MISSILES = 50;
@@ -154,6 +154,9 @@ public class SpaceInvaders {
         if(level == 3) {
             levelUp(3);
         }
+        if(level == 4) {
+            levelUp(4);
+        }
     }
 
 
@@ -216,7 +219,7 @@ public class SpaceInvaders {
         for(int i = 0; i < enemies.size(); i++) {
             gc.drawImage(this.enemies.get(i), this.enemies.get(i).getX(), this.enemies.get(i).getY());
 
-            if (enemies.get(i).getType() == "small_enemy") {
+            if (enemies.get(i).getType() == "small_enemy" || level == 4) {
 
                 if (enemies.get(i).getX() + enemies.get(i).getRequestedWidth() >= WIDTH) {
                     spriteDirectionCount.set(1);
@@ -342,7 +345,7 @@ public class SpaceInvaders {
             }
         }
 
-        if (levelNumber == 3){
+        if (levelNumber == 3 || levelNumber == 4){
             for (int i = 0; i < 5; i++) {
                 enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_BIG"), ENEMY_SIZE,
                         ENEMY_SIZE, 60 + i * WIDTH / 5, 150, true,
@@ -359,10 +362,10 @@ public class SpaceInvaders {
                 if (enemies.get(j).getY() > HEIGHT)
                     enemies.remove(j);
             }
-            for(int k = 0; k < 1; k++) {
+            for(int k = 0; k < 3; k++) {
                 enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_SMALL"),
                         ENEMY_SIZE / 2, ENEMY_SIZE / 2,
-                        150, 450, true, true, 1,
+                        240 + k * WIDTH/5, 450, true, true, 1,
                         1, "small_enemy"));
 
                 if (enemies.get(k).getY() > HEIGHT)

@@ -9,6 +9,18 @@ public class NPC extends Character implements INPCColleague {
     private String otherNPCIdentifier;  
     private Action otherNPCAction;
 
+    // source image width and height
+    private int sx;
+    private int sh;
+
+    // motion and movement
+    private NPCStateRandomWalk npcStateRandomWalk;
+    private int tick = 0;
+    private int move = 0;
+    private boolean change = false;
+    private float timeWalk;
+    private float timeWait;
+
     /**
      * NPC constructor. This class is an extension of the Character class for NPC/monster characters.
      * This should instantiate an NPC with an identifier that exists in the backend persistent storage.
@@ -155,5 +167,66 @@ public class NPC extends Character implements INPCColleague {
 
     public void setStateBehaviour(INPCState stateBehaviour) {
         this.stateBehaviour = stateBehaviour;
+    }
+
+    /**
+     * Set NPC Random Walk speed and times
+     * @param speed Speed of NPC walk
+     * @param timeWait Time waiting in a spot
+     * @param timeWalk Time while walking
+     */
+    public void setNpcRandomWalk(double speed, float timeWait, float timeWalk) {
+        this.timeWait = timeWait;
+        this.timeWalk = timeWalk;
+        npcStateRandomWalk = new NPCStateRandomWalk(this, speed, timeWait, timeWalk);
+        setState(NPCState.RandomWalk);
+    }
+
+    /**
+     * Implements npcStateRandomWalk and allows NPC to walk in random directions
+     */
+    public void handle() {
+        this.npcStateRandomWalk.handle();
+
+        // motion appearance when walking
+        if (tick >= this.timeWait+this.timeWalk) {
+            // waiting
+            tick = 0;
+        } else if (tick >= this.timeWait) {
+            // walking
+            if (tick % 5 == 0) {
+                change = true;
+                move++;
+            }
+            if (change && move < 3) {
+                sx += 48;
+            } else if (change && move < 5) {
+                sx -= 48;
+            } else if (change) {
+                move = 0;
+            }
+            change = false;
+        }
+        tick++;
+    }
+
+    /**
+     * Set source width coordinate
+     * @param sx source width
+     */
+    public void setSx(int sx) {this.sx = sx;}
+
+    /**
+     * Set source height coordinate
+     * @param sh source height
+     */
+    public void setSh(int sh) {this.sh = sh;}
+
+    /**
+     * Return source rectangle width and height coordinates
+     * @return Array of source rectangle width and source rectangle height [sx, sh]
+     */
+    public int[] getSourceRectangle() {
+        return new int[]{this.sx, this.sh};
     }
 }
