@@ -23,7 +23,7 @@ public class Interface {
             this.newGame();
         } else if (action.equals("2")){
             this.exitGame();
-        } else { this.startGame();}
+        } else { this.startGame();} //What is going on here? Is this recursive?
     }
 
     public void newGame(){

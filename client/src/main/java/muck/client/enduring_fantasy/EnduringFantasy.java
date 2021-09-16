@@ -1,13 +1,13 @@
 package muck.client.enduring_fantasy;
 
 public class EnduringFantasy {
-    private Player player;
+    private Player player = new Player("name_of_character");
     private Battle battle;
     private Boolean confirmName;
     private Boolean confirmType;
     private Boolean confirmAction;
 
-    public FinalFantasyRPG() {
+    public void FinalFantasyRPG() {
         this.confirmName = false;
         this.confirmType = false;
         this.confirmAction = false;
@@ -54,7 +54,7 @@ public class EnduringFantasy {
             System.out.println("Invalid Path - Try Again");
             this.confirmType = false;
         } else {
-            this.player.setType(type);
+            player.setType(type);
             this.player.setTypeStats();
             this.confirmType = true;
         }
@@ -104,7 +104,7 @@ public class EnduringFantasy {
     }
 
     public void battleIntro() {
-        this.battle.battleInput();
+        this.battle.battleInput("Attack");
     }
 
     public void battleCommand(String com) {
@@ -124,7 +124,7 @@ public class EnduringFantasy {
         return this.battle.getMobName();
     }
 
-    public boolean endBattle() {
+    public void endBattle() {
         boolean obtainItem = false;
         System.out.println("*-----*");
         System.out.println("You have defeated " + this.battle.getMobName());
@@ -138,7 +138,7 @@ public class EnduringFantasy {
 
     //public void magicMenu() {
     //    this.battle.magicSelection();
-    }
+//    }
 
     //public void useMagic(String magicName) {
     //    this.battle.useMagic(magicName);

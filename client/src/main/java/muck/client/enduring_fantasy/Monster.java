@@ -8,7 +8,7 @@ public class Monster extends Character {
     private String mobDets = " ";
     private int dmgtotal = 0;
 
-    public Monster() { }
+    public Monster() {super("temp_name");}
 
     public void genMonster(int num) {
         int monsGen = this.monster.nextInt(4);

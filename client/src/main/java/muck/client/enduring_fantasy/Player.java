@@ -1,13 +1,15 @@
 package muck.client.enduring_fantasy;
 
 public class Player extends Character {
+
     private String type = "";
     private int playerLevel;
     private int nextLevel;
     private int magicPoints;
     private int magicStr;
 
-    public Player(){
+    public Player(String name){
+        super(name);
         /** Setting base stats **/
         this.playerLevel = 1;
         this.nextLevel = 200;
@@ -34,24 +36,24 @@ public class Player extends Character {
         if (this.nextLevel <= 0) {
             ++this.playerLevel;
             System.out.println("You have increased your level");
-            if (this.getType().equalsIgnoreCase("Soldier")){
-                this.setHealth(this.getHealth() + 100);
-                this.setDmg(this.getDamage() + 30);
+            if (getType().equalsIgnoreCase("Soldier")){
+                super.setHealth(super.getHealth() + 100);
+                super.setDmg(super.getDamage() + 30);
                 this.magicStr += 10;
-                this.incMagPoints(10);
-            } else if (this.getType().equalsIgnoreCase("RedMage")){
-                this.setHealth(this.getHealth() + 75);
-                this.setDmg(this.getDamage() + 15);
+                incMagPoints(10);
+            } else if (getType().equalsIgnoreCase("RedMage")){
+                super.setHealth(super.getHealth() + 75);
+                super.setDmg(super.getDamage() + 15);
                 this.magicStr += 15;
-                this.incMagPoints(15);
-            } else if (this.getType().equalsIgnoreCase("Wizard")){
-                this.setHealth(this.getHealth() + 50);
-                this.setDmg(this.getDamage() + 10);
+                incMagPoints(15);
+            } else if (getType().equalsIgnoreCase("Wizard")){
+                super.setHealth(super.getHealth() + 50);
+                super.setDmg(super.getDamage() + 10);
                 this.magicStr += 20;
-                this.incMagPoints(20);
+                incMagPoints(20);
             }
 
-        this.resetLvl();
+        resetLvl();
     } else { System.out.println("Your have gained experience");}
     }
 
@@ -70,19 +72,19 @@ public class Player extends Character {
 
     public void setTypeStats() {
         /** set job base stats here **/
-        if (this.getType().equalsIgnoreCase("Soldier")){
-            this.setHealth(200);
-            this.setDmg(50);
+        if (getType().equalsIgnoreCase("Soldier")){
+            super.setHealth(200);
+            super.setDmg(50);
             this.magicStr = 5;
             this.magicPoints = 10;
-        } else if (this.getType().equalsIgnoreCase("RedMage")){
-            this.setHealth(160);
-            this.setDmg(40);
+        } else if (getType().equalsIgnoreCase("RedMage")){
+            super.setHealth(160);
+            super.setDmg(40);
             this.magicStr = 15;
             this.magicPoints = 20;
-        }else if (this.getType().equalsIgnoreCase("Wizard")) {
-            this.setHealth(120);
-            this.setDmg(25);
+        }else if (getType().equalsIgnoreCase("Wizard")) {
+            super.setHealth(120);
+            super.setDmg(25);
             this.magicStr = 20;
             this.magicPoints = 30;
         }

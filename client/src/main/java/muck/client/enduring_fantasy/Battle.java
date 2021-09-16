@@ -45,7 +45,7 @@ public class Battle {
         this.pcMag = this.player.getMagicStr();
         this.pcStr = this.player.getDamage();
         this.pcLvl = this.player.getPlayerLvl();
-        this.nextLvl = this.player.nextLevel();
+        this.nextLvl = this.player.getNextLvl();
     }
 
 
