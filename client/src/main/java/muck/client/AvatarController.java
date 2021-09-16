@@ -35,7 +35,7 @@ public class AvatarController implements Initializable  {
     private static String uname;//Will be updated when constructing AvatarController
     private static String displayName; //Will be updated when constructing AvatarController
     private static int muckPoints = 0; //Dummy value for testing purposes TODO: Remove dummy value
-    private static String avatar = "error"; //Default. No image.
+    private static String avatar = "notSet"; //Default. No image.
     private static String previous = "login"; //Previous screen. Will determine where the submit button leads.
     private final int OPEN_SKELETON = 20; // Muck points required to activate skeleton avatar
     private final int OPEN_WW = 30; // Muck points required to activate Wonder Woman avatar
@@ -144,7 +144,7 @@ public class AvatarController implements Initializable  {
 
             // If there is already an avatar associated with a user, display the avatar
             // Will be used in the case of an avatar change
-            if (!avatar.equals("error")) {
+            if (!avatar.equals("notSet")) {
                 selection(avatar);
             }
         } catch (NullPointerException e) {
@@ -173,7 +173,7 @@ public class AvatarController implements Initializable  {
         previous = "login";
         uname = username;
         displayName = display;
-        avatar = "error";
+        avatar = "notSet";
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(AvatarController.class.getResource("/fxml/Avatar.fxml")));
             Scene scene = new Scene(root);
@@ -211,7 +211,7 @@ public class AvatarController implements Initializable  {
         previous = "login";
         uname = username;
         displayName = "DisplayName";
-        avatar = "error";
+        avatar = "notSet";
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(AvatarController.class.getResource("/fxml/Avatar.fxml")));
             Scene scene = new Scene(root);
@@ -389,7 +389,7 @@ public class AvatarController implements Initializable  {
                         avatarFullBody.setFitHeight(300);
                         break;
                     }
-                case "error":
+                case "notSet":
                     break;
                 default:
                     break;

@@ -112,6 +112,12 @@ public class PlayerDashboardController implements Initializable {
         }
     }
 
+    /**
+     * Set up method.  Assigns the appropriate values to the applicable variables
+     * @param uname: The player username
+     * @param display: The player display name
+     * @param avID: The player's current avatar ID
+     */
     public static void playerDashboard(String uname, String display, String avID) {
         userName = uname;
         displayName = display;
@@ -134,6 +140,9 @@ public class PlayerDashboardController implements Initializable {
         healthTotal = 80; //TODO: Remove
     }
 
+    /**
+     * Displays the player's achievements in the applicable section of the GUI
+     */
     private void updateAchievements() {
         for (String[] achieve : achievements ) {
             String achievement = achieve[0] + ": " + achieve[1] +"\n\n";
@@ -141,31 +150,18 @@ public class PlayerDashboardController implements Initializable {
         }
     }
 
+    /**
+     * returnToGame method
+     * Passes the current player username and avatarID back to the MuckController to update if changed
+     * @param event: The click event resulting from a player clicking on the return icon
+     * @param uname: The players username
+     * @param avID: The players current avatar ID
+     */
     private void returnToGame(MouseEvent event, String uname, String avID) {
         // TODO: Send username and avatar back to the server for storage
         MuckController.constructor(uname, avID);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
-    }
-
-    private void centreImage() { //TODO: This is not centring vertically???
-        Image img = avatarFullBody.getImage();
-        if (img != null) {
-            double w;
-            double h;
-
-            double ratioX = avatarFullBody.getFitWidth() / img.getWidth();
-            double ratioY = avatarFullBody.getFitHeight() / img.getHeight();
-
-            double reducCoeff = Math.min(ratioX, ratioY);
-
-            w = img.getWidth() * reducCoeff;
-            h = img.getHeight() * reducCoeff;
-
-            avatarFullBody.setX((avatarFullBody.getFitWidth() - w) / 2);
-            avatarFullBody.setY((avatarFullBody.getFitHeight() - h) / 2);
-
-        }
     }
 
     private void selection(String character) {
@@ -205,44 +201,26 @@ public class PlayerDashboardController implements Initializable {
         }
     }
 
+    private void centreImage() { //TODO: This is not centring vertically???
+        Image img = avatarFullBody.getImage();
+        if (img != null) {
+            double w;
+            double h;
 
-        /*public static void playerDashboard(String uname) {
-        userName = uname;
-        // TODO: Need to call the database for current avatar and muck point values
-        try {
-            FXMLLoader loader = new FXMLLoader(AvatarController.class.getResource("/fxml/Avatar.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            scene.setRoot(root);
-            scene.getStylesheets().add(PlayerDashboardController.class.getResource("/css/style.css").toExternalForm());
-            Stage stage = new Stage();
-            stage.setTitle("Muck 2021");
-            stage.setMaxWidth(1200);
-            stage.setMaxHeight(1100);
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
+            double ratioX = avatarFullBody.getFitWidth() / img.getWidth();
+            double ratioY = avatarFullBody.getFitHeight() / img.getHeight();
 
-        /*public static void playerDashboard(String uname, String display, MouseEvent event, String avID) {
-        userName = uname;
-        displayName = display;
-        avatarID = avID;
-        //TODO: Call the server to get all the relevant information
-        try {
-            Parent root = FXMLLoader.load(PlayerDashboardController.class.getResource("/fxml/PlayerDashboard.fxml"));
-            Scene scene = new Scene(root);
-            scene.setRoot(root);
-            scene.getStylesheets().add(PlayerDashboardController.class.getResource("/css/style.css").toExternalForm());
-            //This line gets the Stage Information
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
+            double reducCoeff = Math.min(ratioX, ratioY);
+
+            w = img.getWidth() * reducCoeff;
+            h = img.getHeight() * reducCoeff;
+
+            avatarFullBody.setX((avatarFullBody.getFitWidth() - w) / 2);
+            avatarFullBody.setY((avatarFullBody.getFitHeight() - h) / 2);
+
         }
-    }*/
+    }
+
+
+
 }
