@@ -8,6 +8,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.control.*;
 import muck.client.App;
 import muck.client.MuckClient;
+import muck.client.components.ActiveUser;
 import org.mindrot.jbcrypt.*;
 import muck.client.AvatarController;
 
@@ -97,10 +98,10 @@ public class SignInController{
         if (validated) {
             try {
                 MuckClient.getINSTANCE().login(userName, passwordText);
-                error.setText("New muck user created" + userName);
-                return true;
+//                while(!ActiveUser.getInstance().userIsSignedIn());
+//                ActiveUser.getInstance().getServerMessage().equals("Login Successful");
             } catch (Exception ex) {
-                error.setText("Username or Password are incorrect: {}" + userName);
+//                error.setText(ActiveUser.getInstance().getServerMessage());
                 throw new RuntimeException(String.format("Unable to create new user: %s.", userName));
 
             }

@@ -139,6 +139,12 @@ public enum MuckClient {
 			logger.info("Message recieved was: {}", clientMessage.getMessage());
 			currentMessage = clientMessage.getMessage();
 			inMessages.add(clientMessage.getMessage());
+			for (String message : ActiveUser.getInstance().serverErrors){
+				if(clientMessage.getMessage().equals(message)){
+					ActiveUser.getInstance().setServerMessage(clientMessage.getMessage());
+				}
+			}
+
 		}));
 
 		// When a chatlog object is detected, add it to the queue.
