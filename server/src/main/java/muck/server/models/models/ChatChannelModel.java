@@ -49,6 +49,10 @@ public class ChatChannelModel extends Model {
         return this.select("channel_id", channel.getChannelId());
     }
 
+    public ResultSet retrieveChannel (int channelID) throws SQLException{
+        return this.select("channel_id", channelID);
+    }
+
     public void insertUsersIntoChannel(ChatChannelStructure channel) throws SQLException, InvalidParameterException{
         for (String name : channel.getUserList()){
             db.query("INSERT INTO channel_user_list (cu_id, channel_id, user_name) VALUES (?, ?, ?)");

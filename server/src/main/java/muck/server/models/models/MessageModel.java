@@ -27,7 +27,7 @@ public class MessageModel extends Model {
                 "CREATE TABLE messages "
                         + "(message_id INTEGER UNIQUE GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
                         + " channel_id INTEGER NOT NULL, "
-                        + " user_name INTEGER NOT NULL, "
+                        + " user_name VARCHAR(255) NOT NULL, "
                         + " message VARCHAR(255) NOT NULL, "
                         + " timestamp TIMESTAMP NOT NULL)"
         );
@@ -46,5 +46,9 @@ public class MessageModel extends Model {
 
     public ResultSet retrieveMessages (ChatMessageStructure msg) throws SQLException{
         return this.select("channel_id", msg.getChannelId());
+    }
+
+    public ResultSet retrieveMessages (int channelID) throws SQLException{
+        return this.select("channel_id", channelID);
     }
 }
