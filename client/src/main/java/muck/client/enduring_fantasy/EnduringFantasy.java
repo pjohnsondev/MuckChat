@@ -136,13 +136,12 @@ public class EnduringFantasy {
         this.player.incPcLvl();
     }
 
-    //public void magicMenu() {
-    //    this.battle.magicSelection();
-//    }
+    public void magicMenu() {
+        this.battle.magicSelection();
+    }
 
-    //public void useMagic(String magicName) {
-    //    this.battle.useMagic(magicName);
-    //}
+    public void useMagic(String magicName) {
+        this.battle.useMagic(magicName);
 
     public void newPlayer(Player newPlayer) {
         this.player = newPlayer;

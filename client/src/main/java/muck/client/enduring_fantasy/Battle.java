@@ -10,6 +10,7 @@ public class Battle {
     private int pcLvl;
 
     private Player player;
+    private Magic magic;
 
     /** Player Variables **/
     public int getPcHp(){ return this.pcHp; }
@@ -99,6 +100,24 @@ public class Battle {
         this.pcMp += mpRegen;
         if (this.pcMp > this.player.getMP()){
             this.pcMp = this.player.getMP();
+        }
+    }
+
+    public void magicSelection(){
+        this.magic = new Magic(this.player, this.pcMp);
+        this.magic.magicMenu();
+        System.out.print("Select the magic: ");
+    }
+
+    public void useMagic(String magicName){
+        this.magic.useMagic(magicName);
+        if (this.magic.getConfirmDmg()){
+            this.mobHp -= this.magic.getMagicDmg();
+            this.pcMp = this.magic.getPlayerMp();
+            System.out.println(+ this.magic.getMagicDmg() + this.monster.getName());
+            if (this.mobHp> 0){
+                this.mobAtk();
+            }
         }
     }
 

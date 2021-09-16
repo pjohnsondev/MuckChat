@@ -16,14 +16,14 @@ public class Interface {
         loadGame.startGame();
     }
 
-    public void startGame() throws Exception{
+    public void startGame(String[] args) throws Exception{
         this.playGame.gameMenu();
         String action = this.gameReader.nextLine();
         if(action.equals("1")){
             this.newGame();
         } else if (action.equals("2")){
             this.exitGame();
-        } else { this.startGame();} //What is going on here? Is this recursive?
+        } else { this.startGame();}
     }
 
     public void newGame(){
@@ -105,7 +105,21 @@ public class Interface {
         this.gameReader.nextLine();
     }
 
-    public void magicMenu() { /** Place holder **/ }
+    public void magicMenu() {
+        this.playGame.magicMenu();
+        String command = this.gameReader.nextLine();
+        if (!command.equalsIgnoreCase("Igni") && !command.equalsIgnoreCase("Ici") && !command.equalsIgnoreCase("Levin")&&
+                !command.equalsIgnoreCase("Lumis") && !command.equalsIgnoreCase("Scourge")){
+            if (command.equalsIgnoreCase("Exit")){ this.battleCommand();
+            } else {
+                this.magicMenu();
+            }
+        } else {
+            this.playGame.useMagic(command);
+            this.intermission();
+            this.battleCommand();
+        }
+    }
 
     public void gameOver() {
         this.playGame.gameOver();
