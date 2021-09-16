@@ -96,17 +96,21 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 	@Override
 	public List<Triple<AvatarLocation, MapId, Location>> getAllLocationsExceptId(Id<TrackingType> clientId) {
 		logger.info(String.format("Recieved request to get locations of clients exceptId: %s", clientId.toString()));
-		return _clients.keySet().stream().filter(p -> !p.equals(clientId.id)).map(p -> _clients.get(p))
-				.collect(Collectors.toList());
+		if (_clients.containsKey(clientId.id)) {
+			var exclusion = _clients.get(clientId.id);
+			return _clients.keySet().stream().filter(p -> !p.equals(clientId.id) && exclusion.middle().equals(_clients.get(p).middle())).map(p -> _clients.get(p))
+					.collect(Collectors.toList());
+		} else {
+			return new ArrayList<>();
+		}
 
 	}
 
 	@Override
-
 	public List<Triple<AvatarLocation, MapId, Location>> getPlayersWithin(Pair<MapId, Location> me, Integer dist) {
 		logger.info(String.format("Received request to get players within distance: %s of location %s", dist.toString(),
 				me.toString()));
-		return _clients.values().stream().filter(p -> me.left() == p.middle() && me.right().distance(p.right()) <= dist)
+		return _clients.values().stream().filter(p -> me.left().equals(p.middle()) && me.right().distance(p.right()) <= dist)
 				.collect(Collectors.toList());
 	}
 
@@ -130,8 +134,6 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 		var newData = new Triple<AvatarLocation, MapId, Location>(avatar, mapId, loc);
 		_clients.put(id.id, newData);
 		logger.info(String.format("Number of keys in hashmap: %d", _clients.size()));
-		logger.info(_clients.keySet().stream().collect(Collectors.toList()).toString());
-		logger.info(_clients.keySet().stream().map(a -> a.hashCode()).collect(Collectors.toList()).toString());
 	}
 
 	@Override

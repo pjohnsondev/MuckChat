@@ -71,7 +71,7 @@ public class CharacterLocationTrackerTests {
 		tracker.addClient(new Id<ClientId>("1232"), new AvatarLocation("Test Name"), new MapId(2), new Location(1, 2));
 		tracker.addClient(new Id<ClientId>("1233"), new AvatarLocation("Test Name"), new MapId(2), new Location(1, 2));
 
-		assertEquals(3, tracker.getAllLocationsExceptId(trackingId).size());
+		assertEquals(2, tracker.getAllLocationsExceptId(trackingId).size());
 	}
 
     @Test
@@ -83,7 +83,7 @@ public class CharacterLocationTrackerTests {
 		tracker.addClient(new Id<ClientId>("1232"), new AvatarLocation("Test Name"), new MapId(3), new Location(1, 2));
 		tracker.addClient(new Id<ClientId>("1233"), new AvatarLocation("Test Name"), new MapId(4), new Location(1, 2));
 
-		assertEquals(1, tracker.getAllLocationsExceptId(trackingId).size());
+		assertEquals(0, tracker.getAllLocationsExceptId(trackingId).size());
 	}
 
 	@Test
@@ -98,7 +98,7 @@ public class CharacterLocationTrackerTests {
 		var head = track.getAllPlayerLocations().get(0);
 		var toTest = new Pair<MapId, Location>(head.middle(), head.right());
 		var result = track.getPlayersWithin(toTest, 1).size();
-		assertEquals(2, result);
+		assertEquals(3, result);
 	}
 
     	@Test
@@ -126,7 +126,7 @@ public class CharacterLocationTrackerTests {
 		track.addClient(new Id<ClientId>("1231"), new AvatarLocation("Test Name 2"), new MapId(1), new Location(2, 0));
 		track.addClient(new Id<ClientId>("1232"), new AvatarLocation("Test Name 3"), new MapId(1), new Location(0, 1));
 
-		assertEquals(2, track.getPlayersWithinById(new Id<ClientId>("1111"), 1).size());
+		assertEquals(3, track.getPlayersWithinById(new Id<ClientId>("1111"), 1).size());
 	}
 
 	@Test

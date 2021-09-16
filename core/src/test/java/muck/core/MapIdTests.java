@@ -19,7 +19,7 @@ public class MapIdTests {
 
 	@Test
 	public void HashcodesAreDifferentForDifferentId() {
-		MapId a = new MapId(3);
+		MapId a = new MapId(4);
 		MapId b = new MapId(3);
 
 		assertNotEquals(a.hashCode(), b.hashCode());
