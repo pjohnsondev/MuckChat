@@ -64,4 +64,12 @@ abstract public class Model implements IModel {
             db.closeConnection();
         return result;
     }
+
+    public ResultSet selectAll() throws SQLException {
+        this.db.query("SELECT * FROM " + this.table);
+        ResultSet result = db.getResultSet();
+        if (!result.next())
+            db.closeConnection();
+        return result;
+    }
 }

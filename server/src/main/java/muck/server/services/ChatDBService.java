@@ -39,7 +39,21 @@ public class ChatDBService {
 
     public ArrayList<ChatMessageStructure> getMessages(){
         ArrayList<ChatMessageStructure> msgs = new ArrayList();
+        ChatMessageStructure msg = new ChatMessageStructure();
+        try{
+            ResultSet result = message.retrieveMessages();
+            while(result.next()){
+                msg.setMessageId(result.getInt(1));
+                msg.setChannelId(result.getInt(2));
+                msg.setUserId(result.getString(3));
+                msg.setMessage(result.getString(4));
+                msg.setTimeStamp(result.getDate(5));
+                msgs.add(msg);
+            }
+        } catch (SQLException e){
 
+        }catch (InvalidParameterException e){
+        }
         return msgs;
     }
 
@@ -66,8 +80,17 @@ public class ChatDBService {
     //THis needs more work!!!
     public ArrayList<ChatMessageStructure> getMessages(int channelID, Date date){
         ArrayList<ChatMessageStructure> msgs = new ArrayList();
+        ChatMessageStructure msg = new ChatMessageStructure();
         try{
             ResultSet result = message.retrieveMessages(channelID);
+            while(result.next()){
+                msg.setMessageId(result.getInt(1));
+                msg.setChannelId(result.getInt(2));
+                msg.setUserId(result.getString(3));
+                msg.setMessage(result.getString(4));
+                msg.setTimeStamp(result.getDate(5));
+                msgs.add(msg);
+            }
         } catch (SQLException e){
 
         }catch (InvalidParameterException e){
@@ -77,6 +100,7 @@ public class ChatDBService {
     }
     public ChatChannelStructure getChannelInfo(int chatChannel){
         ChatChannelStructure ch = new ChatChannelStructure();
+
         try{
             ResultSet result = channel.retrieveChannel(chatChannel);
         } catch (SQLException e){
@@ -86,4 +110,5 @@ public class ChatDBService {
         }
         return ch;
     }
+
 }

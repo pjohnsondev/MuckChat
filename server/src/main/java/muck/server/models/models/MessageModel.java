@@ -44,6 +44,10 @@ public class MessageModel extends Model {
         db.executeInsert();
     }
 
+    public ResultSet retrieveMessages () throws SQLException{
+        return this.selectAll();
+    }
+
     public ResultSet retrieveMessages (ChatMessageStructure msg) throws SQLException{
         return this.select("channel_id", msg.getChannelId());
     }
