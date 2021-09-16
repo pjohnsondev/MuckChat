@@ -277,6 +277,7 @@ public class CardsGameController implements Initializable {
 
 
         askForCard.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            //TODO: add a call to game.computersTurn() after picking up and making a set if necessary
             //TODO: make function body
             //NEED TO ADD THE FUNCTION FOR ASKING FOR A CARD
             try {
@@ -308,6 +309,7 @@ public class CardsGameController implements Initializable {
         });
 
         drawFromDeck.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            //TODO: add a call to game.computerTurn() after picking up and making a set if necessary
             game.player1.hand.drawTopCard(game.deck);
             game.printCards(1);
             //I got this function fully written. Another separate one that deals the hand.

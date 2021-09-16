@@ -6,7 +6,7 @@ import java.util.Random;
 public class ComputerOpponent extends Player {
     private int score;
     Hand hand;
-    int scoreIncr = 10;
+    int scoreIncr = 1;
     //This will be a rating out of 5 implemented in memory queues
     public int level;
     public int[] computerTurns;
@@ -16,9 +16,8 @@ public class ComputerOpponent extends Player {
     // Setting up random number generator
     Random rand = new Random();
 
+    // level will be limited by the player only being able to select a level from a range
     public ComputerOpponent(int level) {
-        /*TODO limit level so it only takes 1-5. probably implemented through a button,
-           or option box*/
         this.score = 0;
         hand = new Hand();
         this.level = 1;
@@ -58,7 +57,8 @@ public class ComputerOpponent extends Player {
     public int askForCard(){
         // The int i for loop compares the most recent player moves against
         // the int j for loop of the computers hand. If player has recently asked for a card
-        // that the computer has, the computer will now as for it.
+        // that the computer has, the computer will now ask for it. Otherwise, move to next
+        // method of selecting.
         for (int i = 0; i < (arrayLength) - 1; i++){
             for (int j = 0; j < hand.cards.size(); j++){
                 if (playerTurns[i] == hand.cards.get(j).getMatchId()){
@@ -70,26 +70,23 @@ public class ComputerOpponent extends Player {
         // for, trying to avoid asking for something it recently asked for.
 
         // The int i for loop compares the most recent computer moves against
-        // the int j loop of the computers hand. For all matches, the card's selected
-        // value is marked as true and the computer will avoid picking it, unless all
-        // cards are marked true.
+        // the int j loop of the computers hand. If a card has not been asked for recently,
+        // the computer will now ask for it. If the computer searches through all cards and
+        // finds all cards have recently been asked for, then move to the next method of selecting
         for (int i = 0; i < (arrayLength) - 1; i++){
             for (int j = 0; j < hand.cards.size(); j++){
-                if (computerTurns[i] == hand.cards.get(j).getMatchId()){
-                    // TODO would rather not have to mark cards as true.
-                    //  what better way can i do this?
-                    hand.cards.get(j).setSelected(true);
+                if (computerTurns[i] != hand.cards.get(j).getMatchId()){
+                    return hand.cards.get(j).getMatchId();
                 }
             }
         }
-        //TODO figure out best way to pick a random card that hasn't been recently asked for
 
         // If all cards in hand have been asked for recently, computer will pick a random card in hand
         int random = rand.nextInt(hand.cards.size());
         return hand.cards.get(random).getMatchId();
     }
 
-    void addScore(){
+    void addToScore(){
         this.score += scoreIncr;
     }
 

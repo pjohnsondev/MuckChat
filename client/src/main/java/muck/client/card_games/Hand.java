@@ -8,6 +8,7 @@ import java.util.Collections;
 public class Hand extends Deck {
     public ArrayList<Card> sets;
     public ArrayList<Card> cards;
+    public int thisMatchId;
 
     /**
      * Constructor Function for the Hand Class
@@ -20,7 +21,7 @@ public class Hand extends Deck {
         sets = new ArrayList<Card>();
         String cardValue;
         String cardName;
-        Image backOfDeck = new ImageIcon("muck/client/card_games/images/backofdeck.png").getImage();
+        thisMatchId = 0;
     }
 
     /**
@@ -58,12 +59,19 @@ public class Hand extends Deck {
      * Also makes sure all other cards are changed to false
      */
     void selectAll(Card thisCard) {
+        int count = 0;
         for (int i = 0; i < this.cards.size(); i++) {
             if (cards.get(i).getMatchId() == thisCard.getMatchId()) {
                 cards.get(i).setSelected(true);
+                count ++;
+                thisMatchId = cards.get(i).getMatchId();
             } else {
                 cards.get(i).setSelected(false);
             }
+        }
+        if (count == 4){
+            //TODO make option appear for "Make set" and call
+            makeSet();
         }
     }
 
@@ -75,10 +83,10 @@ public class Hand extends Deck {
      * for input
      *    TODO: make sure it only makes set if there's four of the same.
      */
-    void makeSet(Card thisCard) {
+    void makeSet() {
         for (int i = 0; i < this.cards.size(); i++) {
             if (this.cards.get(i).getSelectedValue() &&
-                    this.cards.get(i).getMatchId() == thisCard.getMatchId()) {
+                    this.cards.get(i).getMatchId() == thisMatchId) {
                 this.sets.add(this.cards.get(i));
                 this.cards.remove(i);
             }
@@ -109,47 +117,6 @@ public class Hand extends Deck {
         Hand hand = new Hand();
         Deck deck = new Deck();
         deck.shuffleCards();
-        // Trying to draw enough that we have multiple of the same
-        for (int i = 0; i < 10; i++) {
-            hand.drawTopCard(deck);
-        }
-        for (int i = 0; i < 10; i++){
-            System.out.println("next card is: " + hand.cards.get(i).getCardName());
-        }
-        System.out.println("reordering");
-        /*hand.selectAll(hand.cards.get(0));
-        for (int i = 0; i < hand.cards.size(); i++){
-            if (hand.cards.get(i).getSelectedValue()) {
-                System.out.println(hand.cards.get(i).getCardName());
-            }
-        }
-        hand.selectAll(hand.cards.get(1));
-        for (int i = 0; i < hand.cards.size(); i++){
-            if (hand.cards.get(i).getSelectedValue()) {
-                System.out.println(hand.cards.get(i).getCardName());
-            }
-        }
-        hand.makeSet(hand.cards.get(0));
-        System.out.println("Player has collected all: ");
-        for (int i = 0; i < hand.sets.size(); i++){
-            if (i%4 == 0) {
-                System.out.print(hand.sets.get(i).getCardName());
-                System.out.println("'s.\n");
-            }
-        }
-        System.out.println("next card is: " + hand.cards.get(0).getCardName());
-        hand.selectAll(hand.cards.get(0));
-        hand.makeSet(hand.cards.get(0));
-        System.out.println("Player has collected all: ");
-        for (int i = 0; i < hand.sets.size(); i++){
-            if (i%4 == 0) {
-            System.out.print(hand.sets.get(i).getCardName() + "'s.\n");
-            }
-        }
-    }*/
-        hand.reorderHand();
-        for (int i = 0; i < 10; i++){
-            System.out.println("next card is: " + hand.cards.get(i).getCardName());
-        }
+
     }
 }

@@ -6,7 +6,7 @@ package muck.client.card_games;
 public class Player {
     public int score;
     public Hand hand;
-    int scoreIncrement = 10;
+    int scoreIncrement = 1;
 
     /**
      * Constructor Function for the Player Class
@@ -15,7 +15,7 @@ public class Player {
      * @param Hand
      */
     public Player(){
-        this.score = 0;
+        score = 0;
         hand = new Hand();
     }
 
