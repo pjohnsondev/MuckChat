@@ -34,6 +34,6 @@ public class Monster extends Character {
             this.mobDets = "A large Bear";
         }
     }
-    public String getMonsDesc() { return this.monsDesc; }
+    public String getMobDets() { return this.mobDets; }
 }
 

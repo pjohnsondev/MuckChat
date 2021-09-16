@@ -70,7 +70,7 @@ public class Battle {
         //} else if (input.equalsIgnoreCase("Flee")){ this.pcFlee();}
     }
 
-    public void pcCheck(){ this.monster.mobDets(); }
+    public void pcCheck(){ this.monster.getMobDets(); }
 
     public boolean pcDeath(){
         boolean dead = false;

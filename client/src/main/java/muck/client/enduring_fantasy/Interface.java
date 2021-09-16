@@ -16,7 +16,7 @@ public class Interface {
         loadGame.startGame();
     }
 
-    public void startGame(String[] args) throws Exception{
+    public void startGame() throws Exception{
         this.playGame.gameMenu();
         String action = this.gameReader.nextLine();
         if(action.equals("1")){
