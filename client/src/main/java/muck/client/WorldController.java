@@ -17,6 +17,15 @@ public class WorldController {
     static int x, y;
     private static BorderPane gamePane;
 
+    /**
+     * The location check class checks a players location on the map to see if they have,
+     * landed on a special position.
+     * @param player the users hero
+     * @param borderPane this is the parent borderPane for the gameMap allowing a new canvas for mini-games
+     * @param id this is the map id/world id that the user is on 1=homeTown 2=Cave
+     * @param canvas Canvas that the world/mini-map is rendered to
+     * @return
+     */
     public static int locationCheck(Location player, BorderPane borderPane, int id, Canvas canvas) {
         x = player.getX();
         y = player.getY();
@@ -117,7 +126,25 @@ public class WorldController {
                 }
             }
         }
+
+        //Secret Cave = 2
+        /** Not yet complete but GoFish at the base of the waterfall in the secret cave
+        if (id == 2 ){
+            if (x > 269 && x < 287) { // Cave entrance
+                if (y > 516 && y < 543) {
+                    //Opens Go-Fish game
+                    gamePane.getChildren().clear();
+                    Canvas GFCanvas = new Canvas();
+                    GFCanvas.setHeight(canvas.getHeight());
+                    GFCanvas.setWidth(canvas.getWidth());
+                    gamePane.setCenter(GFCanvas);
+                    BorderPane.setAlignment(GFCanvas, Pos.CENTER);
+                    //new GoFish(gamePane, GFCanvas);
+                    return 1;
+                }
+            }
+        } **/
+
         return 0; //If no location explored (won't kill this instance of the GameMap in GameMap.java
     }
-
 }
