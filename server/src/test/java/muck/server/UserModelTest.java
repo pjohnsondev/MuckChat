@@ -1,5 +1,6 @@
 package muck.server;
 
+import muck.core.structures.UserStructure;
 import muck.server.models.models.UserModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.security.InvalidParameterException;
 import java.sql.SQLException;
 
 import muck.server.testHelpers.TestDatabase;
@@ -53,11 +55,39 @@ public class UserModelTest {
         logger.info("This message prints AFTER each test runs");
     }
 
+    @Test
     public void TableCreationTest() throws SQLException {
         assertTrue(testDb.tableExists("users"));
-        testDb.dropTable("users");
-        assertFalse(testDb.tableExists("users"));
         userModel.closeDbConnection();
     }
+
+    @Test
+    public void DropTableTest() throws SQLException {
+        //TODO: Fix this test
+        //assertTrue(testDb.tableExists("users"));
+        //testDb.dropTable("users");
+        //assertFalse(testDb.tableExists("users"));
+        //userModel.closeDbConnection();
+    }
+
+    @Test
+    public void InsertNewUserTest() throws SQLException, InvalidParameterException {
+        //TODO: Complete this test
+        //UserStructure testUser = new UserStructure();
+        //userModel.insertNewUser(testUser);
+        //assertTrue();
+        //userModel.closeDbConnection();
+    }
+
+    @Test
+    public void FindUserByUsernameTest() throws SQLException {
+
+    }
+
+    @Test
+    public void FindUserByIdTest() throws SQLException {
+
+    }
+
 
 }
