@@ -102,8 +102,8 @@ public class PlayerDashboardController implements Initializable {
             String achievement1Title = "Hotel California";
             String achievement1Description = "Player has visited the Inn";
             achievement.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                Achievements achieve = new Achievements();
-                achieve.achievementUnlock(achievement1, achievement1Title, achievement1Description);
+                Achievements achieve = new Achievements(achievement1, achievement1Title, achievement1Description);
+                achieve.achievementUnlock(achieve);
             });
             // ********* ACHIEVEMENT TESTING *********
 
