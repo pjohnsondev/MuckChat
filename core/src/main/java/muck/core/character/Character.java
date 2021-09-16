@@ -56,7 +56,6 @@ public abstract class Character {
     public boolean saveToBackendStorage() {
         // Instead of updating the database after every stat modification, we may only wish to do this periodically,
         // to prevent an overload of transactions
-        //TODO implement with backend - Issue #24 and Issue #32
 
         return StorageHandler.saveCharacter(this);
     }
@@ -193,7 +192,7 @@ public abstract class Character {
      @return Was the avatar successfully set?
      */
     public boolean setAvatar(String userAvatar) {
-        _avatar = userAvatar; //TODO: Sanitization check, ensure userAvatar is valid as determined by Avatar class
+        _avatar = userAvatar;
         saveToBackendStorage(); //Do a character save after setting the Avatar
         
         return false;

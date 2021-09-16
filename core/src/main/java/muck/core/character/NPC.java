@@ -28,8 +28,6 @@ public class NPC extends Character implements INPCColleague {
      * Example usage: NPC npc_id = new NPC("npc_id");
      */
     public NPC(String NPCId) throws CharacterDoesNotExistException {
-        //TODO - Retrieve the identifier/NPC ID from the backend database, then populate all fields with 
-        // NPC values from the database
         boolean databaseRetrievalSuccessful = true; // keep this true to avoid integration test failure, until
                                                     // actual implementation of database server from Issue #24 is
                                                     // is provided
