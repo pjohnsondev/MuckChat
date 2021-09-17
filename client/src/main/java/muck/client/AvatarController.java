@@ -115,7 +115,7 @@ public class AvatarController implements Initializable  {
     // Default
     private static final Image ERROR = new Image("/images/error.png");
     private final Image UNAVAILABLE = new Image("/images/Unknown.png");
-    private final BackgroundImage BACKGROUND = new BackgroundImage(new Image("/images/BackgroundAvSelection.jpg"), null, null, null, null);
+    private final BackgroundImage BACKGROUND = new BackgroundImage(new Image("/images/BackgroundAvSelection.png"), null, null, null, null);
 
 
     @Override
