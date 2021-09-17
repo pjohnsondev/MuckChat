@@ -94,15 +94,13 @@ public class Achievements {
             Parent parent = FXMLLoader.load(getClass().getResource("/fxml/AchievementWindow.fxml"));
             Stage window = new Stage(StageStyle.DECORATED);
             window.setTitle("Achievement Window");
-
             Label titleLabel = (Label) parent.lookup("#achievementTitleLabel");
             titleLabel.setText(achievement.achievementTitle);
-
             Label descriptionLabel = (Label) parent.lookup("#achievementDescriptionLabel");
             descriptionLabel.setText(achievement.achievementDescription);
-
             window.setScene(new Scene(parent));
             window.show();
+            window.toFront();
         }
         catch (IOException e) {
             e.printStackTrace();
