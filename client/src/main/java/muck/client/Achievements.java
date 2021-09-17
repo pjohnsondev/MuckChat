@@ -90,21 +90,19 @@ public class Achievements {
 
 
     public void achievementPopUp(Achievements achievement) {
-
         try {
-            Stage stage = new Stage(StageStyle.DECORATED);
-            stage.setTitle("Achievement Window");
             Parent parent = FXMLLoader.load(getClass().getResource("/fxml/AchievementWindow.fxml"));
-            stage.setScene(new Scene(parent));
-            Label title = new Label(achievement.getAchievementTitle(achievement));
-            title.setId("achievementTitle");
-            title.setText(achievement.getAchievementTitle(achievement));
-            Label description = new Label(achievement.getAchievementDescription(achievement));
-            description.setId("achievementDescription");
-            description.setText(achievement.getAchievementDescription(achievement));
-            stage.show();
+            Stage window = new Stage(StageStyle.DECORATED);
+            window.setTitle("Achievement Window");
 
+            Label titleLabel = (Label) parent.lookup("#achievementTitleLabel");
+            titleLabel.setText(achievement.achievementTitle);
 
+            Label descriptionLabel = (Label) parent.lookup("#achievementDescriptionLabel");
+            descriptionLabel.setText(achievement.achievementDescription);
+
+            window.setScene(new Scene(parent));
+            window.show();
         }
         catch (IOException e) {
             e.printStackTrace();
