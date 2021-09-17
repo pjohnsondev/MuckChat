@@ -25,8 +25,7 @@ import javafx.stage.Stage;
 import muck.client.utilities.RandomNameGenerator;
 import muck.core.models.models.User;
 import muck.core.models.models.UserModel;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 
 public class PlayerDashboardController implements Initializable {
 
@@ -79,9 +78,6 @@ public class PlayerDashboardController implements Initializable {
 
     private final BackgroundImage BACKGROUND = new BackgroundImage(new Image("/images/BackgroundAvSelection.jpg"), null, null, null, null);
 
-
-    private static final Logger logger = LogManager.getLogger(PlayerDashboardController.class);
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
@@ -113,9 +109,8 @@ public class PlayerDashboardController implements Initializable {
                 }
             });
 
-            achievementButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> { updateAchievements(); });
-            scoreboardButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {updateScoreboard(); });
-
+            achievementButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> updateAchievements());
+            scoreboardButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> updateScoreboard());
             gameReturn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> returnToGame(event, userName, avatarID));
 
             // ********* ACHIEVEMENT TESTING *********
@@ -143,7 +138,7 @@ public class PlayerDashboardController implements Initializable {
         userName = uname;
         displayName = display;
         avatarID = avID;
-        //TODO: Call the server to get achievements muckPoints and health. Remove below
+        //TODO: Call the server to get achievements muckPoints and health. Remove below dummy values
         achievements.clear();
         //achievements = new String[][]{{"Hotel California", "Player has visited the Inn"}, {"Retail Therapy", "Player has visited the Shops"}, {"Alien Exterminator", "Player has won a game of Space Invaders"},{"Hotel California", "Player has visited the Inn"}, {"Retail Therapy", "Player has visited the Shops"}, {"Alien Exterminator", "Player has won a game of Space Invaders"},{"Hotel California", "Player has visited the Inn"}, {"Retail Therapy", "Player has visited the Shops"}, {"Alien Exterminator", "Player has won a game of Space Invaders"},{"Hotel California", "Player has visited the Inn"}, {"Retail Therapy", "Player has visited the Shops"}, {"Alien Exterminator", "Player has won a game of Space Invaders"}};
 
@@ -175,6 +170,10 @@ public class PlayerDashboardController implements Initializable {
             achievementWindow.appendText(achievement);
         }
     }
+
+    /**
+     * Displays all game players and their associated muckPoint values in descending order
+     */
     private void updateScoreboard() {
         int count = 1;
 
@@ -185,12 +184,15 @@ public class PlayerDashboardController implements Initializable {
 
         // Should we get the database running in time this is how we would
         // call the list of users in ascending order
-        /*List<User> userDetails = UserModel.getUsersOrderedByPoints(true);
+        /*List<User> userDetails = UserModel.getUsersOrderedByPoints(false);
          for (User eachUser : userDetails) {
              String user = eachUser.getUserName();
              int points = eachUser.getPoints();
              achievementWindow.appendText(user + ": " + points + "\n\n");
+             count++;
          }*/
+
+        //TODO: Remove below dummy values and for loop when we can call the server
 
         RandomNameGenerator random = new RandomNameGenerator();
         ArrayList<String[]> userDetails = new ArrayList<>();
