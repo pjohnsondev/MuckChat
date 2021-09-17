@@ -48,7 +48,16 @@ public class SpriteTest extends ApplicationTest {
         hero.move(tm, hero);
         assertEquals(hero.getPosX(),306.0);
         assertEquals(hero.getPosY(),306.0);
-        logger.info(hero.getPosX());
-        //sleep(1000);
+        hero.setDx(-6);
+        hero.setDy(-6);
+        hero.move(tm, hero);
+        assertEquals(hero.getPosX(),300.0);
+        assertEquals(hero.getPosY(),300.0);
+        hero.setPosX(250.0);
+        hero.setPosY(250.0);
+        assertEquals(hero.getPosX(),250.0);
+        assertEquals(hero.getPosY(),250.0);
+
+
     }
 }
