@@ -28,6 +28,13 @@ public abstract class Character {
     protected void setIdentifier(String identifier) {
         _identifier = identifier;
     }
+
+    /**
+     * Returns the unique identifier for this Character
+     */
+    public String getIdentifier() {
+        return _identifier;
+    }
     
     // Move character up
     public void moveUp(double speed) {
@@ -149,7 +156,6 @@ public abstract class Character {
      * @return Return "up", "down", "left", or "right" as a string
      */
     public String getDirection() {
-        //Specifics of how direction is handled is up to 
         return _direction_facing;
     }
 
@@ -169,13 +175,6 @@ public abstract class Character {
         
         //Character direction wasn't successfully set, most likely due to invalid direction input
         return false;
-    }
-
-    /**
-     * Returns the unique identifier for this Character
-     */
-    public String getIdentifier() {
-        return _identifier;
     }
 
     /**

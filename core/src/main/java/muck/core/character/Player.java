@@ -31,21 +31,11 @@ public class Player extends Character {
         this.setAvatar("some avatar retrieved from backend"); //further colab with issue #7 required
         this.setIdentifier(username);
         */
-    }
 
-    /**
-     * Create new Player or retrieve an existing Player from database
-     * @param username Player username
-     * @param create True if creating new Player. False if retrieving an existing Player
-     */
-    public Player(String username, boolean create) {
-        // Update: Backend feature not fully integrated into final build (group size limited to 2 members, we had to
-        //    limit our original feature scope
-        this.username = username;
-        this.setIdentifier(username);
-
-        if (create) {
-            // TODO: add new Player to db? or when saveCharacter is called?
+        // If Player exists get stats
+        if(!username.isEmpty()) {
+            // Placeholder for Player Dashboard Controller
+            setPlayerStats(100, 10, 10);
         }
     }
 
@@ -98,7 +88,7 @@ public class Player extends Character {
     }
 
     /**
-     * Feature has been abandoned current group, however, it may be picked up later on
+     * *****Feature has been abandoned current group, however, it may be picked up later on*****
      * Trades a single collectable currently held by the player with another existing player
      * Collaborate with Issue 10
      * @param collectable Collectable item to trade
@@ -106,6 +96,8 @@ public class Player extends Character {
      * @return If player to player collectable transaction is successful return true. Otherwise, return false
      */
     public boolean tradeCollectable(String collectable, String otherPlayer) {
+        // Update: Backend feature not fully integrated into final build (group size limited to 2 members, we had to
+        //    limit our original feature scope
         boolean hasCollectable = false;
         boolean otherPlayerExists = false;
         boolean tradeSuccessful = false;
@@ -136,7 +128,7 @@ public class Player extends Character {
     }
 
     /**
-     * Feature has been abandoned current group, however, it may be picked up later on
+     * *****Feature has been abandoned current group, however, it may be picked up later on*****
      * Adds an item to the Players Inventory
      * @param item item to be added to inventory
      */
@@ -148,7 +140,7 @@ public class Player extends Character {
     }
 
     /**
-     * Feature has been abandoned current group, however, it may be picked up later on
+     * *****Feature has been abandoned current group, however, it may be picked up later on*****
      * Removes an item from the Players Inventory
      * @param item item to be removed/consumed
      */
@@ -160,7 +152,7 @@ public class Player extends Character {
     }
 
     /**
-     * Feature has been abandoned current group, however, it may be picked up later on
+     * *****Feature has been abandoned current group, however, it may be picked up later on*****
      * Retrieves Players current inventory holdings
      * @return A String array of the players inventory
      */

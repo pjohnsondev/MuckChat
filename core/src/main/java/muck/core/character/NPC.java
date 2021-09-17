@@ -29,7 +29,7 @@ public class NPC extends Character implements INPCColleague {
      */
     public NPC(String NPCId) throws CharacterDoesNotExistException {
         boolean databaseRetrievalSuccessful = true; // keep this true to avoid integration test failure, until
-                                                    // actual implementation of database server from Issue #24 is
+                                                    // actual implementation of database server from Issue #24
                                                     // is provided
         if (!databaseRetrievalSuccessful) {
             throw new CharacterDoesNotExistException(NPCId);
@@ -40,23 +40,24 @@ public class NPC extends Character implements INPCColleague {
     }
 
     /**
-     * Dummy constructor for a NPC object with a "null" identifier. Does not
-     * check with backend storage for a valid username. Should only be used for unit tests that don't use backend
+     * Dummy constructor for a NPC object with a "null" identifier.
+     * Does not check with backend storage for a valid username.
+     * Will be removed if database is implemented
      */
     public NPC() {
         this.setIdentifier(null);
     }
-    
-    //TODO - NPC should have a separate controller to the player. May incorporate AI based movement, behaviour etc.
-//    public npcController() {
-//    }
 
-    // To be called once per pre-determined fixed timestep
+    /**
+     * To be called once per pre-determined fixed timestep
+     */
     public void Update() {
         getStateBehaviour().handle();
     }
     
-    /* Sets the state of the NPC object */
+    /**
+     * Sets the state of the NPC object
+     */
     public void setState(NPCState npcState) {
         if (npcState == NPCState.None) {
             this.setStateBehaviour(new NPCStateNone());
@@ -66,8 +67,8 @@ public class NPC extends Character implements INPCColleague {
         }
     }
     
-    /* 
-        Retrieve the current NPC state
+    /**
+     * Retrieve the current NPC state
      */
     public NPCState getState() {
         return this.getNpcState();
@@ -117,15 +118,15 @@ public class NPC extends Character implements INPCColleague {
     }
 
 
-    /* 
-        Send an Action message to another NPC object, via the ConcreteNPCMediator
+    /**
+     * Send an Action message to another NPC object, via the ConcreteNPCMediator
      */
     public void messageOtherNPC(String targetNPCIdentifier, Action action) {
         GlobalTracker.concreteNPCMediator.messageToOtherNPC(this, targetNPCIdentifier, action);
     }
     
-    /* 
-        Implementation of the INPCColleague interface
+    /**
+     * Implementation of the INPCColleague interface
      */
     @Override
     public void receive(String sendingNPCIdentifier, Action action) {
