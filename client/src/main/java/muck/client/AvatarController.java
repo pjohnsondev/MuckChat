@@ -1,6 +1,8 @@
 package muck.client;
 
 
+import muck.core.character.Player;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
@@ -29,11 +31,11 @@ import javafx.stage.Stage;
 
 public class AvatarController implements Initializable  {
 
-    // This will be the associated attributes of the user
+    // These will be the associated attributes of the user
     private static String uname;//Will be updated when constructing AvatarController
     private static String displayName; //Will be updated when constructing AvatarController
-    private static int muckPoints = 0; //Dummy value for testing purposes TODO: Remove
-    private static String avatar = "error"; //Default. No image.
+    private static int muckPoints = 0; //Dummy value for testing purposes TODO: Remove dummy value when able to access player
+    private static String avatar = "notSet"; //Default. No image.
     private static String previous = "login"; //Previous screen. Will determine where the submit button leads.
     private final int OPEN_SKELETON = 20; // Muck points required to activate skeleton avatar
     private final int OPEN_WW = 30; // Muck points required to activate Wonder Woman avatar
@@ -113,7 +115,7 @@ public class AvatarController implements Initializable  {
     // Default
     private static final Image ERROR = new Image("/images/error.png");
     private final Image UNAVAILABLE = new Image("/images/Unknown.png");
-    private final BackgroundImage BACKGROUND = new BackgroundImage(new Image("/images/BackgroundAvSelection.jpg"), null, null, null, null);
+    private final BackgroundImage BACKGROUND = new BackgroundImage(new Image("/images/BackgroundAvSelection.png"), null, null, null, null);
 
 
     @Override
@@ -142,7 +144,7 @@ public class AvatarController implements Initializable  {
 
             // If there is already an avatar associated with a user, display the avatar
             // Will be used in the case of an avatar change
-            if (!avatar.equals("error")) {
+            if (!avatar.equals("notSet")) {
                 selection(avatar);
             }
         } catch (NullPointerException e) {
@@ -171,7 +173,7 @@ public class AvatarController implements Initializable  {
         previous = "login";
         uname = username;
         displayName = display;
-        avatar = "error";
+        avatar = "notSet";
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(AvatarController.class.getResource("/fxml/Avatar.fxml")));
             Scene scene = new Scene(root);
@@ -202,6 +204,7 @@ public class AvatarController implements Initializable  {
         uname = username;
         displayName = display;
         avatar = avID;
+        //muckPoints = call to server
     }
 
     //TODO: Remove this method once the SignIn Screen sends the window to Muck
@@ -209,7 +212,7 @@ public class AvatarController implements Initializable  {
         previous = "login";
         uname = username;
         displayName = "DisplayName";
-        avatar = "error";
+        avatar = "notSet";
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(AvatarController.class.getResource("/fxml/Avatar.fxml")));
             Scene scene = new Scene(root);
@@ -226,7 +229,81 @@ public class AvatarController implements Initializable  {
         }
     }
 
+    /**
+     Returns an image object of the full bodied Avatar image.
+     @param: avatarID. This will be passed into the method from the server
+     */
+    public static Image getFullAvatar(String avatarID) {
 
+        switch (avatarID) {
+            case "peach":
+                return PEACH_FULL;
+            case "batman":
+                return BATMAN_FULL;
+            case "pikachu":
+                return PIKACHU_FULL;
+            case "skeleton":
+                return SKELETON_FULL;
+            case "wonderWoman":
+                return WONDER_WOMAN_FULL;
+            case "yoshi":
+                return YOSHI_FULL;
+            default:
+                return ERROR;
+        }
+    }
+
+    /**
+     Returns an image object of the portrait of their avatar.
+     @param: avatarID. This will be passed into the method from the server
+     */
+    public static Image getPortrait(String avatarID) {
+        switch (avatarID) {
+            case "peach":
+                return PEACH_PORTRAIT;
+            case "batman":
+                return BATMAN_PORTRAIT;
+            case "pikachu":
+                return PIKACHU_PORTRAIT;
+            case "skeleton":
+                return SKELETON_PORTRAIT;
+            case "wonderWoman":
+                return WONDER_WOMAN_PORTRAIT;
+            case "yoshi":
+                return YOSHI_PORTRAIT;
+            default:
+                return ERROR;
+        }
+    }
+
+    /**
+     Returns an image object of the sprite sheet of their avatar.
+     @param: avatarID. This will be passed into the method from the server
+     */
+    public static Image getSprite(String avatarID) {
+        switch (avatarID) {
+            case "peach":
+                return PEACH_SPRITE;
+            case "batman":
+                return BATMAN_SPRITE;
+            case "pikachu":
+                return PIKACHU_SPRITE;
+            case "skeleton":
+                return SKELETON_SPRITE;
+            case "wonderWoman":
+                return WONDER_WOMAN_SPRITE;
+            case "yoshi":
+                return YOSHI_SPRITE;
+            default:
+                return ERROR;
+        }
+    }
+
+    /**
+     * Get method for AvatarID
+     * @return The avatarID
+     */
+    public static String getAvatarId() { return avatar;}
 
     /**
      * LockedAvatars method.
@@ -313,16 +390,14 @@ public class AvatarController implements Initializable  {
                         avatarFullBody.setFitHeight(300);
                         break;
                     }
-                case "error":
+                case "notSet":
                     break;
                 default:
                     break;
             }
             centreImage();
-        } catch (NullPointerException e) {
-            // TODO: What if the image isn't available exception
-            System.out.print("In Selection");
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -381,93 +456,13 @@ public class AvatarController implements Initializable  {
         alertBox.setText(message);
     }
 
-
-    //MOVE THESE TO TOP WHEN REST OF CODE IS DONE
-    /**
-     Returns an image object of the full bodied Avatar image.
-     @param: avatarID. This will be passed into the method from the server
-     */
-    public static Image getFullAvatar(String avatarID) {
-
-        switch (avatarID) {
-            case "peach":
-                return PEACH_FULL;
-            case "batman":
-                return BATMAN_FULL;
-            case "pikachu":
-                return PIKACHU_FULL;
-            case "skeleton":
-                return SKELETON_FULL;
-            case "wonderWoman":
-                return WONDER_WOMAN_FULL;
-            case "yoshi":
-                return YOSHI_FULL;
-            default:
-                return ERROR;
-        }
-    }
-
-    /**
-     Returns an image object of the portrait of their avatar.
-     @param: avatarID. This will be passed into the method from the server
-     */
-    public static Image getPortrait(String avatarID) {
-        switch (avatarID) {
-            case "peach":
-                return PEACH_PORTRAIT;
-            case "batman":
-                return BATMAN_PORTRAIT;
-            case "pikachu":
-                return PIKACHU_PORTRAIT;
-            case "skeleton":
-                return SKELETON_PORTRAIT;
-            case "wonderWoman":
-                return WONDER_WOMAN_PORTRAIT;
-            case "yoshi":
-                return YOSHI_PORTRAIT;
-            default:
-                return ERROR;
-        }
-    }
-
-    /**
-     Returns an image object of the sprite sheet of their avatar.
-     @param: avatarID. This will be passed into the method from the server
-     */
-    public static Image getSprite(String avatarID) {
-        switch (avatarID) {
-            case "peach":
-                return PEACH_SPRITE;
-            case "batman":
-                return BATMAN_SPRITE;
-            case "pikachu":
-                return PIKACHU_SPRITE;
-            case "skeleton":
-                return SKELETON_SPRITE;
-            case "wonderWoman":
-                return WONDER_WOMAN_SPRITE;
-            case "yoshi":
-                return YOSHI_SPRITE;
-            default:
-                return ERROR;
-        }
-    }
-
-    /**
-     * Get method for AvatarID
-     * @return The avatarID
-     */
-    public static String getAvatarId() { return avatar;}
-
     // For testing purposes
     public static String getUserName() {
         return uname;
     }
     public static void setMuck(int points) { muckPoints = points;}
-    //public static String getTextUName() { return username.getText(); }
 
     // The below code is for formatting the changes to the avatar dashboard.
-
     private void restorePortraitSize() {
         avatarFullBody.setFitHeight(470.0);
         avatarFullBody.setLayoutY(58.0);

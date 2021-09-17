@@ -1,15 +1,16 @@
 package muck.client.character_client;
 
 import javafx.application.Platform;
-import javafx.scene.canvas.*;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import muck.client.TileMapReader;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;;
 
 public class CatNPCTest {
 
@@ -148,8 +149,13 @@ public class CatNPCTest {
         final Canvas canvas = new Canvas(250,250);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        logger.info("Testing draw cat npc is called");
+        logger.info("Testing cat is drawn");
         cat1.drawCatNPC(gc, 0.0, 0.0, tm);
+
+        TileMapReader tm2 = new TileMapReader("/maps/cave.tmx");
+
+        logger.info("Testing cat is not drawn to other maps");
+        cat1.drawCatNPC(gc, 0.0, 0.0, tm2);
     }
 
     // Test cat NPC random walk

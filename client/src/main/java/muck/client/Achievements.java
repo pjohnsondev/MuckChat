@@ -1,10 +1,20 @@
 package muck.client;
 
-import javax.swing.*;
+import java.io.IOException;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
+
 
 // This class stores and triggers achievements when specific in-game requirements from other classes are met.
 
 public class Achievements {
+    boolean achievementName;
+    String achievementTitle;
+    String achievementDescription;
 
     // List of achievements that can be earned in-game
     // TODO: NEED TO ADD ACHIEVEMENTS HERE
@@ -58,27 +68,53 @@ public class Achievements {
     public String achievement12Title = "Better Than Luigi";
     public String achievement12Description = "Player has unlocked Yoshi";
 
+
+
+
+    public Achievements(boolean aName, String aTitle, String aDescription) {
+        this.achievementName = aName;
+        this.achievementTitle = aTitle;
+        this.achievementDescription = aDescription;
+    }
+
+
     /**
      * achievementUnlock Flips achievement boolean from false to true and then displays the achievement notification
-     * @param achievementName Name of the boolean being converted to true
-     * @param achievementTitle Title of the achievement
-     * @param achievementDescription Description of the achievement
      */
-    public void achievementUnlock(boolean achievementName, String achievementTitle, String achievementDescription) {
-        if (!achievementName) {
-            achievementName = true;
-            achievementNotification(achievementTitle, achievementDescription);
+    public void achievementUnlock(Achievements achievement) {
+        if (!this.achievementName) {
+            this.achievementName = true;
+            achievementPopUp(achievement);
         }
     }
 
 
-    /**
-     * achievementNotification Displays a pop-up notification
-     * @param achievementTitle Name of the achievement
-     * @param achievementDescription Description for the achievement
-     */
-    // TODO: NOT SURE IF THIS WORKS. NEED TO TEST.
-    public static void achievementNotification(String achievementTitle, String achievementDescription) {
-        JOptionPane.showMessageDialog(null, "Achievement Unlocked! \n" + achievementTitle + ": " + achievementDescription);
+    public void achievementPopUp(Achievements achievement) {
+        try {
+            Parent parent = FXMLLoader.load(getClass().getResource("/fxml/AchievementWindow.fxml"));
+            Stage window = new Stage(StageStyle.DECORATED);
+            window.setTitle("Achievement Window");
+            Label titleLabel = (Label) parent.lookup("#achievementTitleLabel");
+            titleLabel.setText(achievement.achievementTitle);
+            Label descriptionLabel = (Label) parent.lookup("#achievementDescriptionLabel");
+            descriptionLabel.setText(achievement.achievementDescription);
+            window.setScene(new Scene(parent));
+            window.show();
+            window.toFront();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+
+    public String getAchievementTitle(Achievements achievement) {
+        return achievement.achievementTitle;
+    }
+
+
+    public String getAchievementDescription(Achievements achievement) {
+        return achievement.achievementDescription;
+    }
+
 }
