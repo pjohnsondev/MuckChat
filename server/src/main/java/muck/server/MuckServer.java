@@ -145,6 +145,10 @@ public enum MuckServer {
 			createAccount(signup, (MuckConnection) connection);
 		}));
 
+        addListener(ListenerBuilder.forClass(Login.class).onReceive((connection, login) -> {
+            loginPlayer(login, (MuckConnection) connection);
+        }));
+
 		addListener(ListenerBuilder.forClass(UpdatePlayerRequest.class).onReceive((connection, req) -> {
 			tracker.updateLocationById(req.id, req.avatar, req.location);
 		}));
@@ -192,12 +196,32 @@ public enum MuckServer {
         userStructure.username = login.getUsername();
         userStructure.password = login.getPassword();
 
+
         Player player = null;
 
         try {
             player = playerManager.loginPlayer(userStructure);
             // set user as active user
+            userMessage testMessage = new userMessage(); // Create new message to send back.
+            testMessage.setMessage("Login Successful");
+            kryoServer.sendToTCP((muckConnection.getID()), testMessage);
             kryoServer.sendToTCP((muckConnection.getID()), userStructure);
+
+            muckConnection.setCharacter(player);
+
+            logger.info("Login successful for {}", login.getUsername());
+            if (!players.containsKey(muckConnection.getID())) {
+                players.put(muckConnection.getID(), login.getUsername());
+                kryoServer.sendToAllTCP(players);
+                logger.info("Players are {}", players.values());
+            }
+            /**
+             * This has been commented out as there is an issue deserialising AddCharacter on the client
+             * the error is causing the client to disconnect from the server so I have commented it out
+            AddCharacter addCharacter = addCharacter(login.getClientId(), player);
+
+            kryoServer.sendToAllTCP(addCharacter);
+             */
 
         } catch (DuplicateLoginException ex) {
             userMessage testMessage = new userMessage(); // Create new message to send back.
@@ -212,19 +236,6 @@ public enum MuckServer {
             testMessage.setMessage("Supplied credentials are invalid.");
             kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
         }
-
-        muckConnection.setCharacter(player);
-
-        logger.info("Login successful for {}", login.getUsername());
-        if (!players.containsKey(muckConnection.getID())) {
-            players.put(muckConnection.getID(), login.getUsername());
-            kryoServer.sendToAllTCP(players);
-            logger.info("Players are {}", players.values());
-        }
-
-        AddCharacter addCharacter = addCharacter(login.getClientId(), player);
-
-        kryoServer.sendToAllTCP(addCharacter);
     }
 
     public AddCharacter addCharacter(Id<ClientId> id, Player character) {

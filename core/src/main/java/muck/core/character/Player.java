@@ -18,7 +18,10 @@ public class Player extends Character {
      */
     public Player(String username) {
         this.username = username;
-        //TODO - Retrieve the username identifier from the backend database, then populate all fields with
+        // Update: Backend feature not fully integrated into final build (group size limited to 2 members, we had to
+        //    limit our original feature scope
+        
+        //Retrieve the username identifier from the backend database, then populate all fields with
         // player values from the database
         /*
         boolean databaseRetrievalSuccessful = StorageHandler.isPlayerValid(username);
@@ -28,19 +31,11 @@ public class Player extends Character {
         this.setAvatar("some avatar retrieved from backend"); //further colab with issue #7 required
         this.setIdentifier(username);
         */
-    }
 
-    /**
-     * Create new Player or retrieve an existing Player from database
-     * @param username Player username
-     * @param create True if creating new Player. False if retrieving an existing Player
-     */
-    public Player(String username, boolean create) {
-        this.username = username;
-        this.setIdentifier(username);
-
-        if (create) {
-            // TODO: add new Player to db? or when saveCharacter is called?
+        // If Player exists get stats
+        if(!username.isEmpty()) {
+            // Placeholder for Player Dashboard Controller
+            setPlayerStats(100, 10, 10);
         }
     }
 
@@ -69,7 +64,8 @@ public class Player extends Character {
      * @param achievement Name of achievement
      */
     public void addAchievement(String achievement, String achievementDescription) {
-        //TODO: Confirm query
+        // Update: Backend feature not fully integrated into final build (group size limited to 2 members, we had to
+        //    limit our original feature scope
         String query = "INSERT INTO Player(identifier, achievement, description) VALUES (?, ?, ?)";
         StorageHandler.addToPlayer(query, this.getIdentifier(), achievement, achievementDescription);
     }
@@ -79,7 +75,8 @@ public class Player extends Character {
      * @return A String array ArrayList of all player achievements
      */
     public ArrayList<String[]> getAchievements() {
-        //TODO: Confirm query
+        // Update: Backend feature not fully integrated into final build (group size limited to 2 members, we had to
+        //    limit our original feature scope
         String query = "SELECT achievement, achievementDescription FROM Player WHERE identifier = ?";
         ArrayList<String> achievementList = StorageHandler.queryPlayer(query, this.getIdentifier());
         ArrayList<String[]> playerAchievements = new ArrayList<>();
@@ -91,7 +88,7 @@ public class Player extends Character {
     }
 
     /**
-     * Feature has been abandoned current group, however, it may be picked up later on
+     * *****Feature has been abandoned current group, however, it may be picked up later on*****
      * Trades a single collectable currently held by the player with another existing player
      * Collaborate with Issue 10
      * @param collectable Collectable item to trade
@@ -99,6 +96,8 @@ public class Player extends Character {
      * @return If player to player collectable transaction is successful return true. Otherwise, return false
      */
     public boolean tradeCollectable(String collectable, String otherPlayer) {
+        // Update: Backend feature not fully integrated into final build (group size limited to 2 members, we had to
+        //    limit our original feature scope
         boolean hasCollectable = false;
         boolean otherPlayerExists = false;
         boolean tradeSuccessful = false;
@@ -113,14 +112,12 @@ public class Player extends Character {
             }
         }
 
-        //TODO: Does the other player currently exist in the database?
         if(StorageHandler.isPlayerValid(otherPlayer)) {
            otherPlayerExists = true;
         }
 
         // Conduct trade if Player has collectable and other Player exists
         if(hasCollectable && otherPlayerExists) {
-            //TODO: Confirm query
             String query = "INSERT INTO Player(identifier, inventory) VALUES (?, ?)";
             StorageHandler.addToPlayer(query, otherPlayer, collectable);
             this.removeItemFromInventory(collectable);
@@ -131,34 +128,37 @@ public class Player extends Character {
     }
 
     /**
-     * Feature has been abandoned current group, however, it may be picked up later on
+     * *****Feature has been abandoned current group, however, it may be picked up later on*****
      * Adds an item to the Players Inventory
      * @param item item to be added to inventory
      */
     public void addItemToInventory(String item) {
-        //TODO: Confirm query
+        // Update: Backend feature not fully integrated into final build (group size limited to 2 members, we had to
+        //    limit our original feature scope
         String query = "INSERT INTO Player(identifier, inventory) VALUES (?, ?)";
         StorageHandler.addToPlayer(query, this.getIdentifier(), item);
     }
 
     /**
-     * Feature has been abandoned current group, however, it may be picked up later on
+     * *****Feature has been abandoned current group, however, it may be picked up later on*****
      * Removes an item from the Players Inventory
      * @param item item to be removed/consumed
      */
     public void removeItemFromInventory(String item) {
-        //TODO: Confirm query
+        // Update: Backend feature not fully integrated into final build (group size limited to 2 members, we had to
+        //    limit our original feature scope
         String query = "DELETE FROM Player WHERE identifier = ? AND inventory = ?";
         StorageHandler.removeFromPlayer(query, this.getIdentifier(), item);
     }
 
     /**
-     * Feature has been abandoned current group, however, it may be picked up later on
+     * *****Feature has been abandoned current group, however, it may be picked up later on*****
      * Retrieves Players current inventory holdings
      * @return A String array of the players inventory
      */
     public ArrayList<String> getInventory() {
-        //TODO: Confirm query
+        // Update: Backend feature not fully integrated into final build (group size limited to 2 members, we had to
+        //    limit our original feature scope
         String query = "SELECT inventory FROM Player WHERE identifier = ?";
         ArrayList<String> inventoryList = StorageHandler.queryPlayer(query, this.getIdentifier());
 

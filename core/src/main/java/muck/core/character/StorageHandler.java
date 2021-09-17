@@ -5,8 +5,13 @@ import java.sql.*;
 
 /**
  * Handles the storing and retrieval of Character objects (Player or NPC)
+ * 
+ * Update: Backend feature not fully integrated into final build (group size limited to 2 members, we had to
+ *  limit our original feature scope
  */
 public class StorageHandler {
+    // Update: Backend feature not fully integrated into final build (group size limited to 2 members, we had to
+    //    limit our original feature scope
 
     /**
      * Save the character object to backend storage
@@ -17,10 +22,12 @@ public class StorageHandler {
         boolean saveSuccessful = false;
         if (character.getClass() == Player.class) {
             //TODO save Player object
-            
+            // Nearly done (collab with Issue #24), but ran out of time and only 2 group members left
         }
         else if (character.getClass() == NPC.class) {
             //TODO save NPC object
+            // Nearly done (collab with Issue #24), but ran out of time and only 2 group members left
+
             return false;
         }
         return saveSuccessful;
@@ -34,7 +41,6 @@ public class StorageHandler {
     public static boolean isPlayerValid(String username) {
         boolean playerValid = false;
 
-        //TODO - implement with db
         return playerValid;
     }
 
