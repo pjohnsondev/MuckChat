@@ -16,7 +16,8 @@ public class ActiveUser {
 
     private static ActiveUser instance = null;
 
-    public String[] serverErrors = {
+    public String[] serverResponses = {
+            "Login Successful",
             "Duplicate login",
             "Character does not exist. Please register.",
             "Supplied credentials are invalid."

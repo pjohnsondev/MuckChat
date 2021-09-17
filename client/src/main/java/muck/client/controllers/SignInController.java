@@ -33,7 +33,7 @@ public class SignInController{
 
     // Todo add logic to
     @FXML
-    protected void signIn(MouseEvent event) throws IOException {
+    protected void signIn(MouseEvent event) throws Exception {
         String passwordText = password.getText();
 
         String uName = username.getText();
@@ -41,15 +41,17 @@ public class SignInController{
 
         if(isNotEmpty(username.getText(), password.getText())){
             boolean validated = validateSignIn(uName, passwordText);
-            boolean success = success(validated, uName, passwordText);
+            boolean dataSent = sendData(validated, uName, passwordText);
+            boolean success = false;
+            Thread.sleep(500);
+            if(dataSent){
+                success = success();
+            }
             if(success){
                 // forward on to next scene
                 passToNextScene(event, uName);
             }
-        };
-
-
-
+        }
     }
 
     // TODO: Sign in validation method - implement functionality
@@ -61,6 +63,7 @@ public class SignInController{
             error.setText("User Name or Password are Incorrect");
             return false;
         } else {
+            error.setText("validated Sign In");
             return true;
         }
     }
@@ -94,14 +97,14 @@ public class SignInController{
         nextScene.avatarCreation(event, username);
     }
 
-    public boolean success(boolean validated, String userName, String passwordText){
+    public boolean sendData(boolean validated, String userName, String passwordText){
         if (validated) {
             try {
                 MuckClient.getINSTANCE().login(userName, passwordText);
-//                while(!ActiveUser.getInstance().userIsSignedIn());
-//                ActiveUser.getInstance().getServerMessage().equals("Login Successful");
+                error.setText("Data Sent");
+                return true;
             } catch (Exception ex) {
-//                error.setText(ActiveUser.getInstance().getServerMessage());
+                error.setText("error");
                 throw new RuntimeException(String.format("Unable to create new user: %s.", userName));
 
             }
@@ -118,6 +121,16 @@ public class SignInController{
             return false;
         } else {
             return true;
+        }
+    }
+
+    public boolean success(){
+        if(ActiveUser.getInstance().getServerMessage().equals("Login Successful")){
+            error.setText("login successful");
+            return true;
+        } else {
+            error.setText(ActiveUser.getInstance().getServerMessage());
+            return false;
         }
     }
 
