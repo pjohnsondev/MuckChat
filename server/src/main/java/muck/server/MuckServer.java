@@ -215,10 +215,13 @@ public enum MuckServer {
                 kryoServer.sendToAllTCP(players);
                 logger.info("Players are {}", players.values());
             }
+            /**
+             * This has been commented out as there is an issue deserialising AddCharacter on the client
+             * the error is causing the client to disconnect from the server so I have commented it out
+            AddCharacter addCharacter = addCharacter(login.getClientId(), player);
 
-//            AddCharacter addCharacter = addCharacter(login.getClientId(), player);
-//
-//            kryoServer.sendToAllTCP(addCharacter);
+            kryoServer.sendToAllTCP(addCharacter);
+             */
 
         } catch (DuplicateLoginException ex) {
             userMessage testMessage = new userMessage(); // Create new message to send back.
