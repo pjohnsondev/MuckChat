@@ -17,7 +17,7 @@ public class Game {
     public Deck deck;
     //as long as active is true, the current round remains active. once it is changed to false, the turn ends
     public boolean active;
-    public String card_list;
+    public String cardList;
     public boolean gameStatus;
 
     /**
@@ -33,7 +33,7 @@ public class Game {
     }
 
     public void printCards(int number){
-        card_list = player1.hand.cards.get(player1.hand.cards.size() - 1).getCardName() + " of " +
+        cardList = player1.hand.cards.get(player1.hand.cards.size() - 1).getCardName() + " of " +
                 player1.hand.cards.get(player1.hand.cards.size() - 1).getSuit() + ".";
     }
 

@@ -6,7 +6,7 @@ import java.util.Random;
 public class ComputerOpponent extends Player {
     private int score;
     Hand hand;
-    int scoreIncr = 1;
+    int scoreIncrement = 1;
     //This will be a rating out of 5 implemented in memory queues
     public int level;
     public int[] computerTurns;
@@ -87,7 +87,7 @@ public class ComputerOpponent extends Player {
     }
 
     void addToScore(){
-        this.score += scoreIncr;
+        this.score += scoreIncrement;
     }
 
     int getScore(){

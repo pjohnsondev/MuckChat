@@ -329,7 +329,7 @@ public class CardsGameController implements Initializable {
                 //box for text area
                 HBox textHB = new HBox();
                 textHB.setAlignment(Pos.TOP_CENTER);
-                textHB.getChildren().add(new TextArea("You have received the cards: " + game.card_list)); // need to add the cards that the player gets
+                textHB.getChildren().add(new TextArea("You have received the cards: " + game.cardList)); // need to add the cards that the player gets
                 root.setCenter(textHB);
 
                 //box for button
