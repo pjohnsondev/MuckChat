@@ -44,20 +44,27 @@ public class SpriteTest extends ApplicationTest {
         Sprite hero = new Sprite(300,300);
         TileMapReader tm = new TileMapReader("/maps/homeTown.tmx");
         hero.setDx(6);
-        hero.setDy(6);
+        hero.setDy(0);
         hero.move(tm, hero);
         assertEquals(hero.getPosX(),306.0);
+        hero.setDy(6);
+        hero.setDx(0);
+        hero.move(tm, hero);
         assertEquals(hero.getPosY(),306.0);
         hero.setDx(-6);
-        hero.setDy(-6);
+        hero.setDy(0);
         hero.move(tm, hero);
         assertEquals(hero.getPosX(),300.0);
+        hero.setDy(-6);
+        hero.setDx(0);
+        hero.move(tm, hero);
+        logger.info(hero.getPlayerPos());
         assertEquals(hero.getPosY(),300.0);
+        assertEquals(hero.getPlayerPos(),"300.0,300.0");
         hero.setPosX(250.0);
         hero.setPosY(250.0);
         assertEquals(hero.getPosX(),250.0);
         assertEquals(hero.getPosY(),250.0);
-
 
     }
 }
