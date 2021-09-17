@@ -18,9 +18,9 @@ public class PlayerTest {
 
     @BeforeAll
     public static void init() {
-        player = new Player(USERNAME, true);
-        mockPlayer = mock(Player.class, withSettings().useConstructor(USERNAME, true));
-        otherPlayer = mock(Player.class, withSettings().useConstructor("otherPlayer", true));
+        player = new Player(USERNAME);
+        mockPlayer = mock(Player.class, withSettings().useConstructor(USERNAME));
+        otherPlayer = mock(Player.class, withSettings().useConstructor("otherPlayer"));
     }
 
     // Test Player username
@@ -54,8 +54,6 @@ public class PlayerTest {
         );
     }
 
-    //TODO: ===Currently commented out until database is up====
-
     // Test player interaction with achievements
     @Test
     public void testAchievementInteraction() {
@@ -71,6 +69,8 @@ public class PlayerTest {
 
         logger.info("Testing that the player can receive and get achievements");
         player.addAchievement(achievement, description);
+
+        //TODO: Currently Mocked methods without database to mock
 
         // mock retrieval
         when(mockPlayer.getAchievements()).thenReturn(achievements);
@@ -103,6 +103,8 @@ public class PlayerTest {
         logger.info("Testing adding an item to player inventory");
         mockPlayer.addItemToInventory(collectable);
 
+        //TODO: Currently Mocked methods without database to mock
+
         // mock retrieval
         when(mockPlayer.getInventory()).thenReturn(items);
 
@@ -126,29 +128,40 @@ public class PlayerTest {
         assertFalse(player.tradeCollectable("Nonexistent collectable", otherPlayer.getUsername()));
 
         logger.info("Testing that the player can trade an item with another player");
-        /*
+
+        //TODO: Currently Mocked methods without database to mock
+
+        when(mockPlayer.tradeCollectable(collectable, otherPlayer.getUsername())).thenReturn(true);
+        when(otherPlayer.getInventory()).thenReturn(items);
+
         assertAll(
                 "Player should no longer have item and other player should have item" ,
-                () -> assertTrue(player.tradeCollectable(collectable, otherPlayer.getUsername())),
+                () -> assertTrue(
+                        mockPlayer.tradeCollectable(collectable, otherPlayer.getUsername()),
+                        "Trade should be successful"),
                 () -> assertFalse(
                         () -> {
-                            for(int i = 0; i < player.getInventory().size(); i++) {
-                                if(player.getInventory().get(i).equals(collectable)) {
+                            items.remove(collectable);
+                            for(int i = 0; i < mockPlayer.getInventory().size(); i++) {
+                                if(mockPlayer.getInventory().get(i).equals(collectable)) {
                                     return true;
                                 }
                             }
                             return false;
-                        }),
+                        },
+                        "Player should no longer have item"),
                 () -> assertTrue(
                         () -> {
+                            items.add(collectable);
                             for(int i = 0; i < otherPlayer.getInventory().size(); i++) {
                                 if(otherPlayer.getInventory().get(i).equals(collectable)) {
                                     return true;
                                 }
                             }
                             return false;
-                        })
+                        },
+                        "Other player should now have item")
                 );
-         */
+
     }
 }
