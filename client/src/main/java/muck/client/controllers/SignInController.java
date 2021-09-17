@@ -35,13 +35,11 @@ public class SignInController{
     @FXML
     protected void signIn(MouseEvent event) throws Exception {
         String passwordText = password.getText();
-
         String uName = username.getText();
 
 
         if(isNotEmpty(username.getText(), password.getText())){
-            boolean validated = validateSignIn(uName, passwordText);
-            boolean dataSent = sendData(validated, uName, passwordText);
+            boolean dataSent = sendData(uName, passwordText);
             boolean success = false;
             Thread.sleep(500);
             if(dataSent){
@@ -54,31 +52,6 @@ public class SignInController{
         }
     }
 
-    // TODO: Sign in validation method - implement functionality
-
-    public boolean validateSignIn(String username, String password) {
-        // Check that user exists in database
-        if( !userExists(username) || !passwordMatches(username, password)) {
-            // Handle NoUserExists
-            error.setText("User Name or Password are Incorrect");
-            return false;
-        } else {
-            error.setText("validated Sign In");
-            return true;
-        }
-    }
-
-    //TODO: User validation method - implement functionality
-    public boolean userExists(String username){
-        // check database for user
-        return true;
-    }
-
-    //TODO: Password validation method - implement functionality
-    public boolean passwordMatches(String username, String password){
-        //match password to user from database
-        return true;
-    }
 
     // TODO: Add Pass to SignUp Display
     public void signUp() throws IOException{
@@ -97,19 +70,15 @@ public class SignInController{
         nextScene.avatarCreation(event, username);
     }
 
-    public boolean sendData(boolean validated, String userName, String passwordText){
-        if (validated) {
-            try {
-                MuckClient.getINSTANCE().login(userName, passwordText);
-                error.setText("Data Sent");
-                return true;
-            } catch (Exception ex) {
-                error.setText("error");
-                throw new RuntimeException(String.format("Unable to create new user: %s.", userName));
-
-            }
+    public boolean sendData(String userName, String passwordText){
+        try {
+            MuckClient.getINSTANCE().login(userName, passwordText);
+            error.setText("Data Sent");
+            return true;
+        } catch (Exception ex) {
+            error.setText("error");
+            throw new RuntimeException(String.format("Unable to create new user: %s.", userName));
         }
-        return false;
     }
 
     public boolean isNotEmpty(String password, String username){
