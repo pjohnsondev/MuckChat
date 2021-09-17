@@ -1,18 +1,12 @@
 package muck.client;
 
-import javax.swing.*;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.ResourceBundle;
-import javafx.stage.*;
-import javafx.scene.*;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 
 
 // This class stores and triggers achievements when specific in-game requirements from other classes are met.
@@ -96,18 +90,33 @@ public class Achievements {
 
 
     public void achievementPopUp(Achievements achievement) {
-        Stage window = new Stage();
-        window.setTitle("Achievement Unlocked!");
-
         try {
             Parent parent = FXMLLoader.load(getClass().getResource("/fxml/AchievementWindow.fxml"));
-            Stage stage = new Stage(StageStyle.DECORATED);
-            stage.setTitle("Achievement Notification");
-            stage.setScene(new Scene(parent));
-            stage.show();
+            Stage window = new Stage(StageStyle.DECORATED);
+            window.setTitle("Achievement Window");
+
+            Label titleLabel = (Label) parent.lookup("#achievementTitleLabel");
+            titleLabel.setText(achievement.achievementTitle);
+
+            Label descriptionLabel = (Label) parent.lookup("#achievementDescriptionLabel");
+            descriptionLabel.setText(achievement.achievementDescription);
+
+            window.setScene(new Scene(parent));
+            window.show();
         }
         catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
+    public String getAchievementTitle(Achievements achievement) {
+        return achievement.achievementTitle;
+    }
+
+
+    public String getAchievementDescription(Achievements achievement) {
+        return achievement.achievementDescription;
+    }
+
 }
