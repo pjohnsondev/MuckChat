@@ -9,6 +9,7 @@ import muck.core.LocationRequest;
 import muck.core.LocationResponse;
 import muck.core.ClientId;
 import muck.core.character.AddCharacter;
+import muck.core.character.Player;
 import muck.core.structures.UserStructure;
 import muck.core.user.SignUpInfo;
 import org.apache.logging.log4j.LogManager;
@@ -41,6 +42,8 @@ public enum MuckClient {
 	ArrayList<String> messageBuffer = new ArrayList<String>();
 	HashMap<Integer, String> players = new HashMap<Integer, String>();
 	List<Sprite> playerSprites = new ArrayList<Sprite>();
+
+	Player currentPlayer;
 
 	public static MuckClient getINSTANCE() {
 		return INSTANCE;
@@ -79,6 +82,11 @@ public enum MuckClient {
 		// logger.info("Updating my location in the gamemap..."); //Commented this out
 		// because it was spamming the client logger.
 		client.sendTCP(req);
+	}
+
+	// Set current player
+	public void setCurrentPlayer(String username) {
+		currentPlayer = new Player(username);
 	}
 
 	public synchronized void connect(KryoClientConfig config) throws IOException {
