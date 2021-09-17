@@ -34,7 +34,7 @@ public class AvatarController implements Initializable  {
     // These will be the associated attributes of the user
     private static String uname;//Will be updated when constructing AvatarController
     private static String displayName; //Will be updated when constructing AvatarController
-    private static int muckPoints = 0; //Dummy value for testing purposes TODO: Remove dummy value
+    private static int muckPoints = 0; //Dummy value for testing purposes TODO: Remove dummy value when able to access player
     private static String avatar = "notSet"; //Default. No image.
     private static String previous = "login"; //Previous screen. Will determine where the submit button leads.
     private final int OPEN_SKELETON = 20; // Muck points required to activate skeleton avatar
@@ -204,6 +204,7 @@ public class AvatarController implements Initializable  {
         uname = username;
         displayName = display;
         avatar = avID;
+        //muckPoints = call to server
     }
 
     //TODO: Remove this method once the SignIn Screen sends the window to Muck

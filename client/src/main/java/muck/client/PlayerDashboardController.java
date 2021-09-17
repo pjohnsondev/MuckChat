@@ -3,6 +3,7 @@ package muck.client;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -21,6 +22,11 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import muck.client.utilities.RandomNameGenerator;
+import muck.core.models.models.User;
+import muck.core.models.models.UserModel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class PlayerDashboardController implements Initializable {
 
@@ -47,6 +53,9 @@ public class PlayerDashboardController implements Initializable {
     private Text username;
 
     @FXML
+    private Text heading;
+
+    @FXML
     private Button change;
 
     @FXML
@@ -59,10 +68,19 @@ public class PlayerDashboardController implements Initializable {
     private TextArea achievementWindow;
 
     @FXML
+    private Button achievementButton;
+
+    @FXML
+    private Button scoreboardButton;
+
+
+    @FXML
     private ImageView gameReturn;
 
     private final BackgroundImage BACKGROUND = new BackgroundImage(new Image("/images/BackgroundAvSelection.jpg"), null, null, null, null);
 
+
+    private static final Logger logger = LogManager.getLogger(PlayerDashboardController.class);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -94,6 +112,9 @@ public class PlayerDashboardController implements Initializable {
                     e.printStackTrace();
                 }
             });
+
+            achievementButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> { updateAchievements(); });
+            scoreboardButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {updateScoreboard(); });
 
             gameReturn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> returnToGame(event, userName, avatarID));
 
@@ -136,17 +157,58 @@ public class PlayerDashboardController implements Initializable {
         achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
         achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
 
-        muckPointTotal = 100; //TODO: Remove
-        healthTotal = 80; //TODO: Remove
+        muckPointTotal = 100; //TODO: Remove when can call to the server
+        healthTotal = 80; //TODO: Remove when can call to the server
     }
 
     /**
      * Displays the player's achievements in the applicable section of the GUI
      */
     private void updateAchievements() {
+        heading.setText("Achievements");
+        achievementWindow.clear();
+        achievementButton.setStyle("-fx-text-fill: #696969;" + "-fx-background-color: #87cdff;");
+        scoreboardButton.setStyle("-fx-text-fill: #87cdff;" + "-fx-background-color:  #696969;");
+
         for (String[] achieve : achievements ) {
             String achievement = achieve[0] + ": " + achieve[1] +"\n\n";
             achievementWindow.appendText(achievement);
+        }
+    }
+    private void updateScoreboard() {
+        int count = 1;
+
+        heading.setText("Scoreboard");
+        achievementWindow.clear();
+        scoreboardButton.setStyle("-fx-text-fill: #696969;" + "-fx-background-color: #87cdff;");
+        achievementButton.setStyle("-fx-text-fill: #87cdff;" + "-fx-background-color:  #696969;");
+
+        // Should we get the database running in time this is how we would
+        // call the list of users in ascending order
+        /*List<User> userDetails = UserModel.getUsersOrderedByPoints(true);
+         for (User eachUser : userDetails) {
+             String user = eachUser.getUserName();
+             int points = eachUser.getPoints();
+             achievementWindow.appendText(user + ": " + points + "\n\n");
+         }*/
+
+        RandomNameGenerator random = new RandomNameGenerator();
+        ArrayList<String[]> userDetails = new ArrayList<>();
+        userDetails.add(new String[]{random.generateName(), "220"});
+        userDetails.add(new String[]{random.generateName(), "180"});
+        userDetails.add(new String[]{random.generateName(), "150"});
+        userDetails.add(new String[]{random.generateName(), "120"});
+        userDetails.add(new String[]{random.generateName(), "120"});
+        userDetails.add(new String[]{random.generateName(), "100"});
+        userDetails.add(new String[]{displayName, "80"});
+        userDetails.add(new String[]{random.generateName(), "60"});
+        userDetails.add(new String[]{random.generateName(), "40"});
+
+        for (String[] eachUser : userDetails) {
+            String user = eachUser[0];
+            String points = eachUser[1];
+            achievementWindow.appendText(count + ": " + user + " - " + points + "\n\n");
+            count++;
         }
     }
 
