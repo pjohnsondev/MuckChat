@@ -57,7 +57,7 @@ public class SpriteTest extends ApplicationTest {
         hero.setPosY(250.0);
         assertEquals(hero.getPosX(),250.0);
         assertEquals(hero.getPosY(),250.0);
-        logger.info(hero.getPosX());
+
 
     }
 }
