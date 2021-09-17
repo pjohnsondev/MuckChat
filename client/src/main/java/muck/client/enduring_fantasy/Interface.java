@@ -13,7 +13,7 @@ public class Interface {
 
     public static void main(String[] args) throws Exception{
         Interface loadGame = new Interface();
-        loadGame.startGame();
+        loadGame.startGame(args);
     }
 
     public void startGame(String[] args) throws Exception{
@@ -23,7 +23,7 @@ public class Interface {
             this.newGame();
         } else if (action.equals("2")){
             this.exitGame();
-        } else { this.startGame();}
+        } else { this.startGame(args);}
     }
 
     public void newGame(){

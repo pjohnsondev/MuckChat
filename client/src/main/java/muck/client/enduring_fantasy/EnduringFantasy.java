@@ -142,16 +142,16 @@ public class EnduringFantasy {
 
     public void useMagic(String magicName) {
         this.battle.useMagic(magicName);
-
-    public void newPlayer(Player newPlayer) {
-        this.player = newPlayer;
     }
+//    public void newPlayer(Player newPlayer) {
+//        this.player = newPlayer;
+//    }
 
     public boolean checkDeath() {
         return this.battle.pcDeath();
     }
 
-    public void gameOver() {
+    public void gameOver(){
         System.out.println("*-----*  Game Over  *-----*\nRestart - 1\nExit - 2\n");
         System.out.print("Please select: ");
     }

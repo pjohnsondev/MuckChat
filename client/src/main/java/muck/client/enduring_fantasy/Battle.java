@@ -47,6 +47,7 @@ public class Battle {
         this.pcStr = this.player.getDamage();
         this.pcLvl = this.player.getPlayerLvl();
         this.nextLvl = this.player.getNextLvl();
+        this.magic = new Magic(this.player, this.pcMp);
     }
 
 
@@ -110,6 +111,7 @@ public class Battle {
     }
 
     public void useMagic(String magicName){
+        this.magic = new Magic(this.player, this.pcMp);
         this.magic.useMagic(magicName);
         if (this.magic.getConfirmDmg()){
             this.mobHp -= this.magic.getMagicDmg();

@@ -12,8 +12,8 @@ public class Magic {
         this.pChar = newPlay;
         this.mPcMp = playMp;
         this.mDmg = 0;
-        this.confirmMag;
-        this.confirmDmg;
+//        this.confirmMag;
+//        this.confirmDmg;
     }
 
     public void magicMenu() {
@@ -40,9 +40,7 @@ public class Magic {
         return this.confirmDmg;
     }
 
-    public int getPlayerMP() {
-        return this.mPcMp;
-    }
+    public int getPlayerMp() {return this.mPcMp; }
 
     public int getMpCost() {
         return this.mCost;
@@ -99,4 +97,6 @@ public class Magic {
             this.confirmDmg = true;
         }
     }
+
+
 }
