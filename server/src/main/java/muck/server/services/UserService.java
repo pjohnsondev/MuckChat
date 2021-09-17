@@ -1,5 +1,6 @@
 package muck.server.services;
 
+import muck.core.character.CharacterDoesNotExistException;
 import muck.server.Exceptions.ModelNotFoundException;
 import muck.server.Exceptions.UserNameAlreadyTakenException;
 import muck.server.helpers.security.Hasher;
@@ -77,7 +78,10 @@ public class UserService {
 
     public Boolean authenticateUser(UserStructure user) throws SQLException, ModelNotFoundException {
         UserStructure userInDb = this.findByUsername(user.username);
-        Hasher hasher = new Hasher();
-        return hasher.passwordMatches(user.password, userInDb.salt, userInDb.hashedPassword);
+        if(userInDb != null){
+            Hasher hasher = new Hasher();
+            return hasher.passwordMatches(user.password, userInDb.salt, userInDb.hashedPassword);
+        }
+        return false;
     }
 }

@@ -143,10 +143,11 @@ public enum MuckClient {
 			logger.info("Clients playerlist is {}", players);
 		}));
 
-		client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, clientMessage) -> {
-			logger.info("Message recieved was: {}", clientMessage.getMessage());
-			currentMessage = clientMessage.getMessage();
-			inMessages.add(clientMessage.getMessage());
+		client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, serverMessage) -> {
+			logger.info("Message recieved was: {}", serverMessage.getMessage());
+			currentMessage = serverMessage.getMessage();
+			inMessages.add(serverMessage.getMessage());
+			checkLoginMessages(serverMessage.getMessage());
 		}));
 
 		// When a chatlog object is detected, add it to the queue.
@@ -195,6 +196,11 @@ public enum MuckClient {
 		SignUpInfo signup = new SignUpInfo(username, password, displayName);
 
 		client.sendTCP(signup);
+	}
+
+	public void checkLoginMessages(String message){
+			ActiveUser.getInstance().setServerMessage(message);
+		logger.info("User Structure received");
 	}
 
 	public synchronized void disconnect() throws IOException {

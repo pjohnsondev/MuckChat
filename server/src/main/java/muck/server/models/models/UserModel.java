@@ -69,7 +69,12 @@ public class UserModel extends Model {
      */
 
     public ResultSet findUserByUsername(String username) throws SQLException {
-        return this.select("username", username);
+        try{
+            return this.select("username", username);
+        } catch (SQLException e){
+            System.out.println(e);
+        }
+        return null;
     }
 
     /**
