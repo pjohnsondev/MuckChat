@@ -108,10 +108,17 @@ public class Achievements {
             window.setScene(new Scene(parent));
             window.show();
             window.toFront();
+
+            achievementSounds();
         }
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void achievementSounds() {
+        Sound soundObject = new Sound("/sounds/tilegame.mp3");
+        soundObject.music(soundObject);
     }
 
 /*
