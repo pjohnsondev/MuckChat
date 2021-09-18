@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mindrot.jbcrypt.*;
 import muck.client.App;
+import muck.client.utilities.RandomNameGenerator;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -48,7 +49,7 @@ public class SignUpController {
 
     @FXML
     void initialize() {
-        genName.setOnAction(this::printToConsole);
+        genName.setOnAction(this::randomDisplayName);
     }
 
     // Todo add logic to
@@ -68,9 +69,9 @@ public class SignUpController {
 
     }
 
-    public void printToConsole(ActionEvent event) {
-        String displayName = displayname.getText();
-        System.out.println(displayName);
+    public void randomDisplayName(ActionEvent event) {
+        RandomNameGenerator rng = new RandomNameGenerator();
+        displayname.setText(rng.generateName());
     }
 
     // TODO: Sign Up validation method - implement functionality
