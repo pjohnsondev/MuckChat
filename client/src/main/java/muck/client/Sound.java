@@ -1,43 +1,37 @@
 package muck.client;
 
+import java.nio.file.Paths;
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import java.io.File;
 
-import  java.io.*;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 
 public class Sound {
 
-    private Clip clip;
-    public Sound(String s) {
-        try {
-            AudioInputStream forest = AudioSystem.getAudioInputStream(getClass().getResourceAsStream(s));
-            AudioFormat baseFormat = forest.getFormat();
-            AudioFormat decodeFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
-                    baseFormat.getSampleRate(), 16, baseFormat.getChannels(),
-                    baseFormat.getChannels() * 2,
-                    baseFormat.getSampleRate(), false);
+    String soundPath;
+    MediaPlayer mediaPlayer;
 
-            AudioInputStream dforest = AudioSystem.getAudioInputStream(decodeFormat, forest);
-            clip = AudioSystem.getClip();
-            clip.open(dforest);
-        } catch (Exception e) {
+    public Sound(String audio) {
+        this.soundPath = audio;
+    }
+
+    public String getSoundPath(Sound audio) {
+        return audio.soundPath;
+    }
+
+    public void music(Sound soundFile) {
+        try {
+//            String s = "src/main/resources/sounds/tilegame.mp3";
+
+                Media h = new Media(getClass().getResource(soundFile.soundPath).toExternalForm());
+                mediaPlayer = new MediaPlayer(h);
+                mediaPlayer.play();
+                System.out.println("Sound should be playing now");
+            }
+        catch(Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void playSound() {
-        if(clip == null) return;
-        stop();
-    }
-
-    private void stop() {
-        if (clip.isRunning()) clip.stop();
-    }
-
-    public void close() {
-        stop();
-        clip.close();
     }
 }

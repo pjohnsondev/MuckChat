@@ -71,7 +71,7 @@ public class PlayerDashboardController implements Initializable {
     @FXML
     private ImageView gameReturn;
 
-    private final BackgroundImage BACKGROUND = new BackgroundImage(new Image("/images/BackgroundAvSelection.jpg"), null, null, null, null);
+    private final BackgroundImage BACKGROUND = new BackgroundImage(new Image("/images/BackgroundAvSelection.png"), null, null, null, null);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
