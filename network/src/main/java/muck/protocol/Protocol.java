@@ -19,7 +19,7 @@ import muck.core.Id;
 import muck.core.structures.UserStructure;
 import muck.core.user.SignUpInfo;
 import muck.protocol.connection.*;
-
+import muck.core.AvatarLocation;
 /**
  * A common Protocol registration class, shared by the client and server, to
  * ensure that both ends of the connection register the same classes in the same
@@ -58,7 +58,7 @@ public class Protocol {
 		kryo.register(LocationResponse.class);
 		kryo.register(LocationResponseData.class);
 		kryo.register(UpdatePlayerRequest.class);
-
+		kryo.register(AvatarLocation.class);
 		kryo.register(byte[].class);
 		kryo.register(UserStructure.class);
 
