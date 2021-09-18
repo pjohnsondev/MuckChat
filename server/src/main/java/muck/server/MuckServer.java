@@ -171,9 +171,10 @@ public enum MuckServer {
 			players.put(connection.getID(), player.getUsername());
 			kryoServer.sendToAllTCP(players);
 			logger.info("Players are {}", players.values());
-
+			UserStructure returnedUser = playerManager.getUser(userStructure);
 			userMessage.setMessage("Your account has been created successfully. Username: " + player.getUsername());
 			kryoServer.sendToTCP((connection.getID()), userMessage);
+			kryoServer.sendToTCP((connection.getID()), returnedUser);
 		} catch (BadRequestException ex) {
 			ex.printStackTrace();
 
