@@ -1,8 +1,5 @@
 package muck.client.card_games;
 
-
-import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -13,14 +10,12 @@ public class Deck {
     String[] cardNames = {"ace","2","3","4","5","6","7","8","9","10","jack","queen","king"};
     String suit;
     int counter;
-    Image backOfDeck;
 
     /**
      * Constructor function for the Deck Class
      */
     public Deck() {
         cards = new ArrayList<Card>();
-        Image backOfDeck = new ImageIcon("images/cards/backofdeck.png").getImage();
         counter = 0;
         for (int i = 1; i < 53; i++) {
             if (i < 14) {
@@ -44,9 +39,6 @@ public class Deck {
     }
 
 
-    public Image getDeckImage() {
-        return backOfDeck;
-    }
 
 
     public void shuffleCards() {

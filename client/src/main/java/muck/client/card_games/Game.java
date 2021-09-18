@@ -6,7 +6,7 @@ package muck.client.card_games;
 public class Game {
     //This needs to create an id that is an incremented number on the last created id
     public int gameId;
-    //keeping track of who's turn it is.
+    //keeping track of whose turn it is.
     public static int currentRound;
     //unique id to the game to send information to database for other player to receive.
     public static int roundId;
@@ -17,17 +17,24 @@ public class Game {
     public Deck deck;
     //as long as active is true, the current round remains active. once it is changed to false, the turn ends
     public boolean active;
-    public String card_list;
+    public String cardList;
+    public boolean gameStatus;
 
     /**
      * Constructor Function for the Game Class
      */
     public Game(){
+        gameStatus = true;
         currentRound = 1;
         roundId = 0;
         player1 = new Player();
         player2 = new ComputerOpponent(1);
         deck = new Deck();
+    }
+
+    public void printCards(int number){
+        cardList = player1.hand.cards.get(player1.hand.cards.size() - 1).getCardName() + " of " +
+                player1.hand.cards.get(player1.hand.cards.size() - 1).getSuit() + ".";
     }
 
     public void initGame(){
@@ -36,47 +43,47 @@ public class Game {
         player2.hand.drawHand(deck);
     }
 
-    void playerTurn(int roundNumber){
-        PlayerTurn player_go = new PlayerTurn();
-        while (roundNumber == 1){
-            player_go.takeTurn(player1);
-            currentRound = 2;
-            break;
+    public void playersTurn(){
+        //TODO: make player go fish or player receiving cards trigger a pop up that changes variable when closing
+        while (currentRound == 1) {
 
         }
-
-        while (roundNumber == 2){
-            player_go.takeTurn(player2);
-            currentRound = 1;
-            break;
-
+        if ((player1.hand.cards.size() == 0 && deck.cards.size() == 0)
+                || (deck.cards.size() == 0 && player2.hand.cards.size() == 0)){
+            gameStatus = false;
         }
-
-        if (roundId == 5){
-            //this is a test to break out of turn loops
-            currentRound = 3;
+        else {
+            computersTurn();
         }
-    }
-
-    void end_turn(){
-
-    }
-
-    public void printCards(int number){
-        card_list = player1.hand.cards.get(player1.hand.cards.size() - 1).getCardName() + " of " +
-                player1.hand.cards.get(player1.hand.cards.size() - 1).getSuit() + ".";
     }
 
     public void computersTurn(){
         int card = player2.askForCard();
         boolean goFish = checkForMatch(card);
         if (goFish == true){
-            //popup with button that says "go fish" to close window
+            //TODO: popup with button that says "go fish" to close window, which will prompt:
             player2.hand.drawTopCard(deck);
         }
         else {
-            //popup with button that says "Player 2 asked for *** " to close window
+            //TODO: popup with button that says "Player 2 asked for *** " to close window
             giveComputerCard(card);
+        }
+        if ((player1.hand.cards.size() == 0 && deck.cards.size() == 0)
+                || (deck.cards.size() == 0 && player2.hand.cards.size() == 0)){
+            gameStatus = false;
+        }
+        else {
+            currentRound = 1;
+            playersTurn();
+        }
+    }
+
+    public void playersAsk(int matchId){
+        for (int i = 0; i < player2.hand.cards.size(); i++){
+            if (matchId == player2.hand.cards.get(i).getMatchId()){
+                player1.hand.cards.add(player2.hand.cards.get(i));
+                player2.hand.cards.remove(i);
+            }
         }
     }
 
@@ -101,6 +108,8 @@ public class Game {
         }
     }
 
+
+
   public static void main(String[] args){
         // Creating instance of game
         Game game = new Game();
@@ -113,12 +122,10 @@ public class Game {
             if (currentRound == 1){
                 roundId++;
                 System.out.println(roundId);
-                game.playerTurn(1);
             }
             if (currentRound == 2) {
                 roundId++;
                 System.out.println(roundId);
-                game.playerTurn(2);
             }
         }
         System.out.println("Exiting turns. Game is finished.");

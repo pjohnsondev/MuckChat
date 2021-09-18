@@ -283,6 +283,7 @@ public class CardsGameController implements Initializable {
 
 
         askForCard.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            //TODO: add a call to game.computersTurn() after picking up and making a set if necessary
             //TODO: make function body
             //NEED TO ADD THE FUNCTION FOR ASKING FOR A CARD
             try {
@@ -314,6 +315,7 @@ public class CardsGameController implements Initializable {
         });
 
         drawFromDeck.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            //TODO: add a call to game.computerTurn() after picking up and making a set if necessary
             game.player1.hand.drawTopCard(game.deck);
             game.printCards(1);
             //I got this function fully written. Another separate one that deals the hand.
@@ -334,7 +336,7 @@ public class CardsGameController implements Initializable {
                 //box for text area
                 HBox textHB = new HBox();
                 textHB.setAlignment(Pos.TOP_CENTER);
-                textHB.getChildren().add(new TextArea("You have received the cards: " + game.card_list)); // need to add the cards that the player gets
+                textHB.getChildren().add(new TextArea("You have received the cards: " + game.cardList)); // need to add the cards that the player gets
                 root.setCenter(textHB);
 
                 //box for button
@@ -357,18 +359,18 @@ public class CardsGameController implements Initializable {
         //tenOfDiamonds
         final boolean displayHigh = true;
         //THIS IS JUST A THOUGHT ABOUT HOW TO HIGHLIGHT CARDS WHEN PRESSED
+        Image filename0 = new Image(game.player1.hand.cards.get(0).getFileName());
         cardRow1Card1.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-            cardRow1Card1.setImage(nineOfClubs);
+            cardRow1Card1.setImage(filename0);
             /*if (displayHigh) {
                 card1row1select.setFill(Color.valueOf("#f6ff14"));
             }
             */
-                });
+        });
         cardRow2Card1.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             card1Row2select.setFill(Color.valueOf("#f6ff14"));
         });
-
-        cardRow1Card1.setImage(threeOfClubs);
+            cardRow1Card1.setImage(filename0);
 
     }
 /*
@@ -401,6 +403,7 @@ public class CardsGameController implements Initializable {
         // ECT.. SO THAT THEIR CARDS GET LESS SLOWLY
 
     }
+
 
 
 
