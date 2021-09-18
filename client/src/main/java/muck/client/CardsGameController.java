@@ -186,12 +186,15 @@ public class CardsGameController implements Initializable {
     private Image queenOfHearts = new Image("images/cards/queen_of_hearts.png");
     private Image queenOfSpades = new Image("images/cards/queen_of_spades.png");
     private Image backOfCard = new Image("images/cards/backofdeck.png");
-/*
+
     private Image BtwoOfHearts = new Image("images/cards/B_2_of_hearts.PNG");
+    private Image BtwoOfDiamonds = new Image("images/cards/B_2_of_diamonds.PNG");
+    private Image BtwoOfSpacdes = new Image("images/cards/B_2_of_spades.PNG");
     private Image BtwoOfClubs = new Image("images/cards/B_2_of_clubs.PNG");
-    private Image BthreeOfDiamonds = new Image("images/cards/B_3_of_diamonds.png");
+    private Image BthreeOfDiamonds = new Image("images/cards/B_2_of_diamonds.PNG");
     private Image BthreeOfHearts = new Image("images/cards/B_3_of_hearts.PNG");
     private Image BthreeOfSpades = new Image("images/cards/B_3_of_spades.PNG");
+    private Image BthreeOfClubs = new Image("images/cards/B_3_of_clubs.PNG");
     private Image BfourOfClubs = new Image("images/cards/B_4_of_clubs.PNG");
     private Image BfourOfDiamonds = new Image("images/cards/B_4_of_diamonds.PNG");
     private Image BfourOfHearts = new Image("images/cards/B_4_of_hearts.PNG");
@@ -199,46 +202,43 @@ public class CardsGameController implements Initializable {
     private Image BfiveOfClubs = new Image("images/cards/B_5_of_clubs.PNG");
     private Image BfiveOfDiamonds = new Image("images/cards/B_5_of_diamonds.PNG");
     private Image BfiveOfHearts = new Image("images/cards/B_5_of_hearts.PNG");
-    private Image BfiveOfSpades = new Image("images/cards/B_6_of_diamonds.PNG");
+    private Image BfiveOfSpades = new Image("images/cards/B_5_of_spades.PNG");
     private Image BsixOfClubs = new Image("images/cards/B_6_of_clubs.PNG");
     private Image BsixOfDiamonds = new Image("images/cards/B_6_of_diamonds.PNG");
     private Image BsixOfHearts = new Image("images/cards/B_6_of_hearts.PNG");
-    private Image BsixOfSpades = new Image("images/cards/B_6_of_spades.png");
+    private Image BsixOfSpades = new Image("images/cards/B_6_of_spades.PNG");
     private Image BsevenOfClubs = new Image("images/cards/B_7_of_clubs.PNG");
-    private Image BsevenOfDiamonds = new Image("images/cards/7_of_diamonds.png");
-    private Image BsevenOfHearts = new Image("images/cards/7_of_hearts.png");
-    private Image BsevenOfSpades = new Image("images/cards/B_6_of_spades.PNG");
-    private Image BeightOfClubs = new Image("images/cards/B_8_of_clubs.png");
-    private Image BeightOfDiamonds = new Image("images/cards/8_of_diamonds.png");
-    private Image BeightOfHearts = new Image("images/cards/8_of_hearts.png");
-    private Image BeightOfSpades = new Image("images/cards/8_of_spades.png");
-    private Image BnineOfClubs = new Image("images/cards/9_of_clubs.png");
-    private Image BnineOfDiamonds = new Image("images/cards/9_of_diamonds.png");
-    private Image BnineOfHearts = new Image("images/cards/9_of_hearts.png");
-    private Image BnineOfSpades = new Image("images/cards/9_of_spades.png");
-    private Image BtenOfClubs = new Image("images/cards/10_of_clubs.png");
-    private Image BtenOfDiamonds = new Image("images/cards/10_of_diamonds.png");
-    private Image BtenOfHearts = new Image("images/cards/10_of_hearts.png");
-    private Image BtenOfSpades = new Image("images/cards/10_of_spades.png");
-    private Image BaceOfClubs = new Image("images/cards/ace_of_clubs.png");
-    private Image BaceOfDiamonds = new Image("images/cards/ace_of_diamonds.png");
-    private Image BaceOfHearts = new Image("images/cards/ace_of_hearts.png");
-    private Image BaceOfSpades = new Image("images/cards/ace_of_spades2.png");
-    private Image BjackOfClubs = new Image("images/cards/jack_of_clubs.png");
-    private Image BjackOfDiamonds = new Image("images/cards/jack_of_diamonds.png");
-    private Image BjackOfHearts = new Image("images/cards/jack_of_hearts.png");
-    private Image BjackOfSpades = new Image("images/cards/jack_of_spades.png");
-    private Image BkingOfClubs = new Image("images/cards/king_of_clubs.png");
-    private Image BkingOfDiamonds = new Image("images/cards/king_of_diamonds.png");
-    private Image BkingOfHearts = new Image("images/cards/king_of_hearts.png");
-    private Image BkingOfSpades = new Image("images/cards/king_of_spades.png");
-    private Image BqueenOfClubs = new Image("images/cards/queen_of_clubs.png");
-    private Image BqueenOfDiamonds = new Image("images/cards/queen_of_diamonds.png");
-    private Image BqueenOfHearts = new Image("images/cards/queen_of_hearts.png");
-    private Image BqueenOfSpades = new Image("images/cards/queen_of_spades.png");
-    private Image backOfCard = new Image("images/cards/backofdeck.png");
-*/
-
+    private Image BsevenOfDiamonds = new Image("images/cards/B_7_of_diamonds.PNG");
+    private Image BsevenOfHearts = new Image("images/cards/B_7_of_hearts.PNG");
+    private Image BsevenOfSpades = new Image("images/cards/B_7_of_spades.PNG");
+    private Image BeightOfClubs = new Image("images/cards/B_8_of_clubs.PNG");
+    private Image BeightOfDiamonds = new Image("images/cards/B_8_of_diamonds.PNG");
+    private Image BeightOfHearts = new Image("images/cards/B_8_of_hearts.PNG");
+    private Image BeightOfSpades = new Image("images/cards/B_8_of_spades.PNG");
+    private Image BnineOfClubs = new Image("images/cards/B_9_of_clubs.PNG");
+    private Image BnineOfDiamonds = new Image("images/cards/B_9_of_diamonds.PNG");
+    private Image BnineOfHearts = new Image("images/cards/B_9_of_hearts.PNG");
+    private Image BnineOfSpades = new Image("images/cards/B_9_of_spades.PNG");
+    private Image BtenOfClubs = new Image("images/cards/B_10_of_clubs.PNG");
+    private Image BtenOfDiamonds = new Image("images/cards/B_10_of_diamonds.PNG");
+    private Image BtenOfHearts = new Image("images/cards/B_10_of_hearts.PNG");
+    private Image BtenOfSpades = new Image("images/cards/B_10_of_spades.PNG");
+    private Image BaceOfClubs = new Image("images/cards/B_ace_of_clubs.PNG");
+    private Image BaceOfDiamonds = new Image("images/cards/B_ace_of_diamonds.PNG");
+    private Image BaceOfHearts = new Image("images/cards/B_ace_of_hearts.PNG");
+    private Image BaceOfSpades = new Image("images/cards/B_ace_of_spades.PNG");
+    private Image BjackOfClubs = new Image("images/cards/B_jack_of_clubs.PNG");
+    private Image BjackOfDiamonds = new Image("images/cards/B_jack_of_diamonds.PNG");
+    private Image BjackOfHearts = new Image("images/cards/B_jack_of_hearts.PNG");
+    private Image BjackOfSpades = new Image("images/cards/B_jack_of_spades.PNG");
+    private Image BkingOfClubs = new Image("images/cards/B_king_of_clubs.PNG");
+    private Image BkingOfDiamonds = new Image("images/cards/B_king_of_diamonds.PNG");
+    private Image BkingOfHearts = new Image("images/cards/B_king_of_hearts.PNG");
+    private Image BkingOfSpades = new Image("images/cards/B_king_of_spades.PNG");
+    private Image BqueenOfClubs = new Image("images/cards/B_queen_of_clubs.PNG");
+    private Image BqueenOfDiamonds = new Image("images/cards/B_queen_of_diamonds.PNG");
+    private Image BqueenOfHearts = new Image("images/cards/B_queen_of_hearts.PNG");
+    private Image BqueenOfSpades = new Image("images/cards/B_queen_of_spades.PNG");
 
 
     @Override
@@ -363,10 +363,6 @@ public class CardsGameController implements Initializable {
         Image filename0 = new Image(game.player1.hand.cards.get(0).getFileName());
         cardRow1Card1.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             cardRow1Card1.setImage(filename0);
-            /*if (displayHigh) {
-                card1row1select.setFill(Color.valueOf("#f6ff14"));
-            }
-            */
         });
         cardRow2Card1.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             card1Row2select.setFill(Color.valueOf("#f6ff14"));
