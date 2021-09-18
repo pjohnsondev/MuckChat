@@ -10,11 +10,11 @@ public class Opponent extends Player {
         hand = new Hand();
     }
 
-    void add_score(){
+    void addScore(){
         this.score += scoreIncr;
     }
 
-    int get_score(){
+    int getScore(){
         return this.score;
     }
 }

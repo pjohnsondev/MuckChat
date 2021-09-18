@@ -23,11 +23,11 @@ public class Player {
      * add_score Method.
      * Increments player's score by score_incr
      */
-    void add_score(){
+    void addScore(){
         this.score += scoreIncrement;
     }
 
-    int get_score(){
+    int getScore(){
         return this.score;
     }
 
