@@ -2,6 +2,7 @@ package muck.client.controllers;
 /*Sign Up - Issue 31 */
 
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.*;
@@ -12,9 +13,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mindrot.jbcrypt.*;
 import muck.client.App;
+import muck.client.utilities.RandomNameGenerator;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.EventListener;
 
 
 public class SignUpController {
@@ -41,6 +44,14 @@ public class SignUpController {
     @FXML
     Button signUp;
 
+    @FXML
+    Button genName;
+
+    @FXML
+    void initialize() {
+        genName.setOnAction(this::randomDisplayName);
+    }
+
     // Todo add logic to
     @FXML
     protected void signUp(MouseEvent event) throws SQLException, IOException {
@@ -56,6 +67,11 @@ public class SignUpController {
             passToAvatar(event, userName, displayName);
         }
 
+    }
+
+    public void randomDisplayName(ActionEvent event) {
+        RandomNameGenerator rng = new RandomNameGenerator();
+        displayname.setText(rng.generateName());
     }
 
     // TODO: Sign Up validation method - implement functionality

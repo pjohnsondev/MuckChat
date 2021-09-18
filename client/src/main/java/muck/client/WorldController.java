@@ -8,6 +8,7 @@ import muck.client.frogger.LandingPageFrogger;
 import muck.client.space_invaders.LandingPage;
 import muck.client.tictactoe.TTTLandingPage;
 import muck.core.Location;
+import static muck.client.Achievements.*;
 
 /**
  * The WordController class controls movement between worlds.
@@ -34,8 +35,9 @@ public class WorldController {
         if (id == 1 ){
             if (x > 100 && x < 120) { // Cave
                 if (y > 352 && y < 390) {
-                    System.out.println("You made it to the cave!");
-                    //TODO Achievement "You explored the secret cave!"
+                    // Unlocks achievement 4 when the cave is visited.
+                    Achievements achieve4 = new Achievements(achievement4, achievement4Title, achievement4Description);
+                    achieve4.achievementUnlock(achieve4);
                     TileMapReader tm = new TileMapReader("/maps/cave.tmx");
                     GameMap gm = new GameMap(canvas, gamePane,  "/tilesets/terrain_atlas.png", tm);
                     gm.worldID = 2;
@@ -50,6 +52,9 @@ public class WorldController {
         if (id == 1) {
             if (x > 128 && x < 160) { //Inn
                 if (y > 224 && y < 260) {
+                    // Unlocks achievement 1 when the cave is visited.
+                    Achievements achieve1 = new Achievements(achievement1, achievement1Title, achievement1Description);
+                    achieve1.achievementUnlock(achieve1);
                     //Opens space invaders game
                     gamePane.getChildren().clear();
                     Canvas SICanvas = new Canvas();
@@ -66,6 +71,9 @@ public class WorldController {
         if (id == 1) {
             if (x > 552 && x < 565) { //Small house
                 if (y > 192 && y < 198) {
+                    // Unlocks achievement 3 when the house is visited.
+                    Achievements achieve3 = new Achievements(achievement3, achievement3Title, achievement3Description);
+                    achieve3.achievementUnlock(achieve3);
                     //Opens Enduring Fantasy
                     gamePane.getChildren().clear();
                     Canvas EFCanvas = new Canvas();
@@ -83,6 +91,9 @@ public class WorldController {
         if (id == 1) {
             if (x > 778 && x < 793) { //Shop house
                 if (y > 288 && y < 295) {
+                    // Unlocks achievement 2 when the shop is visited.
+                    Achievements achieve2 = new Achievements(achievement2, achievement2Title, achievement2Description);
+                    achieve2.achievementUnlock(achieve2);
                     //Opens Frogger game
                     gamePane.getChildren().clear();
                     Canvas FrCanvas = new Canvas();
@@ -99,6 +110,9 @@ public class WorldController {
         if (id == 1) {
             if (x > 808 && x < 822) { //Cottage house
                 if (y > 512 && y < 519) {
+                    // Unlocks achievement 5 when the cottage is visited.
+                    Achievements achieve5 = new Achievements(achievement5, achievement5Title, achievement5Description);
+                    achieve5.achievementUnlock(achieve5);
                     //Opens tic-tac-toe game
                     gamePane.getChildren().clear();
                     Canvas TTTCanvas = new Canvas();
