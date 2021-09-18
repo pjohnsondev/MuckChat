@@ -19,7 +19,6 @@ public class Hand extends Deck {
         sets = new ArrayList<Card>();
         String cardValue;
         String cardName;
-        thisMatchId = 0;
     }
 
     /**
@@ -49,6 +48,15 @@ public class Hand extends Deck {
             }
         }
         reorderHand();
+        //This stops either player from getting a set when they draw their hand
+        if (checkForSet(true)){
+            for (int i = 0; i < cards.size(); i++) {
+                deck.cards.add(cards.get(i));
+                this.cards.remove(i);
+            }
+            deck.shuffleCards();
+            drawHand(deck);
+        }
     }
 
     /**
@@ -85,7 +93,7 @@ public class Hand extends Deck {
      * for input
      *    TODO: make sure it only makes set if there's four of the same.
      */
-    void makeSet() {
+    void makeSet(int thisMatchId) {
         for (int i = 0; i < this.cards.size(); i++) {
             if (this.cards.get(i).getSelectedValue() &&
                     this.cards.get(i).getMatchId() == thisMatchId) {
@@ -114,11 +122,16 @@ public class Hand extends Deck {
         }
     }
 
-
-    public static void main(String[] args) {
-        Hand hand = new Hand();
-        Deck deck = new Deck();
-        deck.shuffleCards();
-
+    public boolean checkForSet(boolean start){
+        for (int i = 0; i < cards.size(); i++){
+            if (cards.get(i).getMatchId() == cards.get(i + 3).getMatchId()){
+                if (!start){
+                    makeSet(cards.get(i).getMatchId());
+                }
+                return true;
+            }
+        }
+        // Default case
+        return false;
     }
 }

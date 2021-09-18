@@ -4,29 +4,22 @@ package muck.client.card_games;
  * Game Class. Instantiates an individual game.
  */
 public class Game {
-    //This needs to create an id that is an incremented number on the last created id
-    public int gameId;
-    //keeping track of whose turn it is.
+    // Keeping track of whose turn it is.
     public static int currentRound;
-    //unique id to the game to send information to database for other player to receive.
-    public static int roundId;
-    //this player
+    // This player
     public Player player1;
-    //other player
+    // Player 2 is a computer
     public ComputerOpponent player2;
     public Deck deck;
     //as long as active is true, the current round remains active. once it is changed to false, the turn ends
-    public boolean active;
     public String cardList;
-    public boolean gameStatus;
+    public int winner;
 
     /**
      * Constructor Function for the Game Class
      */
     public Game(){
-        gameStatus = true;
         currentRound = 1;
-        roundId = 0;
         player1 = new Player();
         player2 = new ComputerOpponent(1);
         deck = new Deck();
@@ -50,7 +43,7 @@ public class Game {
         }
         if ((player1.hand.cards.size() == 0 && deck.cards.size() == 0)
                 || (deck.cards.size() == 0 && player2.hand.cards.size() == 0)){
-            gameStatus = false;
+            endGame();
         }
         else {
             computersTurn();
@@ -70,7 +63,7 @@ public class Game {
         }
         if ((player1.hand.cards.size() == 0 && deck.cards.size() == 0)
                 || (deck.cards.size() == 0 && player2.hand.cards.size() == 0)){
-            gameStatus = false;
+            endGame();
         }
         else {
             currentRound = 1;
@@ -108,26 +101,12 @@ public class Game {
         }
     }
 
-
-
-  public static void main(String[] args){
-        // Creating instance of game
-        Game game = new Game();
-        // Initialising game
-        game.initGame();
-        // Game play
-        // Loop manages turns as long as there are any cards still in play
-        while (game.deck.cards.size() != 0 && game.player1.hand.cards.size() != 0
-                && game.player2.hand.cards.size() != 0 && currentRound != 3){
-            if (currentRound == 1){
-                roundId++;
-                System.out.println(roundId);
-            }
-            if (currentRound == 2) {
-                roundId++;
-                System.out.println(roundId);
-            }
+    public void endGame(){
+        if (player1.getScore() > player2.getScore()){
+            winner = 1;
         }
-        System.out.println("Exiting turns. Game is finished.");
+        else {
+            winner = 2;
+        }
     }
 }
