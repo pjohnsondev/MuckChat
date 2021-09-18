@@ -42,32 +42,38 @@ public class Achievements {
     public static final String achievement5Description = "Player has entered the cottage";
 
     public static boolean achievement6 = false;
-    public static final String achievement6Title = "Smooth Talker";
-    public static final String achievement6Description = "Player has sent a message on chat";
+    public static final String achievement6Title = "I'm A Real Boy";
+    public static final String achievement6Description = "Player has selected an avatar";
 
     public static boolean achievement7 = false;
-    public static final String achievement7Title = "Alien Exterminator";
-    public static final String achievement7Description = "Player has won a game of Space Invaders";
+    public static final String achievement7Title = "Indecisive";
+    public static final String achievement7Description = "Player has selected another avatar";
 
     public static boolean achievement8 = false;
-    public static final String achievement8Title = "Winner Winner Chicken Dinner";
-    public static final String achievement8Description = "Player has won a card game";
+    public static final String achievement8Title = "The Skeleton King";
+    public static final String achievement8Description = "Player has unlocked Skeleton";
 
     public static boolean achievement9 = false;
-    public static final String achievement9Title = "I'm A Real Boy";
-    public static final String achievement9Description = "Player has selected an avatar";
+    public static final String achievement9Title = "Wonderful!";
+    public static final String achievement9Description = "Player has unlocked Wonder Woman";
 
     public static boolean achievement10 = false;
-    public static final String achievement10Title = "The Skeleton King";
-    public static final String achievement10Description = "Player has unlocked Skeleton";
+    public static final String achievement10Title = "Better Than Luigi";
+    public static final String achievement10Description = "Player has unlocked Yoshi";
 
     public static boolean achievement11 = false;
-    public static final String achievement11Title = "Wonderful!";
-    public static final String achievement11Description = "Player has unlocked Wonder Woman";
+    public static final String achievement11Title = "Winner Winner Chicken Dinner";
+    public static final String achievement11Description = "Player has won a game of Frogger";
 
     public static boolean achievement12 = false;
-    public static final String achievement12Title = "Better Than Luigi";
-    public static final String achievement12Description = "Player has unlocked Yoshi";
+    public static final String achievement12Title = "Alien Exterminator";
+    public static final String achievement12Description = "Player has won a game of Space Invaders";
+
+    public static boolean achievement13 = false;
+    public static final String achievement13Title = "All skill, No luck";
+    public static final String achievement13Description = "Player has won a game of Tick-Tac-Toe";
+
+
 
 
 

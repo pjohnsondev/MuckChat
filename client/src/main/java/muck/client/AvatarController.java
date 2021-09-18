@@ -28,6 +28,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import static muck.client.Achievements.*;
 
 public class AvatarController implements Initializable  {
 
@@ -368,6 +369,9 @@ public class AvatarController implements Initializable  {
                         avatarFullBody.setImage(SKELETON_FULL);
                         avatarFullBody.setLayoutY(120.0);
                         avatarFullBody.setFitHeight(410);
+                        // Unlocks achievement 8 when the player selects Skeleton.
+                        Achievements achieve8 = new Achievements(achievement8, achievement8Title, achievement8Description);
+                        achieve8.achievementUnlock(achieve8);
                         break;
                     }
                 case "wonderWoman":
@@ -378,6 +382,9 @@ public class AvatarController implements Initializable  {
                         avatarFullBody.setImage(WONDER_WOMAN_FULL);
                         avatarFullBody.setLayoutY(70.0);
                         avatarFullBody.setFitHeight(400);
+                        // Unlocks achievement 9 when the player selects Wonder Woman.
+                        Achievements achieve9 = new Achievements(achievement9, achievement9Title, achievement9Description);
+                        achieve9.achievementUnlock(achieve9);
                         break;
                     }
                 case "yoshi":
@@ -388,6 +395,9 @@ public class AvatarController implements Initializable  {
                         avatarFullBody.setImage(YOSHI_FULL);
                         avatarFullBody.setLayoutY(180.0);
                         avatarFullBody.setFitHeight(300);
+                        // Unlocks achievement 10 when the player selects Yoshi.
+                        Achievements achieve10 = new Achievements(achievement10, achievement10Title, achievement10Description);
+                        achieve10.achievementUnlock(achieve10);
                         break;
                     }
                 case "notSet":
@@ -411,8 +421,14 @@ public class AvatarController implements Initializable  {
         try {
             if (previous.equals("playerDashboard")) { //If the user previously came from player dashboard return there
                 submitToDashboard(event);
+                // Unlocks achievement 7 when the player changes avatar.
+                Achievements achieve7 = new Achievements(achievement7, achievement7Title, achievement7Description);
+                achieve7.achievementUnlock(achieve7);
             } else {
                 submitToMap(event); // Otherwise send them to the map
+                // Unlocks achievement 6 when the player initially selects an avatar.
+                Achievements achieve6 = new Achievements(achievement6, achievement6Title, achievement6Description);
+                achieve6.achievementUnlock(achieve6);
             }
         } catch (IOException e) {
             e.printStackTrace();
