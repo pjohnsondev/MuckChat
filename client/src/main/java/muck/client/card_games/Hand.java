@@ -1,7 +1,5 @@
 package muck.client.card_games;
 
-import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -13,8 +11,8 @@ public class Hand extends Deck {
     /**
      * Constructor Function for the Hand Class
      *
-     * @param cardValue
-     * @param cardName
+     * //@param cardValue
+     * //@param cardName
      */
     public Hand() {
         cards = new ArrayList<Card>();
@@ -70,8 +68,12 @@ public class Hand extends Deck {
             }
         }
         if (count == 4){
-            //TODO make option appear for "Make set" and call
-            makeSet();
+            //TODO make pop up appear for "Make set" and call makeSet()
+        }
+        else {
+            //TODO make pop up appear for "Ask for card" and call game.playersAsk() and return a
+            // pop up with either go fish (calling to draw a card) or announcing cards received
+            // if a set is made, prompt player to make a set
         }
     }
 
