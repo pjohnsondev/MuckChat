@@ -39,9 +39,11 @@ public class UserModel extends Model {
                 "CREATE TABLE users "
                         + "(id INTEGER UNIQUE GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
                         + " username VARCHAR(80) UNIQUE, "
+                        + " displayname VARCHAR(80) UNIQUE, "
                         + " password BLOB NOT NULL, "
                         + " salt BLOB NOT NULL)"
         );
+        System.out.println("Table created");
     }
 
 
@@ -53,10 +55,11 @@ public class UserModel extends Model {
      */
     public void insertNewUser(UserStructure user) throws SQLException, InvalidParameterException {
         //Insert the new user into the database table
-        db.query("INSERT INTO users (username, password, salt) VALUES (?, ?, ?)");
+        db.query("INSERT INTO users (username, displayname, password, salt) VALUES (?, ?, ?, ?)");
         db.bindString(1, user.username);
-        db.bindBytes(2, user.hashedPassword);
-        db.bindBytes(3, user.salt);
+        db.bindString(2, user.displayName);
+        db.bindBytes(3, user.hashedPassword);
+        db.bindBytes(4, user.salt);
         db.executeInsert();
     }
 

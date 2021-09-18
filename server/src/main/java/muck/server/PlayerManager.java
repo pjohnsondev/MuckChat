@@ -3,6 +3,7 @@ package muck.server;
 import muck.core.character.CharacterDoesNotExistException;
 import muck.core.character.CharacterFactory;
 import muck.core.character.Player;
+import muck.core.models.models.User;
 import muck.server.Exceptions.ModelNotFoundException;
 import muck.server.services.UserService;
 import muck.core.structures.UserStructure;
@@ -105,6 +106,16 @@ public class PlayerManager {
             logger.error("Unable to create new user: {}", userStructure.username);
 
             throw new RuntimeException(String.format("Unable to create new user: %s.", userStructure.username));
+        }
+    }
+
+    public UserStructure getUser(UserStructure userStructure){
+        try{
+            UserStructure returnedUser = userService.findByUsername(userStructure.username);
+            return returnedUser;
+        } catch (SQLException ex){
+
+            return null;
         }
     }
 }

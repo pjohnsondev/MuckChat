@@ -196,16 +196,18 @@ public enum MuckServer {
         userStructure.username = login.getUsername();
         userStructure.password = login.getPassword();
 
+        UserStructure returnedUser = new UserStructure();
 
         Player player = null;
 
         try {
             player = playerManager.loginPlayer(userStructure);
             // set user as active user
+            returnedUser = playerManager.getUser(userStructure);
             userMessage testMessage = new userMessage(); // Create new message to send back.
             testMessage.setMessage("Login Successful");
             kryoServer.sendToTCP((muckConnection.getID()), testMessage);
-            kryoServer.sendToTCP((muckConnection.getID()), userStructure);
+            kryoServer.sendToTCP((muckConnection.getID()), returnedUser);
 
             muckConnection.setCharacter(player);
 
