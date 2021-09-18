@@ -9,24 +9,30 @@ import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import muck.client.Sprite;
+
 import static  java.util.Map.entry;
 
 
-// TODO: collision detection, additional levels with additional enemy-medium and enemy-small images,
-// game over page, game completed page, change from mouse events to key events "w.a.s.d.space'
+// TODO: game over page, game completed page
 
 public class SpaceInvaders {
 
@@ -37,16 +43,17 @@ public class SpaceInvaders {
     private static final int PLAYER_LASER_SIZE = 24;
     private static final int ENEMY_SIZE = 75;
     SimpleIntegerProperty spriteDirectionCount = new SimpleIntegerProperty(0);
+    SimpleIntegerProperty spriteYDirectionCount = new SimpleIntegerProperty(0);
 
     private static Map<String, String> imageURLs = Map.ofEntries(
             entry("ENEMY_SMALL","/images/spaceinvaders/enemy-small.gif"),
             entry("ENEMY_MEDIUM", "/images/spaceinvaders/enemy-medium.gif"),
             entry("ENEMY_BIG", "/images/spaceinvaders/enemy-big.gif"),
             entry("PLAYER", "/images/spaceinvaders/player-ship.gif"),
-            entry("PLAYER_LASER", "/images/spaceinvaders/player-laser.gif")
+            entry("PLAYER_LASER", "/images/spaceinvaders/player-laser.gif"),
+            entry("ENEMY_LASER", "/images/spaceinvaders/enemy-laser.gif"),
+            entry("EXPLOSION", "/images/spaceinvaders/explosion.gif")
     );
-
-    private static final Image PLAYER_LASER = new Image(imageURLs.get("PLAYER_LASER"));
 
     private GraphicsContext gc;
 
@@ -57,10 +64,9 @@ public class SpaceInvaders {
     KeyCombination W = new KeyCodeCombination(KeyCode.W);
     KeyCombination S = new KeyCodeCombination(KeyCode.S);
     KeyCombination D = new KeyCodeCombination(KeyCode.D);
-    KeyCombination SPACE = new KeyCodeCombination(KeyCode.SPACE);
+    //KeyCombination SPACE = new KeyCodeCombination(KeyCode.SPACE);
     SimpleIntegerProperty directionKeyCount = new SimpleIntegerProperty(0);
 
-    private SpriteAnimation playerLaser;
     // TODO: Only one keyCode is returned at a time, may need to use the mouse to shoot
     // Shooting key combinations
     //  KeyCombination SPACE = new KeyCodeCombination(KeyCode.SPACE);
@@ -72,14 +78,20 @@ public class SpaceInvaders {
 
     //private double mouseX;
     private int lives;
-    private int level = 1;
-    private int score = 0;
+    private int level;
+    private int score;
     private int maxMissiles;
+    private int explosionStep;
     final int MAX_MISSILES = 50;
+    private int CHANCE = 5;
+    private static final int EXPLOSION_SIZE = 72;
+    private static final int EXPLOSION_STEPS = 20;
 
     List<StarBackground> stars;
     List<SpriteAnimation> playerLasers;
     List<SpriteAnimation> enemies;
+    List<SpriteAnimation> enemyLasers;
+    List<SpriteAnimation> explosion;
 
 
     public void start(Stage stage) throws Exception {
@@ -91,8 +103,23 @@ public class SpaceInvaders {
         timeline.play();
         setup();
 
+        // Add Exit Game and Play Again buttons
+        //TODO: Create action event handlers for when the exit and play again buttons are pressed.
+        javafx.scene.control.Button playAgainButton = new javafx.scene.control.Button("PLAY AGAIN");
+        playAgainButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        playAgainButton.setStyle("-fx-background-color: #00ff00");
+        javafx.scene.control.Button exitButton = new Button(" EXIT GAME ");
+        exitButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        exitButton.setStyle("-fx-background-color: #00ff00");
+        HBox buttonBar = new HBox(790, exitButton, playAgainButton);
+        buttonBar.setStyle("-fx-padding: 8px; -fx-background-color:transparent");
+        buttonBar.setAlignment(Pos.BOTTOM_LEFT);
+
+        BorderPane root = new BorderPane();
+
+        root.setBottom(buttonBar);
         // Enable key event detection for standard AWSD configuration and shooting
-        Scene scene = new Scene(new StackPane(canvas));
+        Scene scene = new Scene(new StackPane(canvas, root));
 
         scene.setOnKeyPressed(e -> {
             // If keys match a direction it will increase the directionKeyCount used to test whether the player
@@ -105,27 +132,19 @@ public class SpaceInvaders {
             } else {
                 directionKeyCount.set(0);
             }
-            //TODO: fix this up. If player does not move and 1 is added to directionKeyCount
-            // an infinite loop occurs.
-            if (SPACE.match(e) || (A.match(e) && SPACE.match(e)) || (S.match(e) && SPACE.match(e))
-                    || (D.match(e) && SPACE.match(e)) || (W.match(e) && SPACE.match(e))) {
-
-                if(directionKeyCount.get() == 0) {
-                    shoot();
-                    maxMissiles--;
-                    //directionKeyCount.set(0);
-                }else{
-                    directionKeyCount.set(directionKeyCount.get() + 1);
-                    shoot();
-                    maxMissiles--;
-
-                }
-            }
         });
 
         scene.setOnKeyReleased(e -> {
             if (A.match(e) || W.match(e) || S.match(e) || D.match(e)) {
                 directionKeyCount.set(0);
+            }
+        });
+
+        // Event handler to make player shoot when space bar is pressed
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+            if (e.getCode() == KeyCode.SPACE) {
+                shoot();
+                maxMissiles--;
             }
         });
 
@@ -140,11 +159,19 @@ public class SpaceInvaders {
         stars = new ArrayList<>();
         playerLasers = new ArrayList<>();
         enemies = new ArrayList<>();
+        enemyLasers = new ArrayList<>();
+        explosion = new ArrayList<>();
+        level = 1;
+        score = 0;
         lives = 3;
         maxMissiles = MAX_MISSILES;
+
         player = new SpriteAnimation(imageURLs.get("PLAYER"), PLAYER_SIZE,
                 (PLAYER_SIZE*2), WIDTH / 2, HEIGHT - (PLAYER_SIZE + 40),
                 true, true, 5, 1, "player");
+
+        // The below code has been added for testing. This will be removed once the game
+        // is finished and replaced with levelUp(1);
         if(level == 1) {
             levelUp(1);
         }
@@ -217,46 +244,109 @@ public class SpaceInvaders {
 
         // Draw enemy sprites
         for(int i = 0; i < enemies.size(); i++) {
-            gc.drawImage(this.enemies.get(i), this.enemies.get(i).getX(), this.enemies.get(i).getY());
+            Rectangle r2 = this.enemies.get(i).getBounds();
+            gc.drawImage(enemies.get(i), enemies.get(i).getX(), enemies.get(i).getY());
 
-            if (enemies.get(i).getType() == "small_enemy" || level == 4) {
+            if (spriteDirectionCount.get() == 0) {
+                enemies.get(i).moveRight();
+            }
 
-                if (enemies.get(i).getX() + enemies.get(i).getRequestedWidth() >= WIDTH) {
-                    spriteDirectionCount.set(1);
+            if (spriteDirectionCount.get() == 1) {
+                enemies.get(i).moveLeft();
+
+                if(spriteYDirectionCount.get() == 1){
+                    enemies.get(i).moveDown(1);
                 }
-                if (enemies.get(i).getX() <= 0) {
-                    spriteDirectionCount.set(0);
-                }
-                if (spriteDirectionCount.get() == 0) {
-                    enemies.get(i).moveRight();
-                }
-                if (spriteDirectionCount.get() == 1) {
-                    enemies.get(i).moveLeft();
-                }
+            }
+
+            // Collision detection between enemies and player
+            // Draws explosion gif and reduces lives by 1.
+            Rectangle r1 = player.getBounds();
+            if (r2.intersects(r1)) {
+                enemies.remove(i);
+                explode(player.getX(), player.getY());
+                lives--;
+            }
+
+            if(enemies.size() == 0){
+                level++;
+                levelUp(level);
             }
         }
 
+        // Generate enemy lasers and set Direction count for enemies if they
+        // reach the boundaries of the window.
+        for (SpriteAnimation enemies : enemies) {
+            var enemyLaserGenerator = new Random();
+            int enemyShot = enemyLaserGenerator.nextInt(100);
+
+            if (enemyShot == CHANCE) {
+                enemyShoot(enemies.getX() + (int) enemies.getRequestedWidth() / 2,
+                        enemies.getY() + (int) enemies.getRequestedHeight()/2);
+            }
+
+            int x = enemies.getX();
+
+            if (x + enemies.getRequestedWidth() >= WIDTH) {
+                spriteDirectionCount.set(1);
+
+                if(level == 4) {
+                    spriteYDirectionCount.set(1);
+                }
+            }
+
+            if (x <= 0) {
+                spriteDirectionCount.set(0);
+            }
+        }
+
+        // Draw enemy lasers
+        for (int i = 0; i < enemyLasers.size(); i++) {
+            Rectangle r4 = this.enemyLasers.get(i).getBounds();
+
+            gc.drawImage(this.enemyLasers.get(i), this.enemyLasers.get(i).getX(),
+                    this.enemyLasers.get(i).getY());
+            enemyLasers.get(i).moveDown();
+
+            // Collision detection between enemy lasers and player
+            // Removes enemy laser reduces lives by 1 and
+            // draws explosion gif
+            Rectangle r1 = player.getBounds();
+            if (r4.intersects(r1)) {
+                enemyLasers.remove(i);
+
+                explode(player.getX(), player.getY());
+                lives--;
+
+            }
+            if (enemyLasers.get(i).getY() > HEIGHT) {
+                enemyLasers.remove(i);
+            }
+        }
 
         // Draw player lasers
         for(int i= 0; i < playerLasers.size(); i++){
-            Rectangle r1 = this.playerLasers.get(i).getBounds();
-            gc.drawImage(this.playerLasers.get(i), this.playerLasers.get(i).getX(), this.playerLasers.get(i).getY());
+            Rectangle r3 = this.playerLasers.get(i).getBounds();
+            gc.drawImage(this.playerLasers.get(i), this.playerLasers.get(i).getX(),
+                    this.playerLasers.get(i).getY());
             playerLasers.get(i).moveUp();
 
             if (playerLasers.get(i).getY() < 0){
                 playerLasers.remove(i);
                 continue;
             }
-
-            // collision detection using SpriteAnimation.getBounds()
+            // Collision detection using SpriteAnimation.getBounds()
             // Also increments level and levelUp() when enemies.size() == 0
+            // and displays explosion gif.
             for (int j = 0; j < enemies.size(); j++) {
                 Rectangle r2 = this.enemies.get(j).getBounds();
 
-                if (r1.intersects(r2)) {
+                if (r3.intersects(r2)) {
                     score += 100;
+                    explode(enemies.get(j).getX(), enemies.get(j).getY());
                     playerLasers.remove(i);
                     enemies.remove(j);
+
                     if(enemies.size() == 0){
                         level++;
                         levelUp(level);
@@ -264,6 +354,133 @@ public class SpaceInvaders {
                 }
             }
         }
+
+        // Add and draw explosion gif when the explode() method is called on
+        // detection of a collision.
+        // Explosions are added to an array and then removed when
+        // explosionStep > EXPLOSION_STEPS
+        for (int i = 0; i < explosion.size(); i++) {
+
+            gc.drawImage(explosion.get(i), explosion.get(i).getX(),
+                    explosion.get(i).getY(), EXPLOSION_SIZE, EXPLOSION_SIZE);
+
+            explosionStep++;
+            if(explosionStep > EXPLOSION_STEPS) {
+                explosionStep = 0;
+                explosion.remove(i);
+            }
+        }
+    }
+
+    /**
+     * Function name: levelUp
+     * Purpose: To set the number of enemies in each level
+     * @param: levelNumber - an integer representing the level
+     * Return: void
+     */
+    public void levelUp(int levelNumber){
+
+        if (levelNumber == 1){
+            for (int j = 0; j < 5; j++) {
+                enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_BIG"),
+                        ENEMY_SIZE, ENEMY_SIZE, 60 + j * WIDTH / 5, 150,
+                        true, true, 1, 1,
+                        "enemy"));
+                if (enemies.get(j).getY() > HEIGHT)
+                    enemies.remove(j);
+            }
+        }
+
+        if (levelNumber == 2){
+            for (int i = 0; i < 5; i++) {
+                enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_BIG"), ENEMY_SIZE,
+                        ENEMY_SIZE, 60 + i * WIDTH / 5, 150, true,
+                        true, 1, 1, "enemy"));
+                if (enemies.get(i).getY() > HEIGHT)
+                    enemies.remove(i);
+            }
+            for (int j = 0; j < 4; j++) {
+                enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_MEDIUM"),
+                        ENEMY_SIZE *0.75, ENEMY_SIZE * 0.75,
+                        160 + j * WIDTH / 5, 300, true, true,
+                        1, 1, "enemy"));
+
+                if (enemies.get(j).getY() > HEIGHT)
+                    enemies.remove(j);
+            }
+        }
+
+        if (levelNumber == 3 || levelNumber == 4){
+            for (int i = 0; i < 5; i++) {
+                enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_BIG"), ENEMY_SIZE,
+                        ENEMY_SIZE, 60 + i * WIDTH / 5, 150, true,
+                        true, 1, 1, "enemy"));
+                if (enemies.get(i).getY() > HEIGHT)
+                    enemies.remove(i);
+            }
+            for (int j = 0; j < 4; j++) {
+                enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_MEDIUM"),
+                        ENEMY_SIZE *0.75, ENEMY_SIZE * 0.75,
+                        180 + j * WIDTH / 5, 300, true,
+                        true, 1, 1, "medium_enemy"));
+
+                if (enemies.get(j).getY() > HEIGHT)
+                    enemies.remove(j);
+            }
+            for(int k = 0; k < 3; k++) {
+                enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_SMALL"),
+                        ENEMY_SIZE / 2, ENEMY_SIZE / 2,
+                        280 + k * WIDTH/5, 400, true, true, 1,
+                        1, "small_enemy"));
+
+                if (enemies.get(k).getY() > HEIGHT)
+                    enemies.remove(k);
+            }
+        }
+    }
+
+    /**
+     * Function name: shoot
+     * Purpose: To allow the Sprites to shoot
+     * Arguments: nil
+     * Return: void
+     */
+    public void shoot() {
+
+        playerLasers.add(new SpriteAnimation (imageURLs.get("PLAYER_LASER"), PLAYER_LASER_SIZE,
+                (PLAYER_LASER_SIZE * 2), player.getX(), player.getY(),
+                true, true, 5, 1, "player laser"));
+
+    }
+
+    /**
+     * Function name: explode
+     * Purpose: To draw the explosion gif when collision is detected
+     * @param x - an integer used to get the x position of the collision
+     * @param y - an integer used to get the y position of the collision
+     * Return: void
+     */
+    public void explode(int x, int y) {
+        explosionStep = 0;
+        explosion.add(new SpriteAnimation(imageURLs.get("EXPLOSION"), EXPLOSION_SIZE,
+                EXPLOSION_SIZE, x, y, true, true,
+                5, 1, "explosion"));
+
+    }
+
+    /**
+     * Function name: enemyShoot
+     * Purpose: To allow the enemy sprites to shoot
+     * @param x - an integer used to get the x value of the enemy sprite
+     * @param y - an integer used to get the y value of the enemy sprite
+     * Return: void
+     */
+    public void enemyShoot(int x, int y) {
+
+        enemyLasers.add(new SpriteAnimation(imageURLs.get("ENEMY_LASER"), PLAYER_LASER_SIZE * 1.5,
+                PLAYER_LASER_SIZE * 1.5, x,y, true, true,
+                5, 1, "enemy laser"));
+
     }
 
 
@@ -303,90 +520,6 @@ public class SpaceInvaders {
             gc.fillOval(posX, posY, w, h);
             posY += 5;
         }
-    }
-
-    /**
-     * Function name: levelUp
-     * Purpose: To set the number of enemies in each level
-     * @param: levelNumber - an integer representing the level
-     * Return: void
-     */
-
-    public void levelUp(int levelNumber){
-
-        if (levelNumber == 1){
-            for (int j = 0; j < 5; j++) {
-                enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_BIG"),
-                        ENEMY_SIZE, ENEMY_SIZE, 60 + j * WIDTH / 5, 150,
-                        true, true, 1, 1,
-                        "enemy"));
-                //TODO: remove enemies if they move down.
-                if (enemies.get(j).getY() > HEIGHT)
-                    enemies.remove(j);
-            }
-        }
-
-        if (levelNumber == 2){
-            for (int i = 0; i < 5; i++) {
-                enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_BIG"), ENEMY_SIZE,
-                        ENEMY_SIZE, 60 + i * WIDTH / 5, 150, true,
-                        true, 1, 1, "enemy"));
-                if (enemies.get(i).getY() > HEIGHT)
-                    enemies.remove(i);
-            }
-            for (int j = 0; j < 4; j++) {
-                enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_MEDIUM"),
-                        ENEMY_SIZE *0.75, ENEMY_SIZE * 0.75,
-                        150 + j * WIDTH / 5, 300, true, true,
-                        1, 1, "enemy"));
-
-                if (enemies.get(j).getY() > HEIGHT)
-                    enemies.remove(j);
-            }
-        }
-
-        if (levelNumber == 3 || levelNumber == 4){
-            for (int i = 0; i < 5; i++) {
-                enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_BIG"), ENEMY_SIZE,
-                        ENEMY_SIZE, 60 + i * WIDTH / 5, 150, true,
-                        true, 1, 1, "enemy"));
-                if (enemies.get(i).getY() > HEIGHT)
-                    enemies.remove(i);
-            }
-            for (int j = 0; j < 4; j++) {
-                enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_MEDIUM"),
-                        ENEMY_SIZE *0.75, ENEMY_SIZE * 0.75,
-                        150 + j * WIDTH / 5, 300, true,
-                        true, 1, 1, "medium_enemy"));
-
-                if (enemies.get(j).getY() > HEIGHT)
-                    enemies.remove(j);
-            }
-            for(int k = 0; k < 3; k++) {
-                enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_SMALL"),
-                        ENEMY_SIZE / 2, ENEMY_SIZE / 2,
-                        240 + k * WIDTH/5, 450, true, true, 1,
-                        1, "small_enemy"));
-
-                if (enemies.get(k).getY() > HEIGHT)
-                    enemies.remove(k);
-            }
-        }
-    }
-
-    /**
-     * Function name: shoot
-     * Purpose: To allow the Sprites to shoot
-     * Arguments: nil
-     * Return: void
-     */
-    //TODO: create a shoot function for enemies to shoot.
-    public void shoot() {
-
-        playerLasers.add(new SpriteAnimation (imageURLs.get("PLAYER_LASER"), PLAYER_LASER_SIZE,
-                (PLAYER_LASER_SIZE * 2), player.getX(), player.getY(),
-                true, true, 5, 1, "player laser"));
-
     }
 
 }

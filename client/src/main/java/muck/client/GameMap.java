@@ -7,6 +7,7 @@ import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.animation.*;
 import javafx.scene.layout.BorderPane;
+import muck.client.character_client.VillagerNPC;
 import muck.core.Location;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,8 @@ import java.util.function.Supplier;
 import muck.client.character_client.CatNPC;
 
 /**
- * The Game Map class...
+ * The Game Map class is the primary rendering tool for the muck graphics.
+ * It controls the animation loop to render the tileMap.
  */
 public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	TileMapReader tm = new TileMapReader("/maps/homeTown.tmx");
@@ -43,8 +45,14 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	private Supplier<List<Sprite>> otherPlayers;
 	private BorderPane gamePane;
 	List<Sprite> players = new ArrayList<Sprite>();
-	public int worldID = 1;
-	CatNPC cat = new CatNPC("1", 400, 250, "brown", "right");
+	public int worldID = 1; //World 1 = HomeTown World 2 = Cave
+
+	// Added NPC's - @kgusti
+	CatNPC cat = new CatNPC("1", 400,250, "brown", tm);
+	VillagerNPC villager1 = new VillagerNPC("V1", 280, 750, "male1", tm);
+	VillagerNPC villager2 = new VillagerNPC("V2", 650, 250, "female1", tm);
+	VillagerNPC villager3 = new VillagerNPC("V3", 750, 500, "female4", tm,
+			"down", 0, 100, 0);
 
 	// CA - Infinite Loops
 	// Use this method when returning from a game landing page
@@ -56,6 +64,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 		otherPlayers = () -> new ArrayList<Sprite>();
 	}
 
+	//This constructor is used when only canvas required
 	public GameMap(Canvas canvas) {
 		setupCanvas(canvas, "/tilesets/texture.png", tm);
 		updatePlayer = (s, m, l) -> {
@@ -70,10 +79,8 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 		};
 		otherPlayers = () -> new ArrayList<Sprite>();
 	}
-
 	/**
-	 * GameMap constructor accepts the canvas to be drawn onto. *
-	 *
+	 * GameMap constructor accepts the canvas to be drawn onto.
 	 * @param canvas       The gameWindow canvas to be drawn onto.
 	 * @param borderPane   The muck borderPane to be passed into the WorldController
 	 *                     for game landing page updates
@@ -91,13 +98,11 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	}
 
 	/**
-	 * GameMap constructor accepts the canvas to be drawn onto. Creates the hero
-	 * sprite Sets-up the camera viewport Credit: Toni Epple blog for viewport
-	 * design
-	 * https://www.javacodegeeks.com/2013/01/writing-a-tile-engine-in-javafx.html
-	 * Draws the tiles around the hero (x,y) based on viewport size Provides the
-	 * animation loop using AnimationTimer
-	 *
+	 * GameMap constructor accepts the canvas to be drawn onto.
+	 * Creates the hero sprite
+	 * Sets-up the camera viewport Credit: Toni Epple blog for viewport design https://www.javacodegeeks.com/2013/01/writing-a-tile-engine-in-javafx.html
+	 * Draws the tiles around the hero (x,y) based on viewport size
+	 * Provides the animation loop using AnimationTimer
 	 * @param canvas The gameWindow canvas to be drawn onto.
 	 */
 	public void setupCanvas(Canvas canvas, String world, TileMapReader tmNew) {
@@ -108,60 +113,58 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 		String imagePath = world; // the tileset
 		image = new Image(imagePath);
 
-		centerX = canvas.getWidth() / 2; // Viewport midpoint (half the width of the canvas size)
-		centerY = canvas.getHeight() / 2; // Viewport midpoint (half the height of the canvas size)
+		centerX = canvas.getWidth() / 2; //Viewport midpoint (half the width of the canvas size)
+		centerY = canvas.getHeight() / 2; //Viewport midpoint (half the height of the canvas size)
 
-		cameraMaxX = tm.getWidth() * tm.getTileWidth() - (centerX * 2); // width of tile map in tiles multiply by width
-																		// of tiles in pixels. Minus width of screen in
-																		// pixels
+		cameraMaxX = tm.getWidth() * tm.getTileWidth() - (centerX * 2); //width of tile map in tiles multiply by width of tiles in pixels. Minus width of screen in pixels
 		cameraMaxY = tm.getHeight() * tm.getTileHeight() - (centerY * 2);
 
 		screenHeightInTiles = (centerY * 2) / tm.getTileHeight();
 		screenWidthInTiles = (centerX * 2) / tm.getTileWidth();
 
 		canvas.setFocusTraversable(true);
-		canvas.addEventFilter(MouseEvent.ANY, (e) -> canvas.requestFocus()); // after map clicked listen for keyboard
-																				// events
+		canvas.addEventFilter(MouseEvent.ANY, (e) -> canvas.requestFocus()); //after map clicked listen for keyboard events
 
 		canvas.setOnKeyPressed(this);
 		canvas.setOnKeyReleased(this);
 
-		// Game loop draw the canvas
+		//Game loop draw the canvas
 		AnimationTimer timer = new AnimationTimer() {
 			@Override
 			public void handle(long currentNanoTime) {
-				hero.move(tm, hero); // controls hero movement
-				// Check the location to move to new worlds
-				if (WorldController.locationCheck(new Location((int) hero.getPosX(), (int) hero.getPosY()), gamePane,
-						worldID, canvas) != 0) {
-					this.stop(); // stop this instance new instance for new world started.
+				hero.move(tm, hero); //controls hero movement
+				//Check the location to move to new worlds
+				if (WorldController.locationCheck(new Location((int)hero.getPosX(),(int) hero.getPosY()), gamePane, worldID, canvas) != 0) {
+					this.stop(); //stop this instance new instance for new world started.
 				}
-				updatePlayers();
-				cat.handle(tm); // added cat movement - @kgusti
-				gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight()); // blank the screen
-				cameraX = hero.getPosX() - centerX; // Camera top left relative to hero X
-				cameraY = hero.getPosY() - centerY; // Camera top left relative to hero Y
+				updatePlayers(); //Updates the other players
+				gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight()); //blank the screen
+				cameraX = hero.getPosX() - centerX; //Camera top left relative to hero X
+				cameraY = hero.getPosY() - centerY; //Camera top left relative to hero Y
 
-				// Ensure the camera does not go outside the game boundaries
+				//Ensure the camera does not go outside the game boundaries
 				cameraPositionCheck();
 				startX = (int) (cameraX / tm.getTileWidth());
 				startY = (int) (cameraY / tm.getTileHeight());
 				offX = (int) (cameraX % tm.getTileWidth());
 				offY = (int) (cameraY % tm.getTileWidth());
 
-				drawLayer(0); // draws a single layer pass the layer number (floor)
-				n++;
-				drawLayer(1); // passableOver
-				if (n < 15) {
-					drawLayer(3); // Water animation layer
-				}
-				if (n > 30) {
-					n = 0;
-				} // reset water animation timer
-				drawLayer(2); // Solid
+				drawLayer(0); //draws a single layer pass the layer number (floor)
 
-				Sprite.drawHero(gc, tm, hero, centerX, centerY);
-				cat.drawCatNPC(gc, cameraX, cameraY);
+				drawLayer(1); //passableOver
+
+				//Water animation controller 15 frames each cycle
+				if (n <15 ) {
+					drawLayer(3); //Water animation layer
+				}
+				if (n > 30) { n=0;} //reset water animation timer
+				n++;
+
+				drawLayer(2); //Solid
+
+				Sprite.drawHero(gc, tm, hero, centerX,centerY); //Draws the hero
+
+				handleNPC(); // handle all NPCs - @kgusti
 
 				// Added by Trent - 20/08
 				// Gets a list of other player locations and draws them on screen
@@ -173,27 +176,27 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 						MuckClient.logError(ex);
 					}
 				}
-				drawLayer(4); // passable under
+				drawLayer(4); //passable under
 			}
 		};
 		timer.start();
 	}
 
 	/**
-	 *
-	 * @param layer
+	 * The drawLayer method draws the muck map one layer at a time on the canvas.
+	 * @param layer The layer id of the layer to be drawn
 	 */
 	public void drawLayer(int layer) {
 		for (int y = 0; y <= screenHeightInTiles + 1; y++) {
 			for (int x = 0; x <= screenWidthInTiles + 1; x++) {
 
-				GID = getTileIndex(x + startX, y + startY, layer);
-				if (GID != -1) { // Don't render blank tiles in layers (0 with -1 offset)
+				int GID = getTileIndex(x + startX, y + startY, layer);
+				if (GID != -1) { //Don't render blank tiles in layers (0 with -1 offset)
 					gc.save();
-					// Translate the viewport around the hero. (Easier to relative draw)
+					//Translate the viewport around the hero. (Easier to relative draw)
 					gc.translate((x * tm.getTileWidth()) - offX, (y * tm.getTileHeight()) - offY);
 					drawTile(gc, GID, image, x, y);
-					// Restore the old state
+					//Restore the old state
 					gc.restore();
 				}
 			}
@@ -202,12 +205,11 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 
 	/**
 	 * The draw tile method draws a single tile based on the input parameters
-	 *
-	 * @param gc        : The graphics context for our canvas
+	 * @param gc : The graphics context for our canvas
 	 * @param tileIndex : The GID of the tile to be drawn
 	 * @param tileImage : The tileSet image
-	 * @param destX     : The destination X
-	 * @param destY     : The destination Y
+	 * @param destX : The destination X
+	 * @param destY : The destination Y
 	 */
 	public void drawTile(GraphicsContext gc, int tileIndex, Image tileImage, int destX, int destY) {
 		int tileWidth = tm.getTileWidth();
@@ -217,42 +219,43 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 		int x = tileIndex % cols;
 		int y = tileIndex / cols;
 
-		gc.drawImage(tileImage, x * tileWidth, y * tileHeight, tileWidth, tileHeight, 0, 0, tileWidth, tileHeight);
+		gc.drawImage(tileImage, x * tileWidth, y* tileHeight, tileWidth, tileHeight, 0, 0, tileWidth, tileHeight);
 	}
 
 	/**
 	 * The getTileIndex method returns the GID of the tile to be drawn
-	 *
 	 * @param x : The x position of the tile on the TMX map.
 	 * @param y : The y position of the tile on the TMX map.
 	 * @return : The GID of the tile to be drawn
 	 */
 	public int getTileIndex(int x, int y, int layer) {
-		tileId = tm.getLayerId(layer, x, y);
+		int tileId = tm.getLayerId(layer, x, y);
 		return tileId;
 	}
 
 	/**
-	 * The method cameraPositionCheck ensures the users viewport does not go outside
-	 * of the tmx map cameraMaxX maximum width of TMX map minus the viewport width
+	 * The method cameraPositionCheck ensures the users viewport does
+	 * not go outside of the tmx map
+	 * cameraMaxX maximum width of TMX map minus the viewport width
 	 * cameraMaxY maximum height of the TMX map minus the viewport height
 	 */
 	public void cameraPositionCheck() {
 
-		if (cameraX >= cameraMaxX) {
+		if(cameraX >= cameraMaxX) {
 			cameraX = cameraMaxX;
 		}
-		if (cameraY >= cameraMaxY) {
+		if(cameraY >= cameraMaxY) {
 			cameraY = cameraMaxY;
 		}
-		if (cameraX < 0) {
+		if(cameraX < 0) {
 			cameraX = 0;
 		}
-		if (cameraY < 0) {
+		if(cameraY < 0) {
 			cameraY = 0;
 		}
 	}
 
+	//Added by Trent
 	public void updatePlayers() {
 		if (otherPlayers != null) {
 			players = otherPlayers.get();
@@ -261,6 +264,8 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 		    updatePlayer.accept(hero.getAvatar(), worldID, new Location((int) hero.getPosX(), (int) hero.getPosY()));
 	}
 
+
+	//Handle key presses for movement.
 	@Override
 	public void handle(KeyEvent e) {
 
@@ -295,5 +300,23 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 		if (type == "KEY_RELEASED" & keyCode == KeyCode.W) {
 			hero.setDy(0);
 		}
+	}
+
+	/**
+	 * Handle all NPC movement and draw
+	 * @kgusti - Anyone Welcome
+	 */
+	public void handleNPC() {
+		// NPC movement
+		cat.handle();
+		villager1.handle();
+		villager2.handle();
+		villager3.handle();
+
+		// draw NPCs
+		cat.drawCatNPC(gc, cameraX, cameraY, tm);
+		villager1.drawVillagerNPC(gc, cameraX, cameraY, tm);
+		villager2.drawVillagerNPC(gc, cameraX, cameraY, tm);
+		villager3.drawVillagerNPC(gc, cameraX, cameraY, tm);
 	}
 }

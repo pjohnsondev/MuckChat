@@ -40,6 +40,43 @@ public class PlayerService {
         playerModel.insertNewPlayer(playerStructure);
     }
 
+    /**
+     * Only use this method if you don't have access to the player id. It's slightly less performant than updatePlayerStats
+     * This is because we get the player id from the database and then updatePlayerStats, so we're making two trips to the db.
+     *
+     * @throws SQLException
+     * @throws MissingNecessaryPlayerInfoException
+     */
+    public PlayerStructure updatePlayerStatsFromUserId(PlayerStructure playerStructure) throws SQLException, MissingNecessaryPlayerInfoException {
+        PlayerStructure playerInDb = this.findByUserId(playerStructure.userId);
+        playerStructure.identifier = playerInDb.identifier;
+        return updatePlayerStats(playerStructure);
+    }
+
+    /**
+     *  Takes in the user structure. The identifier cannot be null otherwise it will throw an exception
+     *  if any other fields are null they will default to the already existing stats.
+     *
+     * @param playerStructure parameter needs to have an identifier in order to work
+     * @throws SQLException
+     * @throws MissingNecessaryPlayerInfoException
+     */
+    public PlayerStructure updatePlayerStats(PlayerStructure playerStructure) throws SQLException, MissingNecessaryPlayerInfoException {
+        if (playerStructure.identifier == null) {
+            throw new MissingNecessaryPlayerInfoException();
+        }
+        PlayerStructure playerInDb = findById(playerStructure.identifier);
+        if (playerInDb == null) {
+            return null;
+        }
+        playerStructure.attack = playerStructure.attack != null ? playerStructure.attack : playerInDb.attack;
+        playerStructure.defense = playerStructure.defense != null ? playerStructure.defense : playerInDb.defense;
+        playerStructure.health = playerStructure.health != null ? playerStructure.health : playerInDb.health;
+
+        playerModel.insertWhereId(playerStructure);
+        return playerStructure;
+    }
+
     private PlayerStructure returnPlayerStructure(ResultSet result) throws SQLException {
         if (result == null) {
             return null;

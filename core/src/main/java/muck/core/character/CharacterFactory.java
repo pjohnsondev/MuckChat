@@ -29,9 +29,10 @@ public class CharacterFactory {
      * @return The generated NPC object
      */
     static public NPC createNewNPC() throws CharacterDoesNotExistException {
-        //TODO implement with backend
-        return new NPC("dummy");
-
+        NPC npc = new NPC("dummy");
+        StorageHandler.saveCharacter(npc);
+        
+        return npc;
     }
     
     /** Create a new NPC character within the backend with the given custom identifier string. 
@@ -40,8 +41,10 @@ public class CharacterFactory {
      * @return The generated NPC object
      */
     static public NPC createNewNPC(String identifier) throws CharacterDoesNotExistException {
-        //TODO implement with backend
-        return new NPC("dummy");
+        NPC npc = new NPC(identifier);
+        StorageHandler.saveCharacter(npc);
+
+        return npc;
     }
 
     /** Example method only to create a new specialized NPC (eg: a villager) from scratch */
