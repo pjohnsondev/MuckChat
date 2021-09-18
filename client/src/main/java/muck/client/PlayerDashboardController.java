@@ -39,9 +39,6 @@ public class PlayerDashboardController implements Initializable {
     private Image fullAvatar = AvatarController.getFullAvatar(avatarID);
 
     @FXML
-    private Button achievement; //TODO: Remove (Achievement Testing)
-
-    @FXML
     private GridPane gridPane;
 
     @FXML
@@ -110,16 +107,6 @@ public class PlayerDashboardController implements Initializable {
             achievementButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> updateAchievements());
             scoreboardButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> updateScoreboard());
             gameReturn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> returnToGame(event, userName, avatarID));
-
-            // ********* ACHIEVEMENT TESTING *********
-            boolean achievement1 = false;
-            String achievement1Title = "Hotel California";
-            String achievement1Description = "Player has visited the Inn";
-            achievement.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                Achievements achieve = new Achievements(achievement1, achievement1Title, achievement1Description);
-                achieve.achievementUnlock(achieve);
-            });
-            // ********* ACHIEVEMENT TESTING *********
 
         } catch (Exception e) {
             System.out.print("Error in initialize");
