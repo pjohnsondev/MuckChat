@@ -80,7 +80,6 @@ public class ComputerOpponent extends Player {
                 }
             }
         }
-
         // If all cards in hand have been asked for recently, computer will pick a random card in hand
         int random = rand.nextInt(hand.cards.size());
         return hand.cards.get(random).getMatchId();

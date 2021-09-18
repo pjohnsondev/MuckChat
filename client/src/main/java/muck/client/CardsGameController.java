@@ -239,6 +239,7 @@ public class CardsGameController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Game game = new Game();
         game.initGame();
+        game.playersTurn();
         goFish.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             //go fish needs to basically pass back a variable switch that makes the
             //draw card popup visible for other player.
