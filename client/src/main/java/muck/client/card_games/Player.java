@@ -11,8 +11,8 @@ public class Player {
     /**
      * Constructor Function for the Player Class
      * Sets the score as 0 and initialises the Player's Hand
-     * @param score
-     * @param Hand
+     * //@param score
+     * //@param Hand
      */
     public Player(){
         score = 0;
@@ -20,19 +20,19 @@ public class Player {
     }
 
     /**
-     * add_score Method.
-     * Increments player's score by score_incr
+     * addScore Method.
+     * Increments player's score by scoreIncrement
      */
-    void addScore(){
+    public void addScore(){
         this.score += scoreIncrement;
     }
 
-    int getScore(){
+    /**
+     * getScore Method.
+     * Returns player's score as an int
+     */
+    public int getScore(){
         return this.score;
-    }
-
-    public static void main(String[] args) {
-
     }
 
 }

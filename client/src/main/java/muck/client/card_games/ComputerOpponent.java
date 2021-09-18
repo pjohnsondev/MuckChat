@@ -86,11 +86,4 @@ public class ComputerOpponent extends Player {
         return hand.cards.get(random).getMatchId();
     }
 
-    void addToScore(){
-        this.score += scoreIncrement;
-    }
-
-    int getScore(){
-        return this.score;
-    }
 }
