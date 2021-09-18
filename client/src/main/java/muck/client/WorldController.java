@@ -71,6 +71,7 @@ public class WorldController {
         if (id == 1) {
             if (x > 552 && x < 565) { //Small house
                 if (y > 192 && y < 198) {
+                    // Unlocks achievement 3 when the house is visited.
                     Achievements achieve3 = new Achievements(achievement3, achievement3Title, achievement3Description);
                     achieve3.achievementUnlock(achieve3);
                     //Opens Enduring Fantasy
@@ -90,6 +91,7 @@ public class WorldController {
         if (id == 1) {
             if (x > 778 && x < 793) { //Shop house
                 if (y > 288 && y < 295) {
+                    // Unlocks achievement 2 when the shop is visited.
                     Achievements achieve2 = new Achievements(achievement2, achievement2Title, achievement2Description);
                     achieve2.achievementUnlock(achieve2);
                     //Opens Frogger game
@@ -108,6 +110,7 @@ public class WorldController {
         if (id == 1) {
             if (x > 808 && x < 822) { //Cottage house
                 if (y > 512 && y < 519) {
+                    // Unlocks achievement 5 when the cottage is visited.
                     Achievements achieve5 = new Achievements(achievement5, achievement5Title, achievement5Description);
                     achieve5.achievementUnlock(achieve5);
                     //Opens tic-tac-toe game
