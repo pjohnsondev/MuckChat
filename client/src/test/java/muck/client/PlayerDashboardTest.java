@@ -88,10 +88,10 @@ public class PlayerDashboardTest extends ApplicationTest {
     // Checks the player statistics update as expected
     public void testNameMuckHealthUpdates() {
         logger.info("Checking player details updating on window");
+
+        //TODO: Update the below with appropriate displayName, muck and health with test person
         String display = lookup("#username").queryAs(Text.class).getText();
         assertEquals("DisplayName", display);
-
-        //TODO: Update the below with appropriate muck and health with test person
         String muck = lookup("#muckPoints").queryAs(Text.class).getText();
         assertEquals(muck, "100");
         String health = lookup("#health").queryAs(Text.class).getText();
@@ -147,8 +147,7 @@ public class PlayerDashboardTest extends ApplicationTest {
         logger.info("Checking achievements update");
         clickOn("#change");
         clickOn("#submit");
-        //TODO: Call achievements for character (or might need to add achievements for mock character
-        //ArrayList<String[]> achievements = new ArrayList<>();
+        //TODO: Call achievements for character (or might need to add achievements for mock character)
 
         logger.info("Turning player achievements into a String arrayList");
         ArrayList<String> achieved = new ArrayList<>();
@@ -156,8 +155,6 @@ public class PlayerDashboardTest extends ApplicationTest {
             achieved.add(achievement[0] + ": " + achievement[1]);
         }
         ArrayList<String> text = new ArrayList<>(Arrays.asList(lookup("#achievementWindow").queryAs(TextArea.class).getText().split("\n\n")));
-        logger.info(achieved);
-        logger.info(text);
 
         logger.info("Checking the ArrayLists are the same size");
         assertEquals(achieved.size(), text.size());
@@ -177,6 +174,8 @@ public class PlayerDashboardTest extends ApplicationTest {
         clickOn("#gameReturn");
         assertFalse(stage.isShowing());
  }
+
+ //TODO: Add a test to check the leaderboard is showing accurately. Need to be able to call the server to get the player list to do this
 
     @AfterAll
     public static void testWindowClose() throws TimeoutException {
