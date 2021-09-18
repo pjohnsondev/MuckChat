@@ -78,7 +78,7 @@ public class MuckWindowTest extends ApplicationTest {
 
     //Mocks an App.java instance and a stage and starts it
     @Test
-    @Order(2)
+    @Order(1)
     public void stageLaunchesTest() throws Exception {
         logger.info("Testing that stage can be started");
         App app = mock(App.class);
@@ -88,7 +88,7 @@ public class MuckWindowTest extends ApplicationTest {
 
     //Checks if the chat open and close buttons works
     @Test
-    @Order(3)
+    @Order(2)
     public void chatOpensClosesTest() {
         logger.info("Testing that chat pane can be opened and closed");
         clickOn("#openFullChat");
@@ -99,7 +99,7 @@ public class MuckWindowTest extends ApplicationTest {
 
     //Checks if the a new tab is added when method is called
     @Test
-    @Order(4)
+    @Order(3)
     public void newTabTest() {
         logger.info("Testing that new chat tab can be added");
         int currentTabs = lookup("#chatPane1").queryAs(TabPane.class).getTabs().size();
@@ -111,7 +111,7 @@ public class MuckWindowTest extends ApplicationTest {
     }
 
     @Test
-    @Order(5)
+    @Order(4)
     public void testDashboardOpensAvatarUpdates() {
         Paint avatar =  lookup("#circle").queryAs(Circle.class).getFill();
         System.out.println(avatar);
@@ -169,33 +169,10 @@ public class MuckWindowTest extends ApplicationTest {
         assertTrue(AvatarTest.checkImageEquality(yoshi_full, avatarImage));
     }
 
-    //The original test before merging with PlayerDashboard test
-    //Checks if the dashboard can be opened by clicking on the circle and the menu item and checks if the avatar is changed
-    @Test
-    @Disabled //This test has been merged with testAvatarImageUpdates in PlayerDashboardTest. Merged test is above
-    @Order(5)
-    public void dashboardOpensAvatarChangesTest() {
-        Paint avatar =  lookup("#circle").queryAs(Circle.class).getFill();
-        System.out.println(avatar);
-        clickOn("#circle");
-        clickOn("#change");
-        clickOn("#batman");
-        clickOn("#submit");
-        clickOn("#gameReturn");
-        assertNotSame(avatar, lookup("#circle").queryAs(Circle.class).getFill());
-        clickOn("#file");
-        clickOn("#playerDashboardMenu");
-        clickOn("#change");
-        clickOn("#pikachu");
-        clickOn("#submit");
-        clickOn("#gameReturn");
-        assertNotSame(avatar, lookup("#circle").queryAs(Circle.class).getFill());
-    }
-
     //Checks that a message submitted will appear in the text area
     /** Currently fails due to server error but once fixed the final 3 lines can be uncommented out and should run and pass */
     @Test
-    @Order(6)
+    @Order(5)
     public void messageDisplaysTest() {
         logger.info("Testing messages typed and submitted and displayed");
         clickOn("#openFullChat");
@@ -208,7 +185,7 @@ public class MuckWindowTest extends ApplicationTest {
 
     //Checks that the game Frogger launches
     @Test
-    @Order(7)
+    @Order(6)
     public void openFroggerTest()  {
         logger.info("Testing that the game Frogger launches");
         String oldID = lookup("#gameCanvas").queryAs(Canvas.class).getId();
@@ -218,7 +195,7 @@ public class MuckWindowTest extends ApplicationTest {
 
     //Checks that the game Space Invaders launches
     @Test
-    @Order(8)
+    @Order(7)
     public void openSpaceInvadersTest()  {
         logger.info("Testing that the game Space Invaders launches");
         String oldID = lookup("#gameCanvas").queryAs(Canvas.class).getId();
@@ -228,7 +205,7 @@ public class MuckWindowTest extends ApplicationTest {
 
     //Checks that the game Enduring Fantasy launches
     @Test
-    @Order(9)
+    @Order(8)
     public void openEnduringFantasyTest()  {
         logger.info("Testing that the game Enduring Fastasy launches");
         String oldID = lookup("#gameCanvas").queryAs(Canvas.class).getId();
@@ -236,9 +213,18 @@ public class MuckWindowTest extends ApplicationTest {
         assertNotEquals(oldID, lookup("#gamePane1").queryAs(BorderPane.class).getChildren().get(0).getId());
     }
 
+    @Test
+    @Order(8)
+    public void openTicTacToeTest()  {
+        logger.info("Testing that the game Tic Tac Toe launches");
+        String oldID = lookup("#gameCanvas").queryAs(Canvas.class).getId();
+        clickOn("#game5Button");
+        assertNotEquals(oldID, lookup("#gamePane1").queryAs(BorderPane.class).getChildren().get(0).getId());
+    }
+
     //Checks that alert pops up when quitting and that cancel button is enabled
     @Test
-    @Order(10)
+    @Order(9)
     public void quitMuckTest() {
         logger.info("Testing that user can access the quit alert");
         clickOn("#file");

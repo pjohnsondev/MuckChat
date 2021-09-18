@@ -107,28 +107,40 @@ public class TicTacToeController {
         status.setText("Your turn...");
         if (one.getImage()==cross && two.getImage()==cross && three.getImage()== null) {
             three.setImage(circle);
+            checkWinner();
         } else if (five.getImage()==cross && six.getImage()==cross && four.getImage()== null) {
             four.setImage(circle);
+            checkWinner();
         } else if (seven.getImage()==cross && nine.getImage()==cross && eight.getImage()== null) {
             eight.setImage(circle);
+            checkWinner();
         } else if (one.getImage()==cross && four.getImage()==cross && seven.getImage()== null) {
             seven.setImage(circle);
+            checkWinner();
         } else if (five.getImage()==cross && eight.getImage()==cross && two.getImage()== null) {
             two.setImage(circle);
+            checkWinner();
         } else if (three.getImage()==cross && nine.getImage()==cross && six.getImage()== null) {
             six.setImage(circle);
+            checkWinner();
         } else if (one.getImage()==cross && five.getImage()==cross && nine.getImage()== null) {
             nine.setImage(circle);
+            checkWinner();
         } else if (three.getImage()==cross && seven.getImage()==cross && five.getImage()== null) {
             five.setImage(circle);
+            checkWinner();
         } else if (two.getImage()==cross && five.getImage()==cross && eight.getImage()== null) {
             eight.setImage(circle);
+            checkWinner();
         } else if (four.getImage()==cross && five.getImage()==cross && six.getImage()== null) {
             six.setImage(circle);
+            checkWinner();
         } else if (four.getImage()==cross && seven.getImage()==cross && one.getImage()== null) {
             one.setImage(circle);
+            checkWinner();
         } else if (five.getImage()==cross && nine.getImage()==cross && one.getImage()== null) {
             one.setImage(circle);
+            checkWinner();
         } else {
             ImageView img = getRandomSquare();
             if (img.getImage() == null) {
