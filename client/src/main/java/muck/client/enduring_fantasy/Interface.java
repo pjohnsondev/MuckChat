@@ -48,7 +48,7 @@ public class Interface {
         while(!this.playGame.getConfirmType()) {
             System.out.print("Type: ");
             String newType = this.gameReader.nextLine();
-            this.playGame.checkName(newType);
+            this.playGame.checkType(newType);
         }
     }
 
