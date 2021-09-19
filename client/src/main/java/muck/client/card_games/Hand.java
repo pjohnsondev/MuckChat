@@ -42,7 +42,7 @@ public class Hand extends Deck {
                 deck.cards.remove(i);
             }
         } else {
-            for (int i = deck.cards.size(); i > 0; i--) {
+            for (int i = deck.cards.size() - 1; i > 0; i--) {
                 this.sets.add(deck.cards.get(i));
                 deck.cards.remove(i);
             }
@@ -50,7 +50,7 @@ public class Hand extends Deck {
         reorderHand();
         //This stops either player from getting a set when they draw their hand
         if (checkForSet(true)){
-            for (int i = cards.size(); i > 0; i--) {
+            for (int i = cards.size() - 1; i > 0; i--) {
                 deck.cards.add(cards.get(i));
                 this.cards.remove(i);
             }
@@ -94,7 +94,7 @@ public class Hand extends Deck {
      *    TODO: make sure it only makes set if there's four of the same.
      */
     void makeSet(int thisMatchId) {
-        for (int i = this.cards.size(); i > 0; i--) {
+        for (int i = this.cards.size() - 1; i > 0; i--) {
             if (this.cards.get(i).getSelectedValue() &&
                     this.cards.get(i).getMatchId() == thisMatchId) {
                 this.sets.add(this.cards.get(i));

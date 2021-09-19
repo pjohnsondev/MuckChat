@@ -240,13 +240,6 @@ public class CardsGameController implements Initializable {
             //TODO: add a call to game.computerTurn() after picking up and making a set if necessary
             game.player1.hand.drawTopCard(game.deck);
             game.printCards(1);
-            //I got this function fully written. Another separate one that deals the hand.
-            //Maybe just need to change it so it doesn't need the deck name input? Some this.deck scenario.
-            //MIGHT ADD A COUNTER OR SOMETHING SO WHEN THEY START THE GAME - FIRST UP THEY
-            // CLICK ON THE DECK TO DEAL CARDS THEN AFTER THEY HAVE BEEN DEALT THE FIRST TIME
-            // IT CHANGES TO JUST DRAWING CARDS - thats up to you. im happy to just do an automatic
-            //deal as part of initialising the game.
-           //NEED TO ADD FUNCTION FOR PICKING UP FROM DECK - done.
 
             try {
                Button close = new Button();
@@ -306,6 +299,7 @@ public class CardsGameController implements Initializable {
             Image filename0 = new Image(game.player1.hand.cards.get(i).getFileName());
             Image filename1 = new Image(game.player1.hand.cards.get(i).getBFileName());
             positions.get(getCardID).setImage(filename0);
+
             positions.get(getCardID).addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
                 if (game.player1.hand.cards.get(0).getSelectedValue() == false) {
                     game.player1.hand.cards.get(0).setSelected(true);
@@ -318,8 +312,8 @@ public class CardsGameController implements Initializable {
                 }
 
             });
-        }
 
+        }
     }
 
     public static void set_score(){
@@ -341,6 +335,5 @@ public class CardsGameController implements Initializable {
         // ECT.. SO THAT THEIR CARDS GET LESS SLOWLY
 
     }
-
 
 }
