@@ -64,7 +64,7 @@ public class Hand extends Deck {
      * Takes a card as input and changes that card and others with the same value's selected value to true
      * Also makes sure all other cards are changed to false
      */
-    void selectAll(Card thisCard) {
+    public void selectAll(Card thisCard) {
         int count = 0;
         for (int i = 0; i < this.cards.size(); i++) {
             if (cards.get(i).getMatchId() == thisCard.getMatchId()) {
@@ -85,6 +85,14 @@ public class Hand extends Deck {
         }
     }
 
+    public void deselectAll(Card thisCard) {
+        for (int i = 0; i < this.cards.size(); i++) {
+            if (cards.get(i).getSelectedValue() == true) {
+                cards.get(i).setSelected(false);
+            }
+        }
+    }
+
     /**
      * makeSet Method.
      * Takes a card as input and finds all cards with the same value and moves them to sets Hand if they
@@ -93,7 +101,7 @@ public class Hand extends Deck {
      * for input
      *    TODO: make sure it only makes set if there's four of the same.
      */
-    void makeSet(int thisMatchId) {
+    public void makeSet(int thisMatchId) {
         for (int i = this.cards.size() - 1; i > 0; i--) {
             if (this.cards.get(i).getSelectedValue() &&
                     this.cards.get(i).getMatchId() == thisMatchId) {
