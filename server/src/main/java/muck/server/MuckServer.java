@@ -15,6 +15,7 @@ import com.esotericsoftware.kryonet.Server;
 import muck.core.character.Player;
 import muck.core.structures.PlayerStructure;
 import muck.core.user.SignUpInfo;
+import muck.server.Exceptions.UserNameAlreadyTakenException;
 import muck.server.models.ModelRegister;
 import muck.server.services.PlayerService;
 import muck.server.services.UserService;
@@ -145,40 +146,51 @@ public enum MuckServer {
 			createAccount(signup, (MuckConnection) connection);
 		}));
 
+        addListener(ListenerBuilder.forClass(Login.class).onReceive((connection, login) -> {
+            loginPlayer(login, (MuckConnection) connection);
+        }));
+
 		addListener(ListenerBuilder.forClass(UpdatePlayerRequest.class).onReceive((connection, req) -> {
 			tracker.updateLocationById(req.id, req.avatar, req.location);
 		}));
 	}
 
 	public void createAccount(SignUpInfo signUpInfo, MuckConnection connection) {
-		logger.info("Attempting to create account {}.", signUpInfo.getUsername());
+        logger.info("Attempting to create account {}.", signUpInfo.getUsername());
 
-		PlayerManager playerManager = new PlayerManager(new UserService());
-		userMessage userMessage = new userMessage();
-		UserStructure userStructure = new UserStructure();
-		userStructure.username = signUpInfo.getUsername();
-		userStructure.password = signUpInfo.getPassword();
-		userStructure.displayName = signUpInfo.getDisplayName();
+        PlayerManager playerManager = new PlayerManager(new UserService());
+        userMessage userMessage = new userMessage();
+        UserStructure userStructure = new UserStructure();
+        userStructure.username = signUpInfo.getUsername();
+        userStructure.password = signUpInfo.getPassword();
+        userStructure.displayName = signUpInfo.getDisplayName();
 
-		try {
-			Player player = playerManager.signupPlayer(userStructure);
-			logger.info("Sign up successful for {}", player.getUsername());
+        try {
+            Player player = playerManager.signupPlayer(userStructure);
+            logger.info("Sign up successful for {}", player.getUsername());
 
-			players.put(connection.getID(), player.getUsername());
-			kryoServer.sendToAllTCP(players);
-			logger.info("Players are {}", players.values());
-
-			userMessage.setMessage("Your account has been created successfully. Username: " + player.getUsername());
-			kryoServer.sendToTCP((connection.getID()), userMessage);
-		} catch (BadRequestException ex) {
-			ex.printStackTrace();
-
-			userMessage.setMessage("Invalid sign up details provided. Please provide valid details. Username: "
-					+ signUpInfo.getUsername());
+            players.put(connection.getID(), player.getUsername());
+            kryoServer.sendToAllTCP(players);
+            logger.info("Players are {}", players.values());
+            UserStructure returnedUser = playerManager.getUser(userStructure);
+            userMessage.setMessage("Signup successful");
+            kryoServer.sendToTCP((connection.getID()), userMessage);
+            kryoServer.sendToTCP((connection.getID()), returnedUser);
+        } catch(UserNameAlreadyTakenException ex){
+            userMessage.setMessage(ex.getMessage());
+            logger.info(ex.getMessage());
+            kryoServer.sendToTCP(connection.getID(), userMessage);
+        } catch (BadRequestException ex) {
+            logger.info("error in muckServer signup badrequestexception catch");
+			userMessage.setMessage(ex.getMessage());
 			kryoServer.sendToTCP(connection.getID(), userMessage);
 		} catch (RuntimeException ex) {
-			ex.printStackTrace();
-		}
+            userMessage.setMessage("Error setting user to database");
+            kryoServer.sendToTCP(connection.getID(), userMessage);
+		    ex.printStackTrace();
+		} catch (Exception ex){
+            logger.info("error in playermanager signup exception catch");
+        }
 	}
 
 	public void loginPlayer(Login login, MuckConnection muckConnection) {
@@ -192,12 +204,34 @@ public enum MuckServer {
         userStructure.username = login.getUsername();
         userStructure.password = login.getPassword();
 
+        UserStructure returnedUser = new UserStructure();
+
         Player player = null;
 
         try {
             player = playerManager.loginPlayer(userStructure);
             // set user as active user
-            kryoServer.sendToTCP((muckConnection.getID()), userStructure);
+            returnedUser = playerManager.getUser(userStructure);
+            userMessage testMessage = new userMessage(); // Create new message to send back.
+            testMessage.setMessage("Login Successful");
+            kryoServer.sendToTCP((muckConnection.getID()), testMessage);
+            kryoServer.sendToTCP((muckConnection.getID()), returnedUser);
+
+            muckConnection.setCharacter(player);
+
+            logger.info("Login successful for {}", login.getUsername());
+            if (!players.containsKey(muckConnection.getID())) {
+                players.put(muckConnection.getID(), login.getUsername());
+                kryoServer.sendToAllTCP(players);
+                logger.info("Players are {}", players.values());
+            }
+            /**
+             * This has been commented out as there is an issue deserialising AddCharacter on the client
+             * the error is causing the client to disconnect from the server so I have commented it out
+            AddCharacter addCharacter = addCharacter(login.getClientId(), player);
+
+            kryoServer.sendToAllTCP(addCharacter);
+             */
 
         } catch (DuplicateLoginException ex) {
             userMessage testMessage = new userMessage(); // Create new message to send back.
@@ -212,19 +246,6 @@ public enum MuckServer {
             testMessage.setMessage("Supplied credentials are invalid.");
             kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
         }
-
-        muckConnection.setCharacter(player);
-
-        logger.info("Login successful for {}", login.getUsername());
-        if (!players.containsKey(muckConnection.getID())) {
-            players.put(muckConnection.getID(), login.getUsername());
-            kryoServer.sendToAllTCP(players);
-            logger.info("Players are {}", players.values());
-        }
-
-        AddCharacter addCharacter = addCharacter(login.getClientId(), player);
-
-        kryoServer.sendToAllTCP(addCharacter);
     }
 
     public AddCharacter addCharacter(Id<ClientId> id, Player character) {

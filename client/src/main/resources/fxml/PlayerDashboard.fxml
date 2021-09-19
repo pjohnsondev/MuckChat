@@ -109,18 +109,13 @@
     </TextFlow>
     <ImageView fx:id="gameReturn" accessibleRole="BUTTON" fitHeight="49.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
         <GridPane.margin>
-            <Insets right="20.0" />
+            <Insets right="10.0" />
         </GridPane.margin>
         <cursor>
             <Cursor fx:constant="HAND" />
         </cursor>
         <Image url="@../images/return.png" />
     </ImageView>
-    <Button fx:id="achievement" mnemonicParsing="false" prefHeight="42.0" prefWidth="187.0" style="-fx-background-color: #87cdff;" text="Achievement" textAlignment="CENTER" textFill="DIMGRAY" GridPane.columnIndex="1" GridPane.rowIndex="3">
-        <font>
-          <Font name="Arial Rounded MT Bold" size="20.0" />
-        </font>
-    </Button>
    <TextArea fx:id="achievementWindow" editable="false" opacity="0.25" prefHeight="465.0" prefWidth="373.0" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
       <GridPane.margin>
          <Insets bottom="100.0" right="15.0" top="50.0" />
@@ -129,9 +124,25 @@
          <Font name="Arial Rounded MT Bold" size="14.0" />
       </font>
    </TextArea>
-   <Text fill="#87cdff" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-alignment: center;" text="Achievements" wrappingWidth="406.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.valignment="TOP">
+   <Text fx:id="heading" fill="#87cdff" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-alignment: center;" text="&lt;Heading&gt;" wrappingWidth="406.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.valignment="TOP">
       <font>
          <Font name="Berlin Sans FB Demi Bold" size="28.0" />
       </font>
    </Text>
+   <Button fx:id="achievementButton" mnemonicParsing="false" prefHeight="42.0" prefWidth="154.0" style="-fx-background-color: #87cdff;" text="View Achievements" textAlignment="CENTER" textFill="DIMGRAY" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+      <font>
+         <Font name="Arial Rounded MT Bold" size="14.0" />
+      </font>
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+   </Button>
+   <Button fx:id="scoreboardButton" mnemonicParsing="false" prefHeight="42.0" prefWidth="154.0" style="-fx-background-color: #87cdff;" text="View Scoreboard" textAlignment="CENTER" textFill="DIMGRAY" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+      <font>
+         <Font name="Arial Rounded MT Bold" size="14.0" />
+      </font>
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+   </Button>
 </GridPane>

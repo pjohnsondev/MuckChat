@@ -1,6 +1,8 @@
 package muck.client;
 
 
+import muck.core.character.Player;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
@@ -26,14 +28,15 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import static muck.client.Achievements.*;
 
 public class AvatarController implements Initializable  {
 
-    // This will be the associated attributes of the user
+    // These will be the associated attributes of the user
     private static String uname;//Will be updated when constructing AvatarController
     private static String displayName; //Will be updated when constructing AvatarController
-    private static int muckPoints = 0; //Dummy value for testing purposes TODO: Remove
-    private static String avatar = "error"; //Default. No image.
+    private static int muckPoints = 0; //Dummy value for testing purposes TODO: Remove dummy value when able to access player
+    private static String avatar = "notSet"; //Default. No image.
     private static String previous = "login"; //Previous screen. Will determine where the submit button leads.
     private final int OPEN_SKELETON = 20; // Muck points required to activate skeleton avatar
     private final int OPEN_WW = 30; // Muck points required to activate Wonder Woman avatar
@@ -113,7 +116,7 @@ public class AvatarController implements Initializable  {
     // Default
     private static final Image ERROR = new Image("/images/error.png");
     private final Image UNAVAILABLE = new Image("/images/Unknown.png");
-    private final BackgroundImage BACKGROUND = new BackgroundImage(new Image("/images/BackgroundAvSelection.jpg"), null, null, null, null);
+    private final BackgroundImage BACKGROUND = new BackgroundImage(new Image("/images/BackgroundAvSelection.png"), null, null, null, null);
 
 
     @Override
@@ -142,7 +145,7 @@ public class AvatarController implements Initializable  {
 
             // If there is already an avatar associated with a user, display the avatar
             // Will be used in the case of an avatar change
-            if (!avatar.equals("error")) {
+            if (!avatar.equals("notSet")) {
                 selection(avatar);
             }
         } catch (NullPointerException e) {
@@ -171,7 +174,7 @@ public class AvatarController implements Initializable  {
         previous = "login";
         uname = username;
         displayName = display;
-        avatar = "error";
+        avatar = "notSet";
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(AvatarController.class.getResource("/fxml/Avatar.fxml")));
             Scene scene = new Scene(root);
@@ -202,6 +205,7 @@ public class AvatarController implements Initializable  {
         uname = username;
         displayName = display;
         avatar = avID;
+        //muckPoints = call to server
     }
 
     //TODO: Remove this method once the SignIn Screen sends the window to Muck
@@ -209,7 +213,7 @@ public class AvatarController implements Initializable  {
         previous = "login";
         uname = username;
         displayName = "DisplayName";
-        avatar = "error";
+        avatar = "notSet";
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(AvatarController.class.getResource("/fxml/Avatar.fxml")));
             Scene scene = new Scene(root);
@@ -226,163 +230,6 @@ public class AvatarController implements Initializable  {
         }
     }
 
-
-
-    /**
-     * LockedAvatars method.
-     * Updated the appearance and actions associated with a locked Avatar depending on MuckPoint value
-     * @param open_muck: the MuckPoint total at which the avatar becomes unlocked
-     * @param portrait: the circle object within which each avatar portrait is displayed
-     * @param avatarPortrait: the portrait image of the avatar
-     * @param avatarAlert: the Text object within which the MuckPoint total required to unlock the avatar is displayed
-     */
-    private void lockedAvatars(int open_muck, Circle portrait, Image avatarPortrait, Text avatarAlert, String avatarID) {
-        if (muckPoints >= open_muck) {
-            portrait.setFill(new ImagePattern(avatarPortrait));
-            portrait.setCursor(Cursor.HAND);
-            portrait.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selection(avatarID));
-        } else {
-            portrait.setFill(new ImagePattern(UNAVAILABLE));
-            portrait.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> hoverEvent(avatarAlert, ("Earn " + open_muck + " MuckPoints to unlock!")));
-            portrait.addEventHandler(MouseEvent.MOUSE_EXITED, event -> hoverEvent(avatarAlert, ""));
-        }
-    }
-
-    /**
-     * Selection method.
-     * Once an avatar is selected, increases the size of their portrait and blurs all other avatars. Displays full body
-     * image of selected avatar on the left. Finally, sets the 'avatar' value for future storage against the username.
-     * @param character: the specific character the user has currently selected
-     */
-    private void selection(String character) {
-        try {
-            restorePortraitSize();
-            blur();
-            switch (character) {
-                case "peach":
-                    peach.setRadius(65.0);
-                    peach.setEffect(null);
-                    avatar = "peach";
-                    avatarFullBody.setImage(PEACH_FULL);
-                    avatarFullBody.setLayoutY(90.0);
-                    avatarFullBody.setFitHeight(390);
-                    break;
-                case "batman":
-                    batman.setRadius(65.0);
-                    batman.setEffect(null);
-                    avatar = "batman";
-                    avatarFullBody.setImage(BATMAN_FULL);
-                    avatarFullBody.setLayoutY(40.0);
-                    break;
-                case "pikachu":
-                    pikachu.setRadius(65.0);
-                    pikachu.setEffect(null);
-                    avatar = "pikachu";
-                    avatarFullBody.setImage(PIKACHU_FULL);
-                    avatarFullBody.setLayoutY(210.0);
-                    avatarFullBody.setFitHeight(250); // Changes the height of the image so pikachu is a more realistic
-                    // How do I set pikachu in the centre of the screen (by height)
-                    break;
-                case "skeleton":
-                    if (muckPoints >= OPEN_SKELETON) {
-                        skeleton.setRadius(65.0);
-                        skeleton.setEffect(null);
-                        avatar = "skeleton";
-                        avatarFullBody.setImage(SKELETON_FULL);
-                        avatarFullBody.setLayoutY(120.0);
-                        avatarFullBody.setFitHeight(410);
-                        break;
-                    }
-                case "wonderWoman":
-                    if (muckPoints >= OPEN_WW) {
-                        wonderWoman.setRadius(65.0);
-                        wonderWoman.setEffect(null);
-                        avatar = "wonderWoman";
-                        avatarFullBody.setImage(WONDER_WOMAN_FULL);
-                        avatarFullBody.setLayoutY(70.0);
-                        avatarFullBody.setFitHeight(400);
-                        break;
-                    }
-                case "yoshi":
-                    if (muckPoints >= OPEN_YOSHI) {
-                        yoshi.setRadius(65.0);
-                        yoshi.setEffect(null);
-                        avatar = "yoshi";
-                        avatarFullBody.setImage(YOSHI_FULL);
-                        avatarFullBody.setLayoutY(180.0);
-                        avatarFullBody.setFitHeight(300);
-                        break;
-                    }
-                case "error":
-                    break;
-                default:
-                    break;
-            }
-            centreImage();
-        } catch (NullPointerException e) {
-            // TODO: What if the image isn't available exception
-            System.out.print("In Selection");
-
-        }
-    }
-
-    /**
-     * Submit event.
-     * If the avatar screen was opened from the Sign Up page the submit event will send to map.
-     * Otherwise if the avatar screen was opened from the Player Dashboard, the submit event will send back to the dashboard.
-     * @param event: The mouse click event
-     */
-    private void submit(MouseEvent event) {
-        try {
-            if (previous.equals("playerDashboard")) { //If the user previously came from player dashboard return there
-                submitToDashboard(event);
-            } else {
-                submitToMap(event); // Otherwise send them to the map
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * submitToMap method
-     * Will be used when moving from User SignUp >> Avatar Selection Screen >> Map
-     * @param event: The click event that is generated when the submit button is pressed
-     */
-    private void submitToMap(MouseEvent event) {
-        // TODO: Send username and avatar back to the server for storage
-        MuckController.constructor(event, uname, displayName, avatar);
-        }
-
-    /**
-     * submitToDashboard method
-     * Will be used when moving from Dashboard >> Avatar Selection Screen >> Dashboard
-     * Will have the player dashboard take over the avatar selection screen
-     * @param event: The click event that is generated when the submit button is pressed
-     */
-    private void submitToDashboard(MouseEvent event) throws IOException{
-        // TODO: Send username and avatar back to server for storage
-        PlayerDashboardController.playerDashboard(uname, displayName, avatar);
-        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/PlayerDashboard.fxml")));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(parent);
-        scene.getStylesheets().add("/css/style.css");
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    /**
-     * Hover Event Method.
-     * Will update the associated text boxes when a player hovers over a locked avatar.
-     * @param alertBox: The Text element associated with a locked Avatar
-     * @param message: The message to be displayed in the text element upon hover
-     */
-    private void hoverEvent(Text alertBox, String message) {
-        alertBox.setText(message);
-    }
-
-
-    //MOVE THESE TO TOP WHEN REST OF CODE IS DONE
     /**
      Returns an image object of the full bodied Avatar image.
      @param: avatarID. This will be passed into the method from the server
@@ -459,15 +306,179 @@ public class AvatarController implements Initializable  {
      */
     public static String getAvatarId() { return avatar;}
 
+    /**
+     * LockedAvatars method.
+     * Updated the appearance and actions associated with a locked Avatar depending on MuckPoint value
+     * @param open_muck: the MuckPoint total at which the avatar becomes unlocked
+     * @param portrait: the circle object within which each avatar portrait is displayed
+     * @param avatarPortrait: the portrait image of the avatar
+     * @param avatarAlert: the Text object within which the MuckPoint total required to unlock the avatar is displayed
+     */
+    private void lockedAvatars(int open_muck, Circle portrait, Image avatarPortrait, Text avatarAlert, String avatarID) {
+        if (muckPoints >= open_muck) {
+            portrait.setFill(new ImagePattern(avatarPortrait));
+            portrait.setCursor(Cursor.HAND);
+            portrait.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selection(avatarID));
+        } else {
+            portrait.setFill(new ImagePattern(UNAVAILABLE));
+            portrait.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> hoverEvent(avatarAlert, ("Earn " + open_muck + " MuckPoints to unlock!")));
+            portrait.addEventHandler(MouseEvent.MOUSE_EXITED, event -> hoverEvent(avatarAlert, ""));
+        }
+    }
+
+    /**
+     * Selection method.
+     * Once an avatar is selected, increases the size of their portrait and blurs all other avatars. Displays full body
+     * image of selected avatar on the left. Finally, sets the 'avatar' value for future storage against the username.
+     * @param character: the specific character the user has currently selected
+     */
+    private void selection(String character) {
+        try {
+            restorePortraitSize();
+            blur();
+            switch (character) {
+                case "peach":
+                    peach.setRadius(65.0);
+                    peach.setEffect(null);
+                    avatar = "peach";
+                    avatarFullBody.setImage(PEACH_FULL);
+                    avatarFullBody.setLayoutY(90.0);
+                    avatarFullBody.setFitHeight(390);
+                    break;
+                case "batman":
+                    batman.setRadius(65.0);
+                    batman.setEffect(null);
+                    avatar = "batman";
+                    avatarFullBody.setImage(BATMAN_FULL);
+                    avatarFullBody.setLayoutY(40.0);
+                    break;
+                case "pikachu":
+                    pikachu.setRadius(65.0);
+                    pikachu.setEffect(null);
+                    avatar = "pikachu";
+                    avatarFullBody.setImage(PIKACHU_FULL);
+                    avatarFullBody.setLayoutY(210.0);
+                    avatarFullBody.setFitHeight(250); // Changes the height of the image so pikachu is a more realistic
+                    // How do I set pikachu in the centre of the screen (by height)
+                    break;
+                case "skeleton":
+                    if (muckPoints >= OPEN_SKELETON) {
+                        skeleton.setRadius(65.0);
+                        skeleton.setEffect(null);
+                        avatar = "skeleton";
+                        avatarFullBody.setImage(SKELETON_FULL);
+                        avatarFullBody.setLayoutY(120.0);
+                        avatarFullBody.setFitHeight(410);
+                        // Unlocks achievement 8 when the player selects Skeleton.
+                        Achievements achieve8 = new Achievements(achievement8, achievement8Title, achievement8Description);
+                        achieve8.achievementUnlock(achieve8);
+                        break;
+                    }
+                case "wonderWoman":
+                    if (muckPoints >= OPEN_WW) {
+                        wonderWoman.setRadius(65.0);
+                        wonderWoman.setEffect(null);
+                        avatar = "wonderWoman";
+                        avatarFullBody.setImage(WONDER_WOMAN_FULL);
+                        avatarFullBody.setLayoutY(70.0);
+                        avatarFullBody.setFitHeight(400);
+                        // Unlocks achievement 9 when the player selects Wonder Woman.
+                        Achievements achieve9 = new Achievements(achievement9, achievement9Title, achievement9Description);
+                        achieve9.achievementUnlock(achieve9);
+                        break;
+                    }
+                case "yoshi":
+                    if (muckPoints >= OPEN_YOSHI) {
+                        yoshi.setRadius(65.0);
+                        yoshi.setEffect(null);
+                        avatar = "yoshi";
+                        avatarFullBody.setImage(YOSHI_FULL);
+                        avatarFullBody.setLayoutY(180.0);
+                        avatarFullBody.setFitHeight(300);
+                        // Unlocks achievement 10 when the player selects Yoshi.
+                        Achievements achieve10 = new Achievements(achievement10, achievement10Title, achievement10Description);
+                        achieve10.achievementUnlock(achieve10);
+                        break;
+                    }
+                case "notSet":
+                    break;
+                default:
+                    break;
+            }
+            centreImage();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Submit event.
+     * If the avatar screen was opened from the Sign Up page the submit event will send to map.
+     * Otherwise if the avatar screen was opened from the Player Dashboard, the submit event will send back to the dashboard.
+     * @param event: The mouse click event
+     */
+    private void submit(MouseEvent event) {
+        try {
+            if (previous.equals("playerDashboard")) { //If the user previously came from player dashboard return there
+                // Unlocks achievement 7 when the player changes avatar.
+                Achievements achieve7 = new Achievements(achievement7, achievement7Title, achievement7Description);
+                achieve7.achievementUnlock(achieve7);
+                submitToDashboard(event);
+            } else {
+                submitToMap(event); // Otherwise send them to the map
+                // Unlocks achievement 6 when the player initially selects an avatar.
+                Achievements achieve6 = new Achievements(achievement6, achievement6Title, achievement6Description);
+                achieve6.achievementUnlock(achieve6);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * submitToMap method
+     * Will be used when moving from User SignUp >> Avatar Selection Screen >> Map
+     * @param event: The click event that is generated when the submit button is pressed
+     */
+    private void submitToMap(MouseEvent event) {
+        // TODO: Send username and avatar back to the server for storage
+        MuckController.constructor(event, uname, displayName, avatar);
+        }
+
+    /**
+     * submitToDashboard method
+     * Will be used when moving from Dashboard >> Avatar Selection Screen >> Dashboard
+     * Will have the player dashboard take over the avatar selection screen
+     * @param event: The click event that is generated when the submit button is pressed
+     */
+    private void submitToDashboard(MouseEvent event) throws IOException{
+        // TODO: Send username and avatar back to server for storage
+        PlayerDashboardController.playerDashboard(uname, displayName, avatar);
+        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/PlayerDashboard.fxml")));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(parent);
+        scene.getStylesheets().add("/css/style.css");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    /**
+     * Hover Event Method.
+     * Will update the associated text boxes when a player hovers over a locked avatar.
+     * @param alertBox: The Text element associated with a locked Avatar
+     * @param message: The message to be displayed in the text element upon hover
+     */
+    private void hoverEvent(Text alertBox, String message) {
+        alertBox.setText(message);
+    }
+
     // For testing purposes
     public static String getUserName() {
         return uname;
     }
     public static void setMuck(int points) { muckPoints = points;}
-    //public static String getTextUName() { return username.getText(); }
 
     // The below code is for formatting the changes to the avatar dashboard.
-
     private void restorePortraitSize() {
         avatarFullBody.setFitHeight(470.0);
         avatarFullBody.setLayoutY(58.0);

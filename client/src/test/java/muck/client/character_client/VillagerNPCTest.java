@@ -104,6 +104,11 @@ class VillagerNPCTest {
 
         logger.info("Testing draw villager npc is called");
         villager1.drawVillagerNPC(gc, 0.0, 0.0, tm);
+
+        TileMapReader tm2 = new TileMapReader("/maps/cave.tmx");
+
+        logger.info("Testing villager is not drawn to other maps");
+        villager1.drawVillagerNPC(gc, 0.0, 0.0, tm2);
     }
 
     // Test VillagerNPC can change directions
