@@ -14,10 +14,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import muck.client.Achievements;
+import static muck.client.Achievements.*;
 
 public class Frogger {
 
@@ -141,6 +142,9 @@ public class Frogger {
                 ft.setDelay(Duration.seconds(i * 0.15));
                 ft.play();
             }
+            // Unlocks achievement 11 when the player wins the game.
+            Achievements achieve11 = new Achievements(achievement11, achievement11Title, achievement11Description);
+            achieve11.achievementUnlock(achieve11);
             // TODO: Setup post-win
         }
     }

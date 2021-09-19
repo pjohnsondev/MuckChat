@@ -31,10 +31,31 @@ public class UserService {
 
         userStructure.id = result.getInt(UserModel.ID_COL);
         userStructure.username = userName;
-        userStructure.displayName = userName;
+        userStructure.displayName = result.getString(UserModel.DISPLAYNAME_COL);
         userStructure.hashedPassword = result.getBytes(UserModel.PASSWORD_COL);
         userStructure.salt = result.getBytes(UserModel.SALT_COL);
         return userStructure;
+    }
+
+    public UserStructure findByDisplayname(String displayName) throws SQLException {
+        try{
+            ResultSet result = userModel.findByDisplayname(displayName);
+            if (result == null) {
+                return null;
+            }
+            UserStructure userStructure = new UserStructure();
+
+            userStructure.id = result.getInt(UserModel.ID_COL);
+            userStructure.username = result.getString(UserModel.USERNAME_COL);
+            userStructure.displayName = displayName;
+            userStructure.hashedPassword = result.getBytes(UserModel.PASSWORD_COL);
+            userStructure.salt = result.getBytes(UserModel.SALT_COL);
+            return userStructure;
+        } catch (Exception ex){
+            System.out.println("sql error in userservice findbydisplayname");
+            throw new SQLException(ex.getMessage());
+        }
+
     }
 
     public UserStructure findById(Integer id) throws SQLException {
@@ -57,23 +78,32 @@ public class UserService {
      * @return true if successful
      */
     public boolean registerNewUser(UserStructure userStructure) throws SQLException, UserNameAlreadyTakenException {
-        if (userStructure.username.length() > 80) {
-            throw new InvalidParameterException("Username must be less than 80 characters long");
-        }
-        if (this.findByUsername(userStructure.username) != null) {
-            throw new UserNameAlreadyTakenException("Username has already been taken");
-        }
-        //set up hashed password
-        Hasher hasher = new Hasher();
-        hasher.setNewPasswordHash(userStructure.password);
-        byte[] hashedPassword = hasher.getHashedPassword();
-        byte[] salt = hasher.getSalt();
+        try {
+            if (userStructure.username.length() > 80) {
+                throw new InvalidParameterException("Username must be less than 80 characters long");
+            }
+            if (this.findByUsername(userStructure.username) != null) {
+                throw new UserNameAlreadyTakenException("Username has already been taken");
+            }
 
-        userStructure.hashedPassword = hashedPassword;
-        userStructure.salt = salt;
+            if (this.findByDisplayname(userStructure.displayName) != null){
+                throw new UserNameAlreadyTakenException("Display name has already been taken");
+            }
+            //set up hashed password
+            Hasher hasher = new Hasher();
+            hasher.setNewPasswordHash(userStructure.password);
+            byte[] hashedPassword = hasher.getHashedPassword();
+            byte[] salt = hasher.getSalt();
 
-        this.userModel.insertNewUser(userStructure);
-        return true;
+            userStructure.hashedPassword = hashedPassword;
+            userStructure.salt = salt;
+
+            this.userModel.insertNewUser(userStructure);
+            return true;
+        } catch (SQLException ex){
+            ex.printStackTrace();
+            throw new SQLException(ex.getMessage());
+        }
     }
 
     public Boolean authenticateUser(UserStructure user) throws SQLException, ModelNotFoundException {

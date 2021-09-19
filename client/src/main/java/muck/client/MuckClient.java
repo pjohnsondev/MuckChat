@@ -199,8 +199,12 @@ public enum MuckClient {
 	}
 
 	public void checkLoginMessages(String message){
-			ActiveUser.getInstance().setServerMessage(message);
-		logger.info("User Structure received");
+		for(String expectedMessage : ActiveUser.getInstance().serverResponses){
+			if(message.equals(expectedMessage)){
+				ActiveUser.getInstance().setServerMessage(message);
+				logger.info(expectedMessage);
+			}
+		}
 	}
 
 	public synchronized void disconnect() throws IOException {

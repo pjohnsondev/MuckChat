@@ -86,12 +86,15 @@ public class PlayerManagerTest {
     public void loginIsFailedWitInvalidPassword() throws SQLException, UserNameAlreadyTakenException {
         String username = "test_username";
         String password = "password";
+        String displayname = "test_displayname";
         UserStructure userStructure = new UserStructure();
         userStructure.username = username;
         userStructure.password = password;
+        userStructure.displayName = displayname;
 
         if (userService.findByUsername(username) == null) {
             userService.registerNewUser(userStructure);
+            System.out.println("user set");
         }
 
         userStructure.password = "WrongPassword";
@@ -121,7 +124,7 @@ public class PlayerManagerTest {
     }
     @Disabled
     @Test
-    public void playerIsCreatedOnSignup() throws BadRequestException, SQLException {
+    public void playerIsCreatedOnSignup() throws BadRequestException, SQLException, UserNameAlreadyTakenException {
         String username = "Test_Username";
         String password = "Test_Password";
         String displayName = "Test Display";
@@ -133,7 +136,7 @@ public class PlayerManagerTest {
 
         PlayerManager playerManager = new PlayerManager(userService);
 
-        if (userService.findByUsername(username) == null) {
+        if (userService.findByUsername(username) == null){
             Player player = playerManager.signupPlayer(userStructure);
             assertNotNull(player, "Player is null on signup");
             assertEquals(username, player.getUsername(), "Player username is not the same as the one supplied");
@@ -218,6 +221,6 @@ public class PlayerManagerTest {
             userService.registerNewUser(userStructure);
         }
 
-        assertThrows(RuntimeException.class, ()-> playerManager.signupPlayer(userStructure));
+        assertThrows(UserNameAlreadyTakenException.class, ()-> playerManager.signupPlayer(userStructure));
     }
 }

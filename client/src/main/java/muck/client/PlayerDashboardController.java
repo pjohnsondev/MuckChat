@@ -22,6 +22,7 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import muck.client.components.ActiveUser;
 import muck.client.utilities.RandomNameGenerator;
 import muck.core.models.models.User;
 import muck.core.models.models.UserModel;
@@ -33,14 +34,9 @@ public class PlayerDashboardController implements Initializable {
     private static String displayName;
     private static String avatarID;
     private static ArrayList<String[]> achievements = new ArrayList<>();
-
-    //private static String[][] achievements;
     private static int muckPointTotal;
     private static int healthTotal;
     private Image fullAvatar = AvatarController.getFullAvatar(avatarID);
-
-    @FXML
-    private Button achievement; //TODO: Remove (Achievement Testing)
 
     @FXML
     private GridPane gridPane;
@@ -71,7 +67,6 @@ public class PlayerDashboardController implements Initializable {
 
     @FXML
     private Button scoreboardButton;
-
 
     @FXML
     private ImageView gameReturn;
@@ -113,16 +108,6 @@ public class PlayerDashboardController implements Initializable {
             scoreboardButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> updateScoreboard());
             gameReturn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> returnToGame(event, userName, avatarID));
 
-            // ********* ACHIEVEMENT TESTING *********
-            boolean achievement1 = false;
-            String achievement1Title = "Hotel California";
-            String achievement1Description = "Player has visited the Inn";
-            achievement.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                Achievements achieve = new Achievements(achievement1, achievement1Title, achievement1Description);
-                achieve.achievementUnlock(achieve);
-            });
-            // ********* ACHIEVEMENT TESTING *********
-
         } catch (Exception e) {
             System.out.print("Error in initialize");
         }
@@ -135,13 +120,17 @@ public class PlayerDashboardController implements Initializable {
      * @param avID: The player's current avatar ID
      */
     public static void playerDashboard(String uname, String display, String avID) {
+        //ActiveUser player = ActiveUser.getInstance();
+        //displayName = player.getUser().displayName;
+
         userName = uname;
         displayName = display;
         avatarID = avID;
-        //TODO: Call the server to get achievements muckPoints and health. Remove below dummy values
-        achievements.clear();
-        //achievements = new String[][]{{"Hotel California", "Player has visited the Inn"}, {"Retail Therapy", "Player has visited the Shops"}, {"Alien Exterminator", "Player has won a game of Space Invaders"},{"Hotel California", "Player has visited the Inn"}, {"Retail Therapy", "Player has visited the Shops"}, {"Alien Exterminator", "Player has won a game of Space Invaders"},{"Hotel California", "Player has visited the Inn"}, {"Retail Therapy", "Player has visited the Shops"}, {"Alien Exterminator", "Player has won a game of Space Invaders"},{"Hotel California", "Player has visited the Inn"}, {"Retail Therapy", "Player has visited the Shops"}, {"Alien Exterminator", "Player has won a game of Space Invaders"}};
+        //TODO: Call the server to get achievements muckPoints and health.
 
+        //The below dummy values were used to initialise the achievements while we didn't have an alternative method
+        //available. See below addAchievements method.
+        /*achievements.clear();
         achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
         achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
         achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
@@ -150,15 +139,27 @@ public class PlayerDashboardController implements Initializable {
         achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
         achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
         achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
-        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
+        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});*/
 
         muckPointTotal = 100; //TODO: Remove when can call to the server
         healthTotal = 80; //TODO: Remove when can call to the server
     }
 
     /**
-     * Displays the player's achievements in the applicable section of the GUI
+     * This is a dummy method to circumvent the need to store achievements to the database as the storage will not be
+     * ready for assignment submission.
+     * @param achivementTitle: The title of the achievement
+     * @param achievementDescription: The description of the achievement
      */
+    public static void addAchievements(String achivementTitle, String achievementDescription) {
+        achievements.add(new String[]{achivementTitle, achievementDescription});
+    }
+
+    public static ArrayList<String[]> getAchievements() { return achievements; }
+
+        /**
+         * Displays the player's achievements in the applicable section of the GUI
+         */
     private void updateAchievements() {
         heading.setText("Achievements");
         achievementWindow.clear();
@@ -222,10 +223,29 @@ public class PlayerDashboardController implements Initializable {
      * @param avID: The players current avatar ID
      */
     private void returnToGame(MouseEvent event, String uname, String avID) {
-        // TODO: Send username and avatar back to the server for storage
         MuckController.constructor(uname, avID);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
+    }
+
+    private void centreImage() { //TODO: This is not centring vertically???
+        Image img = avatarFullBody.getImage();
+        if (img != null) {
+            double w;
+            double h;
+
+            double ratioX = avatarFullBody.getFitWidth() / img.getWidth();
+            double ratioY = avatarFullBody.getFitHeight() / img.getHeight();
+
+            double reducCoeff = Math.min(ratioX, ratioY);
+
+            w = img.getWidth() * reducCoeff;
+            h = img.getHeight() * reducCoeff;
+
+            avatarFullBody.setX((avatarFullBody.getFitWidth() - w) / 2);
+            avatarFullBody.setY((avatarFullBody.getFitHeight() - h) / 2);
+
+        }
     }
 
     private void selection(String character) {
@@ -264,27 +284,5 @@ public class PlayerDashboardController implements Initializable {
             e.printStackTrace();
         }
     }
-
-    private void centreImage() { //TODO: This is not centring vertically???
-        Image img = avatarFullBody.getImage();
-        if (img != null) {
-            double w;
-            double h;
-
-            double ratioX = avatarFullBody.getFitWidth() / img.getWidth();
-            double ratioY = avatarFullBody.getFitHeight() / img.getHeight();
-
-            double reducCoeff = Math.min(ratioX, ratioY);
-
-            w = img.getWidth() * reducCoeff;
-            h = img.getHeight() * reducCoeff;
-
-            avatarFullBody.setX((avatarFullBody.getFitWidth() - w) / 2);
-            avatarFullBody.setY((avatarFullBody.getFitHeight() - h) / 2);
-
-        }
-    }
-
-
 
 }
