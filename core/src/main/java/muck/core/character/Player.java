@@ -11,6 +11,7 @@ public class Player extends Character {
      * Example usage: Player player1 = new Player("my_username");
      */
     private String username;
+    ArrayList<String[]> currentAchievements = new ArrayList<>();
 
     /**
      * Create new Player or retrieve an existing Player from database
@@ -68,6 +69,9 @@ public class Player extends Character {
         //    limit our original feature scope
         String query = "INSERT INTO Player(identifier, achievement, description) VALUES (?, ?, ?)";
         StorageHandler.addToPlayer(query, this.getIdentifier(), achievement, achievementDescription);
+
+        // No database interaction, storing achievements locally
+        currentAchievements.add(new String[]{achievement, achievementDescription});
     }
 
     /**
@@ -84,7 +88,10 @@ public class Player extends Character {
         for(int i = 0; i < achievementList.size(); i += 2) {
             playerAchievements.add(new String[]{achievementList.get(i), achievementList.get(i+1)});
         }
-        return playerAchievements;
+
+        // No database interaction, returning locally stored achievements
+        // return playerAchievements;
+        return currentAchievements;
     }
 
     /**
