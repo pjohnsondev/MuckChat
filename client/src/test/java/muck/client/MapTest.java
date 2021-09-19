@@ -1,9 +1,9 @@
 package muck.client;
 
+import javafx.scene.canvas.Canvas;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assumptions.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,6 +30,13 @@ public class MapTest {
 
 
     @Test void testOutOfBounds() {
+        Canvas canvas = new Canvas(800,800);
+        GameMap gm = new GameMap(canvas);
+        logger.info("Test getTileIndex");
+        assertEquals(gm.getTileIndex(20,30,1),0);
+        //logger.info(gm.getTileIndex(350,350,2));
+
+
         // Test that an attempt to move off the game map fails (throws some exception)
     }
     @Test void testCollisionDetection() {
@@ -38,15 +45,13 @@ public class MapTest {
     @Test void testTileMapReader() {
         TileMapReader tm = new TileMapReader("/Test.tmx"); // This is Test/Resources
         //Make sure public methods in TileMapReader don't get changed.
-        assertTrue(tm.getWidth() == 80);
-        assertTrue(tm.getHeight() == 64);
-        assertTrue(tm.getTileWidth() == 32);
-        assertTrue(tm.getTileHeight() == 32);
-        assertTrue(tm.getTileColumns() == 32);
-        assertTrue(tm.getTileCount() == 1024);
-        assertTrue(tm.getLayerId(0,1,1) == 307);
+        assertEquals(tm.getWidth() , 80);
+        assertEquals(tm.getHeight() , 64);
+        assertEquals(tm.getTileWidth() ,32);
+        assertEquals(tm.getTileHeight() , 32);
+        assertEquals(tm.getTileColumns() , 32);
+        assertEquals(tm.getTileCount() , 1024);
+        assertEquals(tm.getLayerId(0,1,1) , 307);
         //logger.info(tm.getLayerId(0,1,1));//Have been using this get actual value to data
-
-
     }
 }
