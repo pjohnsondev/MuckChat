@@ -33,6 +33,7 @@ import java.util.function.BiConsumer;
 import java.util.logging.Level;
 
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import muck.client.tictactoe.TTTLandingPage;
 import muck.core.Location;
 
@@ -233,44 +234,38 @@ public class MuckController implements Initializable {
         avatarID = avatar;
     }
 
-    private static final Logger logger = LogManager.getLogger(MuckController.class);
-
     public void openPlayerDashboardMenu(Event event) {
         try {
-                PlayerDashboardController.playerDashboard(userName, displayName, avatarID);
-                circle.setDisable(true);
-                Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/PlayerDashboard.fxml")));
-                Stage stage = new Stage(StageStyle.DECORATED);
-                stage.setTitle("Muck2021");
-                Scene scene = new Scene(parent);
-                scene.getStylesheets().add("/css/style.css");
-                stage.setScene(scene);
-                stage.toFront();
-                //stage.setAlwaysOnTop(true);
-                stage.initStyle(StageStyle.UTILITY);
-                stage.setResizable(false);
-                stage.setOnHiding(avatarEvent -> {
-                    try {
-                        chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
-                        circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
-                        circle.setDisable(false);
-                        int x = gamePane1.getChildren().size();
-                        Canvas currentCanvas = (Canvas) gamePane1.getChildren().get(x - 1); //Finds the current canvas
-                        new GameMap(currentCanvas, gamePane1, updatePlayerfn, getPlayersfn);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-
-                    }
-                });
-                stage.show();
-
+            PlayerDashboardController.playerDashboard(userName, displayName, avatarID);
+            circle.setDisable(true);
+            Stage owner = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/PlayerDashboard.fxml")));
+            Stage stage = new Stage(StageStyle.DECORATED);
+            stage.initOwner(owner);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.setTitle("Muck2021");
+            Scene scene = new Scene(parent);
+            scene.getStylesheets().add("/css/style.css");
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.UTILITY);
+            stage.setResizable(false);
+            stage.setOnHiding(avatarEvent -> {
+                try {
+                    chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
+                    circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
+                    circle.setDisable(false);
+                    int x = gamePane1.getChildren().size();
+                    Canvas currentCanvas = (Canvas) gamePane1.getChildren().get(x - 1); //Finds the current canvas
+                    new GameMap(currentCanvas, gamePane1, updatePlayerfn, getPlayersfn);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
-
 
     //Method that displays message in chat box
     private void displayAndSend() {
