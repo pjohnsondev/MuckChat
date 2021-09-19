@@ -20,7 +20,10 @@ public class ActiveUser {
             "Login Successful",
             "Duplicate login",
             "Character does not exist. Please register.",
-            "Supplied credentials are invalid."
+            "Supplied credentials are invalid.",
+            "Signup successful",
+            "Username already exists",
+            "Displayname already exists"
     };
 
     private ActiveUser() {

@@ -8,6 +8,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.control.*;
 import muck.client.AvatarController;
 import muck.client.MuckClient;
+import muck.client.components.ActiveUser;
 import muck.core.models.models.UserModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -54,16 +55,21 @@ public class SignUpController {
 
     // Todo add logic to
     @FXML
-    protected void signUp(MouseEvent event) throws SQLException, IOException {
+    protected void signUp(MouseEvent event) throws SQLException, IOException, InterruptedException {
         String passWordText = password.getText();
         String userName = username.getText();
         String displayName = displayname.getText();
         String passwordTwo = passwordtwo.getText();
+        boolean success = false;
 
         // Validate the sign up
         boolean validated = validateSignUp(event, displayName, userName, passWordText, passwordTwo);
         boolean user = createUser(validated, userName, passWordText, displayName);
         if(user){
+            Thread.sleep(500);
+            success = success();
+        }
+        if(success) {
             passToAvatar(event, userName, displayName);
         }
 
@@ -128,7 +134,7 @@ public class SignUpController {
     // Passwords match Validation method
     public boolean passwordsMatch(String passWordText, String passwordTwo) {
         if (passWordText.equals(passwordTwo)) {
-//            error.setText("Passwords do not match");
+            error.setText("Passwords do not match");
             return true;
         } else {
             return false;
@@ -204,6 +210,16 @@ public class SignUpController {
         AvatarController nextScene = new AvatarController();
         App.hideStage();
         nextScene.avatarCreation(event, username, displayName);
+    }
+
+    public boolean success(){
+        if(ActiveUser.getInstance().getServerMessage() != null && ActiveUser.getInstance().getServerMessage().equals("Signup successful")){
+            error.setText("Signup successful");
+            return true;
+        } else {
+            error.setText(ActiveUser.getInstance().getServerMessage());
+            return false;
+        }
     }
 
 
