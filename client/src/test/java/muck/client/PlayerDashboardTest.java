@@ -22,7 +22,7 @@ import java.util.concurrent.TimeoutException;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-//@Disabled //Disabled due to out of memory error
+@Disabled //Disabled due to out of memory error
 public class PlayerDashboardTest extends ApplicationTest {
 
     private static final Logger logger = LogManager.getLogger(PlayerDashboardTest.class);
