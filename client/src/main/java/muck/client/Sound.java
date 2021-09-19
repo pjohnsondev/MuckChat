@@ -18,9 +18,6 @@ public class Sound {
         this.soundPath = audio;
     }
 
-    public String getSoundPath(Sound audio) {
-        return audio.soundPath;
-    }
 
     /**
      * music Plays the sound file using mediaPlayer
@@ -30,11 +27,21 @@ public class Sound {
         try {
                 Media h = new Media(getClass().getResource(soundFile.soundPath).toExternalForm());
                 mediaPlayer = new MediaPlayer(h);
-                mediaPlayer.play();
-                System.out.println("Sound should be playing now");
+                if(mediaPlayer.getStatus() != MediaPlayer.Status.PLAYING) {
+                    mediaPlayer.play();
+                }
             }
         catch(Exception e) {
             e.printStackTrace();
         }
     }
+
+    /**
+     * dogBark Plays the dog barking sound using the music method.
+     */
+    public static void dogBark() {
+        Sound barkFile = new Sound("/sounds/longbark2.mp3");
+        barkFile.music(barkFile);
+        }
+
 }
