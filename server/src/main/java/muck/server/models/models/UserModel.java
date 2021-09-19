@@ -14,6 +14,7 @@ import muck.core.structures.UserStructure;
 public class UserModel extends Model {
     public static final String ID_COL = "id";
     public static final String USERNAME_COL = "username";
+    public static final String DISPLAYNAME_COL = "displayname";
     public static final String PASSWORD_COL = "password";
     public static final String SALT_COL = "salt";
 
@@ -74,6 +75,23 @@ public class UserModel extends Model {
     public ResultSet findUserByUsername(String username) throws SQLException {
         try{
             return this.select("username", username);
+        } catch (SQLException e){
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    /**
+     * Retrieves user information from the database using the UserName is the criteria
+     *
+     * @param displayname The username to search for within the database
+     * @return returns found user object or null
+     * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
+     */
+
+    public ResultSet findByDisplayname(String displayname) throws SQLException {
+        try{
+            return this.select("displayname", displayname);
         } catch (SQLException e){
             System.out.println(e);
         }
