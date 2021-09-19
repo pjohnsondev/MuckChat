@@ -26,9 +26,13 @@ import muck.client.components.ActiveUser;
 import muck.client.utilities.RandomNameGenerator;
 import muck.core.models.models.User;
 import muck.core.models.models.UserModel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class PlayerDashboardController implements Initializable {
+
+    private static final Logger logger = LogManager.getLogger(PlayerDashboardController.class);
 
     private static String userName;
     private static String displayName;
@@ -100,6 +104,7 @@ public class PlayerDashboardController implements Initializable {
                     stage.setResizable(false);
                     stage.show();
                 } catch (IOException e) {
+                    logger.error("Error in initialisation of Avatar window");
                     e.printStackTrace();
                 }
             });
@@ -155,11 +160,15 @@ public class PlayerDashboardController implements Initializable {
         achievements.add(new String[]{achivementTitle, achievementDescription});
     }
 
+    /**
+     * For testing purposes until we obtain the ability to connect to the server to get player achievements
+     * @return ArrayList of player achievements
+     */
     public static ArrayList<String[]> getAchievements() { return achievements; }
 
-        /**
-         * Displays the player's achievements in the applicable section of the GUI
-         */
+    /**
+    * Displays the player's achievements in the applicable section of the GUI
+    */
     private void updateAchievements() {
         heading.setText("Achievements");
         achievementWindow.clear();
