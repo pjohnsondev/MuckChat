@@ -123,7 +123,7 @@ public class Hand extends Deck {
     }
 
     public boolean checkForSet(boolean start){
-        for (int i = 0; i < cards.size(); i++){
+        for (int i = 0; i < cards.size() - 3; i++){
             if (cards.get(i).getMatchId() == cards.get(i + 3).getMatchId()){
                 if (!start){
                     makeSet(cards.get(i).getMatchId());

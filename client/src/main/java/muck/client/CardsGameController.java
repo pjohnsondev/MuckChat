@@ -150,6 +150,7 @@ public class CardsGameController implements Initializable {
             //NEED TO ADD THE GO FISH FUNCTION HERE
             try {
                 Button close = new Button();
+                close.setStyle("-fx-font-family: Times New Roman;");
                 close.setText("Close");
                 BorderPane root = new BorderPane(new TextArea());
                 Scene scene = new Scene(root, 300, 145);
@@ -157,6 +158,7 @@ public class CardsGameController implements Initializable {
                 //box for text area
                 HBox textHB = new HBox();
                 textHB.setAlignment(Pos.TOP_CENTER);
+                textHB.setStyle("-fx-font-family: Times New Roman;");
                 textHB.getChildren().add(new TextArea("You've gone fishin' !\n\nYou've caught a CARD SUIT/COLOR card"));
                 // just add the card that the player's picked up
                 root.setCenter(textHB);
@@ -191,6 +193,7 @@ public class CardsGameController implements Initializable {
             //NEED TO ADD THE FUNCTION FOR ASKING FOR A CARD
             try {
                 Button close = new Button();
+                close.setStyle("-fx-font-family: Times New Roman;");
                 close.setText("Close");
                 BorderPane root = new BorderPane();
                 Scene scene = new Scene(root, 300, 145);
@@ -198,6 +201,7 @@ public class CardsGameController implements Initializable {
                 //box for text area
                 HBox textHB = new HBox();
                 textHB.setAlignment(Pos.TOP_CENTER);
+                textHB.setStyle("-fx-font-family: Times New Roman;");
                 textHB.getChildren().add(new TextArea("You have asked for the card: ***\n\nYour opponent DOES/DOES NOT have that card"));
                 // need to add the cards that the player asks for and maybe also add if the other player has/hasnt got that card
                 root.setCenter(textHB);
@@ -232,6 +236,7 @@ public class CardsGameController implements Initializable {
             try {
                Button close = new Button();
                close.setText("Close");
+               close.setStyle("-fx-font-family: Times New Roman;");
 
                BorderPane root = new BorderPane(new TextArea());
                Scene scene = new Scene(root, 300, 145);
@@ -239,6 +244,7 @@ public class CardsGameController implements Initializable {
                 //box for text area
                 HBox textHB = new HBox();
                 textHB.setAlignment(Pos.TOP_CENTER);
+                textHB.setStyle("-fx-font-family: Times New Roman;");
                 textHB.getChildren().add(new TextArea("You have received the cards: " + game.cardList)); // need to add the cards that the player gets
                 root.setCenter(textHB);
 
