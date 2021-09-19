@@ -134,4 +134,13 @@ public class Hand extends Deck {
         // Default case
         return false;
     }
+
+    public boolean checkSelected(){
+        for (int i = 0; i < cards.size(); i++){
+            if (cards.get(i).getSelectedValue()){
+                return true;
+            }
+        }
+        return false;
+    }
 }

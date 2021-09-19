@@ -38,15 +38,9 @@ public class Game {
 
     public void playersTurn(){
         //TODO: make player go fish or player receiving cards trigger a pop up that changes variable when closing
-        while (currentRound == 1) {
-
-        }
         if ((player1.hand.cards.size() == 0 && deck.cards.size() == 0)
                 || (deck.cards.size() == 0 && player2.hand.cards.size() == 0)){
             endGame();
-        }
-        else {
-            computersTurn();
         }
     }
 

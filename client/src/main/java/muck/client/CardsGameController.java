@@ -139,7 +139,7 @@ public class CardsGameController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Game game = new Game();
         game.initGame();
-        //game.playersTurn();
+        game.playersTurn();
         goFish.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             //go fish needs to basically pass back a variable switch that makes the
             //draw card popup visible for other player.
@@ -193,34 +193,46 @@ public class CardsGameController implements Initializable {
             //TODO: add a call to game.computersTurn() after picking up and making a set if necessary
             //TODO: make function body
             //NEED TO ADD THE FUNCTION FOR ASKING FOR A CARD
-            try {
-                Button close = new Button();
-                close.setStyle("-fx-font-family: Times New Roman;");
-                close.setText("Close");
-                BorderPane root = new BorderPane();
-                Scene scene = new Scene(root, 300, 145);
+            if (game.player1.hand.checkSelected()) {
+                try {
+                    Button close = new Button();
+                    close.setStyle("-fx-font-family: Times New Roman;");
+                    close.setText("Close");
+                    BorderPane root = new BorderPane();
+                    Scene scene = new Scene(root, 300, 145);
 
-                //box for text area
-                HBox textHB = new HBox();
-                textHB.setAlignment(Pos.TOP_CENTER);
-                textHB.setStyle("-fx-font-family: Times New Roman;");
-                textHB.getChildren().add(new TextArea("You have asked for the card: ***\n\nYour opponent DOES/DOES NOT have that card"));
-                // need to add the cards that the player asks for and maybe also add if the other player has/hasnt got that card
-                root.setCenter(textHB);
+                    //box for text area
+                    HBox textHB = new HBox();
+                    textHB.setAlignment(Pos.TOP_CENTER);
+                    textHB.setStyle("-fx-font-family: Times New Roman;");
+                    textHB.getChildren().add(new TextArea("You have asked for the card: ***\n\nYour opponent DOES/DOES NOT have that card"));
+                    // need to add the cards that the player asks for and maybe also add if the other player has/hasnt got that card
+                    root.setCenter(textHB);
 
-                //box for close button
-                HBox butbox = new HBox();
-                butbox.setAlignment(Pos.CENTER);
-                butbox.getChildren().add(close);
-                root.setBottom(butbox);
-                Stage stage = new Stage();
-                stage.setTitle("Ask for a card!");
-                stage.setScene(scene);
-                stage.show();
-                close.addEventHandler(MouseEvent.MOUSE_CLICKED, shut -> {stage.close(); });
+                    //box for close button
+                    HBox butbox = new HBox();
+                    butbox.setAlignment(Pos.CENTER);
+                    butbox.getChildren().add(close);
+                    root.setBottom(butbox);
+                    Stage stage = new Stage();
+                    stage.setTitle("Ask for a card!");
+                    stage.setScene(scene);
+                    stage.show();
+                    close.addEventHandler(MouseEvent.MOUSE_CLICKED, shut -> {
+                        int ask = 0;
+                        for (int i = 0; i < game.player1.hand.cards.size(); i++) {
+                            if (game.player1.hand.cards.get(i).getSelectedValue()) {
+                                ask = game.player1.hand.cards.get(i).getMatchId();
+                            }
+                        }
+                        stage.close();
+                        game.playersAsk(ask);
+                        game.computersTurn();
+                    });
 
-            } catch (Exception e) {
-                e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -289,15 +301,24 @@ public class CardsGameController implements Initializable {
         opponentCard5.setImage(backOfCard);
         the_deck.setImage(backOfCard);
 
+        for (int i = 0; i < game.player1.hand.cards.size(); i ++) {
+            int getCardID = game.player1.hand.cards.get(i).getCardId();
+            Image filename0 = new Image(game.player1.hand.cards.get(i).getFileName());
+            Image filename1 = new Image(game.player1.hand.cards.get(i).getBFileName());
+            positions.get(getCardID).setImage(filename0);
+            positions.get(getCardID).addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+                if (game.player1.hand.cards.get(0).getSelectedValue() == false) {
+                    game.player1.hand.cards.get(0).setSelected(true);
+                    positions.get(getCardID).setImage(filename1);
+                } else {
+                    if (game.player1.hand.cards.get(0).getSelectedValue() == true) {
+                        game.player1.hand.cards.get(0).setSelected(false);
+                        positions.get(getCardID).setImage(filename0);
+                    }
+                }
 
-        int getCardID = game.player1.hand.cards.get(0).getCardId();
-        Image filename0 = new Image(game.player1.hand.cards.get(0).getFileName());
-        Image filename1 = new Image(game.player1.hand.cards.get(0).getBFileName());
-        positions.get(getCardID).setImage(filename0);
-        positions.get(getCardID).addEventHandler(MouseEvent.MOUSE_CLICKED,mouseEvent -> {
-            positions.get(getCardID).setImage(filename1);
-
-        });
+            });
+        }
 
     }
 
