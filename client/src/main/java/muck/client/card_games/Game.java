@@ -66,7 +66,7 @@ public class Game {
     }
 
     public void playersAsk(int matchId){
-        for (int i = 0; i < player2.hand.cards.size(); i++){
+        for (int i = player2.hand.cards.size(); i > 0; i--){
             if (matchId == player2.hand.cards.get(i).getMatchId()){
                 player1.hand.cards.add(player2.hand.cards.get(i));
                 player2.hand.cards.remove(i);
@@ -87,7 +87,7 @@ public class Game {
 
     //This function is called by an event handler if the computer asked for a card the player has
     public void giveComputerCard(int matchId){
-        for (int i = 0; i < player1.hand.cards.size(); i++){
+        for (int i = player1.hand.cards.size(); i > 0; i--){
             if (matchId == player1.hand.cards.get(i).getMatchId()){
                 player2.hand.cards.add(player1.hand.cards.get(i));
                 player1.hand.cards.remove(player1.hand.cards.get(i));

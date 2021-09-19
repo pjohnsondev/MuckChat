@@ -37,26 +37,26 @@ public class Hand extends Deck {
      */
     public void drawHand(Deck deck) {
         if (deck.cards.size() >= 7) {
-            for (int i = 0; i < 7; i++) {
+            for (int i = 7; i > 0; i--) {
                 this.cards.add(deck.cards.get(i));
                 deck.cards.remove(i);
             }
         } else {
-            for (int i = 0; i < deck.cards.size(); i++) {
+            for (int i = deck.cards.size(); i > 0; i--) {
                 this.sets.add(deck.cards.get(i));
                 deck.cards.remove(i);
             }
         }
         reorderHand();
         //This stops either player from getting a set when they draw their hand
-//        if (checkForSet(true)){
-//            for (int i = 0; i < cards.size(); i++) {
-//                deck.cards.add(cards.get(i));
-//                this.cards.remove(i);
-//            }
-//            deck.shuffleCards();
-//            drawHand(deck);
-//        }
+        if (checkForSet(true)){
+            for (int i = cards.size(); i > 0; i--) {
+                deck.cards.add(cards.get(i));
+                this.cards.remove(i);
+            }
+            deck.shuffleCards();
+            drawHand(deck);
+        }
     }
 
     /**
@@ -94,7 +94,7 @@ public class Hand extends Deck {
      *    TODO: make sure it only makes set if there's four of the same.
      */
     void makeSet(int thisMatchId) {
-        for (int i = 0; i < this.cards.size(); i++) {
+        for (int i = this.cards.size(); i > 0; i--) {
             if (this.cards.get(i).getSelectedValue() &&
                     this.cards.get(i).getMatchId() == thisMatchId) {
                 this.sets.add(this.cards.get(i));

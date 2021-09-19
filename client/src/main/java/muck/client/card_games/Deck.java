@@ -38,22 +38,7 @@ public class Deck {
         }
     }
 
-
-
-
     public void shuffleCards() {
         Collections.shuffle(cards);
-    }
-
-
-    public static void main(String[] args) {
-        Deck deck = new Deck();
-        for (int i = 0; i < deck.cards.size(); i++ ) {
-            System.out.println(deck.cards.get(i).getCardName() + " of " +  deck.cards.get(i).getSuit() );
-            System.out.println("This cards ID is " + deck.cards.get(i).getCardId());
-            System.out.println("This Cards match Id is " + deck.cards.get(i).getMatchId());
-            System.out.println("This Cards image filename is " + deck.cards.get(i).getFileName());
-            System.out.println("This Cards highlighted image file name is " + deck.cards.get(i).getBFileName());
-        }
     }
 }
