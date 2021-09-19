@@ -12,6 +12,9 @@ import org.apache.logging.log4j.Logger;
 //TODO Implement tests for all functions
 //TODO comment method and class headers
 
+// This file runs tests on the methods of each of the classes created to make the Go Fish Card Game.
+// All tests are in this file - separated by /************** CLASS NAME HERE TESTS **************/
+
 // Some tests to write
 
 /*
@@ -22,16 +25,27 @@ import org.apache.logging.log4j.Logger;
  */
 
 public class CardTest {
+    Card card;
     Deck myDeck;
     Hand myHand;
+    ComputerOpponent opponent;
+    Game game;
+    Player player;
+    PlayerTurn playerTurn;
     private static final Logger logger = LogManager.getLogger(Deck.class);
     Random rand;
 
     @BeforeEach
     void setup() {
+        card = new Card(5, 5, "clubs", "ace");
         myDeck = new Deck();
         rand = new Random();
         myHand = new Hand();
+        opponent = new ComputerOpponent(1);
+        game = new Game();
+        player = new Player();
+        playerTurn = new PlayerTurn(1);
+
     }
     @Test
     public void testDeckSize() {

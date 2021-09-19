@@ -31,8 +31,7 @@ public class Card {
         setMatchId(matchId);
         selected = false;
         fileName = "/images/cards/" + cardName + "_of_" + suit.toLowerCase() + ".png";
-        //fileName = cardName + "_of_" + suit.toLowerCase();
-//        cardImage = new Image(fileName);
+
     }
 
 
@@ -49,6 +48,8 @@ public class Card {
     public String getFileName() {
         return fileName;
     }
+
+    public String getBFileName() { return "B_" + fileName;}
 
 
     public boolean getSelectedValue() {
