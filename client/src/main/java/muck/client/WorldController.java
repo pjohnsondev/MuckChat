@@ -17,6 +17,7 @@ import static muck.client.Achievements.*;
 public class WorldController {
     static int x, y;
     private static BorderPane gamePane;
+    private static boolean dogBarkTrigger = false;
 
     /**
      * The location check class checks a players location on the map to see if they have,
@@ -55,6 +56,9 @@ public class WorldController {
                     // Unlocks achievement 1 when the cave is visited.
                     Achievements achieve1 = new Achievements(achievement1, achievement1Title, achievement1Description);
                     achieve1.achievementUnlock(achieve1);
+                    // Triggers doorbell sound when entering the inn.
+                    Sound soundObject = new Sound("/sounds/doorbell.mp3");
+                    soundObject.music(soundObject);
                     //Opens space invaders game
                     gamePane.getChildren().clear();
                     Canvas SICanvas = new Canvas();
@@ -69,6 +73,13 @@ public class WorldController {
         }
         //id 1 = homeTown
         if (id == 1) {
+            // Triggers dog bark sound when walking near the front of the small house for the first time.
+            if ((x > 500 && x < 600) && (y > 198 && y < 255)) {
+                if (!dogBarkTrigger) {
+                    Sound.dogBark();
+                    dogBarkTrigger = true;
+                }
+            }
             if (x > 552 && x < 565) { //Small house
                 if (y > 192 && y < 198) {
                     // Unlocks achievement 3 when the house is visited.
@@ -86,7 +97,6 @@ public class WorldController {
                 }
             }
         }
-
         //id 1 = homeTown
         if (id == 1) {
             if (x > 778 && x < 793) { //Shop house
@@ -94,6 +104,9 @@ public class WorldController {
                     // Unlocks achievement 2 when the shop is visited.
                     Achievements achieve2 = new Achievements(achievement2, achievement2Title, achievement2Description);
                     achieve2.achievementUnlock(achieve2);
+                    // Triggers doorbell sound when entering the shop.
+                    Sound soundObject = new Sound("/sounds/doorbell.mp3");
+                    soundObject.music(soundObject);
                     //Opens Frogger game
                     gamePane.getChildren().clear();
                     Canvas FrCanvas = new Canvas();
@@ -113,6 +126,9 @@ public class WorldController {
                     // Unlocks achievement 5 when the cottage is visited.
                     Achievements achieve5 = new Achievements(achievement5, achievement5Title, achievement5Description);
                     achieve5.achievementUnlock(achieve5);
+                    // Triggers doorbell sound when entering the cottage.
+                    Sound soundObject = new Sound("/sounds/doorbell.mp3");
+                    soundObject.music(soundObject);
                     //Opens tic-tac-toe game
                     gamePane.getChildren().clear();
                     Canvas TTTCanvas = new Canvas();
