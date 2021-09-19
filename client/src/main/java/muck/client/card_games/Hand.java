@@ -49,14 +49,14 @@ public class Hand extends Deck {
         }
         reorderHand();
         //This stops either player from getting a set when they draw their hand
-        if (checkForSet(true)){
-            for (int i = 0; i < cards.size(); i++) {
-                deck.cards.add(cards.get(i));
-                this.cards.remove(i);
-            }
-            deck.shuffleCards();
-            drawHand(deck);
-        }
+//        if (checkForSet(true)){
+//            for (int i = 0; i < cards.size(); i++) {
+//                deck.cards.add(cards.get(i));
+//                this.cards.remove(i);
+//            }
+//            deck.shuffleCards();
+//            drawHand(deck);
+//        }
     }
 
     /**

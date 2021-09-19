@@ -72,6 +72,76 @@ public class CardTest {
     }
 
 
+    @Test
+    public void testSelectCard() {
+        logger.info("Testing that the set selected method sets selected to true and false as passed in");
+        int randomID = rand.nextInt(52);
+        Card card = myDeck.cards.get(randomID);
+        assertFalse(card.getSelectedValue());
+        card.setSelected(true);
+        assertTrue(card.getSelectedValue());
+        card.setSelected(false);
+        assertFalse(card.getSelectedValue());
+    }
+
+    @Test
+    public void testGetSuit() {
+        logger.info("Testing the correct suit is returned");
+        assertEquals("clubs", card.getSuit());
+    }
+
+    @Test
+    public void testGetCardName() {
+        logger.info("Testing that the returned card name is correct");
+        assertEquals("ace", card.getCardName());
+    }
+
+    @Test
+    public void testGetMatchId() {
+        logger.info("Testing that the correct Match ID number is returned");
+        assertEquals(1, card.getMatchId());
+    }
+
+    @Test
+    public void testSetCardId() {
+        logger.info("Testing that setting the card Id is working");
+        assertNotEquals(5, card.getCardId());
+        card.setCardId(5);
+        assertEquals(5, card.getCardId());
+    }
+
+    @Test
+    public void testSetSuit() {
+        logger.info("Testing that setting the suit is working");
+        assertNotEquals("hearts", card.getSuit());
+        card.setSuit("hearts");
+        assertEquals("hearts", card.getSuit());
+    }
+
+    @Test
+    public void testSetCardName() {
+        logger.info("Testing that setting the card name is working");
+        assertNotEquals("five", card.getCardName());
+        card.setCardName("five");
+        assertEquals("five", card.getCardName());
+    }
+
+    @Test
+    public void testSetMatchId() {
+        logger.info("Testing that setting the match id is working");
+        assertNotEquals(7, card.getMatchId());
+        card.setMatchId(7);
+        assertEquals(7, card.getMatchId());
+    }
+
+    @Test
+    public void testToString() {
+        logger.info("Testing that returning the string of the full card name, and capitalised is working");
+        assertEquals("Ace of Clubs", card.toString());
+    }
+
+
+
 
     // ************************************** DECK TESTS ****************************************** /
     @Test
@@ -97,8 +167,53 @@ public class CardTest {
         assertNotEquals(afterShuffle, afterSecondShuffle);
     }
 
+
+    // ************************************** COMPUTER OPPONENT TESTS ****************************************** /
+
+    //TODO - Adding to computer/player array in the computer opponent class
+
+    //TODO
     @Test
-    public void testDrawCard() {
+    public void testAskForCard() {
+        assertEquals(1, 1);
+    }
+
+    // ************************************** GAME TESTS ****************************************** /
+
+    //init game
+
+    //TODO test that player1 and player2 hand size is 7, deck[0] is not id 1
+    //assert all
+
+
+    //playersTurn
+
+    //TODO wait for logic in this method
+
+
+    //computersTurn
+
+    //TODO check for goFish being true (no matches) then checking players hand grows by 1
+    // and not true, player2 (computer) hand grows by at least 1
+
+
+    //playersAsk(match id : int)
+
+    //TODO make a match - check that players hand grows by at least and player2 hand decreases
+    // by at least 1 but make sure its the same card
+
+
+    //checkForMatch(matchId : int)
+
+    //TODO check that a match returns true and not matching returns false
+
+    //giveComputerCard(matchId : int)
+
+
+
+    // ************************************** HAND TESTS ****************************************** /
+    @Test
+    public void testDrawTopCard() {
         logger.info("Testing that drawing the top card from the deck, deletes it from the main deck array and adds ths same card to the hand");
         int cardID = myDeck.cards.get(0).getCardId();
         myHand.drawTopCard(myDeck);
@@ -113,23 +228,46 @@ public class CardTest {
     }
 
     @Test
-    public void testSelectCard() {
-        logger.info("Testing that the set selected method sets selected to true and false as passed in");
-        int randomID = rand.nextInt(52);
-        Card card = myDeck.cards.get(randomID);
-        assertEquals(card.getSelectedValue(), false);
-        card.setSelected(true);
-        assertEquals(card.getSelectedValue(), true);
-        card.setSelected(false);
-        assertEquals(card.getSelectedValue(), false);
+    public void testDrawHand() {
+        logger.info("Testing that drawing a hand from the deck is functioning correctly");
+        myHand.drawHand(myDeck);
+        assertEquals(7, myHand.cards.size());
+        assertEquals(45, myDeck.cards.size());
     }
 
-    /*
+
+    //TODO Add more tests once the 2 popups are in place
     @Test
-    public void testGameSetup() {
-        // needs to be implemented
+    public void testSelectAll() {
+        logger.info("Testing that the select all cards method is working as intended");
+
     }
-    */
+
+
+    //makeSet
+
+
+    //reorderHand
+
+
+    //checkForSet
+
+
+
+    // ************************************** PLAYER TESTS ****************************************** /
+
+
+    //addScore
+
+
+    // getScore
+
+
+
+    // ************************************** PLAYER TURN TESTS ****************************************** /
+
+
+    //takeTurn(Player player)
 
 
 }
