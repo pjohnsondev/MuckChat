@@ -96,6 +96,15 @@ public enum MuckServer {
         // Bind the server to the configured ports
         kryoServer.bind(config.getTcpPort(), config.getUdpPort());
 
+        /**
+         * This is a temporary call to help populate the server with an initial test user
+         * If you are seeing errors in playermanagertest or from the server regarding COLUMN not
+         * existing, please delete the muckdb folder and the testdb folder from the server
+         * The next time you start the server it will automatically create a new database with
+         * the latest structure
+         */
+
+        addTestUser("Test", "Testdisplay", "password");
         // Adds a listener to listen for clients disconnecting from the server, then
         // removes them from the players hashmap and sends to all connected clients.
         addListener(ListenerBuilder.forClass(Disconnect.class).onReceive((conn, disconnect) -> {
@@ -279,6 +288,31 @@ public enum MuckServer {
         }
 
         kryoServer.addListener(l);
+    }
+
+    public void addTestUser(String username, String displayName, String password){
+        logger.info("Attempting to create account {}.", username);
+
+        PlayerManager playerManager = new PlayerManager(new UserService());
+        userMessage userMessage = new userMessage();
+        UserStructure userStructure = new UserStructure();
+        userStructure.username = username;
+        userStructure.password = password;
+        userStructure.displayName = displayName;
+
+        try {
+            Player player = playerManager.signupPlayer(userStructure);
+            logger.info("Sign up successful for {}", player.getUsername());
+        } catch(UserNameAlreadyTakenException ex){
+            logger.info(ex.getMessage());
+        } catch (BadRequestException ex) {
+            logger.info("error in muckServer signup badrequestexception catch");
+        } catch (RuntimeException ex) {
+            userMessage.setMessage("Error setting user to database");
+            ex.printStackTrace();
+        } catch (Exception ex){
+            logger.info("error in playermanager signup exception catch");
+        }
     }
 
 }
