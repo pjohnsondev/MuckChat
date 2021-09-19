@@ -67,9 +67,15 @@ public class SpriteTest extends ApplicationTest {
         assertEquals(hero.getPosY(),300.0);
         assertEquals(hero.getPlayerPos(),"300.0,300.0");
         logger.info("Test checks the setPosX and setPosY Methods");
-        hero.setPosX(250.0);
-        hero.setPosY(250.0);
-        assertEquals(hero.getPosX(),250.0);
-        assertEquals(hero.getPosY(),250.0);
+        hero.setPosX(90.0);
+        hero.setPosY(90.0);
+        assertEquals(hero.getPosX(),90.0);
+        assertEquals(hero.getPosY(),90.0);
+        logger.info("Tile collision Detection");
+        hero.setDy(25);
+        hero.setDx(25);
+        hero.move(tm,hero);
+        assertEquals(hero.getPosX(), 90);
+        assertEquals(hero.getPosY(), 90);
     }
 }
