@@ -60,11 +60,7 @@ public class SignInController{
     }
 
     // TODO: Add Pass to Avatar Selection Display - work out how to pass data between scenes
-    public static void passToNextScene(MouseEvent event, String username) throws IOException{
-        // Currently needs to go to muck via avatar controller until users can be brought from database
-
-        // This will likely need to be updated to pass in the display name from the database to be consistent
-        // with the sign up class otherwise only username will be passed in both.
+    public static void passToNextScene(MouseEvent event, String username) {
         AvatarController nextScene = new AvatarController();
         App.hideStage();
         nextScene.avatarCreation(event, username);
@@ -76,8 +72,8 @@ public class SignInController{
             error.setText("Data Sent");
             return true;
         } catch (Exception ex) {
-            error.setText("error");
-            throw new RuntimeException(String.format("Unable to create new user: %s.", userName));
+            error.setText(String.format("Unable to create new user: %s.", userName));
+            throw new RuntimeException(ex.getMessage());
         }
     }
 
@@ -94,11 +90,15 @@ public class SignInController{
     }
 
     public boolean success(){
-        if(ActiveUser.getInstance().getServerMessage().equals("Login Successful")){
-            error.setText("Login successful");
-            return true;
-        } else {
-            error.setText(ActiveUser.getInstance().getServerMessage());
+        try{
+            if(ActiveUser.getInstance().getServerMessage().equals("Login Successful")){
+                return true;
+            } else {
+                error.setText(ActiveUser.getInstance().getServerMessage());
+                return false;
+            }
+        } catch (NullPointerException ex){
+            error.setText("There was no response from the server. Please try again");
             return false;
         }
     }
