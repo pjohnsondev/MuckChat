@@ -173,6 +173,8 @@ public class CardsGameController implements Initializable {
                 stage.setScene(scene);
                 stage.show();
 
+                close.addEventHandler(MouseEvent.MOUSE_CLICKED, shut -> {stage.close(); });
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -215,6 +217,7 @@ public class CardsGameController implements Initializable {
                 stage.setTitle("Ask for a card!");
                 stage.setScene(scene);
                 stage.show();
+                close.addEventHandler(MouseEvent.MOUSE_CLICKED, shut -> {stage.close(); });
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -258,6 +261,8 @@ public class CardsGameController implements Initializable {
                stage.setTitle("New Cards!");
                stage.setScene(scene);
                stage.show();
+
+                close.addEventHandler(MouseEvent.MOUSE_CLICKED, shut -> {stage.close(); });
 
             } catch (Exception e) {
                 e.printStackTrace();
