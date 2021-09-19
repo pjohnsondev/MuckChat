@@ -9,18 +9,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 
 
-// This class stores and triggers achievements when specific in-game requirements from other classes are met.
-
+/**
+ * The Achievements class creates achievement objects that trigger a pop-up notification
+ * when specific in-game actions or milestones are met.
+ */
 public class Achievements {
     boolean achievementName;
     String achievementTitle;
     String achievementDescription;
 
     // List of achievements that can be earned in-game
-    // TODO: NEED TO ADD ACHIEVEMENTS HERE
-    // TODO: NEED TO CODE IN THE ACHIEVEMENT TRIGGERS TO OTHER THE CLASSES
-
-
     public static boolean achievement1 = false;
     public static final String achievement1Title = "Hotel California";
     public static final String achievement1Description = "Player has visited the Inn";
@@ -137,32 +135,5 @@ public class Achievements {
         Sound soundObject = new Sound("/sounds/tilegame.mp3");
         soundObject.music(soundObject);
     }
-
-/*
-    public static void createAchievements() {
-        Achievements achieve1 = new Achievements(achievement1, achievement1Title, achievement1Description);
-        Achievements achieve2 = new Achievements(achievement2, achievement2Title, achievement2Description);
-        Achievements achieve3 = new Achievements(achievement3, achievement3Title, achievement3Description);
-        Achievements achieve4 = new Achievements(achievement4, achievement4Title, achievement4Description);
-        Achievements achieve5 = new Achievements(achievement5, achievement5Title, achievement5Description);
-        Achievements achieve6 = new Achievements(achievement6, achievement6Title, achievement6Description);
-        Achievements achieve7 = new Achievements(achievement7, achievement7Title, achievement7Description);
-        Achievements achieve8 = new Achievements(achievement8, achievement8Title, achievement8Description);
-        Achievements achieve9 = new Achievements(achievement9, achievement9Title, achievement9Description);
-        Achievements achieve10 = new Achievements(achievement10, achievement10Title, achievement10Description);
-        Achievements achieve11 = new Achievements(achievement11, achievement11Title, achievement11Description);
-        Achievements achieve12 = new Achievements(achievement12, achievement12Title, achievement12Description);
-    }
-
-
-    public String getAchievementTitle(Achievements achievement) {
-        return achievement.achievementTitle;
-    }
-
-
-    public String getAchievementDescription(Achievements achievement) {
-        return achievement.achievementDescription;
-    }
- */
 
 }
