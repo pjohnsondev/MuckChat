@@ -295,31 +295,35 @@ public class CardsGameController implements Initializable {
         the_deck.setImage(backOfCard);
 
         for (int i = 0, j = 0; i < game.player1.hand.cards.size(); i++, j++) {
-            int getCardID = game.player1.hand.cards.get(i).getCardId();
+            int getCardID = game.player1.hand.cards.get(0).getCardId();
             Image filename0 = new Image(game.player1.hand.cards.get(i).getFileName());
             Image filename1 = new Image(game.player1.hand.cards.get(i).getBFileName());
-            if (i != 0 && game.player1.hand.cards.get(i).getMatchId() == game.player1.hand.cards.get(i - 1).getMatchId()){
-                positions.get(j + 12).setImage(filename0);
-                j--;
-            }
-            else {
+            if (i != 0 && game.player1.hand.cards.get(i).getMatchId() == game.player1.hand.cards.get(i - 1).getMatchId()) {
+                if (i > 1 && game.player1.hand.cards.get(i).getMatchId() == game.player1.hand.cards.get(i - 2).getMatchId()) {
+                    positions.get(j + 25).setImage(filename0);
+                } else {
+                    positions.get(j + 12).setImage(filename0);
+                    j--;
+                }
+            } else {
                 positions.get(j).setImage(filename0);
             }
 
+
             positions.get(getCardID).addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-                if (game.player1.hand.cards.get(0).getSelectedValue() == false) {
-                    game.player1.hand.cards.get(0).setSelected(true);
+                if (game.player1.hand.cards.get(game.player1.hand.cards.size() - 1).getSelectedValue() == false) {
+                    game.player1.hand.selectAll(game.player1.hand.cards.get(game.player1.hand.cards.size() - 1));
                     positions.get(getCardID).setImage(filename1);
                 } else {
-                    if (game.player1.hand.cards.get(0).getSelectedValue() == true) {
-                        game.player1.hand.cards.get(0).setSelected(false);
+                    if (game.player1.hand.cards.get(game.player1.hand.cards.size() - 1).getSelectedValue() == true) {
+                        game.player1.hand.deselectAll(game.player1.hand.cards.get(game.player1.hand.cards.size() - 1));
                         positions.get(getCardID).setImage(filename0);
                     }
                 }
 
             });
-
         }
+
     }
 
     public static void set_score(){
