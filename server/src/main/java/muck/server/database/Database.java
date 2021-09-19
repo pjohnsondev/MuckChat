@@ -20,7 +20,7 @@ abstract public class Database {
      * Establishes a connection to the database.
      * <br>
      * You should run this in the constructor method of a child class after 
-     * providing the database name and connection string.
+     * providing the database name and connection string.f
      * <br>
      * <br>
      * <code>

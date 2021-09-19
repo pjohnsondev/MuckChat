@@ -4,9 +4,6 @@ import java.util.ArrayList;
 
 public class ChatChannelStructure {
     private int channelId;
-
-
-
     private int cuID;
     private String channelName;
     private ArrayList<String> userList;

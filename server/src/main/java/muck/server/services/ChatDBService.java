@@ -1,4 +1,5 @@
 package muck.server.services;
+import muck.server.models.models.ChannelUsersModel;
 import muck.server.models.models.ChatChannelModel;
 import muck.server.models.models.MessageModel;
 import muck.server.structures.ChatChannelStructure;
@@ -14,6 +15,7 @@ import java.util.Date;
 public class ChatDBService {
     ChatChannelModel channel = new ChatChannelModel();
     MessageModel message = new MessageModel();
+    ChannelUsersModel channelUsers = new ChannelUsersModel();
 
     public boolean storeMessage(ChatMessageStructure msg){
         try{
@@ -102,12 +104,19 @@ public class ChatDBService {
         ChatChannelStructure ch = new ChatChannelStructure();
 
         try{
-            ResultSet result = channel.retrieveChannel(chatChannel);
+            ResultSet resultCh = channel.retrieveChannel(chatChannel);
+            ResultSet resultUsers = channelUsers.retrieveChannelUser(chatChannel);
+            ArrayList<String> users = new ArrayList();
+            while(resultUsers.next()){
+                users.add(resultUsers.getString(3));
+            }
+            ch.setUserList(users);
         } catch (SQLException e){
 
         }catch (InvalidParameterException e){
 
         }
+
         return ch;
     }
 
