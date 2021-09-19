@@ -1,7 +1,9 @@
 package muck.server;
 
 import muck.core.structures.UserStructure;
+import muck.server.Exceptions.UserNameAlreadyTakenException;
 import muck.server.models.models.UserModel;
+import muck.server.services.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,8 +11,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.security.InvalidParameterException;
-import java.sql.SQLException;
+import java.sql.*;
 
 import muck.server.testHelpers.TestDatabase;
 
@@ -21,7 +22,7 @@ public class UserModelTest {
 
     private TestDatabase testDb = new TestDatabase();
     private UserModel userModel = new UserModel(testDb);
-
+    private UserService userService = new UserService(userModel);
 
     private void dropAndClose(UserModel userModel, TestDatabase testDb) throws SQLException {
         testDb.dropTable("users");
@@ -71,18 +72,27 @@ public class UserModelTest {
     }
 
     @Test
-    public void InsertNewUserTest() throws SQLException, InvalidParameterException {
-        //TODO: Complete this test
-        //UserStructure testUser = new UserStructure();
-        //userModel.insertNewUser(testUser);
-        //assertTrue();
-        //userModel.closeDbConnection();
+    public void RegisterNewUserTest() throws SQLException, UserNameAlreadyTakenException {
+        UserStructure testUser = new UserStructure();
+        testUser.username = "Bob19";
+        testUser.password = "Password01";
+        testUser.displayName = "Bob Ross";
+        userService.registerNewUser(testUser);
+        testDb.query("SELECT * FROM users WHERE username = 'Bob19'");
+        ResultSet rs = testDb.getResultSet();
+        assertTrue(rs.next());
+        // Remove user so the test will still pass in future (i.e. won't throw UserNameAlreadyTakenException)
+        testDb.query("DELETE FROM users WHERE username = 'Bob19'");
+        testDb.executeUpdate();
+
+        userModel.closeDbConnection();
     }
+
 
     @Test
     public void FindUserByUsernameTest() throws SQLException {
-
-    }
+        //
+        }
 
     @Test
     public void FindUserByIdTest() throws SQLException {
