@@ -13,7 +13,7 @@ public class Card {
     private int cardId, matchId;
     private String suit, cardName;
     private Image cardImage;
-    private String fileName;
+    private String fileName, bFileName;
     private Boolean selected;
 
     /**
@@ -31,8 +31,8 @@ public class Card {
         setMatchId(matchId);
         selected = false;
         fileName = "/images/cards/" + cardName + "_of_" + suit.toLowerCase() + ".png";
-        //fileName = cardName + "_of_" + suit.toLowerCase();
-//        cardImage = new Image(fileName);
+        bFileName = "/images/cards/B_" + cardName + "_of_" + suit.toLowerCase() + ".png";
+
     }
 
 
@@ -49,6 +49,8 @@ public class Card {
     public String getFileName() {
         return fileName;
     }
+
+    public String getBFileName() { return bFileName;}
 
 
     public boolean getSelectedValue() {

@@ -12,6 +12,9 @@ import org.apache.logging.log4j.Logger;
 //TODO Implement tests for all functions
 //TODO comment method and class headers
 
+// This file runs tests on the methods of each of the classes created to make the Go Fish Card Game.
+// All tests are in this file - separated by /************** {CLASS NAME HERE} TESTS **************/
+
 // Some tests to write
 
 /*
@@ -22,17 +25,55 @@ import org.apache.logging.log4j.Logger;
  */
 
 public class CardTest {
+    Card card;
     Deck myDeck;
     Hand myHand;
+    ComputerOpponent opponent;
+    Game game;
+    Player player;
+    PlayerTurn playerTurn;
     private static final Logger logger = LogManager.getLogger(Deck.class);
     Random rand;
 
     @BeforeEach
     void setup() {
+        card = new Card(1, 1, "clubs", "ace");
         myDeck = new Deck();
         rand = new Random();
         myHand = new Hand();
+        opponent = new ComputerOpponent(1);
+        game = new Game();
+        player = new Player();
+        playerTurn = new PlayerTurn(1);
+
     }
+
+
+    // ************************************** CARD TESTS ****************************************** /
+
+    @Test
+    public void testGetCardId() {
+        logger.info("Testing getting the correct card ID");
+        assertEquals(1, card.getCardId());
+    }
+
+    @Test
+    public void testGetFileName() {
+
+        logger.info("Testing the filename is correct");
+        assertEquals("/images/cards/ace_of_clubs.png", card.getFileName());
+    }
+
+    @Test
+    public void testGetBFileName() {
+
+        logger.info("Testing that the highlighted image filename is correct");
+        assertEquals("/images/cards/B_ace_of_clubs.png", card.getBFileName());
+    }
+
+
+
+    // ************************************** DECK TESTS ****************************************** /
     @Test
     public void testDeckSize() {
         // logic to date works on a standard size deck of 52 cards.
