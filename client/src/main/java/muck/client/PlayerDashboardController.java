@@ -155,6 +155,8 @@ public class PlayerDashboardController implements Initializable {
         achievements.add(new String[]{achivementTitle, achievementDescription});
     }
 
+    public static ArrayList<String[]> getAchievements() { return achievements; }
+
         /**
          * Displays the player's achievements in the applicable section of the GUI
          */

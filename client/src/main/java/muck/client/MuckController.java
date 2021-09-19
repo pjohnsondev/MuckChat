@@ -246,7 +246,7 @@ public class MuckController implements Initializable {
                 scene.getStylesheets().add("/css/style.css");
                 stage.setScene(scene);
                 stage.toFront();
-                stage.setAlwaysOnTop(true);
+                //stage.setAlwaysOnTop(true);
                 stage.initStyle(StageStyle.UTILITY);
                 stage.setResizable(false);
                 stage.setOnHiding(avatarEvent -> {

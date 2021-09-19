@@ -27,7 +27,6 @@ public class PlayerDashboardTest extends ApplicationTest {
 
     private static final Logger logger = LogManager.getLogger(PlayerDashboardTest.class);
     private Stage stage;
-    private ArrayList<String[]> achievements; //TODO: Remove once we have the ability to call the server
     private Image peach_full;
     private Image batman_full;
     private Image pikachu_full;
@@ -48,15 +47,10 @@ public class PlayerDashboardTest extends ApplicationTest {
         yoshi_full = new Image("/images/yoshi.png");
 
         //TODO: Remove the below once we have the ability to call the server
-        achievements = new ArrayList<>();
-        achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
-        PlayerDashboardController.addAchievements("Hotel California", "Player has visited the Inn");
-        achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
+        /*PlayerDashboardController.addAchievements("Hotel California", "Player has visited the Inn");
         PlayerDashboardController.addAchievements("Retail Therapy", "Player has visited the Shops");
-        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
         PlayerDashboardController.addAchievements("Alien Exterminator", "Player has won a game of Space Invaders");
-        achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
-        PlayerDashboardController.addAchievements("Hotel California", "Player has visited the Inn");
+        PlayerDashboardController.addAchievements("Hotel California", "Player has visited the Inn");*/
 
         // ************************************************************************
 
@@ -146,6 +140,8 @@ public class PlayerDashboardTest extends ApplicationTest {
         logger.info("Checking achievements update");
         clickOn("#change");
         clickOn("#submit");
+
+        ArrayList<String[]> achievements = PlayerDashboardController.getAchievements();
         //TODO: Call achievements for character (or might need to add achievements for mock character)
 
         logger.info("Turning player achievements into a String arrayList");

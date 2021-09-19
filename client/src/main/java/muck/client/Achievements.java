@@ -107,8 +107,9 @@ public class Achievements {
             Label descriptionLabel = (Label) parent.lookup("#achievementDescriptionLabel");
             descriptionLabel.setText(achievement.achievementDescription);
             window.setScene(new Scene(parent));
-            window.setAlwaysOnTop(true);
             window.show();
+            window.toFront();
+            window.setAlwaysOnTop(true);
 
             achievementSounds();
         }

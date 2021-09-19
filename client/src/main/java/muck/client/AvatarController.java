@@ -420,10 +420,10 @@ public class AvatarController implements Initializable  {
     private void submit(MouseEvent event) {
         try {
             if (previous.equals("playerDashboard")) { //If the user previously came from player dashboard return there
-                submitToDashboard(event);
                 // Unlocks achievement 7 when the player changes avatar.
                 Achievements achieve7 = new Achievements(achievement7, achievement7Title, achievement7Description);
                 achieve7.achievementUnlock(achieve7);
+                submitToDashboard(event);
             } else {
                 submitToMap(event); // Otherwise send them to the map
                 // Unlocks achievement 6 when the player initially selects an avatar.
