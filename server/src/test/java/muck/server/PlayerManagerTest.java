@@ -85,12 +85,15 @@ public class PlayerManagerTest {
     public void loginIsFailedWitInvalidPassword() throws SQLException, UserNameAlreadyTakenException {
         String username = "test_username";
         String password = "password";
+        String displayname = "test_displayname";
         UserStructure userStructure = new UserStructure();
         userStructure.username = username;
         userStructure.password = password;
+        userStructure.displayName = displayname;
 
         if (userService.findByUsername(username) == null) {
             userService.registerNewUser(userStructure);
+            System.out.println("user set");
         }
 
         userStructure.password = "WrongPassword";
@@ -217,6 +220,6 @@ public class PlayerManagerTest {
             userService.registerNewUser(userStructure);
         }
 
-        assertThrows(RuntimeException.class, ()-> playerManager.signupPlayer(userStructure));
+        assertThrows(UserNameAlreadyTakenException.class, ()-> playerManager.signupPlayer(userStructure));
     }
 }
