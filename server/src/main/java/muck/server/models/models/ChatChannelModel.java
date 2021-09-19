@@ -1,5 +1,6 @@
 package muck.server.models.models;
 
+import muck.server.database.Database;
 import muck.server.models.AbstractModel.Model;
 import muck.server.structures.ChatChannelStructure;
 
@@ -8,10 +9,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ChatChannelModel extends Model {
-    private static String CHANNEL_ID_COL = "channel_ID";
-    private static String USER_NAME_COL = "user_name";
-    private static String CHANNEL_NAME_COL = "channel_name";
-    private static String CHANNEL_USER_ID = "ch_id";
+    public static String CHANNEL_ID_COL = "channel_id";
+    public static String CHANNEL_NAME_COL = "channel_name";
+
+    public ChatChannelModel() {
+        this.table = "channels";
+    }
+
+    public ChatChannelModel(Database db) {
+        super(db);
+        this.table = "channels";
+    }
 
     /**
      * Creates a table for the chat messages, if it does not exist already

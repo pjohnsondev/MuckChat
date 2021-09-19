@@ -45,11 +45,11 @@ public class ChatDBService {
         try{
             ResultSet result = message.retrieveMessages();
             while(result.next()){
-                msg.setMessageId(result.getInt(1));
-                msg.setChannelId(result.getInt(2));
-                msg.setUserId(result.getString(3));
-                msg.setMessage(result.getString(4));
-                msg.setTimeStamp(result.getDate(5));
+                msg.setMessageId(result.getInt(MessageModel.MESSAGE_ID_COL)); //1));
+                msg.setChannelId(result.getInt(MessageModel.CHANNEL_ID_COL));
+                msg.setUserId(result.getString(MessageModel.USER_ID_COL));
+                msg.setMessage(result.getString(MessageModel.MESSAGE_COL));
+                msg.setTimeStamp(result.getDate(MessageModel.TIMESTAMP_COL));
                 msgs.add(msg);
             }
         } catch (SQLException e){
@@ -65,11 +65,11 @@ public class ChatDBService {
         try{
             ResultSet result = message.retrieveMessages(channelID);
             while(result.next()){
-                msg.setMessageId(result.getInt(1));
-                msg.setChannelId(result.getInt(2));
-                msg.setUserId(result.getString(3));
-                msg.setMessage(result.getString(4));
-                msg.setTimeStamp(result.getDate(5));
+                msg.setMessageId(result.getInt(MessageModel.MESSAGE_ID_COL)); //1));
+                msg.setChannelId(result.getInt(MessageModel.CHANNEL_ID_COL));
+                msg.setUserId(result.getString(MessageModel.USER_ID_COL));
+                msg.setMessage(result.getString(MessageModel.MESSAGE_COL));
+                msg.setTimeStamp(result.getDate(MessageModel.TIMESTAMP_COL));
                 msgs.add(msg);
             }
         } catch (SQLException e){
@@ -86,11 +86,11 @@ public class ChatDBService {
         try{
             ResultSet result = message.retrieveMessages(channelID);
             while(result.next()){
-                msg.setMessageId(result.getInt(1));
-                msg.setChannelId(result.getInt(2));
-                msg.setUserId(result.getString(3));
-                msg.setMessage(result.getString(4));
-                msg.setTimeStamp(result.getDate(5));
+                msg.setMessageId(result.getInt(MessageModel.MESSAGE_ID_COL)); //1));
+                msg.setChannelId(result.getInt(MessageModel.CHANNEL_ID_COL));
+                msg.setUserId(result.getString(MessageModel.USER_ID_COL));
+                msg.setMessage(result.getString(MessageModel.MESSAGE_COL));
+                msg.setTimeStamp(result.getDate(MessageModel.TIMESTAMP_COL));
                 msgs.add(msg);
             }
         } catch (SQLException e){
@@ -108,15 +108,16 @@ public class ChatDBService {
             ResultSet resultUsers = channelUsers.retrieveChannelUser(chatChannel);
             ArrayList<String> users = new ArrayList();
             while(resultUsers.next()){
-                users.add(resultUsers.getString(3));
+                users.add(resultUsers.getString(ChannelUsersModel.USER_NAME_COL));
             }
             ch.setUserList(users);
+            ch.setChannelId(resultCh.getInt(ChatChannelModel.CHANNEL_ID_COL));
+            ch.setChannelName(resultCh.getString(ChatChannelModel.CHANNEL_NAME_COL));
         } catch (SQLException e){
 
         }catch (InvalidParameterException e){
 
         }
-
         return ch;
     }
 

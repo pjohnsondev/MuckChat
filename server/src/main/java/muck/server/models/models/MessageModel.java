@@ -3,16 +3,27 @@ package muck.server.models.models;
 import java.security.InvalidParameterException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import muck.server.database.Database;
 import muck.server.models.AbstractModel.Model;
 import muck.server.structures.ChatChannelStructure;
 import muck.server.structures.ChatMessageStructure;
 
 public class MessageModel extends Model {
-    private static String MESSAGE_ID_COL = "message_id";
-    private static String CHANNEL_ID_COL = "channel_ID";
-    private static String USER_ID_COL = "user_id";
-    private static String MESSAGE_COL = "message";
-    private static String TIMESTAMP_COL = "timestamp";
+    public static String MESSAGE_ID_COL = "message_id";
+    public static String CHANNEL_ID_COL = "channel_id";
+    public static String USER_ID_COL = "user_name";
+    public static String MESSAGE_COL = "message";
+    public static String TIMESTAMP_COL = "timestamp";
+
+    public MessageModel() {
+        this.table = "messages";
+    }
+
+    public MessageModel(Database db) {
+        super(db);
+        this.table = "messages";
+    }
 
     /**
      * Creates a table for the chat messages, if it does not exist already
