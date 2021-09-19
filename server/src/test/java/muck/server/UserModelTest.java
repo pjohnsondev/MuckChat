@@ -5,56 +5,98 @@ import muck.server.Exceptions.ModelNotFoundException;
 import muck.server.Exceptions.UserNameAlreadyTakenException;
 import muck.server.models.models.UserModel;
 import muck.server.services.UserService;
+import muck.server.testHelpers.TestDatabase;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
-import java.sql.*;
-
-import muck.server.testHelpers.TestDatabase;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UserModelTest {
     private static final Logger logger = LogManager.getLogger(DatabaseTest.class);
 
-    private TestDatabase testDb = new TestDatabase();
-    private UserModel userModel = new UserModel(testDb);
-    private UserService userService = new UserService(userModel);
+    private TestDatabase testDb;
+    private UserModel userModel;
+    private UserService userService;
+    private UserStructure testUser1;
+    private UserStructure testUser2;
 
+    /**
+     * A test helper method
+     *
+     * @param userModel
+     * @param testDb
+     * @throws SQLException
+     */
     private void dropAndClose(UserModel userModel, TestDatabase testDb) throws SQLException {
         testDb.dropTable("users");
         userModel.closeDbConnection();
     }
+
+    /**
+     * Another test helper method
+     * @param userModel
+     * @param testDb
+     * @throws SQLException
+     */
     private void resetTable(UserModel userModel, TestDatabase testDb) throws SQLException {
         userModel.closeDbConnection();
         userModel.changeDb(testDb);
         testDb.dropTable("users");
         userModel.createTable();
     }
+
+    /**
+     * Create test users to be used in the tests
+     */
+    @BeforeAll
+    public void beforeAll() {
+        testUser1 = new UserStructure();
+        testUser1.username = "Bob19";
+        testUser1.password = "Password01";
+        testUser1.displayName = "Bob Ross";
+
+        testUser2 = new UserStructure();
+        testUser2.username = "Bob19";
+        testUser2.password = "Password02";
+        testUser2.displayName = "Bob Smith";
+
+    }
+
+
     /**
      * Establish a new database connection before each test
      */
     @BeforeEach
-    public void beforeEach() throws SQLException{
+    public void beforeEach() throws SQLException, UserNameAlreadyTakenException {
         logger.info("This message prints BEFORE each test runs");
-//         reset database using testDB
+        // Reset database using testDb
         testDb = new TestDatabase();
         userModel = new UserModel(testDb);
+        userService = new UserService(userModel);
         if (!testDb.tableExists("users")) {
             userModel.createTable();
         }
+        // Register Bob19 as a new user
+        userService.registerNewUser(testUser1);
     }
 
     /**
      * Close database connection after each test
      */
     @AfterEach
-    public void afterEach() {
+    public void afterEach() throws SQLException {
         logger.info("This message prints AFTER each test runs");
+        // Remove user from table to reset for the next test
+        testDb.query("DELETE FROM users WHERE username = 'Bob19'");
+        testDb.executeUpdate();
+        // Close database connection
         userModel.closeDbConnection();
     }
 
@@ -91,11 +133,6 @@ public class UserModelTest {
      */
     @Test
     public void RegisterNewUserTest() throws SQLException, UserNameAlreadyTakenException {
-        UserStructure testUser = new UserStructure();
-        testUser.username = "Bob19";
-        testUser.password = "Password01";
-        testUser.displayName = "Bob Ross";
-        userService.registerNewUser(testUser);
         testDb.query("SELECT * FROM users WHERE username = 'Bob19'");
         ResultSet rs = testDb.getResultSet();
         assertTrue(rs.next());
@@ -103,10 +140,6 @@ public class UserModelTest {
         testDb.query("SELECT * FROM users WHERE username = 'Bob20'");
         ResultSet rs2 = testDb.getResultSet();
         assertFalse(rs2.next());
-
-        // Remove user so the test will still pass in future (i.e. won't throw UserNameAlreadyTakenException)
-        testDb.query("DELETE FROM users WHERE username = 'Bob19'");
-        testDb.executeUpdate();
     }
 
     /**
@@ -117,84 +150,33 @@ public class UserModelTest {
      */
     @Test
     public void UniqueUserNameTest() throws SQLException, UserNameAlreadyTakenException {
-        // Create test user Bob19
-        UserStructure testUser = new UserStructure();
-        testUser.username = "Bob19";
-        testUser.password = "Password01";
-        testUser.displayName = "Bob Ross";
-
-        // Register Bob19
-        userService.registerNewUser(testUser);
-
-        // Create test user also with Bob19 as username
-        UserStructure testUser2 = new UserStructure();
-        testUser2.username = "Bob19";
-        testUser2.password = "Password02";
-        testUser2.displayName = "Bob Smith";
-
         assertThrows(UserNameAlreadyTakenException.class, () ->
                 userService.registerNewUser(testUser2), "Registered a second user called Bob19");
-
-        // Remove user Bob19
-        testDb.query("DELETE FROM users WHERE username = 'Bob19'");
-        testDb.executeUpdate();
     }
 
     @Test
     public void AuthenticateUserTest() throws SQLException, UserNameAlreadyTakenException, ModelNotFoundException {
-        // Create and register test user Bob19
-        UserStructure testUser = new UserStructure();
-        testUser.username = "Bob19";
-        testUser.password = "Password01";
-        testUser.displayName = "Bob Ross";
-        userService.registerNewUser(testUser);
+        assertTrue(userService.authenticateUser(testUser1));
+        testUser1.password = "Password02";
+        assertFalse(userService.authenticateUser(testUser1));
 
-        assertTrue(userService.authenticateUser(testUser));
-
-        testUser.password = "Password02";
-        assertFalse(userService.authenticateUser(testUser));
-
-        // Remove user Bob19
-        testDb.query("DELETE FROM users WHERE username = 'Bob19'");
-        testDb.executeUpdate();
-
+        // Reset testUser1's password so as to not upset future tests
+        testUser1.password = "Password01";
     }
 
 
     @Test
     public void FindUserByUsernameTest() throws SQLException, UserNameAlreadyTakenException {
-        // Create and register test user Bob19
-        UserStructure testUser = new UserStructure();
-        testUser.username = "Bob19";
-        testUser.password = "Password01";
-        testUser.displayName = "Bob Ross";
-        userService.registerNewUser(testUser);
-
-        assertEquals(userService.findByUsername("Bob19").username, testUser.username);
+        assertEquals(userService.findByUsername("Bob19").username, testUser1.username);
 
         // Need to update UserService.java to recognise display name before below assertion will pass
         //assertEquals(userService.findByUsername("Bob19").displayName, testUser.displayName);
 
-        // Remove user Bob19
-        testDb.query("DELETE FROM users WHERE username = 'Bob19'");
-        testDb.executeUpdate();
         }
 
     @Test
     public void FindByIdTest() throws SQLException, UserNameAlreadyTakenException {
-        // Create and register test user Bob19
-        UserStructure testUser = new UserStructure();
-        testUser.username = "Bob19";
-        testUser.password = "Password01";
-        testUser.displayName = "Bob Ross";
-        userService.registerNewUser(testUser);
-
-        //assertEquals(userService.findById(1).username, testUser.username);
-
-        // Remove user Bob19
-        testDb.query("DELETE FROM users WHERE username = 'Bob19'");
-        testDb.executeUpdate();
-
+        //assertEquals(userService.findById(1).username, testUser1.username);
     }
 
 }
