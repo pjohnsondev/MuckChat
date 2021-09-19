@@ -54,14 +54,24 @@ public class UserModelTest {
     @AfterEach
     public void afterEach() {
         logger.info("This message prints AFTER each test runs");
-    }
-
-    @Test
-    public void TableCreationTest() throws SQLException {
-        assertTrue(testDb.tableExists("users"));
         userModel.closeDbConnection();
     }
 
+    /**
+     * TableCreationTest tests that the users table has been created in the test database
+     *
+     * @throws SQLException
+     */
+    @Test
+    public void TableCreationTest() throws SQLException {
+        assertTrue(testDb.tableExists("users"));
+    }
+
+    /**
+     * DropTableTest tests that the table has been dropped successfully
+     *
+     * @throws SQLException
+     */
     @Test
     public void DropTableTest() throws SQLException {
         //TODO: Fix this test
@@ -71,6 +81,13 @@ public class UserModelTest {
         //userModel.closeDbConnection();
     }
 
+    /**
+     * RegisterNewUserTest tests the registerNewUser method from UserService successfully adds
+     * a user to the users table in the test database
+     *
+     * @throws SQLException
+     * @throws UserNameAlreadyTakenException
+     */
     @Test
     public void RegisterNewUserTest() throws SQLException, UserNameAlreadyTakenException {
         UserStructure testUser = new UserStructure();
@@ -84,8 +101,37 @@ public class UserModelTest {
         // Remove user so the test will still pass in future (i.e. won't throw UserNameAlreadyTakenException)
         testDb.query("DELETE FROM users WHERE username = 'Bob19'");
         testDb.executeUpdate();
+    }
 
-        userModel.closeDbConnection();
+    /**
+     * The UniqueUserNameTest tests that the registerNewUser method throws an exception when
+     * a user name is already taken
+     * @throws SQLException
+     * @throws UserNameAlreadyTakenException
+     */
+    @Test
+    public void UniqueUserNameTest() throws SQLException, UserNameAlreadyTakenException {
+        // Create test user Bob19
+        UserStructure testUser = new UserStructure();
+        testUser.username = "Bob19";
+        testUser.password = "Password01";
+        testUser.displayName = "Bob Ross";
+
+        // Register Bob19
+        userService.registerNewUser(testUser);
+
+        // Create test user also with Bob19 as username
+        UserStructure testUser2 = new UserStructure();
+        testUser2.username = "Bob19";
+        testUser2.password = "Password02";
+        testUser2.displayName = "Bob Smith";
+
+        assertThrows(UserNameAlreadyTakenException.class, () ->
+                userService.registerNewUser(testUser2), "Registered a second user called Bob19");
+
+        // Remove user Bob19
+        testDb.query("DELETE FROM users WHERE username = 'Bob19'");
+        testDb.executeUpdate();
     }
 
 
