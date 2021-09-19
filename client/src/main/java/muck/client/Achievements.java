@@ -34,11 +34,11 @@ public class Achievements {
     public static final String achievement3Description = "Player has invaded a home";
 
     public static boolean achievement4 = false;
-    public static final String achievement4Title = "Indiana Stones";
+    public static final String achievement4Title = "The Explorer";
     public static final String achievement4Description = "Player has visited the cave";
 
     public static boolean achievement5 = false;
-    public static final String achievement5Title = "Would You Like Some Pie?";
+    public static final String achievement5Title = "Would you like some pie?";
     public static final String achievement5Description = "Player has entered the cottage";
 
     public static boolean achievement6 = false;
@@ -74,12 +74,10 @@ public class Achievements {
     public static final String achievement13Description = "Player has won a game of Tick-Tac-Toe";
 
 
-    /**
-     * Constructor to create an achievement object
-     * @param aName The boolean status for the achievement (False = locked, True = unlocked)
-     * @param aTitle The achievement title
-     * @param aDescription The achievement description
-     */
+
+
+
+
     public Achievements(boolean aName, String aTitle, String aDescription) {
         this.achievementName = aName;
         this.achievementTitle = aTitle;
@@ -88,13 +86,10 @@ public class Achievements {
 
 
     /**
-     * achievementUnlock Unlocks the achievement if it has not yet been unlocked and
-     * then displays the achievement notification.
-     * The achievement is then displayed on the achievement tab within the Player Dashboard
-     * @param achievement The achievement object being triggered
+     * achievementUnlock Flips achievement boolean from false to true and then displays the achievement notification
      */
     public void achievementUnlock(Achievements achievement) {
-        if (!this.achievementName) {
+        if (this.achievementName == false) {
             this.achievementName = true;
             achievementPopUp(achievement);
             PlayerDashboardController.addAchievements(this.achievementTitle, this.achievementDescription);
@@ -102,12 +97,6 @@ public class Achievements {
     }
 
 
-    /**
-     * achievementPopUp Displays a pop-up notification that notifies the player of
-     * the achievement that was earned.
-     * A notification sound is played as the achievement appears
-     * @param achievement The achievement object being triggered
-     */
     public void achievementPopUp(Achievements achievement) {
         try {
             Parent parent = FXMLLoader.load(getClass().getResource("/fxml/AchievementWindow.fxml"));
@@ -119,6 +108,7 @@ public class Achievements {
             descriptionLabel.setText(achievement.achievementDescription);
             window.setScene(new Scene(parent));
             window.show();
+            window.toFront();
             window.setAlwaysOnTop(true);
 
             achievementSounds();
@@ -128,11 +118,6 @@ public class Achievements {
         }
     }
 
-
-    /**
-     * achievementSounds plays a ringing sound. Used in the achievementPopUp method
-     * as an achievement notification appears
-     */
     public void achievementSounds() {
         Sound soundObject = new Sound("/sounds/tilegame.mp3");
         soundObject.music(soundObject);
