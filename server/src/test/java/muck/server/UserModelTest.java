@@ -1,6 +1,7 @@
 package muck.server;
 
 import muck.core.structures.UserStructure;
+import muck.server.Exceptions.ModelNotFoundException;
 import muck.server.Exceptions.UserNameAlreadyTakenException;
 import muck.server.models.models.UserModel;
 import muck.server.services.UserService;
@@ -98,6 +99,11 @@ public class UserModelTest {
         testDb.query("SELECT * FROM users WHERE username = 'Bob19'");
         ResultSet rs = testDb.getResultSet();
         assertTrue(rs.next());
+
+        testDb.query("SELECT * FROM users WHERE username = 'Bob20'");
+        ResultSet rs2 = testDb.getResultSet();
+        assertFalse(rs2.next());
+
         // Remove user so the test will still pass in future (i.e. won't throw UserNameAlreadyTakenException)
         testDb.query("DELETE FROM users WHERE username = 'Bob19'");
         testDb.executeUpdate();
@@ -134,16 +140,61 @@ public class UserModelTest {
         testDb.executeUpdate();
     }
 
-
     @Test
-    public void FindUserByUsernameTest() throws SQLException {
-        //
-        }
+    public void AuthenticateUserTest() throws SQLException, UserNameAlreadyTakenException, ModelNotFoundException {
+        // Create and register test user Bob19
+        UserStructure testUser = new UserStructure();
+        testUser.username = "Bob19";
+        testUser.password = "Password01";
+        testUser.displayName = "Bob Ross";
+        userService.registerNewUser(testUser);
 
-    @Test
-    public void FindUserByIdTest() throws SQLException {
+        assertTrue(userService.authenticateUser(testUser));
+
+        testUser.password = "Password02";
+        assertFalse(userService.authenticateUser(testUser));
+
+        // Remove user Bob19
+        testDb.query("DELETE FROM users WHERE username = 'Bob19'");
+        testDb.executeUpdate();
 
     }
 
+
+    @Test
+    public void FindUserByUsernameTest() throws SQLException, UserNameAlreadyTakenException {
+        // Create and register test user Bob19
+        UserStructure testUser = new UserStructure();
+        testUser.username = "Bob19";
+        testUser.password = "Password01";
+        testUser.displayName = "Bob Ross";
+        userService.registerNewUser(testUser);
+
+        assertEquals(userService.findByUsername("Bob19").username, testUser.username);
+
+        // Need to update UserService.java to recognise display name before below assertion will pass
+        //assertEquals(userService.findByUsername("Bob19").displayName, testUser.displayName);
+
+        // Remove user Bob19
+        testDb.query("DELETE FROM users WHERE username = 'Bob19'");
+        testDb.executeUpdate();
+        }
+
+    @Test
+    public void FindByIdTest() throws SQLException, UserNameAlreadyTakenException {
+        // Create and register test user Bob19
+        UserStructure testUser = new UserStructure();
+        testUser.username = "Bob19";
+        testUser.password = "Password01";
+        testUser.displayName = "Bob Ross";
+        userService.registerNewUser(testUser);
+
+        //assertEquals(userService.findById(1).username, testUser.username);
+
+        // Remove user Bob19
+        testDb.query("DELETE FROM users WHERE username = 'Bob19'");
+        testDb.executeUpdate();
+
+    }
 
 }
