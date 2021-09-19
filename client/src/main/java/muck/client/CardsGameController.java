@@ -294,11 +294,17 @@ public class CardsGameController implements Initializable {
         opponentCard5.setImage(backOfCard);
         the_deck.setImage(backOfCard);
 
-        for (int i = 0; i < game.player1.hand.cards.size(); i ++) {
+        for (int i = 0, j = 0; i < game.player1.hand.cards.size(); i++, j++) {
             int getCardID = game.player1.hand.cards.get(i).getCardId();
             Image filename0 = new Image(game.player1.hand.cards.get(i).getFileName());
             Image filename1 = new Image(game.player1.hand.cards.get(i).getBFileName());
-            positions.get(getCardID).setImage(filename0);
+            if (i != 0 && game.player1.hand.cards.get(i).getMatchId() == game.player1.hand.cards.get(i - 1).getMatchId()){
+                positions.get(j + 12).setImage(filename0);
+                j--;
+            }
+            else {
+                positions.get(j).setImage(filename0);
+            }
 
             positions.get(getCardID).addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
                 if (game.player1.hand.cards.get(0).getSelectedValue() == false) {
