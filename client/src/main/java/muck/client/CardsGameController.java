@@ -108,7 +108,7 @@ public class CardsGameController implements Initializable {
     public ImageView cardRow4Card11;
     public ImageView cardRow4Card12;
     public ImageView cardRow4Card13;
-    public ImageView the_deck;
+
 
     ArrayList<ImageView> positions = new ArrayList<ImageView>();
 
@@ -123,14 +123,25 @@ public class CardsGameController implements Initializable {
     @FXML
     private ImageView opponentCard5;
 
+    @FXML //fx:id="set1"
+    private ImageView set1;
+
+    @FXML // fx:id="set2"
+    private ImageView set2;
+
+    @FXML //fx:id="set3"
+    private ImageView set3;
+
+    @FXML //fx:id="set4"
+    private ImageView set4;
+
+
     @FXML // fx:id="sets_made" - where the score will be kept
     private Label sets_made;
 
     @FXML // fx:id="opponents_sets_made" - - where the opponents score will be kept
     private Label opponents_sets_made;
-    
-    @FXML //fx:id="draw from deck" - pick up from deck 
-    public Button drawFromDeck;
+
 
     @FXML // fx:id="menu"
     private MenuBar menu;
@@ -188,6 +199,16 @@ public class CardsGameController implements Initializable {
                 cardRow4Card13);
         positions.addAll(anotherlist);
 
+        Image settest1 = new Image("images/cards/2_of_clubs.png");
+        Image settest2 = new Image("images/cards/3_of_hearts.png");
+        Image settest3 = new Image("images/cards/5_of_diamonds.png");
+        Image settest4 = new Image("images/cards/7_of_clubs.png");
+
+        set1.setImage(settest1);
+        set2.setImage(settest2);
+        set3.setImage(settest3);
+        set4.setImage(settest4);
+
 
         askForCard.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             //TODO: add a call to game.computersTurn() after picking up and making a set if necessary
@@ -236,7 +257,7 @@ public class CardsGameController implements Initializable {
             }
         });
 
-        drawFromDeck.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+        /*drawFromDeck.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             //TODO: add a call to game.computerTurn() after picking up and making a set if necessary
             game.player1.hand.drawTopCard(game.deck);
             game.printCards(1);
@@ -274,7 +295,7 @@ public class CardsGameController implements Initializable {
             }
 
 
-        });
+        });*/
         //tenOfDiamonds
         final boolean displayHigh = true;
         //THIS IS JUST A THOUGHT ABOUT HOW TO HIGHLIGHT CARDS WHEN PRESSED
@@ -292,7 +313,7 @@ public class CardsGameController implements Initializable {
         opponentCard3.setImage(backOfCard);
         opponentCard4.setImage(backOfCard);
         opponentCard5.setImage(backOfCard);
-        the_deck.setImage(backOfCard);
+
 
         for (int i = 0, j = 0; i < game.player1.hand.cards.size(); i++, j++) {
             int getCardID = game.player1.hand.cards.get(i).getCardId();
@@ -320,6 +341,14 @@ public class CardsGameController implements Initializable {
             });
 
         }
+        int p1score = game.player1.getScore();
+        sets_made.setText(""+p1score);
+        sets_made.setStyle("-fx-font-family: Times New Roman;");
+
+        int p2score = game.player2.getScore();
+        opponents_sets_made.setText(""+p2score);
+        opponents_sets_made.setStyle("-fx-font-family: Times New Roman;");
+
     }
 
     public static void set_score(){
