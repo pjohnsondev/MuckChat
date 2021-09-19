@@ -126,9 +126,11 @@ public class PlayerDashboardController implements Initializable {
         userName = uname;
         displayName = display;
         avatarID = avID;
-        //TODO: Call the server to get achievements muckPoints and health. Remove below dummy values
-        achievements.clear();
+        //TODO: Call the server to get achievements muckPoints and health.
 
+        //The below dummy values were used to initialise the achievements while we didn't have an alternative method
+        //available. See below addAchievements method.
+        /*achievements.clear();
         achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
         achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
         achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
@@ -137,15 +139,25 @@ public class PlayerDashboardController implements Initializable {
         achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
         achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
         achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
-        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
+        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});*/
 
         muckPointTotal = 100; //TODO: Remove when can call to the server
         healthTotal = 80; //TODO: Remove when can call to the server
     }
 
     /**
-     * Displays the player's achievements in the applicable section of the GUI
+     * This is a dummy method to circumvent the need to store achievements to the database as the storage will not be
+     * ready for assignment submission.
+     * @param achivementTitle: The title of the achievement
+     * @param achievementDescription: The description of the achievement
      */
+    public static void addAchievements(String achivementTitle, String achievementDescription) {
+        achievements.add(new String[]{achivementTitle, achievementDescription});
+    }
+
+        /**
+         * Displays the player's achievements in the applicable section of the GUI
+         */
     private void updateAchievements() {
         heading.setText("Achievements");
         achievementWindow.clear();

@@ -50,14 +50,13 @@ public class PlayerDashboardTest extends ApplicationTest {
         //TODO: Remove the below once we have the ability to call the server
         achievements = new ArrayList<>();
         achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
+        PlayerDashboardController.addAchievements("Hotel California", "Player has visited the Inn");
         achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
+        PlayerDashboardController.addAchievements("Retail Therapy", "Player has visited the Shops");
         achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
+        PlayerDashboardController.addAchievements("Alien Exterminator", "Player has won a game of Space Invaders");
         achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
-        achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
-        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
-        achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
-        achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
-        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
+        PlayerDashboardController.addAchievements("Hotel California", "Player has visited the Inn");
 
         // ************************************************************************
 

@@ -92,6 +92,7 @@ public class Achievements {
         if (this.achievementName == false) {
             this.achievementName = true;
             achievementPopUp(achievement);
+            PlayerDashboardController.addAchievements(this.achievementTitle, this.achievementDescription);
         }
     }
 
@@ -106,8 +107,8 @@ public class Achievements {
             Label descriptionLabel = (Label) parent.lookup("#achievementDescriptionLabel");
             descriptionLabel.setText(achievement.achievementDescription);
             window.setScene(new Scene(parent));
+            window.setAlwaysOnTop(true);
             window.show();
-            window.toFront();
 
             achievementSounds();
         }

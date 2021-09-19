@@ -116,11 +116,6 @@
         </cursor>
         <Image url="@../images/return.png" />
     </ImageView>
-    <Button fx:id="achievement" mnemonicParsing="false" prefHeight="42.0" prefWidth="187.0" style="-fx-background-color: #87cdff;" text="Ignore me. Testing. To be removed." textAlignment="CENTER" textFill="DIMGRAY" GridPane.halignment="CENTER">
-        <font>
-          <Font name="Arial Rounded MT Bold" size="10.0" />
-        </font>
-    </Button>
    <TextArea fx:id="achievementWindow" editable="false" opacity="0.25" prefHeight="465.0" prefWidth="373.0" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
       <GridPane.margin>
          <Insets bottom="100.0" right="15.0" top="50.0" />
