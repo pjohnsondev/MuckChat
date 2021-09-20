@@ -226,8 +226,11 @@ public class TicTacToeController {
             playerTally.setText(Integer.toString(playerTallyNum));
             game.setDisable(true);
             // Unlocks achievement 13 when the player wins the game.
-            Achievements achieve13 = new Achievements(achievement13, achievement13Title, achievement13Description);
-            achieve13.achievementUnlock(achieve13);
+            if (Achievements.achievement13_instance == null) {
+                Achievements.achievement13_instance = new Achievements(achievement13,
+                        achievement13Title, achievement13Description);
+                achievement13_instance.achievementUnlock(achievement13_instance);
+            }
             return true;
             //Checks if computer has won
         } else if ((one.getImage()==circle && two.getImage()==circle && three.getImage()==circle) ||

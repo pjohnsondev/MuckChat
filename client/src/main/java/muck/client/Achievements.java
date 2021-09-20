@@ -19,54 +19,67 @@ public class Achievements {
     String achievementDescription;
 
     // List of achievements that can be earned in-game
+    public static Achievements achievement1_instance = null;
     public static boolean achievement1 = false;
     public static final String achievement1Title = "Hotel California";
     public static final String achievement1Description = "Player has visited the Inn";
 
+    public static Achievements achievement2_instance = null;
     public static boolean achievement2 = false;
     public static final String achievement2Title = "Retail Therapy";
     public static final String achievement2Description = "Player has visited the Shop";
 
+    public static Achievements achievement3_instance = null;
     public static boolean achievement3 = false;
     public static final String achievement3Title = "Hide your kids, Hide your wife";
     public static final String achievement3Description = "Player has invaded a home";
 
+    public static Achievements achievement4_instance = null;
     public static boolean achievement4 = false;
     public static final String achievement4Title = "Indiana Stones";
     public static final String achievement4Description = "Player has visited the cave";
 
+    public static Achievements achievement5_instance = null;
     public static boolean achievement5 = false;
     public static final String achievement5Title = "Would You Like Some Pie?";
     public static final String achievement5Description = "Player has entered the cottage";
 
+    public static Achievements achievement6_instance = null;
     public static boolean achievement6 = false;
     public static final String achievement6Title = "I'm A Real Boy";
     public static final String achievement6Description = "Player has selected an avatar";
 
+    public static Achievements achievement7_instance = null;
     public static boolean achievement7 = false;
     public static final String achievement7Title = "Indecisive";
     public static final String achievement7Description = "Player has selected another avatar";
 
+    public static Achievements achievement8_instance = null;
     public static boolean achievement8 = false;
     public static final String achievement8Title = "The Skeleton King";
     public static final String achievement8Description = "Player has unlocked Skeleton";
 
+    public static Achievements achievement9_instance = null;
     public static boolean achievement9 = false;
     public static final String achievement9Title = "Wonderful!";
     public static final String achievement9Description = "Player has unlocked Wonder Woman";
 
+    public static Achievements achievement10_instance = null;
     public static boolean achievement10 = false;
     public static final String achievement10Title = "Better Than Luigi";
     public static final String achievement10Description = "Player has unlocked Yoshi";
 
+    public static Achievements achievement11_instance = null;
     public static boolean achievement11 = false;
     public static final String achievement11Title = "Winner Winner Chicken Dinner";
     public static final String achievement11Description = "Player has won a game of Frogger";
 
+    public static Achievements achievement12_instance = null;
     public static boolean achievement12 = false;
     public static final String achievement12Title = "Alien Exterminator";
     public static final String achievement12Description = "Player has won a game of Space Invaders";
 
+    public static Achievements achievement13_instance = null;
     public static boolean achievement13 = false;
     public static final String achievement13Title = "All skill, No luck";
     public static final String achievement13Description = "Player has won a game of Tick-Tac-Toe";

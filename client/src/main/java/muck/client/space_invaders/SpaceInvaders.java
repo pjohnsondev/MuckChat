@@ -405,8 +405,11 @@ public class SpaceInvaders {
             // Unlocks achievement 12 when the player beats Space Invaders.
             if (!winCheck) {
                 winCheck = true;
-                Achievements achieve12 = new Achievements(achievement12, achievement12Title, achievement12Description);
-                achieve12.achievementUnlock(achieve12);
+                if (Achievements.achievement12_instance == null) {
+                    Achievements.achievement12_instance = new Achievements(achievement12,
+                            achievement12Title, achievement12Description);
+                    achievement12_instance.achievementUnlock(achievement12_instance);
+                }
             }
         }
 
