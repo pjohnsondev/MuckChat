@@ -45,6 +45,12 @@ public class Card {
         return cardId;
     }
 
+    public String useFileName() {
+        if (selected == true){
+            return bFileName;
+        }
+        return fileName;
+    }
 
     public String getFileName() {
         return fileName;
