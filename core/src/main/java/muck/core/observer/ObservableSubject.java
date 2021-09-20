@@ -4,11 +4,24 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ObservableSubject<T> implements Observable<T> {
-    Set<Observer> observables = new HashSet<>();
+    Set<Observer> observers = new HashSet<>();
 
-    public void register(Observer observer) {}
+    public void register(Observer observer) {
+        if (observer == null)
+            throw new UnsupportedOperationException("Observer cannot be null");
 
-    public void unRegister(Observer observer) {}
+        observers.add(observer);
+    }
 
-    public void notifyObservers(T observer) {}
+    public void unRegister(Observer observer) {
+        if (observer == null)
+            throw new UnsupportedOperationException("Observer cannot be null");
+
+        observers.remove(observer);
+    }
+
+    public void notifyObservers(T message) {
+        for(Observer observer: observers)
+            observer.update(message);
+    }
 }

@@ -30,10 +30,10 @@ public class ObservableSubjectTest {
         ObservableSubject<TestClass> observableSubject = new ObservableSubject<>();
 
         observableSubject.register(testObserver);
-        assertEquals(1,observableSubject.observables.size());
+        assertEquals(1,observableSubject.observers.size());
 
         observableSubject.unRegister(testObserver);
-        assertEquals(0,observableSubject.observables.size());
+        assertEquals(0,observableSubject.observers.size());
     }
 
     @Test
