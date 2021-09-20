@@ -17,12 +17,21 @@ public class MessageModel extends Model {
     public static String TIMESTAMP_COL = "timestamp";
 
     public MessageModel() {
-        this.table = "messages";
+        commonCreatorFunctions();
     }
 
     public MessageModel(Database db) {
         super(db);
+        commonCreatorFunctions();
+    }
+
+    private void commonCreatorFunctions(){
         this.table = "messages";
+        try {
+            this.createTable();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

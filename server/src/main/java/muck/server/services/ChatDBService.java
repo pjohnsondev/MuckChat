@@ -1,4 +1,5 @@
 package muck.server.services;
+import muck.server.database.Database;
 import muck.server.models.models.ChannelUsersModel;
 import muck.server.models.models.ChatChannelModel;
 import muck.server.models.models.MessageModel;
@@ -13,9 +14,21 @@ import java.util.Date;
 
 
 public class ChatDBService {
-    ChatChannelModel channel = new ChatChannelModel();
-    MessageModel message = new MessageModel();
-    ChannelUsersModel channelUsers = new ChannelUsersModel();
+    ChatChannelModel channel;
+    MessageModel message;
+    ChannelUsersModel channelUsers;
+
+    public ChatDBService(){
+        this.channel = new ChatChannelModel();
+        this.message = new MessageModel();
+        this.channelUsers = new ChannelUsersModel();
+    }
+
+    public ChatDBService(Database db){
+        this.channel = new ChatChannelModel(db);
+        this.message = new MessageModel(db);
+        this.channelUsers = new ChannelUsersModel(db);
+    }
 
     public boolean storeMessage(ChatMessageStructure msg){
         try{
@@ -47,7 +60,7 @@ public class ChatDBService {
             while(result.next()){
                 msg.setMessageId(result.getInt(MessageModel.MESSAGE_ID_COL)); //1));
                 msg.setChannelId(result.getInt(MessageModel.CHANNEL_ID_COL));
-                msg.setUserId(result.getString(MessageModel.USER_ID_COL));
+                msg.setUserName(result.getString(MessageModel.USER_ID_COL));
                 msg.setMessage(result.getString(MessageModel.MESSAGE_COL));
                 msg.setTimeStamp(result.getDate(MessageModel.TIMESTAMP_COL));
                 msgs.add(msg);
@@ -67,7 +80,7 @@ public class ChatDBService {
             while(result.next()){
                 msg.setMessageId(result.getInt(MessageModel.MESSAGE_ID_COL)); //1));
                 msg.setChannelId(result.getInt(MessageModel.CHANNEL_ID_COL));
-                msg.setUserId(result.getString(MessageModel.USER_ID_COL));
+                msg.setUserName(result.getString(MessageModel.USER_ID_COL));
                 msg.setMessage(result.getString(MessageModel.MESSAGE_COL));
                 msg.setTimeStamp(result.getDate(MessageModel.TIMESTAMP_COL));
                 msgs.add(msg);
@@ -88,7 +101,7 @@ public class ChatDBService {
             while(result.next()){
                 msg.setMessageId(result.getInt(MessageModel.MESSAGE_ID_COL)); //1));
                 msg.setChannelId(result.getInt(MessageModel.CHANNEL_ID_COL));
-                msg.setUserId(result.getString(MessageModel.USER_ID_COL));
+                msg.setUserName(result.getString(MessageModel.USER_ID_COL));
                 msg.setMessage(result.getString(MessageModel.MESSAGE_COL));
                 msg.setTimeStamp(result.getDate(MessageModel.TIMESTAMP_COL));
                 msgs.add(msg);
@@ -121,4 +134,9 @@ public class ChatDBService {
         return ch;
     }
 
+    public void closeConnections(){
+        channel.closeDbConnection();
+        message.closeDbConnection();
+        channelUsers.closeDbConnection();
+    }
 }

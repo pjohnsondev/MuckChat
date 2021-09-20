@@ -13,12 +13,21 @@ public class ChatChannelModel extends Model {
     public static String CHANNEL_NAME_COL = "channel_name";
 
     public ChatChannelModel() {
-        this.table = "channels";
+        commonCreatorFunctions();
     }
 
     public ChatChannelModel(Database db) {
         super(db);
+        commonCreatorFunctions();
+    }
+
+    private void commonCreatorFunctions(){
         this.table = "channels";
+        try {
+            this.createTable();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

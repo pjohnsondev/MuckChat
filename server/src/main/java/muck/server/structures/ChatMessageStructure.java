@@ -41,7 +41,7 @@ public class ChatMessageStructure {
         this.channelId = channelId;
     }
 
-    public void setUserId(String userName) {
+    public void setUserName(String userName) {
         this.userName = userName;
     }
 

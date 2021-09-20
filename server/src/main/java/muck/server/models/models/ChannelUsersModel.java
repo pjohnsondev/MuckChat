@@ -13,13 +13,20 @@ public class ChannelUsersModel extends Model {
     public static String USER_NAME_COL = "user_name";
     public static String CHANNEL_NAME_COL = "channel_id";
 
-    public ChannelUsersModel() {
-        this.table = "channel_user_list";
-    }
+    public ChannelUsersModel() {commonCreatorFunctions();}
 
     public ChannelUsersModel(Database db) {
         super(db);
+        commonCreatorFunctions();
+    }
+
+    private void commonCreatorFunctions(){
         this.table = "channel_user_list";
+        try {
+            this.createTable();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
