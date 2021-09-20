@@ -71,10 +71,6 @@ public class Achievements {
     public static final String achievement13Title = "All skill, No luck";
     public static final String achievement13Description = "Player has won a game of Tick-Tac-Toe";
 
-    public static boolean achievement14 = false;
-    public static final String achievement14Title = "Alien Destroyer";
-    public static final String achievement14Description = "Player crushed the alien invasion!!!!!";
-
 
     /**
      * Constructor to create an achievement object
