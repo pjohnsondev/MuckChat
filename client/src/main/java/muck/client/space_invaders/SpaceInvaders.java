@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import muck.client.Achievements;
 import muck.client.Sprite;
+import muck.client.space_invaders.SpaceInvadersUtility;
 
 import static  java.util.Map.entry;
 import static muck.client.Achievements.*;
@@ -40,16 +41,6 @@ public class SpaceInvaders {
     private static final int ENEMY_SIZE = 75;
     SimpleIntegerProperty spriteDirectionCount = new SimpleIntegerProperty(0);
     SimpleIntegerProperty spriteYDirectionCount = new SimpleIntegerProperty(0);
-
-    private static Map<String, String> imageURLs = Map.ofEntries(
-            entry("ENEMY_SMALL","/images/spaceinvaders/enemy-small.gif"),
-            entry("ENEMY_MEDIUM", "/images/spaceinvaders/enemy-medium.gif"),
-            entry("ENEMY_BIG", "/images/spaceinvaders/enemy-big.gif"),
-            entry("PLAYER", "/images/spaceinvaders/player-ship.gif"),
-            entry("PLAYER_LASER", "/images/spaceinvaders/player-laser.gif"),
-            entry("ENEMY_LASER", "/images/spaceinvaders/enemy-laser.gif"),
-            entry("EXPLOSION", "/images/spaceinvaders/explosion.gif")
-    );
 
     private GraphicsContext gc;
 
@@ -176,11 +167,11 @@ public class SpaceInvaders {
         endGame = false;
         maxMissiles = MAX_MISSILES;
 
-        player = new SpriteAnimation(imageURLs.get("PLAYER"), PLAYER_SIZE,
+        player = new SpriteAnimation(SpaceInvadersUtility.imageURLs.get("PLAYER"), PLAYER_SIZE,
                 (PLAYER_SIZE*2), WIDTH / 2, HEIGHT - (PLAYER_SIZE + 40),
                 true, true, 5, 1, "PLAYER");
 
-        levelUp(1);
+        SpaceInvadersUtility.levelUp(1, WIDTH, enemies);
     }
 
 
@@ -266,7 +257,7 @@ public class SpaceInvaders {
             }
             if(enemies.size() == 0){
                 level++;
-                levelUp(level);
+                SpaceInvadersUtility.levelUp(level, WIDTH, enemies);
                 if (level > 4){
                     endGame = true;
                 }
@@ -350,7 +341,7 @@ public class SpaceInvaders {
                     }
                     if(enemies.size() == 0){
                         level++;
-                        levelUp(level);
+                        SpaceInvadersUtility.levelUp(level, WIDTH, enemies);
                         if (level > 4){
                             endGame = true;
                         }
@@ -395,61 +386,6 @@ public class SpaceInvaders {
                 displayMessage("Out of ammo!! Nooooo!", Color.YELLOW);
             }
         }
-
-
-        /**
-         * Function name: levelUp
-         * Purpose: To set the number of enemies in each level
-         * @param: levelNumber - an integer representing the level
-         * Return: void
-         */
-        public void levelUp(int levelNumber){
-
-            if (levelNumber == 1){
-                for (int j = 0; j < 5; j++) {
-                    enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_BIG"),
-                            ENEMY_SIZE, ENEMY_SIZE, 60 + j * WIDTH / 5, 150,
-                            true, true, 1, 1,
-                            "ENEMY"));
-                }
-            }
-
-            if (levelNumber == 2){
-                for (int i = 0; i < 5; i++) {
-                    enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_BIG"), ENEMY_SIZE,
-                            ENEMY_SIZE, 60 + i * WIDTH / 5, 150, true,
-                            true, 1, 1, "ENEMY"));
-                }
-                for (int j = 0; j < 4; j++) {
-                    enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_MEDIUM"),
-                            ENEMY_SIZE *0.75, ENEMY_SIZE * 0.75,
-                            160 + j * WIDTH / 5, 300, true, true,
-                            1, 1, "ENEMY"));
-                }
-            }
-
-            if (levelNumber == 3 || levelNumber == 4){
-                for (int i = 0; i < 5; i++) {
-                    enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_BIG"), ENEMY_SIZE,
-                            ENEMY_SIZE, 60 + i * WIDTH / 5, 150, true,
-                            true, 1, 1, "ENEMY"));
-                }
-                for (int j = 0; j < 4; j++) {
-                    enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_MEDIUM"),
-                            ENEMY_SIZE *0.75, ENEMY_SIZE * 0.75,
-                            180 + j * WIDTH / 5, 300, true,
-                            true, 1, 1, "ENEMY"));
-                }
-                for(int k = 0; k < 3; k++) {
-                    enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_SMALL"),
-                            ENEMY_SIZE / 2, ENEMY_SIZE / 2,
-                            280 + k * WIDTH/5, 400, true, true, 1,
-                            1, "ENEMY"));
-                }
-            }
-        }
-
-
 
         /**
          * Function name: restart

@@ -6,6 +6,7 @@ import javafx.scene.input.KeyCode;
 import java.awt.*;
 import java.util.List;
 import java.util.Map;
+import muck.client.space_invaders.SpaceInvadersUtility;
 
 import static java.util.Map.entry;
 
@@ -27,21 +28,12 @@ public class SpriteAnimation extends Image {
     private static final int EXPLOSION_SIZE = 72;
     private KeyCode direction;
 
-    private static Map<String, String> imageURLs = Map.ofEntries(
-            entry("ENEMY_SMALL","/images/spaceinvaders/enemy-small.gif"),
-            entry("ENEMY_MEDIUM", "/images/spaceinvaders/enemy-medium.gif"),
-            entry("ENEMY_BIG", "/images/spaceinvaders/enemy-big.gif"),
-            entry("PLAYER", "/images/spaceinvaders/player-ship.gif"),
-            entry("PLAYER_LASER", "/images/spaceinvaders/player-laser.gif"),
-            entry("ENEMY_LASER", "/images/spaceinvaders/enemy-laser.gif"),
-            entry("EXPLOSION", "/images/spaceinvaders/explosion.gif")
-    );
 
     /**
      * Default constructor
      */
     public SpriteAnimation(){
-        super("/images/SpaceInvaders/player-ship.gif");
+        super(SpaceInvadersUtility.imageURLs.get("PLAYER"));
         this.width = SPRITE_SIZE;
         this.height = SPRITE_SIZE;
         this.x = 0;
@@ -92,7 +84,7 @@ public class SpriteAnimation extends Image {
 
     public int getX() { return x; }
 
-    public void doubleGetX() {double x = getX();};
+    public void doubleGetX() {double x = getX();}
 
     public void setX(int x) { this.x = x;}
 
@@ -145,7 +137,7 @@ public class SpriteAnimation extends Image {
      * Return: void
      */
     public void shoot(List<SpriteAnimation> shootingList) {
-        shootingList.add(new SpriteAnimation (imageURLs.get(this.type + "_LASER"), PLAYER_LASER_SIZE,
+        shootingList.add(new SpriteAnimation (SpaceInvadersUtility.imageURLs.get(this.type + "_LASER"), PLAYER_LASER_SIZE,
                 (PLAYER_LASER_SIZE * 2), this.getX(), this.getY(),
                 true, true, 1, 1, this.type + "_LASER"));
     }
@@ -158,7 +150,7 @@ public class SpriteAnimation extends Image {
      * Return: void
      */
     public void shoot(List<SpriteAnimation> shootingList, int x, int y) {
-        shootingList.add(new SpriteAnimation (imageURLs.get(this.type + "_LASER"), PLAYER_LASER_SIZE * 1.5,
+        shootingList.add(new SpriteAnimation (SpaceInvadersUtility.imageURLs.get(this.type + "_LASER"), PLAYER_LASER_SIZE * 1.5,
                 (PLAYER_LASER_SIZE * 2), x, y,
                 true, true, 1, 1, this.type + "_LASER"));
     }
@@ -171,7 +163,7 @@ public class SpriteAnimation extends Image {
      * Return: void
      */
     public void explode(List<SpriteAnimation> explosionList) {
-        explosionList.add(new SpriteAnimation(imageURLs.get("EXPLOSION"), EXPLOSION_SIZE,
+        explosionList.add(new SpriteAnimation(SpaceInvadersUtility.imageURLs.get("EXPLOSION"), EXPLOSION_SIZE,
                 EXPLOSION_SIZE, this.getX(), this.getY(), true, true,
                 20, 1, "EXPLOSION"));
     }
