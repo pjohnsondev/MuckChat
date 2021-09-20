@@ -2,11 +2,13 @@ package muck.client;
 
 import muck.client.components.ActiveUser;
 import muck.core.Login;
+import muck.core.MapId;
 import muck.core.UpdatePlayerRequest;
 import muck.core.Id;
 import muck.core.Location;
 import muck.core.LocationRequest;
 import muck.core.LocationResponse;
+import muck.core.AvatarLocation;
 import muck.core.ClientId;
 import muck.core.character.AddCharacter;
 import muck.core.character.Player;
@@ -77,8 +79,8 @@ public enum MuckClient {
 		return client;
 	}
 
-	public void updatePlayerLocation(String avatar, Location location) {
-		var req = new UpdatePlayerRequest(clientId, avatar, location);
+	public void updatePlayerLocation(String avatar, Integer mapId, Location location) {
+	    var req = new UpdatePlayerRequest(clientId, new AvatarLocation(avatar), new MapId(mapId), location);
 		// logger.info("Updating my location in the gamemap..."); //Commented this out
 		// because it was spamming the client logger.
 		client.sendTCP(req);
@@ -90,6 +92,7 @@ public enum MuckClient {
 	}
 
 	public synchronized void connect(KryoClientConfig config) throws IOException {
+		inMessages.add("hello");
 		if (client != null) {
 			throw new IllegalStateException("Starting connection when already started");
 		}
@@ -242,7 +245,7 @@ public enum MuckClient {
 		List<String> outMessages = inMessages;
 		inMessages.clear();
 
-		if (inMessages.size() > 0) {
+		if (outMessages.size() > 0) {
 			return outMessages;
 		} else {
 			return inMessages;

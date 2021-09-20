@@ -13,7 +13,7 @@ public class userMessageTest {
     @Test
     public void getMessageTest() {
         userMessage testMessage = new userMessage();
-        testMessage.setMessage("This is a test");
+        testMessage.setMessage("This is a test", "testUser");
         assertTrue("This is a test".equals(testMessage.getMessage()));
     }
 
@@ -24,7 +24,7 @@ public class userMessageTest {
         String formattedDate = formatter.format(currentDate);
 
         userMessage testMessage = new userMessage();
-        testMessage.setMessage("This is a test");
+        testMessage.setMessage("This is a test", "testUser");
 
         assertTrue(formattedDate.equals(testMessage.getMessageTimestamp()));
     }
