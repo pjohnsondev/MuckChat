@@ -478,30 +478,45 @@ public class CardsGameController implements Initializable {
         for (int i = 0, j = 0, k = 0; k < game.player1.hand.cards.size(); i++, k++) {
             Image filename0 = new Image(game.player1.hand.cards.get(k).getFileName());
             Image filename1 = new Image(game.player1.hand.cards.get(k).getBFileName());
+            // TODO these if loops need to be reversed
             if (k != 0 && game.player1.hand.cards.get(k).getMatchId() == game.player1.hand.cards.get(k - 1).getMatchId()) {
                 if (k > 1 && game.player1.hand.cards.get(k).getMatchId() == game.player1.hand.cards.get(k - 2).getMatchId()) {
-                    i -= 1;
-                    images[i][j + 2] = filename0;
-                    images[i + 13][j + 1] = filename1;
-                    cardPositions[i][j + 2] = game.player1.hand.cards.get(k);
-                    if (game.player1.hand.cards.get(k).getSelectedValue() == false) {
-                        positionArray[i][j + 2].setImage(images[i][j + 2]);
+                    if (k > 2 && game.player1.hand.cards.get(k).getMatchId() == game.player1.hand.cards.get(k - 3).getMatchId()) {
+                        i -= 1;
+                        images[i][j + 3] = filename0;
+                        images[i + 13][j + 3] = filename1;
+                        cardPositions[i][j + 3] = game.player1.hand.cards.get(k);
+                        if (game.player1.hand.cards.get(k).getSelectedValue() == false) {
+                            positionArray[i][j + 3].setImage(images[i][j + 3]);
+                        }
+                        if (game.player1.hand.cards.get(k).getSelectedValue() == true) {
+                            positionArray[i][j + 2].setImage(images[i + 13][j + 3]);
+                        }
+                    } else {
+                        i -= 1;
+                        images[i][j + 2] = filename0;
+                        images[i + 13][j + 2] = filename1;
+                        cardPositions[i][j + 2] = game.player1.hand.cards.get(k);
+                        if (game.player1.hand.cards.get(k).getSelectedValue() == false) {
+                            positionArray[i][j + 2].setImage(images[i][j + 2]);
+                        }
+                        if (game.player1.hand.cards.get(k).getSelectedValue() == true) {
+                            positionArray[i][j + 2].setImage(images[i + 13][j + 2]);
+                        }
                     }
-                    if (game.player1.hand.cards.get(k).getSelectedValue() == true) {
-                        positionArray[i][j + 2].setImage(images[i + 13][j + 1]);
+                }else{
+                        i -= 1;
+                        images[i][j + 1] = filename0;
+                        images[i + 13][j + 1] = filename1;
+                        cardPositions[i][j + 1] = game.player1.hand.cards.get(k);
+                        if (game.player1.hand.cards.get(k).getSelectedValue() == false) {
+                            positionArray[i][j + 1].setImage(images[i][j + 1]);
+                        }
+                        if (game.player1.hand.cards.get(k).getSelectedValue() == true) {
+                            positionArray[i][j + 1].setImage(images[i + 13][j + 1]);
+                        }
                     }
-                } else {
-                    i -= 1;
-                    images[i][j + 1] = filename0;
-                    images[i + 13][j + 2] = filename1;
-                    cardPositions[i][j + 1] = game.player1.hand.cards.get(k);
-                    if (game.player1.hand.cards.get(k).getSelectedValue() == false) {
-                        positionArray[i][j + 1].setImage(images[i][j + 1]);
-                    }
-                    if (game.player1.hand.cards.get(k).getSelectedValue() == true) {
-                        positionArray[i][j + 1].setImage(images[i + 13][j + 2]);
-                    }
-                }
+
             } else {
                 images[i][j] = filename0;
                 images[i + 13][j] = filename1;
@@ -512,7 +527,9 @@ public class CardsGameController implements Initializable {
                 if (game.player1.hand.cards.get(k).getSelectedValue() == true) {
                     positionArray[i][j].setImage(images[i + 13][j]);
                 }
+
             }
         }
+
     }
 }
