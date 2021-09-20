@@ -26,6 +26,6 @@ public class userMessageTest {
         userMessage testMessage = new userMessage();
         testMessage.setMessage("This is a test", "testUser");
 
-        assertTrue(formattedDate.equals(testMessage.getMessageTimestamp()));
+        assertTrue(currentDate.equals(testMessage.getMessageTimestamp()));
     }
 }
