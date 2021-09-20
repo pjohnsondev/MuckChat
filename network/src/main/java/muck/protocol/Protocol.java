@@ -1,6 +1,7 @@
 package muck.protocol;
 
 import muck.core.Login;
+import muck.core.MapId;
 import muck.core.Pair;
 import muck.core.LocationRequest;
 import muck.core.LocationResponse;
@@ -59,6 +60,7 @@ public class Protocol {
 		kryo.register(LocationResponseData.class);
 		kryo.register(UpdatePlayerRequest.class);
 		kryo.register(AvatarLocation.class);
+		kryo.register(MapId.class);
 		kryo.register(byte[].class);
 		kryo.register(UserStructure.class);
 
