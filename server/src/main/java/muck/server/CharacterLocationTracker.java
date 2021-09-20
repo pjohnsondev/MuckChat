@@ -38,7 +38,6 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 	 *         and that character's location
 	 */
 	public List<Triple<Id<TrackingType>, AvatarLocation, Location>> getClients() {
-		logger.info("Recieved request for all clients");
 		return _clients.keySet().stream()
 				.map(i -> new Triple<Id<TrackingType>, AvatarLocation, Location>(new Id<TrackingType>(i),
 						_clients.get(i).left(), _clients.get(i).right()))
@@ -52,7 +51,6 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 	 */
 	@Override
 	public ArrayList<Triple<AvatarLocation, MapId, Location>> getAllPlayerLocations() {
-		logger.info("Received request for getting all locations");
 		return new ArrayList<Triple<AvatarLocation, MapId, Location>>(
 				_clients.values().stream().collect(Collectors.toList()));
 	}
@@ -68,8 +66,6 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 	 */
 	@Override
 	public void addClient(Id<TrackingType> clientId, AvatarLocation avatar, MapId mapId, Location loc) {
-		logger.info(String.format("Receieved request to update clientId: %s with avatar: %s and location: %s",
-				clientId.toString(), avatar, loc.toString()));
 		_clients.put(clientId.id, new Triple<AvatarLocation, MapId, Location>(avatar, mapId, loc));
 	}
 
@@ -95,7 +91,6 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 
 	@Override
 	public List<Triple<AvatarLocation, MapId, Location>> getAllLocationsExceptId(Id<TrackingType> clientId) {
-		logger.info(String.format("Recieved request to get locations of clients exceptId: %s", clientId.toString()));
 		if (_clients.containsKey(clientId.id)) {
 			var exclusion = _clients.get(clientId.id);
 			return _clients.keySet().stream().filter(p -> !p.equals(clientId.id) && exclusion.middle().equals(_clients.get(p).middle())).map(p -> _clients.get(p))
@@ -108,16 +103,12 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 
 	@Override
 	public List<Triple<AvatarLocation, MapId, Location>> getPlayersWithin(Pair<MapId, Location> me, Integer dist) {
-		logger.info(String.format("Received request to get players within distance: %s of location %s", dist.toString(),
-				me.toString()));
 		return _clients.values().stream().filter(p -> me.left().equals(p.middle()) && me.right().distance(p.right()) <= dist)
 				.collect(Collectors.toList());
 	}
 
 	@Override
 	public List<Triple<AvatarLocation, MapId, Location>> getPlayersWithinById(Id<TrackingType> id, Integer dist) {
-		logger.info(String.format("Recieved request for all players with distance of %s of clientId %s", id.toString(),
-				dist.toString()));
 		var myLoc = _clients.get(id.id);
 		var toCheck = new Pair<MapId, Location>(myLoc.middle(), myLoc.right());
 		return this.getPlayersWithin(toCheck, dist);
@@ -133,12 +124,10 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 	public void updateLocationById(Id<TrackingType> id, AvatarLocation avatar, MapId mapId, Location loc) {
 		var newData = new Triple<AvatarLocation, MapId, Location>(avatar, mapId, loc);
 		_clients.put(id.id, newData);
-		logger.info(String.format("Number of keys in hashmap: %d", _clients.size()));
 	}
 
 	@Override
 	public Location getLocationById(Id<TrackingType> id) {
-		logger.info(String.format("Recieved request for location of clientId %s", id.toString()));
 		return _clients.get(id.id).right();
 	}
 
