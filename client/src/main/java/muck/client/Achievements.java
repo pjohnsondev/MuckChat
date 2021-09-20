@@ -14,7 +14,7 @@ import javafx.scene.control.Label;
  * when specific in-game actions or milestones are met.
  */
 public class Achievements {
-    boolean achievementName;
+    boolean achievementStatus;
     String achievementTitle;
     String achievementDescription;
 
@@ -74,12 +74,12 @@ public class Achievements {
 
     /**
      * Constructor to create an achievement object
-     * @param aName The boolean status for the achievement (False = locked, True = unlocked)
+     * @param aStatus The boolean status for the achievement (False = locked, True = unlocked)
      * @param aTitle The achievement title
      * @param aDescription The achievement description
      */
-    public Achievements(boolean aName, String aTitle, String aDescription) {
-        this.achievementName = aName;
+    public Achievements(boolean aStatus, String aTitle, String aDescription) {
+        this.achievementStatus = aStatus;
         this.achievementTitle = aTitle;
         this.achievementDescription = aDescription;
     }
@@ -92,8 +92,8 @@ public class Achievements {
      * @param achievement The achievement object being triggered
      */
     public void achievementUnlock(Achievements achievement) {
-        if (!this.achievementName) {
-            this.achievementName = true;
+        if (!this.achievementStatus) {
+            this.achievementStatus = true;
             achievementPopUp(achievement);
             PlayerDashboardController.addAchievements(this.achievementTitle, this.achievementDescription);
         }
