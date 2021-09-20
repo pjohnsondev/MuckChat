@@ -4,18 +4,20 @@ package muck.client.controllers;
 
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.*;
-import muck.client.App;
-import muck.client.MuckClient;
+import javafx.stage.Stage;
+import muck.client.*;
 import muck.client.components.ActiveUser;
-import org.mindrot.jbcrypt.*;
-import muck.client.AvatarController;
 
 import java.io.IOException;
+import java.util.Objects;
 
 
-public class SignInController{
+public class SignInController {
     @FXML
     Label error;
 
@@ -31,7 +33,21 @@ public class SignInController{
     @FXML
     Button signIn;
 
-    // Todo add logic to
+    // Use this method from external classes to open the gameplay window. Added by CA 14 Aug
+    public static void constructor() {
+        try {
+            Stage stage = new Stage();
+            stage.setResizable(true);
+            Parent root = FXMLLoader.load(Objects.requireNonNull(SignInController.class.getResource("/fxml/SignIn.fxml")));
+            stage.setTitle("MUCK 2021");
+            stage.setScene(new Scene(root));
+            stage.show();
+            stage.toFront();
+        } catch (IOException e) {
+            System.out.println("Can't find primary stage FXML file");
+        }
+    }
+
     @FXML
     protected void signIn(MouseEvent event) throws Exception {
         String passwordText = password.getText();
@@ -69,20 +85,20 @@ public class SignInController{
     public boolean sendData(String userName, String passwordText){
         try {
             MuckClient.getINSTANCE().login(userName, passwordText);
-            error.setText("Data Sent");
+            setError("Data Sent");
             return true;
         } catch (Exception ex) {
-            error.setText(String.format("Unable to create new user: %s.", userName));
+            setError(String.format("Unable to create new user: %s.", userName));
             throw new RuntimeException(ex.getMessage());
         }
     }
 
-    public boolean isNotEmpty(String password, String username){
+    public boolean isNotEmpty(String username, String password){
         if(username.isEmpty()){
-            error.setText("You must enter a user name");
+            setError("You must enter a user name");
             return false;
         } else if(password.isEmpty()){
-            error.setText("You must enter your password");
+            setError("You must enter your password");
             return false;
         } else {
             return true;
@@ -94,13 +110,17 @@ public class SignInController{
             if(ActiveUser.getInstance().getServerMessage().equals("Login Successful")){
                 return true;
             } else {
-                error.setText(ActiveUser.getInstance().getServerMessage());
+                setError(ActiveUser.getInstance().getServerMessage());
                 return false;
             }
         } catch (NullPointerException ex){
-            error.setText("There was no response from the server. Please try again");
+            setError("There was no response from the server. Please try again");
             return false;
         }
+    }
+
+    public void setError(String notification){
+        error.setText(notification);
     }
 
 }
