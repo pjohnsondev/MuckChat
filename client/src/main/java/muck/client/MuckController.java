@@ -32,11 +32,13 @@ import java.util.function.Supplier;
 import java.util.function.BiConsumer;
 import java.util.logging.Level;
 
+import muck.core.TriConsumer;
+
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import muck.client.tictactoe.TTTLandingPage;
 import muck.core.Location;
-
+import muck.core.MapId;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -144,15 +146,17 @@ public class MuckController implements Initializable {
     private Image chosenAvatar;
 
     private String message; ////
-    private List<String> inMessages;
 
+    private List<String> inMessages;
     private static String userName;
     private static String displayName;
     private static String avatarID;
 
+
+
     //static final Logger logger = LogManager.getLogger();
     static Supplier<List<Sprite>> getPlayersfn = MuckClient.INSTANCE::getPlayerSprites;
-    static BiConsumer<String, Location> updatePlayerfn = MuckClient.INSTANCE::updatePlayerLocation;
+    static TriConsumer<String, Integer, Location> updatePlayerfn = MuckClient.INSTANCE::updatePlayerLocation;
 
     @Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -279,7 +283,7 @@ public class MuckController implements Initializable {
 
 
                 userMessage currentMessage = new userMessage();
-                currentMessage.setMessage(message);
+                currentMessage.setMessage(message, userName);
                 MuckClient.INSTANCE.send(currentMessage);
 
                 //groupChatBox.appendText("displayName Here: "+ MuckClient.INSTANCE.getCurrentMessage()+ "\n");
@@ -294,25 +298,29 @@ public class MuckController implements Initializable {
 
     //Method to display message variable as a message without sending anything
     private void display(){
+        logger.info("ran display()");
       inMessages = MuckClient.INSTANCE.getCurrentMessage();
+      if (inMessages != null) {
+          for(int i = 0; i < inMessages.size(); i++){
+              message = inMessages.get(i);
 
-      for(int i = 0; i <inMessages.size(); i++){
-        message = inMessages.get(i);
-
-        if ((message.length() != 0)) {
-            Tab currentTab = chatPane1.getSelectionModel().getSelectedItem();
-            String currentID = currentTab.getId();
-            if (currentID.equals("groupChat")) {
-                groupChatBox.appendText(displayName + ": " + message + "\n");
-                messageBox.clear();
-            } else {
-                int num = chatPane1.getTabs().indexOf(currentTab) + 1;
-                TextArea currentChatBox = (TextArea) chatPane1.lookup("#chatbox" + num);
-                currentChatBox.appendText(displayName + ": " + message + "\n");
-                messageBox.clear();
+              if ((message.length() != 0)) {
+                  Tab currentTab = chatPane1.getSelectionModel().getSelectedItem();
+                  String currentID = currentTab.getId();
+                  if (currentID.equals("groupChat")) {
+                      groupChatBox.appendText(displayName + ": " + message + "\n");
+                      messageBox.clear();
+                  } else {
+                      int num = chatPane1.getTabs().indexOf(currentTab) + 1;
+                      TextArea currentChatBox = (TextArea) chatPane1.lookup("#chatbox" + num);
+                      currentChatBox.appendText(displayName + ": " + message + "\n");
+                      messageBox.clear();
+                  }
+              }
           }
-        }
       }
+
+
     }
 
     // Method that creates new chat tab
@@ -439,14 +447,5 @@ public class MuckController implements Initializable {
         }
     }
 
-    /*public class getMessagesTask extends TimerTask {
-        public void run() {
-            if (MuckClient.INSTANCE.getCurrentMessage() == null){
 
-            }else {
-                groupChatBox.appendText("UserName Here: "+ MuckClient.INSTANCE.getCurrentMessage()+ "\n");
-            }
-        }
-    }
-    */
 }
