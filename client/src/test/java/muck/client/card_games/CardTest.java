@@ -66,7 +66,6 @@ public class CardTest {
 
     @Test
     public void testGetBFileName() {
-
         logger.info("Testing that the highlighted image filename is correct");
         assertEquals("/images/cards/B_ace_of_clubs.png", card.getBFileName());
     }

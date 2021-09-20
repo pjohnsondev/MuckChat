@@ -8,6 +8,7 @@ public class Player {
     public Hand hand;
     int scoreIncrement = 1;
 
+
     /**
      * Constructor Function for the Player Class
      * Sets the score as 0 and initialises the Player's Hand
@@ -19,6 +20,7 @@ public class Player {
         hand = new Hand();
     }
 
+
     /**
      * addScore Method.
      * Increments player's score by scoreIncrement
@@ -27,6 +29,7 @@ public class Player {
         this.score += scoreIncrement;
     }
 
+
     /**
      * getScore Method.
      * Returns player's score as an int
@@ -34,5 +37,4 @@ public class Player {
     public int getScore(){
         return this.score;
     }
-
 }

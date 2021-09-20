@@ -15,6 +15,7 @@ public class Game {
     public String cardList;
     public int winner;
 
+
     /**
      * Constructor Function for the Game Class
      */
@@ -25,17 +26,33 @@ public class Game {
         deck = new Deck();
     }
 
+    //TODO - Using this method??
+    /**
+     * printCards Method
+     *
+     * @param number
+     */
     public void printCards(int number){
         cardList = player1.hand.cards.get(player1.hand.cards.size() - 1).getCardName() + " of " +
                 player1.hand.cards.get(player1.hand.cards.size() - 1).getSuit() + ".";
     }
 
+
+    /**
+     * initGame Method
+     * Sets up the game with a shuffled deck, and assigns a hand for both players
+     */
     public void initGame(){
         deck.shuffleCards();
         player1.hand.drawHand(deck);
         player2.hand.drawHand(deck);
     }
 
+    // TODO
+    /**
+     * playersTurn Method
+     *
+     */
     public void playersTurn(){
         //TODO: make player go fish or player receiving cards trigger a pop up that changes variable when closing
         if ((player1.hand.cards.size() == 0 && deck.cards.size() == 0)
@@ -44,6 +61,11 @@ public class Game {
         }
     }
 
+
+    /**
+     * computersTurn Method
+     * Controls the logic for the opponents turn
+     */
     public void computersTurn(){
         int card = player2.askForCard();
         boolean goFish = checkForMatch(card);
@@ -65,6 +87,14 @@ public class Game {
         }
     }
 
+
+    /**
+     * playersAsk Method
+     * Controls the player receiving cards that have been asked for
+     * If the opponent has the cards, they will be transferred to the player, and removed from the opponents hand.
+     * @param matchId
+     * @return int receive The number of matching cards the opponent had in their hand
+     */
     public int playersAsk(int matchId){
         int receive = 0;
         for (int i = player2.hand.cards.size() - 1; i > 0; i--){
@@ -78,18 +108,29 @@ public class Game {
         return receive;
     }
 
+
+    /**
+     * checkForMatch Method
+     * Returns either true or false based on whether there is a matching card
+     * @param matchId
+     * @return boolean
+     */
     public boolean checkForMatch(int matchId){
         for (int i = 0; i < player1.hand.cards.size(); i++) {
             if (matchId == player1.hand.cards.get(i).getMatchId()) {
                 return true;
-            } else {
-                return false;
             }
         }
         return false;
     }
 
-    //This function is called by an event handler if the computer asked for a card the player has
+
+    /**
+     * giveComputerCard Method
+     * This function is called by an event handler if the computer asked for a card the player has
+     * The card(s) will be removed from the players hand and added to the opponent
+     * @param matchId
+     */
     public void giveComputerCard(int matchId){
         for (int i = player1.hand.cards.size() - 1; i > 0; i--){
             if (matchId == player1.hand.cards.get(i).getMatchId()){
@@ -99,6 +140,11 @@ public class Game {
         }
     }
 
+
+    /**
+     * endGame Method
+     * Checks to see whether player 1 or player 2 has won the game by the highest score
+     */
     public void endGame(){
         if (player1.getScore() > player2.getScore()){
             winner = 1;

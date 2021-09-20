@@ -8,9 +8,9 @@ public class Hand extends Deck {
     public ArrayList<Card> cards;
     public int thisMatchId;
 
+
     /**
      * Constructor Function for the Hand Class
-     *
      * //@param cardValue
      * //@param cardName
      */
@@ -21,9 +21,11 @@ public class Hand extends Deck {
         String cardName;
     }
 
+
     /**
      * drawTopCard Method.
      * Takes a deck as a parameter. Takes a Card object from that deck and places it into the Hand
+     * @param deck
      */
     public void drawTopCard(Deck deck) {
         this.cards.add(deck.cards.get(0));
@@ -31,9 +33,12 @@ public class Hand extends Deck {
         reorderHand();
     }
 
+
     /**
      * drawHand Method.
      * Takes a deck as a parameter. Takes 7 Card objects from that deck and places it into the Hand
+     * Also reorders the cards in the hand
+     * @param deck
      */
     public void drawHand(Deck deck) {
         if (deck.cards.size() >= 7) {
@@ -59,10 +64,12 @@ public class Hand extends Deck {
         }
     }
 
+
     /**
      * selectAll Method.
      * Takes a card as input and changes that card and others with the same value's selected value to true
      * Also makes sure all other cards are changed to false
+     * @param thisCard
      */
     public void selectAll(Card thisCard) {
         int count = 0;
@@ -85,6 +92,12 @@ public class Hand extends Deck {
         }
     }
 
+
+    /**
+     * deSelectAll Method
+     * Deselects all highlighted cards in the hand
+     * @param thisCard
+     */
     public void deselectAll(Card thisCard) {
         for (int i = 0; i < this.cards.size(); i++) {
             if (cards.get(i).getSelectedValue() == true) {
@@ -92,6 +105,7 @@ public class Hand extends Deck {
             }
         }
     }
+
 
     /**
      * makeSet Method.
@@ -111,6 +125,11 @@ public class Hand extends Deck {
         }
     }
 
+
+    /**
+     * reOrderHand Method
+     * Orders the cards in the hand to be in ascending order
+     */
     void reorderHand() {
         boolean swapped = false;
         for (int i = 0; i < this.cards.size() - 1; i++) {
@@ -130,6 +149,13 @@ public class Hand extends Deck {
         }
     }
 
+
+    /**
+     * checkForSet Method
+     * Checks to see if a full set of 4 card has been made
+     * @param start
+     * @return boolean
+     */
     public boolean checkForSet(boolean start){
         for (int i = 0; i < cards.size() - 3; i++){
             if (cards.get(i).getMatchId() == cards.get(i + 3).getMatchId()){
@@ -143,6 +169,12 @@ public class Hand extends Deck {
         return false;
     }
 
+
+    /**
+     * checkSelected Method
+     * Checks all cards in the hand and returns either true or false if one is selected
+     * @return boolean
+     */
     public boolean checkSelected(){
         for (int i = 0; i < cards.size(); i++){
             if (cards.get(i).getSelectedValue()){

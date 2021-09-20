@@ -16,6 +16,11 @@ public class ComputerOpponent extends Player {
     // Setting up random number generator
     Random rand = new Random();
 
+
+    /**
+     * ComputerOpponent Constructor Function
+     * @param level
+     */
     // level will be limited by the player only being able to select a level from a range
     public ComputerOpponent(int level) {
         this.score = 0;
@@ -27,6 +32,12 @@ public class ComputerOpponent extends Player {
         playerTurns = new int[arrayLength];
     }
 
+    //TODO Decide on which of the following 3 methods to use
+
+    /**
+     *
+     * @param card
+     */
     public void addingToComputerTurns(Card card){
         for (int i = (arrayLength) - 2; i > 0; i--) {
             if (computerTurns[i] != 0){
@@ -36,6 +47,11 @@ public class ComputerOpponent extends Player {
         computerTurns[0] = card.getMatchId();
     }
 
+
+    /**
+     *
+     * @param card
+     */
     public void addingToPlayerTurns(Card card){
         for (int i = (arrayLength) - 2; i > 0; i--) {
             if (playerTurns[i] != 0){
@@ -45,14 +61,27 @@ public class ComputerOpponent extends Player {
         computerTurns[0] = card.getMatchId();
     }
 
+
+    /**
+     *
+     * @param array
+     * @param card
+     */
     public void addToArray(int[] array, Card card) {
         for (int i = array.length - 1; i > 0; i--) {
             array[i] = array[i - 1];
         }
         array[0] = card.getMatchId();
-
     }
 
+    //TODO - See above
+
+
+    /**
+     * askForCard Method
+     * Returns the Match Id of the card the computer will ask for next
+     * @return int matchId
+     */
     // Choosing best move based on previous turns
     public int askForCard(){
         // The int i for loop compares the most recent player moves against
@@ -84,5 +113,4 @@ public class ComputerOpponent extends Player {
         int random = rand.nextInt(hand.cards.size());
         return hand.cards.get(random).getMatchId();
     }
-
 }

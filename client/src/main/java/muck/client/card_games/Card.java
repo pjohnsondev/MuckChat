@@ -12,8 +12,7 @@ import java.util.Locale;
 public class Card {
     private int cardId, matchId;
     private String suit, cardName;
-    private Image cardImage;
-    private String fileName, bFileName;
+    final String fileName, bFileName;
     private Boolean selected;
 
     /**
@@ -32,19 +31,25 @@ public class Card {
         selected = false;
         fileName = "/images/cards/" + cardName + "_of_" + suit.toLowerCase() + ".png";
         bFileName = "/images/cards/B_" + cardName + "_of_" + suit.toLowerCase() + ".png";
-
     }
 
 
     /**
      * getValue Method.
      * Returns the ID of any Card. Each Card has a unique idea between 1 and 52
-     * @return id
+     * @return int id
      */
     public int getCardId() {
         return cardId;
     }
 
+
+    /**
+     * useFileName Method
+     * Returns the b (highlighted card image) filename if the card is selected,
+     * or the regular filename if not.
+     * @return String bFilename, filename
+     */
     public String useFileName() {
         if (selected == true){
             return bFileName;
@@ -52,13 +57,29 @@ public class Card {
         return fileName;
     }
 
+    /**
+     * getFileName Method
+     * Returns the filename for the non-highlighted card
+     * @return String filename
+     */
     public String getFileName() {
         return fileName;
     }
 
+
+    /**
+     * getBFileName Method
+     * Returns the filename for the highlighted card
+     * @return String bFileName
+     */
     public String getBFileName() { return bFileName;}
 
 
+    /**
+     * getSelectedValue Method
+     * Returns the selected state of the card as a boolean
+     * @return boolean selected
+     */
     public boolean getSelectedValue() {
         return selected;
     }
@@ -67,7 +88,7 @@ public class Card {
     /**
      * getSuit Method.
      * Returns the name of the suit for an individual card
-     * @return suit
+     * @return String uit
      */
     public String getSuit() {
         return suit;
@@ -77,7 +98,7 @@ public class Card {
     /**
      * getCardName Method.
      * Returns the individual card name as a string. from "two" through to "ace"
-     * @return cardName
+     * @return String cardName
      */
     public String getCardName() {
         return cardName;
@@ -85,21 +106,12 @@ public class Card {
 
 
     /**
-     *
-     * @return matchId
+     * getMatchId Method
+     * Returns the Match Id of the card as an int
+     * @return int matchId
      */
     public int getMatchId() {
         return matchId;
-    }
-
-
-    /**
-     * getCardImage Method.
-     * Returns the Image of an individual card. Connected through the filename - path to the card image.
-     * @return cardImage
-     */
-    public Image getCardImage() {
-        return cardImage;
     }
 
 
@@ -114,7 +126,8 @@ public class Card {
 
 
     /**
-     *
+     * setSelected Method
+     * Sets the selected value of the card to be true or false
      * @param setValue
      */
     public void setSelected(boolean setValue) {
@@ -145,7 +158,8 @@ public class Card {
 
 
     /**
-     *
+     * setMatchId Method
+     * Sets the matchId as an int between 1 and 13
      * @param matchId
      */
     public void setMatchId(int matchId) {
@@ -154,7 +168,7 @@ public class Card {
 
 
     /**
-     *
+     * toString Method
      * @return card name of suit as a String - e.g "ace of hearts"
      */
     public String toString() {
