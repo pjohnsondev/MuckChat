@@ -90,6 +90,7 @@ public enum MuckClient {
 	}
 
 	public synchronized void connect(KryoClientConfig config) throws IOException {
+		inMessages.add("hello");
 		if (client != null) {
 			throw new IllegalStateException("Starting connection when already started");
 		}
@@ -241,7 +242,7 @@ public enum MuckClient {
 		List<String> outMessages = inMessages;
 		inMessages.clear();
 
-		if (inMessages.size() > 0) {
+		if (outMessages.size() > 0) {
 			return outMessages;
 		} else {
 			return inMessages;

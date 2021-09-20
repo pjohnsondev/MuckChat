@@ -9,6 +9,7 @@ import muck.client.space_invaders.LandingPage;
 import muck.client.tictactoe.TTTLandingPage;
 import muck.core.Location;
 import static muck.client.Achievements.*;
+import static muck.client.Sound.*;
 
 /**
  * The WordController class controls movement between worlds.
@@ -37,8 +38,12 @@ public class WorldController {
             if (x > 100 && x < 120) { // Cave
                 if (y > 352 && y < 390) {
                     // Unlocks achievement 4 when the cave is visited.
-                    Achievements achieve4 = new Achievements(achievement4, achievement4Title, achievement4Description);
-                    achieve4.achievementUnlock(achieve4);
+                    if (Achievements.achievement4_instance == null) {
+                        Achievements.achievement4_instance = new Achievements(achievement4,
+                                ACHIEVEMENT4TITLE, ACHIEVEMENT4DESCRIPTION);
+                        achievement4_instance.achievementUnlock();
+                        achievement4_instance.achievementPopUp();
+                    }
                     TileMapReader tm = new TileMapReader("/maps/cave.tmx");
                     GameMap gm = new GameMap(canvas, gamePane,  "/tilesets/terrain_atlas.png", tm);
                     gm.worldID = 2;
@@ -53,12 +58,16 @@ public class WorldController {
         if (id == 1) {
             if (x > 128 && x < 160) { //Inn
                 if (y > 224 && y < 260) {
-                    // Unlocks achievement 1 when the cave is visited.
-                    Achievements achieve1 = new Achievements(achievement1, achievement1Title, achievement1Description);
-                    achieve1.achievementUnlock(achieve1);
+                    // Unlocks achievement 1 when the Inn is visited.
+                    if (Achievements.achievement1_instance == null) {
+                        Achievements.achievement1_instance = new Achievements(achievement1,
+                                ACHIEVEMENT1TITLE, ACHIEVEMENT1DESCRIPTION);
+                        achievement1_instance.achievementUnlock();
+                        achievement1_instance.achievementPopUp();
+                    }
                     // Triggers doorbell sound when entering the inn.
-                    Sound soundObject = new Sound("/sounds/doorbell.mp3");
-                    soundObject.music(soundObject);
+                    Sound doorbellSound = new Sound("/sounds/doorbell.mp3");
+                    doorbellSound.music();
                     //Opens space invaders game
                     gamePane.getChildren().clear();
                     Canvas SICanvas = new Canvas();
@@ -76,15 +85,19 @@ public class WorldController {
             // Triggers dog bark sound when walking near the front of the small house for the first time.
             if ((x > 500 && x < 600) && (y > 198 && y < 255)) {
                 if (!dogBarkTrigger) {
-                    Sound.dogBark();
+                    dogbarkSound();
                     dogBarkTrigger = true;
                 }
             }
             if (x > 552 && x < 565) { //Small house
                 if (y > 192 && y < 198) {
                     // Unlocks achievement 3 when the house is visited.
-                    Achievements achieve3 = new Achievements(achievement3, achievement3Title, achievement3Description);
-                    achieve3.achievementUnlock(achieve3);
+                    if (Achievements.achievement3_instance == null) {
+                        Achievements.achievement3_instance = new Achievements(achievement3,
+                                ACHIEVEMENT3TITLE, ACHIEVEMENT3DESCRIPTION);
+                        achievement3_instance.achievementUnlock();
+                        achievement3_instance.achievementPopUp();
+                    }
                     //Opens Enduring Fantasy
                     gamePane.getChildren().clear();
                     Canvas EFCanvas = new Canvas();
@@ -102,11 +115,15 @@ public class WorldController {
             if (x > 778 && x < 793) { //Shop house
                 if (y > 288 && y < 295) {
                     // Unlocks achievement 2 when the shop is visited.
-                    Achievements achieve2 = new Achievements(achievement2, achievement2Title, achievement2Description);
-                    achieve2.achievementUnlock(achieve2);
+                    if (Achievements.achievement2_instance == null) {
+                        Achievements.achievement2_instance = new Achievements(achievement2,
+                                ACHIEVEMENT2TITLE, ACHIEVEMENT2DESCRIPTION);
+                        achievement2_instance.achievementUnlock();
+                        achievement2_instance.achievementPopUp();
+                    }
                     // Triggers doorbell sound when entering the shop.
-                    Sound soundObject = new Sound("/sounds/doorbell.mp3");
-                    soundObject.music(soundObject);
+                    Sound doorbellSound = new Sound("/sounds/doorbell.mp3");
+                    doorbellSound.music();
                     //Opens Frogger game
                     gamePane.getChildren().clear();
                     Canvas FrCanvas = new Canvas();
@@ -124,11 +141,14 @@ public class WorldController {
             if (x > 808 && x < 822) { //Cottage house
                 if (y > 512 && y < 519) {
                     // Unlocks achievement 5 when the cottage is visited.
-                    Achievements achieve5 = new Achievements(achievement5, achievement5Title, achievement5Description);
-                    achieve5.achievementUnlock(achieve5);
+                    if (Achievements.achievement5_instance == null) {
+                        Achievements.achievement5_instance = new Achievements(achievement5,
+                                ACHIEVEMENT5TITLE, ACHIEVEMENT5DESCRIPTION);
+                        achievement5_instance.achievementUnlock();
+                        achievement5_instance.achievementPopUp();
+                    }
                     // Triggers doorbell sound when entering the cottage.
-                    Sound soundObject = new Sound("/sounds/doorbell.mp3");
-                    soundObject.music(soundObject);
+                    doorbellSound();
                     //Opens tic-tac-toe game
                     gamePane.getChildren().clear();
                     Canvas TTTCanvas = new Canvas();
