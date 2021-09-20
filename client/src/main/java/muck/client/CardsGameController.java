@@ -123,6 +123,9 @@ public class CardsGameController implements Initializable {
     @FXML
     private ImageView opponentCard5;
 
+    @FXML // fx:id="opponents_sets"
+    private ImageView opponents_sets;
+
     @FXML //fx:id="set1"
     private ImageView set1;
 
@@ -134,6 +137,33 @@ public class CardsGameController implements Initializable {
 
     @FXML //fx:id="set4"
     private ImageView set4;
+
+    @FXML //fx:id="set5"
+    private ImageView set5;
+
+    @FXML //fx:id="set6"
+    private ImageView set6;
+
+    @FXML //fx:id="set7"
+    private ImageView set7;
+
+    @FXML //fx:id="set8"
+    private ImageView set8;
+
+    @FXML //fx:id="sets9"
+    private ImageView set9;
+
+    @FXML //fx:id="set10"
+    private ImageView set10;
+
+    @FXML //fx:id="set11"
+    private ImageView set11;
+
+    @FXML //fx:id="set12"
+    private ImageView set12;
+
+    @FXML //fx:id="set13"
+    private ImageView set13;
 
 
     @FXML // fx:id="sets_made" - where the score will be kept
@@ -203,11 +233,24 @@ public class CardsGameController implements Initializable {
         Image settest2 = new Image("images/cards/3_of_hearts.png");
         Image settest3 = new Image("images/cards/5_of_diamonds.png");
         Image settest4 = new Image("images/cards/7_of_clubs.png");
+        Image settest5 = new Image("images/cards/9_of_hearts.png");
+        Image settest6 = new Image("images/cards/10_of_spades.png");
+
 
         set1.setImage(settest1);
         set2.setImage(settest2);
         set3.setImage(settest3);
         set4.setImage(settest4);
+        set5.setImage(settest5);
+        set6.setImage(settest6);
+        set7.setImage(settest1);
+        set8.setImage(settest2);
+        set9.setImage(settest3);
+        set10.setImage(settest4);
+        set11.setImage(settest5);
+        set12.setImage(settest6);
+        set13.setImage(settest1);
+
 
 
         askForCard.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -313,6 +356,7 @@ public class CardsGameController implements Initializable {
         opponentCard3.setImage(backOfCard);
         opponentCard4.setImage(backOfCard);
         opponentCard5.setImage(backOfCard);
+        opponents_sets.setImage(backOfCard);
 
 
         for (int i = 0, j = 0; i < game.player1.hand.cards.size(); i++, j++) {
