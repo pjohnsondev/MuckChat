@@ -115,6 +115,7 @@ public class CardsGameController implements Initializable {
 
 
     public ArrayList<ImageView> positions = new ArrayList<ImageView>();
+    public ArrayList<ImageView> setsMade = new ArrayList<ImageView>();
 
     @FXML // SET UP CARDS FOR OPPONENT 
     private ImageView opponentCard1;
@@ -126,6 +127,9 @@ public class CardsGameController implements Initializable {
     private ImageView opponentCard4;
     @FXML
     private ImageView opponentCard5;
+
+    @FXML // fx:id="opponents_sets"
+    private ImageView opponents_sets;
 
     @FXML //fx:id="set1"
     private ImageView set1;
@@ -139,6 +143,32 @@ public class CardsGameController implements Initializable {
     @FXML //fx:id="set4"
     private ImageView set4;
 
+    @FXML //fx:id="set5"
+    private ImageView set5;
+
+    @FXML //fx:id="set6"
+    private ImageView set6;
+
+    @FXML //fx:id="set7"
+    private ImageView set7;
+
+    @FXML //fx:id="set8"
+    private ImageView set8;
+
+    @FXML //fx:id="sets9"
+    private ImageView set9;
+
+    @FXML //fx:id="set10"
+    private ImageView set10;
+
+    @FXML //fx:id="set11"
+    private ImageView set11;
+
+    @FXML //fx:id="set12"
+    private ImageView set12;
+
+    @FXML //fx:id="set13"
+    private ImageView set13;
 
     @FXML // fx:id="sets_made" - where the score will be kept
     private Label sets_made;
@@ -146,9 +176,9 @@ public class CardsGameController implements Initializable {
     @FXML // fx:id="opponents_sets_made" - - where the opponents score will be kept
     private Label opponents_sets_made;
 
-
     @FXML // fx:id="menu"
     private MenuBar menu;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -197,8 +227,11 @@ public class CardsGameController implements Initializable {
             }
         });
 
+        List<ImageView> alist = Arrays.asList(set1, set2, set3, set4, set5, set6, set7, set8, set9, set10, set11, set12, set13);
+        setsMade.addAll(alist);
+
         List<ImageView> anotherlist = Arrays.asList(cardRow1Card1, cardRow1Card2, cardRow1Card3, cardRow1Card4, cardRow1Card5, cardRow1Card6, cardRow1Card7, cardRow1Card8,
-                cardRow1Card8, cardRow1Card10, cardRow1Card11, cardRow1Card12, cardRow1Card13, cardRow2Card1, cardRow2Card2, cardRow2Card3, cardRow2Card4, cardRow2Card5, cardRow2Card6,
+                cardRow1Card9, cardRow1Card10, cardRow1Card11, cardRow1Card12, cardRow1Card13, cardRow2Card1, cardRow2Card2, cardRow2Card3, cardRow2Card4, cardRow2Card5, cardRow2Card6,
                 cardRow2Card7, cardRow2Card8, cardRow2Card9, cardRow2Card10, cardRow2Card11, cardRow2Card12, cardRow2Card13, cardRow3Card1, cardRow3Card2, cardRow3Card3, cardRow3Card4,
                 cardRow3Card5, cardRow3Card6, cardRow3Card7, cardRow3Card8, cardRow3Card9, cardRow3Card10, cardRow3Card11, cardRow3Card12, cardRow3Card13, cardRow4Card1, cardRow4Card2,
                 cardRow4Card3, cardRow4Card4, cardRow4Card5, cardRow4Card6, cardRow4Card7, cardRow4Card8, cardRow4Card9, cardRow4Card10, cardRow4Card11, cardRow4Card12,
@@ -219,12 +252,22 @@ public class CardsGameController implements Initializable {
         Image settest2 = new Image("images/cards/3_of_hearts.png");
         Image settest3 = new Image("images/cards/5_of_diamonds.png");
         Image settest4 = new Image("images/cards/7_of_clubs.png");
+        Image settest5 = new Image("images/cards/9_of_hearts.png");
+        Image settest6 = new Image("images/cards/10_of_spades.png");
 
         set1.setImage(settest1);
         set2.setImage(settest2);
         set3.setImage(settest3);
         set4.setImage(settest4);
-
+        set5.setImage(settest5);
+        set6.setImage(settest6);
+        set7.setImage(settest1);
+        set8.setImage(settest2);
+        set9.setImage(settest3);
+        set10.setImage(settest4);
+        set11.setImage(settest5);
+        set12.setImage(settest6);
+        set13.setImage(settest1);
 
         askForCard.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             //TODO: add a call to game.computersTurn() after picking up and making a set if necessary
@@ -369,6 +412,7 @@ public class CardsGameController implements Initializable {
         opponentCard3.setImage(backOfCard);
         opponentCard4.setImage(backOfCard);
         opponentCard5.setImage(backOfCard);
+        opponents_sets.setImage(backOfCard);
 
         setHandImages();
 
