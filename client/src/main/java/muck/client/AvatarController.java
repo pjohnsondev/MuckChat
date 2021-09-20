@@ -1,13 +1,10 @@
 package muck.client;
 
 
-import muck.core.character.Player;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,7 +32,7 @@ import static muck.client.Achievements.*;
 
 public class AvatarController implements Initializable  {
 
-    private static final Logger logger = LogManager.getLogger(AvatarController.class);
+    private static final Logger LOGGER = LogManager.getLogger(AvatarController.class);
 
     // These will be the associated attributes of the user
     private static String uname;//Will be updated when constructing AvatarController
@@ -130,7 +127,7 @@ public class AvatarController implements Initializable  {
             gridPane.setBackground(new Background(BACKGROUND));
         } catch (Exception e) {
             gridPane.setStyle("-fx-background-color: steelgray");
-            logger.error("Error with background image");
+            LOGGER.error("Error with background image");
             e.printStackTrace();
         }
 
@@ -152,7 +149,7 @@ public class AvatarController implements Initializable  {
                 selection(avatar);
             }
         } catch (NullPointerException e) {
-            logger.error("Error with image initialisation");
+            LOGGER.error("Error with image initialisation");
             e.printStackTrace();
         }
 
@@ -187,7 +184,7 @@ public class AvatarController implements Initializable  {
             stage.setResizable(false);
             stage.show();
         } catch (IOException ex) {
-            logger.error("Unable to open avatar window");
+            LOGGER.error("Unable to open avatar window");
             ex.printStackTrace();
         }
     }
@@ -226,7 +223,7 @@ public class AvatarController implements Initializable  {
             App.hideStage();
             stage.show();
         } catch (IOException ex) {
-            logger.error("Unable to open avatar window");
+            LOGGER.error("Unable to open avatar window");
             ex.printStackTrace();
         }
     }
@@ -425,7 +422,7 @@ public class AvatarController implements Initializable  {
             try {
                 submitToDashboard(event);
             } catch (IOException e) {
-                logger.error("Unable to open dashboard window");
+                LOGGER.error("Unable to open dashboard window");
                 e.printStackTrace();
             }
         } else {
@@ -463,7 +460,7 @@ public class AvatarController implements Initializable  {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            logger.error("Unable to open dashboard window");
+            LOGGER.error("Unable to open dashboard window");
             e.printStackTrace();
         }
     }

@@ -3,7 +3,6 @@ package muck.client;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -22,17 +21,14 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import muck.client.components.ActiveUser;
 import muck.client.utilities.RandomNameGenerator;
-import muck.core.models.models.User;
-import muck.core.models.models.UserModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
 public class PlayerDashboardController implements Initializable {
 
-    private static final Logger logger = LogManager.getLogger(PlayerDashboardController.class);
+    private static final Logger LOGGER = LogManager.getLogger(PlayerDashboardController.class);
 
     private static String userName;
     private static String displayName;
@@ -104,7 +100,7 @@ public class PlayerDashboardController implements Initializable {
                     stage.setResizable(false);
                     stage.show();
                 } catch (IOException e) {
-                    logger.error("Error in initialisation of Avatar window");
+                    LOGGER.error("Error in initialisation of Avatar window");
                     e.printStackTrace();
                 }
             });
@@ -153,11 +149,11 @@ public class PlayerDashboardController implements Initializable {
     /**
      * This is a dummy method to circumvent the need to store achievements to the database as the storage will not be
      * ready for assignment submission.
-     * @param achivementTitle: The title of the achievement
+     * @param achievementTitle: The title of the achievement
      * @param achievementDescription: The description of the achievement
      */
-    public static void addAchievements(String achivementTitle, String achievementDescription) {
-        achievements.add(new String[]{achivementTitle, achievementDescription});
+    public static void addAchievements(String achievementTitle, String achievementDescription) {
+        achievements.add(new String[]{achievementTitle, achievementDescription});
     }
 
     /**
