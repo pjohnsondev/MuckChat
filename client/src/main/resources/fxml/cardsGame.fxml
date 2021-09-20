@@ -18,7 +18,7 @@
                                 <Button fx:id="askForCard" layoutX="172.0" layoutY="678.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-font-family: 'Times New Roman';" text="Ask For Card" />
                         <ImageView fx:id="set1" fitHeight="121.0" fitWidth="80.0" layoutX="20.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" />
                                 <Button fx:id="goFish" layoutX="849.0" layoutY="677.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="150.0" style="-fx-font-family: 'Times New Roman';" text="Go Fish " />
-                                <Label layoutX="868.0" layoutY="52.0" style="-fx-font-family: 'Times New Roman';" text="Opponents Sets Made: " textAlignment="CENTER">
+                                <Label layoutX="868.0" layoutY="48.0" style="-fx-font-family: 'Times New Roman';" text="Opponents Sets Made: " textAlignment="CENTER">
                                     <font>
                                         <Font name="Ariel" size="12.0" />
                                         <Font name="Times New Roman" size="12.0" />
@@ -30,12 +30,7 @@
                                         <Blend />
                                     </effect>
                                 </Label>
-                                <Label layoutX="65.0" layoutY="424.0" style="-fx-font-family: 'Times New Roman';" text="Sets Made: " textAlignment="CENTER">
-                                    <font>
-                                        <Font name="Times New Roman" size="12.0" />
-                                    </font>
-                                </Label>
-                                <Label fx:id="sets_made" layoutX="47.0" layoutY="382.0" prefHeight="24.0" prefWidth="36.0" style="-fx-font-family: 'Times New Roman';" text="Label">
+                                <Label fx:id="sets_made" layoutX="181.0" layoutY="361.0" prefHeight="24.0" prefWidth="36.0" style="-fx-font-family: 'Times New Roman';" text="Label">
                                     <effect>
                                         <Blend />
                                     </effect>
@@ -139,6 +134,11 @@
                         <ImageView fx:id="set11" fitHeight="121.0" fitWidth="80.0" layoutX="190.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fx:id="set12" fitHeight="121.0" fitWidth="80.0" layoutX="206.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fx:id="set13" fitHeight="121.0" fitWidth="80.0" layoutX="222.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" />
+                                <Label layoutX="112.0" layoutY="366.0" style="-fx-font-family: 'Times New Roman';" text="Sets Made: " textAlignment="CENTER">
+                                    <font>
+                                        <Font name="Times New Roman" size="12.0" />
+                                    </font>
+                                </Label>
                             </children>
                         </AnchorPane>
                     </content>
