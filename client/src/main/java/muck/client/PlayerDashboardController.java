@@ -144,6 +144,8 @@ public class PlayerDashboardController implements Initializable {
 
         muckPointTotal = 100; //TODO: Remove when can call to the server
         healthTotal = 80; //TODO: Remove when can call to the server
+        //healthTotal = MuckClient.getINSTANCE().currentPlayer.getHealth();
+        //^^The method to call had the character class been completed
     }
 
     /**

@@ -25,6 +25,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import muck.client.components.ActiveUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -208,9 +209,11 @@ public class AvatarController implements Initializable  {
 
     //TODO: Remove this method once the SignIn Screen sends the window to Muck
     public static void avatarCreation(MouseEvent event, String username) {
+        ActiveUser player = ActiveUser.getInstance();
+        displayName = player.getUser().displayName;
         previous = "login";
         uname = username;
-        displayName = "DisplayName";
+        //displayName = "DisplayName";
         avatar = "notSet";
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(AvatarController.class.getResource("/fxml/Avatar.fxml")));

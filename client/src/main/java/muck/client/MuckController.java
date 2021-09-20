@@ -54,6 +54,8 @@ import org.apache.logging.log4j.Logger;
 
 public class MuckController implements Initializable {
 
+    private static final Logger logger = LogManager.getLogger(MuckController.class);
+
     public Font x3;
     public Color x4;
     public ImageView plusImg;
