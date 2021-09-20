@@ -36,10 +36,14 @@ import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-//TODO: why are these below not working?
+/********* End of Imports *********/
 
 
 public class CardsGameController implements Initializable {
+    public Game game;
+    public ImageView[][] positionArray;
+    public Image[][] images;
+    public Card[][] cardPositions;
     @FXML // fx:id="ask_for_card"
     public Button askForCard;
 
@@ -110,7 +114,7 @@ public class CardsGameController implements Initializable {
     public ImageView cardRow4Card13;
 
 
-    ArrayList<ImageView> positions = new ArrayList<ImageView>();
+    public ArrayList<ImageView> positions = new ArrayList<ImageView>();
 
     @FXML // SET UP CARDS FOR OPPONENT 
     private ImageView opponentCard1;
@@ -148,7 +152,7 @@ public class CardsGameController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Game game = new Game();
+        game = new Game();
         game.initGame();
         game.playersTurn();
         goFish.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -198,6 +202,16 @@ public class CardsGameController implements Initializable {
                 cardRow4Card3, cardRow4Card4, cardRow4Card5, cardRow4Card6, cardRow4Card7, cardRow4Card8, cardRow4Card9, cardRow4Card10, cardRow4Card11, cardRow4Card12,
                 cardRow4Card13);
         positions.addAll(anotherlist);
+
+        positionArray = new ImageView[13][4];
+        for (int i = 0; i < 4; i++){
+            for (int j = 0; j < 13; j++){
+                positionArray[j][i] = positions.get(0);
+                positions.remove(0);
+            }
+        }
+        images = new Image[26][4];
+        cardPositions = new Card[13][4];
 
         Image settest1 = new Image("images/cards/2_of_clubs.png");
         Image settest2 = new Image("images/cards/3_of_hearts.png");
@@ -314,35 +328,27 @@ public class CardsGameController implements Initializable {
         opponentCard4.setImage(backOfCard);
         opponentCard5.setImage(backOfCard);
 
+        setHandImages();
 
-        for (int i = 0, j = 0; i < game.player1.hand.cards.size(); i++, j++) {
-            int getCardID = game.player1.hand.cards.get(0).getCardId();
-            Image filename0 = new Image(game.player1.hand.cards.get(i).getFileName());
-            Image filename1 = new Image(game.player1.hand.cards.get(i).getBFileName());
-            if (i != 0 && game.player1.hand.cards.get(i).getMatchId() == game.player1.hand.cards.get(i - 1).getMatchId()) {
-                if (i > 1 && game.player1.hand.cards.get(i).getMatchId() == game.player1.hand.cards.get(i - 2).getMatchId()) {
-                    positions.get(j + 25).setImage(filename0);
-                } else {
-                    positions.get(j + 12).setImage(filename0);
-                    j--;
-                }
-            } else {
-                positions.get(j).setImage(filename0);
+        for (int i = 0; i < 13; i++) {
+            for (int j = 0; j < 4; j++) {
+                //for (int k = 0; k < game.player1.hand.cards.size(); k++) {
+                    int finalI = i;
+                    int finalJ = j;
+                    positionArray[i][j].addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+                        if (positionArray[finalI][finalJ] != null && cardPositions[finalI][finalJ].getSelectedValue() == false) {
+                            game.player1.hand.selectAll(cardPositions[finalI][finalJ]);
+                            setHandImages();
+                        } else {
+                            if (positionArray[finalI][finalJ] != null && cardPositions[finalI][finalJ].getSelectedValue() == true) {
+                                game.player1.hand.deselectAll(cardPositions[finalI][finalJ]);
+                                setHandImages();
+                            }
+                        }
+
+                    });
+                //}
             }
-
-
-            positions.get(getCardID).addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-                if (game.player1.hand.cards.get(game.player1.hand.cards.size() - 1).getSelectedValue() == false) {
-                    game.player1.hand.selectAll(game.player1.hand.cards.get(game.player1.hand.cards.size() - 1));
-                    positions.get(getCardID).setImage(filename1);
-                } else {
-                    if (game.player1.hand.cards.get(game.player1.hand.cards.size() - 1).getSelectedValue() == true) {
-                        game.player1.hand.deselectAll(game.player1.hand.cards.get(game.player1.hand.cards.size() - 1));
-                        positions.get(getCardID).setImage(filename0);
-                    }
-                }
-
-            });
         }
         int p1score = game.player1.getScore();
         sets_made.setText(""+p1score);
@@ -374,4 +380,49 @@ public class CardsGameController implements Initializable {
 
     }
 
+    public void setHandImages(){
+        for (int i = 0, j = 0, k = 0; k < game.player1.hand.cards.size(); i++, k++) {
+            Image filename0 = new Image(game.player1.hand.cards.get(k).getFileName());
+            Image filename1 = new Image(game.player1.hand.cards.get(k).getBFileName());
+            if (k != 0 && game.player1.hand.cards.get(k).getMatchId() == game.player1.hand.cards.get(k - 1).getMatchId()) {
+                if (k > 1 && game.player1.hand.cards.get(k).getMatchId() == game.player1.hand.cards.get(k - 2).getMatchId()) {
+                    i -= 1;
+                    images[i][j + 2] = filename0;
+                    images[i + 13][j + 1] = filename1;
+                    cardPositions[i][j + 2] = game.player1.hand.cards.get(k);
+                    if (game.player1.hand.cards.get(k).getSelectedValue() == false) {
+                        positionArray[i][j + 2].setImage(images[i][j + 2]);
+                    }
+                    if (game.player1.hand.cards.get(k).getSelectedValue() == true) {
+                        positionArray[i][j + 2].setImage(images[i + 13][j + 1]);
+                    }
+                } else {
+                    i -= 1;
+                    images[i][j + 1] = filename0;
+                    images[i + 13][j + 2] = filename1;
+                    cardPositions[i][j + 1] = game.player1.hand.cards.get(k);
+                    if (game.player1.hand.cards.get(k).getSelectedValue() == false) {
+                        positionArray[i][j + 1].setImage(images[i][j + 1]);
+                    }
+                    if (game.player1.hand.cards.get(k).getSelectedValue() == true) {
+                        positionArray[i][j + 1].setImage(images[i + 13][j + 2]);
+                    }
+                }
+            } else {
+                images[i][j] = filename0;
+                images[i + 13][j] = filename1;
+                cardPositions[i][j] = game.player1.hand.cards.get(k);
+                if (game.player1.hand.cards.get(k).getSelectedValue() == false) {
+                    positionArray[i][j].setImage(images[i][j]);
+                }
+                if (game.player1.hand.cards.get(k).getSelectedValue() == true) {
+                    positionArray[i][j].setImage(images[i + 13][j]);
+                }
+            }
+        }
+    }
+
+    public void updateHandImages(){
+
+    }
 }
