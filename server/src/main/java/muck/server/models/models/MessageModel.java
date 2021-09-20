@@ -1,6 +1,7 @@
 package muck.server.models.models;
 
 import java.security.InvalidParameterException;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -74,5 +75,35 @@ public class MessageModel extends Model {
 
     public ResultSet retrieveMessages (int channelID) throws SQLException{
         return this.select("channel_id", channelID);
+    }
+
+    public ResultSet retrieveMessages (int channelID, Date date) throws SQLException{
+        return this.select("channel_id", channelID, date);
+    }
+
+    private ResultSet select(String column1, String condition, Date date) throws SQLException {
+        this.db.query("SELECT * FROM " + this.table +
+                " WHERE (" + column1 +" = ? AND "+
+                TIMESTAMP_COL + " > ?");
+        db.bindString(1, condition);
+        db.bindDate(2, date);
+        ResultSet result = db.getResultSet();
+        if (!result.next()) {
+            return null;
+        }
+        return result;
+    }
+
+    private ResultSet select(String column1, int condition, Date date) throws SQLException {
+        this.db.query("SELECT * FROM " + this.table +
+                " WHERE (" + column1 +" = ? AND "+
+                TIMESTAMP_COL + " = ?)");
+        db.bindInt(1, condition);
+        db.bindDate(2, date);
+        ResultSet result = db.getResultSet();
+        if (!result.next()) {
+            return null;
+        }
+        return result;
     }
 }

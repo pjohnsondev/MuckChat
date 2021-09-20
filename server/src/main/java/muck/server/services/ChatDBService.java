@@ -96,8 +96,9 @@ public class ChatDBService {
     public ArrayList<ChatMessageStructure> getMessages(int channelID, Date date){
         ArrayList<ChatMessageStructure> msgs = new ArrayList();
         ChatMessageStructure msg = new ChatMessageStructure();
+        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
         try{
-            ResultSet result = message.retrieveMessages(channelID);
+            ResultSet result = message.retrieveMessages(channelID, sqlDate);
             while(result.next()){
                 msg.setMessageId(result.getInt(MessageModel.MESSAGE_ID_COL)); //1));
                 msg.setChannelId(result.getInt(MessageModel.CHANNEL_ID_COL));
