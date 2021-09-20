@@ -155,6 +155,8 @@ public class CardsGameController implements Initializable {
         game = new Game();
         game.initGame();
         game.playersTurn();
+        //askForCard.
+
         goFish.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             //go fish needs to basically pass back a variable switch that makes the
             //draw card popup visible for other player.
@@ -332,24 +334,29 @@ public class CardsGameController implements Initializable {
 
         for (int i = 0; i < 13; i++) {
             for (int j = 0; j < 4; j++) {
-                //for (int k = 0; k < game.player1.hand.cards.size(); k++) {
-                    int finalI = i;
-                    int finalJ = j;
-                    positionArray[i][j].addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-                        if (positionArray[finalI][finalJ] != null && cardPositions[finalI][finalJ].getSelectedValue() == false) {
-                            game.player1.hand.selectAll(cardPositions[finalI][finalJ]);
-                            setHandImages();
-                        } else {
-                            if (positionArray[finalI][finalJ] != null && cardPositions[finalI][finalJ].getSelectedValue() == true) {
-                                game.player1.hand.deselectAll(cardPositions[finalI][finalJ]);
+                int finalI = i;
+                int finalJ = j;
+                positionArray[i][j].addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+                    try {
+                        if (positionArray[finalI][finalJ] != null) {
+                            if (cardPositions[finalI][finalJ].getSelectedValue() == false) {
+                                game.player1.hand.selectAll(cardPositions[finalI][finalJ]);
                                 setHandImages();
+                            } else {
+                                if (cardPositions[finalI][finalJ].getSelectedValue() == true) {
+                                    game.player1.hand.deselectAll(cardPositions[finalI][finalJ]);
+                                    setHandImages();
+                                }
                             }
                         }
+                    }
+                    catch (Exception e) {
+                    }
 
-                    });
-                //}
+                });
             }
         }
+
         int p1score = game.player1.getScore();
         sets_made.setText(""+p1score);
         sets_made.setStyle("-fx-font-family: Times New Roman;");
@@ -420,9 +427,5 @@ public class CardsGameController implements Initializable {
                 }
             }
         }
-    }
-
-    public void updateHandImages(){
-
     }
 }
