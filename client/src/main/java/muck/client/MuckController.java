@@ -32,10 +32,12 @@ import java.util.function.Supplier;
 import java.util.function.BiConsumer;
 import java.util.logging.Level;
 
+import muck.core.TriConsumer;
+
 import javafx.scene.text.Font;
 import muck.client.tictactoe.TTTLandingPage;
 import muck.core.Location;
-
+import muck.core.MapId;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -153,7 +155,7 @@ public class MuckController implements Initializable {
 
     //static final Logger logger = LogManager.getLogger();
     static Supplier<List<Sprite>> getPlayersfn = MuckClient.INSTANCE::getPlayerSprites;
-    static BiConsumer<String, Location> updatePlayerfn = MuckClient.INSTANCE::updatePlayerLocation;
+    static TriConsumer<String, Integer, Location> updatePlayerfn = MuckClient.INSTANCE::updatePlayerLocation;
 
     @Override
 	public void initialize(URL location, ResourceBundle resources) {

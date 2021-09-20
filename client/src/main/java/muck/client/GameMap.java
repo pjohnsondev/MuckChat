@@ -11,7 +11,7 @@ import muck.client.character_client.VillagerNPC;
 import muck.core.Location;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiConsumer;
+import muck.core.TriConsumer;
 import java.util.function.Supplier;
 import muck.client.character_client.CatNPC;
 
@@ -20,25 +20,28 @@ import muck.client.character_client.CatNPC;
  * It controls the animation loop to render the tileMap.
  */
 public class GameMap extends Canvas implements EventHandler<KeyEvent> {
-	TileMapReader tm = new TileMapReader("/maps/homeTown.tmx"); //The tileMap/World to be rendered
-	public Sprite hero = new Sprite(300,300); //Create the player sprite
-	private int startX; //The first tile to be drawn
-	private int startY; //The first tile to be drawn
-	private int offX; //Tile offset in pixels as hero moves pixel by pixel
-	private int offY; //Tile offset in pixels as hero moves pixel by pixel
-	private double centerX; //Center of the screen
-	private double centerY; //Center of the screen
-	private double cameraX; //Top left corner of our viewport
-	private double cameraY; //Top left corner of our viewport
-	int n = 0; //water animation
-	int uP = 0; //update players
+	TileMapReader tm = new TileMapReader("/maps/homeTown.tmx");
+	public Sprite hero = new Sprite(300, 300); // Create the player sprite
+	private int startX; // The first tile to be drawn
+	private int startY; // The first tile to be drawn
+	private int offX; // Tile offset in pixels as hero moves pixel by pixel
+	private int offY; // Tile offset in pixels as hero moves pixel by pixel
+	private double centerX; // Center of the screen
+	private double centerY; // Center of the screen
+	private double cameraX; // Top left corner of our viewport
+	private double cameraY; // Top left corner of our viewport
+	private int layer = 0;
+	private int tileId = 0;
+	private int GID = 0;
+	int n = 0; // water animation
+	int uP = 0; // update players
 	double screenHeightInTiles;
 	double screenWidthInTiles;
 	GraphicsContext gc;
 	Image image;
 	double cameraMaxX;
 	double cameraMaxY;
-	private BiConsumer<String, Location> updatePlayer;
+	private TriConsumer<String, Integer, Location> updatePlayer;
 	private Supplier<List<Sprite>> otherPlayers;
 	private BorderPane gamePane;
 	List<Sprite> players = new ArrayList<Sprite>();
@@ -56,7 +59,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	public GameMap(Canvas canvas, BorderPane borderPane) {
 		setupCanvas(canvas, "/tilesets/texture.png", tm);
 		gamePane = borderPane;
-		updatePlayer = (s, l) -> {
+		updatePlayer = (s, m, l) -> {
 		};
 		otherPlayers = () -> new ArrayList<Sprite>();
 	}
@@ -64,7 +67,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	//This constructor is used when only canvas required
 	public GameMap(Canvas canvas) {
 		setupCanvas(canvas, "/tilesets/texture.png", tm);
-		updatePlayer = (s, l) -> {
+		updatePlayer = (s, m, l) -> {
 		};
 		otherPlayers = () -> new ArrayList<Sprite>();
 	}
@@ -72,7 +75,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	public GameMap(Canvas canvas, BorderPane boarderPane, String world, TileMapReader tmNew) {
 		this.gamePane = boarderPane;
 		setupCanvas(canvas, world, tmNew);
-		updatePlayer = (s, l) -> {
+		updatePlayer = (s, m, l) -> {
 		};
 		otherPlayers = () -> new ArrayList<Sprite>();
 	}
@@ -85,7 +88,8 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	 * @param getPlayers   function to handle getting all client locations other
 	 *                     than the calling client.
 	 */
-	public GameMap(Canvas canvas, BorderPane borderPane, BiConsumer<String, Location> updatePlayer, Supplier<List<Sprite>> getPlayers) {
+    public GameMap(Canvas canvas, BorderPane borderPane, TriConsumer<String, Integer, Location> updatePlayer,
+			Supplier<List<Sprite>> getPlayers) {
 		this.updatePlayer = updatePlayer;
 		this.otherPlayers = getPlayers;
 		this.gamePane = borderPane;
@@ -103,10 +107,10 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	 */
 	public void setupCanvas(Canvas canvas, String world, TileMapReader tmNew) {
 		tm = tmNew;
-		//Get the graphic context of the canvas
+		// Get the graphic context of the canvas
 		gc = canvas.getGraphicsContext2D();
-		//Load the image
-		String imagePath = world; //the tileset
+		// Load the image
+		String imagePath = world; // the tileset
 		image = new Image(imagePath);
 
 		centerX = canvas.getWidth() / 2; //Viewport midpoint (half the width of the canvas size)
@@ -257,7 +261,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 			players = otherPlayers.get();
 		}
 		if (updatePlayer != null)
-		updatePlayer.accept(hero.getAvatar(), new Location((int)hero.getPosX(), (int)hero.getPosY()));
+		    updatePlayer.accept(hero.getAvatar(), worldID, new Location((int) hero.getPosX(), (int) hero.getPosY()));
 	}
 
 

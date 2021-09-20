@@ -2,9 +2,12 @@ package muck.server;
 
 import muck.core.Id;
 import muck.core.Location;
+import muck.core.AvatarLocation;
 import muck.core.ClientId;
 import muck.core.Login;
+import muck.core.MapId;
 import muck.core.Pair;
+import muck.core.Triple;
 import muck.core.UpdatePlayerRequest;
 import muck.core.character.AddCharacter;
 import muck.core.character.CharacterDoesNotExistException;
@@ -147,7 +150,7 @@ public enum MuckServer {
 
 
 		addListener(ListenerBuilder.forClass(muck.core.LocationRequest.class).onReceive((connection, lr) -> {
-			List<Pair<String, Location>> locs = tracker.getAllLocationsExceptId(lr.id);
+			    List<Triple<AvatarLocation, MapId, Location>> locs = tracker.getAllLocationsExceptId(lr.id);
 			kryoServer.sendToTCP(connection.getID(), new LocationResponse(locs));
 		}));
 
@@ -160,7 +163,7 @@ public enum MuckServer {
         }));
 
 		addListener(ListenerBuilder.forClass(UpdatePlayerRequest.class).onReceive((connection, req) -> {
-			tracker.updateLocationById(req.id, req.avatar, req.location);
+			    tracker.updateLocationById(req.id, req.avatar, req.mapId, req.location);
 		}));
 	}
 
@@ -262,7 +265,7 @@ public enum MuckServer {
 
         AddCharacter addCharacter = new AddCharacter(character, location);
 
-        tracker.addClient(id, null, new muck.core.Location(location.getX(), location.getY()));
+        tracker.addClient(id, null, null, new muck.core.Location(location.getX(), location.getY()));
 
         logger.info("Character added successfully {}", character.getIdentifier());
 
