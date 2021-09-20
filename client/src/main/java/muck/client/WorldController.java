@@ -40,7 +40,8 @@ public class WorldController {
                     if (Achievements.achievement4_instance == null) {
                         Achievements.achievement4_instance = new Achievements(achievement4,
                                 achievement4Title, achievement4Description);
-                        achievement4_instance.achievementUnlock(achievement4_instance);
+                        achievement4_instance.achievementUnlock();
+                        achievement4_instance.achievementPopUp();
                     }
                     TileMapReader tm = new TileMapReader("/maps/cave.tmx");
                     GameMap gm = new GameMap(canvas, gamePane,  "/tilesets/terrain_atlas.png", tm);
@@ -60,7 +61,8 @@ public class WorldController {
                     if (Achievements.achievement1_instance == null) {
                         Achievements.achievement1_instance = new Achievements(achievement1,
                                 achievement1Title, achievement1Description);
-                        achievement1_instance.achievementUnlock(achievement1_instance);
+                        achievement1_instance.achievementUnlock();
+                        achievement1_instance.achievementPopUp();
                     }
                     // Triggers doorbell sound when entering the inn.
                     Sound soundObject = new Sound("/sounds/doorbell.mp3");
@@ -92,7 +94,8 @@ public class WorldController {
                     if (Achievements.achievement3_instance == null) {
                         Achievements.achievement3_instance = new Achievements(achievement3,
                                 achievement3Title, achievement3Description);
-                        achievement3_instance.achievementUnlock(achievement3_instance);
+                        achievement3_instance.achievementUnlock();
+                        achievement3_instance.achievementPopUp();
                     }
                     //Opens Enduring Fantasy
                     gamePane.getChildren().clear();
@@ -114,7 +117,8 @@ public class WorldController {
                     if (Achievements.achievement2_instance == null) {
                         Achievements.achievement2_instance = new Achievements(achievement2,
                                 achievement2Title, achievement2Description);
-                        achievement2_instance.achievementUnlock(achievement2_instance);
+                        achievement2_instance.achievementUnlock();
+                        achievement2_instance.achievementPopUp();
                     }
                     // Triggers doorbell sound when entering the shop.
                     Sound soundObject = new Sound("/sounds/doorbell.mp3");
@@ -139,7 +143,8 @@ public class WorldController {
                     if (Achievements.achievement5_instance == null) {
                         Achievements.achievement5_instance = new Achievements(achievement5,
                                 achievement5Title, achievement5Description);
-                        achievement5_instance.achievementUnlock(achievement5_instance);
+                        achievement5_instance.achievementUnlock();
+                        achievement5_instance.achievementPopUp();
                     }
                     // Triggers doorbell sound when entering the cottage.
                     Sound soundObject = new Sound("/sounds/doorbell.mp3");

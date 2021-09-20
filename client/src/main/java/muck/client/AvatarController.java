@@ -373,7 +373,8 @@ public class AvatarController implements Initializable  {
                         if (Achievements.achievement8_instance == null) {
                             Achievements.achievement8_instance = new Achievements(achievement8,
                                     achievement8Title, achievement8Description);
-                            achievement8_instance.achievementUnlock(achievement8_instance);
+                            achievement8_instance.achievementUnlock();
+                            achievement8_instance.achievementPopUp();
                         }
                         break;
                     }
@@ -389,7 +390,8 @@ public class AvatarController implements Initializable  {
                         if (Achievements.achievement9_instance == null) {
                             Achievements.achievement9_instance = new Achievements(achievement9,
                                     achievement9Title, achievement9Description);
-                            achievement9_instance.achievementUnlock(achievement9_instance);
+                            achievement9_instance.achievementUnlock();
+                            achievement9_instance.achievementPopUp();
                         }
                         break;
                     }
@@ -405,7 +407,8 @@ public class AvatarController implements Initializable  {
                         if (Achievements.achievement10_instance == null) {
                             Achievements.achievement10_instance = new Achievements(achievement10,
                                     achievement10Title, achievement10Description);
-                            achievement10_instance.achievementUnlock(achievement10_instance);
+                            achievement10_instance.achievementUnlock();
+                            achievement10_instance.achievementPopUp();
                         }
                         break;
                     }
@@ -433,7 +436,8 @@ public class AvatarController implements Initializable  {
                 if (Achievements.achievement7_instance == null) {
                     Achievements.achievement7_instance = new Achievements(achievement7,
                             achievement7Title, achievement7Description);
-                    achievement7_instance.achievementUnlock(achievement7_instance);
+                    achievement7_instance.achievementUnlock();
+                    achievement7_instance.achievementPopUp();
                 }
                 submitToDashboard(event);
             } else {
@@ -442,7 +446,8 @@ public class AvatarController implements Initializable  {
                 if (Achievements.achievement6_instance == null) {
                     Achievements.achievement6_instance = new Achievements(achievement6,
                             achievement6Title, achievement6Description);
-                    achievement6_instance.achievementUnlock(achievement6_instance);
+                    achievement6_instance.achievementUnlock();
+                    achievement6_instance.achievementPopUp();
                 }
             }
         } catch (IOException e) {

@@ -229,7 +229,8 @@ public class TicTacToeController {
             if (Achievements.achievement13_instance == null) {
                 Achievements.achievement13_instance = new Achievements(achievement13,
                         achievement13Title, achievement13Description);
-                achievement13_instance.achievementUnlock(achievement13_instance);
+                achievement13_instance.achievementUnlock();
+                achievement13_instance.achievementPopUp();
             }
             return true;
             //Checks if computer has won

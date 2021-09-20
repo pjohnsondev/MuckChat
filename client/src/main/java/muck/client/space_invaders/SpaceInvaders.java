@@ -28,6 +28,7 @@ import muck.client.Achievements;
 import muck.client.Sprite;
 
 import static  java.util.Map.entry;
+import static muck.client.Achievements.*;
 
 
 public class SpaceInvaders {
@@ -381,14 +382,11 @@ public class SpaceInvaders {
 
         if (player.getLives() > 0 && endGame == true) {
             displayMessage("Woooo you win!", Color.GREEN);
-            if (!winCheck) {
-                winCheck = true;
-                if (Achievements.achievement12_instance == null) {
-                    Achievements.achievement12_instance = new Achievements(false,
-                            Achievements.achievement12Title, Achievements.achievement12Description);
-                    Achievements.achievement12_instance.achievementUnlock(Achievements.achievement12_instance);
-                }
-
+            if (Achievements.achievement12_instance == null) {
+                Achievements.achievement12_instance = new Achievements(achievement12,
+                        achievement12Title, achievement12Description);
+                achievement12_instance.achievementUnlock();
+                achievement12_instance.achievementPopUp();
             }
         }
 

@@ -99,15 +99,12 @@ public class Achievements {
 
 
     /**
-     * achievementUnlock Unlocks the achievement if it has not yet been unlocked and
-     * then displays the achievement notification.
+     * achievementUnlock Unlocks the achievement if it has not yet been unlocked.
      * The achievement is then displayed on the achievement tab within the Player Dashboard
-     * @param achievement The achievement object being triggered
      */
-    public void achievementUnlock(Achievements achievement) {
+    public void achievementUnlock() {
         if (!this.achievementStatus) {
             this.achievementStatus = true;
-            achievementPopUp(achievement);
             PlayerDashboardController.addAchievements(this.achievementTitle, this.achievementDescription);
         }
     }
@@ -117,21 +114,19 @@ public class Achievements {
      * achievementPopUp Displays a pop-up notification that notifies the player of
      * the achievement that was earned.
      * A notification sound is played as the achievement appears
-     * @param achievement The achievement object being triggered
      */
-    public void achievementPopUp(Achievements achievement) {
+    public void achievementPopUp() {
         try {
             Parent parent = FXMLLoader.load(getClass().getResource("/fxml/AchievementWindow.fxml"));
             Stage window = new Stage(StageStyle.DECORATED);
             window.setTitle("Achievement Window");
             Label titleLabel = (Label) parent.lookup("#achievementTitleLabel");
-            titleLabel.setText(achievement.achievementTitle);
+            titleLabel.setText(this.achievementTitle);
             Label descriptionLabel = (Label) parent.lookup("#achievementDescriptionLabel");
-            descriptionLabel.setText(achievement.achievementDescription);
+            descriptionLabel.setText(this.achievementDescription);
             window.setScene(new Scene(parent));
             window.show();
             window.setAlwaysOnTop(true);
-
             achievementSounds();
         }
         catch (IOException e) {
@@ -145,8 +140,8 @@ public class Achievements {
      * as an achievement notification appears
      */
     public void achievementSounds() {
-        Sound soundObject = new Sound("/sounds/tilegame.mp3");
-        soundObject.music(soundObject);
+        Sound achievementSound = new Sound("/sounds/tilegame.mp3");
+        achievementSound.music(achievementSound);
     }
 
 }
