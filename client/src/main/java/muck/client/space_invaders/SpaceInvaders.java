@@ -24,9 +24,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import muck.client.Achievements;
 import muck.client.Sprite;
 
 import static  java.util.Map.entry;
+import static muck.client.Achievements.*;
 
 
 public class SpaceInvaders {
@@ -81,6 +83,7 @@ public class SpaceInvaders {
     private static final int EXPLOSION_SIZE = 72;
     private static final int EXPLOSION_STEPS = 20;
     private boolean endGame = false;
+    boolean winCheck = false;
 
     List<StarBackground> stars;
     List<SpriteAnimation> playerLasers;
@@ -399,6 +402,12 @@ public class SpaceInvaders {
         if (lives > 0 && level == 4 && enemies.size() == 0){
             endGame = true;
             youWin();
+            // Unlocks achievement 12 when the player beats Space Invaders.
+            if (!winCheck) {
+                winCheck = true;
+                Achievements achieve12 = new Achievements(achievement12, achievement12Title, achievement12Description);
+                achieve12.achievementUnlock(achieve12);
+            }
         }
 
         if(maxMissiles ==0){
