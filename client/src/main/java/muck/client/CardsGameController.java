@@ -155,7 +155,7 @@ public class CardsGameController implements Initializable {
         game = new Game();
         game.initGame();
         game.playersTurn();
-        //askForCard.
+        askForCard.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
 
         goFish.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             //go fish needs to basically pass back a variable switch that makes the
@@ -232,41 +232,81 @@ public class CardsGameController implements Initializable {
             //NEED TO ADD THE FUNCTION FOR ASKING FOR A CARD
             if (game.player1.hand.checkSelected()) {
                 try {
-                    Button close = new Button();
-                    close.setStyle("-fx-font-family: Times New Roman;");
-                    close.setText("Close");
-                    BorderPane root = new BorderPane();
-                    Scene scene = new Scene(root, 300, 145);
-
-                    //box for text area
-                    HBox textHB = new HBox();
-                    textHB.setAlignment(Pos.TOP_CENTER);
-                    textHB.setStyle("-fx-font-family: Times New Roman;");
-                    textHB.getChildren().add(new TextArea("You have asked for the card: ***\n\nYour opponent DOES/DOES NOT have that card"));
-                    // need to add the cards that the player asks for and maybe also add if the other player has/hasnt got that card
-                    root.setCenter(textHB);
-
-                    //box for close button
-                    HBox butbox = new HBox();
-                    butbox.setAlignment(Pos.CENTER);
-                    butbox.getChildren().add(close);
-                    root.setBottom(butbox);
-                    Stage stage = new Stage();
-                    stage.setTitle("Ask for a card!");
-                    stage.setScene(scene);
-                    stage.show();
-                    close.addEventHandler(MouseEvent.MOUSE_CLICKED, shut -> {
-                        int ask = 0;
-                        for (int i = 0; i < game.player1.hand.cards.size(); i++) {
-                            if (game.player1.hand.cards.get(i).getSelectedValue()) {
-                                ask = game.player1.hand.cards.get(i).getMatchId();
-                            }
+                    int ask = 0;
+                    String cardName = "";
+                    for (int i = 0; i < game.player1.hand.cards.size(); i++) {
+                        if (game.player1.hand.cards.get(i).getSelectedValue()) {
+                            ask = game.player1.hand.cards.get(i).getMatchId();
+                            cardName =  game.player1.hand.cards.get(i).getCardName();
                         }
-                        stage.close();
-                        game.playersAsk(ask);
-                        game.computersTurn();
-                    });
+                    }
 
+                    int newCards = game.playersAsk(ask);
+                    if (newCards > 0) {
+
+                        Button close = new Button();
+                        close.setStyle("-fx-font-family: Times New Roman;");
+                        close.setText("Okay!");
+                        BorderPane root = new BorderPane();
+                        Scene scene = new Scene(root, 300, 145);
+
+                        //box for text area
+                        HBox textHB = new HBox();
+                        textHB.setAlignment(Pos.TOP_CENTER);
+                        textHB.setStyle("-fx-font-family: Times New Roman;");
+                        if (newCards > 1) {
+                            textHB.getChildren().add(new TextArea("Player 2 gave you " + newCards + " " + cardName + "'s!"));
+                        }
+                        else {
+                            textHB.getChildren().add(new TextArea("Player 2 gave you one " + cardName + "!"));
+                        }
+                        // need to add the cards that the player asks for and maybe also add if the other player has/hasnt got that card
+                        root.setCenter(textHB);
+
+                        //box for close button
+                        HBox butbox = new HBox();
+                        butbox.setAlignment(Pos.CENTER);
+                        butbox.getChildren().add(close);
+                        root.setBottom(butbox);
+                        Stage stage = new Stage();
+                        stage.setTitle("Ask for a card!");
+                        stage.setScene(scene);
+                        stage.show();
+                        close.addEventHandler(MouseEvent.MOUSE_CLICKED, shut -> {
+                            setHandImages();
+                            stage.close();
+                        });
+                    }
+                    else {
+                        Button close = new Button();
+                        close.setStyle("-fx-font-family: Times New Roman;");
+                        close.setText("Go Fish");
+                        BorderPane root = new BorderPane();
+                        Scene scene = new Scene(root, 300, 145);
+
+                        //box for text area
+                        HBox textHB = new HBox();
+                        textHB.setAlignment(Pos.TOP_CENTER);
+                        textHB.setStyle("-fx-font-family: Times New Roman;");
+                        textHB.getChildren().add(new TextArea("Player 2 does not have any " + cardName + "'s."));
+                        // need to add the cards that the player asks for and maybe also add if the other player has/hasnt got that card
+                        root.setCenter(textHB);
+
+                        //box for close button
+                        HBox butbox = new HBox();
+                        butbox.setAlignment(Pos.CENTER);
+                        butbox.getChildren().add(close);
+                        root.setBottom(butbox);
+                        Stage stage = new Stage();
+                        stage.setTitle("Ask for a card!");
+                        stage.setScene(scene);
+                        stage.show();
+                        close.addEventHandler(MouseEvent.MOUSE_CLICKED, shut -> {
+                            game.player1.hand.drawTopCard(game.deck);
+                            setHandImages();
+                            stage.close();
+                        });
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -341,10 +381,12 @@ public class CardsGameController implements Initializable {
                         if (positionArray[finalI][finalJ] != null) {
                             if (cardPositions[finalI][finalJ].getSelectedValue() == false) {
                                 game.player1.hand.selectAll(cardPositions[finalI][finalJ]);
+                                askForCard.setStyle("-fx-font-family: 'Times New Roman';");
                                 setHandImages();
                             } else {
                                 if (cardPositions[finalI][finalJ].getSelectedValue() == true) {
                                     game.player1.hand.deselectAll(cardPositions[finalI][finalJ]);
+                                    askForCard.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
                                     setHandImages();
                                 }
                             }
@@ -388,6 +430,7 @@ public class CardsGameController implements Initializable {
     }
 
     public void setHandImages(){
+        // TODO : need to update to delete images when call is made so cards arent doubling up where they dont exist
         for (int i = 0, j = 0, k = 0; k < game.player1.hand.cards.size(); i++, k++) {
             Image filename0 = new Image(game.player1.hand.cards.get(k).getFileName());
             Image filename1 = new Image(game.player1.hand.cards.get(k).getBFileName());

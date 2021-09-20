@@ -65,13 +65,17 @@ public class Game {
         }
     }
 
-    public void playersAsk(int matchId){
+    public int playersAsk(int matchId){
+        int receive = 0;
         for (int i = player2.hand.cards.size() - 1; i > 0; i--){
             if (matchId == player2.hand.cards.get(i).getMatchId()){
                 player1.hand.cards.add(player2.hand.cards.get(i));
                 player2.hand.cards.remove(i);
+                receive += 1;
             }
         }
+        player1.hand.reorderHand();
+        return receive;
     }
 
     public boolean checkForMatch(int matchId){
