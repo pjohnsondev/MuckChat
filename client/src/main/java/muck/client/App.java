@@ -91,6 +91,7 @@ public class App extends Application {
             primaryStage.setTitle("MUCK 2021");
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
+            primaryStage.toFront();
             primaryStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowEvent);
         } catch (IOException e) {
             logger.error("Can't find primary stage FXML file");

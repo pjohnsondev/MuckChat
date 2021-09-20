@@ -95,7 +95,7 @@ public class SignInController{
 
     public boolean success(){
         if(ActiveUser.getInstance().getServerMessage().equals("Login Successful")){
-            error.setText("login successful");
+            error.setText("Login successful");
             return true;
         } else {
             error.setText(ActiveUser.getInstance().getServerMessage());

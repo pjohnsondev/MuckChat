@@ -22,12 +22,11 @@ import java.util.concurrent.TimeoutException;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-//@Disabled //Disabled due to out of memory error
+@Disabled //Disabled due to out of memory error
 public class PlayerDashboardTest extends ApplicationTest {
 
     private static final Logger logger = LogManager.getLogger(PlayerDashboardTest.class);
     private Stage stage;
-    private ArrayList<String[]> achievements; //TODO: Remove once we have the ability to call the server
     private Image peach_full;
     private Image batman_full;
     private Image pikachu_full;
@@ -48,16 +47,10 @@ public class PlayerDashboardTest extends ApplicationTest {
         yoshi_full = new Image("/images/yoshi.png");
 
         //TODO: Remove the below once we have the ability to call the server
-        achievements = new ArrayList<>();
-        achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
-        achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
-        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
-        achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
-        achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
-        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
-        achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
-        achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
-        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
+        /*PlayerDashboardController.addAchievements("Hotel California", "Player has visited the Inn");
+        PlayerDashboardController.addAchievements("Retail Therapy", "Player has visited the Shops");
+        PlayerDashboardController.addAchievements("Alien Exterminator", "Player has won a game of Space Invaders");
+        PlayerDashboardController.addAchievements("Hotel California", "Player has visited the Inn");*/
 
         // ************************************************************************
 
@@ -88,10 +81,10 @@ public class PlayerDashboardTest extends ApplicationTest {
     // Checks the player statistics update as expected
     public void testNameMuckHealthUpdates() {
         logger.info("Checking player details updating on window");
+
+        //TODO: Update the below with appropriate displayName, muck and health with test person
         String display = lookup("#username").queryAs(Text.class).getText();
         assertEquals("DisplayName", display);
-
-        //TODO: Update the below with appropriate muck and health with test person
         String muck = lookup("#muckPoints").queryAs(Text.class).getText();
         assertEquals(muck, "100");
         String health = lookup("#health").queryAs(Text.class).getText();
@@ -147,8 +140,9 @@ public class PlayerDashboardTest extends ApplicationTest {
         logger.info("Checking achievements update");
         clickOn("#change");
         clickOn("#submit");
-        //TODO: Call achievements for character (or might need to add achievements for mock character
-        //ArrayList<String[]> achievements = new ArrayList<>();
+
+        ArrayList<String[]> achievements = PlayerDashboardController.getAchievements();
+        //TODO: Call achievements for character (or might need to add achievements for mock character)
 
         logger.info("Turning player achievements into a String arrayList");
         ArrayList<String> achieved = new ArrayList<>();
@@ -156,8 +150,6 @@ public class PlayerDashboardTest extends ApplicationTest {
             achieved.add(achievement[0] + ": " + achievement[1]);
         }
         ArrayList<String> text = new ArrayList<>(Arrays.asList(lookup("#achievementWindow").queryAs(TextArea.class).getText().split("\n\n")));
-        logger.info(achieved);
-        logger.info(text);
 
         logger.info("Checking the ArrayLists are the same size");
         assertEquals(achieved.size(), text.size());
@@ -177,6 +169,8 @@ public class PlayerDashboardTest extends ApplicationTest {
         clickOn("#gameReturn");
         assertFalse(stage.isShowing());
  }
+
+ //TODO: Add a test to check the leaderboard is showing accurately. Need to be able to call the server to get the player list to do this
 
     @AfterAll
     public static void testWindowClose() throws TimeoutException {

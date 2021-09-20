@@ -1,37 +1,47 @@
 package muck.client;
 
-import java.nio.file.Paths;
-import javafx.application.Application;
-import javafx.stage.Stage;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import java.io.File;
 
 
+// This class contains a mediaPlayer that allows sound to be played
 public class Sound {
 
     String soundPath;
     MediaPlayer mediaPlayer;
 
+    /**
+     * Constructor to create a sound object
+     * @param audio The sound path for the sound file to be played by the mediaPlayer
+     */
     public Sound(String audio) {
         this.soundPath = audio;
     }
 
-    public String getSoundPath(Sound audio) {
-        return audio.soundPath;
-    }
 
+    /**
+     * music Plays the sound file using mediaPlayer
+     * @param soundFile The path to the sound file to be played
+     */
     public void music(Sound soundFile) {
         try {
-//            String s = "src/main/resources/sounds/tilegame.mp3";
-
                 Media h = new Media(getClass().getResource(soundFile.soundPath).toExternalForm());
                 mediaPlayer = new MediaPlayer(h);
-                mediaPlayer.play();
-                System.out.println("Sound should be playing now");
+                if(mediaPlayer.getStatus() != MediaPlayer.Status.PLAYING) {
+                    mediaPlayer.play();
+                }
             }
         catch(Exception e) {
             e.printStackTrace();
         }
     }
+
+    /**
+     * dogBark Plays the dog barking sound using the music method.
+     */
+    public static void dogBark() {
+        Sound barkFile = new Sound("/sounds/longbark2.mp3");
+        barkFile.music(barkFile);
+        }
+
 }
