@@ -141,7 +141,7 @@ public class Achievements {
      */
     public void achievementSounds() {
         Sound achievementSound = new Sound("/sounds/tilegame.mp3");
-        achievementSound.music(achievementSound);
+        achievementSound.music();
     }
 
 }

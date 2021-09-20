@@ -9,6 +9,7 @@ import muck.client.space_invaders.LandingPage;
 import muck.client.tictactoe.TTTLandingPage;
 import muck.core.Location;
 import static muck.client.Achievements.*;
+import static muck.client.Sound.*;
 
 /**
  * The WordController class controls movement between worlds.
@@ -65,8 +66,8 @@ public class WorldController {
                         achievement1_instance.achievementPopUp();
                     }
                     // Triggers doorbell sound when entering the inn.
-                    Sound soundObject = new Sound("/sounds/doorbell.mp3");
-                    soundObject.music(soundObject);
+                    Sound doorbellSound = new Sound("/sounds/doorbell.mp3");
+                    doorbellSound.music();
                     //Opens space invaders game
                     gamePane.getChildren().clear();
                     Canvas SICanvas = new Canvas();
@@ -84,7 +85,7 @@ public class WorldController {
             // Triggers dog bark sound when walking near the front of the small house for the first time.
             if ((x > 500 && x < 600) && (y > 198 && y < 255)) {
                 if (!dogBarkTrigger) {
-                    Sound.dogBark();
+                    dogbarkSound();
                     dogBarkTrigger = true;
                 }
             }
@@ -121,8 +122,8 @@ public class WorldController {
                         achievement2_instance.achievementPopUp();
                     }
                     // Triggers doorbell sound when entering the shop.
-                    Sound soundObject = new Sound("/sounds/doorbell.mp3");
-                    soundObject.music(soundObject);
+                    Sound doorbellSound = new Sound("/sounds/doorbell.mp3");
+                    doorbellSound.music();
                     //Opens Frogger game
                     gamePane.getChildren().clear();
                     Canvas FrCanvas = new Canvas();
@@ -147,8 +148,7 @@ public class WorldController {
                         achievement5_instance.achievementPopUp();
                     }
                     // Triggers doorbell sound when entering the cottage.
-                    Sound soundObject = new Sound("/sounds/doorbell.mp3");
-                    soundObject.music(soundObject);
+                    doorbellSound();
                     //Opens tic-tac-toe game
                     gamePane.getChildren().clear();
                     Canvas TTTCanvas = new Canvas();

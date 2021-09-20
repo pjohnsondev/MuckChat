@@ -1,9 +1,7 @@
 package muck.client;
 
 import org.junit.jupiter.api.Test;
-
 import static muck.client.Achievements.*;
-import static muck.client.Achievements.achievement1_instance;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AchievementsTest {
@@ -35,7 +33,7 @@ public class AchievementsTest {
     }
 
     @Test
-    void achievementStatus() {
+    void achievementUnlocked() {
         Achievements achievement1_instance = new Achievements(achievement1, achievement1Title, achievement1Description);
         achievement1_instance.achievementUnlock();
         assertTrue(achievement1_instance.achievementStatus);
