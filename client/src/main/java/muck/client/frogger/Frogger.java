@@ -146,7 +146,8 @@ public class Frogger {
             if (Achievements.achievement11_instance == null) {
                 Achievements.achievement11_instance = new Achievements(achievement11,
                         achievement11Title, achievement11Description);
-                achievement11_instance.achievementUnlock(achievement11_instance);
+                achievement11_instance.achievementUnlock();
+                achievement11_instance.achievementPopUp();
             }
             // TODO: Setup post-win
         }
