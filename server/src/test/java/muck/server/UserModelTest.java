@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import org.junit.jupiter.api.*;
 
+import java.security.InvalidParameterException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -53,7 +54,7 @@ public class UserModelTest {
     }
 
     /**
-     * Create test users to be used in the tests
+     * Create test user to be used in the tests
      */
     @BeforeAll
     public void beforeAll() {
@@ -61,17 +62,14 @@ public class UserModelTest {
         testUser1.username = "Bob19";
         testUser1.password = "Password01";
         testUser1.displayName = "Bob Ross";
-
-        testUser2 = new UserStructure();
-        testUser2.username = "Bob19";
-        testUser2.password = "Password02";
-        testUser2.displayName = "Bob Smith";
-
     }
 
 
     /**
      * Establish a new database connection before each test
+     *
+     * @throws SQLException
+     * @throws UserNameAlreadyTakenException
      */
     @BeforeEach
     public void beforeEach() throws SQLException, UserNameAlreadyTakenException {
@@ -83,17 +81,25 @@ public class UserModelTest {
         if (!testDb.tableExists("users")) {
             userModel.createTable();
         }
-        // Register Bob19 as a new user
+        // Reset testUser2 each time
+        testUser2 = new UserStructure();
+        testUser2.username = "testUser2";
+        testUser2.password = "Password02";
+        testUser2.displayName = "Test User 2";
+
+        // Register new user with username Bob19 and displayName "Bob Ross"
         userService.registerNewUser(testUser1);
     }
 
     /**
      * Close database connection after each test
+     *
+     * @throws SQLException
      */
     @AfterEach
     public void afterEach() throws SQLException {
         logger.info("This message prints AFTER each test runs");
-        // Remove user from table to reset for the next test
+        // Remove user Bob19 from table to reset for the next test
         testDb.query("DELETE FROM users WHERE username = 'Bob19'");
         testDb.executeUpdate();
         // Close database connection
@@ -129,10 +135,9 @@ public class UserModelTest {
      * a user to the users table in the test database
      *
      * @throws SQLException
-     * @throws UserNameAlreadyTakenException
      */
     @Test
-    public void RegisterNewUserTest() throws SQLException, UserNameAlreadyTakenException {
+    public void RegisterNewUserTest() throws SQLException {
         testDb.query("SELECT * FROM users WHERE username = 'Bob19'");
         ResultSet rs = testDb.getResultSet();
         assertTrue(rs.next());
@@ -144,38 +149,95 @@ public class UserModelTest {
 
     /**
      * The UniqueUserNameTest tests that the registerNewUser method throws an exception when
-     * a user name is already taken
-     * @throws SQLException
-     * @throws UserNameAlreadyTakenException
+     * a username is already taken
      */
     @Test
-    public void UniqueUserNameTest() throws SQLException, UserNameAlreadyTakenException {
+    public void UniqueUserNameTest() {
+        testUser2.username = "Bob19";
         assertThrows(UserNameAlreadyTakenException.class, () ->
                 userService.registerNewUser(testUser2), "Registered a second user called Bob19");
     }
 
+    /**
+     * The UniqueDisplayNameTest tests that the registerNewUser method throws an exception when
+     * a displayName is already taken
+     *
+     */
     @Test
-    public void AuthenticateUserTest() throws SQLException, UserNameAlreadyTakenException, ModelNotFoundException {
+    public void UniqueDisplayNameTest() {
+        testUser2.displayName = "Bob Ross";
+        assertThrows(UserNameAlreadyTakenException.class, () ->
+                userService.registerNewUser(testUser2), "Registered a second user with same displayName");
+    }
+
+    /**
+     * The UsernameLimitTest tests that the registerNewUser method throws an exception when
+     * username exceeds 80 characters
+     *
+     * @throws UserNameAlreadyTakenException
+     */
+    @Test
+    public void UsernameLimitTest() throws InvalidParameterException {
+        char[] badUsernameChars = new char[82];
+        for (int i = 0; i < 81; i++) {
+            badUsernameChars[i] = '_';
+        }
+        testUser2.username = String.valueOf(badUsernameChars);
+
+        assertThrows(InvalidParameterException.class, () ->
+                userService.registerNewUser(testUser2), "Registered user with username greater than 80 characters");
+    }
+
+    /**
+     * The AuthenticateUserTest tests that the AuthenticateUser method will return true
+     * where the user's details match those stored in the database, and false where they
+     * do not match
+     *
+     * @throws SQLException
+     * @throws ModelNotFoundException
+     */
+    @Test
+    public void AuthenticateUserTest() throws SQLException, ModelNotFoundException {
         assertTrue(userService.authenticateUser(testUser1));
         testUser1.password = "Password02";
         assertFalse(userService.authenticateUser(testUser1));
 
-        // Reset testUser1's password so as to not upset future tests
+        // Reset testUser1's password in order to not upset future tests
         testUser1.password = "Password01";
     }
 
-
+    /**
+     * The FindUserByUsernameTest tests that the findByUsername method, when called on a username,
+     * returns a UserStructure containing the user details associated with that username
+     *
+     * @throws SQLException
+     */
     @Test
-    public void FindUserByUsernameTest() throws SQLException, UserNameAlreadyTakenException {
+    public void FindUserByUsernameTest() throws SQLException {
         assertEquals(userService.findByUsername("Bob19").username, testUser1.username);
-
-        // Need to update UserService.java to recognise display name before below assertion will pass
-        //assertEquals(userService.findByUsername("Bob19").displayName, testUser.displayName);
-
+        assertEquals(userService.findByUsername("Bob19").displayName, testUser1.displayName);
         }
 
+    /**
+     * The FindUserByDisplaynameTest tests that the findByDisplayname method, when called on a displayName,
+     * returns a UserStructure containing the user details associated with that displayName
+     *
+     * @throws SQLException
+     */
     @Test
-    public void FindByIdTest() throws SQLException, UserNameAlreadyTakenException {
+    public void FindUserByDisplaynameTest() throws SQLException {
+        assertEquals(userService.findByDisplayname("Bob Ross").username, testUser1.username);
+        assertEquals(userService.findByDisplayname("Bob Ross").displayName, testUser1.displayName);
+    }
+
+    /**
+     * The FindByIdTest tests that the findById method, when called on a userID,
+     * returns a UserStructure containing the user details associated with that userID
+     *
+     */
+    @Test
+    public void FindByIdTest() {
+        //TODO: Fix this test
         //assertEquals(userService.findById(1).username, testUser1.username);
     }
 
