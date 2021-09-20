@@ -228,7 +228,7 @@ public class TicTacToeController {
             // Unlocks achievement 13 when the player wins the game.
             if (Achievements.achievement13_instance == null) {
                 Achievements.achievement13_instance = new Achievements(achievement13,
-                        achievement13Title, achievement13Description);
+                        ACHIEVEMENT13TITLE, ACHIEVEMENT13DESCRIPTION);
                 achievement13_instance.achievementUnlock();
                 achievement13_instance.achievementPopUp();
             }

@@ -145,7 +145,7 @@ public class Frogger {
             // Unlocks achievement 11 when the player wins the game.
             if (Achievements.achievement11_instance == null) {
                 Achievements.achievement11_instance = new Achievements(achievement11,
-                        achievement11Title, achievement11Description);
+                        ACHIEVEMENT11TITLE, ACHIEVEMENT11DESCRIPTION);
                 achievement11_instance.achievementUnlock();
                 achievement11_instance.achievementPopUp();
             }

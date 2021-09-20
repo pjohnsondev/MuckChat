@@ -40,7 +40,7 @@ public class WorldController {
                     // Unlocks achievement 4 when the cave is visited.
                     if (Achievements.achievement4_instance == null) {
                         Achievements.achievement4_instance = new Achievements(achievement4,
-                                achievement4Title, achievement4Description);
+                                ACHIEVEMENT4TITLE, ACHIEVEMENT4DESCRIPTION);
                         achievement4_instance.achievementUnlock();
                         achievement4_instance.achievementPopUp();
                     }
@@ -61,7 +61,7 @@ public class WorldController {
                     // Unlocks achievement 1 when the Inn is visited.
                     if (Achievements.achievement1_instance == null) {
                         Achievements.achievement1_instance = new Achievements(achievement1,
-                                achievement1Title, achievement1Description);
+                                ACHIEVEMENT1TITLE, ACHIEVEMENT1DESCRIPTION);
                         achievement1_instance.achievementUnlock();
                         achievement1_instance.achievementPopUp();
                     }
@@ -94,7 +94,7 @@ public class WorldController {
                     // Unlocks achievement 3 when the house is visited.
                     if (Achievements.achievement3_instance == null) {
                         Achievements.achievement3_instance = new Achievements(achievement3,
-                                achievement3Title, achievement3Description);
+                                ACHIEVEMENT3TITLE, ACHIEVEMENT3DESCRIPTION);
                         achievement3_instance.achievementUnlock();
                         achievement3_instance.achievementPopUp();
                     }
@@ -117,7 +117,7 @@ public class WorldController {
                     // Unlocks achievement 2 when the shop is visited.
                     if (Achievements.achievement2_instance == null) {
                         Achievements.achievement2_instance = new Achievements(achievement2,
-                                achievement2Title, achievement2Description);
+                                ACHIEVEMENT2TITLE, ACHIEVEMENT2DESCRIPTION);
                         achievement2_instance.achievementUnlock();
                         achievement2_instance.achievementPopUp();
                     }
@@ -143,7 +143,7 @@ public class WorldController {
                     // Unlocks achievement 5 when the cottage is visited.
                     if (Achievements.achievement5_instance == null) {
                         Achievements.achievement5_instance = new Achievements(achievement5,
-                                achievement5Title, achievement5Description);
+                                ACHIEVEMENT5TITLE, ACHIEVEMENT5DESCRIPTION);
                         achievement5_instance.achievementUnlock();
                         achievement5_instance.achievementPopUp();
                     }

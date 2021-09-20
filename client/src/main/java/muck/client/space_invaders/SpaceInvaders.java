@@ -384,7 +384,7 @@ public class SpaceInvaders {
             displayMessage("Woooo you win!", Color.GREEN);
             if (Achievements.achievement12_instance == null) {
                 Achievements.achievement12_instance = new Achievements(achievement12,
-                        achievement12Title, achievement12Description);
+                        ACHIEVEMENT12TITLE, ACHIEVEMENT12DESCRIPTION);
                 achievement12_instance.achievementUnlock();
                 achievement12_instance.achievementPopUp();
             }

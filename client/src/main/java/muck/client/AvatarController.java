@@ -372,7 +372,7 @@ public class AvatarController implements Initializable  {
                         // Unlocks achievement 8 when the player selects Skeleton.
                         if (Achievements.achievement8_instance == null) {
                             Achievements.achievement8_instance = new Achievements(achievement8,
-                                    achievement8Title, achievement8Description);
+                                    ACHIEVEMENT8TITLE, ACHIEVEMENT8DESCRIPTION);
                             achievement8_instance.achievementUnlock();
                             achievement8_instance.achievementPopUp();
                         }
@@ -389,7 +389,7 @@ public class AvatarController implements Initializable  {
                         // Unlocks achievement 9 when the player selects Wonder Woman.
                         if (Achievements.achievement9_instance == null) {
                             Achievements.achievement9_instance = new Achievements(achievement9,
-                                    achievement9Title, achievement9Description);
+                                    ACHIEVEMENT9TITLE, ACHIEVEMENT9DESCRIPTION);
                             achievement9_instance.achievementUnlock();
                             achievement9_instance.achievementPopUp();
                         }
@@ -406,7 +406,7 @@ public class AvatarController implements Initializable  {
                         // Unlocks achievement 10 when the player selects Yoshi.
                         if (Achievements.achievement10_instance == null) {
                             Achievements.achievement10_instance = new Achievements(achievement10,
-                                    achievement10Title, achievement10Description);
+                                    ACHIEVEMENT10TITLE, ACHIEVEMENT10DESCRIPTION);
                             achievement10_instance.achievementUnlock();
                             achievement10_instance.achievementPopUp();
                         }
@@ -435,7 +435,7 @@ public class AvatarController implements Initializable  {
                 // Unlocks achievement 7 when the player changes avatar.
                 if (Achievements.achievement7_instance == null) {
                     Achievements.achievement7_instance = new Achievements(achievement7,
-                            achievement7Title, achievement7Description);
+                            ACHIEVEMENT7TITLE, ACHIEVEMENT7DESCRIPTION);
                     achievement7_instance.achievementUnlock();
                     achievement7_instance.achievementPopUp();
                 }
@@ -445,7 +445,7 @@ public class AvatarController implements Initializable  {
                 // Unlocks achievement 6 when the player initially selects an avatar.
                 if (Achievements.achievement6_instance == null) {
                     Achievements.achievement6_instance = new Achievements(achievement6,
-                            achievement6Title, achievement6Description);
+                            ACHIEVEMENT6TITLE, ACHIEVEMENT6DESCRIPTION);
                     achievement6_instance.achievementUnlock();
                     achievement6_instance.achievementPopUp();
                 }
