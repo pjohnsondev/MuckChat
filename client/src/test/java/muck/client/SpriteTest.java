@@ -13,7 +13,6 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Disabled
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SpriteTest extends ApplicationTest {
     private static final Logger logger = LogManager.getLogger(SpriteTest.class);
