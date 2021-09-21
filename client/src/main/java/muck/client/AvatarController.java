@@ -198,13 +198,13 @@ public class AvatarController implements Initializable  {
      * @param username: The player's username
      * @param avID: The player's avatarID
      */
-    public static void avatarCreation(String username, String display, String avID){
+    public static void avatarCreation(String username, String display, String avID, int muck){
         //TODO: Call server for muck point value
         previous = "playerDashboard";
         uname = username;
         displayName = display;
         avatar = avID;
-        //muckPoints = call to server
+        muckPoints = muck;
     }
 
     //TODO: Remove this method once the SignIn Screen sends the window to Muck

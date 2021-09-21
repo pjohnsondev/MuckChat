@@ -93,7 +93,7 @@ public class PlayerDashboardController implements Initializable {
             change.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                 try {
                     //This will take over the scene that currently holds the player dashboard screen
-                    AvatarController.avatarCreation(userName, displayName, avatarID);
+                    AvatarController.avatarCreation(userName, displayName, avatarID, muckPointTotal);
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Avatar.fxml")));
                     stage.setScene(new Scene(parent));

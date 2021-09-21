@@ -21,7 +21,7 @@ public class SpriteTest extends ApplicationTest {
 
     @Override
     public void start(Stage stage) throws IOException {
-        AvatarController.avatarCreation("Username", "DisplayName", "error");
+        AvatarController.avatarCreation("Username", "DisplayName", "error", 0);
         FXMLLoader loader = new FXMLLoader(AvatarTest.class.getResource("/fxml/Avatar.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
