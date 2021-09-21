@@ -212,15 +212,7 @@ public class TicTacToeController {
     //Checks if there is a winner and updates the text field and the tally
     public boolean checkWinner() {
         //Checks if player has won
-        if ((one.getImage()==cross && two.getImage()==cross && three.getImage()==cross) ||
-                (four.getImage()==cross && five.getImage()==cross && six.getImage()==cross) ||
-                (seven.getImage()==cross && eight.getImage()==cross && nine.getImage()==cross) ||
-                (one.getImage()==cross && four.getImage()==cross && seven.getImage()==cross) ||
-                (two.getImage()==cross && five.getImage()==cross && eight.getImage()==cross) ||
-                (three.getImage()==cross && six.getImage()==cross && nine.getImage()==cross) ||
-                (one.getImage()==cross && five.getImage()==cross && nine.getImage()==cross) ||
-                (three.getImage()==cross && five.getImage()==cross && seven.getImage()==cross)
-        ) {
+        if (findWinner(cross)) {
             status.setText("You win!!!");
             playerTallyNum = playerTallyNum + 1;
             playerTally.setText(Integer.toString(playerTallyNum));
@@ -234,15 +226,7 @@ public class TicTacToeController {
             }
             return true;
             //Checks if computer has won
-        } else if ((one.getImage()==circle && two.getImage()==circle && three.getImage()==circle) ||
-                (four.getImage()==circle && five.getImage()==circle && six.getImage()==circle) ||
-                (seven.getImage()==circle && eight.getImage()==circle && nine.getImage()==circle) ||
-                (one.getImage()==circle && four.getImage()==circle && seven.getImage()==circle) ||
-                (two.getImage()==circle && five.getImage()==circle && eight.getImage()==circle) ||
-                (three.getImage()==circle && six.getImage()==circle && nine.getImage()==circle) ||
-                (one.getImage()==circle && five.getImage()==circle && nine.getImage()==circle) ||
-                (three.getImage()==circle && five.getImage()==circle && seven.getImage()==circle)
-        ) {
+        } else if (findWinner(circle)) {
             status.setText("Sorry you lose");
             compTallyNum++;
             compTally.setText(Integer.toString(compTallyNum));
@@ -257,6 +241,18 @@ public class TicTacToeController {
         } else {
             return false;
         }
+    }
+
+    //Method that determines the winner
+    public boolean findWinner(Image image){
+        return (one.getImage() == image && two.getImage() == image && three.getImage() == image) ||
+                (four.getImage() == image && five.getImage() == image && six.getImage() == image) ||
+                (seven.getImage() == image && eight.getImage() == image && nine.getImage() == image) ||
+                (one.getImage() == image && four.getImage() == image && seven.getImage() == image) ||
+                (two.getImage() == image && five.getImage() == image && eight.getImage() == image) ||
+                (three.getImage() == image && six.getImage() == image && nine.getImage() == image) ||
+                (one.getImage() == image && five.getImage() == image && nine.getImage() == image) ||
+                (three.getImage() == image && five.getImage() == image && seven.getImage() == image);
     }
 
     //Resets the grid

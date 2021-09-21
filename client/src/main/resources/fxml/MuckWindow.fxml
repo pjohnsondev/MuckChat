@@ -119,7 +119,7 @@
             </graphic></MenuItem>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
-            <MenuItem mnemonicParsing="false" text="About Muck" />
+            <MenuItem id="about" fx:id="about" mnemonicParsing="false" text="About Muck" />
         </Menu>
     </MenuBar>
     <SplitPane id="windowPane" fx:id="windowPane" dividerPositions="0.9969919786096257" focusTraversable="true" prefHeight="633.0" prefWidth="784.0" VBox.vgrow="SOMETIMES">
