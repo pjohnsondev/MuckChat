@@ -23,7 +23,7 @@ public class SpriteAnimation extends Image {
     private boolean smooth;
     private String type;
     private static final Double SPRITE_SIZE = 50.00;
-    private static final int SPRITE_MOVEMENT = 4;
+    private static final int SPRITE_MOVEMENT = 6;
     private static final int PLAYER_LASER_SIZE = 24;
     private static final int EXPLOSION_SIZE = 72;
     private KeyCode direction;
@@ -171,8 +171,8 @@ public class SpriteAnimation extends Image {
     @Override
     public String toString() {
         return "SpriteAnimation{" +
-                "requestedWidth=" + width +
-                ", requestedHeight=" + height +
+                "width=" + width +
+                ", height=" + height +
                 ", health=" + lives +
                 ", damage=" + damage +
                 ", preserveRation=" + preserveRatio +
