@@ -154,11 +154,9 @@ public class MuckController implements Initializable {
     private static String displayName;
     private static String avatarID;
 
-
-
-    //static final Logger logger = LogManager.getLogger();
     static Supplier<List<Sprite>> getPlayersfn = MuckClient.INSTANCE::getPlayerSprites;
     static TriConsumer<String, Integer, Location> updatePlayerfn = MuckClient.INSTANCE::updatePlayerLocation;
+    private static final Logger logger = LogManager.getLogger(MuckController.class);
 
     @Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -213,7 +211,7 @@ public class MuckController implements Initializable {
     }
 
     @FXML
-        //Method that sends message when user presses enter
+    //Method that sends message when user presses enter
     void onEnter() {
         displayAndSend();
     }
@@ -250,8 +248,7 @@ public class MuckController implements Initializable {
         avatarID = avatar;
     }
 
-    private static final Logger logger = LogManager.getLogger(MuckController.class);
-
+    //Opens dashboard when you click on the Avatar circle or from the menu
     public void openPlayerDashboardMenu(Event event) {
         try {
                 PlayerDashboardController.playerDashboard(userName, displayName, avatarID);
@@ -286,9 +283,6 @@ public class MuckController implements Initializable {
         }
     }
 
-
-
-
     //Method that displays message in chat box
     private void displayAndSend() {
         message = messageBox.getText();
@@ -298,12 +292,9 @@ public class MuckController implements Initializable {
             if (currentID.equals("groupChat")) {
                 groupChatBox.appendText(displayName + ": " + message + "\n");
                 messageBox.clear();
-
-
                 userMessage currentMessage = new userMessage();
                 currentMessage.setMessage(message, userName);
                 MuckClient.INSTANCE.send(currentMessage);
-
                 //groupChatBox.appendText("displayName Here: "+ MuckClient.INSTANCE.getCurrentMessage()+ "\n");
             } else {
                 int num = chatPane1.getTabs().indexOf(currentTab) + 1;
@@ -318,26 +309,23 @@ public class MuckController implements Initializable {
     private void display(){
         logger.info("ran display()");
         List<String> inMessages = MuckClient.INSTANCE.getCurrentMessage();
-      if (inMessages != null) {
-          for (String inMessage : inMessages) {
-              message = inMessage;
-
-              if ((message.length() != 0)) {
-                  Tab currentTab = chatPane1.getSelectionModel().getSelectedItem();
-                  String currentID = currentTab.getId();
-                  if (currentID.equals("groupChat")) {
+        if (inMessages != null) {
+            for (String inMessage : inMessages) {
+                message = inMessage;
+                if ((message.length() != 0)) {
+                   Tab currentTab = chatPane1.getSelectionModel().getSelectedItem();
+                   String currentID = currentTab.getId();
+                   if (currentID.equals("groupChat")) {
                       groupChatBox.appendText(displayName + ": " + message + "\n");
-                  } else {
+                   } else {
                       int num = chatPane1.getTabs().indexOf(currentTab) + 1;
                       TextArea currentChatBox = (TextArea) chatPane1.lookup("#chatbox" + num);
                       currentChatBox.appendText(displayName + ": " + message + "\n");
-                  }
-                  messageBox.clear();
+                   }
+                   messageBox.clear();
               }
-          }
-      }
-
-
+           }
+        }
     }
 
     // Method that creates new chat tab
@@ -381,7 +369,6 @@ public class MuckController implements Initializable {
             chatSplitPane.setDividerPositions(0.6056);
         }
     }
-
 
     @FXML
     //Method that hides both chat window and list window
@@ -439,6 +426,7 @@ public class MuckController implements Initializable {
         new TTTLandingPage(gamePane1, canvas);
     }
 
+    //Launches the About Muck alert from the Help menu
     private void aboutMuck(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         Hyperlink link = new Hyperlink("https://gitlab.une.edu.au/cosc220-2021");
@@ -478,6 +466,4 @@ public class MuckController implements Initializable {
             }
         }
     }
-
-
 }
