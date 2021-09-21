@@ -56,5 +56,6 @@ public class Protocol {
 		kryo.register(byte[].class);
 		kryo.register(UserStructure.class);
 		kryo.register(SignupResponse.class);
+		kryo.register(LoginResponse.class);
 	}
 }

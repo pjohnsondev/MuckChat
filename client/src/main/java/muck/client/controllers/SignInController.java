@@ -9,13 +9,23 @@ import javafx.scene.control.*;
 import muck.client.App;
 import muck.client.MuckClient;
 import muck.client.components.ActiveUser;
+import muck.core.LoginResponse;
+import muck.core.ResponseCodes;
+import muck.core.SignupResponse;
+import muck.core.observer.ObservableSubject;
+import muck.core.observer.Observer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mindrot.jbcrypt.*;
 import muck.client.AvatarController;
 
 import java.io.IOException;
 
 
-public class SignInController{
+public class SignInController implements Observer<LoginResponse> {
+
+    private static final Logger logger = LogManager.getLogger(App.class);
+
     @FXML
     Label error;
 
@@ -72,6 +82,7 @@ public class SignInController{
 
     public boolean sendData(String userName, String passwordText){
         try {
+            MuckClient.getINSTANCE().loginResponseNotifier.register(this);
             MuckClient.getINSTANCE().login(userName, passwordText);
             error.setText("Data Sent");
             return true;
@@ -103,5 +114,25 @@ public class SignInController{
         }
     }
 
+    @Override
+    public void update(LoginResponse loginResponse) {
+        if(loginResponse.getResultCode() == ResponseCodes.OK) {
+            logger.info("Login was successful");
+            // TODO: handle login success
+        } else if(loginResponse.getResultCode() == ResponseCodes.UNAUTHORISED) {
+            logger.info("Invalid username and/or password");
+            // TODO: handle login failure
+        } else if(loginResponse.getResultCode() == ResponseCodes.INVALID_INPUT) {
+            logger.info("Invalid input provided to login");
+            // TODO: handle invalid input supplied to login
+        } else if(loginResponse.getResultCode() == ResponseCodes.DUPLICATE_LOGIN) {
+            logger.info("You are already logged in");
+            // TODO: handle existing user;
+        } else if(loginResponse.getResultCode() == ResponseCodes.SERVER_ERROR) {
+            logger.info("Server error occurred while logging in up");
+            // TODO: handle server error
+        }
+        MuckClient.getINSTANCE().signupResponseNotifier.unRegister(this);
+    }
 }
 

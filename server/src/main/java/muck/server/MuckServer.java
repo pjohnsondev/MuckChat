@@ -225,6 +225,9 @@ public enum MuckServer {
 
         Player player = null;
 
+        LoginResponse loginResponse = new LoginResponse();
+        loginResponse.setUsername(userStructure.username);
+
         try {
             player = playerManager.loginPlayer(userStructure);
             // set user as active user
@@ -237,6 +240,10 @@ public enum MuckServer {
             muckConnection.setCharacter(player);
 
             logger.info("Login successful for {}", login.getUsername());
+
+            loginResponse.setMessage("You have been logged in successfully.");
+            loginResponse.setResultCode(ResponseCodes.OK);
+
             if (!players.containsKey(muckConnection.getID())) {
                 players.put(muckConnection.getID(), login.getUsername());
                 kryoServer.sendToAllTCP(players);
@@ -254,15 +261,34 @@ public enum MuckServer {
             userMessage testMessage = new userMessage(); // Create new message to send back.
             testMessage.setMessage("Duplicate login");
             kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
+
+            loginResponse.setMessage("You are already logged in.");
+            loginResponse.setResultCode(ResponseCodes.DUPLICATE_LOGIN);
         } catch (CharacterDoesNotExistException ex) {
             userMessage testMessage = new userMessage(); // Create new message to send back.
             testMessage.setMessage("Character does not exist. Please register.");
             kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
+
+            loginResponse.setMessage("Your account does not exist. Please sign up before logging in.");
+            loginResponse.setResultCode(ResponseCodes.ACCOUNT_DOES_NOT_EXIST_CODE);
         } catch (AuthenticationFailedException ex) {
             userMessage testMessage = new userMessage(); // Create new message to send back.
             testMessage.setMessage("Supplied credentials are invalid.");
             kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
+
+            loginResponse.setMessage("Invalid username and/or password.");
+            loginResponse.setResultCode(ResponseCodes.UNAUTHORISED);
+        } catch (Exception ex) {
+            userMessage testMessage = new userMessage(); // Create new message to send back.
+            testMessage.setMessage("Error setting user to database");
+            kryoServer.sendToTCP(muckConnection.getID(), testMessage);
+            ex.printStackTrace();
+
+            loginResponse.setMessage("Something went wrong.");
+            loginResponse.setResultCode(500);
         }
+
+        kryoServer.sendToTCP(muckConnection.getID(), loginResponse);
     }
 
     public AddCharacter addCharacter(Id<ClientId> id, Player character) {

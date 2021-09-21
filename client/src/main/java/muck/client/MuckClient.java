@@ -42,6 +42,7 @@ public enum MuckClient {
 	Player currentPlayer;
 
 	public ObservableSubject<SignupResponse> signupResponseNotifier = new ObservableSubject<>();
+	public ObservableSubject<LoginResponse> loginResponseNotifier = new ObservableSubject<>();
 
 	public static MuckClient getINSTANCE() {
 		return INSTANCE;
@@ -170,6 +171,11 @@ public enum MuckClient {
 		// signup response
 		client.addListener(ListenerBuilder.forClass(SignupResponse.class).onReceive((connID, response) -> {
 			signupResponseNotifier.notifyObservers(response);
+		}));
+
+		// login response
+		client.addListener(ListenerBuilder.forClass(LoginResponse.class).onReceive((connID, response) -> {
+			loginResponseNotifier.notifyObservers(response);
 		}));
 	}
 
