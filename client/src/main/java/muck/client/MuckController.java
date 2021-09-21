@@ -53,6 +53,10 @@ public class MuckController implements Initializable {
     public Color x4;
     public ImageView plusImg;
     public ImageView exitImg;
+
+    @FXML // fx:id="root"
+    private VBox root; // Value injected by FXMLLoader
+
     @FXML // fx:id="windowPane" The pane that seperated the game area and the chat area
     private SplitPane windowPane; // Value injected by FXMLLoader
 
@@ -185,9 +189,18 @@ public class MuckController implements Initializable {
         about.setOnAction(this::aboutMuck);
         dashboardMenuImg.setImage(chosenAvatar);
         playerDashboardMenu.setOnAction(this::openPlayerDashboardMenu); //Opens player Dashboard
+        //Function that adjusts chat pane depending on the size of the window.
+        root.widthProperty().addListener((obs, oldVal, newVal) -> {
+            if (oldVal.floatValue() < newVal.floatValue() && newVal.floatValue() > 1350) { //Opens chat pane if window is big enough
+                windowPane.setDividerPositions(0.7300);
+                chatSplitPane.setDividerPositions(0.6056);
+            } else { // closes the chat pane if the window is resized so we don't have an oddly opened chat pane
+                windowPane.setDividerPositions(0.999);
+                chatSplitPane.setDividerPositions(1.000);
+            }
+        });
         // Creates and sets the player list service to be called every second, to update the current player list
         PlayerListService service = new PlayerListService(playerTextArea);
-
         messageChecker.scheduleAtFixedRate(new TimerTask(){
           @Override
           public void run(){
