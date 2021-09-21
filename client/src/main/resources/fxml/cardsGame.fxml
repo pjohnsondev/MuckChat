@@ -4,37 +4,33 @@
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="807.0" prefWidth="1136.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.CardsGameController">
     <children>
         <TabPane layoutY="6.0" prefHeight="807.0" prefWidth="1136.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
-                <Tab text="Game Play">
+                <Tab style="-fx-font-family: 'Times New Roman';" text="Game Play">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="783.0" prefWidth="1135.0" style="-fx-background-color: green;">
                             <children>
-                                <Rectangle fx:id="card1row1select" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="132.0" layoutX="10.0" layoutY="410.0" stroke="TRANSPARENT" strokeType="INSIDE" width="87.0" />
-                                <Button fx:id="askForCard" layoutX="172.0" layoutY="678.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Ask For Card" />
-                                <Button fx:id="goFish" layoutX="849.0" layoutY="677.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="150.0" text="Go Fish " />
-                                <Label layoutX="991.0" layoutY="37.0" text="Opponents Sets Made: " textAlignment="CENTER">
+                                <Button fx:id="askForCard" layoutX="172.0" layoutY="678.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-font-family: 'Times New Roman';" text="Ask For Card" />
+                        <ImageView fx:id="set1" fitHeight="121.0" fitWidth="80.0" layoutX="20.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" />
+                                <Button fx:id="makeSet" layoutX="849.0" layoutY="677.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="150.0" style="-fx-font-family: 'Times New Roman';" text="Put Away Set " />
+                                <Label layoutX="868.0" layoutY="48.0" style="-fx-font-family: 'Times New Roman';" text="Opponents Sets Made: " textAlignment="CENTER">
                                     <font>
-                                        <Font name="System Bold" size="12.0" />
+                                        <Font name="Ariel" size="12.0" />
+                                        <Font name="Times New Roman" size="12.0" />
                                     </font>
                                 </Label>
-                                <ImageView fitHeight="149.0" fitWidth="84.0" layoutX="1014.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true"/>
-                                <Label fx:id="opponents_sets_made" layoutX="1039.0" layoutY="179.0" prefHeight="24.0" prefWidth="36.0" text="Label">
+                                <ImageView fx:id="opponents_sets" fitHeight="140.0" fitWidth="90.0" layoutX="879.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-font-family: 'Times New Roman';" />
+                                <Label fx:id="opponents_sets_made" layoutX="906.0" layoutY="249.0" prefHeight="24.0" prefWidth="36.0" style="-fx-font-family: 'Times New Roman';" text="Label">
                                     <effect>
                                         <Blend />
                                     </effect>
                                 </Label>
-                                <Label layoutX="32.0" layoutY="219.0" text="Sets Made: " textAlignment="CENTER">
-                                    <font>
-                                        <Font name="System Bold" size="12.0" />
-                                    </font>
-                                </Label>
-                                <Label fx:id="sets_made" layoutX="47.0" layoutY="378.0" prefHeight="24.0" prefWidth="36.0" text="Label">
+                                <Label fx:id="sets_made" layoutX="181.0" layoutY="361.0" prefHeight="24.0" prefWidth="36.0" style="-fx-font-family: 'Times New Roman';" text="Label">
                                     <effect>
                                         <Blend />
                                     </effect>
@@ -79,8 +75,6 @@
                                 <ImageView fx:id="cardRow3Card11" fitHeight="121.0" fitWidth="80.0" layoutX="805.0" layoutY="487.0" pickOnBounds="true" preserveRatio="true" />
                                 <ImageView fx:id="cardRow3Card12" fitHeight="121.0" fitWidth="80.0" layoutX="884.0" layoutY="487.0" pickOnBounds="true" preserveRatio="true" />
                                 <ImageView fx:id="cardRow3Card13" fitHeight="121.0" fitWidth="80.0" layoutX="963.0" layoutY="487.0" pickOnBounds="true" preserveRatio="true" />
-                                <ImageView fx:id="the_deck" fitHeight="121.0" fitWidth="80.0" layoutX="449.0" layoutY="228.0" pickOnBounds="true" preserveRatio="true" />
-                                <Button fx:id="drawFromDeck" layoutX="567.0" layoutY="264.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Draw from Deck" textAlignment="CENTER" />
                                 <ImageView fx:id="cardRow4Card1" fitHeight="121.0" fitWidth="80.0" layoutX="14.0" layoutY="526.0" pickOnBounds="true" preserveRatio="true" />
                                 <ImageView fx:id="cardRow4Card2" fitHeight="121.0" fitWidth="80.0" layoutX="93.0" layoutY="526.0" pickOnBounds="true" preserveRatio="true" />
                                 <ImageView fx:id="cardRow4Card3" fitHeight="121.0" fitWidth="80.0" layoutX="172.0" layoutY="526.0" pickOnBounds="true" preserveRatio="true" />
@@ -88,57 +82,74 @@
                                 <ImageView fx:id="cardRow4Card5" fitHeight="121.0" fitWidth="80.0" layoutX="331.0" layoutY="526.0" pickOnBounds="true" preserveRatio="true" />
                                 <ImageView fx:id="cardRow4Card6" fitHeight="121.0" fitWidth="80.0" layoutX="409.0" layoutY="526.0" pickOnBounds="true" preserveRatio="true" />
                                 <ImageView fx:id="cardRow4Card7" fitHeight="121.0" fitWidth="80.0" layoutX="488.0" layoutY="526.0" pickOnBounds="true" preserveRatio="true" />
-                                <ImageView fx:id="opponentCard1" fitHeight="154.0" fitWidth="100.0" layoutX="14.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" />
-                                <ImageView fx:id="opponentCard2" fitHeight="154.0" fitWidth="100.0" layoutX="122.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" />
+                                <ImageView fx:id="opponentCard1" fitHeight="140.0" fitWidth="90.0" layoutX="17.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true" />
+                                <ImageView fx:id="opponentCard2" fitHeight="140.0" fitWidth="90.0" layoutX="131.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true" />
                                 <ImageView fx:id="cardRow4Card8" fitHeight="121.0" fitWidth="80.0" layoutX="568.0" layoutY="526.0" pickOnBounds="true" preserveRatio="true" />
                                 <ImageView fx:id="cardRow4Card9" fitHeight="121.0" fitWidth="80.0" layoutX="647.0" layoutY="526.0" pickOnBounds="true" preserveRatio="true" />
                                 <ImageView fx:id="cardRow4Card10" fitHeight="121.0" fitWidth="80.0" layoutX="726.0" layoutY="526.0" pickOnBounds="true" preserveRatio="true" />
                                 <ImageView fx:id="cardRow4Card11" fitHeight="121.0" fitWidth="80.0" layoutX="805.0" layoutY="526.0" pickOnBounds="true" preserveRatio="true" />
                                 <ImageView fx:id="cardRow4Card12" fitHeight="121.0" fitWidth="80.0" layoutX="884.0" layoutY="526.0" pickOnBounds="true" preserveRatio="true" />
                                 <ImageView fx:id="cardRow4Card13" fitHeight="121.0" fitWidth="80.0" layoutX="963.0" layoutY="526.0" pickOnBounds="true" preserveRatio="true" />
-                                <ImageView fx:id="opponentCard3" fitHeight="154.0" fitWidth="100.0" layoutX="231.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" />
-                                <ImageView fx:id="opponentCard5" fitHeight="154.0" fitWidth="100.0" layoutX="450.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" />
-                                <ImageView fx:id="opponentCard4" fitHeight="154.0" fitWidth="100.0" layoutX="341.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" />
-                                <Label fx:id="player2_name" layoutX="577.0" layoutY="46.0" prefHeight="48.0" prefWidth="110.0" text="Label" textAlignment="CENTER">
+                                <ImageView fx:id="opponentCard3" fitHeight="140.0" fitWidth="90.0" layoutX="246.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true" />
+                                <ImageView fx:id="opponentCard5" fitHeight="140.0" fitWidth="90.0" layoutX="477.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true" />
+                                <ImageView fx:id="opponentCard4" fitHeight="140.0" fitWidth="90.0" layoutX="361.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true" />
+                                <Label fx:id="player2_name" layoutX="538.0" layoutY="28.0" prefHeight="48.0" prefWidth="110.0" style="-fx-font-family: 'Times New Roman';" text="Label" textAlignment="CENTER">
                                     <font>
-                                        <Font name="System Bold" size="12.0" />
+                                        <Font name="Times New Roman" size="12.0" />
                                     </font>
                                 </Label>
-                                <Label fx:id="player1_name" layoutX="567.0" layoutY="718.0" prefHeight="48.0" prefWidth="110.0" text="Label" textAlignment="CENTER">
+                                <Label fx:id="player1_name" layoutX="567.0" layoutY="718.0" prefHeight="48.0" prefWidth="110.0" style="-fx-font-family: 'Times New Roman';" text="Label" textAlignment="CENTER">
                                     <font>
-                                        <Font name="System Bold" size="12.0" />
+                                        <Font name="Times New Roman" size="12.0" />
                                     </font>
                                 </Label>
                                 <MenuBar layoutX="-1.0" layoutY="-1.0" prefHeight="29.0" prefWidth="1136.0">
                                     <menus>
-                                        <Menu mnemonicParsing="false" text="File">
+                                        <Menu mnemonicParsing="false" style="-fx-font-family: 'Times New Roman';" text="File">
                                             <items>
-                                                <MenuItem mnemonicParsing="false" text="Close" />
+                                                <MenuItem mnemonicParsing="false" style="-fx-font-family: 'Times New Roman';" text="Close" />
                                             </items>
                                         </Menu>
-                                        <Menu mnemonicParsing="false" text="Edit">
+                                        <Menu mnemonicParsing="false" style="-fx-font-family: 'Times New Roman';" text="Edit">
                                             <items>
-                                                <MenuItem mnemonicParsing="false" text="Delete" />
+                                                <MenuItem mnemonicParsing="false" style="-fx-font-family: 'Times New Roman';" text="Delete" />
                                             </items>
                                         </Menu>
-                                        <Menu mnemonicParsing="false" text="Help">
+                                        <Menu mnemonicParsing="false" style="-fx-font-family: 'Times New Roman';" text="Help">
                                             <items>
-                                                <MenuItem mnemonicParsing="false" text="About" />
+                                                <MenuItem mnemonicParsing="false" style="-fx-font-family: 'Times New Roman';" text="About" />
                                             </items>
                                         </Menu>
                                     </menus>
                                 </MenuBar>
+                        <ImageView fx:id="set2" fitHeight="121.0" fitWidth="80.0" layoutX="40.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="set3" fitHeight="121.0" fitWidth="80.0" layoutX="57.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="set4" fitHeight="121.0" fitWidth="80.0" layoutX="74.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="set5" fitHeight="121.0" fitWidth="80.0" layoutX="90.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="set6" fitHeight="121.0" fitWidth="80.0" layoutX="106.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="set7" fitHeight="121.0" fitWidth="80.0" layoutX="122.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="set8" fitHeight="121.0" fitWidth="80.0" layoutX="140.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="set9" fitHeight="121.0" fitWidth="80.0" layoutX="157.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="set10" fitHeight="121.0" fitWidth="80.0" layoutX="174.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="set11" fitHeight="121.0" fitWidth="80.0" layoutX="190.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="set12" fitHeight="121.0" fitWidth="80.0" layoutX="206.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="set13" fitHeight="121.0" fitWidth="80.0" layoutX="222.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" />
+                                <Label layoutX="112.0" layoutY="366.0" style="-fx-font-family: 'Times New Roman';" text="Sets Made: " textAlignment="CENTER">
+                                    <font>
+                                        <Font name="Times New Roman" size="12.0" />
+                                    </font>
+                                </Label>
                             </children>
                         </AnchorPane>
                     </content>
                 </Tab>
-                <Tab text="Rules ">
+                <Tab style="-fx-font-family: 'Times New Roman';" text="Rules ">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
                                 <Separator layoutX="553.0" layoutY="29.0" orientation="VERTICAL" prefHeight="751.0" prefWidth="29.0" />
-                                <TextArea layoutX="14.0" layoutY="41.0" prefHeight="246.0" prefWidth="528.0" text="These are the rules " />
-                                <TextArea layoutX="14.0" layoutY="317.0" prefHeight="274.0" prefWidth="531.0" text="more rules " />
+                                <TextArea layoutX="14.0" layoutY="41.0" prefHeight="246.0" prefWidth="528.0" style="-fx-font-family: 'Times New Roman';" text="These are the rules " />
+                                <TextArea layoutX="14.0" layoutY="317.0" prefHeight="274.0" prefWidth="531.0" style="-fx-font-family: 'Times New Roman';" text="more rules " />
                             </children>
                         </AnchorPane>
                     </content>
