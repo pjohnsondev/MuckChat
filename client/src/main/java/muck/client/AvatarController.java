@@ -439,11 +439,6 @@ public class AvatarController implements Initializable  {
                     achievement7_instance.achievementUnlock();
                     achievement7_instance.achievementPopUp();
                 }
-        if (previous.equals("playerDashboard")) { //If the user previously came from player dashboard return there
-            // Unlocks achievement 7 when the player changes avatar.
-            Achievements achieve7 = new Achievements(achievement7, achievement7Title, achievement7Description);
-            achieve7.achievementUnlock(achieve7);
-            try {
                 submitToDashboard(event);
             } else {
                 submitToMap(event); // Otherwise send them to the map
@@ -456,16 +451,8 @@ public class AvatarController implements Initializable  {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
-            } catch (IOException e) {
                 LOGGER.error("Unable to open dashboard window");
                 e.printStackTrace();
-            }
-        } else {
-            submitToMap(event); // Otherwise send them to the map
-            // Unlocks achievement 6 when the player initially selects an avatar.
-            Achievements achieve6 = new Achievements(achievement6, achievement6Title, achievement6Description);
-            achieve6.achievementUnlock(achieve6);
         }
     }
 
@@ -511,7 +498,7 @@ public class AvatarController implements Initializable  {
 
     // ************  For testing purposes *************
     public static String getUserName() { return uname; }
-    public static void setMuck(int points) { muckPoints = points;}
+    public static void setMuck(int points) { muckPoints = points; }
     // ************************************************
 
     // The below code is for formatting the changes to the avatar dashboard.

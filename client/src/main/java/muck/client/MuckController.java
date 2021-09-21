@@ -159,7 +159,6 @@ public class MuckController implements Initializable {
 
     static Supplier<List<Sprite>> getPlayersfn = MuckClient.INSTANCE::getPlayerSprites;
     static TriConsumer<String, Integer, Location> updatePlayerfn = MuckClient.INSTANCE::updatePlayerLocation;
-    private static final Logger logger = LogManager.getLogger(MuckController.class);
 
     @Override
 	public void initialize(URL location, ResourceBundle resources) {
