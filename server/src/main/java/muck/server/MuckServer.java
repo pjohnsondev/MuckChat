@@ -1,14 +1,6 @@
 package muck.server;
 
-import muck.core.Id;
-import muck.core.Location;
-import muck.core.AvatarLocation;
-import muck.core.ClientId;
-import muck.core.Login;
-import muck.core.MapId;
-import muck.core.Pair;
-import muck.core.Triple;
-import muck.core.UpdatePlayerRequest;
+import muck.core.*;
 import muck.core.character.AddCharacter;
 import muck.core.character.CharacterDoesNotExistException;
 import com.esotericsoftware.kryonet.Connection;
@@ -34,8 +26,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 
-
-import muck.core.LocationResponse;
 
 import java.util.HashMap;
 
@@ -177,6 +167,9 @@ public enum MuckServer {
         userStructure.password = signUpInfo.getPassword();
         userStructure.displayName = signUpInfo.getDisplayName();
 
+        SignupResponse signupResponse = new SignupResponse();
+        signupResponse.setUsername(userStructure.username);
+
         try {
             Player player = playerManager.signupPlayer(userStructure);
             logger.info("Sign up successful for {}", player.getUsername());
@@ -188,21 +181,33 @@ public enum MuckServer {
             userMessage.setMessage("Signup successful");
             kryoServer.sendToTCP((connection.getID()), userMessage);
             kryoServer.sendToTCP((connection.getID()), returnedUser);
+
+            signupResponse.setMessage("Your account has been created successfully.");
+            signupResponse.setResultCode(200);
         } catch(UserNameAlreadyTakenException ex){
             userMessage.setMessage(ex.getMessage());
             logger.info(ex.getMessage());
             kryoServer.sendToTCP(connection.getID(), userMessage);
+
+            signupResponse.setMessage("This username has already been taken.");
+            signupResponse.setResultCode(409);
         } catch (BadRequestException ex) {
             logger.info("error in muckServer signup badrequestexception catch");
 			userMessage.setMessage(ex.getMessage());
 			kryoServer.sendToTCP(connection.getID(), userMessage);
-		} catch (RuntimeException ex) {
+
+            signupResponse.setMessage("Invalid input provided.");
+            signupResponse.setResultCode(400);
+		} catch (Exception ex) {
             userMessage.setMessage("Error setting user to database");
             kryoServer.sendToTCP(connection.getID(), userMessage);
 		    ex.printStackTrace();
-		} catch (Exception ex){
-            logger.info("error in playermanager signup exception catch");
-        }
+
+            signupResponse.setMessage("Something went wrong.");
+            signupResponse.setResultCode(500);
+		}
+
+        kryoServer.sendToTCP(connection.getID(), signupResponse);
 	}
 
 	public void loginPlayer(Login login, MuckConnection muckConnection) {

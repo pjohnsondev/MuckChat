@@ -1,13 +1,6 @@
 package muck.protocol;
 
-import muck.core.Login;
-import muck.core.MapId;
-import muck.core.Pair;
-import muck.core.LocationRequest;
-import muck.core.LocationResponse;
-import muck.core.Location;
-import muck.core.LocationResponseData;
-import muck.core.UpdatePlayerRequest;
+import muck.core.*;
 import muck.core.character.AddCharacter;
 import muck.core.character.Player;
 
@@ -16,11 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.esotericsoftware.kryo.Kryo;
-import muck.core.Id;
 import muck.core.structures.UserStructure;
 import muck.core.user.SignUpInfo;
 import muck.protocol.connection.*;
-import muck.core.AvatarLocation;
+
 /**
  * A common Protocol registration class, shared by the client and server, to
  * ensure that both ends of the connection register the same classes in the same
@@ -63,6 +55,6 @@ public class Protocol {
 		kryo.register(MapId.class);
 		kryo.register(byte[].class);
 		kryo.register(UserStructure.class);
-
+		kryo.register(SignupResponse.class);
 	}
 }

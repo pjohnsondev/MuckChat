@@ -1,17 +1,11 @@
 package muck.client;
 
 import muck.client.components.ActiveUser;
-import muck.core.Login;
-import muck.core.MapId;
-import muck.core.UpdatePlayerRequest;
-import muck.core.Id;
-import muck.core.Location;
-import muck.core.LocationRequest;
-import muck.core.LocationResponse;
-import muck.core.AvatarLocation;
-import muck.core.ClientId;
+import muck.core.*;
 import muck.core.character.AddCharacter;
 import muck.core.character.Player;
+import muck.core.observer.ObservableSubject;
+import muck.core.observer.Observer;
 import muck.core.structures.UserStructure;
 import muck.core.user.SignUpInfo;
 import org.apache.logging.log4j.LogManager;
@@ -46,6 +40,8 @@ public enum MuckClient {
 	List<Sprite> playerSprites = new ArrayList<Sprite>();
 
 	Player currentPlayer;
+
+	public ObservableSubject<SignupResponse> signupResponseNotifier = new ObservableSubject<>();
 
 	public static MuckClient getINSTANCE() {
 		return INSTANCE;
@@ -169,6 +165,11 @@ public enum MuckClient {
 		// setActiveUser
 		client.addListener(ListenerBuilder.forClass(UserStructure.class).onReceive((connID, response) -> {
 			ActiveUser.getInstance().setUserStructure(response);
+		}));
+
+		// signup response
+		client.addListener(ListenerBuilder.forClass(SignupResponse.class).onReceive((connID, response) -> {
+			signupResponseNotifier.notifyObservers(response);
 		}));
 	}
 

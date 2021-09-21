@@ -9,7 +9,10 @@ import javafx.scene.control.*;
 import muck.client.AvatarController;
 import muck.client.MuckClient;
 import muck.client.components.ActiveUser;
+import muck.core.ResponseCodes;
+import muck.core.SignupResponse;
 import muck.core.models.models.UserModel;
+import muck.core.observer.Observer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mindrot.jbcrypt.*;
@@ -21,7 +24,7 @@ import java.sql.SQLException;
 import java.util.EventListener;
 
 
-public class SignUpController {
+public class SignUpController implements Observer<SignupResponse> {
     private int maxPasswordLength = 10;
     private int maxDisplayNameLength = 26;
     private int maxUsernameLength = maxPasswordLength;
@@ -191,6 +194,7 @@ public class SignUpController {
 
         if (validated) {
             try {
+                MuckClient.getINSTANCE().signupResponseNotifier.register(this);
                 MuckClient.getINSTANCE().signUp(userName, passwordText, displayName);
                 error.setText("New muck user created" + userName);
                 return true;
@@ -245,5 +249,23 @@ public class SignUpController {
         } else if (!passwordsMatch(passWordText, passwordTwo)) {
             error.setText("Passwords do not match");
         }
+    }
+
+    @Override
+    public void update(SignupResponse signUpResponse) {
+        if(signUpResponse.getResultCode() == ResponseCodes.OK) {
+            logger.info("Signup was successful");
+            // TODO: handle sign up success
+        } else if(signUpResponse.getResultCode() == ResponseCodes.INVALID_INPUT) {
+            logger.info("Invalid input provided to sign up");
+            // TODO: handle signup failure
+        } else if(signUpResponse.getResultCode() == ResponseCodes.EXISTING_USERNAME) {
+            logger.info("Existing username supplied for signup");
+            // TODO: handle existing user;
+        } else if(signUpResponse.getResultCode() == ResponseCodes.SERVER_ERROR) {
+            logger.info("Server error occurred while signing up");
+            // TODO: handle server error
+        }
+        MuckClient.getINSTANCE().signupResponseNotifier.unRegister(this);
     }
 }
