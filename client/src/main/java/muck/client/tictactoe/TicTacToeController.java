@@ -18,7 +18,6 @@ import java.util.Random;
 import muck.client.Achievements;
 import static muck.client.Achievements.*;
 
-
 public class TicTacToeController {
 
     @FXML // fx:id="one"
@@ -60,18 +59,16 @@ public class TicTacToeController {
     @FXML // fx:id="play"
     private Button play; // Value injected by FXMLLoader
 
-    Image cross = new Image("images/x-png-35400.png");
-    Image circle = new Image("images/blue-circle-634067.png");
-
     @FXML
     private Text compTally;
 
     @FXML
     private Text playerTally;
 
-
     int compTallyNum = 0;
     int playerTallyNum = 0;
+    Image cross = new Image("images/x-png-35400.png");
+    Image circle = new Image("images/blue-circle-634067.png");
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
