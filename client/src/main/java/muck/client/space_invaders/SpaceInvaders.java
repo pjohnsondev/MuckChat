@@ -234,7 +234,7 @@ public class SpaceInvaders {
 
         // Draw enemy sprites
         for (int i = 0; i < enemies.size(); i++) {
-            Rectangle r2 = this.enemies.get(i).getBounds();
+            Rectangle r2 = enemies.get(i).getBounds();
             if (endGame == false) {
                 gc.drawImage(enemies.get(i), enemies.get(i).getX(), enemies.get(i).getY());
             }
@@ -250,24 +250,17 @@ public class SpaceInvaders {
                 }
             }
 
-            if (enemies.get(i).getY() > HEIGHT) {
-                enemies.remove(i);
-            }
             // Collision detection between enemies and player
             // Draws explosion gif and reduces lives by 1.
             Rectangle r1 = player.getBounds();
             if (r2.intersects(r1)) {
-                enemies.remove(i);
                 enemies.get(i).setLives(enemies.get(i).getLives() - 1);
                 player.setLives(player.getLives() - 1);
                 player.explode(explosion);
             }
-            if (enemies.size() == 0) {
-                level++;
-                SpaceInvadersUtility.levelUp(level, WIDTH, enemies);
-                if (level > 4) {
-                    endGame = true;
-                }
+
+            if(enemies.get(i).getLives() == 0 || enemies.get(i).getY() > HEIGHT) {
+                enemies.remove(i);
             }
         }
 
@@ -299,12 +292,13 @@ public class SpaceInvaders {
 
         // Draw enemy lasers
         for (int i = 0; i < enemyLasers.size(); i++) {
-            Rectangle r4 = this.enemyLasers.get(i).getBounds();
+            Rectangle r4 = enemyLasers.get(i).getBounds();
             if (endGame == false) {
-                gc.drawImage(this.enemyLasers.get(i), this.enemyLasers.get(i).getX(),
-                        this.enemyLasers.get(i).getY());
+                gc.drawImage(enemyLasers.get(i), enemyLasers.get(i).getX(),
+                        enemyLasers.get(i).getY());
                 enemyLasers.get(i).moveDown();
             }
+
             // Collision detection between enemy lasers and player
             // Removes enemy laser reduces lives by 1 and
             // draws explosion gif
@@ -314,17 +308,17 @@ public class SpaceInvaders {
                 player.setLives(player.getLives() - 1);
                 player.explode(explosion);
             }
-            if (enemyLasers.get(i).getY() > HEIGHT) {
+            else if (enemyLasers.get(i).getY() > HEIGHT) {
                 enemyLasers.remove(i);
             }
         }
 
         // Draw player lasers
         for (int i = 0; i < playerLasers.size(); i++) {
-            Rectangle r3 = this.playerLasers.get(i).getBounds();
+            Rectangle r3 = playerLasers.get(i).getBounds();
             if (endGame == false) {
-                gc.drawImage(this.playerLasers.get(i), this.playerLasers.get(i).getX(),
-                        this.playerLasers.get(i).getY());
+                gc.drawImage(playerLasers.get(i), playerLasers.get(i).getX(),
+                        playerLasers.get(i).getY());
                 playerLasers.get(i).moveUp();
             }
 
@@ -336,23 +330,15 @@ public class SpaceInvaders {
             // Also increments level and levelUp() when enemies.size() == 0
             // and displays explosion gif.
             for (int j = 0; j < enemies.size(); j++) {
-                Rectangle r2 = this.enemies.get(j).getBounds();
+                Rectangle r2 = enemies.get(j).getBounds();
 
                 if (r3.intersects(r2)) {
-                    this.enemies.get(j).setLives(this.enemies.get(j).getLives() - 1);
+                    enemies.get(j).setLives(enemies.get(j).getLives() - 1);
                     playerLasers.remove(i);
                     if (enemies.get(j).getLives() == 0) {
                         enemies.get(j).explode(explosion);
                         score += 100;
                         enemies.remove(j);
-                    }
-                    if (enemies.size() == 0) {
-                        level++;
-                        SpaceInvadersUtility.levelUp(level, WIDTH, enemies);
-                        if (level > 4) {
-                            winCheck = true;
-                            endGame = true;
-                        }
                     }
                 }
             }
@@ -371,6 +357,18 @@ public class SpaceInvaders {
 
             if (explosion.get(i).getLives() == 0) {
                 explosion.remove(i);
+            }
+        }
+
+        // Level up
+        if (enemies.size() == 0) {
+            if (level < 4){
+                level++;
+                SpaceInvadersUtility.levelUp(level, WIDTH, enemies);
+            }
+            else{
+                winCheck = true;
+                endGame = true;
             }
         }
 
@@ -415,6 +413,5 @@ public class SpaceInvaders {
         start(newStage);
 
     }
-
 }
 
