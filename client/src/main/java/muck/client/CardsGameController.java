@@ -44,11 +44,12 @@ public class CardsGameController implements Initializable {
     public ImageView[][] positionArray;
     public Image[][] images;
     public Card[][] cardPositions;
-    @FXML // fx:id="ask_for_card"
+    public int count = 0;
+    @FXML // fx:id="askForCard"
     public Button askForCard;
 
-    @FXML // fx:id="go_fish"
-    public Button goFish;
+    @FXML // fx:id="makeSet"
+    public Button makeSet;
 
     @FXML // set up for cards for row 1 - this will fill first 
     public ImageView cardRow1Card1;
@@ -186,44 +187,51 @@ public class CardsGameController implements Initializable {
         game.initGame();
         game.playersTurn();
         askForCard.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
+        makeSet.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
 
-        goFish.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+        makeSet.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             //go fish needs to basically pass back a variable switch that makes the
             //draw card popup visible for other player.
             //"Player 2 does not have any *card value*:
             //               Pickup card"
+            String cardName = "";
             //TODO: create a boolean variable for go fish to make the response pop up
             // to other player.
             //NEED TO ADD THE GO FISH FUNCTION HERE
-            try {
-                Button close = new Button();
-                close.setStyle("-fx-font-family: Times New Roman;");
-                close.setText("Close");
-                BorderPane root = new BorderPane(new TextArea());
-                Scene scene = new Scene(root, 300, 145);
+            if (count == 4) {
+                try {
+                    Button close = new Button();
+                    close.setStyle("-fx-font-family: Times New Roman;");
+                    close.setText("Okay!");
+                    BorderPane root = new BorderPane(new TextArea());
+                    Scene scene = new Scene(root, 300, 145);
 
-                //box for text area
-                HBox textHB = new HBox();
-                textHB.setAlignment(Pos.TOP_CENTER);
-                textHB.setStyle("-fx-font-family: Times New Roman;");
-                textHB.getChildren().add(new TextArea("You've gone fishin' !\n\nYou've caught a CARD SUIT/COLOR card"));
-                // just add the card that the player's picked up
-                root.setCenter(textHB);
+                    //box for text area
+                    HBox textHB = new HBox();
+                    textHB.setAlignment(Pos.TOP_CENTER);
+                    textHB.setStyle("-fx-font-family: Times New Roman;");
+                    textHB.getChildren().add(new TextArea("You put away your set of " + cardName + "'s."));
+                    // just add the card that the player's picked up
+                    root.setCenter(textHB);
 
-                HBox butbox = new HBox();
-                butbox.setAlignment(Pos.CENTER);
-                butbox.getChildren().add(close);
-                root.setBottom(butbox);
+                    HBox butbox = new HBox();
+                    butbox.setAlignment(Pos.CENTER);
+                    butbox.getChildren().add(close);
+                    root.setBottom(butbox);
 
-                Stage stage = new Stage();
-                stage.setTitle("Go Fish!");
-                stage.setScene(scene);
-                stage.show();
+                    Stage stage = new Stage();
+                    stage.setTitle("Go Fish!");
+                    stage.setScene(scene);
+                    stage.show();
 
-                close.addEventHandler(MouseEvent.MOUSE_CLICKED, shut -> {stage.close(); });
+                    close.addEventHandler(MouseEvent.MOUSE_CLICKED, shut -> {
+                        stage.close();
+                    });
 
-            } catch (Exception e) {
-                e.printStackTrace();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -427,12 +435,22 @@ public class CardsGameController implements Initializable {
                         if (positionArray[finalI][finalJ] != null) {
                             if (cardPositions[finalI][finalJ].getSelectedValue() == false) {
                                 game.player1.hand.selectAll(cardPositions[finalI][finalJ]);
+                                count = 0;
+                                for (int k = 0; k < game.player1.hand.cards.size(); k++) {
+                                    if (game.player1.hand.cards.get(k).getSelectedValue() == true) {
+                                        count++;
+                                    }
+                                }
+                                if (count > 3){
+                                    makeSet.setStyle("-fx-font-family: 'Times New Roman';");
+                                }
                                 askForCard.setStyle("-fx-font-family: 'Times New Roman';");
                                 setHandImages();
                             } else {
                                 if (cardPositions[finalI][finalJ].getSelectedValue() == true) {
                                     game.player1.hand.deselectAll();
                                     askForCard.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
+                                    makeSet.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
                                     setHandImages();
                                 }
                             }
@@ -501,7 +519,7 @@ public class CardsGameController implements Initializable {
                             positionArray[i][j + 3].setImage(images[i][j + 3]);
                         }
                         if (game.player1.hand.cards.get(k).getSelectedValue() == true) {
-                            positionArray[i][j + 2].setImage(images[i + 13][j + 3]);
+                            positionArray[i][j + 3].setImage(images[i + 13][j + 3]);
                         }
                     } else {
                         i -= 1;
