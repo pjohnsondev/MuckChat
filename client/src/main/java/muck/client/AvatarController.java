@@ -146,8 +146,13 @@ public class AvatarController implements Initializable  {
 
             // If there is already an avatar associated with a user, display the avatar
             // Will be used in the case of an avatar change
-            if (!avatar.equals("notSet")) {
-                selection(avatar);
+
+            try {
+                if (!avatar.equals("notSet")) {
+                    selection(avatar);
+                }
+            } catch (NullPointerException e) {
+                LOGGER.error("Avatar is null");
             }
         } catch (NullPointerException e) {
             LOGGER.error("Error with image initialisation");
