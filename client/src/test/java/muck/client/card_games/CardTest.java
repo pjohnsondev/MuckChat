@@ -31,7 +31,6 @@ public class CardTest {
     ComputerOpponent opponent;
     Game game;
     Player player;
-    PlayerTurn playerTurn;
     private static final Logger logger = LogManager.getLogger(Deck.class);
     Random rand;
 
@@ -44,7 +43,6 @@ public class CardTest {
         opponent = new ComputerOpponent(1);
         game = new Game();
         player = new Player();
-        playerTurn = new PlayerTurn(1);
 
     }
 
@@ -57,12 +55,24 @@ public class CardTest {
         assertEquals(1, card.getCardId());
     }
 
+
+    @Test
+    public void testUseFileName() {
+        logger.info("Testing that the correct filename is returned based on the selected value");
+        assertEquals("/images/cards/ace_of_clubs.png", card.useFileName());
+        card.setSelected(true);
+        assertEquals("/images/cards/B_ace_of_clubs.png", card.useFileName());
+
+    }
+
+
     @Test
     public void testGetFileName() {
 
         logger.info("Testing the filename is correct");
         assertEquals("/images/cards/ace_of_clubs.png", card.getFileName());
     }
+
 
     @Test
     public void testGetBFileName() {
@@ -83,11 +93,13 @@ public class CardTest {
         assertFalse(card.getSelectedValue());
     }
 
+
     @Test
     public void testGetSuit() {
         logger.info("Testing the correct suit is returned");
         assertEquals("clubs", card.getSuit());
     }
+
 
     @Test
     public void testGetCardName() {
@@ -95,11 +107,13 @@ public class CardTest {
         assertEquals("ace", card.getCardName());
     }
 
+
     @Test
     public void testGetMatchId() {
         logger.info("Testing that the correct Match ID number is returned");
         assertEquals(1, card.getMatchId());
     }
+
 
     @Test
     public void testSetCardId() {
@@ -109,6 +123,7 @@ public class CardTest {
         assertEquals(5, card.getCardId());
     }
 
+
     @Test
     public void testSetSuit() {
         logger.info("Testing that setting the suit is working");
@@ -116,6 +131,7 @@ public class CardTest {
         card.setSuit("hearts");
         assertEquals("hearts", card.getSuit());
     }
+
 
     @Test
     public void testSetCardName() {
@@ -125,6 +141,7 @@ public class CardTest {
         assertEquals("five", card.getCardName());
     }
 
+
     @Test
     public void testSetMatchId() {
         logger.info("Testing that setting the match id is working");
@@ -132,6 +149,7 @@ public class CardTest {
         card.setMatchId(7);
         assertEquals(7, card.getMatchId());
     }
+
 
     @Test
     public void testToString() {
@@ -226,6 +244,7 @@ public class CardTest {
         );
     }
 
+
     @Test
     public void testDrawHand() {
         logger.info("Testing that drawing a hand from the deck is functioning correctly");
@@ -235,16 +254,33 @@ public class CardTest {
     }
 
 
-    //TODO Add more tests once the 2 popups are in place
+    //TODO
     @Test
     public void testSelectAll() {
         logger.info("Testing that the select all cards method is working as intended");
-
+        // draw 20 cards from the deck and add to the cards array
+        // get the value of the first card
+        // add all matching cards to another empty array
+        // test the selected value of all cards in the new array
     }
 
+    // TODO
+    @Test
+    public void testDeselectAll() {
+        // Same as above but just choose 20 random cards in a new array
+        // set all the values to true with a for loop
+        // deselect all then test all cards for selected value
+    }
 
-    //makeSet
+    // TODO
+    // TODO May need to update this test once the check for 4 is put into place
+    @Test
+    public void testMakeSets() {
+        // add 52 cards from the deck to the cards array ( no need to remove from Deck)
+        // pass in the first matchid to the makeset method
+        // check the size of sets is array is 4
 
+    }
 
     //reorderHand
 
@@ -263,10 +299,7 @@ public class CardTest {
 
 
 
-    // ************************************** PLAYER TURN TESTS ****************************************** /
 
-
-    //takeTurn(Player player)
 
 
 }
