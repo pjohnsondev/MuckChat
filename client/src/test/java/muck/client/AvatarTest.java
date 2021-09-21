@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 
+@Disabled //Disabled due to out of memory error
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AvatarTest extends ApplicationTest {
 
@@ -56,7 +57,6 @@ public class AvatarTest extends ApplicationTest {
     }
 
     @Test
-    @Disabled //Disabled due to out of memory error
     @Order(1)
     // Checks the display name passed into the interface is the name that displays
     public void testDisplayNameUpdates() {
@@ -120,11 +120,9 @@ public class AvatarTest extends ApplicationTest {
         avatarImage = lookup("#avatarFullBody").queryAs(ImageView.class).getImage();
         assertFalse(checkImageEquality(yoshi_full, avatarImage));
 
-        AvatarController.setMuck(29); // This line has been added because the next two tests are disabled due to OutOfMemoryError
     }
 
     @Test
-    @Disabled //Disabled due to out of memory error
     @Order(3)
     // Checks that the correct messages are displayed when a user hovers over a locked avatar
     public void testHoverMessage() {
@@ -146,7 +144,6 @@ public class AvatarTest extends ApplicationTest {
     }
 
     @Test
-    @Disabled //Disabled due to out of memory error
     @Order(4)
     //Tests that the locked skeleton avatar doesn't unlock early
     public void testLockedSkeleton() {
@@ -163,7 +160,6 @@ public class AvatarTest extends ApplicationTest {
         }
 
     @Test
-    @Disabled //Disabled due to out of memory error
     @Order(5)
       //Tests that the avatar id changes when you click on the skeleton
       //Tests that the Wonder Woman avatar doesn't unlock early
@@ -187,7 +183,6 @@ public class AvatarTest extends ApplicationTest {
     }
 
     @Test
-    @Disabled //Disabled due to out of memory error
     @Order(6)
     //Tests that the avatar id changes when you click on Wonder Woman
     //Tests that the Yoshi avatar doesn't unlock early
@@ -210,7 +205,6 @@ public class AvatarTest extends ApplicationTest {
     }
 
     @Test
-    @Disabled //Disabled due to out of memory error
     @Order(7)
     //Tests that the avatar id changes when you click on Yoshi
     public void testUnlockedYoshi() {
@@ -344,7 +338,6 @@ public class AvatarTest extends ApplicationTest {
     //TODO: Test uname/avID/MuckPoints update with mock character. Full image shows. Correct avatars unlocked
 
     @AfterAll
-    @Disabled //Disabled due to out of memory error
     public static void testWindowClose() throws TimeoutException {
         logger.info("Closing window");
         FxToolkit.cleanupStages();
