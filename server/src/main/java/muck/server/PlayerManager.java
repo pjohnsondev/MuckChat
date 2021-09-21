@@ -4,6 +4,7 @@ import muck.core.character.CharacterDoesNotExistException;
 import muck.core.character.CharacterFactory;
 import muck.core.character.Player;
 import muck.server.Exceptions.ModelNotFoundException;
+import muck.server.Exceptions.UserNameAlreadyTakenException;
 import muck.server.services.UserService;
 import muck.core.structures.UserStructure;
 import org.apache.logging.log4j.LogManager;
@@ -73,9 +74,9 @@ public class PlayerManager {
      * @throws BadRequestException
      *
      */
-    public Player signupPlayer(UserStructure userStructure) throws BadRequestException {
+    public Player signupPlayer(UserStructure userStructure) throws BadRequestException, UserNameAlreadyTakenException {
         // Validate the user details
-        if(userStructure.username == null || userStructure.username.equals("") ) {
+        if (userStructure.username == null || userStructure.username.equals("")) {
             throw new BadRequestException("Please provide valid user name. Username cannot be null or empty");
         } else if (userStructure.password == null || userStructure.password.equals("")) {
             throw new BadRequestException("Please provide valid password. Password cannot be null or empty");
@@ -85,26 +86,37 @@ public class PlayerManager {
 
         try {
             // Verify that supplier username does not already exist
-            if(userService.findByUsername(userStructure.username) != null) {
-                throw new BadRequestException("A user with the username %s already exists." + userStructure.username);
+            if (userService.findByUsername(userStructure.username) != null) {
+                throw new UserNameAlreadyTakenException("Username already exists");
+            } else if (userService.findByDisplayname(userStructure.displayName) != null) {
+                throw new UserNameAlreadyTakenException("Displayname already exists");
             }
-        } catch (Exception ex) {
+            // Create the new user
+            try {
+                userService.registerNewUser(userStructure);
+                player = CharacterFactory.createOrLoadPlayer(userStructure.username);
+                return player;
+            } catch (UserNameAlreadyTakenException ex){
+                throw new UserNameAlreadyTakenException(ex.getMessage());
+            } catch (Exception ex) {
+                logger.info(ex.getMessage());
+                throw new RuntimeException(String.format("Unable to create new user: %s.", userStructure.username));
+            }
+        } catch (UserNameAlreadyTakenException ex){
+            throw new UserNameAlreadyTakenException(ex.getMessage());
+        }catch (Exception ex) {
             logger.error(ex.getMessage());
         }
+        return null;
+    }
 
-        // Create the new user
-        try {
+    public UserStructure getUser(UserStructure userStructure){
+        try{
+            UserStructure returnedUser = userService.findByUsername(userStructure.username);
+            return returnedUser;
+        } catch (SQLException ex){
 
-
-            userService.registerNewUser(userStructure);
-
-            player = CharacterFactory.createOrLoadPlayer(userStructure.username);
-
-            return player;
-        } catch (Exception ex) {
-            logger.error("Unable to create new user: {}", userStructure.username);
-
-            throw new RuntimeException(String.format("Unable to create new user: %s.", userStructure.username));
+            return null;
         }
     }
 }

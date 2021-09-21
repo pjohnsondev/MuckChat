@@ -2,14 +2,19 @@ package muck.server;
 
 import muck.core.Pair;
 import muck.core.Triple;
+import muck.core.AvatarLocation;
 import muck.core.Id;
 import muck.core.Location;
+import muck.core.LocationResponseData;
+import muck.core.MapId;
 import muck.core.character.Character;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Server class used for tracking locations of clients and their character
@@ -19,21 +24,23 @@ import java.util.stream.Collectors;
  *                     tracking purposes
  */
 public class CharacterLocationTracker<TrackingType> implements ICharacterLocationTracker<TrackingType> {
-	// String is a stand-in for a unique ID, clientID?
-	private HashMap<Id<TrackingType>, Pair<String, Location>> _clients;
+
+	private ConcurrentHashMap<String, Triple<AvatarLocation, MapId, Location>> _clients;
+
+	private final Logger logger = LogManager.getLogger(CharacterLocationTracker.class);
 
 	public CharacterLocationTracker() {
-		_clients = new HashMap<Id<TrackingType>, Pair<String, Location>>();
+		_clients = new ConcurrentHashMap<String, Triple<AvatarLocation, MapId, Location>>();
 	}
 
 	/**
 	 * @return The internal list of all tracked clients, the associated character
 	 *         and that character's location
 	 */
-	public List<Triple<Id<TrackingType>, String, Location>> getClients() {
-
-		return _clients.keySet().stream().map(
-				i -> new Triple<Id<TrackingType>, String, Location>(i, _clients.get(i).left(), _clients.get(i).right()))
+	public List<Triple<Id<TrackingType>, AvatarLocation, Location>> getClients() {
+		return _clients.keySet().stream()
+				.map(i -> new Triple<Id<TrackingType>, AvatarLocation, Location>(new Id<TrackingType>(i),
+						_clients.get(i).left(), _clients.get(i).right()))
 				.collect(Collectors.toList());
 	}
 
@@ -43,8 +50,9 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 	 * @return An ArrayList of pairs of characters and their locations
 	 */
 	@Override
-	public ArrayList<Pair<String, Location>> getAllPlayerLocations() {
-		return new ArrayList<Pair<String, Location>>(_clients.values());
+	public ArrayList<Triple<AvatarLocation, MapId, Location>> getAllPlayerLocations() {
+		return new ArrayList<Triple<AvatarLocation, MapId, Location>>(
+				_clients.values().stream().collect(Collectors.toList()));
 	}
 
 	/**
@@ -57,9 +65,8 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 	 *
 	 */
 	@Override
-	public void addClient(Id<TrackingType> clientId, String avatar, Location loc) {
-		_clients.put(clientId, new Pair<String, Location>(avatar, loc));
-
+	public void addClient(Id<TrackingType> clientId, AvatarLocation avatar, MapId mapId, Location loc) {
+		_clients.put(clientId.id, new Triple<AvatarLocation, MapId, Location>(avatar, mapId, loc));
 	}
 
 	/**
@@ -70,8 +77,8 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 	 */
 	@Override
 	public void removeClientById(Id<TrackingType> id) {
-		if (_clients.containsKey(id)) {
-			_clients.remove(id);
+		if (_clients.containsKey(id.id)) {
+			_clients.remove(id.id);
 		}
 	}
 
@@ -83,25 +90,28 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 	 */
 
 	@Override
-	public List<Pair<String, Location>> getAllLocationsExceptId(Id<TrackingType> clientId) {
-		return _clients.keySet().stream().filter(p -> !p.equals(clientId)).map(p -> _clients.get(p))
-				.collect(Collectors.toList());
+	public List<Triple<AvatarLocation, MapId, Location>> getAllLocationsExceptId(Id<TrackingType> clientId) {
+		if (_clients.containsKey(clientId.id)) {
+			var exclusion = _clients.get(clientId.id);
+			return _clients.keySet().stream().filter(p -> !p.equals(clientId.id) && exclusion.middle().equals(_clients.get(p).middle())).map(p -> _clients.get(p))
+					.collect(Collectors.toList());
+		} else {
+			return new ArrayList<>();
+		}
 
 	}
 
 	@Override
-
-	public List<Pair<String, Location>> getPlayersWithin(Pair<String, Location> me, Integer dist) {
-		return _clients.values().stream().filter(p -> me.right() != p.right() && me.right().distance(p.right()) <= dist)
+	public List<Triple<AvatarLocation, MapId, Location>> getPlayersWithin(Pair<MapId, Location> me, Integer dist) {
+		return _clients.values().stream().filter(p -> me.left().equals(p.middle()) && me.right().distance(p.right()) <= dist)
 				.collect(Collectors.toList());
 	}
 
 	@Override
-	public List<Pair<String, Location>> getPlayersWithinById(Id<TrackingType> id, Integer dist) {
-		var myLoc = _clients.get(id);
-
-		return this.getPlayersWithin(myLoc, dist);
-
+	public List<Triple<AvatarLocation, MapId, Location>> getPlayersWithinById(Id<TrackingType> id, Integer dist) {
+		var myLoc = _clients.get(id.id);
+		var toCheck = new Pair<MapId, Location>(myLoc.middle(), myLoc.right());
+		return this.getPlayersWithin(toCheck, dist);
 	}
 
 	/**
@@ -111,19 +121,14 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 	 * @param loc - The new location data to update
 	 */
 	@Override
-	public void updateLocationById(Id<TrackingType> id, String avatar, Location loc) {
-		var newData = new Pair<String, Location>(avatar, loc);
-		if (!_clients.containsKey(id)) {
-			_clients.put(id, newData);
-		} else {
-			_clients.replace(id, newData);
-		}
-
+	public void updateLocationById(Id<TrackingType> id, AvatarLocation avatar, MapId mapId, Location loc) {
+		var newData = new Triple<AvatarLocation, MapId, Location>(avatar, mapId, loc);
+		_clients.put(id.id, newData);
 	}
 
 	@Override
 	public Location getLocationById(Id<TrackingType> id) {
-		return _clients.get(id).right();
+		return _clients.get(id.id).right();
 	}
 
 }

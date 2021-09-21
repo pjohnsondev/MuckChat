@@ -7,58 +7,67 @@ import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.animation.*;
 import javafx.scene.layout.BorderPane;
+import muck.client.character_client.VillagerNPC;
 import muck.core.Location;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiConsumer;
+import muck.core.TriConsumer;
 import java.util.function.Supplier;
 import muck.client.character_client.CatNPC;
 
 /**
- * The Game Map class...
+ * The Game Map class is the primary rendering tool for the muck graphics.
+ * It controls the animation loop to render the tileMap.
  */
 public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	TileMapReader tm = new TileMapReader("/maps/homeTown.tmx");
-	public Sprite hero = new Sprite(300,300); //Create the player sprite
-	private int startX; //The first tile to be drawn
-	private int startY; //The first tile to be drawn
-	private int offX; //Tile offset in pixels as hero moves pixel by pixel
-	private int offY; //Tile offset in pixels as hero moves pixel by pixel
-	private double centerX; //Center of the screen
-	private double centerY; //Center of the screen
-	private double cameraX; //Top left corner of our viewport
-	private double cameraY; //Top left corner of our viewport
+	public Sprite hero = new Sprite(300, 300); // Create the player sprite
+	private int startX; // The first tile to be drawn
+	private int startY; // The first tile to be drawn
+	private int offX; // Tile offset in pixels as hero moves pixel by pixel
+	private int offY; // Tile offset in pixels as hero moves pixel by pixel
+	private double centerX; // Center of the screen
+	private double centerY; // Center of the screen
+	private double cameraX; // Top left corner of our viewport
+	private double cameraY; // Top left corner of our viewport
 	private int layer = 0;
 	private int tileId = 0;
 	private int GID = 0;
-	int n = 0; //water animation
-	int uP = 0; //update players
+	int n = 0; // water animation
+	int uP = 0; // update players
 	double screenHeightInTiles;
 	double screenWidthInTiles;
 	GraphicsContext gc;
 	Image image;
 	double cameraMaxX;
 	double cameraMaxY;
-	private BiConsumer<String, Location> updatePlayer;
+	private TriConsumer<String, Integer, Location> updatePlayer;
 	private Supplier<List<Sprite>> otherPlayers;
 	private BorderPane gamePane;
 	List<Sprite> players = new ArrayList<Sprite>();
-	public int worldID = 1;
-	CatNPC cat = new CatNPC("1", 400,250, "brown", "right" );
+	public int worldID = 1; //World 1 = HomeTown World 2 = Cave
+
+	// Added NPC's - @kgusti
+	CatNPC cat = new CatNPC("1", 400,250, "brown", tm);
+	VillagerNPC villager1 = new VillagerNPC("V1", 280, 750, "male1", tm);
+	VillagerNPC villager2 = new VillagerNPC("V2", 650, 250, "female1", tm);
+	VillagerNPC villager3 = new VillagerNPC("V3", 750, 500, "female4", tm,
+			"down", 0, 100, 0);
 
 	// CA - Infinite Loops
 	// Use this method when returning from a game landing page
 	public GameMap(Canvas canvas, BorderPane borderPane) {
 		setupCanvas(canvas, "/tilesets/texture.png", tm);
 		gamePane = borderPane;
-		updatePlayer = (s, l) -> {
+		updatePlayer = (s, m, l) -> {
 		};
 		otherPlayers = () -> new ArrayList<Sprite>();
 	}
 
+	//This constructor is used when only canvas required
 	public GameMap(Canvas canvas) {
 		setupCanvas(canvas, "/tilesets/texture.png", tm);
-		updatePlayer = (s, l) -> {
+		updatePlayer = (s, m, l) -> {
 		};
 		otherPlayers = () -> new ArrayList<Sprite>();
 	}
@@ -66,12 +75,12 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	public GameMap(Canvas canvas, BorderPane boarderPane, String world, TileMapReader tmNew) {
 		this.gamePane = boarderPane;
 		setupCanvas(canvas, world, tmNew);
-		updatePlayer = (s, l) -> {
+		updatePlayer = (s, m, l) -> {
 		};
 		otherPlayers = () -> new ArrayList<Sprite>();
 	}
 	/**
-	 * GameMap constructor accepts the canvas to be drawn onto. 	 *
+	 * GameMap constructor accepts the canvas to be drawn onto.
 	 * @param canvas       The gameWindow canvas to be drawn onto.
 	 * @param borderPane   The muck borderPane to be passed into the WorldController
 	 *                     for game landing page updates
@@ -79,7 +88,8 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	 * @param getPlayers   function to handle getting all client locations other
 	 *                     than the calling client.
 	 */
-	public GameMap(Canvas canvas, BorderPane borderPane, BiConsumer<String, Location> updatePlayer, Supplier<List<Sprite>> getPlayers) {
+    public GameMap(Canvas canvas, BorderPane borderPane, TriConsumer<String, Integer, Location> updatePlayer,
+			Supplier<List<Sprite>> getPlayers) {
 		this.updatePlayer = updatePlayer;
 		this.otherPlayers = getPlayers;
 		this.gamePane = borderPane;
@@ -97,10 +107,10 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	 */
 	public void setupCanvas(Canvas canvas, String world, TileMapReader tmNew) {
 		tm = tmNew;
-		//Get the graphic context of the canvas
+		// Get the graphic context of the canvas
 		gc = canvas.getGraphicsContext2D();
-		//Load the image
-		String imagePath = world; //the tileset
+		// Load the image
+		String imagePath = world; // the tileset
 		image = new Image(imagePath);
 
 		centerX = canvas.getWidth() / 2; //Viewport midpoint (half the width of the canvas size)
@@ -127,8 +137,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 				if (WorldController.locationCheck(new Location((int)hero.getPosX(),(int) hero.getPosY()), gamePane, worldID, canvas) != 0) {
 					this.stop(); //stop this instance new instance for new world started.
 				}
-				updatePlayers();
-				cat.handle(tm); // added cat movement - @kgusti
+				updatePlayers(); //Updates the other players
 				gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight()); //blank the screen
 				cameraX = hero.getPosX() - centerX; //Camera top left relative to hero X
 				cameraY = hero.getPosY() - centerY; //Camera top left relative to hero Y
@@ -141,16 +150,21 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 				offY = (int) (cameraY % tm.getTileWidth());
 
 				drawLayer(0); //draws a single layer pass the layer number (floor)
-				n++;
+
 				drawLayer(1); //passableOver
+
+				//Water animation controller 15 frames each cycle
 				if (n <15 ) {
 					drawLayer(3); //Water animation layer
 				}
 				if (n > 30) { n=0;} //reset water animation timer
+				n++;
+
 				drawLayer(2); //Solid
 
-				Sprite.drawHero(gc, tm, hero, centerX,centerY);
-				cat.drawCatNPC(gc, cameraX, cameraY);
+				Sprite.drawHero(gc, tm, hero, centerX,centerY); //Draws the hero
+
+				handleNPC(); // handle all NPCs - @kgusti
 
 				// Added by Trent - 20/08
 				// Gets a list of other player locations and draws them on screen
@@ -169,14 +183,14 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	}
 
 	/**
-	 *
-	 * @param layer
+	 * The drawLayer method draws the muck map one layer at a time on the canvas.
+	 * @param layer The layer id of the layer to be drawn
 	 */
 	public void drawLayer(int layer) {
 		for (int y = 0; y <= screenHeightInTiles + 1; y++) {
 			for (int x = 0; x <= screenWidthInTiles + 1; x++) {
 
-				GID = getTileIndex(x + startX, y + startY, layer);
+				int GID = getTileIndex(x + startX, y + startY, layer);
 				if (GID != -1) { //Don't render blank tiles in layers (0 with -1 offset)
 					gc.save();
 					//Translate the viewport around the hero. (Easier to relative draw)
@@ -215,7 +229,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	 * @return : The GID of the tile to be drawn
 	 */
 	public int getTileIndex(int x, int y, int layer) {
-		tileId = tm.getLayerId(layer,x, y);
+		int tileId = tm.getLayerId(layer, x, y);
 		return tileId;
 	}
 
@@ -241,16 +255,17 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 		}
 	}
 
+	//Added by Trent
 	public void updatePlayers() {
-		players = otherPlayers.get();
 		if (otherPlayers != null) {
 			players = otherPlayers.get();
 		}
 		if (updatePlayer != null)
-		updatePlayer.accept(hero.getAvatar(), new Location((int)hero.getPosX(), (int)hero.getPosY()));
+		    updatePlayer.accept(hero.getAvatar(), worldID, new Location((int) hero.getPosX(), (int) hero.getPosY()));
 	}
 
 
+	//Handle key presses for movement.
 	@Override
 	public void handle(KeyEvent e) {
 
@@ -286,5 +301,22 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 			hero.setDy(0);
 		}
 	}
-}
 
+	/**
+	 * Handle all NPC movement and draw
+	 * @kgusti - Anyone Welcome
+	 */
+	public void handleNPC() {
+		// NPC movement
+		cat.handle();
+		villager1.handle();
+		villager2.handle();
+		villager3.handle();
+
+		// draw NPCs
+		cat.drawCatNPC(gc, cameraX, cameraY, tm);
+		villager1.drawVillagerNPC(gc, cameraX, cameraY, tm);
+		villager2.drawVillagerNPC(gc, cameraX, cameraY, tm);
+		villager3.drawVillagerNPC(gc, cameraX, cameraY, tm);
+	}
+}

@@ -2,9 +2,12 @@ package muck.server;
 
 import muck.core.Id;
 import muck.core.Location;
+import muck.core.AvatarLocation;
 import muck.core.ClientId;
 import muck.core.Login;
+import muck.core.MapId;
 import muck.core.Pair;
+import muck.core.Triple;
 import muck.core.UpdatePlayerRequest;
 import muck.core.character.AddCharacter;
 import muck.core.character.CharacterDoesNotExistException;
@@ -13,8 +16,11 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
 import muck.core.character.Player;
+import muck.core.structures.PlayerStructure;
 import muck.core.user.SignUpInfo;
+import muck.server.Exceptions.UserNameAlreadyTakenException;
 import muck.server.models.ModelRegister;
+import muck.server.services.PlayerService;
 import muck.server.services.UserService;
 import muck.core.structures.UserStructure;
 import org.apache.logging.log4j.LogManager;
@@ -26,7 +32,8 @@ import muck.protocol.connection.*;
 import java.io.IOException;
 
 import java.sql.SQLException;
-import java.util.List;
+import java.util.*;
+
 
 import muck.core.LocationResponse;
 
@@ -65,6 +72,9 @@ public enum MuckServer {
 
     HashMap<Integer, String> players = new HashMap<Integer, String>();
 
+    //A temporary queue to store chatlogs.
+    List<String> chatQueue = new ArrayList<String>();
+
     /**
      * Sets up the KryoNet server that will handle communication
      */
@@ -89,6 +99,15 @@ public enum MuckServer {
         // Bind the server to the configured ports
         kryoServer.bind(config.getTcpPort(), config.getUdpPort());
 
+        /**
+         * This is a temporary call to help populate the server with an initial test user
+         * If you are seeing errors in playermanagertest or from the server regarding COLUMN not
+         * existing, please delete the muckdb folder and the testdb folder from the server
+         * The next time you start the server it will automatically create a new database with
+         * the latest structure
+         */
+
+        addTestUser("Test", "Testdisplay", "password");
         // Adds a listener to listen for clients disconnecting from the server, then
         // removes them from the players hashmap and sends to all connected clients.
         addListener(ListenerBuilder.forClass(Disconnect.class).onReceive((conn, disconnect) -> {
@@ -117,44 +136,38 @@ public enum MuckServer {
             logger.info("Message received from {}", connID.getID());
             logger.info("Message is: {}", clientMessage.getMessage());
             logger.info(clientMessage);
+            chatQueue.add(clientMessage.getMessage());
             kryoServer.sendToAllTCP(clientMessage); //Send to all clients connected. Can be switched to send only to one client.
         }));
         /**
          * Listens for a newChatLog class coming from the client (or another class).
          * Acts as a signal to tell chatCreateTable to create a new chat log with specified name.
          */
-        addListener(ListenerBuilder.forClass(newChatLog.class).onReceive((connID, newChatLog) -> {
-                    try {
-                        chatCreateTable.createNewChat(newChatLog);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+        addListener(ListenerBuilder.forClass(chatLog.class).onReceive((connID, recievedLog) -> {
+                  connID.sendTCP(recievedLog);
                 }
         ));
+
+
+		addListener(ListenerBuilder.forClass(muck.core.LocationRequest.class).onReceive((connection, lr) -> {
+			    List<Triple<AvatarLocation, MapId, Location>> locs = tracker.getAllLocationsExceptId(lr.id);
+			kryoServer.sendToTCP(connection.getID(), new LocationResponse(locs));
+		}));
+
+		addListener(ListenerBuilder.forClass(SignUpInfo.class).onReceive((connection, signup) -> {
+			createAccount(signup, (MuckConnection) connection);
+		}));
 
         addListener(ListenerBuilder.forClass(Login.class).onReceive((connection, login) -> {
             loginPlayer(login, (MuckConnection) connection);
         }));
 
-        addListener(ListenerBuilder.forClass(muck.core.LocationRequest.class).onReceive((connection, lr) -> {
-            logger.info(String.format("Recieved a request for player locations from clientId: %s", lr.id));
-            List<Pair<String, Location>> locs = tracker.getAllLocationsExceptId(lr.id);
-            logger.info(String.format("Sending back: %s", locs.toString()));
-            kryoServer.sendToTCP(connection.getID(), new LocationResponse(locs));
-        }));
+		addListener(ListenerBuilder.forClass(UpdatePlayerRequest.class).onReceive((connection, req) -> {
+			    tracker.updateLocationById(req.id, req.avatar, req.mapId, req.location);
+		}));
+	}
 
-        addListener(ListenerBuilder.forClass(SignUpInfo.class).onReceive((connection, signup) -> {
-            createAccount(signup, (MuckConnection) connection);
-        }));
-
-        addListener(ListenerBuilder.forClass(UpdatePlayerRequest.class).onReceive((connection, req) -> {
-            logger.info(String.format("Recieved a request to update player for clientId: %s", req.id));
-            tracker.updateLocationById(req.id, req.avatar, req.location);
-        }));
-
-    }
-
-    public void createAccount(SignUpInfo signUpInfo, MuckConnection connection) {
+	public void createAccount(SignUpInfo signUpInfo, MuckConnection connection) {
         logger.info("Attempting to create account {}.", signUpInfo.getUsername());
 
         PlayerManager playerManager = new PlayerManager(new UserService());
@@ -165,34 +178,37 @@ public enum MuckServer {
         userStructure.displayName = signUpInfo.getDisplayName();
 
         try {
-            // Insert player into database
             Player player = playerManager.signupPlayer(userStructure);
             logger.info("Sign up successful for {}", player.getUsername());
 
-            // add player to set of all plauers
             players.put(connection.getID(), player.getUsername());
             kryoServer.sendToAllTCP(players);
             logger.info("Players are {}", players.values());
-
-            // send user signup success message
-            userMessage.setMessage("Your account has been created successfully. Username: " + player.getUsername());
+            UserStructure returnedUser = playerManager.getUser(userStructure);
+            userMessage.setMessage("Signup successful", signUpInfo.getUsername());
             kryoServer.sendToTCP((connection.getID()), userMessage);
-
-            // set new user as active user
-            kryoServer.sendToTCP((connection.getID()), userStructure);
-
-        } catch (BadRequestException ex) {
-            ex.printStackTrace();
-
-            userMessage.setMessage("Invalid sign up details provided. Please provide valid details. Username: "
-                    + signUpInfo.getUsername());
+            kryoServer.sendToTCP((connection.getID()), returnedUser);
+        } catch(UserNameAlreadyTakenException ex){
+            userMessage.setMessage(ex.getMessage(), signUpInfo.getUsername());
+            logger.info(ex.getMessage());
             kryoServer.sendToTCP(connection.getID(), userMessage);
+        } catch (BadRequestException ex) {
+            logger.info("error in muckServer signup badrequestexception catch");
+			userMessage.setMessage(ex.getMessage(), signUpInfo.getUsername());
+			kryoServer.sendToTCP(connection.getID(), userMessage);
+		} catch (RuntimeException ex) {
+            userMessage.setMessage("Error setting user to database", signUpInfo.getUsername());
+            kryoServer.sendToTCP(connection.getID(), userMessage);
+		    ex.printStackTrace();
+		} catch (Exception ex){
+            logger.info("error in playermanager signup exception catch");
         }
-    }
+	}
 
-    public void loginPlayer(Login login, MuckConnection muckConnection) {
-        logger.info("Attempting to log in");
-        logger.debug("{} is trying to log in", login.getUsername());
+	public void loginPlayer(Login login, MuckConnection muckConnection) {
+		logger.info("Attempting to log in");
+		logger.debug("{} is trying to log in", login.getUsername());
+
 
         PlayerManager playerManager = new PlayerManager(new UserService());
 
@@ -200,39 +216,48 @@ public enum MuckServer {
         userStructure.username = login.getUsername();
         userStructure.password = login.getPassword();
 
+        UserStructure returnedUser = new UserStructure();
+
         Player player = null;
 
         try {
             player = playerManager.loginPlayer(userStructure);
             // set user as active user
-            kryoServer.sendToTCP((muckConnection.getID()), userStructure);
+            returnedUser = playerManager.getUser(userStructure);
+            userMessage testMessage = new userMessage(); // Create new message to send back.
+            testMessage.setMessage("Login Successful", login.getUsername());
+            kryoServer.sendToTCP((muckConnection.getID()), testMessage);
+            kryoServer.sendToTCP((muckConnection.getID()), returnedUser);
+
+            muckConnection.setCharacter(player);
+
+            logger.info("Login successful for {}", login.getUsername());
+            if (!players.containsKey(muckConnection.getID())) {
+                players.put(muckConnection.getID(), login.getUsername());
+                kryoServer.sendToAllTCP(players);
+                logger.info("Players are {}", players.values());
+            }
+            /**
+             * This has been commented out as there is an issue deserialising AddCharacter on the client
+             * the error is causing the client to disconnect from the server so I have commented it out
+            AddCharacter addCharacter = addCharacter(login.getClientId(), player);
+
+            kryoServer.sendToAllTCP(addCharacter);
+             */
 
         } catch (DuplicateLoginException ex) {
             userMessage testMessage = new userMessage(); // Create new message to send back.
-            testMessage.setMessage("Duplicate login");
+            testMessage.setMessage("Duplicate login", login.getUsername());
             kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
         } catch (CharacterDoesNotExistException ex) {
             userMessage testMessage = new userMessage(); // Create new message to send back.
-            testMessage.setMessage("Character does not exist. Please register.");
+            testMessage.setMessage("Character does not exist. Please register.", login.getUsername());
             kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
         } catch (AuthenticationFailedException ex) {
             userMessage testMessage = new userMessage(); // Create new message to send back.
-            testMessage.setMessage("Supplied credentials are invalid.");
+            testMessage.setMessage("Supplied credentials are invalid.", login.getUsername());
             kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
         }
-
-        muckConnection.setCharacter(player);
-
-        logger.info("Login successful for {}", login.getUsername());
-        if (!players.containsKey(muckConnection.getID())) {
-            players.put(muckConnection.getID(), login.getUsername());
-            kryoServer.sendToAllTCP(players);
-            logger.info("Players are {}", players.values());
-        }
-
-        AddCharacter addCharacter = addCharacter(login.getClientId(), player);
-
-        kryoServer.sendToAllTCP(addCharacter);
     }
 
     public AddCharacter addCharacter(Id<ClientId> id, Player character) {
@@ -240,7 +265,7 @@ public enum MuckServer {
 
         AddCharacter addCharacter = new AddCharacter(character, location);
 
-        tracker.addClient(id, null, new muck.core.Location(location.getX(), location.getY()));
+        tracker.addClient(id, null, null, new muck.core.Location(location.getX(), location.getY()));
 
         logger.info("Character added successfully {}", character.getIdentifier());
 
@@ -266,6 +291,31 @@ public enum MuckServer {
         }
 
         kryoServer.addListener(l);
+    }
+
+    public void addTestUser(String username, String displayName, String password){
+        logger.info("Attempting to create account {}.", username);
+
+        PlayerManager playerManager = new PlayerManager(new UserService());
+        userMessage userMessage = new userMessage();
+        UserStructure userStructure = new UserStructure();
+        userStructure.username = username;
+        userStructure.password = password;
+        userStructure.displayName = displayName;
+
+        try {
+            Player player = playerManager.signupPlayer(userStructure);
+            logger.info("Sign up successful for {}", player.getUsername());
+        } catch(UserNameAlreadyTakenException ex){
+            logger.info(ex.getMessage());
+        } catch (BadRequestException ex) {
+            logger.info("error in muckServer signup badrequestexception catch");
+        } catch (RuntimeException ex) {
+            userMessage.setMessage("Error setting user to database", username);
+            ex.printStackTrace();
+        } catch (Exception ex){
+            logger.info("error in playermanager signup exception catch");
+        }
     }
 
 }

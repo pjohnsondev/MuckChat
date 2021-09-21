@@ -13,9 +13,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import muck.server.ICharacterLocationTracker;
 import muck.core.Id;
 import muck.core.Location;
+import muck.core.MapId;
+import muck.core.Pair;
 import muck.server.CharacterLocationTracker;
 import muck.core.character.CharacterDoesNotExistException;
 import muck.core.character.Player;
+import muck.core.AvatarLocation;
+import muck.core.ClientId;
 
 public class CharacterLocationTrackerTests {
 
@@ -23,21 +27,23 @@ public class CharacterLocationTrackerTests {
 
 	@Test
 	public void AddingClientsViaUpdateMethodCorrectlyAddsClientsToInternalList() {
-		ICharacterLocationTracker<String> tracker = new CharacterLocationTracker<String>();
+		ICharacterLocationTracker<ClientId> tracker = new CharacterLocationTracker<ClientId>();
 
 		assertEquals(0, tracker.getAllPlayerLocations().size());
 
-		tracker.addClient(new Id<String>("1234"), new String("Test Name"), new Location(1, 2));
-		tracker.addClient(new Id<String>("3232"), new String("Test Name 2"), new Location(4, 2));
+		tracker.addClient(new Id<ClientId>("1234"), new AvatarLocation("Test Name"), new MapId(5), new Location(1, 2));
+		tracker.addClient(new Id<ClientId>("3232"), new AvatarLocation("Test Name 2"), new MapId(2),
+				new Location(4, 2));
 		assertEquals(2, tracker.getAllPlayerLocations().size());
 	}
 
 	@Test
 	public void AddingAClientThatAlreadyExistsInTheTrackerUpdatesExistingRecord() {
-		ICharacterLocationTracker<String> tracker = new CharacterLocationTracker<String>();
+		ICharacterLocationTracker<ClientId> tracker = new CharacterLocationTracker<ClientId>();
 
-		tracker.addClient(new Id<String>("1234"), new String("Test Name"), new Location(1, 2));
-		tracker.addClient(new Id<String>("1234"), new String("Test Name 2"), new Location(3, 2));
+		tracker.addClient(new Id<ClientId>("1234"), new AvatarLocation("Test Name"), new MapId(2), new Location(1, 2));
+		tracker.addClient(new Id<ClientId>("1234"), new AvatarLocation("Test Name 2"), new MapId(4),
+				new Location(3, 2));
 
 		assertEquals(1, tracker.getAllPlayerLocations().size());
 		assertEquals(new Location(3, 2), tracker.getAllPlayerLocations().get(0).right());
@@ -46,65 +52,94 @@ public class CharacterLocationTrackerTests {
 	@Test
 	public void PlayerTrackingInformationCanBeUpdatedByClientId() {
 
-		ICharacterLocationTracker<String> tracker = new CharacterLocationTracker<String>();
+		ICharacterLocationTracker<ClientId> tracker = new CharacterLocationTracker<ClientId>();
 
-		var trackingId = new Id<String>("1234");
-		tracker.addClient(trackingId, new String("Test Name"), new Location(1, 2));
-		tracker.updateLocationById(trackingId, "Test Name", new Location(3, 4));
+		var trackingId = new Id<ClientId>("1234");
+		tracker.addClient(trackingId, new AvatarLocation("Test Name"), new MapId(2), new Location(1, 2));
+		tracker.updateLocationById(trackingId, new AvatarLocation("Test Name"), new MapId(4), new Location(3, 4));
+
+		assertEquals(1, tracker.getAllPlayerLocations().size());
 		assertEquals(new Location(3, 4), tracker.getLocationById(trackingId));
 	}
 
 	@Test
 	public void TrackerCanReturnAllTrackedLocationsExcludingASpecifiedId() {
 
-		ICharacterLocationTracker<String> tracker = new CharacterLocationTracker<String>();
-		var trackingId = new Id<String>("1234");
-		tracker.addClient(trackingId, new String("Test Name"), new Location(1, 2));
-		tracker.addClient(new Id<String>("1232"), new String("Test Name"), new Location(1, 2));
-		tracker.addClient(new Id<String>("1233"), new String("Test Name"), new Location(1, 2));
+		ICharacterLocationTracker<ClientId> tracker = new CharacterLocationTracker<ClientId>();
+		var trackingId = new Id<ClientId>("1234");
+		tracker.addClient(trackingId, new AvatarLocation("Test Name"), new MapId(2), new Location(1, 2));
+		tracker.addClient(new Id<ClientId>("1232"), new AvatarLocation("Test Name"), new MapId(2), new Location(1, 2));
+		tracker.addClient(new Id<ClientId>("1233"), new AvatarLocation("Test Name"), new MapId(2), new Location(1, 2));
 
 		assertEquals(2, tracker.getAllLocationsExceptId(trackingId).size());
 	}
 
-	@Test
-	public void ReturnUsersWithinSetDistance()
-	{
-		ICharacterLocationTracker<String> track = new CharacterLocationTracker<String>();
+    @Test
+	public void TrackerCanReturnAllTrackedLocationsExcludingASpecifiedIdReturnsNothingForDifferentMapIds() {
 
-		track.addClient(new Id<String>("1111"), new String("Me"), new Location(0,0));
-		track.addClient(new Id<String>("1234"), new String("Test Name 1"), new Location(1, 0));
-		track.addClient(new Id<String>("1231"), new String("Test Name 2"), new Location(2, 0));
-		track.addClient(new Id<String>("1232"), new String("Test Name 3"), new Location(0, 1));
+		ICharacterLocationTracker<ClientId> tracker = new CharacterLocationTracker<ClientId>();
+		var trackingId = new Id<ClientId>("1234");
+		tracker.addClient(trackingId, new AvatarLocation("Test Name"), new MapId(2), new Location(1, 2));
+		tracker.addClient(new Id<ClientId>("1232"), new AvatarLocation("Test Name"), new MapId(3), new Location(1, 2));
+		tracker.addClient(new Id<ClientId>("1233"), new AvatarLocation("Test Name"), new MapId(4), new Location(1, 2));
 
-		var result = track.getPlayersWithin(track.getAllPlayerLocations().get(0), 1).size();
-		assertEquals(2, result);
+		assertEquals(0, tracker.getAllLocationsExceptId(trackingId).size());
 	}
 
 	@Test
-	public void ReturnUsersWithinSetDistanceUsingId()
-	{
-		ICharacterLocationTracker<String> track = new CharacterLocationTracker<String>();
+	public void ReturnUsersWithinSetDistance() {
+		ICharacterLocationTracker<ClientId> track = new CharacterLocationTracker<ClientId>();
 
-		track.addClient(new Id<String>("1111"), new String("Me"), new Location(0,0));
-		track.addClient(new Id<String>("1234"), new String("Test Name 1"), new Location(1, 0));
-		track.addClient(new Id<String>("1231"), new String("Test Name 2"), new Location(2, 0));
-		track.addClient(new Id<String>("1232"), new String("Test Name 3"), new Location(0, 1));
+		track.addClient(new Id<ClientId>("1111"), new AvatarLocation("Me"), new MapId(2), new Location(0, 0));
+		track.addClient(new Id<ClientId>("1234"), new AvatarLocation("Test Name 1"), new MapId(2), new Location(1, 0));
+		track.addClient(new Id<ClientId>("1231"), new AvatarLocation("Test Name 2"), new MapId(2), new Location(2, 0));
+		track.addClient(new Id<ClientId>("1232"), new AvatarLocation("Test Name 3"), new MapId(2), new Location(0, 1));
 
-		assertEquals(2, track.getPlayersWithinById(new Id<String>("1111"), 1).size());
+		var head = track.getAllPlayerLocations().get(0);
+		var toTest = new Pair<MapId, Location>(head.middle(), head.right());
+		var result = track.getPlayersWithin(toTest, 1).size();
+		assertEquals(3, result);
+	}
+
+    	@Test
+	public void ReturnUsersWithinSetDistanceReturnsNothingForDifferentMapIds() {
+		ICharacterLocationTracker<ClientId> track = new CharacterLocationTracker<ClientId>();
+
+		track.addClient(new Id<ClientId>("1111"), new AvatarLocation("Me"), new MapId(2), new Location(0, 0));
+		track.addClient(new Id<ClientId>("1234"), new AvatarLocation("Test Name 1"), new MapId(3), new Location(1, 0));
+		track.addClient(new Id<ClientId>("1231"), new AvatarLocation("Test Name 2"), new MapId(4), new Location(2, 0));
+		track.addClient(new Id<ClientId>("1232"), new AvatarLocation("Test Name 3"), new MapId(5), new Location(0, 1));
+
+		var head = track.getAllPlayerLocations().get(0);
+		var toTest = new Pair<MapId, Location>(head.middle(), head.right());
+		var result = track.getPlayersWithin(toTest, 1).size();
+		assertEquals(1, result);
+	}
+
+
+	@Test
+	public void ReturnUsersWithinSetDistanceUsingId() {
+		ICharacterLocationTracker<ClientId> track = new CharacterLocationTracker<ClientId>();
+
+		track.addClient(new Id<ClientId>("1111"), new AvatarLocation("Me"), new MapId(1), new Location(0, 0));
+		track.addClient(new Id<ClientId>("1234"), new AvatarLocation("Test Name 1"), new MapId(1), new Location(1, 0));
+		track.addClient(new Id<ClientId>("1231"), new AvatarLocation("Test Name 2"), new MapId(1), new Location(2, 0));
+		track.addClient(new Id<ClientId>("1232"), new AvatarLocation("Test Name 3"), new MapId(1), new Location(0, 1));
+
+		assertEquals(3, track.getPlayersWithinById(new Id<ClientId>("1111"), 1).size());
 	}
 
 	@Test
-	public void GetLocationUsingClientId()
-	{
-		ICharacterLocationTracker<String> track = new CharacterLocationTracker<String>();
+	public void GetLocationUsingClientId() {
+		ICharacterLocationTracker<ClientId> track = new CharacterLocationTracker<ClientId>();
 
-		track.addClient(new Id<String>("1111"), new String("Me"), new Location(0,0));
-		track.addClient(new Id<String>("1234"), new String("Test Name 1"), new Location(1, 0));
-		track.addClient(new Id<String>("1231"), new String("Test Name 2"), new Location(2, 0));
-		track.addClient(new Id<String>("1232"), new String("Test Name 3"), new Location(0, 1));
+		track.addClient(new Id<ClientId>("1111"), new AvatarLocation("Me"), new MapId(), new Location(0, 0));
+		track.addClient(new Id<ClientId>("1234"), new AvatarLocation("Test Name 1"), new MapId(), new Location(1, 0));
+		track.addClient(new Id<ClientId>("1231"), new AvatarLocation("Test Name 2"), new MapId(), new Location(2, 0));
+		track.addClient(new Id<ClientId>("1232"), new AvatarLocation("Test Name 3"), new MapId(), new Location(0, 1));
 
-		Id<String> testId = new Id<String>("1111");
+		Id<ClientId> testId = new Id<ClientId>("1111");
 
-		assertEquals(new Location(0,0), track.getLocationById(testId));
+		assertEquals(new Location(0, 0), track.getLocationById(testId));
 	}
 }
