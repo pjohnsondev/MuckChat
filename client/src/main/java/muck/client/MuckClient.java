@@ -90,7 +90,7 @@ public enum MuckClient {
 	}
 
 	public synchronized void connect(KryoClientConfig config) throws IOException {
-		inMessages.add("hello");
+		//inMessages.add("hello");
 		if (client != null) {
 			throw new IllegalStateException("Starting connection when already started");
 		}
