@@ -8,6 +8,7 @@ import javafx.scene.input.*;
 import javafx.animation.*;
 import javafx.scene.layout.BorderPane;
 import muck.client.character_client.VillagerNPC;
+import muck.core.AvatarLocation;
 import muck.core.Location;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,14 +34,14 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	private int layer = 0;
 	private int tileId = 0;
 	private int GID = 0;
-	int n = 0; // water animation
-	int uP = 0; // update players
-	double screenHeightInTiles;
-	double screenWidthInTiles;
-	GraphicsContext gc;
-	Image image;
-	double cameraMaxX;
-	double cameraMaxY;
+	private int n = 0; // water animation
+	private int uP = 0; // update players
+	private double screenHeightInTiles;
+	private double screenWidthInTiles;
+	private GraphicsContext gc;
+	private Image image;
+	private double cameraMaxX;
+	private double cameraMaxY;
 	private TriConsumer<String, Integer, Location> updatePlayer;
 	private Supplier<List<Sprite>> otherPlayers;
 	private BorderPane gamePane;
@@ -89,7 +90,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	 *                     than the calling client.
 	 */
     public GameMap(Canvas canvas, BorderPane borderPane, TriConsumer<String, Integer, Location> updatePlayer,
-			Supplier<List<Sprite>> getPlayers) {
+				   Supplier<List<Sprite>> getPlayers) {
 		this.updatePlayer = updatePlayer;
 		this.otherPlayers = getPlayers;
 		this.gamePane = borderPane;
@@ -170,8 +171,9 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 				// Gets a list of other player locations and draws them on screen
 				for (Sprite p : players) {
 					try {
-						if (p != null)
-							Sprite.drawHero(gc, tm, p, p.getPosX(), p.getPosY());
+						if (p != null) {
+							p.drawPlayer(gc, p, p.getPosX() - cameraX, p.getPosY() - cameraY);
+						}
 					} catch (NullPointerException ex) {
 						MuckClient.logError(ex);
 					}
@@ -195,7 +197,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 					gc.save();
 					//Translate the viewport around the hero. (Easier to relative draw)
 					gc.translate((x * tm.getTileWidth()) - offX, (y * tm.getTileHeight()) - offY);
-					drawTile(gc, GID, image, x, y);
+					drawTile(gc, GID, image);
 					//Restore the old state
 					gc.restore();
 				}
@@ -208,10 +210,8 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 	 * @param gc : The graphics context for our canvas
 	 * @param tileIndex : The GID of the tile to be drawn
 	 * @param tileImage : The tileSet image
-	 * @param destX : The destination X
-	 * @param destY : The destination Y
 	 */
-	public void drawTile(GraphicsContext gc, int tileIndex, Image tileImage, int destX, int destY) {
+	public void drawTile(GraphicsContext gc, int tileIndex, Image tileImage) {
 		int tileWidth = tm.getTileWidth();
 		int tileHeight = tm.getTileHeight();
 		int cols = tm.getTileColumns();
