@@ -126,13 +126,21 @@ public class EFGameController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+
+
     }
 
     @FXML
     public void pcAtk(){
-        this.decMobHp(this.pcStr);
+        Player testPlayer = new Player("testname");
+        //Battle testBattle = new Battle(testPlayer);
+        Monster testMonster = new Monster();
+        testMonster.genMonster(1);
+
+
+//        this.decMobHp(this.pcStr);
         System.out.println("*Attack*");
-        System.out.println(this.player.getName() + " lands a blow for " + this.pcStr + " on the " + this.monster.getName());
+        System.out.println(testPlayer.getName() + " lands a blow for " + 7 + " on the " + testMonster.getName());
     }
 
     @FXML

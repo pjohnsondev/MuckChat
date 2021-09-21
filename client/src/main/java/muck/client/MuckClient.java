@@ -71,7 +71,7 @@ public enum MuckClient {
 
 	public void updatePlayerLocation(String avatar, Location location) {
 	    var req = new UpdatePlayerRequest(clientId, avatar, location);
-	    logger.info("Updating my location in the gamemap...");
+	   // logger.info("Updating my location in the gamemap...");
 	    client.sendTCP(req);
 	}
 
