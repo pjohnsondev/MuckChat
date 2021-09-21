@@ -316,6 +316,7 @@ public class CardsGameController implements Initializable {
                         stage.setScene(scene);
                         stage.show();
                         close.addEventHandler(MouseEvent.MOUSE_CLICKED, shut -> {
+                            game.player1.hand.deselectAll();
                             setHandImages();
                             stage.close();
                         });
@@ -346,6 +347,7 @@ public class CardsGameController implements Initializable {
                         stage.show();
                         close.addEventHandler(MouseEvent.MOUSE_CLICKED, shut -> {
                             game.player1.hand.drawTopCard(game.deck);
+                            game.player1.hand.deselectAll();
                             setHandImages();
                             stage.close();
                         });
@@ -429,7 +431,7 @@ public class CardsGameController implements Initializable {
                                 setHandImages();
                             } else {
                                 if (cardPositions[finalI][finalJ].getSelectedValue() == true) {
-                                    game.player1.hand.deselectAll(cardPositions[finalI][finalJ]);
+                                    game.player1.hand.deselectAll();
                                     askForCard.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
                                     setHandImages();
                                 }
@@ -475,6 +477,15 @@ public class CardsGameController implements Initializable {
 
     public void setHandImages(){
         // TODO : need to update to delete images when call is made so cards arent doubling up where they dont exist
+        for (int i = 0; i < 26; i++){
+            for (int j = 0; j < 4; j++){
+                if (i < 13){
+                    cardPositions[i][j] = null;
+                    positionArray[i][j].setImage(null);
+                }
+                images[i][j] = null;
+            }
+        }
         for (int i = 0, j = 0, k = 0; k < game.player1.hand.cards.size(); i++, k++) {
             Image filename0 = new Image(game.player1.hand.cards.get(k).getFileName());
             Image filename1 = new Image(game.player1.hand.cards.get(k).getBFileName());
@@ -505,17 +516,17 @@ public class CardsGameController implements Initializable {
                         }
                     }
                 }else{
-                        i -= 1;
-                        images[i][j + 1] = filename0;
-                        images[i + 13][j + 1] = filename1;
-                        cardPositions[i][j + 1] = game.player1.hand.cards.get(k);
-                        if (game.player1.hand.cards.get(k).getSelectedValue() == false) {
-                            positionArray[i][j + 1].setImage(images[i][j + 1]);
-                        }
-                        if (game.player1.hand.cards.get(k).getSelectedValue() == true) {
-                            positionArray[i][j + 1].setImage(images[i + 13][j + 1]);
-                        }
+                    i -= 1;
+                    images[i][j + 1] = filename0;
+                    images[i + 13][j + 1] = filename1;
+                    cardPositions[i][j + 1] = game.player1.hand.cards.get(k);
+                    if (game.player1.hand.cards.get(k).getSelectedValue() == false) {
+                        positionArray[i][j + 1].setImage(images[i][j + 1]);
                     }
+                    if (game.player1.hand.cards.get(k).getSelectedValue() == true) {
+                        positionArray[i][j + 1].setImage(images[i + 13][j + 1]);
+                    }
+                }
 
             } else {
                 images[i][j] = filename0;

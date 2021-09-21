@@ -96,9 +96,8 @@ public class Hand extends Deck {
     /**
      * deSelectAll Method
      * Deselects all highlighted cards in the hand
-     * @param thisCard
      */
-    public void deselectAll(Card thisCard) {
+    public void deselectAll() {
         for (int i = 0; i < this.cards.size(); i++) {
             if (cards.get(i).getSelectedValue() == true) {
                 cards.get(i).setSelected(false);
