@@ -204,7 +204,7 @@ public class MuckController implements Initializable {
           public void run(){
             display();
           }
-        }, 0, 1000); //Checks for new messages every second
+        }, 0, 200); //Checks for new messages every second
 
         service.setPeriod(Duration.seconds(1));
         service.start();
@@ -309,23 +309,23 @@ public class MuckController implements Initializable {
     private void display(){
         logger.info("ran display()");
         List<String> inMessages = MuckClient.INSTANCE.getCurrentMessage();
-        if (inMessages != null) {
+        logger.info("getCurrentMessage() called! Size of inMessages is: {}", inMessages.size());
             for (String inMessage : inMessages) {
+
+                logger.info("Current message to display is: {}", inMessage);
                 message = inMessage;
                 if ((message.length() != 0)) {
-                   Tab currentTab = chatPane1.getSelectionModel().getSelectedItem();
-                   String currentID = currentTab.getId();
-                   if (currentID.equals("groupChat")) {
-                      groupChatBox.appendText(displayName + ": " + message + "\n");
-                   } else {
-                      int num = chatPane1.getTabs().indexOf(currentTab) + 1;
-                      TextArea currentChatBox = (TextArea) chatPane1.lookup("#chatbox" + num);
-                      currentChatBox.appendText(displayName + ": " + message + "\n");
-                   }
-                   messageBox.clear();
-              }
-           }
-        }
+                    Tab currentTab = chatPane1.getSelectionModel().getSelectedItem();
+                    String currentID = currentTab.getId();
+                    if (currentID.equals("groupChat")) {
+                        groupChatBox.appendText(displayName + ": " + message + "\n");
+                    } else {
+                        int num = chatPane1.getTabs().indexOf(currentTab) + 1;
+                        TextArea currentChatBox = (TextArea) chatPane1.lookup("#chatbox" + num);
+                        currentChatBox.appendText(displayName + ": " + message + "\n");
+                    }
+                }
+            }
     }
 
     // Method that creates new chat tab
