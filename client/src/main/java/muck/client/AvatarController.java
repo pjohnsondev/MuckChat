@@ -370,8 +370,12 @@ public class AvatarController implements Initializable  {
                         avatarFullBody.setLayoutY(120.0);
                         avatarFullBody.setFitHeight(410);
                         // Unlocks achievement 8 when the player selects Skeleton.
-                        Achievements achieve8 = new Achievements(achievement8, achievement8Title, achievement8Description);
-                        achieve8.achievementUnlock(achieve8);
+                        if (Achievements.achievement8_instance == null) {
+                            Achievements.achievement8_instance = new Achievements(achievement8,
+                                    ACHIEVEMENT8TITLE, ACHIEVEMENT8DESCRIPTION);
+                            achievement8_instance.achievementUnlock();
+                            achievement8_instance.achievementPopUp();
+                        }
                         break;
                     }
                 case "wonderWoman":
@@ -383,8 +387,12 @@ public class AvatarController implements Initializable  {
                         avatarFullBody.setLayoutY(70.0);
                         avatarFullBody.setFitHeight(400);
                         // Unlocks achievement 9 when the player selects Wonder Woman.
-                        Achievements achieve9 = new Achievements(achievement9, achievement9Title, achievement9Description);
-                        achieve9.achievementUnlock(achieve9);
+                        if (Achievements.achievement9_instance == null) {
+                            Achievements.achievement9_instance = new Achievements(achievement9,
+                                    ACHIEVEMENT9TITLE, ACHIEVEMENT9DESCRIPTION);
+                            achievement9_instance.achievementUnlock();
+                            achievement9_instance.achievementPopUp();
+                        }
                         break;
                     }
                 case "yoshi":
@@ -396,8 +404,12 @@ public class AvatarController implements Initializable  {
                         avatarFullBody.setLayoutY(180.0);
                         avatarFullBody.setFitHeight(300);
                         // Unlocks achievement 10 when the player selects Yoshi.
-                        Achievements achieve10 = new Achievements(achievement10, achievement10Title, achievement10Description);
-                        achieve10.achievementUnlock(achieve10);
+                        if (Achievements.achievement10_instance == null) {
+                            Achievements.achievement10_instance = new Achievements(achievement10,
+                                    ACHIEVEMENT10TITLE, ACHIEVEMENT10DESCRIPTION);
+                            achievement10_instance.achievementUnlock();
+                            achievement10_instance.achievementPopUp();
+                        }
                         break;
                     }
                 case "notSet":
@@ -421,14 +433,22 @@ public class AvatarController implements Initializable  {
         try {
             if (previous.equals("playerDashboard")) { //If the user previously came from player dashboard return there
                 // Unlocks achievement 7 when the player changes avatar.
-                Achievements achieve7 = new Achievements(achievement7, achievement7Title, achievement7Description);
-                achieve7.achievementUnlock(achieve7);
+                if (Achievements.achievement7_instance == null) {
+                    Achievements.achievement7_instance = new Achievements(achievement7,
+                            ACHIEVEMENT7TITLE, ACHIEVEMENT7DESCRIPTION);
+                    achievement7_instance.achievementUnlock();
+                    achievement7_instance.achievementPopUp();
+                }
                 submitToDashboard(event);
             } else {
                 submitToMap(event); // Otherwise send them to the map
                 // Unlocks achievement 6 when the player initially selects an avatar.
-                Achievements achieve6 = new Achievements(achievement6, achievement6Title, achievement6Description);
-                achieve6.achievementUnlock(achieve6);
+                if (Achievements.achievement6_instance == null) {
+                    Achievements.achievement6_instance = new Achievements(achievement6,
+                            ACHIEVEMENT6TITLE, ACHIEVEMENT6DESCRIPTION);
+                    achievement6_instance.achievementUnlock();
+                    achievement6_instance.achievementPopUp();
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

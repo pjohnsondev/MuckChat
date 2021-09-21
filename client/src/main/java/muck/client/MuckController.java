@@ -29,13 +29,13 @@ import java.util.ResourceBundle;
 
 import java.util.*;
 import java.util.function.Supplier;
-import java.util.function.BiConsumer;
 import java.util.logging.Level;
+
+import muck.core.TriConsumer;
 
 import javafx.scene.text.Font;
 import muck.client.tictactoe.TTTLandingPage;
 import muck.core.Location;
-
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -43,8 +43,6 @@ import muck.client.enduring_fantasy.LandingPageEf;
 import muck.client.space_invaders.LandingPage;
 import muck.client.frogger.LandingPageFrogger;
 import muck.protocol.connection.*;
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -54,6 +52,11 @@ public class MuckController implements Initializable {
     public Font x3;
     public Color x4;
     public ImageView plusImg;
+    public ImageView exitImg;
+
+    @FXML // fx:id="root"
+    private VBox root; // Value injected by FXMLLoader
+
     @FXML // fx:id="windowPane" The pane that seperated the game area and the chat area
     private SplitPane windowPane; // Value injected by FXMLLoader
 
@@ -105,6 +108,9 @@ public class MuckController implements Initializable {
     @FXML // fx:id="tttMenu"   The menu item to add another tab
     private MenuItem tttMenu; // Value injected by FXMLLoader
 
+    @FXML  // fx:id="about"   The menu item in the help section
+    private MenuItem about; // Value injected by FXMLLoader
+
     @FXML
     private MenuItem quitMuck; // Value injected by FXMLLoader
 
@@ -137,23 +143,20 @@ public class MuckController implements Initializable {
     private Text userNameDisplay;
 
     @FXML
-    private Timer messageChecker = new Timer(); //Used to update chatlog without user input
+    private final Timer messageChecker = new Timer(); //Used to update chatlog without user input
 
     private static final Image goToDashboard = new Image("/images/PlayerDashboardHover.png");
     private Image chosenAvatar;
 
     private String message; ////
 
-    private List<String> inMessages;
     private static String userName;
     private static String displayName;
     private static String avatarID;
 
-
-
-    //static final Logger logger = LogManager.getLogger();
     static Supplier<List<Sprite>> getPlayersfn = MuckClient.INSTANCE::getPlayerSprites;
-    static BiConsumer<String, Location> updatePlayerfn = MuckClient.INSTANCE::updatePlayerLocation;
+    static TriConsumer<String, Integer, Location> updatePlayerfn = MuckClient.INSTANCE::updatePlayerLocation;
+    private static final Logger logger = LogManager.getLogger(MuckController.class);
 
     @Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -181,11 +184,21 @@ public class MuckController implements Initializable {
         chatSection.setFocusTraversable(true);
         chatSection.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> chatSection.isFocused());
         quitMuck.setOnAction(this::quitMuck);
+        about.setOnAction(this::aboutMuck);
         dashboardMenuImg.setImage(chosenAvatar);
         playerDashboardMenu.setOnAction(this::openPlayerDashboardMenu); //Opens player Dashboard
+        //Function that adjusts chat pane depending on the size of the window.
+        root.widthProperty().addListener((obs, oldVal, newVal) -> {
+            if (oldVal.floatValue() < newVal.floatValue() && newVal.floatValue() > 1350) { //Opens chat pane if window is big enough
+                windowPane.setDividerPositions(0.7300);
+                chatSplitPane.setDividerPositions(0.6056);
+            } else { // closes the chat pane if the window is resized so we don't have an oddly opened chat pane
+                windowPane.setDividerPositions(0.999);
+                chatSplitPane.setDividerPositions(1.000);
+            }
+        });
         // Creates and sets the player list service to be called every second, to update the current player list
         PlayerListService service = new PlayerListService(playerTextArea);
-
         messageChecker.scheduleAtFixedRate(new TimerTask(){
           @Override
           public void run(){
@@ -198,7 +211,7 @@ public class MuckController implements Initializable {
     }
 
     @FXML
-        //Method that sends message when user presses enter
+    //Method that sends message when user presses enter
     void onEnter() {
         displayAndSend();
     }
@@ -235,8 +248,7 @@ public class MuckController implements Initializable {
         avatarID = avatar;
     }
 
-    private static final Logger logger = LogManager.getLogger(MuckController.class);
-
+    //Opens dashboard when you click on the Avatar circle or from the menu
     public void openPlayerDashboardMenu(Event event) {
         try {
                 PlayerDashboardController.playerDashboard(userName, displayName, avatarID);
@@ -271,9 +283,6 @@ public class MuckController implements Initializable {
         }
     }
 
-
-
-
     //Method that displays message in chat box
     private void displayAndSend() {
         message = messageBox.getText();
@@ -283,12 +292,9 @@ public class MuckController implements Initializable {
             if (currentID.equals("groupChat")) {
                 groupChatBox.appendText(displayName + ": " + message + "\n");
                 messageBox.clear();
-
-
                 userMessage currentMessage = new userMessage();
                 currentMessage.setMessage(message, userName);
                 MuckClient.INSTANCE.send(currentMessage);
-
                 //groupChatBox.appendText("displayName Here: "+ MuckClient.INSTANCE.getCurrentMessage()+ "\n");
             } else {
                 int num = chatPane1.getTabs().indexOf(currentTab) + 1;
@@ -302,28 +308,24 @@ public class MuckController implements Initializable {
     //Method to display message variable as a message without sending anything
     private void display(){
         logger.info("ran display()");
-      inMessages = MuckClient.INSTANCE.getCurrentMessage();
-      if (inMessages != null) {
-          for(int i = 0; i < inMessages.size(); i++){
-              message = inMessages.get(i);
-
-              if ((message.length() != 0)) {
-                  Tab currentTab = chatPane1.getSelectionModel().getSelectedItem();
-                  String currentID = currentTab.getId();
-                  if (currentID.equals("groupChat")) {
+        List<String> inMessages = MuckClient.INSTANCE.getCurrentMessage();
+        if (inMessages != null) {
+            for (String inMessage : inMessages) {
+                message = inMessage;
+                if ((message.length() != 0)) {
+                   Tab currentTab = chatPane1.getSelectionModel().getSelectedItem();
+                   String currentID = currentTab.getId();
+                   if (currentID.equals("groupChat")) {
                       groupChatBox.appendText(displayName + ": " + message + "\n");
-                      messageBox.clear();
-                  } else {
+                   } else {
                       int num = chatPane1.getTabs().indexOf(currentTab) + 1;
                       TextArea currentChatBox = (TextArea) chatPane1.lookup("#chatbox" + num);
                       currentChatBox.appendText(displayName + ": " + message + "\n");
-                      messageBox.clear();
-                  }
+                   }
+                   messageBox.clear();
               }
-          }
-      }
-
-
+           }
+        }
     }
 
     // Method that creates new chat tab
@@ -368,17 +370,12 @@ public class MuckController implements Initializable {
         }
     }
 
-
     @FXML
     //Method that hides both chat window and list window
     private void hideChatWindow(ActionEvent event) {
         windowPane.setDividerPositions(0.999);
         chatSplitPane.setDividerPositions(1.0);
     }
-
-    //public static BorderPane getGamePane() { return gamePane1; }
-
-    //public static static Canvas getGameCanvas() { return gameCanvas; }
 
     @FXML
     /* Function to launch the game. The game exists in the LandingPage.class.
@@ -429,6 +426,26 @@ public class MuckController implements Initializable {
         new TTTLandingPage(gamePane1, canvas);
     }
 
+    //Launches the About Muck alert from the Help menu
+    private void aboutMuck(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Hyperlink link = new Hyperlink("https://gitlab.une.edu.au/cosc220-2021");
+        link.setText("https://gitlab.une.edu.au/cosc220-2021");
+        alert.setHeaderText("Muck 2021 V1.0");
+        alert.setTitle("About Muck");
+        alert.setContentText("Muck was developed by The University of New England's 2021 COSC220 cohort in the space of 3 months. \n\n" +
+                "We hope you enjoy Muck and all it has to offer. \n\n" +
+                "A big shout out to all the teams involved, in particular William Billingsley for supporting us " +
+                "throughout this project.\n\n" +
+                "Well done to everyone! I think Muck is something to be proud of! WE DID IT!!");
+        Optional<ButtonType> res = alert.showAndWait();
+        if (res.isPresent()) {
+            if (res.get().equals(ButtonType.OK)) {
+                event.consume();
+            }
+        }
+    }
+
     //Exits Muck consistent with the 'X' button when you choose exit from menu
     private void quitMuck(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.NONE);
@@ -449,6 +466,4 @@ public class MuckController implements Initializable {
             }
         }
     }
-
-
 }
