@@ -5,10 +5,6 @@ import javafx.scene.input.KeyCode;
 
 import java.awt.*;
 import java.util.List;
-import java.util.Map;
-import muck.client.space_invaders.SpaceInvadersUtility;
-
-import static java.util.Map.entry;
 
 public class SpriteAnimation extends Image {
 
@@ -83,8 +79,6 @@ public class SpriteAnimation extends Image {
     public int getDamage() { return damage; }
 
     public int getX() { return x; }
-
-    public void doubleGetX() {double x = getX();}
 
     public void setX(int x) { this.x = x;}
 
