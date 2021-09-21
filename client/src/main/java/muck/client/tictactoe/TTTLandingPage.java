@@ -13,18 +13,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import muck.client.GameMap;
 
-
-
 public class TTTLandingPage extends Node {
 
-
     private static final Image TITLE = new Image("images/TicTacToe/TicTacToeTitle.JPG");
-
     private static final int HEIGHT = 600;
     private static final int WIDTH = 1000;
 
@@ -52,7 +47,6 @@ public class TTTLandingPage extends Node {
         grid.setVgap(20);
         grid.setPadding(new Insets(50, 50, 50, 50));
 
-
         ColumnConstraints cc;
         cc = new ColumnConstraints();
         cc.setMinWidth(GridPane.USE_PREF_SIZE);
@@ -67,7 +61,6 @@ public class TTTLandingPage extends Node {
         rc.setValignment(VPos.CENTER);
         grid.getRowConstraints().add(rc);
 
-
         // Add Tic Tac Toe Title Image
         ImageView titleView = new ImageView();
         titleView.setFitWidth(340);
@@ -75,7 +68,6 @@ public class TTTLandingPage extends Node {
         titleView.setImage(TITLE);
 
         grid.add(titleView, 1, 8, 2, 3);
-
 
         // Add Play Button
         playButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
@@ -89,16 +81,11 @@ public class TTTLandingPage extends Node {
         exitButton.setStyle("-fx-cursor: hand;");
         grid.add(exitButton, 1, 22, 2, 3);
 
-
         stage.getChildren().add(grid);
 
-
-        // Create event when Play Button is clicked. For now it opens up a new window
+        // Opens the game in a new window
         playButton.setOnAction(event -> {
-
             Stage newWindow = new Stage();
-
-
             TicTacToe ttt = new TicTacToe();
             try {
                 ttt.start(newWindow);
@@ -120,11 +107,8 @@ public class TTTLandingPage extends Node {
     }
         //Background settings for landing page
         private void background (GraphicsContext gc) {
-            this.gc.setFill(Color.WHITE);
-            this.gc.fillRect(0, 0, WIDTH, HEIGHT);
-            this.gc.setFill(Color.WHITE);
+            gc.setFill(Color.WHITE);
+            gc.fillRect(0, 0, WIDTH, HEIGHT);
+            gc.setFill(Color.WHITE);
         }
-
     }
-
-
