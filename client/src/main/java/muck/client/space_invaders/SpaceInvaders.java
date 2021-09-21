@@ -27,8 +27,9 @@ import javafx.util.Duration;
 import muck.client.Achievements;
 import muck.client.Sprite;
 import muck.client.space_invaders.SpaceInvadersUtility;
+import muck.client.space_invaders.Star;
 
-import static  java.util.Map.entry;
+import static java.util.Map.entry;
 import static muck.client.Achievements.*;
 
 
@@ -38,13 +39,12 @@ public class SpaceInvaders {
     private static final int WIDTH = 1000;
     private static final int HEIGHT = 800;
     private static final int PLAYER_SIZE = 35;
-    private static final int ENEMY_SIZE = 75;
     SimpleIntegerProperty spriteDirectionCount = new SimpleIntegerProperty(0);
     SimpleIntegerProperty spriteYDirectionCount = new SimpleIntegerProperty(0);
 
     private GraphicsContext gc;
 
-    private  SpriteAnimation player;
+    private SpriteAnimation player;
 
     // Direction key combinations
     KeyCombination A = new KeyCodeCombination(KeyCode.A);
@@ -64,7 +64,7 @@ public class SpaceInvaders {
     boolean winCheck = false;
 
 
-    List<StarBackground> stars;
+    List<Star> stars;
     List<SpriteAnimation> playerLasers;
     List<SpriteAnimation> enemies;
     List<SpriteAnimation> enemyLasers;
@@ -129,15 +129,16 @@ public class SpaceInvaders {
             }
         });
 
+
         // Event handler for when the Exit button is pressed.
         // The window closes.
-        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, event ->{
-            exitButton.setOnAction(e ->  stage.close());
-        }) ;
+        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+            exitButton.setOnAction(e -> stage.close());
+        });
 
         // Event handler for when the Play Again button is pressed.
         // The game restarts from level 1.
-        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, event ->{
+        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
             playAgainButton.setOnAction(e -> {
                 try {
                     timeline.stop();
@@ -147,7 +148,7 @@ public class SpaceInvaders {
                     ex.printStackTrace();
                 }
 
-            }) ;
+            });
         });
 
         stage.setScene(scene);
@@ -168,7 +169,7 @@ public class SpaceInvaders {
         maxMissiles = MAX_MISSILES;
 
         player = new SpriteAnimation(SpaceInvadersUtility.imageURLs.get("PLAYER"), PLAYER_SIZE,
-                (PLAYER_SIZE*2), WIDTH / 2, HEIGHT - (PLAYER_SIZE + 40),
+                (PLAYER_SIZE * 2), WIDTH / 2, HEIGHT - (PLAYER_SIZE + 40),
                 true, true, 5, 1, "PLAYER");
 
         SpaceInvadersUtility.levelUp(1, WIDTH, enemies);
@@ -178,6 +179,7 @@ public class SpaceInvaders {
     /**
      * Function name: run
      * Purpose: To display the graphics for the game
+     *
      * @param: gc - GraphicsContext variable to display graphics
      * Return: void
      */
@@ -188,27 +190,32 @@ public class SpaceInvaders {
         gc.setTextAlign(TextAlignment.CENTER);
         gc.setFont(Font.font(30));
         gc.setFill(Color.YELLOW);
-        gc.fillText("Score: " + score, WIDTH/2, 40);
+        gc.fillText("Score: " + score, WIDTH / 2, 40);
         gc.setFont(Font.font(20));
         gc.fillText("Level: " + level, 80, 40);
         gc.fillText("Lives: " + player.getLives(), WIDTH - 80, 40);
         gc.fillText("Shots Left: " + maxMissiles, WIDTH - 100, 80);
-        stars.forEach(StarBackground::draw);
 
+
+        // Star generation and movement
+        stars.forEach(Star::moveStar);
         if (RAND.nextInt(10) > 2) {
-            stars.add(new StarBackground());
+            stars.add(new Star());
         }
         for (int i = 0; i < stars.size(); i++) {
-            if (stars.get(i).posY > HEIGHT)
+            gc.setFill(stars.get(i).getFill());
+            gc.fillOval(stars.get(i).getCenterX(), stars.get(i).getCenterY(),
+                    stars.get(i).getRadiusX(), stars.get(i).getRadiusY());
+            if (stars.get(i).getCenterY() > HEIGHT)
                 stars.remove(i);
         }
 
         // Draw and move player
-        if(endGame == false) {
+        if (endGame == false) {
             gc.drawImage(player, player.getX(), player.getY());
         }
 
-        if(directionKeyCount.get() > 0){
+        if (directionKeyCount.get() > 0) {
             switch (player.getDirection()) {
                 case A:
                     player.moveLeft();
@@ -226,9 +233,9 @@ public class SpaceInvaders {
         }
 
         // Draw enemy sprites
-        for(int i = 0; i < enemies.size(); i++) {
+        for (int i = 0; i < enemies.size(); i++) {
             Rectangle r2 = this.enemies.get(i).getBounds();
-            if(endGame == false) {
+            if (endGame == false) {
                 gc.drawImage(enemies.get(i), enemies.get(i).getX(), enemies.get(i).getY());
             }
             if (spriteDirectionCount.get() == 0) {
@@ -238,12 +245,12 @@ public class SpaceInvaders {
             if (spriteDirectionCount.get() == 1) {
                 enemies.get(i).moveLeft();
 
-                if(spriteYDirectionCount.get() == 1){
+                if (spriteYDirectionCount.get() == 1) {
                     enemies.get(i).moveDown(1);
                 }
             }
 
-            if(enemies.get(i).getY() > HEIGHT){
+            if (enemies.get(i).getY() > HEIGHT) {
                 enemies.remove(i);
             }
             // Collision detection between enemies and player
@@ -255,10 +262,10 @@ public class SpaceInvaders {
                 player.setLives(player.getLives() - 1);
                 player.explode(explosion);
             }
-            if(enemies.size() == 0){
+            if (enemies.size() == 0) {
                 level++;
                 SpaceInvadersUtility.levelUp(level, WIDTH, enemies);
-                if (level > 4){
+                if (level > 4) {
                     endGame = true;
                 }
             }
@@ -271,15 +278,15 @@ public class SpaceInvaders {
             int enemyShot = enemyLaserGenerator.nextInt(100);
 
             if (enemyShot == CHANCE) {
-                enemies.shoot(enemyLasers,enemies.getX() + (int) enemies.getRequestedWidth() / 2,
-                        enemies.getY() + (int) enemies.getRequestedHeight()/2);
+                enemies.shoot(enemyLasers, enemies.getX() + (int) enemies.getRequestedWidth() / 2,
+                        enemies.getY() + (int) enemies.getRequestedHeight() / 2);
             }
 
             int x = enemies.getX();
 
             if (x + enemies.getRequestedWidth() >= WIDTH) {
                 spriteDirectionCount.set(1);
-                if(level == 4) {
+                if (level == 4) {
                     spriteYDirectionCount.set(1);
                 } else {
                     spriteYDirectionCount.set(0);
@@ -293,7 +300,7 @@ public class SpaceInvaders {
         // Draw enemy lasers
         for (int i = 0; i < enemyLasers.size(); i++) {
             Rectangle r4 = this.enemyLasers.get(i).getBounds();
-            if(endGame == false) {
+            if (endGame == false) {
                 gc.drawImage(this.enemyLasers.get(i), this.enemyLasers.get(i).getX(),
                         this.enemyLasers.get(i).getY());
                 enemyLasers.get(i).moveDown();
@@ -313,9 +320,9 @@ public class SpaceInvaders {
         }
 
         // Draw player lasers
-        for(int i= 0; i < playerLasers.size(); i++){
+        for (int i = 0; i < playerLasers.size(); i++) {
             Rectangle r3 = this.playerLasers.get(i).getBounds();
-            if(endGame == false){
+            if (endGame == false) {
                 gc.drawImage(this.playerLasers.get(i), this.playerLasers.get(i).getX(),
                         this.playerLasers.get(i).getY());
                 playerLasers.get(i).moveUp();
@@ -332,17 +339,18 @@ public class SpaceInvaders {
                 Rectangle r2 = this.enemies.get(j).getBounds();
 
                 if (r3.intersects(r2)) {
-                    this.enemies.get(j).setLives( this.enemies.get(j).getLives() - 1 );
+                    this.enemies.get(j).setLives(this.enemies.get(j).getLives() - 1);
                     playerLasers.remove(i);
-                    if(enemies.get(j).getLives() == 0){
+                    if (enemies.get(j).getLives() == 0) {
                         enemies.get(j).explode(explosion);
                         score += 100;
                         enemies.remove(j);
                     }
-                    if(enemies.size() == 0){
+                    if (enemies.size() == 0) {
                         level++;
                         SpaceInvadersUtility.levelUp(level, WIDTH, enemies);
-                        if (level > 4){
+                        if (level > 4) {
+                            winCheck = true;
                             endGame = true;
                         }
                     }
@@ -361,18 +369,25 @@ public class SpaceInvaders {
 
             explosion.get(i).setLives(explosion.get(i).getLives() - 1);
 
-            if(explosion.get(i).getLives() == 0){
+            if (explosion.get(i).getLives() == 0) {
                 explosion.remove(i);
             }
         }
 
-        if (player.getLives() == 0){
-            endGame = true; // TODO: Not sure this needs to be here
-            displayMessage("Aw no, you lose!", Color.RED);
+        // Lives or missles are depleted end game.
+        if (player.getLives() == 0) {
+            endGame = true;
+            SpaceInvadersUtility.displayMessage(gc, "Aw no, you lose!", WIDTH, HEIGHT, Color.RED);
         }
 
-        if (player.getLives() > 0 && endGame == true) {
-            displayMessage("Woooo you win!", Color.GREEN);
+        if (maxMissiles == 0) {
+            endGame = true;
+            SpaceInvadersUtility.displayMessage(gc, "Out of ammo!! Nooooo!", WIDTH, HEIGHT, Color.YELLOW);
+        }
+
+        // If player beats level 4 win the game. Unlock achievement if player hasn't done so already.
+        if (winCheck) {
+            SpaceInvadersUtility.displayMessage(gc, "Woooo you win!", WIDTH, HEIGHT, Color.GREEN);
             if (Achievements.achievement12_instance == null) {
                 Achievements.achievement12_instance = new Achievements(achievement12,
                         ACHIEVEMENT12TITLE, ACHIEVEMENT12DESCRIPTION);
@@ -381,82 +396,25 @@ public class SpaceInvaders {
             }
         }
 
-            if(maxMissiles == 0){
-                endGame = true; // TODO: Not sure this needs to be here
-                displayMessage("Out of ammo!! Nooooo!", Color.YELLOW);
-            }
-        }
+    }
 
-        /**
-         * Function name: restart
-         * Purpose: To restart the game from level 1
-         * @param newStage - a Stage variable to initiate a new stage when the game restarts
-         * Return: void
-         */
-        void restart(Stage newStage) throws Exception {
+    /**
+     * Function name: restart
+     * Purpose: To restart the game from level 1
+     *
+     * @param newStage - a Stage variable to initiate a new stage when the game restarts
+     *                 Return: void
+     */
+    void restart(Stage newStage) throws Exception {
 
-            // set sprite Y direction to 0 if player reaches level 4
-            // and restarts so enemies don't move down.
-            spriteYDirectionCount.set(0);
-            start(newStage);
-
-        }
-
-        /**
-         * Function name: displayMessage
-         * Purpose: Displays a final message to the user
-         * @param message - String to display
-         * @param textColor - A Paint Color object representing the desired text color
-         * Return: void
-         */
-        public void displayMessage(String message, Color textColor) {
-
-            gc.setTextAlign(TextAlignment.CENTER);
-            gc.setFont(Font.font(50));
-            gc.setFill(textColor);
-            gc.fillText(message, WIDTH / 2, HEIGHT / 4);
-            gc.fillText("PLAY AGAIN?", WIDTH / 2, HEIGHT / 4 + 60);
-
-        }
-
-
-        // StarBackground class
-        public class StarBackground {
-            int posX, posY;
-            private int h, w, r, g, b;
-            private double opacity;
-
-            public StarBackground() {
-                posX = RAND.nextInt(WIDTH);
-                posY = 0;
-                w = RAND.nextInt(5) + 1;
-                h = RAND.nextInt(5) + 1;
-                r = 255;
-                g = 255;
-                b = 255;
-                opacity = RAND.nextFloat();
-                if (opacity < 0) opacity *= -1;
-                if (opacity > 0.5) opacity = 0.5;
-            }
-
-            /**
-             * Function name: draw
-             * Purpose: To draw the stars for the Star background
-             * Arguments: nil
-             * Return: void
-             * Reference: Based on code from
-             *      URL: https://github.com/Gaspared/Space-Invaders.git
-             *      Author: Gaspared
-             *      Title: Space Invaders
-             */
-            public void draw() {
-                if (opacity > 0.8) opacity -= 0.01;
-                if (opacity < 0.1) opacity += 0.01;
-                gc.setFill(Color.rgb(r, g, b, opacity));
-                gc.fillOval(posX, posY, w, h);
-                posY += 5;
-            }
-        }
+        // set sprite Y direction to 0 if player reaches level 4
+        // and restarts so enemies don't move down.
+        spriteYDirectionCount.set(0);
+        endGame = false;
+        winCheck = false;
+        start(newStage);
 
     }
+
+}
 

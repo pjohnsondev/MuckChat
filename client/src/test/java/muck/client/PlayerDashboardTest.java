@@ -45,15 +45,6 @@ public class PlayerDashboardTest extends ApplicationTest {
         skeleton_full = new Image("/images/skeleton.png");
         wonder_woman_full = new Image("/images/wonderWoman.png");
         yoshi_full = new Image("/images/yoshi.png");
-
-        //TODO: Remove the below once we have the ability to call the server
-        /*PlayerDashboardController.addAchievements("Hotel California", "Player has visited the Inn");
-        PlayerDashboardController.addAchievements("Retail Therapy", "Player has visited the Shops");
-        PlayerDashboardController.addAchievements("Alien Exterminator", "Player has won a game of Space Invaders");
-        PlayerDashboardController.addAchievements("Hotel California", "Player has visited the Inn");*/
-
-        // ************************************************************************
-
     }
 
     @Override

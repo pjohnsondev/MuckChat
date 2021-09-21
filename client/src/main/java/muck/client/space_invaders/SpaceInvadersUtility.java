@@ -1,5 +1,10 @@
 package muck.client.space_invaders;
 
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
+
 import java.util.List;
 import java.util.Map;
 
@@ -7,7 +12,9 @@ import static java.util.Map.entry;
 
 public class SpaceInvadersUtility {
 
-    private static final int ENEMY_SIZE = 75;
+    public static final int ENEMY_SIZE = 75;
+    public static final int WIDTH = 1000;
+    public static final int HEIGHT = 800;
 
     public static Map<String, String> imageURLs = Map.ofEntries(
             entry("ENEMY_SMALL","/images/spaceinvaders/enemy-small.gif"),
@@ -71,4 +78,22 @@ public class SpaceInvadersUtility {
             }
         }
     }
+
+    /**
+     * Function name: displayMessage
+     * Purpose: Displays a final message to the user
+     * @param message - String to display
+     * @param textColor - A Paint Color object representing the desired text color
+     * Return: void
+     */
+    public static void displayMessage(GraphicsContext gc, String message, int WIDTH, int HEIGHT, Color textColor) {
+
+        gc.setTextAlign(TextAlignment.CENTER);
+        gc.setFont(Font.font(50));
+        gc.setFill(textColor);
+        gc.fillText(message, WIDTH / 2, HEIGHT / 4);
+        gc.fillText("PLAY AGAIN?", WIDTH / 2, HEIGHT / 4 + 60);
+
+    }
+
 }
