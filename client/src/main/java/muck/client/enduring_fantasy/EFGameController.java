@@ -1,87 +1,123 @@
 package muck.client.enduring_fantasy;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.geometry.VPos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
+import javafx.event.EventHandler;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DialogPane;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
 import javafx.scene.control.Button;
-import javafx.scene.Parent;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
-import muck.client.GameMap;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.fxml.FXMLLoader;
-import javafx.stage.Stage;
 
-import java.io.FileInputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.scene.control.ComboBox;
 
 
 public class EFGameController implements Initializable {
 
     //Buttons, TextField etc. from fxml file.
+    @FXML
+    private StackPane battle_pane;
 
-    @FXML // fx:id="atk_button" HUD attack button
+    @FXML
+    private ImageView background_bg;
+
+    @FXML
+    private StackPane char_pane_1;
+
+    @FXML
+    private ImageView player_char_1;
+
+    @FXML
+    private StackPane char_pane_2;
+
+    @FXML
+    private ImageView player_char_2;
+
+    @FXML
+    private StackPane char_pane_3;
+
+    @FXML
+    private ImageView player_char_3;
+
+    @FXML
+    private StackPane char_pane_4;
+
+    @FXML
+    private ImageView player_char_4;
+
+    @FXML
+    private StackPane enemy_pane;
+
+    @FXML
+    private ImageView enemy_mob_1;
+
+    @FXML
+    private AnchorPane HUD_pane;
+
+    @FXML
     private Button atk_button;
 
-    @FXML // fx:id="mag_button" HUD magic button
-    private Button mag_button;
-
-    @FXML // fx:id="itm_button" HUD item button
-    private Button itm_button;
-
-    @FXML // fx:id="rest_button" HUD rest button
+    @FXML
     private Button rest_button;
 
-    @FXML //fx:id="HUD_Black_Mage" Black Mage HUD Text
-    private Text HUD_Black_Mage;
+    @FXML
+    private Text HUD_char_1;
 
-    @FXML //fx:id="HUD_Paladin" Paladin HUD Text
-    private Text HUD_Paladin;
+    @FXML
+    private Text HUD_char_2;
 
-    @FXML //fx:id="HUD_Warrior" Warrior HUD Text
-    private Text HUD_Warrior;
+    @FXML
+    private Text HUD_char_3;
 
-    @FXML //fx:id="HUD_White_Mage" White Mage HUD Text
-    private Text HUD_White_Mage;
+    @FXML
+    private Text HUD_char_4;
 
-    @FXML //fx:id="Black_Mage_HP" Black Mage HP Text
-    private Text Black_Mage_HP;
+    @FXML
+    private Text HUD_char_1_HP;
 
-    @FXML //fx:id="Paladin_HP" Paladin HP Text
-    private Text Paladin_HP;
+    @FXML
+    private Text HUD_char_2_HP;
 
-    @FXML //fx:id="Warrior_HP" Warrior HP Text
-    private Text Warrior_HP;
+    @FXML
+    private Text HUD_char_3_HP;
 
-    @FXML //fx:id="White_Mage_HP" White Mage HP Text
-    private Text White_Mage_HP;
+    @FXML
+    private Text HUD_char_4_HP;
 
-    @FXML //fx:id="Black_Mage_MP" Black Mage MP Text
-    private Text Black_Mage_MP;
+    @FXML
+    private Text HUD_char_1_MP;
 
-    @FXML //fx:id="Paladin_MP" Paladin MP Text
-    private Text Paladin_MP;
+    @FXML
+    private Text HUD_char_2_MP;
 
-    @FXML //fx:id="Warrior_MP" Warrior MP Text
-    private Text Warrior_MP;
+    @FXML
+    private Text HUD_char_3_MP;
 
-    @FXML //fx:id="White_Mage_MP" White Mage MP Text
-    private Text White_Mage_MP;
+    @FXML
+    private Text HUD_char_4_MP;
+
+
+    @FXML
+    private DialogPane game_window;
+
+    @FXML
+    private DialogPane battle_log;
+
+
+    @FXML
+    private ChoiceBox<String> magicList;
+    private String[] spells = {"Magic","Fire", "Blizzard", "Thunder", "Cure"};
+
+    @FXML
+    private ChoiceBox<String> itemList;
+    private String[] items = {"Items","Phoenix Down","Remedy","Potion", "Ether"};
 
     private int pcHp;
     private int pcMp;
@@ -92,6 +128,7 @@ public class EFGameController implements Initializable {
 
     private Player player;
     private Magic magic;
+
 
     /** Player Variables **/
     public int getPcHp(){ return this.pcHp; }
@@ -119,19 +156,22 @@ public class EFGameController implements Initializable {
     }
 
 
-
-
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
 
+        //atk_button.setOnAction(pcAtk());
+       // rest_button.setOnAction(this.pcRest());
+        magicList.getItems().addAll(spells);
+        magicList.getSelectionModel().selectFirst();
+        itemList.getItems().addAll(items);
+        itemList.getSelectionModel().selectFirst();
 
     }
 
+
     @FXML
-    public void pcAtk(){
+    public EventHandler<ActionEvent> pcAtk(){
         Player testPlayer = new Player("testname");
         //Battle testBattle = new Battle(testPlayer);
         Monster testMonster = new Monster();
@@ -140,8 +180,38 @@ public class EFGameController implements Initializable {
 
 //        this.decMobHp(this.pcStr);
         System.out.println("*Attack*");
-        System.out.println(testPlayer.getName() + " lands a blow for " + 7 + " on the " + testMonster.getName());
+        battle_log.setContentText(testPlayer.getName() + " lands a blow for " + 7 + " on the " + testMonster.getName());
+        return null;
     }
+
+    @FXML
+    public EventHandler<ActionEvent> pcRest(){
+        battle_log.setContentText("Rested, you regain a small amount of MP!");
+        //int mpRegen = this.pcLvl * 7;
+        //this.pcMp += mpRegen;
+        //if (this.pcMp > this.player.getMP()){
+         //   this.pcMp = this.player.getMP();
+       // }
+        System.out.println("Rested");
+
+        return null;
+    }
+
+
+    @FXML
+    public EventHandler<ActionEvent> useMagic(){
+        this.magic = new Magic(this.player, this.pcMp);
+        //this.magic.useMagic(magicName);
+        if (this.magic.getConfirmDmg()){
+            this.mobHp -= this.magic.getMagicDmg();
+            this.pcMp = this.magic.getPlayerMp();
+            System.out.println(+ this.magic.getMagicDmg() + this.monster.getName());
+           // if (this.mobHp> 0){
+           //     this.mobAtk();
+            }
+        return null;
+    }
+
 
     @FXML
     public void Battle(Player newPc){
@@ -155,6 +225,9 @@ public class EFGameController implements Initializable {
         this.magic = new Magic(this.player, this.pcMp);
 
     }
+
+
+
 
 }
 
