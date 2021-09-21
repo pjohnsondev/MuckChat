@@ -220,11 +220,15 @@ public class CardsGameController implements Initializable {
                     root.setBottom(butbox);
 
                     Stage stage = new Stage();
-                    stage.setTitle("Go Fish!");
+                    stage.setTitle("Put Away Set of Cards");
                     stage.setScene(scene);
                     stage.show();
 
                     close.addEventHandler(MouseEvent.MOUSE_CLICKED, shut -> {
+                        askForCard.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
+                        makeSet.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
+                        game.player1.hand.deselectAll();
+                        setHandImages();
                         stage.close();
                     });
 
@@ -325,6 +329,8 @@ public class CardsGameController implements Initializable {
                         stage.show();
                         close.addEventHandler(MouseEvent.MOUSE_CLICKED, shut -> {
                             game.player1.hand.deselectAll();
+                            askForCard.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
+                            makeSet.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
                             setHandImages();
                             stage.close();
                         });
@@ -354,6 +360,8 @@ public class CardsGameController implements Initializable {
                         stage.setScene(scene);
                         stage.show();
                         close.addEventHandler(MouseEvent.MOUSE_CLICKED, shut -> {
+                            askForCard.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
+                            makeSet.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
                             game.player1.hand.drawTopCard(game.deck);
                             game.player1.hand.deselectAll();
                             setHandImages();
@@ -441,10 +449,14 @@ public class CardsGameController implements Initializable {
                                         count++;
                                     }
                                 }
+                                askForCard.setStyle("-fx-font-family: 'Times New Roman';");
                                 if (count > 3){
                                     makeSet.setStyle("-fx-font-family: 'Times New Roman';");
+                                    askForCard.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
                                 }
-                                askForCard.setStyle("-fx-font-family: 'Times New Roman';");
+                                if (count < 4){
+                                    makeSet.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
+                                }
                                 setHandImages();
                             } else {
                                 if (cardPositions[finalI][finalJ].getSelectedValue() == true) {
