@@ -16,7 +16,7 @@
          <children>
             <StackPane prefHeight="255.0" prefWidth="576.0" style="-fx-border-color: #FFFFFF; -fx-border-width: 2;">
                <children>
-                  <ImageView fitHeight="251.0" fitWidth="597.0">
+                  <ImageView id="battle_bg" fitHeight="251.0" fitWidth="597.0">
                      <image>
                         <Image url="@../images/EnduringFantasy/grass_battle_bg.png" />
                      </image>
@@ -70,7 +70,7 @@
             </StackPane>
             <AnchorPane layoutY="251.0" prefHeight="104.0" prefWidth="601.0" style="-fx-background-color: #0051ff; -fx-border-color: #FFFFFF; -fx-border-radius: 2; -fx-border-width: 2;">
                <children>
-                  <Button id="atk_button" alignment="CENTER" layoutX="14.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" style="-fx-border-color: #FFFFFF;" text="Attack" textAlignment="JUSTIFY" />
+                  <Button id="atk_button" alignment="CENTER" layoutX="14.0" layoutY="2.0" mnemonicParsing="false" onAction="#pcAtk" prefHeight="25.0" prefWidth="104.0" style="-fx-border-color: #FFFFFF;" text="Attack" textAlignment="JUSTIFY" />
                   <Button id="mag_button" layoutX="14.0" layoutY="51.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" style="-fx-border-color: #FFFFFF;" text="Magic" />
                   <Button id="itm_button" layoutX="14.0" layoutY="75.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" style="-fx-border-color: #FFFFFF;" text="Item" />
                   <Button id="rest_button" layoutX="14.0" layoutY="27.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" style="-fx-border-color: #FFFFFF;" text="Rest" />
