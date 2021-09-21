@@ -45,8 +45,10 @@ public class CardsGameController implements Initializable {
     public Image[][] images;
     public Card[][] cardPositions;
     public int count = 0;
+    public String cardName;
     @FXML // fx:id="askForCard"
     public Button askForCard;
+    public int setId;
 
     @FXML // fx:id="makeSet"
     public Button makeSet;
@@ -188,16 +190,11 @@ public class CardsGameController implements Initializable {
         game.playersTurn();
         askForCard.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
         makeSet.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
+        setId = 0;
+
 
         makeSet.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            //go fish needs to basically pass back a variable switch that makes the
-            //draw card popup visible for other player.
-            //"Player 2 does not have any *card value*:
-            //               Pickup card"
-            String cardName = "";
-            //TODO: create a boolean variable for go fish to make the response pop up
-            // to other player.
-            //NEED TO ADD THE GO FISH FUNCTION HERE
+            // Setting Default
             if (count == 4) {
                 try {
                     Button close = new Button();
@@ -227,6 +224,7 @@ public class CardsGameController implements Initializable {
                     close.addEventHandler(MouseEvent.MOUSE_CLICKED, shut -> {
                         askForCard.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
                         makeSet.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
+                        game.player1.hand.makeSet(setId);
                         game.player1.hand.deselectAll();
                         setHandImages();
                         stage.close();
@@ -285,7 +283,7 @@ public class CardsGameController implements Initializable {
             //TODO: add a call to game.computersTurn() after picking up and making a set if necessary
             //TODO: make function body
             //NEED TO ADD THE FUNCTION FOR ASKING FOR A CARD
-            if (game.player1.hand.checkSelected()) {
+            if (game.player1.hand.checkSelected() && count != 4) {
                 try {
                     int ask = 0;
                     String cardName = "";
@@ -374,54 +372,7 @@ public class CardsGameController implements Initializable {
             }
         });
 
-        /*drawFromDeck.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            //TODO: add a call to game.computerTurn() after picking up and making a set if necessary
-            game.player1.hand.drawTopCard(game.deck);
-            game.printCards(1);
-
-            try {
-               Button close = new Button();
-               close.setText("Close");
-               close.setStyle("-fx-font-family: Times New Roman;");
-
-               BorderPane root = new BorderPane(new TextArea());
-               Scene scene = new Scene(root, 300, 145);
-
-                //box for text area
-                HBox textHB = new HBox();
-                textHB.setAlignment(Pos.TOP_CENTER);
-                textHB.setStyle("-fx-font-family: Times New Roman;");
-                textHB.getChildren().add(new TextArea("You have received the cards: " + game.cardList)); // need to add the cards that the player gets
-                root.setCenter(textHB);
-
-                //box for button
-               HBox butbox = new HBox();
-               butbox.setAlignment(Pos.CENTER);
-               butbox.getChildren().add(close);
-               root.setBottom(butbox);
-
-               Stage stage = new Stage();
-               stage.setTitle("New Cards!");
-               stage.setScene(scene);
-               stage.show();
-
-                close.addEventHandler(MouseEvent.MOUSE_CLICKED, shut -> {stage.close(); });
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-        });*/
-        //tenOfDiamonds
         final boolean displayHigh = true;
-        //THIS IS JUST A THOUGHT ABOUT HOW TO HIGHLIGHT CARDS WHEN PRESSED
-      /*  Image filename0 = new Image(game.player1.hand.cards.get(0).getFileName());
-        Image filename1 = new Image(game.player1.hand.cards.get(0).getBFileName());
-        cardRow1Card1.setImage(filename0);
-        cardRow1Card1.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-            cardRow1Card1.setImage(filename1);
-        });*/
 
         // setting opponents cards - visual only. No functionality ATM
         Image backOfCard = new Image("images/cards/cardBack1.png");
@@ -447,6 +398,8 @@ public class CardsGameController implements Initializable {
                                 for (int k = 0; k < game.player1.hand.cards.size(); k++) {
                                     if (game.player1.hand.cards.get(k).getSelectedValue() == true) {
                                         count++;
+                                        cardName = game.player1.hand.cards.get(k).getCardName();
+                                        setId = game.player1.hand.cards.get(k).getMatchId();
                                     }
                                 }
                                 askForCard.setStyle("-fx-font-family: 'Times New Roman';");
