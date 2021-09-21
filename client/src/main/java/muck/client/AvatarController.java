@@ -38,7 +38,7 @@ public class AvatarController implements Initializable  {
     // These will be the associated attributes of the user
     private static String uname;//Will be updated when constructing AvatarController
     private static String displayName; //Will be updated when constructing AvatarController
-    private static int muckPoints = 0; //Dummy value for testing purposes TODO: Remove dummy value when able to access player
+    private static int muckPoints = 0; //Default value. PlayerDashboard will pass in applicable muck value for avatar change
     private static String avatar = "notSet"; //Default. No image.
     private static String previous = "login"; //Previous screen. Will determine where the submit button leads.
     private final int OPEN_SKELETON = 20; // Muck points required to activate skeleton avatar
@@ -146,8 +146,13 @@ public class AvatarController implements Initializable  {
 
             // If there is already an avatar associated with a user, display the avatar
             // Will be used in the case of an avatar change
-            if (!avatar.equals("notSet")) {
-                selection(avatar);
+
+            try {
+                if (!avatar.equals("notSet")) {
+                    selection(avatar);
+                }
+            } catch (NullPointerException e) {
+                LOGGER.error("Avatar is null");
             }
         } catch (NullPointerException e) {
             LOGGER.error("Error with image initialisation");
@@ -168,6 +173,7 @@ public class AvatarController implements Initializable  {
      * This function will be used to access and initialise the Avatar Selection screen from another window.
      * @param event: The mouse event that has prompted the opening of the window.
      * @param username: The username of the current player
+     * @param display: The display name of the current player
      */
     public static void avatarCreation(MouseEvent event, String username, String display) {
         previous = "login";
@@ -196,10 +202,11 @@ public class AvatarController implements Initializable  {
      * This is used purely to set the variables for the avatar creation screen.  The window
      * is launched from the PlayerDashboardController
      * @param username: The player's username
+     * @param display: The player's display name
      * @param avID: The player's avatarID
+     * @param muck: The player's current muck point total
      */
     public static void avatarCreation(String username, String display, String avID, int muck){
-        //TODO: Call server for muck point value
         previous = "playerDashboard";
         uname = username;
         displayName = display;
@@ -213,7 +220,6 @@ public class AvatarController implements Initializable  {
         displayName = player.getUser().displayName;
         previous = "login";
         uname = username;
-        //displayName = "DisplayName";
         avatar = "notSet";
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(AvatarController.class.getResource("/fxml/Avatar.fxml")));
@@ -314,6 +320,7 @@ public class AvatarController implements Initializable  {
      * @param portrait: the circle object within which each avatar portrait is displayed
      * @param avatarPortrait: the portrait image of the avatar
      * @param avatarAlert: the Text object within which the MuckPoint total required to unlock the avatar is displayed
+     * @param avatarID: the current player's avatar ID
      */
     private void lockedAvatars(int open_muck, Circle portrait, Image avatarPortrait, Text avatarAlert, String avatarID) {
         if (muckPoints >= open_muck) {
@@ -462,7 +469,7 @@ public class AvatarController implements Initializable  {
      * @param event: The click event that is generated when the submit button is pressed
      */
     private void submitToMap(MouseEvent event) {
-        // TODO: Send username and avatar back to the server for storage
+        // TODO: Send avatar back to the server for storage
         MuckController.constructor(event, uname, displayName, avatar);
         }
 
@@ -473,7 +480,7 @@ public class AvatarController implements Initializable  {
      * @param event: The click event that is generated when the submit button is pressed
      */
     private void submitToDashboard(MouseEvent event) throws IOException{
-        // TODO: Send username and avatar back to server for storage
+        // TODO: Send avatar back to server for storage
         try {
             PlayerDashboardController.playerDashboard(uname, displayName, avatar);
             Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/PlayerDashboard.fxml")));

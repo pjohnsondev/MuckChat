@@ -250,15 +250,14 @@ public class MuckController implements Initializable {
         avatarID = avatar;
     }
 
-    //Opens dashboard when you click on the Avatar circle or from the menu
+    //Opens dashboard when you click on the Avatar circle or the menu
     public void openPlayerDashboardMenu(Event event) {
         try {
             PlayerDashboardController.playerDashboard(userName, displayName, avatarID);
             circle.setDisable(true);
-            Stage owner = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/PlayerDashboard.fxml")));
             Stage stage = new Stage(StageStyle.DECORATED);
-            stage.initOwner(owner);
+            stage.initOwner(root.getScene().getWindow());
             stage.initModality(Modality.WINDOW_MODAL);
             stage.setTitle("Muck2021");
             Scene scene = new Scene(parent);
@@ -271,6 +270,7 @@ public class MuckController implements Initializable {
                     chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
                     circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
                     circle.setDisable(false);
+                    dashboardMenuImg.setImage(chosenAvatar);
                     int x = gamePane1.getChildren().size();
                     Canvas currentCanvas = (Canvas) gamePane1.getChildren().get(x - 1); //Finds the current canvas
                     new GameMap(currentCanvas, gamePane1, updatePlayerfn, getPlayersfn);
@@ -467,6 +467,4 @@ public class MuckController implements Initializable {
             }
         }
     }
-
-
 }
