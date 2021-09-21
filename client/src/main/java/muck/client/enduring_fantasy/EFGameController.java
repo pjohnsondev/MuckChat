@@ -83,6 +83,41 @@ public class EFGameController implements Initializable {
     @FXML //fx:id="White_Mage_MP" White Mage MP Text
     private Text White_Mage_MP;
 
+    private int pcHp;
+    private int pcMp;
+    private int pcMag;
+    private int pcStr;
+    private int nextLvl;
+    private int pcLvl;
+
+    private Player player;
+    private Magic magic;
+
+    /** Player Variables **/
+    public int getPcHp(){ return this.pcHp; }
+    public void setPcHp(int newHp){ this.pcHp = newHp;}
+    public int getPcMp(){ return this.pcMp;}
+    public void setPcMp(int newMp){ this.pcMp = newMp; }
+    public int getPcStr(){ return this.pcStr; }
+    public int getPcMag(){ return this.pcMp; }
+
+
+    /** Load the monster stats **/
+    private int mobHp;
+
+    private Monster monster = new Monster();
+
+    /** Load the monster variables**/
+    public int getMobHp(){ return this.mobHp; }
+    public void decMobHp(int dmg){ this.mobHp -= dmg;}
+    public String getMobName(){ return this.monster.getName(); }
+    public int getMobDmg(){ return this.monster.getDamage(); }
+
+    public void mobGen() {
+        this.monster.genMonster(this.pcLvl);
+        this.mobHp = this.monster.getHealth();
+    }
+
 
 
 
@@ -90,7 +125,29 @@ public class EFGameController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
     }
+
+    @FXML
+    public void pcAtk(){
+        this.decMobHp(this.pcStr);
+        System.out.println("*Attack*");
+        System.out.println(this.player.getName() + " lands a blow for " + this.pcStr + " on the " + this.monster.getName());
+    }
+
+    @FXML
+    public void Battle(Player newPc){
+        this.player = newPc;
+        this.pcHp = this.player.getHealth();
+        this.pcMp = this.player.getMP();
+        this.pcMag = this.player.getMagicStr();
+        this.pcStr = this.player.getDamage();
+        this.pcLvl = this.player.getPlayerLvl();
+        this.nextLvl = this.player.getNextLvl();
+        this.magic = new Magic(this.player, this.pcMp);
+
+    }
+
 }
 
 
