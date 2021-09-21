@@ -34,6 +34,7 @@ import java.util.logging.Level;
 import muck.core.TriConsumer;
 
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import muck.client.tictactoe.TTTLandingPage;
 import muck.core.Location;
 import javafx.scene.text.Text;
@@ -48,6 +49,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class MuckController implements Initializable {
+
+    private static final Logger logger = LogManager.getLogger(MuckController.class);
 
     public Font x3;
     public Color x4;
@@ -156,7 +159,6 @@ public class MuckController implements Initializable {
 
     static Supplier<List<Sprite>> getPlayersfn = MuckClient.INSTANCE::getPlayerSprites;
     static TriConsumer<String, Integer, Location> updatePlayerfn = MuckClient.INSTANCE::updatePlayerLocation;
-    private static final Logger logger = LogManager.getLogger(MuckController.class);
 
     @Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -204,7 +206,7 @@ public class MuckController implements Initializable {
           public void run(){
             display();
           }
-        }, 0, 1000); //Checks for new messages every second
+        }, 0, 200); //Checks for new messages every second
 
         service.setPeriod(Duration.seconds(1));
         service.start();
@@ -251,33 +253,32 @@ public class MuckController implements Initializable {
     //Opens dashboard when you click on the Avatar circle or from the menu
     public void openPlayerDashboardMenu(Event event) {
         try {
-                PlayerDashboardController.playerDashboard(userName, displayName, avatarID);
-                circle.setDisable(true);
-                Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/PlayerDashboard.fxml")));
-                Stage stage = new Stage(StageStyle.DECORATED);
-                stage.setTitle("Muck2021");
-                Scene scene = new Scene(parent);
-                scene.getStylesheets().add("/css/style.css");
-                stage.setScene(scene);
-                stage.toFront();
-                //stage.setAlwaysOnTop(true);
-                stage.initStyle(StageStyle.UTILITY);
-                stage.setResizable(false);
-                stage.setOnHiding(avatarEvent -> {
-                    try {
-                        chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
-                        circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
-                        circle.setDisable(false);
-                        int x = gamePane1.getChildren().size();
-                        Canvas currentCanvas = (Canvas) gamePane1.getChildren().get(x - 1); //Finds the current canvas
-                        new GameMap(currentCanvas, gamePane1, updatePlayerfn, getPlayersfn);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-
-                    }
-                });
-                stage.show();
-
+            PlayerDashboardController.playerDashboard(userName, displayName, avatarID);
+            circle.setDisable(true);
+            Stage owner = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/PlayerDashboard.fxml")));
+            Stage stage = new Stage(StageStyle.DECORATED);
+            stage.initOwner(owner);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.setTitle("Muck2021");
+            Scene scene = new Scene(parent);
+            scene.getStylesheets().add("/css/style.css");
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.UTILITY);
+            stage.setResizable(false);
+            stage.setOnHiding(avatarEvent -> {
+                try {
+                    chosenAvatar = AvatarController.getPortrait(avatarID); // Updates avatar portrait based on selection from Avatar class
+                    circle.setFill(new ImagePattern(chosenAvatar)); //Makes avatar a circle
+                    circle.setDisable(false);
+                    int x = gamePane1.getChildren().size();
+                    Canvas currentCanvas = (Canvas) gamePane1.getChildren().get(x - 1); //Finds the current canvas
+                    new GameMap(currentCanvas, gamePane1, updatePlayerfn, getPlayersfn);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -309,23 +310,23 @@ public class MuckController implements Initializable {
     private void display(){
         logger.info("ran display()");
         List<String> inMessages = MuckClient.INSTANCE.getCurrentMessage();
-        if (inMessages != null) {
+        logger.info("getCurrentMessage() called! Size of inMessages is: {}", inMessages.size());
             for (String inMessage : inMessages) {
+
+                logger.info("Current message to display is: {}", inMessage);
                 message = inMessage;
                 if ((message.length() != 0)) {
-                   Tab currentTab = chatPane1.getSelectionModel().getSelectedItem();
-                   String currentID = currentTab.getId();
-                   if (currentID.equals("groupChat")) {
-                      groupChatBox.appendText(displayName + ": " + message + "\n");
-                   } else {
-                      int num = chatPane1.getTabs().indexOf(currentTab) + 1;
-                      TextArea currentChatBox = (TextArea) chatPane1.lookup("#chatbox" + num);
-                      currentChatBox.appendText(displayName + ": " + message + "\n");
-                   }
-                   messageBox.clear();
-              }
-           }
-        }
+                    Tab currentTab = chatPane1.getSelectionModel().getSelectedItem();
+                    String currentID = currentTab.getId();
+                    if (currentID.equals("groupChat")) {
+                        groupChatBox.appendText(displayName + ": " + message + "\n");
+                    } else {
+                        int num = chatPane1.getTabs().indexOf(currentTab) + 1;
+                        TextArea currentChatBox = (TextArea) chatPane1.lookup("#chatbox" + num);
+                        currentChatBox.appendText(displayName + ": " + message + "\n");
+                    }
+                }
+            }
     }
 
     // Method that creates new chat tab
@@ -466,4 +467,6 @@ public class MuckController implements Initializable {
             }
         }
     }
+
+
 }
