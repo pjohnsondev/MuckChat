@@ -1,15 +1,16 @@
 package muck.client;
 
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import static muck.client.Sound.*;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 
 
 public class SoundTest {
+
+    @Test
+    void achievementMatches() {
+        Sound achievementSound = new Sound("/sounds/tilegame.mp3");
+        assertEquals("/sounds/tilegame.mp3", achievementSound.soundPath);
+    }
 
     @Test
     void dogbarkMatches() {

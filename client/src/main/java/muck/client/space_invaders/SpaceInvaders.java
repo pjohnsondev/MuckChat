@@ -1,20 +1,13 @@
 package muck.client.space_invaders;
 
-import java.awt.*;
-import java.util.*;
-import java.util.List;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -25,13 +18,13 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import muck.client.Achievements;
-import muck.client.Sprite;
-import muck.client.space_invaders.SpaceInvadersUtility;
-import muck.client.space_invaders.Star;
 
-import static java.util.Map.entry;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import static muck.client.Achievements.*;
-
 
 public class SpaceInvaders {
 
@@ -56,7 +49,7 @@ public class SpaceInvaders {
     private int level;
     private int score;
     private int maxMissiles;
-    final int MAX_MISSILES = 70;
+    final int MAX_MISSILES = 140;
     private int CHANCE = 5;
     private static final int EXPLOSION_SIZE = 72;
 
@@ -334,9 +327,9 @@ public class SpaceInvaders {
 
                 if (r3.intersects(r2)) {
                     enemies.get(j).setLives(enemies.get(j).getLives() - 1);
+                    enemies.get(j).explode(explosion);
                     playerLasers.remove(i);
                     if (enemies.get(j).getLives() == 0) {
-                        enemies.get(j).explode(explosion);
                         score += 100;
                         enemies.remove(j);
                     }

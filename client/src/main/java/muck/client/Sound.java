@@ -36,6 +36,16 @@ public class Sound {
     }
 
     /**
+     * achievementSounds plays a ringing sound. Used in the achievementPopUp method
+     * as an achievement notification appears
+     */
+    public static void achievementSound() {
+        Sound achievementSound = new Sound("/sounds/tilegame.mp3");
+        achievementSound.music();
+    }
+
+
+    /**
      * dogbarkSound Plays the dog barking sound using the music method.
      */
     public static void dogbarkSound() {
