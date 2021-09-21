@@ -1,36 +1,34 @@
 package muck.client;
 
+import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.layout.BorderPane;
+import muck.client.enduring_fantasy.LandingPageEf;
+import muck.client.frogger.LandingPageFrogger;
+import muck.client.space_invaders.LandingPage;
+import muck.client.tictactoe.TTTLandingPage;
 import muck.core.Location;
 
+/**
+ * The WordController class controls movement between worlds.
+ * It allows the doors in the HomeTown to act as doorways to the mini-games.
+ */
 public class WorldController {
     static int x, y;
+    private static BorderPane gamePane;
 
-    public static int locationCheck(Location player, int id, Canvas canvas) {
+    public static int locationCheck(Location player, BorderPane borderPane, int id, Canvas canvas) {
         x = player.getX();
         y = player.getY();
-        //id 1 = world (map.tmx)
-        if( id == 1) {
-            if (x > 128 && x < 160) { //Inn
-                if (y > 224 && y < 260) {
-                    //TODO Achievement "You explored the Inn"
-                    TileMapReader tm = new TileMapReader("/maps/map.tmx");
-                    GameMap gm = new GameMap(canvas, "/tilesets/texture.png", tm);
-                    gm.worldID = 2;
-                    gm.hero.setPosX(10);
-                    gm.hero.setPosY(10);
-                    return 1;
-                }
-            }
-        }
-        //id 1 = world (map.tmx)
+        gamePane = borderPane;
+        //id 1 = world (homeTown.tmx)
         if (id == 1 ){
             if (x > 100 && x < 120) { // Cave
                 if (y > 352 && y < 390) {
                     System.out.println("You made it to the cave!");
                     //TODO Achievement "You explored the secret cave!"
-                    TileMapReader tm = new TileMapReader("/maps/dungeon.tmx");
-                    GameMap gm = new GameMap(canvas, "/tilesets/terrain_atlas.png", tm);
+                    TileMapReader tm = new TileMapReader("/maps/cave.tmx");
+                    GameMap gm = new GameMap(canvas, gamePane,  "/tilesets/terrain_atlas.png", tm);
                     gm.worldID = 2;
                     gm.hero.sh = 165; //point hero upwards
                     gm.hero.setPosX(512);
@@ -39,20 +37,87 @@ public class WorldController {
                 }
             }
         }
+        //id 1 = homeTown
+        if (id == 1) {
+            if (x > 128 && x < 160) { //Inn
+                if (y > 224 && y < 260) {
+                    //Opens space invaders game
+                    gamePane.getChildren().clear();
+                    Canvas SICanvas = new Canvas();
+                    SICanvas.setHeight(canvas.getHeight());
+                    SICanvas.setWidth(canvas.getWidth());
+                    gamePane.setCenter(SICanvas);
+                    BorderPane.setAlignment(SICanvas, Pos.CENTER);
+                    new LandingPage(gamePane, SICanvas);
+                    return 1;
+                }
+            }
+        }
+        //id 1 = homeTown
+        if (id == 1) {
+            if (x > 552 && x < 565) { //Small house
+                if (y > 192 && y < 198) {
+                    //Opens Enduring Fantasy
+                    gamePane.getChildren().clear();
+                    Canvas EFCanvas = new Canvas();
+                    EFCanvas.setHeight(canvas.getHeight());
+                    EFCanvas.setWidth(canvas.getWidth());
+                    gamePane.setCenter(EFCanvas);
+                    BorderPane.setAlignment(EFCanvas, Pos.CENTER);
+                    new LandingPageEf(gamePane, EFCanvas);
+                    return 1;
+                }
+            }
+        }
+
+        //id 1 = homeTown
+        if (id == 1) {
+            if (x > 778 && x < 793) { //Shop house
+                if (y > 288 && y < 295) {
+                    //Opens Frogger game
+                    gamePane.getChildren().clear();
+                    Canvas FrCanvas = new Canvas();
+                    FrCanvas.setHeight(canvas.getHeight());
+                    FrCanvas.setWidth(canvas.getWidth());
+                    gamePane.setCenter(FrCanvas);
+                    BorderPane.setAlignment(FrCanvas, Pos.CENTER);
+                    new LandingPageFrogger(gamePane, FrCanvas);
+                    return 1;
+                }
+            }
+        }
+        //id 1 = homeTown
+        if (id == 1) {
+            if (x > 808 && x < 822) { //Cottage house
+                if (y > 512 && y < 519) {
+                    //Opens tic-tac-toe game
+                    gamePane.getChildren().clear();
+                    Canvas TTTCanvas = new Canvas();
+                    TTTCanvas.setHeight(canvas.getHeight());
+                    TTTCanvas.setWidth(canvas.getWidth());
+                    gamePane.setCenter(TTTCanvas);
+                    BorderPane.setAlignment(TTTCanvas, Pos.CENTER);
+                    new TTTLandingPage(gamePane, TTTCanvas);
+                    return 1;
+                }
+            }
+        }
+
         //Secret Cave = 2
         if (id == 2 ){
             if (x > 480 && x < 540) { // Cave entrance
                 if (y > 988) {
                     System.out.println("You returned from the cave!");
-                    TileMapReader tm = new TileMapReader("/maps/map.tmx");
-                    GameMap gm = new GameMap(canvas, "/tilesets/texture.png", tm);
+                    TileMapReader tm = new TileMapReader("/maps/homeTown.tmx");
+                    GameMap gm = new GameMap(canvas, gamePane, "/tilesets/texture.png", tm);
                     gm.worldID = 1;
                     gm.hero.setPosX(110);
                     gm.hero.setPosY(390);
-                    return 1;
+                    return 1; //Kills this instance of GameMap
                 }
             }
         }
-        return 0;
+        return 0; //If no location explored (won't kill this instance of the GameMap in GameMap.java
     }
+
 }

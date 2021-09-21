@@ -10,10 +10,12 @@ import muck.core.character.AddCharacter;
 import muck.core.character.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.esotericsoftware.kryo.Kryo;
 import muck.core.Id;
+import muck.core.structures.UserStructure;
 import muck.core.user.SignUpInfo;
 import muck.protocol.connection.*;
 
@@ -48,11 +50,15 @@ public class Protocol {
 		kryo.register(Pair.class);
 		kryo.register(AddCharacter.class);
 		kryo.register(ArrayList.class);
+		kryo.register(HashMap.class);
 		kryo.register(List.class);
 		kryo.register(Location.class);
 		kryo.register(LocationRequest.class);
 		kryo.register(LocationResponse.class);
 		kryo.register(UpdatePlayerRequest.class);
+
+		kryo.register(byte[].class);
+		kryo.register(UserStructure.class);
 
 	}
 }

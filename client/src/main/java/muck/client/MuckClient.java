@@ -1,7 +1,7 @@
 package muck.client;
 
+import muck.client.components.ActiveUser;
 import muck.core.Login;
-import muck.core.Pair;
 import muck.core.UpdatePlayerRequest;
 import muck.core.Id;
 import muck.core.Location;
@@ -9,6 +9,7 @@ import muck.core.LocationRequest;
 import muck.core.LocationResponse;
 import muck.core.ClientId;
 import muck.core.character.AddCharacter;
+import muck.core.structures.UserStructure;
 import muck.core.user.SignUpInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,10 +22,7 @@ import muck.protocol.connection.*;
 import java.io.IOException;
 
 import java.sql.SQLException;
-import java.util.Calendar;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -37,10 +35,11 @@ public enum MuckClient {
 	INSTANCE;
 
 	String currentMessage;
-	ArrayList<String> players = new ArrayList<String>();
+	ArrayList<String> messageBuffer = new ArrayList<String>();
+	HashMap<Integer, String> players = new HashMap<Integer, String>();
 	List<Sprite> playerSprites = new ArrayList<Sprite>();
 
-	public static MuckClient getINSTANCE() throws SQLException {
+	public static MuckClient getINSTANCE() {
 		return INSTANCE;
 	}
 
@@ -66,6 +65,10 @@ public enum MuckClient {
 	    return this.playerSprites;
 	}
 
+	public Client getClient() {
+		return client;
+	}
+
 	public void updatePlayerLocation(String avatar, Location location) {
 	    var req = new UpdatePlayerRequest(clientId, avatar, location);
 	    logger.info("Updating my location in the gamemap...");
@@ -86,14 +89,14 @@ public enum MuckClient {
 		// Connect to the server
 		client.connect(config.getTimeOut(), config.getDestinationIp(), config.getTcpPort(), config.getUdpPort());
 
-		// Create random dummy credentials
-		String username = "TestUser_" + Calendar.getInstance().get(Calendar.SECOND) % 100;
-
-		// Create a new user account
-		signUp(username, "TestPassword", "Test User");
-
-		// Login an existing user
-		login(username, "TestPassword");
+//		// Create random dummy credentials
+//		String username = "TestUser_" + Calendar.getInstance().get(Calendar.SECOND) % 100;
+//
+//		// Create a new user account
+//		signUp(username, "TestPassword", "Test User");
+//
+//		// Login an existing user
+//		login(username, "TestPassword");
 
 		// Add a Ping listener. Still being used for debugging.
 		client.addListener(ListenerBuilder.forClass(Ping.class)
@@ -115,9 +118,10 @@ public enum MuckClient {
 
 		// Add a listener to listen for an arraylist message from the server, this is
 		// then stored on the client instance as the player array
-		client.addListener(ListenerBuilder.forClass(ArrayList.class).onReceive((conn, playerList) -> {
+		client.addListener(ListenerBuilder.forClass(HashMap.class).onReceive((conn, playerList) -> {
 			logger.info("Player list: {} received from {}", playerList, conn.getID());
-			players = playerList;
+			players.clear();
+			players.putAll(playerList);
 			logger.info("Clients playerlist is {}", players);
 		}));
 
@@ -131,6 +135,11 @@ public enum MuckClient {
 			logger.info("List of locations receieved, building sprites");
 			var data = response.data;
 			this.playerSprites = data.stream().map(p -> new Sprite(p.right().getX(), p.right().getY())).collect(Collectors.toList());
+		}));
+
+		//setActiveUser
+		client.addListener(ListenerBuilder.forClass(UserStructure.class).onReceive((connID, response) -> {
+			ActiveUser.getInstance().setUserStructure(response);
 		}));
 	}
 
@@ -188,6 +197,7 @@ public enum MuckClient {
 
     */
 	public synchronized String getCurrentMessage() {
+
 		return currentMessage;
 	}
 

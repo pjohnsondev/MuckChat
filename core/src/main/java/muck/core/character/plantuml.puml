@@ -1,0 +1,91 @@
+@startuml
+class muck.core.character.CharacterDoesNotExistException {
+}
+class muck.core.character.AddCharacter {
+- Character character
+- Location location
++ Character getCharacter()
++ void setCharacter(Character)
++ Location getLocation()
++ void setLocation(Location)
+}
+interface muck.core.character.INPCBehaviour {
+~ void Update()
+}
+class muck.core.character.Player {
+- String username
++ String getUsername()
++ void setPlayerStats(int,int,int)
++ void addAchievement(String,String)
++ String[][] getAchievements()
++ boolean tradeCollectable(String,String)
++ void addItemToInventory(String)
++ void removeItemFromInventory(String)
++ String[] getInventory()
+}
+class muck.core.character.NPC {
+- int _difficulty
++ List<INPCBehaviour> AIBehaviours
++ void Update()
++ void setNPCStats(int,int,int,int)
++ void setDifficulty(int)
++ int getDifficulty()
++ int increaseDifficulty(int)
+}
+abstract class muck.core.character.Character {
+- String _identifier
+- String _avatar
+- String _direction_facing
+- int _health
+- int _attack
+- int _defence
+# void setIdentifier(String)
++ void moveUp()
++ void moveDown()
++ void moveLeft()
++ void moveRight()
++ boolean saveToBackendStorage()
++ int getHealth()
++ void setHealth(int)
++ void increaseHealth(int)
++ boolean decreaseHealth(int)
++ int getAttack()
++ void setAttack(int)
++ int getDefence()
++ void setDefence(int)
++ String getDirection()
++ boolean setDirection(String)
++ String getIdentifier()
++ String getAvatar()
++ boolean setAvatar(String)
+}
+class muck.core.character.NPCRandomWalk {
+~ NPC npc
+~ float timeWait
+~ float elapsed
+~ String walkDirection
+~ boolean walking
++ void Update()
+}
+class muck.core.character.CharacterFactory {
++ {static} Player createOrLoadPlayer(String)
++ {static} String userExists(String)
++ {static} NPC createNewNPC()
++ {static} NPC createNewNPC(String)
++ {static} NPC createNewVillager()
+}
+class muck.core.character.StorageHandler {
++ {static} boolean saveCharacter(Character)
++ {static} boolean isPlayerValid(String)
++ {static} ArrayList<String> queryPlayer(String,String)
++ {static} void addToPlayer(String,String,String,String)
++ {static} void addToPlayer(String,String,String)
++ {static} void removeFromPlayer(String,String,String)
+}
+
+
+muck.core.character.Exception <|-- muck.core.character.CharacterDoesNotExistException
+muck.core.character.Character <|-- muck.core.character.Player
+muck.core.character.Character <|-- muck.core.character.NPC
+muck.core.character.INPCBehaviour <|.. muck.core.character.NPCRandomWalk
+@enduml
