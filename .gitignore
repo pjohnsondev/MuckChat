@@ -59,3 +59,4 @@ log4j2.xml
 #/server/muckdb
 #/server/testDB
 /server/testDB/
+/server/muckdb/
