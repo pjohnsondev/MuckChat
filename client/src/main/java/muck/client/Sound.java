@@ -21,11 +21,10 @@ public class Sound {
 
     /**
      * music Plays the sound file using mediaPlayer
-     * @param soundFile The path to the sound file to be played
      */
-    public void music(Sound soundFile) {
+    public void music() {
         try {
-                Media h = new Media(getClass().getResource(soundFile.soundPath).toExternalForm());
+                Media h = new Media(getClass().getResource(this.soundPath).toExternalForm());
                 mediaPlayer = new MediaPlayer(h);
                 if(mediaPlayer.getStatus() != MediaPlayer.Status.PLAYING) {
                     mediaPlayer.play();
@@ -37,11 +36,20 @@ public class Sound {
     }
 
     /**
-     * dogBark Plays the dog barking sound using the music method.
+     * dogbarkSound Plays the dog barking sound using the music method.
      */
-    public static void dogBark() {
-        Sound barkFile = new Sound("/sounds/longbark2.mp3");
-        barkFile.music(barkFile);
-        }
+    public static void dogbarkSound() {
+        Sound dogbark = new Sound("/sounds/longbark2.mp3");
+        dogbark.music();
+    }
+
+
+    /**
+     * doorbellSound Plays the doorbell sound using the music method.
+     */
+    public static void doorbellSound() {
+        Sound doorbell = new Sound("/sounds/doorbell.mp3");
+        doorbell.music();
+    }
 
 }

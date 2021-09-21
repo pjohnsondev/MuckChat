@@ -178,14 +178,14 @@ public enum MuckServer {
             kryoServer.sendToAllTCP(players);
             logger.info("Players are {}", players.values());
             UserStructure returnedUser = playerManager.getUser(userStructure);
-            userMessage.setMessage("Signup successful");
+            userMessage.setMessage("Signup successful", signUpInfo.getUsername());
             kryoServer.sendToTCP((connection.getID()), userMessage);
             kryoServer.sendToTCP((connection.getID()), returnedUser);
 
             signupResponse.setMessage("Your account has been created successfully.");
             signupResponse.setResultCode(200);
         } catch(UserNameAlreadyTakenException ex){
-            userMessage.setMessage(ex.getMessage());
+            userMessage.setMessage(ex.getMessage(), signUpInfo.getUsername());
             logger.info(ex.getMessage());
             kryoServer.sendToTCP(connection.getID(), userMessage);
 
@@ -193,13 +193,14 @@ public enum MuckServer {
             signupResponse.setResultCode(409);
         } catch (BadRequestException ex) {
             logger.info("error in muckServer signup badrequestexception catch");
-			userMessage.setMessage(ex.getMessage());
+			userMessage.setMessage(ex.getMessage(), signUpInfo.getUsername());
 			kryoServer.sendToTCP(connection.getID(), userMessage);
 
             signupResponse.setMessage("Invalid input provided.");
             signupResponse.setResultCode(400);
 		} catch (Exception ex) {
-            userMessage.setMessage("Error setting user to database");
+            userMessage.setMessage("Error setting user to database", signUpInfo.getUsername());
+
             kryoServer.sendToTCP(connection.getID(), userMessage);
 		    ex.printStackTrace();
 
@@ -233,7 +234,7 @@ public enum MuckServer {
             // set user as active user
             returnedUser = playerManager.getUser(userStructure);
             userMessage testMessage = new userMessage(); // Create new message to send back.
-            testMessage.setMessage("Login Successful");
+            testMessage.setMessage("Login Successful", login.getUsername());
             kryoServer.sendToTCP((muckConnection.getID()), testMessage);
             kryoServer.sendToTCP((muckConnection.getID()), returnedUser);
 
@@ -259,28 +260,28 @@ public enum MuckServer {
 
         } catch (DuplicateLoginException ex) {
             userMessage testMessage = new userMessage(); // Create new message to send back.
-            testMessage.setMessage("Duplicate login");
+            testMessage.setMessage("Duplicate login", login.getUsername());
             kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
 
             loginResponse.setMessage("You are already logged in.");
             loginResponse.setResultCode(ResponseCodes.DUPLICATE_LOGIN);
         } catch (CharacterDoesNotExistException ex) {
             userMessage testMessage = new userMessage(); // Create new message to send back.
-            testMessage.setMessage("Character does not exist. Please register.");
+            testMessage.setMessage("Character does not exist. Please register.", login.getUsername());
             kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
 
             loginResponse.setMessage("Your account does not exist. Please sign up before logging in.");
             loginResponse.setResultCode(ResponseCodes.ACCOUNT_DOES_NOT_EXIST_CODE);
         } catch (AuthenticationFailedException ex) {
             userMessage testMessage = new userMessage(); // Create new message to send back.
-            testMessage.setMessage("Supplied credentials are invalid.");
+            testMessage.setMessage("Supplied credentials are invalid.", login.getUsername());
             kryoServer.sendToTCP(muckConnection.getID(), testMessage); // send message back to client
 
             loginResponse.setMessage("Invalid username and/or password.");
             loginResponse.setResultCode(ResponseCodes.UNAUTHORISED);
         } catch (Exception ex) {
             userMessage testMessage = new userMessage(); // Create new message to send back.
-            testMessage.setMessage("Error setting user to database");
+            testMessage.setMessage("Error setting user to database", login.getUsername());
             kryoServer.sendToTCP(muckConnection.getID(), testMessage);
             ex.printStackTrace();
 
@@ -342,7 +343,7 @@ public enum MuckServer {
         } catch (BadRequestException ex) {
             logger.info("error in muckServer signup badrequestexception catch");
         } catch (RuntimeException ex) {
-            userMessage.setMessage("Error setting user to database");
+            userMessage.setMessage("Error setting user to database", username);
             ex.printStackTrace();
         } catch (Exception ex){
             logger.info("error in playermanager signup exception catch");

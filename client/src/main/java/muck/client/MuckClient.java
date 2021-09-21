@@ -78,8 +78,6 @@ public enum MuckClient {
 
 	public void updatePlayerLocation(String avatar, Integer mapId, Location location) {
 	    var req = new UpdatePlayerRequest(clientId, new AvatarLocation(avatar), new MapId(mapId), location);
-		// logger.info("Updating my location in the gamemap..."); //Commented this out
-		// because it was spamming the client logger.
 		client.sendTCP(req);
 	}
 
@@ -89,6 +87,7 @@ public enum MuckClient {
 	}
 
 	public synchronized void connect(KryoClientConfig config) throws IOException {
+		inMessages.add("hello");
 		if (client != null) {
 			throw new IllegalStateException("Starting connection when already started");
 		}
@@ -158,7 +157,6 @@ public enum MuckClient {
 		}));
 
 		client.addListener(ListenerBuilder.forClass(LocationResponse.class).onReceive((connID, response) -> {
-			logger.info("List of locations receieved, building sprites");
 			var data = response.data;
 			this.playerSprites = data.stream().map(p -> new Sprite(p.x, p.y)).collect(Collectors.toList());
 		}));
@@ -251,7 +249,7 @@ public enum MuckClient {
 		List<String> outMessages = inMessages;
 		inMessages.clear();
 
-		if (inMessages.size() > 0) {
+		if (outMessages.size() > 0) {
 			return outMessages;
 		} else {
 			return inMessages;
