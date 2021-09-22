@@ -214,6 +214,19 @@ public class AvatarController implements Initializable  {
         muckPoints = muck;
     }
 
+    /**
+     * For testing purposes.  Allows the MuckPoints to be updated to check unlocked avatars during the testing process
+     * @param username: The player's username
+     * @param display: The player's display name
+     * @param avID: The player's avatarID
+     */
+    public static void avatarCreation(String username, String display, String avID){
+        previous = "playerDashboard";
+        uname = username;
+        displayName = display;
+        avatar = avID;
+    }
+
     //TODO: Remove this method once the SignIn Screen sends the window to Muck
     public static void avatarCreation(MouseEvent event, String username) {
         ActiveUser player = ActiveUser.getInstance();
