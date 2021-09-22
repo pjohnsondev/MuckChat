@@ -33,7 +33,7 @@ import static org.testfx.matcher.base.NodeMatchers.isEnabled;
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@Disabled //Disabled due to out of memory error
+//@Disabled //Disabled due to out of memory error
 public class MuckWindowTest extends ApplicationTest {
 
     Stage stage;
@@ -60,7 +60,6 @@ public class MuckWindowTest extends ApplicationTest {
 
     @Override
     public void start(Stage stage) throws IOException {
-        // TODO: Do this with a mock character???
         logger.info("Initializing window");
         MuckController.constructor("test", "peach");
         Parent root = FXMLLoader.load(Objects.requireNonNull(MuckWindowTest.class.getResource("/fxml/MuckWindow.fxml")));
@@ -214,7 +213,17 @@ public class MuckWindowTest extends ApplicationTest {
     }
 
     @Test
-    @Order(8)
+    @Order(9)
+    @Disabled //Placeholder as I am waiting for the Landing page of GoFish to be created
+    public void openGoFishTest()  {
+        logger.info("Testing that the game Go Fish launches");
+        String oldID = lookup("#gameCanvas").queryAs(Canvas.class).getId();
+        clickOn("#game4Button");
+        assertNotEquals(oldID, lookup("#gamePane1").queryAs(BorderPane.class).getChildren().get(0).getId());
+    }
+
+    @Test
+    @Order(10)
     public void openTicTacToeTest()  {
         logger.info("Testing that the game Tic Tac Toe launches");
         String oldID = lookup("#gameCanvas").queryAs(Canvas.class).getId();
@@ -224,7 +233,7 @@ public class MuckWindowTest extends ApplicationTest {
 
     //Checks that alert pops up when quitting and that cancel button is enabled
     @Test
-    @Order(9)
+    @Order(11)
     public void quitMuckTest() {
         logger.info("Testing that user can access the quit alert");
         clickOn("#file");
