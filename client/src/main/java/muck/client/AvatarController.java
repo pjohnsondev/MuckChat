@@ -1,13 +1,10 @@
 package muck.client;
 
 
-import muck.core.character.Player;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,14 +25,20 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import muck.client.components.ActiveUser;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import static muck.client.Achievements.*;
 
 public class AvatarController implements Initializable  {
 
+    private static final Logger LOGGER = LogManager.getLogger(AvatarController.class);
+
     // These will be the associated attributes of the user
     private static String uname;//Will be updated when constructing AvatarController
     private static String displayName; //Will be updated when constructing AvatarController
-    private static int muckPoints = 0; //Dummy value for testing purposes TODO: Remove dummy value when able to access player
+    private static int muckPoints = 0; //Default value. PlayerDashboard will pass in applicable muck value for avatar change
     private static String avatar = "notSet"; //Default. No image.
     private static String previous = "login"; //Previous screen. Will determine where the submit button leads.
     private final int OPEN_SKELETON = 20; // Muck points required to activate skeleton avatar
@@ -125,7 +128,7 @@ public class AvatarController implements Initializable  {
             gridPane.setBackground(new Background(BACKGROUND));
         } catch (Exception e) {
             gridPane.setStyle("-fx-background-color: steelgray");
-            System.out.println("Error with background image");
+            LOGGER.error("Error with background image");
             e.printStackTrace();
         }
 
@@ -138,29 +141,30 @@ public class AvatarController implements Initializable  {
 
             // The below three avatars are only available once the user achieves a certain number of muck points
             lockedAvatars(OPEN_SKELETON, skeleton, SKELETON_PORTRAIT, skeletonAlert, "skeleton");
-
             lockedAvatars(OPEN_WW, wonderWoman, WONDER_WOMAN_PORTRAIT, wonderWomanAlert, "wonderWoman");
-
             lockedAvatars(OPEN_YOSHI, yoshi, YOSHI_PORTRAIT, yoshiAlert, "yoshi");
+
+            username.setText(displayName);
+
+            submit.addEventHandler(MouseEvent.MOUSE_CLICKED, this::submit);
+            peach.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selection("peach"));
+            batman.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selection("batman"));
+            pikachu.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selection("pikachu"));
 
             // If there is already an avatar associated with a user, display the avatar
             // Will be used in the case of an avatar change
-            if (!avatar.equals("notSet")) {
-                selection(avatar);
+
+            try {
+                if (!avatar.equals("notSet")) {
+                    selection(avatar);
+                }
+            } catch (NullPointerException e) {
+                LOGGER.error("Avatar is null");
             }
-        } catch (NullPointerException e) {
+        } catch (Exception e) {
+            LOGGER.error("Error with image initialisation");
             e.printStackTrace();
         }
-
-        username.setText(displayName);
-
-        submit.addEventHandler(MouseEvent.MOUSE_CLICKED, this::submit);
-
-        peach.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selection("peach"));
-
-        batman.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selection("batman"));
-
-        pikachu.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selection("pikachu"));
     }
 
     /**
@@ -169,6 +173,7 @@ public class AvatarController implements Initializable  {
      * This function will be used to access and initialise the Avatar Selection screen from another window.
      * @param event: The mouse event that has prompted the opening of the window.
      * @param username: The username of the current player
+     * @param display: The display name of the current player
      */
     public static void avatarCreation(MouseEvent event, String username, String display) {
         previous = "login";
@@ -180,14 +185,14 @@ public class AvatarController implements Initializable  {
             Scene scene = new Scene(root);
             scene.setRoot(root);
             scene.getStylesheets().add(Objects.requireNonNull(AvatarController.class.getResource("/css/style.css")).toExternalForm());
-            //This line gets the Stage Information
             Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             stage.setScene(scene);
             stage.sizeToScene();
             stage.setResizable(false);
             stage.show();
         } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("Unable to open avatar window");
+            ex.printStackTrace();
         }
     }
 
@@ -197,36 +202,51 @@ public class AvatarController implements Initializable  {
      * This is used purely to set the variables for the avatar creation screen.  The window
      * is launched from the PlayerDashboardController
      * @param username: The player's username
+     * @param display: The player's display name
      * @param avID: The player's avatarID
+     * @param muck: The player's current muck point total
      */
-    public static void avatarCreation(String username, String display, String avID){
-        //TODO: Call server for muck point value
+    public static void avatarCreation(String username, String display, String avID, int muck){
         previous = "playerDashboard";
         uname = username;
         displayName = display;
         avatar = avID;
-        //muckPoints = call to server
+        muckPoints = muck;
+    }
+
+    /**
+     * For testing purposes.  Allows the MuckPoints to be updated to check unlocked avatars during the testing process
+     * @param username: The player's username
+     * @param display: The player's display name
+     * @param avID: The player's avatarID
+     */
+    public static void avatarCreation(String username, String display, String avID){
+        previous = "playerDashboard";
+        uname = username;
+        displayName = display;
+        avatar = avID;
     }
 
     //TODO: Remove this method once the SignIn Screen sends the window to Muck
     public static void avatarCreation(MouseEvent event, String username) {
+        ActiveUser player = ActiveUser.getInstance();
+        displayName = player.getUser().displayName;
         previous = "login";
         uname = username;
-        displayName = "DisplayName";
         avatar = "notSet";
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(AvatarController.class.getResource("/fxml/Avatar.fxml")));
             Scene scene = new Scene(root);
             scene.setRoot(root);
             scene.getStylesheets().add(Objects.requireNonNull(AvatarController.class.getResource("/css/style.css")).toExternalForm());
-            //This line gets the Stage Information
             Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             stage.setScene(scene);
             stage.setResizable(false);
             App.hideStage();
             stage.show();
         } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("Unable to open avatar window");
+            ex.printStackTrace();
         }
     }
 
@@ -313,6 +333,7 @@ public class AvatarController implements Initializable  {
      * @param portrait: the circle object within which each avatar portrait is displayed
      * @param avatarPortrait: the portrait image of the avatar
      * @param avatarAlert: the Text object within which the MuckPoint total required to unlock the avatar is displayed
+     * @param avatarID: the current player's avatar ID
      */
     private void lockedAvatars(int open_muck, Circle portrait, Image avatarPortrait, Text avatarAlert, String avatarID) {
         if (muckPoints >= open_muck) {
@@ -359,7 +380,6 @@ public class AvatarController implements Initializable  {
                     avatarFullBody.setImage(PIKACHU_FULL);
                     avatarFullBody.setLayoutY(210.0);
                     avatarFullBody.setFitHeight(250); // Changes the height of the image so pikachu is a more realistic
-                    // How do I set pikachu in the centre of the screen (by height)
                     break;
                 case "skeleton":
                     if (muckPoints >= OPEN_SKELETON) {
@@ -370,8 +390,12 @@ public class AvatarController implements Initializable  {
                         avatarFullBody.setLayoutY(120.0);
                         avatarFullBody.setFitHeight(410);
                         // Unlocks achievement 8 when the player selects Skeleton.
-                        Achievements achieve8 = new Achievements(achievement8, achievement8Title, achievement8Description);
-                        achieve8.achievementUnlock(achieve8);
+                        if (Achievements.achievement8_instance == null) {
+                            Achievements.achievement8_instance = new Achievements(achievement8,
+                                    ACHIEVEMENT8TITLE, ACHIEVEMENT8DESCRIPTION);
+                            achievement8_instance.achievementUnlock();
+                            achievement8_instance.achievementPopUp();
+                        }
                         break;
                     }
                 case "wonderWoman":
@@ -383,8 +407,12 @@ public class AvatarController implements Initializable  {
                         avatarFullBody.setLayoutY(70.0);
                         avatarFullBody.setFitHeight(400);
                         // Unlocks achievement 9 when the player selects Wonder Woman.
-                        Achievements achieve9 = new Achievements(achievement9, achievement9Title, achievement9Description);
-                        achieve9.achievementUnlock(achieve9);
+                        if (Achievements.achievement9_instance == null) {
+                            Achievements.achievement9_instance = new Achievements(achievement9,
+                                    ACHIEVEMENT9TITLE, ACHIEVEMENT9DESCRIPTION);
+                            achievement9_instance.achievementUnlock();
+                            achievement9_instance.achievementPopUp();
+                        }
                         break;
                     }
                 case "yoshi":
@@ -396,8 +424,12 @@ public class AvatarController implements Initializable  {
                         avatarFullBody.setLayoutY(180.0);
                         avatarFullBody.setFitHeight(300);
                         // Unlocks achievement 10 when the player selects Yoshi.
-                        Achievements achieve10 = new Achievements(achievement10, achievement10Title, achievement10Description);
-                        achieve10.achievementUnlock(achieve10);
+                        if (Achievements.achievement10_instance == null) {
+                            Achievements.achievement10_instance = new Achievements(achievement10,
+                                    ACHIEVEMENT10TITLE, ACHIEVEMENT10DESCRIPTION);
+                            achievement10_instance.achievementUnlock();
+                            achievement10_instance.achievementPopUp();
+                        }
                         break;
                     }
                 case "notSet":
@@ -421,17 +453,26 @@ public class AvatarController implements Initializable  {
         try {
             if (previous.equals("playerDashboard")) { //If the user previously came from player dashboard return there
                 // Unlocks achievement 7 when the player changes avatar.
-                Achievements achieve7 = new Achievements(achievement7, achievement7Title, achievement7Description);
-                achieve7.achievementUnlock(achieve7);
+                if (Achievements.achievement7_instance == null) {
+                    Achievements.achievement7_instance = new Achievements(achievement7,
+                            ACHIEVEMENT7TITLE, ACHIEVEMENT7DESCRIPTION);
+                    achievement7_instance.achievementUnlock();
+                    achievement7_instance.achievementPopUp();
+                }
                 submitToDashboard(event);
             } else {
                 submitToMap(event); // Otherwise send them to the map
                 // Unlocks achievement 6 when the player initially selects an avatar.
-                Achievements achieve6 = new Achievements(achievement6, achievement6Title, achievement6Description);
-                achieve6.achievementUnlock(achieve6);
+                if (Achievements.achievement6_instance == null) {
+                    Achievements.achievement6_instance = new Achievements(achievement6,
+                            ACHIEVEMENT6TITLE, ACHIEVEMENT6DESCRIPTION);
+                    achievement6_instance.achievementUnlock();
+                    achievement6_instance.achievementPopUp();
+                }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+                LOGGER.error("Unable to open dashboard window");
+                e.printStackTrace();
         }
     }
 
@@ -441,7 +482,7 @@ public class AvatarController implements Initializable  {
      * @param event: The click event that is generated when the submit button is pressed
      */
     private void submitToMap(MouseEvent event) {
-        // TODO: Send username and avatar back to the server for storage
+        // TODO: Send avatar back to the server for storage
         MuckController.constructor(event, uname, displayName, avatar);
         }
 
@@ -452,14 +493,19 @@ public class AvatarController implements Initializable  {
      * @param event: The click event that is generated when the submit button is pressed
      */
     private void submitToDashboard(MouseEvent event) throws IOException{
-        // TODO: Send username and avatar back to server for storage
-        PlayerDashboardController.playerDashboard(uname, displayName, avatar);
-        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/PlayerDashboard.fxml")));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(parent);
-        scene.getStylesheets().add("/css/style.css");
-        stage.setScene(scene);
-        stage.show();
+        // TODO: Send avatar back to server for storage
+        try {
+            PlayerDashboardController.playerDashboard(uname, displayName, avatar);
+            Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/PlayerDashboard.fxml")));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(parent);
+            scene.getStylesheets().add("/css/style.css");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            LOGGER.error("Unable to open dashboard window");
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -468,15 +514,12 @@ public class AvatarController implements Initializable  {
      * @param alertBox: The Text element associated with a locked Avatar
      * @param message: The message to be displayed in the text element upon hover
      */
-    private void hoverEvent(Text alertBox, String message) {
-        alertBox.setText(message);
-    }
+    private void hoverEvent(Text alertBox, String message) { alertBox.setText(message); }
 
-    // For testing purposes
-    public static String getUserName() {
-        return uname;
-    }
-    public static void setMuck(int points) { muckPoints = points;}
+    // ************  For testing purposes *************
+    public static String getUserName() { return uname; }
+    public static void setMuck(int points) { muckPoints = points; }
+    // ************************************************
 
     // The below code is for formatting the changes to the avatar dashboard.
     private void restorePortraitSize() {

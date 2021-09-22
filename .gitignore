@@ -55,8 +55,6 @@ log4j2.xml
 
 
 # ignore database
-#*.db
-#/server/muckdb
-#/server/testDB
-/server/testDB/
+*.db
 /server/muckdb/
+/server/testDB/

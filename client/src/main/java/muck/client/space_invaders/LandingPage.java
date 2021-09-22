@@ -6,6 +6,7 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -16,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
@@ -35,7 +37,7 @@ public class LandingPage extends Node {
 
     private ImageView titleView;
     private static final Image TITLE = new Image("/images/space-invaders-title.png");
-
+    private static final Image INSTRUCTIONS = new Image("/images/spaceinvaders/instructions.png");
     private static final Random RAND = new Random();
     private static final int HEIGHT = 600;
     private static final int WIDTH = 1000;
@@ -47,6 +49,21 @@ public class LandingPage extends Node {
 
     final GridPane grid = new GridPane();
     private BorderPane gamePane;
+
+    private static final String DIRECTIONS =
+            "*   WASD to move\n" +
+                    "\n" +
+                    "*   SPACE to shoot\n" +
+                    "\n" +
+                    "*   TAB for God mode\n" +
+                    "\n" +
+                    "*   You win if you destroy all the enemies\n" +
+                    "\n" +
+                    "*   You lose if you have no lives left " +
+                    "or run out of ammunition\n" +
+                    "\n" +
+                    "*   Big enemies have 3 lives, Medium enemies have 2 lives,\n" +
+                    "    Small enemies have 1 life\n";
 
     public LandingPage (BorderPane stage, Canvas canvas) {
         gamePane = stage;
@@ -134,19 +151,47 @@ public class LandingPage extends Node {
         });
 
         gamePlayButton.setOnAction(event -> {
-            // Add elements
-            Label dummyText = new Label("Lorem ipsum dolor set amet");
-            Button goBack = new Button("Return to landing page");
+            // Add instructions title image
+            ImageView instructions = new ImageView();
+            instructions.setImage(INSTRUCTIONS);
 
-            // Create layout of the window
-            VBox layout = new VBox(20);
-            layout.getChildren().addAll(dummyText, goBack);
-            Scene gameInstructScene = new Scene(layout, WIDTH/2, HEIGHT/2);
+            // Add image to a HBox and center it at the top of the scene
+            HBox hbxImg = new HBox();
+            hbxImg.setAlignment(Pos.TOP_CENTER);
+            hbxImg.setPadding(new Insets(30, 0, 15, 0));
+            hbxImg.getChildren().add(instructions);
+
+            // Add instructions text as a label.
+            Label instructionsText = new Label(DIRECTIONS);
+            instructionsText.setFont(Font.font(19));
+            instructionsText.setStyle("-fx-text-fill: #00ff00");
+
+            // Add and format the Return to Landing Page button
+            Button goBack = new Button("RETURN TO LANDING PAGE");
+            goBack.setPrefSize(200, 50);
+            goBack.setStyle(" -fx-background-color: #00ff00");
+            HBox button = new HBox();
+            button.setAlignment(Pos.BOTTOM_CENTER);
+            button.setPadding(new Insets(15, 5, 25, 0));
+            button.getChildren().add(goBack);
+
+
+            StackPane layout = new StackPane();
+
+            // Set background colour
+            layout.setStyle("-fx-background-color: BLACK");
+
+            layout.getChildren().addAll(hbxImg, instructionsText, button);
+
+            // Add layout to the scene
+            Scene gameInstructScene = new Scene(layout, WIDTH * 0.75, HEIGHT * 0.90);
 
             // Create window for instructions to be displayed in
             Stage gamePlayInstructionsWindow = new Stage();
+
             gamePlayInstructionsWindow.setTitle("GAMEPLAY INSTRUCTIONS");
             gamePlayInstructionsWindow.setScene(gameInstructScene);
+
             gamePlayInstructionsWindow.show();
 
             // Close window when pushing button

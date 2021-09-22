@@ -1,37 +1,65 @@
 package muck.client;
 
-import java.nio.file.Paths;
-import javafx.application.Application;
-import javafx.stage.Stage;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import java.io.File;
 
 
+// This class contains a mediaPlayer that allows sound to be played
 public class Sound {
 
     String soundPath;
     MediaPlayer mediaPlayer;
 
+    /**
+     * Constructor to create a sound object
+     * @param audio The sound path for the sound file to be played by the mediaPlayer
+     */
     public Sound(String audio) {
         this.soundPath = audio;
     }
 
-    public String getSoundPath(Sound audio) {
-        return audio.soundPath;
-    }
 
-    public void music(Sound soundFile) {
+    /**
+     * music Plays the sound file using mediaPlayer
+     */
+    public void music() {
         try {
-//            String s = "src/main/resources/sounds/tilegame.mp3";
-
-                Media h = new Media(getClass().getResource(soundFile.soundPath).toExternalForm());
+                Media h = new Media(getClass().getResource(this.soundPath).toExternalForm());
                 mediaPlayer = new MediaPlayer(h);
-                mediaPlayer.play();
-                System.out.println("Sound should be playing now");
+                if(mediaPlayer.getStatus() != MediaPlayer.Status.PLAYING) {
+                    mediaPlayer.play();
+                }
             }
         catch(Exception e) {
             e.printStackTrace();
         }
     }
+
+    /**
+     * achievementSounds plays a ringing sound. Used in the achievementPopUp method
+     * as an achievement notification appears
+     */
+    public static void achievementSound() {
+        Sound achievementSound = new Sound("/sounds/tilegame.mp3");
+        achievementSound.music();
+    }
+
+
+    /**
+     * dogbarkSound Plays the dog barking sound using the music method.
+     */
+    public static void dogbarkSound() {
+        Sound dogbark = new Sound("/sounds/longbark2.mp3");
+        dogbark.music();
+    }
+
+
+    /**
+     * doorbellSound Plays the doorbell sound using the music method.
+     */
+    public static void doorbellSound() {
+        Sound doorbell = new Sound("/sounds/doorbell.mp3");
+        doorbell.music();
+    }
+
 }
