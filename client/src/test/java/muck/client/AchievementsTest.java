@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AchievementsTest {
 
     @Test
-    void duplicateAchievement() {
+    void duplicateAchievementTest() {
         if (achievement1_instance == null) {
             achievement1_instance = new Achievements(achievement1, ACHIEVEMENT1TITLE, ACHIEVEMENT1DESCRIPTION);
         }
@@ -15,13 +15,13 @@ public class AchievementsTest {
     }
 
     @Test
-    void achievementLocked() {
+    void achievementLockedTest() {
         Achievements achievement1_instance = new Achievements(achievement1, ACHIEVEMENT1TITLE, ACHIEVEMENT1DESCRIPTION);
         assertFalse(achievement1_instance.achievementStatus);
     }
 
     @Test
-    void achievementUnlocked() {
+    void achievementUnlockedTest() {
         Achievements achievement1_instance = new Achievements(achievement1, ACHIEVEMENT1TITLE, ACHIEVEMENT1DESCRIPTION);
         achievement1_instance.achievementUnlock();
         assertTrue(achievement1_instance.achievementStatus);
