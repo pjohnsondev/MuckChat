@@ -6,12 +6,8 @@ import javafx.util.Duration;
 import muck.core.character.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -26,15 +22,14 @@ public class ClientPlayerListTest {
 
     @BeforeEach
     public void beforeEach() {
-        Player player = new Player("TestUser");
-        Client client = new Client();
-        muckClient = MuckClient.getINSTANCE();
+        this.player = new Player("TestUser");
+        this.client = new Client();
+        this.muckClient = MuckClient.getINSTANCE();
         muckClient.players.put(client.getID(), player.getUsername());
-        ArrayList textBox = new ArrayList();
+        this.textBox = new TextArea();
     }
 
     @Test
-    @Disabled
     public void clientContainsPlayerList() {
         assertAll(
                 () -> assertTrue(muckClient.players.containsKey(client.getID())),
@@ -43,7 +38,6 @@ public class ClientPlayerListTest {
     }
 
     @Test
-    @Disabled
     public void fillPlayerListTest() {
         logger.info("Playerlist contains: " + muckClient.players);
         PlayerListService service = new PlayerListService(textBox);
@@ -52,7 +46,6 @@ public class ClientPlayerListTest {
     }
 
     @Test
-    @Disabled
     public void playerListServiceAddTest() {
         logger.info("Playerlist contains: " + muckClient.players);
         PlayerListService service = new PlayerListService(textBox);
@@ -68,7 +61,6 @@ public class ClientPlayerListTest {
     }
 
     @Test
-    @Disabled
     public void playerListServiceRemoveTest() {
         logger.info("Playerlist contains: " + muckClient.players);
         PlayerListService service = new PlayerListService(textBox);
@@ -79,7 +71,7 @@ public class ClientPlayerListTest {
         } catch (Exception e) {
             logger.info("Unable to make thread sleep " + e);
         }
-        logger.info("The textbox contains: " + textBox.getText());
+        //logger.info("The textbox contains: " + textBox.getText());
         muckClient.players.remove(client.getID());
         try {
             Thread.sleep(1000);
