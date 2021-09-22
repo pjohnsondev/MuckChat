@@ -236,9 +236,7 @@ public class UserModelTest {
      *
      */
     @Test
-    public void FindByIdTest() {
-        //TODO: Fix this test
-        //assertEquals(userService.findById(1).username, testUser1.username);
+    public void FindByIdTest() throws SQLException {
+        assertEquals(userService.findById(userService.findByUsername("Bob19").id).username, testUser1.username);
     }
-
 }
