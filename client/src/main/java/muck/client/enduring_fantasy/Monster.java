@@ -1,17 +1,17 @@
 package muck.client.enduring_fantasy;
-//import muck.client.Dice;
+import muck.client.Dice;
 import java.util.Random;
 
 public class Monster extends Character {
-    //private Dice monster = new Dice(1);
-    private Random monster = new Random();
+    private Dice monster = new Dice(3);
+    //private Random monster = new Random();
     private String mobDets = " ";
     private int dmgtotal = 0;
 
     public Monster() {super("temp_name");}
 
     public void genMonster(int num) {
-        int monsGen = this.monster.nextInt(4);
+        int monsGen = this.monster.Roll(1);
         int monsHealth = num * 100;
         int monsDmg = num * 10;
         if (monsGen <= 1) {
