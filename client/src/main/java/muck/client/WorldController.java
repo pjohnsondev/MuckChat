@@ -66,8 +66,7 @@ public class WorldController {
                         achievement1_instance.achievementPopUp();
                     }
                     // Triggers doorbell sound when entering the inn.
-                    Sound doorbellSound = new Sound("/sounds/doorbell.mp3");
-                    doorbellSound.music();
+                    doorbellSound();
                     //Opens space invaders game
                     gamePane.getChildren().clear();
                     Canvas SICanvas = new Canvas();
@@ -122,8 +121,7 @@ public class WorldController {
                         achievement2_instance.achievementPopUp();
                     }
                     // Triggers doorbell sound when entering the shop.
-                    Sound doorbellSound = new Sound("/sounds/doorbell.mp3");
-                    doorbellSound.music();
+                    doorbellSound();
                     //Opens Frogger game
                     gamePane.getChildren().clear();
                     Canvas FrCanvas = new Canvas();
