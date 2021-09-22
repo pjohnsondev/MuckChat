@@ -35,15 +35,23 @@ public class EnduringFantasyTest {
     }
     @Test
     public void testLvlUp(){
-        logger.info("Testing player is spawned with correct stats. ");
+        logger.info("Testing level up functionality works ");
         Player p = new Player("testName");
         p.setType("Soldier");
         p.setTypeStats();
         p.setNextLvl(0);
         p.incPcLvl();
-
+        int hp = p.getHealth();
+        int dmg = p.getDamage();
+        int mgc = p.getMagicStr();
         int magicPoints= p.getMP();
-        assertEquals(20, magicPoints);
+
+        assertAll("player should be spawned with correct stats for a soldier",
+                () -> assertEquals(2, p.getPlayerLvl()),
+                () -> assertEquals(300, hp),
+                () -> assertEquals(80, dmg),
+                () -> assertEquals(15, mgc),
+                () -> assertEquals(20, magicPoints));
 
     }
 
