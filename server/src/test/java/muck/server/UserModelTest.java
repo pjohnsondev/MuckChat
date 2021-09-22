@@ -64,7 +64,6 @@ public class UserModelTest {
         testUser1.displayName = "Bob Ross";
     }
 
-
     /**
      * Establish a new database connection before each test
      *
@@ -81,6 +80,7 @@ public class UserModelTest {
         if (!testDb.tableExists("users")) {
             userModel.createTable();
         }
+
         // Reset testUser2 each time
         testUser2 = new UserStructure();
         testUser2.username = "testUser2";
@@ -92,7 +92,7 @@ public class UserModelTest {
     }
 
     /**
-     * Close database connection after each test
+     * Remove registered test user and close database connection after each test
      *
      * @throws SQLException
      */
@@ -113,7 +113,7 @@ public class UserModelTest {
      */
     @Test
     public void TableCreationTest() throws SQLException {
-        assertTrue(testDb.tableExists("users"));
+        assertTrue(testDb.tableExists("users"), "The users table does not exist");
     }
 
     /**
@@ -124,9 +124,9 @@ public class UserModelTest {
     @Test
     public void DropTableTest() throws SQLException {
         //TODO: Fix this test
-        //assertTrue(testDb.tableExists("users"));
+        //assertTrue(testDb.tableExists("users"), "The users table does not exist before running dropTable");
         //testDb.dropTable("users");
-        //assertFalse(testDb.tableExists("users"));
+        //assertFalse(testDb.tableExists("users"), "The users table still exists after running dropTable");
         //userModel.closeDbConnection();
     }
 
@@ -140,11 +140,11 @@ public class UserModelTest {
     public void RegisterNewUserTest() throws SQLException {
         testDb.query("SELECT * FROM users WHERE username = 'Bob19'");
         ResultSet rs = testDb.getResultSet();
-        assertTrue(rs.next());
+        assertTrue(rs.next(), "No database entry where username is Bob19");
 
         testDb.query("SELECT * FROM users WHERE username = 'Bob20'");
         ResultSet rs2 = testDb.getResultSet();
-        assertFalse(rs2.next());
+        assertFalse(rs2.next(),"Database entry found for user that has not been registered - suggests logic error");
     }
 
     /**
@@ -198,9 +198,9 @@ public class UserModelTest {
      */
     @Test
     public void AuthenticateUserTest() throws SQLException, ModelNotFoundException {
-        assertTrue(userService.authenticateUser(testUser1));
+        assertTrue(userService.authenticateUser(testUser1), "Authentication failed for testUser1");
         testUser1.password = "Password02";
-        assertFalse(userService.authenticateUser(testUser1));
+        assertFalse(userService.authenticateUser(testUser1), "Authentication succeeded for testUser1 with the incorrect password");
 
         // Reset testUser1's password in order to not upset future tests
         testUser1.password = "Password01";
@@ -214,8 +214,8 @@ public class UserModelTest {
      */
     @Test
     public void FindUserByUsernameTest() throws SQLException {
-        assertEquals(userService.findByUsername("Bob19").username, testUser1.username);
-        assertEquals(userService.findByUsername("Bob19").displayName, testUser1.displayName);
+        assertEquals(userService.findByUsername("Bob19").username, testUser1.username, "Username of the UserStructure found does not match testUser1's username");
+        assertEquals(userService.findByUsername("Bob19").displayName, testUser1.displayName, "displayName of the UserStructure found does not match testUser1's displayName");
         }
 
     /**
@@ -226,17 +226,19 @@ public class UserModelTest {
      */
     @Test
     public void FindUserByDisplaynameTest() throws SQLException {
-        assertEquals(userService.findByDisplayname("Bob Ross").username, testUser1.username);
-        assertEquals(userService.findByDisplayname("Bob Ross").displayName, testUser1.displayName);
+        assertEquals(userService.findByDisplayname("Bob Ross").username, testUser1.username,"Username of the UserStructure found does not match testUser1's username");
+        assertEquals(userService.findByDisplayname("Bob Ross").displayName, testUser1.displayName, "displayName of the UserStructure found does not match testUser1's displayName");
     }
 
     /**
      * The FindByIdTest tests that the findById method, when called on a userID,
      * returns a UserStructure containing the user details associated with that userID
      *
+     * @throws SQLException
      */
     @Test
     public void FindByIdTest() throws SQLException {
-        assertEquals(userService.findById(userService.findByUsername("Bob19").id).username, testUser1.username);
+        assertEquals(userService.findById(userService.findByUsername("Bob19").id).username, testUser1.username,"Username of the UserStructure found does not match testUser1's username");
     }
+
 }
