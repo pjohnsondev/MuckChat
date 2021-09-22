@@ -14,6 +14,7 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Disabled //Due to out of memory error
 public class SpriteTest extends ApplicationTest {
     private static final Logger logger = LogManager.getLogger(SpriteTest.class);
     private String avatar;
