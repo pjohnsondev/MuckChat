@@ -127,21 +127,11 @@ public class Achievements {
             window.setScene(new Scene(parent));
             window.show();
             window.setAlwaysOnTop(true);
-            achievementSounds();
+            Sound.achievementSound();
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-
-    /**
-     * achievementSounds plays a ringing sound. Used in the achievementPopUp method
-     * as an achievement notification appears
-     */
-    public void achievementSounds() {
-        Sound achievementSound = new Sound("/sounds/tilegame.mp3");
-        achievementSound.music();
     }
 
 }

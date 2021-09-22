@@ -144,6 +144,13 @@ public class AvatarController implements Initializable  {
             lockedAvatars(OPEN_WW, wonderWoman, WONDER_WOMAN_PORTRAIT, wonderWomanAlert, "wonderWoman");
             lockedAvatars(OPEN_YOSHI, yoshi, YOSHI_PORTRAIT, yoshiAlert, "yoshi");
 
+            username.setText(displayName);
+
+            submit.addEventHandler(MouseEvent.MOUSE_CLICKED, this::submit);
+            peach.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selection("peach"));
+            batman.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selection("batman"));
+            pikachu.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selection("pikachu"));
+
             // If there is already an avatar associated with a user, display the avatar
             // Will be used in the case of an avatar change
 
@@ -154,17 +161,10 @@ public class AvatarController implements Initializable  {
             } catch (NullPointerException e) {
                 LOGGER.error("Avatar is null");
             }
-        } catch (NullPointerException e) {
+        } catch (Exception e) {
             LOGGER.error("Error with image initialisation");
             e.printStackTrace();
         }
-
-        username.setText(displayName);
-
-        submit.addEventHandler(MouseEvent.MOUSE_CLICKED, this::submit);
-        peach.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selection("peach"));
-        batman.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selection("batman"));
-        pikachu.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selection("pikachu"));
     }
 
     /**
@@ -212,6 +212,19 @@ public class AvatarController implements Initializable  {
         displayName = display;
         avatar = avID;
         muckPoints = muck;
+    }
+
+    /**
+     * For testing purposes.  Allows the MuckPoints to be updated to check unlocked avatars during the testing process
+     * @param username: The player's username
+     * @param display: The player's display name
+     * @param avID: The player's avatarID
+     */
+    public static void avatarCreation(String username, String display, String avID){
+        previous = "playerDashboard";
+        uname = username;
+        displayName = display;
+        avatar = avID;
     }
 
     //TODO: Remove this method once the SignIn Screen sends the window to Muck

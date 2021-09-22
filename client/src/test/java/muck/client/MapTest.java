@@ -32,7 +32,7 @@ public class MapTest {
 
 
     @Test void testOutOfBounds() {
-        Canvas canvas = new Canvas(800,800);
+        final Canvas canvas = new Canvas(800,800);
         GameMap gm = new GameMap(canvas);
         logger.info("Test getTileIndex");
         assertEquals(gm.getTileIndex(20,30,1),0);

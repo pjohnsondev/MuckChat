@@ -137,7 +137,7 @@ public enum MuckServer {
             logger.info("Message is: {}", clientMessage.getMessage());
             logger.info(clientMessage);
             chatQueue.add(clientMessage.getMessage());
-            kryoServer.sendToAllTCP(clientMessage); //Send to all clients connected. Can be switched to send only to one client.
+            kryoServer.sendToAllExceptTCP(connID.getID(), clientMessage); //Send to all clients connected. Can be switched to send only to one client.
         }));
         /**
          * Listens for a newChatLog class coming from the client (or another class).
