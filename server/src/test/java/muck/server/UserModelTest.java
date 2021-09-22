@@ -249,7 +249,7 @@ public class UserModelTest {
      */
     @Test
     public void FindByIdTest() throws SQLException {
-        assertEquals(userService.findById(userService.findByUsername("Bob19").id).username, testUser1.username,"Username of the UserStructure found does not match testUser1's username");
+        assertEquals((userService.findById(testUser1.id)).username, testUser1.username,"Username of the UserStructure found does not match testUser1's username");
     }
 
 }
