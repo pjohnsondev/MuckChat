@@ -14,6 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 import java.util.Random;
 import muck.client.Achievements;
 import static muck.client.Achievements.*;
@@ -92,6 +93,7 @@ public class TicTacToeController {
         if (img.getImage() == null) {
             img.setImage(cross);
             img.setDisable(true);
+            game.setDisable(true); // Disables grid so player cannot cheat and click multiple squares in one turn
             if (!checkWinner()) {
                 computersTurn();
             }
@@ -160,6 +162,7 @@ public class TicTacToeController {
                         event -> {
                             i.set(i.get() + 1);
                             computersSelection();
+                            game.setDisable(false); // Enables grid now that computer has had a turn
                         }
                 )
         );
