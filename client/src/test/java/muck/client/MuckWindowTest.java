@@ -33,7 +33,7 @@ import static org.testfx.matcher.base.NodeMatchers.isEnabled;
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-//@Disabled //Disabled due to out of memory error
+@Disabled //Disabled due to out of memory error
 public class MuckWindowTest extends ApplicationTest {
 
     Stage stage;
@@ -133,8 +133,8 @@ public class MuckWindowTest extends ApplicationTest {
 
         clickOn("#gameReturn");
         assertNotSame(avatar, lookup("#circle").queryAs(Circle.class).getFill());
-        //clickOn("#file");
-        //clickOn("#playerDashboardMenu");
+        clickOn("#file");
+        clickOn("#playerDashboardMenu");
         clickOn("#circle");
         clickOn("#change");
         clickOn("#pikachu");
