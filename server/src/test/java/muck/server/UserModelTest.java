@@ -194,7 +194,7 @@ public class UserModelTest {
      */
     @Test
     public void UserStructureFieldsGeneratedTest() {
-        //assertTrue((testUser1.id != null), "id not set"); // This fails as id is not currently returning to the UserStructure
+        assertTrue((testUser1.id != null), "id not set");
         assertTrue(testUser1.hashedPassword != null, "Hashed password not set");
         assertTrue(testUser1.salt != null, "Salt not set");
     }
