@@ -1,11 +1,11 @@
 package muck.client;
 
+import muck.client.enduring_fantasy.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class EnduringFantasyTest {
 
@@ -17,15 +17,34 @@ public class EnduringFantasyTest {
         assertTrue(true);
     }
     @Test
-    public void testRandomDice(){
-        logger.info("Testing generated random int is between 1 and 10");
-        int sides = 10;
-        int numOfRolls = 9;
-        Dice dice = new Dice(sides);
-        int oneDice = dice.Roll(numOfRolls);
-        assertAll("oneDice should be greater or equal 1 and less than or equal number of sides",
-                () -> assertTrue(oneDice <= sides*numOfRolls),
-                () -> assertTrue(oneDice >= 1));
+    public void testPlayerSpawn(){
+        logger.info("Testing player is spawned with correct stats. ");
+        Player p = new Player("testName");
+        p.setType("Soldier");
+        p.setTypeStats();
+        int hp = p.getHealth();
+        int dmg = p.getDamage();
+        int mgc = p.getMagicStr();
+        int magicPoints= p.getMP();
+
+        assertAll("player should be spawned with correct stats for a soldier",
+                () -> assertEquals(200, hp),
+                () -> assertEquals(50, dmg),
+                () -> assertEquals(5, mgc),
+                () -> assertEquals(10, magicPoints));
+    }
+    @Test
+    public void testLvlUp(){
+        logger.info("Testing player is spawned with correct stats. ");
+        Player p = new Player("testName");
+        p.setType("Soldier");
+        p.setTypeStats();
+        p.setNextLvl(0);
+        p.incPcLvl();
+
+        int magicPoints= p.getMP();
+        assertEquals(20, magicPoints);
+
     }
 
 }

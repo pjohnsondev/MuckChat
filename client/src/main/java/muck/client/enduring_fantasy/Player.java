@@ -22,7 +22,7 @@ public class Player extends Character {
     public void setMagicStr(int mag) { this.magicStr = mag;}
     public int getMP() { return this.magicPoints;}
     public void setMP(int newMP) { this.magicPoints = newMP;}
-    public void incMagPoints(int newPoints) { this.magicPoints = this.magicPoints += newPoints;}
+    public void incMagPoints(int newPoints) { setMP(getMP() + newPoints);}
 
     /** Lets set level stats **/
     public void setNextLvl(int nextLevel) { this.nextLevel = nextLevel;}
@@ -30,12 +30,12 @@ public class Player extends Character {
     public void decNextLvl(int newLvl){ this.nextLevel -= newLvl;}
     public void resetLvl(){ this.nextLevel = this.playerLevel * 150;}
     public int getPlayerLvl(){ return this.playerLevel;}
-    public void setPlayerLvl(int newLvl){ this.playerLevel = newLvl;}
+    public void increasePlayerLvl(int newLvl){ this.playerLevel += newLvl;}
 
     public void incPcLvl() {
         if (this.nextLevel <= 0) {
-            ++this.playerLevel;
-            System.out.println("You have increased your level");
+            increasePlayerLvl(1);
+            //System.out.println("You have increased your level");
             if (getType().equalsIgnoreCase("Soldier")){
                 super.setHealth(super.getHealth() + 100);
                 super.setDmg(super.getDamage() + 30);
@@ -54,7 +54,9 @@ public class Player extends Character {
             }
 
         resetLvl();
-    } else { System.out.println("Your have gained experience");}
+    } else {
+            //System.out.println("Your have gained experience");
+        }
     }
 
 
