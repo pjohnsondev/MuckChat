@@ -3,6 +3,8 @@ package muck.server;
 import muck.core.structures.UserStructure;
 import muck.server.Exceptions.ModelNotFoundException;
 import muck.server.Exceptions.UserNameAlreadyTakenException;
+import muck.server.database.Database;
+import muck.server.models.models.PlayerModel;
 import muck.server.models.models.UserModel;
 import muck.server.services.UserService;
 import muck.server.testHelpers.TestDatabase;
@@ -22,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class UserModelTest {
     private static final Logger logger = LogManager.getLogger(DatabaseTest.class);
 
-    private TestDatabase testDb;
+    private Database testDb;
     private UserModel userModel;
     private UserService userService;
     private UserStructure testUser1;
@@ -74,13 +76,12 @@ public class UserModelTest {
     public void beforeEach() throws SQLException, UserNameAlreadyTakenException {
         logger.info("This message prints BEFORE each test runs");
         // Reset database using testDb
-        testDb = new TestDatabase();
+        testDb = TestDatabase.getINSTANCE();
         userModel = new UserModel(testDb);
         userService = new UserService(userModel);
         if (!testDb.tableExists("users")) {
             userModel.createTable();
         }
-
         // Reset testUser2 each time
         testUser2 = new UserStructure();
         testUser2.username = "testUser2";

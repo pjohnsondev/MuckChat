@@ -5,6 +5,7 @@ import muck.core.structures.PlayerStructure;
 import muck.core.structures.UserStructure;
 import muck.server.Exceptions.MissingNecessaryPlayerInfoException;
 import muck.server.Exceptions.UserNameAlreadyTakenException;
+import muck.server.database.Database;
 import muck.server.models.models.PlayerModel;
 import muck.server.models.models.UserModel;
 import muck.server.services.PlayerService;
@@ -24,11 +25,11 @@ import java.sql.SQLException;
 public class PlayerServiceTest {
 
     private static final Logger logger = LogManager.getLogger(PlayerManagerTest.class);
-    private TestDatabase testDb = new TestDatabase();
-    private UserModel userModel = new UserModel(testDb);
-    private UserService userService = new UserService(userModel);
-    private PlayerModel playerModel = new PlayerModel(testDb);
-    private PlayerService playerService = new PlayerService(playerModel);
+    private Database testDb;
+    private UserModel userModel;
+    private UserService userService;
+    private PlayerModel playerModel;
+    private PlayerService playerService;
 
     private UserStructure userStructure;
 
@@ -36,7 +37,7 @@ public class PlayerServiceTest {
     public void beforeEach() throws SQLException{
         logger.info("This message prints BEFORE each test runs");
         // reset database using testDB
-        testDb = new TestDatabase();
+        testDb = TestDatabase.getINSTANCE();
         userModel = new UserModel(testDb);
         if (!testDb.tableExists("users")) {
             userModel.createTable();
@@ -45,6 +46,8 @@ public class PlayerServiceTest {
             playerModel.createTable();
         }
         userService = new UserService(userModel);
+        playerModel = new PlayerModel(testDb);
+        playerService = new PlayerService(playerModel);
         UserStructure userStructure = new UserStructure();
         userStructure.username = "timTheTester";
         userStructure.password = "timTheTester";

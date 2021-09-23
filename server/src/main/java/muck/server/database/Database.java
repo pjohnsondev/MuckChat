@@ -13,6 +13,8 @@ abstract public class Database {
     private Connection conn;
     private PreparedStatement statement;
 
+    protected static Database INSTANCE;
+
     
     // This function was developed using this tutorial: 
     // https://www.sqlitetutorial.net/sqlite-java/sqlite-jdbc-driver/
@@ -52,10 +54,26 @@ abstract public class Database {
     public void closeConnection() {
         try {
             if (conn != null) {
+                /*
                 conn.close();
             }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            if (INSTANCE!=null){
+            */
+                DriverManager.getConnection("jdbc:derby:;shutdown=true");
+                INSTANCE =null;
+            }
+
+
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            if (ex.getSQLState().equals("XJ015")) {
+                System.out.println("Derby shutdown normally");
+            } else {
+                // could not shut down the database
+                // handle appropriately
+                System.out.println("Derby shutdown was not achieved");
+            }
         }
     }
 
@@ -315,8 +333,10 @@ abstract public class Database {
         statement.setDate(pIndex,parameter);
     }
 
+    /*
     protected void finalize() throws Throwable {
         try {
+
             DriverManager.getConnection("jdbc:derby:;shutdown=true");
 
         } catch (SQLException ex) {
@@ -329,5 +349,7 @@ abstract public class Database {
             }
         }
     }
+
+     */
     //END PREPARED STATEMENT BINDINGS
 }

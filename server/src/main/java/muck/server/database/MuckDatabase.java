@@ -5,11 +5,9 @@ package muck.server.database;
  * Extends the database class
  */
 public class MuckDatabase extends Database {
-    /** The single instance of the server that exists */
-    private static MuckDatabase INSTANCE;
 
     /** Gets the MuckServer object */
-    public static MuckDatabase getINSTANCE() {
+    public static Database getINSTANCE() {
         if (INSTANCE == null) {
             System.out.println("attempting to create Muck Database");
             INSTANCE = new MuckDatabase();

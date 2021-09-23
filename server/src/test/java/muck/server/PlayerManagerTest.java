@@ -3,6 +3,7 @@ package muck.server;
 import muck.core.character.CharacterDoesNotExistException;
 import muck.core.character.Player;
 import muck.server.Exceptions.UserNameAlreadyTakenException;
+import muck.server.database.Database;
 import muck.server.models.models.UserModel;
 import muck.server.services.UserService;
 import muck.core.structures.UserStructure;
@@ -21,9 +22,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PlayerManagerTest {
 
     private static final Logger logger = LogManager.getLogger(PlayerManagerTest.class);
-    private TestDatabase testDb = new TestDatabase();
-    private UserModel userModel = new UserModel(testDb);
-    private UserService userService = new UserService(userModel);
+    private Database testDb;
+    private UserModel userModel;
+    private UserService userService;
 
 
     /**
@@ -33,7 +34,7 @@ public class PlayerManagerTest {
     public void beforeEach() throws SQLException{
         logger.info("This message prints BEFORE each test runs");
         // reset database using testDB
-        testDb = new TestDatabase();
+        testDb = TestDatabase.getINSTANCE();
         userModel = new UserModel(testDb);
         if (!testDb.tableExists("users")) {
             userModel.createTable();

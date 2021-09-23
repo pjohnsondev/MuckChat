@@ -1,5 +1,6 @@
 package muck.server;
 
+import muck.server.database.Database;
 import muck.server.models.models.MessageModel;
 import muck.server.models.models.UserModel;
 import muck.server.services.ChatDBService;
@@ -24,14 +25,14 @@ public class ChatDatabaseTest {
 
     private static final Logger logger = LogManager.getLogger(DatabaseTest.class);
 
-    private TestDatabase testDb = new TestDatabase();
+    private Database testDb;
     private ChatDBService chatService;
 
     @BeforeEach
     public void beforeEach() throws SQLException {
         logger.info("This message prints BEFORE each test runs");
 //         reset database using testDB
-        testDb = new TestDatabase();
+        testDb = TestDatabase.getINSTANCE();
         chatService = new ChatDBService(testDb);
     }
 
