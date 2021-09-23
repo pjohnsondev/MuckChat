@@ -282,24 +282,30 @@ public class CardTest {
 
     }
 
-    //reorderHand
+    @Test
+    public void testReorderHand() {
+        // add 1 hand to the cards array
+        // test if card 1 is higher than card 2 etc until true
+        // reorder the hand, test again
+    }
 
 
-    //checkForSet
+    //TODO create this test
+    @Test
+    public void testCheckForSet() {
+
+    }
 
 
 
     // ************************************** PLAYER TESTS ****************************************** /
 
 
-    //addScore
-
-
-    // getScore
-
-
-
-
-
-
+    @Test
+    public void testAddScoreAndGetScore() {
+        logger.info("testing that the player score can be obtained and is incremented");
+        assertEquals(0, player.getScore());
+        player.addScore();
+        assertEquals(1, player.getScore());
+    }
 }
