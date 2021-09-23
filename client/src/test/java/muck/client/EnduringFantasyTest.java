@@ -46,7 +46,7 @@ public class EnduringFantasyTest {
         int mgc = p.getMagicStr();
         int magicPoints= p.getMP();
 
-        assertAll("player should be spawned with correct stats for a soldier",
+        assertAll("player now be lvl 2, with increased stats.",
                 () -> assertEquals(2, p.getPlayerLvl()),
                 () -> assertEquals(300, hp),
                 () -> assertEquals(80, dmg),
