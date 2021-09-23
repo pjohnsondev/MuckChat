@@ -1,5 +1,8 @@
 package muck.core;
 
+/**
+ * Class that specifies status codes returned after any request from the server
+ */
 public class ResponseCodes {
     public static final int OK = 200;
     public static final int SERVER_ERROR = 500;

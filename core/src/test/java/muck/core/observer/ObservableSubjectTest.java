@@ -21,7 +21,6 @@ public class ObservableSubjectTest {
     public class TestObserver implements Observer<TestClass> {
         @Override
         public void update(TestClass message) {
-
         }
     }
 

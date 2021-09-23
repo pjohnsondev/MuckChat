@@ -82,6 +82,7 @@ public class SignInController implements Observer<LoginResponse> {
 
     public boolean sendData(String userName, String passwordText){
         try {
+            // subscribe this class to notifications regarding registration results
             MuckClient.getINSTANCE().loginResponseNotifier.register(this);
             MuckClient.getINSTANCE().login(userName, passwordText);
             error.setText("Data Sent");
@@ -114,6 +115,11 @@ public class SignInController implements Observer<LoginResponse> {
         }
     }
 
+    /**
+     * This method gets the result of the signin request to the server.
+     * Once the result is received, this method unsubscribes to the notifications.
+     * @param loginResponse
+     */
     @Override
     public void update(LoginResponse loginResponse) {
         if(loginResponse.getResultCode() == ResponseCodes.OK) {

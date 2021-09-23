@@ -144,10 +144,12 @@ public enum MuckServer {
 			kryoServer.sendToTCP(connection.getID(), new LocationResponse(locs));
 		}));
 
+        // listen for signup requests from the server
 		addListener(ListenerBuilder.forClass(SignUpInfo.class).onReceive((connection, signup) -> {
 			createAccount(signup, (MuckConnection) connection);
 		}));
 
+        // listen for login requests from the server
         addListener(ListenerBuilder.forClass(Login.class).onReceive((connection, login) -> {
             loginPlayer(login, (MuckConnection) connection);
         }));
@@ -157,6 +159,12 @@ public enum MuckServer {
 		}));
 	}
 
+    /**
+     * Creates an account based on data received from a signup request
+     * Sends the signup response from the server to the client
+     * @param signUpInfo
+     * @param connection
+     */
 	public void createAccount(SignUpInfo signUpInfo, MuckConnection connection) {
         logger.info("Attempting to create account {}.", signUpInfo.getUsername());
 
@@ -211,6 +219,12 @@ public enum MuckServer {
         kryoServer.sendToTCP(connection.getID(), signupResponse);
 	}
 
+    /**
+     * Log in player/user based on data received from a login request
+     * Sends the login response from the server to the client
+     * @param login
+     * @param muckConnection
+     */
 	public void loginPlayer(Login login, MuckConnection muckConnection) {
 		logger.info("Attempting to log in");
 		logger.debug("{} is trying to log in", login.getUsername());

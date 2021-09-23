@@ -24,7 +24,6 @@ public class PlayerManagerTest {
     private UserModel userModel = new UserModel(testDb);
     private UserService userService = new UserService(userModel);
 
-
     /**
      * Establish a new database connection before each test
      */
@@ -38,27 +37,6 @@ public class PlayerManagerTest {
             userModel.createTable();
         }
         userService = new UserService(userModel);
-    }
-
-//    @AfterEach
-//    public void afterEach() throws SQLException {
-//        logger.info("This message gets printed after each test runs");
-//        dropAndClose(userModel, testDb);
-//    }
-
-    // A little test helper
-    private void resetTable(UserModel userModel, TestDatabase testDb) throws SQLException {
-
-        userModel.closeDbConnection();
-        userModel.changeDb(testDb);
-        testDb.dropTable("users");
-        userService = new UserService(userModel);
-        userModel.createTable();
-    }
-
-    private void dropAndClose(UserModel userModel, TestDatabase testDb) throws SQLException {
-        testDb.dropTable("users");
-        userModel.closeDbConnection();
     }
 
     @Test

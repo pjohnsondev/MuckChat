@@ -1,5 +1,8 @@
 package muck.core;
 
+/**
+ * Class that represents the result of a signup
+ */
 public class SignupResponse {
     private String username;
     private int resultCode;

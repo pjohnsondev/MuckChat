@@ -166,12 +166,12 @@ public enum MuckClient {
 			ActiveUser.getInstance().setUserStructure(response);
 		}));
 
-		// signup response
+		// listen for signup response from the server
 		client.addListener(ListenerBuilder.forClass(SignupResponse.class).onReceive((connID, response) -> {
 			signupResponseNotifier.notifyObservers(response);
 		}));
 
-		// login response
+		// listen for login response from the server
 		client.addListener(ListenerBuilder.forClass(LoginResponse.class).onReceive((connID, response) -> {
 			loginResponseNotifier.notifyObservers(response);
 		}));

@@ -194,6 +194,7 @@ public class SignUpController implements Observer<SignupResponse> {
 
         if (validated) {
             try {
+                // subscribe this class to notifications regarding registration results
                 MuckClient.getINSTANCE().signupResponseNotifier.register(this);
                 MuckClient.getINSTANCE().signUp(userName, passwordText, displayName);
                 error.setText("New muck user created" + userName);
@@ -251,6 +252,11 @@ public class SignUpController implements Observer<SignupResponse> {
         }
     }
 
+    /**
+     * This method gets the result of the signup request to the server.
+     * Once the result is received, this method unsubscribes to the notifications.
+     * @param signUpResponse
+     */
     @Override
     public void update(SignupResponse signUpResponse) {
         if(signUpResponse.getResultCode() == ResponseCodes.OK) {
