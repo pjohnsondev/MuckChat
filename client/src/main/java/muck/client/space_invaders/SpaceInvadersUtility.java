@@ -19,6 +19,13 @@ public class SpaceInvadersUtility {
     public static final int ENEMY_MEDIUM_LIVES = 2;
     public static final int ENEMY_BIG_LIVES = 3;
 
+    /**
+     * Reference for Sprites
+     * URL: https://ansimuz.itch.io/spaceship-shooter-environment
+     * Title: Spaceship Shooter Environment
+     * Author: Ansimuz
+     * Licence: Free
+     */
     public static Map<String, String> imageURLs = Map.ofEntries(
             entry("ENEMY_SMALL","/images/spaceinvaders/enemy-small.gif"),
             entry("ENEMY_MEDIUM", "/images/spaceinvaders/enemy-medium.gif"),
