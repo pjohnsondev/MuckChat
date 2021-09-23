@@ -104,7 +104,7 @@ public class LandingPageEf extends Node {
         playButton.setOnAction(event -> {
 
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/EnduringFantasyGame.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/EnduringFantasy/EnduringFantasyGame.fxml"));
                 Parent root1 = (Parent) fxmlLoader.load();
                 Stage stage1 = new Stage();
                 stage1.initModality(Modality.WINDOW_MODAL);
