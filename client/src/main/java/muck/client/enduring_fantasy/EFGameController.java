@@ -159,14 +159,6 @@ public class EFGameController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-
-        //atk_button.setOnAction(pcAtk());
-       // rest_button.setOnAction(this.pcRest());
-        magicList.getItems().addAll(spells);
-        magicList.getSelectionModel().selectFirst();
-        itemList.getItems().addAll(items);
-        itemList.getSelectionModel().selectFirst();
-
     }
 
 
