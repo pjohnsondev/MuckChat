@@ -1,4 +1,5 @@
 package muck.client.card_games;
+import java.util.ArrayList;
 import java.util.Random;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -189,10 +190,11 @@ public class CardTest {
 
     //TODO - Adding to computer/player array in the computer opponent class
 
-    //TODO
+    //TODO Implement this test
     @Test
     public void testAskForCard() {
-        assertEquals(1, 1);
+
+
     }
 
     // ************************************** GAME TESTS ****************************************** /
@@ -256,21 +258,44 @@ public class CardTest {
 
     //TODO
     @Test
-    public void testSelectAll() {
-        logger.info("Testing that the select all cards method is working as intended");
-        // draw 20 cards from the deck and add to the cards array
+    public void testSelectAndDeselectAll() {
+        logger.info("Testing that the select all cards method marks the selected value of matching cards as true, and Deselect all deselects all cards");
+        // draw all cards from the deck and add to the cards array
+        for(int i = 0; i < 52; i++) {
+            myHand.drawTopCard(myDeck);
+        }
+
         // get the value of the first card
-        // add all matching cards to another empty array
-        // test the selected value of all cards in the new array
+        int value = myHand.cards.get(0).getMatchId();
+
+        // remove all but matching cards from the array
+        for(int i = myHand.cards.size() -1; i > 0; i--) {
+            if (myHand.cards.get(i).getMatchId() != value) {
+                myHand.cards.remove(i);
+            }
+        }
+
+        // test that the array is now only 4 cards - 1 matching set
+        assertEquals(4, myHand.cards.size());
+
+        // Set the selected value of all cards in the new array
+        myHand.selectAll(myHand.cards.get(0));
+
+        // Test that all cards are now marked as selected
+        for (int i = 0; i < myHand.cards.size(); i++) {
+            assertTrue(myHand.cards.get(i).getSelectedValue());
+        }
+
+        // deselect all cards
+        myHand.deselectAll();
+
+        // test that all cards are now not selected
+        for (int i = 0; i < myHand.cards.size(); i++) {
+            assertFalse(myHand.cards.get(i).getSelectedValue());
+        }
     }
 
-    // TODO
-    @Test
-    public void testDeselectAll() {
-        // Same as above but just choose 20 random cards in a new array
-        // set all the values to true with a for loop
-        // deselect all then test all cards for selected value
-    }
+
 
     // TODO
     // TODO May need to update this test once the check for 4 is put into place
