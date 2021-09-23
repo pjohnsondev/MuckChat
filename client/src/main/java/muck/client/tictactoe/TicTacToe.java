@@ -4,7 +4,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 
 //Class that launches the Tic Tac Toe game
 public class TicTacToe extends Application {
@@ -17,9 +19,11 @@ public class TicTacToe extends Application {
             scene.setRoot(root);
             Stage stage = new Stage();
             stage.setTitle("Muck Tic Tac Toe");
+            stage.setResizable(false);
+            stage.setAlwaysOnTop(true);
             stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.show();
-
         } catch (Exception e) {
             e.printStackTrace();
         }

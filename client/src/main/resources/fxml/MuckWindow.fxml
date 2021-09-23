@@ -85,7 +85,7 @@
                </graphic></MenuItem>
                 <MenuItem id="enduringFantasyMenu" fx:id="enduringFantasyMenu" mnemonicParsing="false" text="Enduring Fantasy">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="25.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../images/dragoon.png" />
                   </ImageView>
                </graphic></MenuItem>

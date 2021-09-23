@@ -206,6 +206,7 @@ public class SpaceInvaders {
         // Draw and move player
         if (endGame == false) {
             gc.drawImage(player, player.getX(), player.getY());
+            player.boundPlayer(PLAYER_SIZE, PLAYER_SIZE, WIDTH, HEIGHT);
         }
 
         if (directionKeyCount.get() > 0) {
