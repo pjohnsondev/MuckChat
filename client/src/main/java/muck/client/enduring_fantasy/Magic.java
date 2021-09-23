@@ -8,6 +8,7 @@ public class Magic {
     private boolean confirmMag;
     private boolean confirmDmg;
 
+
     public Magic(Player newPlay, int playMp){
         this.pChar = newPlay;
         this.mPcMp = playMp;
@@ -16,11 +17,15 @@ public class Magic {
 //        this.confirmDmg;
     }
 
+
+    /** Sets the dialog and bounding box for Magic Used **/
     public void magicMenu() {
         System.out.println("*-----* Magic *-----*\nPlease select what magic you want to use: \nUse Igni - Cost 5 MP - Fire" +
                 "\nUse Ici - Cost 5 MP - Ice\nUse Levin - Cost 5 MP - Lightning\nUse Lumis - Cost 20 MP - Light \nUse Scathe - Cost 20 MP - Dark\nExit - exit");
     }
 
+
+    /** Confirms you can actually cast the spell selected **/
     public void confirmMagic() {
         if (this.mPcMp >= this.mCost) {
             this.confirmMag = true;
@@ -32,24 +37,24 @@ public class Magic {
 
     }
 
+
+    /** Sets and returns the variables and actions for Magic **/
     public boolean getConfirmMag() {
         return this.confirmMag;
     }
-
     public boolean getConfirmDmg() {
         return this.confirmDmg;
     }
-
     public int getPlayerMp() {return this.mPcMp; }
-
     public int getMpCost() {
         return this.mCost;
     }
-
     public int getMagicDmg() {
         return this.mDmg;
     }
 
+
+    /** Sets the moderator for the magic used and its reaction **/
     public void useMagic(String magicName) {
         if (!magicName.equalsIgnoreCase("Igni") && !magicName.equalsIgnoreCase("Levin") && !magicName.equalsIgnoreCase("Ici")) {
             if (magicName.equalsIgnoreCase("Lumis")) {
@@ -63,6 +68,8 @@ public class Magic {
 
     }
 
+
+    /** Sets the dialog and applies dammage for the lesser elemental spells **/
     public void useElemental(String magicName) {
         this.confirmMagic();
         if (this.getConfirmMag()) {
@@ -79,6 +86,8 @@ public class Magic {
         }
     }
 
+
+    /** Sets the dialog and applies dammage for Lumis **/
     public void useLumis() {
         this.confirmMagic();
         this.mCost = 20;
@@ -89,6 +98,8 @@ public class Magic {
         }
     }
 
+
+    /** Sets the dialog and applies dammage for Scathe **/
     public void useScathe() {
         this.confirmMagic();
         if (this.getConfirmMag()) {
