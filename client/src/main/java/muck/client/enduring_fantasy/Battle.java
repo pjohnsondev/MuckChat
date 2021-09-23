@@ -12,26 +12,30 @@ public class Battle {
     private Player player;
     private Magic magic;
 
+
     /** Player Variables **/
+    /** Setting methods to get and change stats **/
     public int getPcHp(){ return this.pcHp; }
     public void setPcHp(int newHp){ this.pcHp = newHp;}
     public int getPcMp(){ return this.pcMp;}
-    public void setPcMp(int newMp){ this.pcMp = newMp; }
+    public void setPcMp(int newMp){ this.pcMp = newMp;}
     public int getPcStr(){ return this.pcStr; }
     public int getPcMag(){ return this.pcMp; }
 
 
-    /** Load the monster stats **/
+    /** Load the monster and its stats **/
     private int mobHp;
-
     private Monster monster = new Monster();
 
-    /** Load the monster variables**/
+
+    /** Settign methods to get and change monster stats **/
     public int getMobHp(){ return this.mobHp; }
     public void decMobHp(int dmg){ this.mobHp -= dmg;}
     public String getMobName(){ return this.monster.getName(); }
     public int getMobDmg(){ return this.monster.getDamage(); }
 
+
+    /** generate a monster **/
     public void mobGen(){
         this.monster.genMonster(this.pcLvl);
         this.mobHp = this.monster.getHealth();
@@ -39,6 +43,7 @@ public class Battle {
 
 
     /** Set up the battle class **/
+    /** Generate a character and integrate their stats**/
     public Battle(Player newPc) {
         this.player = newPc;
         this.pcHp = this.player.getHealth();
@@ -51,41 +56,47 @@ public class Battle {
     }
 
 
-    /** Set up the command box **/
+    /** Sets up the command box and dialog to be used **/
     public void battleActions() {
         System.out.println("*----------*");
         System.out.println("Name: " + this.player.getName() + " HP: " + this.pcHp + " MP: " + this.pcMp +
                 " STR: " + this.pcStr + "\nMana: " + this.pcMag + " Lvl: " + this.pcLvl +
                 " Next Lvl: " + this.nextLvl);
-        System.out.println("*-----* Commands *-----*\nChoose your move! \nObserve the Monster - Check\n" +
+        System.out.println("*-----* Commands *-----*\nWhat do we do? \nObserve the Monster - Check\n" +
                 "Attack - Atk\nUse Magic - Magic\nRecover MP - Rest");
         System.out.print("Your Action: ");
     }
 
+    /** Lets set up the action command window options **/
     public void battleInput(String input){
-        /** Lets set up the action command window options **/
         if (input.equalsIgnoreCase("Attack")){ this.pcAtk();
-        //} else if (input.equalsIgnoreCase("Magic")){ this.magTree();
         } else if (input.equalsIgnoreCase("Rest")){ this.pcRest();
         } else if (input.equalsIgnoreCase("Check")){ this.pcCheck();
-        }// else if (input.equalsIgnoreCase("Item")){ this.itemSelector();
-        //} else if (input.equalsIgnoreCase("Flee")){ this.pcFlee();}
+        }
     }
 
+
+    /** Lets set up what happens when the monsters checked **/
     public void pcCheck(){ this.monster.getMobDets(); }
 
+
+    /** Sets the flag for character death **/
     public boolean pcDeath(){
         boolean dead = false;
         if (this.pcHp <= 0){ dead = true;}
         return dead;
     }
 
+
+    /** sets the dialog for when a player attacks**/
     public void pcAtk(){
         this.decMobHp(this.pcStr);
         System.out.println("*----------*");
         System.out.println(this.player.getName() + " lands a blow for " + this.pcStr + " on the " + this.monster.getName());
     }
 
+
+    /** sets the dialog for when the monster attacks**/
     public void mobAtk() {
         if (this.getMobName().equalsIgnoreCase("Rat")) {
             System.out.println("the Rat bites " + this.player.getName());
@@ -96,6 +107,8 @@ public class Battle {
         this.pcHp -= this.getMobDmg();
     }
 
+
+    /** Sets the method for the character to recover MP**/
     public void pcRest(){
         int mpRegen = this.pcLvl * 7;
         this.pcMp += mpRegen;
@@ -104,12 +117,16 @@ public class Battle {
         }
     }
 
+
+    /** opens the magic menu and dialog for magic selection **/
     public void magicSelection(){
         this.magic = new Magic(this.player, this.pcMp);
         this.magic.magicMenu();
         System.out.print("Select the magic: ");
     }
 
+
+    /** Sets the method for the character to use magic.  if the monster lives, it retaliates**/
     public void useMagic(String magicName){
         this.magic = new Magic(this.player, this.pcMp);
         this.magic.useMagic(magicName);
@@ -122,6 +139,4 @@ public class Battle {
             }
         }
     }
-
-    //public void itemSelector(){ Place holder }
  }
