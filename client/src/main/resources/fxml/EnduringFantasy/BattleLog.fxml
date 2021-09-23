@@ -5,7 +5,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="139.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="battleLog" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="247.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.enduring_fantasy.BattleLogController">
    <children>
       <DialogPane prefHeight="247.0" prefWidth="700.0" style="-fx-background-color: #0000FF; -fx-border-color: #FFFFFF;">
          <header>
@@ -16,7 +16,7 @@
             </Text>
          </header>
          <content>
-            <Text fill="WHITE" lineSpacing="10.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BATTLE LOG THIS THAT AND ALL THATBATTLE LOG THIS THAT AND ALL THATBATTLE LOG THIS THAT AND ALL THATBATTLE LOG THIS THAT AND ALL THATBATTLE LOG THIS THAT AND ALL THATBATTLE LOG THIS THAT AND ALL THATBATTLE LOG THIS THAT AND ALL THATBATTLE LOG THIS THAT AND ALL THATBATTLE LOG THIS THAT AND ALL THATBATTLE LOG THIS THAT AND ALL THAT" textAlignment="CENTER" wrappingWidth="696.7734375">
+            <Text fill="WHITE" lineSpacing="10.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BATTLE LOG THIS THAT AND ALL THAT" textAlignment="CENTER" wrappingWidth="696.7734375">
                <font>
                   <Font name="Impact" size="14.0" />
                </font>
