@@ -294,6 +294,7 @@ public class CardsGameController implements Initializable {
                         }
                     }
 
+                    game.player2.addingToPlayerTurns(ask);
                     int newCards = game.playersAsk(ask);
                     if (newCards > 0) {
 

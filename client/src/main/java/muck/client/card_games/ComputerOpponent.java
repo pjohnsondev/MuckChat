@@ -36,29 +36,29 @@ public class ComputerOpponent extends Player {
 
     /**
      *
-     * @param card
+     * @param matchId
      */
-    public void addingToComputerTurns(Card card){
+    public void addingToComputerTurns(int matchId){
         for (int i = (arrayLength) - 2; i > 0; i--) {
             if (computerTurns[i] != 0){
                 computerTurns[i + 1] = computerTurns[i];
             }
         }
-        computerTurns[0] = card.getMatchId();
+        computerTurns[0] = matchId;
     }
 
 
     /**
      *
-     * @param card
+     * @param matchId
      */
-    public void addingToPlayerTurns(Card card){
+    public void addingToPlayerTurns(int matchId){
         for (int i = (arrayLength) - 2; i > 0; i--) {
             if (playerTurns[i] != 0){
                 playerTurns[i + 1] = playerTurns[i];
             }
         }
-        computerTurns[0] = card.getMatchId();
+        computerTurns[0] = matchId;
     }
 
 
