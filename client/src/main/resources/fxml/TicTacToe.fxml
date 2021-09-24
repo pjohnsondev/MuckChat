@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="517.0" prefWidth="491.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.tictactoe.TicTacToeController">
+      <GridPane id="game" fx:id="game" gridLinesVisible="true" layoutX="57.0" layoutY="21.0" prefHeight="353.0" prefWidth="378.0" style="-fx-border-color: black; -fx-background-color: white;">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="129.0" minWidth="10.0" prefWidth="129.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="129.0" minWidth="10.0" prefWidth="129.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="129.0" minWidth="10.0" prefWidth="129.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+            <ImageView id="one" fx:id="one" fitHeight="119.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView id="two" fx:id="two" fitHeight="119.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+            <ImageView id="three" fx:id="three" fitHeight="119.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+            <ImageView id="four" fx:id="four" fitHeight="119.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+            <ImageView id="five" fx:id="five" fitHeight="119.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ImageView id="six" fx:id="six" fitHeight="119.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <ImageView id="seven" fx:id="seven" fitHeight="119.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+            <ImageView id="eight" fx:id="eight" fitHeight="119.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ImageView id="nine" fx:id="nine" fitHeight="119.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+      </GridPane>
+      <Text id="status" fx:id="status" layoutX="24.0" layoutY="409.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="443.13671875">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <Button id="exit" fx:id="exit" cancelButton="true" layoutX="130.0" layoutY="427.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="88.0" style="-fx-background-color: black;" text="Exit" textFill="WHITE" />
+      <Button id="play" fx:id="play" layoutX="275.0" layoutY="427.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="88.0" style="-fx-background-color: black;" text="Play again?" textFill="#f8f8f8" />
+      <Text layoutX="130.0" layoutY="490.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Computer:" wrappingWidth="88.0">
+      <font>
+         <Font size="15.0" />
+      </font></Text>
+      <Text layoutX="287.0" layoutY="490.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player:" wrappingWidth="62.13671875">
+      <font>
+         <Font size="15.0" />
+      </font></Text>
+      <Text id="compTally" fx:id="compTally" layoutX="207.0" layoutY="490.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="39.0">
+      <font>
+         <Font size="15.0" />
+      </font></Text>
+      <Text id="playerTally" fx:id="playerTally" layoutX="339.0" layoutY="490.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="39.0">
+      <font>
+         <Font size="15.0" />
+      </font></Text>
+</AnchorPane>

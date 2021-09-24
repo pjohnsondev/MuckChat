@@ -11,28 +11,33 @@ public class Player extends Character {
      * Example usage: Player player1 = new Player("my_username");
      */
     private String username;
+    ArrayList<String[]> currentAchievements = new ArrayList<>();
 
+    /**
+     * Create new Player or retrieve an existing Player from database
+     * @param username Player username
+     */
     public Player(String username) {
-        //TODO - Retrieve the username identifier from the backend database, then populate all fields with 
+        this.username = username;
+        // Update: Backend feature not fully integrated into final build (group size limited to 2 members, we had to
+        //    limit our original feature scope
+        
+        //Retrieve the username identifier from the backend database, then populate all fields with
         // player values from the database
-        /*boolean databaseRetrievalSuccessful = StorageHandler.isPlayerValid(username);
+        /*
+        boolean databaseRetrievalSuccessful = StorageHandler.isPlayerValid(username);
         if (!databaseRetrievalSuccessful) {
             throw new CharacterDoesNotExistException(username);
         }
-
         this.setAvatar("some avatar retrieved from backend"); //further colab with issue #7 required
         this.setIdentifier(username);
         */
 
-        this.username = username;
-    }
-
-    /**
-     * Dummy constructor for a player object with a "null" identifier. Does not
-     * check with backend storage for a valid username. Should only be used for unit tests that don't use backend
-     */
-    public Player() {
-        this.setIdentifier(null);
+        // If Player exists get stats
+        if(!username.isEmpty()) {
+            // Placeholder for Player Dashboard Controller
+            setPlayerStats(100, 10, 10);
+        }
     }
 
     /**
@@ -60,33 +65,37 @@ public class Player extends Character {
      * @param achievement Name of achievement
      */
     public void addAchievement(String achievement, String achievementDescription) {
-        //TODO: Confirm query
+        // Update: Backend feature not fully integrated into final build (group size limited to 2 members, we had to
+        //    limit our original feature scope
         String query = "INSERT INTO Player(identifier, achievement, description) VALUES (?, ?, ?)";
         StorageHandler.addToPlayer(query, this.getIdentifier(), achievement, achievementDescription);
+
+        // No database interaction, storing achievements locally
+        currentAchievements.add(new String[]{achievement, achievementDescription});
     }
 
     /**
      * Retrieves Players achievements
-     * @return A String array of all player achievements
+     * @return A String array ArrayList of all player achievements
      */
-    public String[][] getAchievements() {
-        //TODO: Confirm query
+    public ArrayList<String[]> getAchievements() {
+        // Update: Backend feature not fully integrated into final build (group size limited to 2 members, we had to
+        //    limit our original feature scope
         String query = "SELECT achievement, achievementDescription FROM Player WHERE identifier = ?";
         ArrayList<String> achievementList = StorageHandler.queryPlayer(query, this.getIdentifier());
+        ArrayList<String[]> playerAchievements = new ArrayList<>();
 
-        // Convert from ArrayList to Two Dim Array
-        String[][] playerAchievements = new String[achievementList.size()/2][2];
-
-        for(int i = 0; i < achievementList.size(); i += 2){
-            playerAchievements[i][0] = achievementList.get(i);
-            playerAchievements[i][1] = achievementList.get(i+1);
+        for(int i = 0; i < achievementList.size(); i += 2) {
+            playerAchievements.add(new String[]{achievementList.get(i), achievementList.get(i+1)});
         }
 
-        return playerAchievements;
+        // No database interaction, returning locally stored achievements
+        // return playerAchievements;
+        return currentAchievements;
     }
 
     /**
-     * Feature has been abandoned current group, however, it may be picked up later on
+     * *****Feature has been abandoned current group, however, it may be picked up later on*****
      * Trades a single collectable currently held by the player with another existing player
      * Collaborate with Issue 10
      * @param collectable Collectable item to trade
@@ -94,11 +103,13 @@ public class Player extends Character {
      * @return If player to player collectable transaction is successful return true. Otherwise, return false
      */
     public boolean tradeCollectable(String collectable, String otherPlayer) {
+        // Update: Backend feature not fully integrated into final build (group size limited to 2 members, we had to
+        //    limit our original feature scope
         boolean hasCollectable = false;
         boolean otherPlayerExists = false;
         boolean tradeSuccessful = false;
 
-        String[] currentCollectables = this.getInventory();
+        ArrayList<String> currentCollectables = this.getInventory();
 
         // Check if the Player currently holds the collectable
         for(String item : currentCollectables) {
@@ -108,14 +119,12 @@ public class Player extends Character {
             }
         }
 
-        //TODO: Does the other player currently exist in the database?
         if(StorageHandler.isPlayerValid(otherPlayer)) {
            otherPlayerExists = true;
         }
 
         // Conduct trade if Player has collectable and other Player exists
         if(hasCollectable && otherPlayerExists) {
-            //TODO: Confirm query
             String query = "INSERT INTO Player(identifier, inventory) VALUES (?, ?)";
             StorageHandler.addToPlayer(query, otherPlayer, collectable);
             this.removeItemFromInventory(collectable);
@@ -126,43 +135,40 @@ public class Player extends Character {
     }
 
     /**
-     * Feature has been abandoned current group, however, it may be picked up later on
+     * *****Feature has been abandoned current group, however, it may be picked up later on*****
      * Adds an item to the Players Inventory
      * @param item item to be added to inventory
      */
     public void addItemToInventory(String item) {
-        //TODO: Confirm query
+        // Update: Backend feature not fully integrated into final build (group size limited to 2 members, we had to
+        //    limit our original feature scope
         String query = "INSERT INTO Player(identifier, inventory) VALUES (?, ?)";
         StorageHandler.addToPlayer(query, this.getIdentifier(), item);
     }
 
     /**
-     * Feature has been abandoned current group, however, it may be picked up later on
+     * *****Feature has been abandoned current group, however, it may be picked up later on*****
      * Removes an item from the Players Inventory
      * @param item item to be removed/consumed
      */
     public void removeItemFromInventory(String item) {
-        //TODO: Confirm query
+        // Update: Backend feature not fully integrated into final build (group size limited to 2 members, we had to
+        //    limit our original feature scope
         String query = "DELETE FROM Player WHERE identifier = ? AND inventory = ?";
         StorageHandler.removeFromPlayer(query, this.getIdentifier(), item);
     }
 
     /**
-     * Feature has been abandoned current group, however, it may be picked up later on
+     * *****Feature has been abandoned current group, however, it may be picked up later on*****
      * Retrieves Players current inventory holdings
      * @return A String array of the players inventory
      */
-    public String[] getInventory() {
-        //TODO: Confirm query
+    public ArrayList<String> getInventory() {
+        // Update: Backend feature not fully integrated into final build (group size limited to 2 members, we had to
+        //    limit our original feature scope
         String query = "SELECT inventory FROM Player WHERE identifier = ?";
         ArrayList<String> inventoryList = StorageHandler.queryPlayer(query, this.getIdentifier());
 
-        // Convert from ArrayList to Array
-        String[] playerInventory = new String[inventoryList.size()];
-        for(int i = 0; i < inventoryList.size(); i++){
-            playerInventory[i] = inventoryList.get(i);
-        }
-
-        return playerInventory;
+        return inventoryList;
     }
 }

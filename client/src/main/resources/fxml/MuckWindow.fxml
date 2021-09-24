@@ -61,46 +61,51 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.MuckController">
+<VBox id="root" fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.MuckController">
     <MenuBar id="menu" VBox.vgrow="NEVER">
         <Menu id="file" mnemonicParsing="false" text="File">
             <MenuItem id="plus" fx:id="plus" mnemonicParsing="false" text="New Chat Tab">
             <graphic>
-               <ImageView id="plusImg" fx:id="plusImg" accessibleRole="BUTTON" fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+               <ImageView id="plusImg" accessibleRole="BUTTON" fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <Image url="@../images/plus_icon_152556.png" />
                </ImageView>
             </graphic></MenuItem>
             <Menu mnemonicParsing="false" text="Open">
                 <MenuItem id="chatMenuOpen" fx:id="chatMenuOpen" mnemonicParsing="false" text="Chat">
                <graphic>
-                  <ImageView id="chatMenuImg" fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView id="chatMenuImg" fitHeight="25.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../images/chatSymbol.png" />
                   </ImageView>
                </graphic></MenuItem>
                 <MenuItem id="spaceInvadersMenu" fx:id="spaceInvadersMenu" mnemonicParsing="false" text="Space Invaders">
                <graphic>
-                  <ImageView id="siMenuImg" fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView id="siMenuImg" fitHeight="25.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../images/416-4164135_space-invaders-clipart.png" />
                   </ImageView>
                </graphic></MenuItem>
                 <MenuItem id="enduringFantasyMenu" fx:id="enduringFantasyMenu" mnemonicParsing="false" text="Enduring Fantasy">
                <graphic>
-                  <ImageView fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="25.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../images/dragoon.png" />
                   </ImageView>
                </graphic></MenuItem>
                 <MenuItem id="froggerMenu" fx:id="froggerMenu" mnemonicParsing="false" text="Frogger">
                <graphic>
                   <ImageView fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-
                         <Image url="@../images/frogger/Frogger_Icon.png" />
-
                   </ImageView>
                </graphic></MenuItem>
+            <MenuItem id="goFishMenu" fx:id="goFishMenu" mnemonicParsing="false" text="Go Fish">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/cards/GoFishLogo.png" />
+                  </ImageView>
+               </graphic>
+            </MenuItem>
             <MenuItem id="tttMenu" fx:id="tttMenu" mnemonicParsing="false" text="Tic Tac Toe">
                <graphic>
-                  <ImageView fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/TicTacTo.png" />
+                  <ImageView fitHeight="25.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                      <Image url="@../images/TicTacTo.png" />
                   </ImageView>
                </graphic>
             </MenuItem>
@@ -119,7 +124,7 @@
             </graphic></MenuItem>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
-            <MenuItem mnemonicParsing="false" text="About Muck" />
+            <MenuItem id="about" fx:id="about" mnemonicParsing="false" text="About Muck" />
         </Menu>
     </MenuBar>
     <SplitPane id="windowPane" fx:id="windowPane" dividerPositions="0.9969919786096257" focusTraversable="true" prefHeight="633.0" prefWidth="784.0" VBox.vgrow="SOMETIMES">
@@ -238,7 +243,7 @@
                 </Button>
             </AnchorPane>
         </ScrollPane>
-        <SplitPane id="chatSplitPane" fx:id="chatSplitPane" dividerPositions="0.6055555555555555" maxWidth="451.0" minWidth="0.0" prefHeight="400.0" prefWidth="0.0" snapToPixel="false">
+        <SplitPane id="chatSplitPane" fx:id="chatSplitPane" dividerPositions="0.0" maxWidth="451.0" minWidth="0.0" prefHeight="400.0" prefWidth="0.0" snapToPixel="false">
             <VBox id="chatSection" fx:id="chatSection" maxWidth="350.0" minWidth="0.0" prefHeight="641.0" prefWidth="246.0">
                 <TabPane id="chatPane1" fx:id="chatPane1" minWidth="0.0" prefHeight="515.0" prefWidth="360.0" VBox.vgrow="ALWAYS">
                     <Tab id="groupChat" closable="false" style="-fx-background-color: darkgrey;" text="GeneralChat">
