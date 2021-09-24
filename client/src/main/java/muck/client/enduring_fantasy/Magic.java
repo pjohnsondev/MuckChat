@@ -13,8 +13,6 @@ public class Magic {
         this.pChar = newPlay;
         this.mPcMp = playMp;
         this.mDmg = 0;
-        this.confirmMag;
-        this.confirmDmg;
     }
 
 
