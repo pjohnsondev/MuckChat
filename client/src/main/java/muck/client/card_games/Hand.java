@@ -28,8 +28,10 @@ public class Hand extends Deck {
      * @param deck
      */
     public void drawTopCard(Deck deck) {
-        this.cards.add(deck.cards.get(0));
-        deck.cards.remove(0);
+        if (deck.cards.size() > 0) {
+            this.cards.add(deck.cards.get(0));
+            deck.cards.remove(0);
+        }
         reorderHand();
     }
 
@@ -41,7 +43,7 @@ public class Hand extends Deck {
      * @param deck
      */
     public void drawHand(Deck deck) {
-        if (deck.cards.size() >= 7) {
+        if (deck.cards.size() > 6) {
             for (int i = 7; i > 0; i--) {
                 this.cards.add(deck.cards.get(i));
                 deck.cards.remove(i);
@@ -107,7 +109,7 @@ public class Hand extends Deck {
      *    TODO: make sure it only makes set if there's four of the same.
      */
     public void makeSet(int thisMatchId) {
-        for (int i = this.cards.size() - 1; i > 0; i--) {
+        for (int i = this.cards.size() - 1; i >= 0; i--) {
             if (this.cards.get(i).getSelectedValue() &&
                     this.cards.get(i).getMatchId() == thisMatchId) {
                 this.sets.add(this.cards.get(i));

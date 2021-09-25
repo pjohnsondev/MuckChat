@@ -100,34 +100,37 @@ public class ComputerOpponent extends Player {
         // the int j for loop of the computers hand. If player has recently asked for a card
         // that the computer has, the computer will now ask for it. Otherwise, move to next
         // method of selecting.
-        for (int i = 0; i < (arrayLength) - 1; i++){
-            for (int j = 0; j < hand.cards.size(); j++){
-                if (playerTurns[i] == hand.cards.get(j).getMatchId()){
-                    updateArray(playerTurns, i);
-                    addToArray(computerTurns, hand.cards.get(j).getMatchId());
-                    return hand.cards.get(j).getMatchId();
+        if (hand.cards.size() > 0) {
+            for (int i = 0; i < (arrayLength) - 1; i++) {
+                for (int j = 0; j < hand.cards.size(); j++) {
+                    if (playerTurns[i] == hand.cards.get(j).getMatchId()) {
+                        updateArray(playerTurns, i);
+                        addToArray(computerTurns, hand.cards.get(j).getMatchId());
+                        return hand.cards.get(j).getMatchId();
+                    }
                 }
             }
-        }
-        // If there are no matches, the computer now picks a random card in hand to ask
-        // for, trying to avoid asking for something it recently asked for.
+            // If there are no matches, the computer now picks a random card in hand to ask
+            // for, trying to avoid asking for something it recently asked for.
 
-        // The int i for loop compares the most recent computer moves against
-        // the int j loop of the computers hand. If a card has not been asked for recently,
-        // the computer will now ask for it. If the computer searches through all cards and
-        // finds all cards have recently been asked for, then move to the next method of selecting
+            // The int i for loop compares the most recent computer moves against
+            // the int j loop of the computers hand. If a card has not been asked for recently,
+            // the computer will now ask for it. If the computer searches through all cards and
+            // finds all cards have recently been asked for, then move to the next method of selecting
 
-        for (int j = 0; j < hand.cards.size(); j++){
-            if (checkForCard(computerTurns, hand.cards.get(j).getMatchId()) == false) {
-                int computerTry = hand.cards.get(j).getMatchId();
-                addToArray(computerTurns, computerTry);
-                return computerTry;
-            }
+            /*for (int j = 0; j < hand.cards.size(); j++) {
+                if (checkForCard(computerTurns, hand.cards.get(j).getMatchId()) == false) {
+                    int computerTry = hand.cards.get(j).getMatchId();
+                    addToArray(computerTurns, computerTry);
+                    return computerTry;
+                }
+            }*/
+            // If all cards in hand have been asked for recently, computer will pick a random card in hand
+            int random = rand.nextInt(hand.cards.size());
+            addToArray(computerTurns, hand.cards.get(random).getMatchId());
+            return hand.cards.get(random).getMatchId();
         }
-        // If all cards in hand have been asked for recently, computer will pick a random card in hand
-        int random = rand.nextInt(hand.cards.size());
-        addToArray(computerTurns, hand.cards.get(random).getMatchId());
-        return hand.cards.get(random).getMatchId();
+        return 0;
     }
 
     public void printHand(){
