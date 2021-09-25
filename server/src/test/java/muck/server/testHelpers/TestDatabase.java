@@ -5,7 +5,7 @@ import muck.server.database.MuckDatabase;
 
 public class TestDatabase extends Database {
 
-    private static TestDatabase INSTANCE;
+    protected static TestDatabase INSTANCE;
 
     /** Gets the MuckServer object */
     public static TestDatabase getINSTANCE() {

@@ -16,8 +16,6 @@ abstract public class Database {
     private Connection conn;
     private PreparedStatement statement;
     //protected static Database INSTANCE;
-
-
     
     // This function was developed using this tutorial: 
     // https://www.sqlitetutorial.net/sqlite-java/sqlite-jdbc-driver/
@@ -43,14 +41,28 @@ abstract public class Database {
     protected void connect() {
         try {
             if (!this.databaseIsConnected()) {
+                String driver = "org.apache.derby.jdbc.EmbeddedDriver";
+                try {
+                    Class.forName(driver);
+                } catch(java.lang.ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
                 conn = DriverManager.getConnection(connectionString);
                 System.out.println("Database.java-connect: Connection to database established");
             } else {
                 System.out.println("Database.java-connect: I am seeing a connection");
             }
-        } catch (SQLException exception) {
+        } catch (SQLException sqle) {
             System.out.println("Database.java-connect: Failed to re/connect");
-            System.out.println(exception.getMessage());
+            while (sqle != null) {
+                System.out.println("\n---SQLException Caught---\n");
+                System.out.println("SQLState:   " + (sqle).getSQLState());
+                System.out.println("Severity: " + (sqle).getErrorCode());
+                System.out.println("Message:  " + (sqle).getMessage());
+                sqle.printStackTrace();
+                sqle = sqle.getNextException();
+            }
+            //System.out.println(exception.getMessage());
         }
         //JOptionPane.showMessageDialog(null,"Connect() reached");
     }
@@ -61,15 +73,17 @@ abstract public class Database {
     public void closeConnection() {
         try {
             if (conn != null) {
-                conn.close();
+                if (conn.isValid(0)) {
+                    conn.close();
+                    System.out.println("Database.java-closeConnection: " + conn);
+                    System.out.println("Database.java-closeConnection: Connection closed");
+                } else {
+                    System.out.println("Database.java-closeConnection: Connection already closed");
+                }
                 conn = null;
-                System.out.println("Database.java-closeConnection: " + conn);
-                System.out.println("Database.java-closeConnection: Connection closed");
-            }else{
-                System.out.println("Database.java-closeConnection: Connection already closed");
             }
         } catch (SQLException ex) {
-            //System.out.println("Database.java-closeConnection: Connection Failed to close");
+            System.out.println("Database.java-closeConnection: Connection Failed to close");
             System.out.println(ex.getMessage());
         }
     }
@@ -81,7 +95,19 @@ abstract public class Database {
      */
     public Boolean databaseIsConnected() {
         System.out.println("Database.java-databaseIsConnected: " + conn);
-        return conn != null;
+        //return conn != null;
+        if (conn == null){
+            return false;
+        }else {
+            try {
+                boolean isConnected = conn.isValid(0);
+                System.out.println("Database.java-databaseIsConnected: " + isConnected);
+                return isConnected;
+            } catch (SQLException ex) {
+                System.out.println("Database.java-databaseIsConnected: Problem detecting link");
+                return false;
+            }
+        }
     }
 
     /**
