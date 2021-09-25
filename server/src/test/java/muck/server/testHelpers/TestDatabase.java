@@ -20,7 +20,6 @@ public class TestDatabase extends Database {
             System.out.println("TestDatabase-getInstance: Test Database is up and running. Refreshing connection");
             INSTANCE.closeConnection();
             INSTANCE.connect();
-
         }
         System.out.println("TestDatabase-getInstance: "+ INSTANCE.connectionString);
         return INSTANCE;

@@ -41,12 +41,6 @@ abstract public class Database {
     protected void connect() {
         try {
             if (!this.databaseIsConnected()) {
-                String driver = "org.apache.derby.jdbc.EmbeddedDriver";
-                try {
-                    Class.forName(driver);
-                } catch(java.lang.ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
                 conn = DriverManager.getConnection(connectionString);
                 System.out.println("Database.java-connect: Connection to database established");
             } else {
@@ -63,20 +57,22 @@ abstract public class Database {
      * Run this method to close a connection to the database.
      */
     public void closeConnection() {
-        try {
-            if (conn != null) {
-                if (conn.isValid(0)) {
+
+        if (conn != null) {
+            try {
+            //System.out.println("Database.java-closeConnection: " + conn);
+
+                if (!conn.isClosed()) {
                     conn.close();
-                    System.out.println("Database.java-closeConnection: " + conn);
                     System.out.println("Database.java-closeConnection: Connection closed");
                 } else {
                     System.out.println("Database.java-closeConnection: Connection already closed");
                 }
                 conn = null;
+            } catch (SQLException ex) {
+                System.out.println("Database.java-closeConnection: Connection Failed to close");
+                System.out.println(ex.getMessage());
             }
-        } catch (SQLException ex) {
-            System.out.println("Database.java-closeConnection: Connection Failed to close");
-            System.out.println(ex.getMessage());
         }
     }
 
