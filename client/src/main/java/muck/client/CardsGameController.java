@@ -133,47 +133,63 @@ public class CardsGameController implements Initializable {
     @FXML
     private ImageView opponentCard5;
 
-    @FXML // fx:id="opponents_sets"
-    private ImageView opponents_sets;
+   // @FXML // fx:id="opponents_sets"
+   // private ImageView opponents_sets;
+
 
     @FXML //fx:id="set1"
     private ImageView set1;
-
     @FXML // fx:id="set2"
     private ImageView set2;
-
     @FXML //fx:id="set3"
     private ImageView set3;
-
     @FXML //fx:id="set4"
     private ImageView set4;
-
     @FXML //fx:id="set5"
     private ImageView set5;
-
     @FXML //fx:id="set6"
     private ImageView set6;
-
     @FXML //fx:id="set7"
     private ImageView set7;
-
     @FXML //fx:id="set8"
     private ImageView set8;
-
     @FXML //fx:id="sets9"
     private ImageView set9;
-
     @FXML //fx:id="set10"
     private ImageView set10;
-
     @FXML //fx:id="set11"
     private ImageView set11;
-
     @FXML //fx:id="set12"
     private ImageView set12;
-
     @FXML //fx:id="set13"
     private ImageView set13;
+
+    @FXML //fx:id="set1"
+    private ImageView oset1;
+    @FXML // fx:id="set2"
+    private ImageView oset2;
+    @FXML //fx:id="set3"
+    private ImageView oset3;
+    @FXML //fx:id="set4"
+    private ImageView oset4;
+    @FXML //fx:id="set5"
+    private ImageView oset5;
+    @FXML //fx:id="set6"
+    private ImageView oset6;
+    @FXML //fx:id="set7"
+    private ImageView oset7;
+    @FXML //fx:id="set8"
+    private ImageView oset8;
+    @FXML //fx:id="sets9"
+    private ImageView oset9;
+    @FXML //fx:id="set10"
+    private ImageView oset10;
+    @FXML //fx:id="set11"
+    private ImageView oset11;
+    @FXML //fx:id="set12"
+    private ImageView oset12;
+    @FXML //fx:id="set13"
+    private ImageView oset13;
 
     @FXML // fx:id="sets_made" - where the score will be kept
     private Label sets_made;
@@ -266,6 +282,20 @@ public class CardsGameController implements Initializable {
         cardPositions = new Card[13][4];
 
         updateSetsDisplay();
+
+        oset1.setImage(settest1);
+        oset2.setImage(settest2);
+        oset3.setImage(settest3);
+        oset4.setImage(settest4);
+        oset5.setImage(settest5);
+        oset6.setImage(settest6);
+        oset7.setImage(settest1);
+        oset8.setImage(settest2);
+        oset9.setImage(settest3);
+        oset10.setImage(settest4);
+        oset11.setImage(settest5);
+        oset12.setImage(settest1);
+        oset13.setImage(settest3);
 
         askForCard.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             //TODO: add a call to game.computersTurn() after picking up and making a set if necessary
@@ -369,7 +399,7 @@ public class CardsGameController implements Initializable {
         opponentCard3.setImage(backOfCard);
         opponentCard4.setImage(backOfCard);
         opponentCard5.setImage(backOfCard);
-        opponents_sets.setImage(backOfCard);
+        //opponents_sets.setImage(backOfCard);
 
         setHandImages();
 
