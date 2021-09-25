@@ -53,13 +53,13 @@ public class Game {
      * playersTurn Method
      *
      */
-    public void playersTurn(){
+    /*public void playersTurn(){
         //TODO: make player go fish or player receiving cards trigger a pop up that changes variable when closing
         if ((player1.hand.cards.size() == 0 && deck.cards.size() == 0)
                 || (deck.cards.size() == 0 && player2.hand.cards.size() == 0)){
             endGame();
         }
-    }
+    }*/
 
 
     /**
@@ -143,23 +143,11 @@ public class Game {
         }
     }
 
-    public void checkEndGame(){
+    public boolean checkEndGame(){
         // Checking all cards are in either sets pile
         if (player1.hand.sets.size() + player2.hand.sets.size() == 52){
-            endGame();
+            return true;
         }
-    }
-
-    /**
-     * endGame Method
-     * Checks to see whether player 1 or player 2 has won the game by the highest score
-     */
-    public Player endGame(){
-        if (player1.getScore() > player2.getScore()){
-            return player1;
-        }
-        else {
-            return player2;
-        }
+        return false;
     }
 }

@@ -32,6 +32,8 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import muck.client.card_games.Player;
+
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 import javax.imageio.ImageIO;
@@ -187,7 +189,7 @@ public class CardsGameController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         game = new Game();
         game.initGame();
-        game.playersTurn();
+        //game.playersTurn();
         askForCard.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
         makeSet.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
         setId = 0;
@@ -225,7 +227,10 @@ public class CardsGameController implements Initializable {
                         askForCard.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
                         makeSet.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
                         game.player1.hand.makeSet(setId);
-                        game.checkEndGame();
+                        game.player1.addScore();
+                        if (game.checkEndGame() == true){
+                            endGame();
+                        }
                         game.player1.hand.deselectAll();
                         setHandImages();
                         stage.close();
@@ -576,7 +581,9 @@ public class CardsGameController implements Initializable {
                         game.player2.printHand();
                         game.player2.hand.drawTopCard(game.deck);
                         game.player2.hand.checkForSet(false);
-                        game.checkEndGame();
+                        if (game.checkEndGame() == true){
+                            endGame();
+                        }
                         setHandImages();
                         stageC.close();
                         game.player2.printHand();
@@ -619,6 +626,80 @@ public class CardsGameController implements Initializable {
                         player2Turn();
                     });
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * endGame Method
+     * Checks to see whether player 1 or player 2 has won the game by the highest score
+     */
+    public void endGame() {
+        if (game.player1.getScore() > game.player2.getScore()) {
+            try {
+                Button close = new Button();
+                close.setStyle("-fx-font-family: Times New Roman;");
+                close.setText("Okay!");
+                BorderPane root = new BorderPane(new TextArea());
+                Scene scene = new Scene(root, 300, 145);
+
+                //box for text area
+                HBox textHB = new HBox();
+                textHB.setAlignment(Pos.TOP_CENTER);
+                textHB.setStyle("-fx-font-family: Times New Roman;");
+                textHB.getChildren().add(new TextArea("Congratulations! You are the winner! \nYour final score is " +
+                        game.player1.getScore()));
+                // just add the card that the player's picked up
+                root.setCenter(textHB);
+
+                HBox butbox = new HBox();
+                butbox.setAlignment(Pos.CENTER);
+                butbox.getChildren().add(close);
+                root.setBottom(butbox);
+
+                Stage stage = new Stage();
+                stage.setTitle("You Win!");
+                stage.setScene(scene);
+                stage.show();
+
+                close.addEventHandler(MouseEvent.MOUSE_CLICKED, shut -> {
+                    stage.close();
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                Button close = new Button();
+                close.setStyle("-fx-font-family: Times New Roman;");
+                close.setText("Okay");
+                BorderPane root = new BorderPane(new TextArea());
+                Scene scene = new Scene(root, 300, 145);
+
+                //box for text area
+                HBox textHB = new HBox();
+                textHB.setAlignment(Pos.TOP_CENTER);
+                textHB.setStyle("-fx-font-family: Times New Roman;");
+                textHB.getChildren().add(new TextArea("Player 2 won, better luck next time. \nYour final score is " +
+                        game.player1.getScore()));
+                // just add the card that the player's picked up
+                root.setCenter(textHB);
+
+                HBox butbox = new HBox();
+                butbox.setAlignment(Pos.CENTER);
+                butbox.getChildren().add(close);
+                root.setBottom(butbox);
+
+                Stage stage = new Stage();
+                stage.setTitle("Game Over");
+                stage.setScene(scene);
+                stage.show();
+
+                close.addEventHandler(MouseEvent.MOUSE_CLICKED, shut -> {
+                    stage.close();
+                });
             } catch (Exception e) {
                 e.printStackTrace();
             }
