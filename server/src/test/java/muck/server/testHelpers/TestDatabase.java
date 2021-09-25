@@ -5,23 +5,25 @@ import muck.server.database.MuckDatabase;
 
 public class TestDatabase extends Database {
 
+    private static TestDatabase INSTANCE;
+
     /** Gets the MuckServer object */
-    public static Database getINSTANCE() {
+    public static TestDatabase getINSTANCE() {
         if (INSTANCE == null) {
-            System.out.println("attempting to create Muck Database");
+            System.out.println("TestDatabase-getInstance: attempting to create Muck Database");
             INSTANCE = new TestDatabase();
         }
         else {
-            System.out.println("Muck Database is up and running");
+            System.out.println("TestDatabase-getInstance: Muck Database is up and running");
         }
+        System.out.println("TestDatabase-getInstance: "+ INSTANCE.connectionString);
         return INSTANCE;
     }
 
     private TestDatabase () {
-        super();
-        this.dbName = "testDB";
-        this.connectionString = String.format("jdbc:derby:%s;create=true", dbName);
+        dbName = "testDB";
+        connectionString = String.format("jdbc:derby:%s;create=true", dbName);
+        System.out.println(connectionString);
         connect();
     }
-
 }

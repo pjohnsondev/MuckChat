@@ -5,11 +5,11 @@ package muck.server.database;
  * Extends the database class
  */
 public class MuckDatabase extends Database {
-
+    private static MuckDatabase INSTANCE;
     /** Gets the MuckServer object */
-    public static Database getINSTANCE() {
+    public static MuckDatabase getINSTANCE() {
         if (INSTANCE == null) {
-            System.out.println("attempting to create Muck Database");
+            System.out.println("Attempting to create and connect to Muck Database");
             INSTANCE = new MuckDatabase();
         }
         else {
@@ -27,4 +27,15 @@ public class MuckDatabase extends Database {
         System.out.println(connectionString);
         connect();
     }
+/*
+    @Override
+    public void closeConnection() {
+        if (INSTANCE != null) {
+            super.closeConnection();
+            INSTANCE=null;
+        }
+    }
+jdbc:derby:muckdb;create=true
+jdbc:derby:testDB;create=true
+ */
 }

@@ -1,5 +1,8 @@
 package muck.server.database;
 
+import akka.event.DiagnosticLoggingAdapter;
+
+import javax.swing.JOptionPane;
 import java.sql.*;
 
 /**
@@ -12,8 +15,8 @@ abstract public class Database {
 
     private Connection conn;
     private PreparedStatement statement;
+    //protected static Database INSTANCE;
 
-    protected static Database INSTANCE;
 
     
     // This function was developed using this tutorial: 
@@ -41,11 +44,15 @@ abstract public class Database {
         try {
             if (!this.databaseIsConnected()) {
                 conn = DriverManager.getConnection(connectionString);
-                System.out.println("Connection to database established");
+                System.out.println("Database.java-connect: Connection to database established");
+            } else {
+                System.out.println("Database.java-connect: I am seeing a connection");
             }
         } catch (SQLException exception) {
+            System.out.println("Database.java-connect: Failed to re/connect");
             System.out.println(exception.getMessage());
         }
+        //JOptionPane.showMessageDialog(null,"Connect() reached");
     }
 
     /**
@@ -54,26 +61,16 @@ abstract public class Database {
     public void closeConnection() {
         try {
             if (conn != null) {
-                /*
                 conn.close();
-            }
-            if (INSTANCE!=null){
-            */
-                DriverManager.getConnection("jdbc:derby:;shutdown=true");
-                INSTANCE =null;
-            }
-
-
-
+                conn = null;
+                //System.out.println("Database.java-closeConnection: " + conn);
+                //System.out.println("Database.java-closeConnection: Connection closed");
+            }//else{
+                //System.out.println("Database.java-closeConnection: Connection already closed");
+            //}
         } catch (SQLException ex) {
+            //System.out.println("Database.java-closeConnection: Connection Failed to close");
             System.out.println(ex.getMessage());
-            if (ex.getSQLState().equals("XJ015")) {
-                System.out.println("Derby shutdown normally");
-            } else {
-                // could not shut down the database
-                // handle appropriately
-                System.out.println("Derby shutdown was not achieved");
-            }
         }
     }
 
@@ -83,6 +80,7 @@ abstract public class Database {
      * @return  Boolean telling you whether the database is connected or not
      */
     public Boolean databaseIsConnected() {
+        //System.out.println("Database.java-databaseIsConnected: " + conn);
         return conn != null;
     }
 
@@ -108,11 +106,13 @@ abstract public class Database {
      * @param sql   An Apache Derby compliant SQL query.
      */
     public void query(String sql) {
-
+        connect();
         try {
+            //System.out.println("Database.java-query: "+ conn);
             statement = conn.prepareStatement(sql);
+            //System.out.println("Database.java-query: Query successful");
         } catch (SQLException exception) {
-            System.out.println("Failed to connect to the database");
+            //System.out.println("Database.java-query: Failed to connect to the database");
             System.out.println(exception.getMessage());
         }
     }
@@ -333,7 +333,7 @@ abstract public class Database {
         statement.setDate(pIndex,parameter);
     }
 
-    /*
+
     protected void finalize() throws Throwable {
         try {
 
@@ -350,6 +350,6 @@ abstract public class Database {
         }
     }
 
-     */
+
     //END PREPARED STATEMENT BINDINGS
 }
