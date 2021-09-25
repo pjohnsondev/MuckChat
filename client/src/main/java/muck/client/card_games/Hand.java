@@ -82,14 +82,6 @@ public class Hand extends Deck {
                 cards.get(i).setSelected(false);
             }
         }
-        if (count == 4){
-            //TODO make pop up appear for "Make set" and call makeSet()
-        }
-        else {
-            //TODO make pop up appear for "Ask for card" and call game.playersAsk() and return a
-            // pop up with either go fish (calling to draw a card) or announcing cards received
-            // if a set is made, prompt player to make a set
-        }
     }
 
 
@@ -159,6 +151,7 @@ public class Hand extends Deck {
         for (int i = 0; i < cards.size() - 3; i++){
             if (cards.get(i).getMatchId() == cards.get(i + 3).getMatchId()){
                 if (!start){
+                    selectAll(cards.get(i));
                     makeSet(cards.get(i).getMatchId());
                 }
                 return true;

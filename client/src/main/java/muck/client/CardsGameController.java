@@ -309,10 +309,10 @@ public class CardsGameController implements Initializable {
                         textHB.setAlignment(Pos.TOP_CENTER);
                         textHB.setStyle("-fx-font-family: Times New Roman;");
                         if (newCards > 1) {
-                            textHB.getChildren().add(new TextArea("Player 2 gave you " + newCards + " " + cardName + "'s!"));
+                            textHB.getChildren().add(new TextArea("Player 2 gave you " + newCards + " " + cardName + "'s!\nHave another turn!"));
                         }
                         else {
-                            textHB.getChildren().add(new TextArea("Player 2 gave you one " + cardName + "!"));
+                            textHB.getChildren().add(new TextArea("Player 2 gave you one " + cardName + "!\nHave another turn!"));
                         }
                         // need to add the cards that the player asks for and maybe also add if the other player has/hasnt got that card
                         root.setCenter(textHB);
@@ -332,7 +332,6 @@ public class CardsGameController implements Initializable {
                             makeSet.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
                             setHandImages();
                             stage.close();
-                            player2Turn();
                         });
                     }
                     else {
@@ -564,9 +563,12 @@ public class CardsGameController implements Initializable {
                 stageC.setScene(sceneC);
                 stageC.show();
                 goFishC.addEventHandler(MouseEvent.MOUSE_CLICKED, closeC -> {
+                    game.player2.printHand();
                     game.player2.hand.drawTopCard(game.deck);
+                    game.player2.hand.checkForSet(false);
                     setHandImages();
                     stageC.close();
+                    game.player2.printHand();
                 });
             }
             else {
@@ -580,7 +582,7 @@ public class CardsGameController implements Initializable {
                 HBox textHBC = new HBox();
                 textHBC.setAlignment(Pos.TOP_CENTER);
                 textHBC.setStyle("-fx-font-family: Times New Roman;");
-                textHBC.getChildren().add(new TextArea("Player 2 asked for any " + computerAsk + "'s.\n Give Player 2 your " + computerAsk));
+                textHBC.getChildren().add(new TextArea("Player 2 asked for any " + computerAsk + "'s.\nGive Player 2 your " + computerAsk + ".\nPlayer 2 gets to go again."));
 
                 // need to add the cards that the player asks for and maybe also add if the other player has/hasnt got that card
                 rootC.setCenter(textHBC);
@@ -595,9 +597,13 @@ public class CardsGameController implements Initializable {
                 stageC.setScene(sceneC);
                 stageC.show();
                 giveCardC.addEventHandler(MouseEvent.MOUSE_CLICKED, closeC -> {
+                    game.player2.printHand();
                     game.giveComputerCard(computerAsk);
+                    game.player2.hand.checkForSet(false);
                     setHandImages();
                     stageC.close();
+                    game.player2.printHand();
+                    player2Turn();
                 });
             }
         } catch (Exception e){

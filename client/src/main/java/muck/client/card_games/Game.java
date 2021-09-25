@@ -66,7 +66,7 @@ public class Game {
      * computersTurn Method
      * Controls the logic for the opponents turn
      */
-    public void computersTurn(){
+   /* public void computersTurn(){
         int card = player2.askForCard();
         boolean goFish = checkForMatch(card);
         if (goFish == true){
@@ -85,7 +85,7 @@ public class Game {
             currentRound = 1;
             playersTurn();
         }
-    }
+    }*/
 
 
     /**
@@ -105,6 +105,7 @@ public class Game {
             }
         }
         player1.hand.reorderHand();
+        player2.hand.reorderHand();
         return receive;
     }
 
@@ -136,6 +137,8 @@ public class Game {
             if (matchId == player1.hand.cards.get(i).getMatchId()){
                 player2.hand.cards.add(player1.hand.cards.get(i));
                 player1.hand.cards.remove(player1.hand.cards.get(i));
+                player2.hand.reorderHand();
+                player2.hand.checkForSet(false);
             }
         }
     }

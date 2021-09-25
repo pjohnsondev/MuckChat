@@ -80,6 +80,14 @@ public class ComputerOpponent extends Player {
 
     //TODO - See above
 
+    boolean checkForCard(int [] array, int id){
+        for (int i = 0; i < arrayLength; i ++){
+            if (id == array[i]){
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * askForCard Method
@@ -108,18 +116,23 @@ public class ComputerOpponent extends Player {
         // the int j loop of the computers hand. If a card has not been asked for recently,
         // the computer will now ask for it. If the computer searches through all cards and
         // finds all cards have recently been asked for, then move to the next method of selecting
+
         for (int j = 0; j < hand.cards.size(); j++){
-            for (int i = 0; i < (arrayLength) - 1; i++){
-                if (hand.cards.get(j).getMatchId() != computerTurns[i]){
-                    int computerTry = hand.cards.get(j).getMatchId();
-                    addToArray(computerTurns, computerTry);
-                    return computerTry;
-                }
+            if (checkForCard(computerTurns, hand.cards.get(j).getMatchId()) == false) {
+                int computerTry = hand.cards.get(j).getMatchId();
+                addToArray(computerTurns, computerTry);
+                return computerTry;
             }
         }
         // If all cards in hand have been asked for recently, computer will pick a random card in hand
         int random = rand.nextInt(hand.cards.size());
         addToArray(computerTurns, hand.cards.get(random).getMatchId());
         return hand.cards.get(random).getMatchId();
+    }
+
+    public void printHand(){
+        for (int i = 0; i < hand.cards.size(); i ++){
+            System.out.println(hand.cards.get(i).getFileName());
+        }
     }
 }
