@@ -141,6 +141,7 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 				if (WorldController.locationCheck(new Location((int) hero.getPosX(), (int) hero.getPosY()), gamePane, worldID, canvas) != 0) {
 					this.stop(); //stop this instance new instance for new world started.
 				}
+				updatePlayers();
 				gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight()); //blank the screen
 				cameraX = hero.getPosX() - centerX; //Camera top left relative to hero X
 				cameraY = hero.getPosY() - centerY; //Camera top left relative to hero Y
@@ -261,6 +262,16 @@ public class GameMap extends Canvas implements EventHandler<KeyEvent> {
 			cameraY = 0;
 		}
 	}
+
+	public void updatePlayers() {
+		if (otherPlayers != null) {
+			players = otherPlayers.get();
+		}
+		if (updatePlayer != null) {
+			updatePlayer.accept(hero.getAvatar(), worldID, new Location((int) hero.getPosX(), (int) hero.getPosY()));
+		}
+	}
+
 
 
 	//Handle key presses for movement.
