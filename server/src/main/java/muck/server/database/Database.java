@@ -63,11 +63,11 @@ abstract public class Database {
             if (conn != null) {
                 conn.close();
                 conn = null;
-                //System.out.println("Database.java-closeConnection: " + conn);
-                //System.out.println("Database.java-closeConnection: Connection closed");
-            }//else{
-                //System.out.println("Database.java-closeConnection: Connection already closed");
-            //}
+                System.out.println("Database.java-closeConnection: " + conn);
+                System.out.println("Database.java-closeConnection: Connection closed");
+            }else{
+                System.out.println("Database.java-closeConnection: Connection already closed");
+            }
         } catch (SQLException ex) {
             //System.out.println("Database.java-closeConnection: Connection Failed to close");
             System.out.println(ex.getMessage());
@@ -80,7 +80,7 @@ abstract public class Database {
      * @return  Boolean telling you whether the database is connected or not
      */
     public Boolean databaseIsConnected() {
-        //System.out.println("Database.java-databaseIsConnected: " + conn);
+        System.out.println("Database.java-databaseIsConnected: " + conn);
         return conn != null;
     }
 
@@ -108,11 +108,11 @@ abstract public class Database {
     public void query(String sql) {
         connect();
         try {
-            //System.out.println("Database.java-query: "+ conn);
+            System.out.println("Database.java-query: "+ conn);
             statement = conn.prepareStatement(sql);
-            //System.out.println("Database.java-query: Query successful");
+            System.out.println("Database.java-query: Query successful");
         } catch (SQLException exception) {
-            //System.out.println("Database.java-query: Failed to connect to the database");
+            System.out.println("Database.java-query: Failed to connect to the database");
             System.out.println(exception.getMessage());
         }
     }

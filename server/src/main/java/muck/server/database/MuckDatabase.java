@@ -13,7 +13,9 @@ public class MuckDatabase extends Database {
             INSTANCE = new MuckDatabase();
         }
         else {
-            System.out.println("Muck Database is up and running");
+            System.out.println("Muck Database is up and running. Refreshing connection");
+            INSTANCE.closeConnection();
+            INSTANCE.connect();
         }
         return INSTANCE;
     }
