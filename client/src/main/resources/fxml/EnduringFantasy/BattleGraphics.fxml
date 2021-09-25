@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+<AnchorPane fx:id="battleGraphics" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="248.0" prefWidth="702.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.enduring_fantasy.BattleGraphicsController">
+   <children>
+      <BorderPane prefHeight="248.0" prefWidth="700.0" style="-fx-border-color: #FFFFFF;">
+         <center>
+            <ImageView fitHeight="245.0" fitWidth="699.0" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@../../images/EnduringFantasy/grass_battle_bg.png" />
+               </image>
+            </ImageView>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>
