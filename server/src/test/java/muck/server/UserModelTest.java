@@ -145,7 +145,7 @@ public class UserModelTest {
 
         testDb.query("SELECT * FROM users WHERE username = 'Bob20'");
         ResultSet rs2 = testDb.getResultSet();
-        assertFalse(rs2.next(),"Database entry found for user that has not been registered - suggests logic error");
+        assertFalse(rs2.next(),"Database entry found for user that has not been registered - suggests logic error in test code");
     }
 
     /**
@@ -187,6 +187,17 @@ public class UserModelTest {
 
         assertThrows(InvalidParameterException.class, () ->
                 userService.registerNewUser(testUser2), "Registered user with username greater than 80 characters");
+    }
+
+    /**
+     * The UserStructureFieldsGeneratedTest tests that registerNewUser (as called in beforeEach() method)
+     * generates an id, hashedPassword, and salt values for the UserStructure
+     */
+    @Test
+    public void UserStructureFieldsGeneratedTest() {
+        assertTrue((testUser1.id != null), "id not set");
+        assertTrue(testUser1.hashedPassword != null, "Hashed password not set");
+        assertTrue(testUser1.salt != null, "Salt not set");
     }
 
     /**
@@ -239,7 +250,7 @@ public class UserModelTest {
      */
     @Test
     public void FindByIdTest() throws SQLException {
-        assertEquals(userService.findById(userService.findByUsername("Bob19").id).username, testUser1.username,"Username of the UserStructure found does not match testUser1's username");
+        assertEquals((userService.findById(testUser1.id)).username, testUser1.username,"Username of the UserStructure found does not match testUser1's username");
     }
 
 }
