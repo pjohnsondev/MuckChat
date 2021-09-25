@@ -15,11 +15,8 @@ public class NPC extends Character implements INPCColleague {
 
     // motion and movement
     private NPCStateRandomWalk npcStateRandomWalk;
-    private int tick = 0;
     private int move = 0;
     private boolean change = false;
-    private float timeWalk;
-    private float timeWait;
 
     /**
      * NPC constructor. This class is an extension of the Character class for NPC/monster characters.
@@ -175,8 +172,6 @@ public class NPC extends Character implements INPCColleague {
      * @param timeWalk Time while walking
      */
     public void setNpcRandomWalk(double speed, float timeWait, float timeWalk) {
-        this.timeWait = timeWait;
-        this.timeWalk = timeWalk;
         npcStateRandomWalk = new NPCStateRandomWalk(this, speed, timeWait, timeWalk);
         setState(NPCState.RandomWalk);
     }
@@ -187,13 +182,9 @@ public class NPC extends Character implements INPCColleague {
     public void handle() {
         this.npcStateRandomWalk.handle();
 
-        // motion appearance when walking
-        if (tick >= this.timeWait+this.timeWalk) {
-            // waiting
-            tick = 0;
-        } else if (tick >= this.timeWait) {
-            // walking
-            if (tick % 5 == 0) {
+        // walking
+        if (this.npcStateRandomWalk.walking) {
+            if (this.npcStateRandomWalk.elapsed % ((int)(this.npcStateRandomWalk.timeWalk / 8) ) == 0) {
                 change = true;
                 move++;
             }
@@ -206,7 +197,6 @@ public class NPC extends Character implements INPCColleague {
             }
             change = false;
         }
-        tick++;
     }
 
     /**
