@@ -294,7 +294,7 @@ public class CardsGameController implements Initializable {
                         }
                     }
 
-                    game.player2.addingToPlayerTurns(ask);
+                    game.player2.addToArray(game.player2.playerTurns, ask);
                     int newCards = game.playersAsk(ask);
                     if (newCards > 0) {
 
@@ -332,6 +332,7 @@ public class CardsGameController implements Initializable {
                             makeSet.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
                             setHandImages();
                             stage.close();
+                            player2Turn();
                         });
                     }
                     else {
@@ -365,6 +366,7 @@ public class CardsGameController implements Initializable {
                             game.player1.hand.deselectAll();
                             setHandImages();
                             stage.close();
+                            player2Turn();
                         });
                     }
                 } catch (Exception e) {
@@ -526,5 +528,80 @@ public class CardsGameController implements Initializable {
             }
         }
 
+    }
+    public void player2Turn(){
+        int computerAsk = game.player2.askForCard();
+        boolean goFish = true;
+        for (int i = 0; i < game.player1.hand.cards.size(); i ++){
+            if (computerAsk == game.player1.hand.cards.get(i).getMatchId()){
+                goFish = false;
+            }
+        }
+        try{
+            if (goFish == true) {
+                Button goFishC = new Button();
+                goFishC.setStyle("-fx-font-family: Times New Roman;");
+                goFishC.setText("Go fish!");
+                BorderPane rootC = new BorderPane();
+                Scene sceneC = new Scene(rootC, 300, 145);
+
+                //box for text area
+                HBox textHBC = new HBox();
+                textHBC.setAlignment(Pos.TOP_CENTER);
+                textHBC.setStyle("-fx-font-family: Times New Roman;");
+                textHBC.getChildren().add(new TextArea("Player 2 asked for any " + computerAsk + "'s."));
+
+                // need to add the cards that the player asks for and maybe also add if the other player has/hasnt got that card
+                rootC.setCenter(textHBC);
+
+                //box for close button
+                HBox butboxC = new HBox();
+                butboxC.setAlignment(Pos.CENTER);
+                butboxC.getChildren().add(goFishC);
+                rootC.setBottom(butboxC);
+                Stage stageC = new Stage();
+                stageC.setTitle("Player 2's Turn!");
+                stageC.setScene(sceneC);
+                stageC.show();
+                goFishC.addEventHandler(MouseEvent.MOUSE_CLICKED, closeC -> {
+                    game.player2.hand.drawTopCard(game.deck);
+                    setHandImages();
+                    stageC.close();
+                });
+            }
+            else {
+                Button giveCardC = new Button();
+                giveCardC.setStyle("-fx-font-family: Times New Roman;");
+                giveCardC.setText("Okay");
+                BorderPane rootC = new BorderPane();
+                Scene sceneC = new Scene(rootC, 300, 145);
+
+                //box for text area
+                HBox textHBC = new HBox();
+                textHBC.setAlignment(Pos.TOP_CENTER);
+                textHBC.setStyle("-fx-font-family: Times New Roman;");
+                textHBC.getChildren().add(new TextArea("Player 2 asked for any " + computerAsk + "'s.\n Give Player 2 your " + computerAsk));
+
+                // need to add the cards that the player asks for and maybe also add if the other player has/hasnt got that card
+                rootC.setCenter(textHBC);
+
+                //box for close button
+                HBox butboxC = new HBox();
+                butboxC.setAlignment(Pos.CENTER);
+                butboxC.getChildren().add(giveCardC);
+                rootC.setBottom(butboxC);
+                Stage stageC = new Stage();
+                stageC.setTitle("Player 2's Turn!");
+                stageC.setScene(sceneC);
+                stageC.show();
+                giveCardC.addEventHandler(MouseEvent.MOUSE_CLICKED, closeC -> {
+                    game.giveComputerCard(computerAsk);
+                    setHandImages();
+                    stageC.close();
+                });
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

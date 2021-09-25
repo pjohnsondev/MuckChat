@@ -132,7 +132,7 @@ public class Game {
      * @param matchId
      */
     public void giveComputerCard(int matchId){
-        for (int i = player1.hand.cards.size() - 1; i > 0; i--){
+        for (int i = player1.hand.cards.size() - 1; i >= 0; i--){
             if (matchId == player1.hand.cards.get(i).getMatchId()){
                 player2.hand.cards.add(player1.hand.cards.get(i));
                 player1.hand.cards.remove(player1.hand.cards.get(i));

@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class ComputerOpponent extends Player {
     private int score;
-    Hand hand;
+    public Hand hand;
     int scoreIncrement = 1;
     //This will be a rating out of 5 implemented in memory queues
     public int level;
@@ -38,40 +38,44 @@ public class ComputerOpponent extends Player {
      *
      * @param matchId
      */
-    public void addingToComputerTurns(int matchId){
+    /*public void addingToComputerTurns(int matchId){
         for (int i = (arrayLength) - 2; i > 0; i--) {
             if (computerTurns[i] != 0){
                 computerTurns[i + 1] = computerTurns[i];
             }
         }
         computerTurns[0] = matchId;
-    }
+    }*/
 
 
     /**
      *
      * @param matchId
      */
-    public void addingToPlayerTurns(int matchId){
+    /*public void addingToPlayerTurns(int matchId){
         for (int i = (arrayLength) - 2; i > 0; i--) {
             if (playerTurns[i] != 0){
                 playerTurns[i + 1] = playerTurns[i];
             }
         }
         computerTurns[0] = matchId;
-    }
+    }*/
 
 
     /**
      *
      * @param array
-     * @param card
+     * @param matchId
      */
-    public void addToArray(int[] array, Card card) {
+    public void addToArray(int[] array, int matchId) {
         for (int i = array.length - 1; i > 0; i--) {
             array[i] = array[i - 1];
         }
-        array[0] = card.getMatchId();
+        array[0] = matchId;
+    }
+
+    public void updateArray(int [] array, int a){
+        array[a] = 0;
     }
 
     //TODO - See above
@@ -91,6 +95,8 @@ public class ComputerOpponent extends Player {
         for (int i = 0; i < (arrayLength) - 1; i++){
             for (int j = 0; j < hand.cards.size(); j++){
                 if (playerTurns[i] == hand.cards.get(j).getMatchId()){
+                    updateArray(playerTurns, i);
+                    addToArray(computerTurns, hand.cards.get(j).getMatchId());
                     return hand.cards.get(j).getMatchId();
                 }
             }
@@ -102,15 +108,18 @@ public class ComputerOpponent extends Player {
         // the int j loop of the computers hand. If a card has not been asked for recently,
         // the computer will now ask for it. If the computer searches through all cards and
         // finds all cards have recently been asked for, then move to the next method of selecting
-        for (int i = 0; i < (arrayLength) - 1; i++){
-            for (int j = 0; j < hand.cards.size(); j++){
-                if (computerTurns[i] != hand.cards.get(j).getMatchId()){
-                    return hand.cards.get(j).getMatchId();
+        for (int j = 0; j < hand.cards.size(); j++){
+            for (int i = 0; i < (arrayLength) - 1; i++){
+                if (hand.cards.get(j).getMatchId() != computerTurns[i]){
+                    int computerTry = hand.cards.get(j).getMatchId();
+                    addToArray(computerTurns, computerTry);
+                    return computerTry;
                 }
             }
         }
         // If all cards in hand have been asked for recently, computer will pick a random card in hand
         int random = rand.nextInt(hand.cards.size());
+        addToArray(computerTurns, hand.cards.get(random).getMatchId());
         return hand.cards.get(random).getMatchId();
     }
 }
