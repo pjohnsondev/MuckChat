@@ -97,7 +97,7 @@ public class Game {
      */
     public int playersAsk(int matchId){
         int receive = 0;
-        for (int i = player2.hand.cards.size() - 1; i > 0; i--){
+        for (int i = player2.hand.cards.size() - 1; i >= 0; i--){
             if (matchId == player2.hand.cards.get(i).getMatchId()){
                 player1.hand.cards.add(player2.hand.cards.get(i));
                 player2.hand.cards.remove(i);
@@ -143,17 +143,23 @@ public class Game {
         }
     }
 
+    public void checkEndGame(){
+        // Checking all cards are in either sets pile
+        if (player1.hand.sets.size() + player2.hand.sets.size() == 52){
+            endGame();
+        }
+    }
 
     /**
      * endGame Method
      * Checks to see whether player 1 or player 2 has won the game by the highest score
      */
-    public void endGame(){
+    public Player endGame(){
         if (player1.getScore() > player2.getScore()){
-            winner = 1;
+            return player1;
         }
         else {
-            winner = 2;
+            return player2;
         }
     }
 }

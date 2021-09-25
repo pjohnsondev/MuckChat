@@ -225,6 +225,7 @@ public class CardsGameController implements Initializable {
                         askForCard.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
                         makeSet.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
                         game.player1.hand.makeSet(setId);
+                        game.checkEndGame();
                         game.player1.hand.deselectAll();
                         setHandImages();
                         stage.close();
@@ -566,6 +567,7 @@ public class CardsGameController implements Initializable {
                     game.player2.printHand();
                     game.player2.hand.drawTopCard(game.deck);
                     game.player2.hand.checkForSet(false);
+                    game.checkEndGame();
                     setHandImages();
                     stageC.close();
                     game.player2.printHand();
