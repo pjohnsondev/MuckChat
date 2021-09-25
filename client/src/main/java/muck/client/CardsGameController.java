@@ -69,7 +69,7 @@ public class CardsGameController implements Initializable {
     public ImageView cardRow1Card11;
     public ImageView cardRow1Card12;
     public ImageView cardRow1Card13;
-    
+
 
     @FXML //set up for cards for row 2 - this will fill second 
     public ImageView cardRow2Card1;
@@ -85,7 +85,7 @@ public class CardsGameController implements Initializable {
     public ImageView cardRow2Card11;
     public ImageView cardRow2Card12;
     public ImageView cardRow2Card13;
-    
+
 
     @FXML //set up for cards for row 3 - fill up third 
     public ImageView cardRow3Card1;
@@ -227,8 +227,9 @@ public class CardsGameController implements Initializable {
                         askForCard.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
                         makeSet.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
                         game.player1.hand.makeSet(setId);
+                        updateSetsDisplay();
                         game.player1.addScore();
-                        if (game.checkEndGame() == true){
+                        if (game.checkEndGame() == true) {
                             endGame();
                         }
                         game.player1.hand.deselectAll();
@@ -255,8 +256,8 @@ public class CardsGameController implements Initializable {
         positions.addAll(anotherlist);
 
         positionArray = new ImageView[13][4];
-        for (int i = 0; i < 4; i++){
-            for (int j = 0; j < 13; j++){
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 13; j++) {
                 positionArray[j][i] = positions.get(0);
                 positions.remove(0);
             }
@@ -264,26 +265,7 @@ public class CardsGameController implements Initializable {
         images = new Image[26][4];
         cardPositions = new Card[13][4];
 
-        Image settest1 = new Image("images/cards/2_of_clubs.png");
-        Image settest2 = new Image("images/cards/3_of_hearts.png");
-        Image settest3 = new Image("images/cards/5_of_diamonds.png");
-        Image settest4 = new Image("images/cards/7_of_clubs.png");
-        Image settest5 = new Image("images/cards/9_of_hearts.png");
-        Image settest6 = new Image("images/cards/10_of_spades.png");
-
-        set1.setImage(settest1);
-        set2.setImage(settest2);
-        set3.setImage(settest3);
-        set4.setImage(settest4);
-        set5.setImage(settest5);
-        set6.setImage(settest6);
-        set7.setImage(settest1);
-        set8.setImage(settest2);
-        set9.setImage(settest3);
-        set10.setImage(settest4);
-        set11.setImage(settest5);
-        set12.setImage(settest6);
-        set13.setImage(settest1);
+        updateSetsDisplay();
 
         askForCard.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             //TODO: add a call to game.computersTurn() after picking up and making a set if necessary
@@ -296,7 +278,7 @@ public class CardsGameController implements Initializable {
                     for (int i = 0; i < game.player1.hand.cards.size(); i++) {
                         if (game.player1.hand.cards.get(i).getSelectedValue()) {
                             ask = game.player1.hand.cards.get(i).getMatchId();
-                            cardName =  game.player1.hand.cards.get(i).getCardName();
+                            cardName = game.player1.hand.cards.get(i).getCardName();
                         }
                     }
 
@@ -316,8 +298,7 @@ public class CardsGameController implements Initializable {
                         textHB.setStyle("-fx-font-family: Times New Roman;");
                         if (newCards > 1) {
                             textHB.getChildren().add(new TextArea("Player 2 gave you " + newCards + " " + cardName + "'s!\nHave another turn!"));
-                        }
-                        else {
+                        } else {
                             textHB.getChildren().add(new TextArea("Player 2 gave you one " + cardName + "!\nHave another turn!"));
                         }
                         // need to add the cards that the player asks for and maybe also add if the other player has/hasnt got that card
@@ -339,8 +320,7 @@ public class CardsGameController implements Initializable {
                             setHandImages();
                             stage.close();
                         });
-                    }
-                    else {
+                    } else {
                         Button close = new Button();
                         close.setStyle("-fx-font-family: Times New Roman;");
                         close.setText("Go Fish");
@@ -411,11 +391,11 @@ public class CardsGameController implements Initializable {
                                     }
                                 }
                                 askForCard.setStyle("-fx-font-family: 'Times New Roman';");
-                                if (count > 3){
+                                if (count > 3) {
                                     makeSet.setStyle("-fx-font-family: 'Times New Roman';");
                                     askForCard.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
                                 }
-                                if (count < 4){
+                                if (count < 4) {
                                     makeSet.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
                                 }
                                 setHandImages();
@@ -428,8 +408,7 @@ public class CardsGameController implements Initializable {
                                 }
                             }
                         }
-                    }
-                    catch (Exception e) {
+                    } catch (Exception e) {
                     }
 
                 });
@@ -437,27 +416,31 @@ public class CardsGameController implements Initializable {
         }
 
         int p1score = game.player1.getScore();
-        sets_made.setText(""+p1score);
+        sets_made.setText("" + p1score);
         sets_made.setStyle("-fx-font-family: Times New Roman;");
 
         int p2score = game.player2.getScore();
-        opponents_sets_made.setText(""+p2score);
+        opponents_sets_made.setText("" + p2score);
         opponents_sets_made.setStyle("-fx-font-family: Times New Roman;");
 
     }
 
-    public static void set_score(){
-                // I did have an increment score function made under :
-                // Player.add_score();
-               // THIS WILL BE THE CODE FOR THE SCORE PUT INTO 'SETS_MADE'
-    };
+    public static void set_score() {
+        // I did have an increment score function made under :
+        // Player.add_score();
+        // THIS WILL BE THE CODE FOR THE SCORE PUT INTO 'SETS_MADE'
+    }
 
-    public static void set_opponent_score(){
+    ;
+
+    public static void set_opponent_score() {
         //THIS WILL BE THE SCORE FOR PLAYER2 PUT INTO 'OPPONENT_SET_MADE'
         //is this just about keeping "opponents score: " value on screen updated?
-    };
+    }
 
-    public static void opponents_card(){
+    ;
+
+    public static void opponents_card() {
         //DO SOMETHING LIKE:
         // IF(OPPONENTS_SCORE BETWEEN 0-10 THEY HAVE 5 CARDS SHOWING)
         // IF(OPPONENTS_SCORE BETWEEN 10-20 THEY HAVE 4 CARDS SHOWING)
@@ -466,11 +449,11 @@ public class CardsGameController implements Initializable {
 
     }
 
-    public void setHandImages(){
+    public void setHandImages() {
         // TODO : need to update to delete images when call is made so cards arent doubling up where they dont exist
-        for (int i = 0; i < 26; i++){
-            for (int j = 0; j < 4; j++){
-                if (i < 13){
+        for (int i = 0; i < 26; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (i < 13) {
                     cardPositions[i][j] = null;
                     positionArray[i][j].setImage(null);
                 }
@@ -506,7 +489,7 @@ public class CardsGameController implements Initializable {
                             positionArray[i][j + 2].setImage(images[i + 13][j + 2]);
                         }
                     }
-                }else{
+                } else {
                     i -= 1;
                     images[i][j + 1] = filename0;
                     images[i + 13][j + 1] = filename1;
@@ -534,6 +517,7 @@ public class CardsGameController implements Initializable {
         }
 
     }
+
     public void player2Turn() {
         int computerAsk = game.player2.askForCard();
         if (computerAsk != 0) {
@@ -581,7 +565,7 @@ public class CardsGameController implements Initializable {
                         game.player2.printHand();
                         game.player2.hand.drawTopCard(game.deck);
                         game.player2.hand.checkForSet(false);
-                        if (game.checkEndGame() == true){
+                        if (game.checkEndGame() == true) {
                             endGame();
                         }
                         setHandImages();
@@ -705,4 +689,61 @@ public class CardsGameController implements Initializable {
             }
         }
     }
+
+    void updateSetsDisplay(){
+        Image settest1 = new Image("images/cards/ace_of_clubs.png");
+        Image settest2 = new Image("images/cards/2_of_diamonds.png");
+        Image settest3 = new Image("images/cards/3_of_hearts.png");
+        Image settest4 = new Image("images/cards/4_of_spades.png");
+        Image settest5 = new Image("images/cards/5_of_clubs.png");
+        Image settest6 = new Image("images/cards/6_of_diamonds.png");
+        Image settest7 = new Image("images/cards/7_of_hearts.png");
+        Image settest8 = new Image("images/cards/8_of_spades.png");
+        Image settest9 = new Image("images/cards/9_of_clubs.png");
+        Image settest10 = new Image("images/cards/10_of_diamonds.png");
+        Image settest11 = new Image("images/cards/jack_of_hearts.png");
+        Image settest12 = new Image("images/cards/queen_of_spades.png");
+        Image settest13 = new Image("images/cards/king_of_clubs.png");
+    for( int i = 0; i<game.player1.hand.sets.size();i++) {
+        if (game.player1.hand.sets.get(i).getMatchId() == 1) {
+            set1.setImage(settest1);
+        }
+        if (game.player1.hand.sets.get(i).getMatchId() == 2) {
+            set2.setImage(settest2);
+        }
+        if (game.player1.hand.sets.get(i).getMatchId() == 3) {
+            set3.setImage(settest3);
+        }
+        if (game.player1.hand.sets.get(i).getMatchId() == 4) {
+            set4.setImage(settest4);
+        }
+        if (game.player1.hand.sets.get(i).getMatchId() == 5) {
+            set5.setImage(settest5);
+        }
+        if (game.player1.hand.sets.get(i).getMatchId() == 6) {
+            set6.setImage(settest6);
+        }
+        if (game.player1.hand.sets.get(i).getMatchId() == 7) {
+            set7.setImage(settest7);
+        }
+        if (game.player1.hand.sets.get(i).getMatchId() == 8) {
+            set8.setImage(settest8);
+        }
+        if (game.player1.hand.sets.get(i).getMatchId() == 9) {
+            set9.setImage(settest9);
+        }
+        if (game.player1.hand.sets.get(i).getMatchId() == 10) {
+            set10.setImage(settest10);
+        }
+        if (game.player1.hand.sets.get(i).getMatchId() == 11) {
+            set11.setImage(settest11);
+        }
+        if (game.player1.hand.sets.get(i).getMatchId() == 12) {
+            set12.setImage(settest12);
+        }
+        if (game.player1.hand.sets.get(i).getMatchId() == 13) {
+            set13.setImage(settest13);
+        }
+    }
+}
 }
