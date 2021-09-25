@@ -52,17 +52,9 @@ abstract public class Database {
             } else {
                 System.out.println("Database.java-connect: I am seeing a connection");
             }
-        } catch (SQLException sqle) {
+        } catch (SQLException exception) {
             System.out.println("Database.java-connect: Failed to re/connect");
-            while (sqle != null) {
-                System.out.println("\n---SQLException Caught---\n");
-                System.out.println("SQLState:   " + (sqle).getSQLState());
-                System.out.println("Severity: " + (sqle).getErrorCode());
-                System.out.println("Message:  " + (sqle).getMessage());
-                sqle.printStackTrace();
-                sqle = sqle.getNextException();
-            }
-            //System.out.println(exception.getMessage());
+            System.out.println(exception.getMessage());
         }
         //JOptionPane.showMessageDialog(null,"Connect() reached");
     }
@@ -360,10 +352,10 @@ abstract public class Database {
     }
 
 
-    protected void finalize() throws Throwable {
+    protected void finalize() {
         try {
 
-            DriverManager.getConnection("jdbc:derby:;shutdown=true");
+            DriverManager.getConnection("jdbc:derby:"+dbName+";shutdown=true");
 
         } catch (SQLException ex) {
             if (ex.getSQLState().equals("XJ015")) {

@@ -1,5 +1,8 @@
 package muck.server.database;
 
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 /**
  * Connects to (or creates) the database called "muckdb", which is a derby database, through JDBC.
  * Extends the database class
@@ -29,15 +32,23 @@ public class MuckDatabase extends Database {
         System.out.println(connectionString);
         connect();
     }
-/*
-    @Override
-    public void closeConnection() {
-        if (INSTANCE != null) {
-            super.closeConnection();
-            INSTANCE=null;
+
+    public static void shutdown() {
+        try {
+            if (INSTANCE !=null) {
+                INSTANCE.closeConnection();
+                DriverManager.getConnection("jdbc:derby: " + INSTANCE.dbName + ";shutdown=true");
+                INSTANCE = null;
+            }
+        } catch (SQLException ex) {
+            if (ex.getSQLState().equals("XJ015")) {
+                System.out.println("Derby shutdown normally");
+            } else {
+                // could not shut down the database
+                // handle appropriately
+                System.out.println("Derby shutdown was not achieved");
+            }
         }
     }
-jdbc:derby:muckdb;create=true
-jdbc:derby:testDB;create=true
- */
+
 }

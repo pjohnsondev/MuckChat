@@ -3,6 +3,9 @@ package muck.server.testHelpers;
 import muck.server.database.Database;
 import muck.server.database.MuckDatabase;
 
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 public class TestDatabase extends Database {
 
     protected static TestDatabase INSTANCE;
@@ -28,5 +31,23 @@ public class TestDatabase extends Database {
         connectionString = String.format("jdbc:derby:%s;create=true", dbName);
         System.out.println(connectionString);
         connect();
+    }
+
+    public static void shutdown() {
+        try {
+            if (INSTANCE !=null) {
+                INSTANCE.closeConnection();
+                DriverManager.getConnection("jdbc:derby: " + INSTANCE.dbName + ";shutdown=true");
+                INSTANCE = null;
+            }
+        } catch (SQLException ex) {
+            if (ex.getSQLState().equals("XJ015")) {
+                System.out.println("Derby shutdown normally");
+            } else {
+                // could not shut down the database
+                // handle appropriately
+                System.out.println("Derby shutdown was not achieved");
+            }
+        }
     }
 }

@@ -39,6 +39,7 @@ public class PlayerServiceTest {
         // reset database using testDB
         testDb = TestDatabase.getINSTANCE();
         userModel = new UserModel(testDb);
+        playerModel = new PlayerModel(testDb);
         if (!testDb.tableExists("users")) {
             userModel.createTable();
         }
@@ -46,17 +47,28 @@ public class PlayerServiceTest {
             playerModel.createTable();
         }
         userService = new UserService(userModel);
-        playerModel = new PlayerModel(testDb);
+
         playerService = new PlayerService(playerModel);
         UserStructure userStructure = new UserStructure();
         userStructure.username = "timTheTester";
         userStructure.password = "timTheTester";
         try {
+            System.out.println("Attempting to register new user");
             userService.registerNewUser(userStructure);
         } catch (UserNameAlreadyTakenException e) {
             // forget about it we already have the user;
         }
+        System.out.println("Attempting to Find by Username");
         this.userStructure = userService.findByUsername("timTheTester");
+    }
+
+    /**
+     * Close database connection after each test
+     */
+    @AfterEach
+    public void afterEach() {
+        logger.info("This message prints AFTER each test runs");
+        testDb.closeConnection();
     }
 
     @Test
@@ -66,6 +78,7 @@ public class PlayerServiceTest {
         playerStructure.defense = 20;
         playerStructure.attack = 40;
         playerStructure.health = 50;
+        System.out.println("Attempting to add Player Information");
         playerService.addPlayerInformationToUser(playerStructure);
 
         PlayerStructure playerStructure1 = playerService.findByUserId(this.userStructure.id);

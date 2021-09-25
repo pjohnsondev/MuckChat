@@ -29,9 +29,10 @@ public class ChatDatabaseTest {
     private ChatDBService chatService;
 
     @BeforeEach
-    public void beforeEach() throws SQLException {
+    public void beforeEach() {
         logger.info("This message prints BEFORE each test runs");
 //         reset database using testDB
+        TestDatabase.shutdown();
         testDb = TestDatabase.getINSTANCE();
         chatService = new ChatDBService(testDb);
     }
@@ -54,7 +55,7 @@ public class ChatDatabaseTest {
         msg.setTimeStamp(new Date(System.currentTimeMillis()));
         chatService.storeMessage(msg);
         testDb.query("SELECT * from messages");
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             rs = testDb.getResultSet();
             assertTrue(rs.next());
