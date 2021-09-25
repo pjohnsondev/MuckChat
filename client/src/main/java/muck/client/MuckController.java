@@ -30,6 +30,7 @@ import java.util.function.BiConsumer;
 import java.util.logging.Level;
 
 import javafx.scene.text.Font;
+import muck.client.card_games.goFishLandingPage;
 import muck.client.tictactoe.TTTLandingPage;
 import muck.core.Location;
 
@@ -97,6 +98,9 @@ public class MuckController implements Initializable {
     @FXML // fx:id="froggerMenu"   The menu item to add another tab
     private MenuItem froggerMenu; // Value injected by FXMLLoader
 
+    @FXML // fx:id="goFishMenu"   The menu item to add another tab
+    private MenuItem goFishMenu; // Value injected by FXMLLoader
+
     @FXML // fx:id="tttMenu"   The menu item to add another tab
     private MenuItem tttMenu; // Value injected by FXMLLoader
 
@@ -126,6 +130,9 @@ public class MuckController implements Initializable {
     private Button game3Button;
 
     @FXML
+    private Button game4Button;
+
+    @FXML
     private Button game5Button;
 
     @FXML //fx:id="userNameDisplay"
@@ -151,9 +158,11 @@ public class MuckController implements Initializable {
         spaceInvadersMenu.setOnAction(this::launchSpaceInvaders);
         enduringFantasyMenu.setOnAction(this::launchEnduringFantasy);
         froggerMenu.setOnAction(this::launchFrogger);
+        goFishMenu.setOnAction(this::launchGoFish);
         game1Button.setOnAction(this::launchSpaceInvaders);
         game2Button.setOnAction(this::launchEnduringFantasy);
         game3Button.setOnAction(this::launchFrogger);
+        game4Button.setOnAction(this::launchGoFish);
         game5Button.setOnAction(this::launchTicTacToe);
         tttMenu.setOnAction(this::launchTicTacToe);
         enter.setOnAction(this::sendMessage);
@@ -367,6 +376,17 @@ public class MuckController implements Initializable {
         gamePane1.setCenter(canvas);
         BorderPane.setAlignment(canvas, Pos.CENTER);
         new LandingPageFrogger(gamePane1, canvas);
+    }
+
+    @FXML
+    public void launchGoFish (ActionEvent event) {
+        gamePane1.getChildren().clear();
+        Canvas canvas = new Canvas();
+        canvas.setHeight(gameCanvas.getHeight());
+        canvas.setWidth(gameCanvas.getWidth());
+        gamePane1.setCenter(canvas);
+        BorderPane.setAlignment(canvas, Pos.CENTER);
+        new goFishLandingPage(gamePane1, canvas);
     }
 
     @FXML
