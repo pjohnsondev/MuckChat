@@ -8,20 +8,31 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.control.Button;
+import javafx.scene.Parent;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import muck.client.GameMap;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.fxml.FXMLLoader;
+import javafx.stage.Stage;
 
 import java.io.FileInputStream;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 //TODO the is the class to run the actual game
 public class enduringFantasyGame extends Node {
+
+
 
     private static final int HEIGHT = 600;
     private static final int WIDTH = 1000;

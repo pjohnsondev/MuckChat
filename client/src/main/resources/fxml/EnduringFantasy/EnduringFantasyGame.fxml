@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+<AnchorPane fx:id="enduringFantasyGame" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="610.0" prefWidth="703.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="muck.client.enduring_fantasy.EFGameController">
+   <children>
+      <BorderPane prefHeight="600.0" prefWidth="704.0" style="-fx-border-color: #FFFFFF;">
+         <bottom>
+            <AnchorPane prefHeight="247.0" prefWidth="700.0" BorderPane.alignment="CENTER">
+               <children>
+                  <fx:include source="BattleLog.fxml" />
+               </children>
+            </AnchorPane>
+         </bottom>
+         <left>
+            <fx:include source="InputButtons.fxml" />
+         </left>
+         <center>
+            <fx:include source="PlayerHPMP.fxml" />
+         </center>
+         <right>
+            <fx:include source="EnemyList.fxml" />
+         </right>
+         <top>
+            <fx:include source="BattleGraphics.fxml" />
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>
