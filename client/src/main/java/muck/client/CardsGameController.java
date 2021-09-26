@@ -40,7 +40,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 /********* End of Imports *********/
 
-
 public class CardsGameController implements Initializable {
     public Game game;
     public ImageView[][] positionArray;
@@ -70,7 +69,6 @@ public class CardsGameController implements Initializable {
     public ImageView cardRow1Card12;
     public ImageView cardRow1Card13;
 
-
     @FXML //set up for cards for row 2 - this will fill second 
     public ImageView cardRow2Card1;
     public ImageView cardRow2Card2;
@@ -85,7 +83,6 @@ public class CardsGameController implements Initializable {
     public ImageView cardRow2Card11;
     public ImageView cardRow2Card12;
     public ImageView cardRow2Card13;
-
 
     @FXML //set up for cards for row 3 - fill up third 
     public ImageView cardRow3Card1;
@@ -102,7 +99,6 @@ public class CardsGameController implements Initializable {
     public ImageView cardRow3Card12;
     public ImageView cardRow3Card13;
 
-
     @FXML // set up for top row 4 of cards - fills up last
     public ImageView cardRow4Card1;
     public ImageView cardRow4Card2;
@@ -117,7 +113,6 @@ public class CardsGameController implements Initializable {
     public ImageView cardRow4Card11;
     public ImageView cardRow4Card12;
     public ImageView cardRow4Card13;
-
 
     public ArrayList<ImageView> positions = new ArrayList<ImageView>();
     public ArrayList<ImageView> setsMade = new ArrayList<ImageView>();
@@ -135,7 +130,6 @@ public class CardsGameController implements Initializable {
 
    // @FXML // fx:id="opponents_sets"
    // private ImageView opponents_sets;
-
 
     @FXML //fx:id="set1"
     private ImageView set1;
@@ -200,16 +194,13 @@ public class CardsGameController implements Initializable {
     @FXML // fx:id="menu"
     private MenuBar menu;
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         game = new Game();
         game.initGame();
-        //game.playersTurn();
         askForCard.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
         makeSet.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
         setId = 0;
-
 
         makeSet.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             // Setting Default
@@ -261,7 +252,6 @@ public class CardsGameController implements Initializable {
                         stage.close();
                     });
 
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -291,8 +281,6 @@ public class CardsGameController implements Initializable {
 
         updateSetsDisplay();
 
-
-
         askForCard.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             //TODO: add a call to game.computersTurn() after picking up and making a set if necessary
             //TODO: make function body
@@ -307,11 +295,9 @@ public class CardsGameController implements Initializable {
                             cardName = game.player1.hand.cards.get(i).getCardName();
                         }
                     }
-
                     game.player2.addToArray(game.player2.playerTurns, ask);
                     int newCards = game.playersAsk(ask);
                     if (newCards > 0) {
-
                         Button close = new Button();
                         close.setStyle("-fx-font-family: Times New Roman;");
                         close.setText("Okay!");
@@ -327,7 +313,6 @@ public class CardsGameController implements Initializable {
                         } else {
                             textHB.getChildren().add(new TextArea("Player 2 gave you one " + cardName + "!\nHave another turn!"));
                         }
-                        // need to add the cards that the player asks for and maybe also add if the other player has/hasnt got that card
                         root.setCenter(textHB);
 
                         //box for close button
@@ -395,7 +380,6 @@ public class CardsGameController implements Initializable {
         opponentCard3.setImage(backOfCard);
         opponentCard4.setImage(backOfCard);
         opponentCard5.setImage(backOfCard);
-        //opponents_sets.setImage(backOfCard);
 
         setHandImages();
 
@@ -441,6 +425,11 @@ public class CardsGameController implements Initializable {
             }
         }
 
+
+
+    }
+
+    public void setScoreDisplay() {
         int p1score = game.player1.getScore();
         sets_made.setText("" + p1score);
         sets_made.setStyle("-fx-font-family: Times New Roman;");
@@ -448,31 +437,6 @@ public class CardsGameController implements Initializable {
         int p2score = game.player2.getScore();
         opponents_sets_made.setText("" + p2score);
         opponents_sets_made.setStyle("-fx-font-family: Times New Roman;");
-
-    }
-
-    public static void set_score() {
-        // I did have an increment score function made under :
-        // Player.add_score();
-        // THIS WILL BE THE CODE FOR THE SCORE PUT INTO 'SETS_MADE'
-    }
-
-    ;
-
-    public static void set_opponent_score() {
-        //THIS WILL BE THE SCORE FOR PLAYER2 PUT INTO 'OPPONENT_SET_MADE'
-        //is this just about keeping "opponents score: " value on screen updated?
-    }
-
-    ;
-
-    public static void opponents_card() {
-        //DO SOMETHING LIKE:
-        // IF(OPPONENTS_SCORE BETWEEN 0-10 THEY HAVE 5 CARDS SHOWING)
-        // IF(OPPONENTS_SCORE BETWEEN 10-20 THEY HAVE 4 CARDS SHOWING)
-        // IF(OPPONENTS_SCORE BETWEEN 20-30 THEY HAVE  CARDS SHOWING)
-        // ECT.. SO THAT THEIR CARDS GET LESS SLOWLY
-
     }
 
     public void setHandImages() {
