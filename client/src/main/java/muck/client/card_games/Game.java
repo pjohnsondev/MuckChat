@@ -53,20 +53,20 @@ public class Game {
      * playersTurn Method
      *
      */
-    public void playersTurn(){
+    /*public void playersTurn(){
         //TODO: make player go fish or player receiving cards trigger a pop up that changes variable when closing
         if ((player1.hand.cards.size() == 0 && deck.cards.size() == 0)
                 || (deck.cards.size() == 0 && player2.hand.cards.size() == 0)){
             endGame();
         }
-    }
+    }*/
 
 
     /**
      * computersTurn Method
      * Controls the logic for the opponents turn
      */
-    public void computersTurn(){
+   /* public void computersTurn(){
         int card = player2.askForCard();
         boolean goFish = checkForMatch(card);
         if (goFish == true){
@@ -85,7 +85,7 @@ public class Game {
             currentRound = 1;
             playersTurn();
         }
-    }
+    }*/
 
 
     /**
@@ -97,7 +97,7 @@ public class Game {
      */
     public int playersAsk(int matchId){
         int receive = 0;
-        for (int i = player2.hand.cards.size() - 1; i > 0; i--){
+        for (int i = player2.hand.cards.size() - 1; i >= 0; i--){
             if (matchId == player2.hand.cards.get(i).getMatchId()){
                 player1.hand.cards.add(player2.hand.cards.get(i));
                 player2.hand.cards.remove(i);
@@ -105,6 +105,7 @@ public class Game {
             }
         }
         player1.hand.reorderHand();
+        player2.hand.reorderHand();
         return receive;
     }
 
@@ -132,25 +133,21 @@ public class Game {
      * @param matchId
      */
     public void giveComputerCard(int matchId){
-        for (int i = player1.hand.cards.size() - 1; i > 0; i--){
+        for (int i = player1.hand.cards.size() - 1; i >= 0; i--){
             if (matchId == player1.hand.cards.get(i).getMatchId()){
                 player2.hand.cards.add(player1.hand.cards.get(i));
                 player1.hand.cards.remove(player1.hand.cards.get(i));
+                player2.hand.reorderHand();
+                player2.hand.checkForSet(false);
             }
         }
     }
 
-
-    /**
-     * endGame Method
-     * Checks to see whether player 1 or player 2 has won the game by the highest score
-     */
-    public void endGame(){
-        if (player1.getScore() > player2.getScore()){
-            winner = 1;
+    public boolean checkEndGame(){
+        // Checking all cards are in either sets pile
+        if (player1.hand.sets.size() + player2.hand.sets.size() == 52){
+            return true;
         }
-        else {
-            winner = 2;
-        }
+        return false;
     }
 }

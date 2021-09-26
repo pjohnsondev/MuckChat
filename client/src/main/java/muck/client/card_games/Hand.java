@@ -28,8 +28,10 @@ public class Hand extends Deck {
      * @param deck
      */
     public void drawTopCard(Deck deck) {
-        this.cards.add(deck.cards.get(0));
-        deck.cards.remove(0);
+        if (deck.cards.size() > 0) {
+            this.cards.add(deck.cards.get(0));
+            deck.cards.remove(0);
+        }
         reorderHand();
     }
 
@@ -41,7 +43,7 @@ public class Hand extends Deck {
      * @param deck
      */
     public void drawHand(Deck deck) {
-        if (deck.cards.size() >= 7) {
+        if (deck.cards.size() > 6) {
             for (int i = 7; i > 0; i--) {
                 this.cards.add(deck.cards.get(i));
                 deck.cards.remove(i);
@@ -82,14 +84,6 @@ public class Hand extends Deck {
                 cards.get(i).setSelected(false);
             }
         }
-        if (count == 4){
-            //TODO make pop up appear for "Make set" and call makeSet()
-        }
-        else {
-            //TODO make pop up appear for "Ask for card" and call game.playersAsk() and return a
-            // pop up with either go fish (calling to draw a card) or announcing cards received
-            // if a set is made, prompt player to make a set
-        }
     }
 
 
@@ -115,7 +109,7 @@ public class Hand extends Deck {
      *    TODO: make sure it only makes set if there's four of the same.
      */
     public void makeSet(int thisMatchId) {
-        for (int i = this.cards.size() - 1; i > 0; i--) {
+        for (int i = this.cards.size() - 1; i >= 0; i--) {
             if (this.cards.get(i).getSelectedValue() &&
                     this.cards.get(i).getMatchId() == thisMatchId) {
                 this.sets.add(this.cards.get(i));
@@ -159,6 +153,7 @@ public class Hand extends Deck {
         for (int i = 0; i < cards.size() - 3; i++){
             if (cards.get(i).getMatchId() == cards.get(i + 3).getMatchId()){
                 if (!start){
+                    selectAll(cards.get(i));
                     makeSet(cards.get(i).getMatchId());
                 }
                 return true;
