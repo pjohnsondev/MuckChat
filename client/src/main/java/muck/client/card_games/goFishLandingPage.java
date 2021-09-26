@@ -74,24 +74,24 @@ public class goFishLandingPage extends Node {
         // Title
         ImageView titleView = new ImageView();
         titleView.setFitWidth(700);
-        titleView.setFitHeight(500);
+        titleView.setFitHeight(550);
         titleView.setImage(TITLE);
-        grid.add(titleView, 0,12,2,5);
+        grid.add(titleView, 0,11,2,5);
 
         // Play button
         playButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         playButton.setStyle("-fx-background-color: #FF4033");
-        grid.add(playButton, 1, 11, 2, 3);
+        grid.add(playButton, 1, 18, 2, 3);
 
         // Instructions
         howToPlayButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         howToPlayButton.setStyle("-fx-background-color: #FF4033");
-        grid.add(howToPlayButton, 1, 14, 2, 3);
+        grid.add(howToPlayButton, 1, 21, 2, 3);
 
         // Exit button
         exitButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         exitButton.setStyle("-fx-background-color: #FF4033");
-        grid.add(exitButton, 1, 17, 2, 3);
+        grid.add(exitButton, 1, 24, 2, 3);
 
         stage.getChildren().add(grid);
 
