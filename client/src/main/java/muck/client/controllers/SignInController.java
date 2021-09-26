@@ -82,17 +82,6 @@ public class SignInController {
         nextScene.avatarCreation(event, username);
     }
 
-    public boolean sendData(String userName, String passwordText){
-        try {
-            MuckClient.getINSTANCE().login(userName, passwordText);
-            setError("Data Sent");
-            return true;
-        } catch (Exception ex) {
-            setError(String.format("Unable to create new user: %s.", userName));
-            throw new RuntimeException(ex.getMessage());
-        }
-    }
-
     public boolean isNotEmpty(String username, String password){
         if(username.isEmpty()){
             setError("You must enter a user name");
@@ -102,6 +91,17 @@ public class SignInController {
             return false;
         } else {
             return true;
+        }
+    }
+
+    public boolean sendData(String userName, String passwordText){
+        try {
+            MuckClient.getINSTANCE().login(userName, passwordText);
+            setError("Data Sent");
+            return true;
+        } catch (Exception ex) {
+            setError(String.format("Unable to create new user: %s.", userName));
+            throw new RuntimeException(ex.getMessage());
         }
     }
 
