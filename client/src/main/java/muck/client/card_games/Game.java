@@ -65,8 +65,6 @@ public class Game {
             if (matchId == player1.hand.cards.get(i).getMatchId()){
                 player2.hand.cards.add(player1.hand.cards.get(i));
                 player1.hand.cards.remove(player1.hand.cards.get(i));
-                player2.hand.reorderHand();
-                player2.hand.checkForSet(false);
             }
         }
     }
