@@ -245,8 +245,16 @@ public class CardsGameController implements Initializable {
                         game.player1.hand.makeSet(setId);
                         updateSetsDisplay();
                         game.player1.addScore();
-                        if (game.checkEndGame() == true) {
+                        if (game.checkEndGame() == 1) {
                             endGame();
+                        }
+                        if (game.checkEndGame() == 2) {
+                            if (game.player1.hand.cards.size() == 0){
+                                game.player1.hand.drawTopCard(game.deck);
+                            }
+                            if (game.player2.hand.cards.size() == 0){
+                                game.player2.hand.drawTopCard(game.deck);
+                            }
                         }
                         game.player1.hand.deselectAll();
                         setHandImages();
@@ -584,8 +592,16 @@ public class CardsGameController implements Initializable {
                             game.player2.addScore();
                             updateSetsDisplay();
                         }
-                        if (game.checkEndGame() == true) {
+                        if (game.checkEndGame() == 1) {
                             endGame();
+                        }
+                        if (game.checkEndGame() == 2) {
+                            if (game.player1.hand.cards.size() == 0){
+                                game.player1.hand.drawTopCard(game.deck);
+                            }
+                            if (game.player2.hand.cards.size() == 0){
+                                game.player2.hand.drawTopCard(game.deck);
+                            }
                         }
                         setHandImages();
                         stageC.close();

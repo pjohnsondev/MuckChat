@@ -74,11 +74,14 @@ public class Game {
         }
     }
 
-    public boolean checkEndGame(){
+    public int checkEndGame(){
         // Checking all cards are in either sets pile
         if (player1.hand.sets.size() + player2.hand.sets.size() == 52){
-            return true;
+            return 1;
         }
-        return false;
+        if (deck.getCardsleft() != 0 && (player1.hand.sets.size() == 0 || player2.hand.sets.size() == 0)){
+            return 2;
+        }
+        return 0;
     }
 }
