@@ -582,7 +582,9 @@ public class CardsGameController implements Initializable {
                     goFishC.addEventHandler(MouseEvent.MOUSE_CLICKED, closeC -> {
                         game.player2.printHand();
                         game.player2.hand.drawTopCard(game.deck);
-                        game.player2.hand.checkForSet(false);
+                        if (game.player2.hand.checkForSet(false) == true){
+                            game.player2.addScore();
+                        }
                         if (game.checkEndGame() == true) {
                             endGame();
                         }
