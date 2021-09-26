@@ -474,6 +474,7 @@ public class CardsGameController implements Initializable {
                 if (i < 13) {
                     cardPositions[i][j] = null;
                     positionArray[i][j].setImage(null);
+                    positionArray[i][j].setDisable(true);
                 }
                 images[i][j] = null;
             }
@@ -490,9 +491,11 @@ public class CardsGameController implements Initializable {
                         cardPositions[i][j + 3] = game.player1.hand.cards.get(k);
                         if (game.player1.hand.cards.get(k).getSelectedValue() == false) {
                             positionArray[i][j + 3].setImage(images[i][j + 3]);
+                            positionArray[i][j + 3].setDisable(false);
                         }
                         if (game.player1.hand.cards.get(k).getSelectedValue() == true) {
                             positionArray[i][j + 3].setImage(images[i + 13][j + 3]);
+                            positionArray[i][j + 3].setDisable(false);
                         }
                     } else {
                         i -= 1;
@@ -501,9 +504,11 @@ public class CardsGameController implements Initializable {
                         cardPositions[i][j + 2] = game.player1.hand.cards.get(k);
                         if (game.player1.hand.cards.get(k).getSelectedValue() == false) {
                             positionArray[i][j + 2].setImage(images[i][j + 2]);
+                            positionArray[i][j + 2].setDisable(false);
                         }
                         if (game.player1.hand.cards.get(k).getSelectedValue() == true) {
                             positionArray[i][j + 2].setImage(images[i + 13][j + 2]);
+                            positionArray[i][j + 2].setDisable(false);
                         }
                     }
                 } else {
@@ -513,9 +518,11 @@ public class CardsGameController implements Initializable {
                     cardPositions[i][j + 1] = game.player1.hand.cards.get(k);
                     if (game.player1.hand.cards.get(k).getSelectedValue() == false) {
                         positionArray[i][j + 1].setImage(images[i][j + 1]);
+                        positionArray[i][j + 1].setDisable(false);
                     }
                     if (game.player1.hand.cards.get(k).getSelectedValue() == true) {
                         positionArray[i][j + 1].setImage(images[i + 13][j + 1]);
+                        positionArray[i][j + 1].setDisable(false);
                     }
                 }
 
@@ -525,9 +532,11 @@ public class CardsGameController implements Initializable {
                 cardPositions[i][j] = game.player1.hand.cards.get(k);
                 if (game.player1.hand.cards.get(k).getSelectedValue() == false) {
                     positionArray[i][j].setImage(images[i][j]);
+                    positionArray[i][j].setDisable(false);
                 }
                 if (game.player1.hand.cards.get(k).getSelectedValue() == true) {
                     positionArray[i][j].setImage(images[i + 13][j]);
+                    positionArray[i][j].setDisable(false);
                 }
 
             }
