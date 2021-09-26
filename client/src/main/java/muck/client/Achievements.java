@@ -7,7 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
-import muck.client.components.ActiveUser;
 import muck.client.utilities.Points;
 
 
@@ -111,6 +110,7 @@ public class Achievements {
      */
     public void achievementUnlock() {
         if (!this.achievementStatus) {
+            Points.givePlayerPoints(20);
             this.achievementStatus = true;
             PlayerDashboardController.addAchievements(this.achievementTitle, this.achievementDescription);
         }
