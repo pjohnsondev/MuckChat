@@ -584,6 +584,7 @@ public class CardsGameController implements Initializable {
                         game.player2.hand.drawTopCard(game.deck);
                         if (game.player2.hand.checkForSet(false) == true){
                             game.player2.addScore();
+                            updateSetsDisplay();
                         }
                         if (game.checkEndGame() == true) {
                             endGame();
