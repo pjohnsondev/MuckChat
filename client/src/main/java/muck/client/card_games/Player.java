@@ -12,8 +12,6 @@ public class Player {
     /**
      * Constructor Function for the Player Class
      * Sets the score as 0 and initialises the Player's Hand
-     * //@param score
-     * //@param Hand
      */
     public Player(){
         score = 0;
