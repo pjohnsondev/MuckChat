@@ -84,6 +84,11 @@ public class Achievements {
     public static final String ACHIEVEMENT13TITLE = "All skill, No luck";
     public static final String ACHIEVEMENT13DESCRIPTION = "Player has won a game of Tick-Tac-Toe";
 
+    public static Achievements achievement14_instance = null;
+    public static boolean achievement14 = false;
+    public static final String ACHIEVEMENT14TITLE = "Here, Fishy Fishy";
+    public static final String ACHIEVEMENT14DESCRIPTION = "Player has won a game of Go-Fish";
+
 
     /**
      * Constructor to create an achievement object

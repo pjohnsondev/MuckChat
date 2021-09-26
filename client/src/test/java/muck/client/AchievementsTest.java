@@ -182,4 +182,16 @@ public class AchievementsTest {
         Achievements achievement13_instance = new Achievements(achievement13, ACHIEVEMENT13TITLE, ACHIEVEMENT13DESCRIPTION);
         assertEquals("Player has won a game of Tick-Tac-Toe", achievement13_instance.achievementDescription);
     }
+
+    @Test
+    void achievement14TitleTest() {
+        Achievements achievement14_instance = new Achievements(achievement14, ACHIEVEMENT14TITLE, ACHIEVEMENT14DESCRIPTION);
+        assertEquals("Here, Fishy Fishy", achievement14_instance.achievementTitle);
+    }
+
+    @Test
+    void achievement14DescriptionTest() {
+        Achievements achievement14_instance = new Achievements(achievement14, ACHIEVEMENT14TITLE, ACHIEVEMENT14DESCRIPTION);
+        assertEquals("Player has won a game of Go-Fish", achievement14_instance.achievementDescription);
+    }
 }
