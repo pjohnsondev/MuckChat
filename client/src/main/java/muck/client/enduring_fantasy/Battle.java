@@ -93,6 +93,10 @@ public class Battle {
         this.decMobHp(this.pcStr);
         System.out.println("*----------*");
         System.out.println(this.player.getName() + " lands a blow for " + this.pcStr + " on the " + this.monster.getName());
+        if (this.mobHp > 0){this.mobAtk();}
+        else if ( this.mobHp <= 0) {System.out.println(this.player.getName() + " has defeated " + this.monster.getName());
+            System.out.println("A new enemy appears!");
+            this.mobGen();}
     }
 
 
