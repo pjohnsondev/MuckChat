@@ -7,6 +7,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import muck.client.components.ActiveUser;
+import muck.client.utilities.Points;
 
 
 /**

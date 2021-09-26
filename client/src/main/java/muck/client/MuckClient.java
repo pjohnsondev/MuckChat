@@ -12,6 +12,7 @@ import muck.core.AvatarLocation;
 import muck.core.ClientId;
 import muck.core.character.AddCharacter;
 import muck.core.character.Player;
+import muck.core.structures.PointsStructure;
 import muck.core.structures.UserStructure;
 import muck.core.user.SignUpInfo;
 import org.apache.logging.log4j.LogManager;
@@ -183,7 +184,6 @@ public enum MuckClient {
 	 */
 	public void login(String username, String password) {
 		Login login = new Login(username, password, clientId);
-
 		client.sendTCP(login);
 	}
 
