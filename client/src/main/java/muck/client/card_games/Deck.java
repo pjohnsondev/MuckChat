@@ -9,7 +9,7 @@ public class Deck {
     String[] Suits = {"clubs", "diamonds", "hearts", "spades"};
     String[] cardNames = {"ace","2","3","4","5","6","7","8","9","10","jack","queen","king"};
     String suit;
-    int counter;
+    int counter, cardsLeft;
 
     /**
      * Constructor function for the Deck Class
@@ -36,6 +36,14 @@ public class Deck {
                 counter = 0;
             }
         }
+    }
+
+    /**
+     *  getCardsLeft method - Returns the number of cards in the deck as an int
+     * @return int
+     */
+    public int getCardsleft() {
+        return cards.size();
     }
 
 
