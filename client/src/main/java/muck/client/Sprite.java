@@ -34,7 +34,11 @@ public class Sprite {
     public Sprite(int x, int y) {
         this.x = x; //spawn location
         this.y = y; //spawn location
-        this.image = AvatarController.getSprite(AvatarController.getAvatarId());
+        try {
+            this.image = AvatarController.getSprite(AvatarController.getAvatarId());
+        } catch (ExceptionInInitializerError e) {
+            this.image = new Image("/images/" + AvatarController.getAvatarId() + "Sprite.png");
+        }
         /*String avatarInitial = "/images/" + AvatarController.getAvatarId() + "Sprite.png";
         this.image = new Image(avatarInitial);*/
     }

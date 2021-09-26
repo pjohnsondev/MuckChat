@@ -17,6 +17,7 @@ public class CatNPC extends NPC {
      * @param xPos Starting x position
      * @param yPos Starting y position
      * @param colour Colour of cat
+     * @param tm Tile Map NPC should be on
      */
     public CatNPC(String identifier, int xPos, int yPos, String colour, TileMapReader tm) {
         image = new Image("/images/NPC_Characters/catSprite.png");
@@ -35,7 +36,11 @@ public class CatNPC extends NPC {
      * @param xPos Starting x position
      * @param yPos Starting y position
      * @param colour Colour of cat
+     * @param tm Tile Map NPC should be on
      * @param direction Starting facing direction
+     * @param speed Speed of random walk
+     * @param timeWait Time waiting in random walk
+     * @param timeWalk Time walking in random walk
      */
     public CatNPC(String identifier, int xPos, int yPos, String colour, TileMapReader tm, String direction,
                   int speed, int timeWait, int timeWalk) {

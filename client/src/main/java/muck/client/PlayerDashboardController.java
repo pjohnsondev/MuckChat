@@ -210,7 +210,7 @@ public class PlayerDashboardController implements Initializable {
         userDetails.add(new String[]{random.generateName(), "120"});
         userDetails.add(new String[]{random.generateName(), "120"});
         userDetails.add(new String[]{random.generateName(), "100"});
-        userDetails.add(new String[]{displayName, "80"});
+        userDetails.add(new String[]{displayName, "100"});
         userDetails.add(new String[]{random.generateName(), "60"});
         userDetails.add(new String[]{random.generateName(), "40"});
 

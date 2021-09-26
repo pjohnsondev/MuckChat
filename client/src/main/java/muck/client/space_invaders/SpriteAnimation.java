@@ -2,13 +2,11 @@ package muck.client.space_invaders;
 
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderWidths;
+import muck.client.Sprite;
 
 import java.awt.*;
 import java.util.List;
-import java.util.Map;
-import muck.client.space_invaders.SpaceInvadersUtility;
-
-import static java.util.Map.entry;
 
 public class SpriteAnimation extends Image {
 
@@ -74,7 +72,7 @@ public class SpriteAnimation extends Image {
     }
 
     // Set and get methods
-    public void setLives(int lives) { this.lives = lives; }
+    public void setLives(int lives) { this.lives = lives; if (this.lives < 0) this.lives = 0; }
 
     public int getLives() { return lives; }
 
@@ -83,8 +81,6 @@ public class SpriteAnimation extends Image {
     public int getDamage() { return damage; }
 
     public int getX() { return x; }
-
-    public void doubleGetX() {double x = getX();}
 
     public void setX(int x) { this.x = x;}
 
@@ -166,6 +162,31 @@ public class SpriteAnimation extends Image {
         explosionList.add(new SpriteAnimation(SpaceInvadersUtility.imageURLs.get("EXPLOSION"), EXPLOSION_SIZE,
                 EXPLOSION_SIZE, this.getX(), this.getY(), true, true,
                 20, 1, "EXPLOSION"));
+    }
+
+    /**
+     * Function name: boundPlayer
+     * Purpose: To prevent the player spite from moving outside the bounds of the canvas
+     * @param playerWidth - an integer representing the width of the player sprite.
+     * @param playerHeight - an integer representing the height of the player sprite.
+     * @param width - an integer representing the width of the canvas.
+     * @param height - an integer representing the height of the canvas.
+     * Return: void
+     */
+    public void boundPlayer(int playerWidth, int playerHeight, int width, int height){
+        if (this.getX() < 0){
+            this.setX(0);
+        }
+        if (this.getX() + playerWidth > width){
+            this.setX(width - playerWidth);
+        }
+        if (this.getY() < 0){
+            this.setY(0);
+        }
+        if (this.getY() + playerHeight >= height - 25){
+            this.setY((height - 25) - playerHeight);
+        }
+
     }
 
     @Override

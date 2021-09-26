@@ -99,6 +99,7 @@ public class UserService {
             userStructure.salt = salt;
 
             this.userModel.insertNewUser(userStructure);
+            userStructure.id = (findByUsername(userStructure.username)).id;
             return true;
         } catch (SQLException ex){
             ex.printStackTrace();

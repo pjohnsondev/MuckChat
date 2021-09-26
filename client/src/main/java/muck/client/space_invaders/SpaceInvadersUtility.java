@@ -15,7 +15,17 @@ public class SpaceInvadersUtility {
     public static final int ENEMY_SIZE = 75;
     public static final int WIDTH = 1000;
     public static final int HEIGHT = 800;
+    public static final int ENEMY_SMALL_LIVES = 1;
+    public static final int ENEMY_MEDIUM_LIVES = 2;
+    public static final int ENEMY_BIG_LIVES = 3;
 
+    /**
+     * Reference for Sprites
+     * URL: https://ansimuz.itch.io/spaceship-shooter-environment
+     * Title: Spaceship Shooter Environment
+     * Author: Ansimuz
+     * Licence: Free
+     */
     public static Map<String, String> imageURLs = Map.ofEntries(
             entry("ENEMY_SMALL","/images/spaceinvaders/enemy-small.gif"),
             entry("ENEMY_MEDIUM", "/images/spaceinvaders/enemy-medium.gif"),
@@ -39,7 +49,7 @@ public class SpaceInvadersUtility {
             for (int j = 0; j < 5; j++) {
                 enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_BIG"),
                         ENEMY_SIZE, ENEMY_SIZE, 60 + j * stageWidth / 5, 150,
-                        true, true, 1, 1,
+                        true, true, ENEMY_BIG_LIVES, 1,
                         "ENEMY"));
             }
         }
@@ -48,13 +58,13 @@ public class SpaceInvadersUtility {
             for (int i = 0; i < 5; i++) {
                 enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_BIG"), ENEMY_SIZE,
                         ENEMY_SIZE, 60 + i * stageWidth / 5, 150, true,
-                        true, 1, 1, "ENEMY"));
+                        true, ENEMY_BIG_LIVES, 1, "ENEMY"));
             }
             for (int j = 0; j < 4; j++) {
                 enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_MEDIUM"),
                         ENEMY_SIZE *0.75, ENEMY_SIZE * 0.75,
                         160 + j * stageWidth / 5, 300, true, true,
-                        1, 1, "ENEMY"));
+                        ENEMY_MEDIUM_LIVES, 1, "ENEMY"));
             }
         }
 
@@ -62,18 +72,18 @@ public class SpaceInvadersUtility {
             for (int i = 0; i < 5; i++) {
                 enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_BIG"), ENEMY_SIZE,
                         ENEMY_SIZE, 60 + i * stageWidth / 5, 150, true,
-                        true, 1, 1, "ENEMY"));
+                        true, ENEMY_BIG_LIVES, 1, "ENEMY"));
             }
             for (int j = 0; j < 4; j++) {
                 enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_MEDIUM"),
                         ENEMY_SIZE *0.75, ENEMY_SIZE * 0.75,
                         180 + j * stageWidth / 5, 300, true,
-                        true, 1, 1, "ENEMY"));
+                        true, ENEMY_MEDIUM_LIVES, 1, "ENEMY"));
             }
             for(int k = 0; k < 3; k++) {
                 enemies.add(new SpriteAnimation(imageURLs.get("ENEMY_SMALL"),
                         ENEMY_SIZE / 2, ENEMY_SIZE / 2,
-                        280 + k * stageWidth /5, 400, true, true, 1,
+                        280 + k * stageWidth /5, 400, true, true, ENEMY_SMALL_LIVES,
                         1, "ENEMY"));
             }
         }
