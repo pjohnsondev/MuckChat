@@ -143,8 +143,12 @@ public class Frogger {
                 ft.play();
             }
             // Unlocks achievement 11 when the player wins the game.
-            Achievements achieve11 = new Achievements(achievement11, achievement11Title, achievement11Description);
-            achieve11.achievementUnlock(achieve11);
+            if (Achievements.achievement11_instance == null) {
+                Achievements.achievement11_instance = new Achievements(achievement11,
+                        ACHIEVEMENT11TITLE, ACHIEVEMENT11DESCRIPTION);
+                achievement11_instance.achievementUnlock();
+                achievement11_instance.achievementPopUp();
+            }
             // TODO: Setup post-win
         }
     }

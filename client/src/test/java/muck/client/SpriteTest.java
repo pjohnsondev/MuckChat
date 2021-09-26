@@ -6,10 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.testfx.framework.junit5.ApplicationTest;
 
 import java.io.IOException;
@@ -17,6 +14,7 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Disabled //Due to out of memory error
 public class SpriteTest extends ApplicationTest {
     private static final Logger logger = LogManager.getLogger(SpriteTest.class);
     private String avatar;
@@ -24,7 +22,7 @@ public class SpriteTest extends ApplicationTest {
 
     @Override
     public void start(Stage stage) throws IOException {
-        AvatarController.avatarCreation("Username", "DisplayName", "error");
+        AvatarController.avatarCreation("Username", "DisplayName", "error", 0);
         FXMLLoader loader = new FXMLLoader(AvatarTest.class.getResource("/fxml/Avatar.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
@@ -67,9 +65,15 @@ public class SpriteTest extends ApplicationTest {
         assertEquals(hero.getPosY(),300.0);
         assertEquals(hero.getPlayerPos(),"300.0,300.0");
         logger.info("Test checks the setPosX and setPosY Methods");
-        hero.setPosX(250.0);
-        hero.setPosY(250.0);
-        assertEquals(hero.getPosX(),250.0);
-        assertEquals(hero.getPosY(),250.0);
+        hero.setPosX(90.0);
+        hero.setPosY(90.0);
+        assertEquals(hero.getPosX(),90.0);
+        assertEquals(hero.getPosY(),90.0);
+        logger.info("Tile collision Detection");
+        hero.setDy(25);
+        hero.setDx(25);
+        hero.move(tm,hero);
+        assertEquals(hero.getPosX(), 90);
+        assertEquals(hero.getPosY(), 90);
     }
 }

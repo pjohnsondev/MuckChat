@@ -6,9 +6,9 @@ import javafx.util.Duration;
 import muck.core.character.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -22,11 +22,11 @@ public class ClientPlayerListTest {
 
     @BeforeEach
     public void beforeEach() {
-        player = new Player("TestUser");
-        client = new Client();
-        muckClient = MuckClient.getINSTANCE();
+        this.player = new Player("TestUser");
+        this.client = new Client();
+        this.muckClient = MuckClient.getINSTANCE();
         muckClient.players.put(client.getID(), player.getUsername());
-        textBox = new TextArea();
+        this.textBox = new TextArea();
     }
 
     @Test
@@ -71,7 +71,7 @@ public class ClientPlayerListTest {
         } catch (Exception e) {
             logger.info("Unable to make thread sleep " + e);
         }
-        logger.info("The textbox contains: " + textBox.getText());
+        //logger.info("The textbox contains: " + textBox.getText());
         muckClient.players.remove(client.getID());
         try {
             Thread.sleep(1000);

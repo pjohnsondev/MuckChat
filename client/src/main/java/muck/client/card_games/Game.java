@@ -4,89 +4,150 @@ package muck.client.card_games;
  * Game Class. Instantiates an individual game.
  */
 public class Game {
-    //This needs to create an id that is an incremented number on the last created id
-    public int game_id;
-    //keeping track of who's turn it is.
+    // Keeping track of whose turn it is.
     public static int currentRound;
-    //unique id to the game to send information to database for other player to receive.
-    public static int roundId;
-    //this player
+    // This player
     public Player player1;
-    //other player
-    public Opponent player2;
+    // Player 2 is a computer
+    public ComputerOpponent player2;
     public Deck deck;
     //as long as active is true, the current round remains active. once it is changed to false, the turn ends
-    public boolean active;
-    public String card_list;
+    public String cardList;
+    public int winner;
+
 
     /**
      * Constructor Function for the Game Class
      */
     public Game(){
         currentRound = 1;
-        roundId = 0;
         player1 = new Player();
-        player2 = new Opponent();
+        player2 = new ComputerOpponent(1);
         deck = new Deck();
     }
 
-    void initGame(){
-        deck.shuffle_cards();
+    //TODO - Using this method??
+    /**
+     * printCards Method
+     *
+     * @param number
+     */
+    public void printCards(int number){
+        cardList = player1.hand.cards.get(player1.hand.cards.size() - 1).getCardName() + " of " +
+                player1.hand.cards.get(player1.hand.cards.size() - 1).getSuit() + ".";
+    }
+
+
+    /**
+     * initGame Method
+     * Sets up the game with a shuffled deck, and assigns a hand for both players
+     */
+    public void initGame(){
+        deck.shuffleCards();
         player1.hand.drawHand(deck);
         player2.hand.drawHand(deck);
     }
 
-    void playerTurn(int round_number){
-        PlayerTurn player_go = new PlayerTurn();
-        while (round_number == 1){
-            player_go.take_turn(player1);
-            currentRound = 2;
-            break;
-
+    // TODO
+    /**
+     * playersTurn Method
+     *
+     */
+    /*public void playersTurn(){
+        //TODO: make player go fish or player receiving cards trigger a pop up that changes variable when closing
+        if ((player1.hand.cards.size() == 0 && deck.cards.size() == 0)
+                || (deck.cards.size() == 0 && player2.hand.cards.size() == 0)){
+            endGame();
         }
+    }*/
 
-        while (round_number == 2){
-            player_go.take_turn(player2);
+
+    /**
+     * computersTurn Method
+     * Controls the logic for the opponents turn
+     */
+   /* public void computersTurn(){
+        int card = player2.askForCard();
+        boolean goFish = checkForMatch(card);
+        if (goFish == true){
+            //TODO: popup with button that says "go fish" to close window, which will prompt:
+            player2.hand.drawTopCard(deck);
+        }
+        else {
+            //TODO: popup with button that says "Player 2 asked for *** " to close window
+            giveComputerCard(card);
+        }
+        if ((player1.hand.cards.size() == 0 && deck.cards.size() == 0)
+                || (deck.cards.size() == 0 && player2.hand.cards.size() == 0)){
+            endGame();
+        }
+        else {
             currentRound = 1;
-            break;
-
+            playersTurn();
         }
+    }*/
 
-        if (roundId == 5){
-            //this is a test to break out of turn loops
-            currentRound = 3;
-        }
-    }
 
-    void end_turn(){
-
-    }
-
-    public void printCards(int number){
-        card_list = player1.hand.cards.get(player1.hand.cards.size() - 1).getCardName() + " of " +
-                player1.hand.cards.get(player1.hand.cards.size() - 1).getSuit() + ".";
-    }
-
-  public static void main(String[] args){
-        // Creating instance of game
-        Game game = new Game();
-        // Initialising game
-        game.initGame();
-        // Game play
-        // Loop manages turns as long as there are any cards still in play
-        while (game.deck.cards.size() != 0 && game.player1.hand.cards.size() != 0
-                && game.player2.hand.cards.size() != 0 && currentRound != 3){
-            if (currentRound == 1){
-                roundId++;
-                System.out.println(roundId);
-                game.playerTurn(1);
-            }
-            if (currentRound == 2) {
-                roundId++;
-                System.out.println(roundId);
-                game.playerTurn(2);
+    /**
+     * playersAsk Method
+     * Controls the player receiving cards that have been asked for
+     * If the opponent has the cards, they will be transferred to the player, and removed from the opponents hand.
+     * @param matchId
+     * @return int receive The number of matching cards the opponent had in their hand
+     */
+    public int playersAsk(int matchId){
+        int receive = 0;
+        for (int i = player2.hand.cards.size() - 1; i >= 0; i--){
+            if (matchId == player2.hand.cards.get(i).getMatchId()){
+                player1.hand.cards.add(player2.hand.cards.get(i));
+                player2.hand.cards.remove(i);
+                receive += 1;
             }
         }
-        System.out.println("Exiting turns. Game is finished.");
+        player1.hand.reorderHand();
+        player2.hand.reorderHand();
+        return receive;
+    }
+
+
+    /**
+     * checkForMatch Method
+     * Returns either true or false based on whether there is a matching card
+     * @param matchId
+     * @return boolean
+     */
+    public boolean checkForMatch(int matchId){
+        for (int i = 0; i < player1.hand.cards.size(); i++) {
+            if (matchId == player1.hand.cards.get(i).getMatchId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * giveComputerCard Method
+     * This function is called by an event handler if the computer asked for a card the player has
+     * The card(s) will be removed from the players hand and added to the opponent
+     * @param matchId
+     */
+    public void giveComputerCard(int matchId){
+        for (int i = player1.hand.cards.size() - 1; i >= 0; i--){
+            if (matchId == player1.hand.cards.get(i).getMatchId()){
+                player2.hand.cards.add(player1.hand.cards.get(i));
+                player1.hand.cards.remove(player1.hand.cards.get(i));
+                player2.hand.reorderHand();
+                player2.hand.checkForSet(false);
+            }
+        }
+    }
+
+    public boolean checkEndGame(){
+        // Checking all cards are in either sets pile
+        if (player1.hand.sets.size() + player2.hand.sets.size() == 52){
+            return true;
+        }
+        return false;
     }
 }

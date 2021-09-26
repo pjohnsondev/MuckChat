@@ -42,7 +42,7 @@
       <font>
          <Font size="15.0" />
       </font></Text>
-      <Text layoutX="287.0" layoutY="489.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player:" wrappingWidth="62.13671875">
+      <Text layoutX="287.0" layoutY="490.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player:" wrappingWidth="62.13671875">
       <font>
          <Font size="15.0" />
       </font></Text>

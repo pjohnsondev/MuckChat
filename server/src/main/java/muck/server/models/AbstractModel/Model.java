@@ -22,7 +22,7 @@ abstract public class Model implements IModel {
      * Constructor: creates a MuckDatabase instance
      */
     public Model() {
-        db = new MuckDatabase();
+        db = MuckDatabase.getINSTANCE();
     }
     public Model(Database db) {
         this.db = db;
@@ -59,6 +59,14 @@ abstract public class Model implements IModel {
     public ResultSet select(String column, int condition) throws SQLException {
         this.db.query("SELECT * FROM " + this.table + " WHERE " + column + " = ?");
         db.bindInt(1, condition);
+        ResultSet result = db.getResultSet();
+        if (!result.next())
+            db.closeConnection();
+        return result;
+    }
+
+    public ResultSet selectAll() throws SQLException {
+        this.db.query("SELECT * FROM " + this.table);
         ResultSet result = db.getResultSet();
         if (!result.next())
             db.closeConnection();
