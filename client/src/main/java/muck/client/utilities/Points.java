@@ -1,5 +1,6 @@
 package muck.client.utilities;
 
+import com.esotericsoftware.kryonet.Client;
 import muck.client.MuckClient;
 import muck.client.components.ActiveUser;
 import muck.core.structures.PointsStructure;
@@ -12,8 +13,10 @@ import muck.core.structures.UserStructure;
  * author: Ethan Carlsson ecarlsso@myune.edu.au
  */
 public class Points {
+    /**
+     * @param points how many points you want to give.
+     */
     public static void givePlayerPoints(int points) {
-
         // Make sure there's a user to give points to before giving them points
         if (ActiveUser.getInstance().getUser() != null) {
             UserStructure activeUser = ActiveUser.getInstance().getUser();
@@ -22,11 +25,19 @@ public class Points {
 
             pointsStructure.points = activeUser.points;
 
-
-            MuckClient.getINSTANCE().getClient().sendTCP(activeUser);
+            Client client = MuckClient.getINSTANCE().getClient();
+            // No client in testing
+            if (client != null) {
+                client.sendTCP(activeUser);
+            }
         }
     }
 
+    /**
+     * This is equivalent to Points.givePlayerPoints(-points).
+     *
+     * @param points how many points you want to take away.
+     */
     public static void takePlayerPoints(int points) {
         Points.givePlayerPoints(points*-1);
     }
