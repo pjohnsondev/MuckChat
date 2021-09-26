@@ -17,6 +17,7 @@ public class UserModel extends Model {
     public static final String DISPLAYNAME_COL = "displayname";
     public static final String PASSWORD_COL = "password";
     public static final String SALT_COL = "salt";
+    public static final String POINTS_COL = "points";
 
     public UserModel() {
         this.table = "users";
@@ -42,7 +43,8 @@ public class UserModel extends Model {
                         + " username VARCHAR(80) UNIQUE, "
                         + " displayname VARCHAR(80) UNIQUE, "
                         + " password BLOB NOT NULL, "
-                        + " salt BLOB NOT NULL)"
+                        + " salt BLOB NOT NULL, "
+                        + " points INTEGER DEFAULT 0)"
         );
         System.out.println("Table created");
     }
