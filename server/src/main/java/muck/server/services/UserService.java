@@ -117,4 +117,8 @@ public class UserService {
         }
         return false;
     }
+
+    public void updateUser(UserStructure user) throws  SQLException {
+        this.userModel.insertPointsWhereId(user);
+    }
 }

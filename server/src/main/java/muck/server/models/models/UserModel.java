@@ -4,6 +4,7 @@ import java.security.InvalidParameterException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import muck.core.structures.PlayerStructure;
 import muck.server.database.Database;
 import muck.server.models.AbstractModel.Model;
 import muck.core.structures.UserStructure;
@@ -109,4 +110,12 @@ public class UserModel extends Model {
     public ResultSet findUserById(int id) throws SQLException {
         return this.select("id", id);
     }
+
+    public void insertPointsWhereId(UserStructure user) throws SQLException {
+        db.query("UPDATE USERS SET POINTS = ? WHERE id = ?");
+        db.bindInt(1, user.points);
+        db.bindInt(2, user.id);
+        db.executeInsert();
+    }
+
 }
