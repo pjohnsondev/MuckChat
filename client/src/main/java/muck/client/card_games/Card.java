@@ -1,10 +1,10 @@
 package muck.client.card_games;
-import javafx.application.Application;
+/*import javafx.application.Application;
 import javafx.scene.image.Image;
 import muck.client.CardsGameController;
 
 import javax.swing.*;
-import java.util.Locale;
+import java.util.Locale;*/
 
 /**
  * Card Class. Instantiates an individual regular playing card.
@@ -17,9 +17,10 @@ public class Card {
 
     /**
      * Constructor Function for the Card Class
-     * Sets the Cards Id, Suit and Card Name
+     * Sets the Card's ID, Suit and Card Name
      * Sets the image file location, and the individual Card Image
      * @param cardId
+     * @param matchId
      * @param suit
      * @param cardName
      */
@@ -37,7 +38,7 @@ public class Card {
     /**
      * getValue Method.
      * Returns the ID of any Card. Each Card has a unique idea between 1 and 52
-     * @return int id
+     * @return int cardId
      */
     public int getCardId() {
         return cardId;
@@ -48,7 +49,7 @@ public class Card {
      * useFileName Method
      * Returns the b (highlighted card image) filename if the card is selected,
      * or the regular filename if not.
-     * @return String bFilename, filename
+     * @return String bFileName, fileName
      */
     public String useFileName() {
         if (selected == true){
@@ -59,8 +60,8 @@ public class Card {
 
     /**
      * getFileName Method
-     * Returns the filename for the non-highlighted card
-     * @return String filename
+     * Returns the fileName for the non-highlighted card
+     * @return String fileName
      */
     public String getFileName() {
         return fileName;
@@ -69,7 +70,7 @@ public class Card {
 
     /**
      * getBFileName Method
-     * Returns the filename for the highlighted card
+     * Returns the fileName for the highlighted card
      * @return String bFileName
      */
     public String getBFileName() { return bFileName;}
@@ -88,7 +89,7 @@ public class Card {
     /**
      * getSuit Method.
      * Returns the name of the suit for an individual card
-     * @return String uit
+     * @return String suit
      */
     public String getSuit() {
         return suit;
@@ -107,7 +108,7 @@ public class Card {
 
     /**
      * getMatchId Method
-     * Returns the Match Id of the card as an int
+     * Returns the matchId of the card as an int
      * @return int matchId
      */
     public int getMatchId() {
@@ -117,7 +118,7 @@ public class Card {
 
     /**
      * setCardId Method.
-     * Sets the unique card ID as an Int
+     * Sets the unique cardID as an Int
      * @param id
      */
     public void setCardId(int id) {
@@ -159,7 +160,7 @@ public class Card {
 
     /**
      * setMatchId Method
-     * Sets the matchId as an int between 1 and 13
+     * Sets the matchId as an int between 1 and 13 based on the card's value
      * @param matchId
      */
     public void setMatchId(int matchId) {
