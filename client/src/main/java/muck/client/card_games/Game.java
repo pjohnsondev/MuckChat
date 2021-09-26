@@ -12,9 +12,6 @@ public class Game {
     public ComputerOpponent player2;
     public Deck deck;
     //as long as active is true, the current round remains active. once it is changed to false, the turn ends
-    public String cardList;
-    public int winner;
-
 
     /**
      * Constructor Function for the Game Class
@@ -28,7 +25,7 @@ public class Game {
 
     /**
      * initGame Method
-     * Sets up the game with a shuffled deck, and assigns a hand for both players
+     * Sets up the game with a shuffled deck, and deals a hand for each player
      */
     public void initGame(){
         deck.shuffleCards();
@@ -41,7 +38,7 @@ public class Game {
      * Controls the player receiving cards that have been asked for
      * If the opponent has the cards, they will be transferred to the player, and removed from the opponents hand.
      * @param matchId
-     * @return int receive The number of matching cards the opponent had in their hand
+     * @return int value of the number of matching cards the opponent had in their hand
      */
     public int playersAsk(int matchId){
         int receive = 0;
@@ -74,6 +71,12 @@ public class Game {
         }
     }
 
+    /**
+     * checkEndGame Method
+     * This function is called by an event handler after either player has put away a set of cards.
+     * It checks if the game is still active or if the player needs to deal more cards
+     * @return int 1, 2, or 3 based on cases
+     */
     public int checkEndGame(){
         // Checking all cards are in either sets pile
         if (player1.hand.sets.size() + player2.hand.sets.size() == 52){
