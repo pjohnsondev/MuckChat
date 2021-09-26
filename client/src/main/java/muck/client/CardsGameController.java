@@ -468,7 +468,6 @@ public class CardsGameController implements Initializable {
     }
 
     public void setHandImages() {
-        // TODO : need to update to delete images when call is made so cards arent doubling up where they dont exist
         for (int i = 0; i < 26; i++) {
             for (int j = 0; j < 4; j++) {
                 if (i < 13) {
@@ -580,7 +579,6 @@ public class CardsGameController implements Initializable {
                     stageC.setScene(sceneC);
                     stageC.show();
                     goFishC.addEventHandler(MouseEvent.MOUSE_CLICKED, closeC -> {
-                        game.player2.printHand();
                         game.player2.hand.drawTopCard(game.deck);
                         if (game.player2.hand.checkForSet(false) == true){
                             game.player2.addScore();
@@ -591,7 +589,6 @@ public class CardsGameController implements Initializable {
                         }
                         setHandImages();
                         stageC.close();
-                        game.player2.printHand();
                     });
                 } else {
                     Button giveCardC = new Button();
@@ -622,7 +619,6 @@ public class CardsGameController implements Initializable {
                     stageC.setScene(sceneC);
                     stageC.show();
                     giveCardC.addEventHandler(MouseEvent.MOUSE_CLICKED, closeC -> {
-                        game.player2.printHand();
                         game.giveComputerCard(computerAsk);
                         if (game.player2.hand.checkForSet(false) == true){
                             game.player2.addScore();
@@ -630,7 +626,6 @@ public class CardsGameController implements Initializable {
                         }
                         setHandImages();
                         stageC.close();
-                        game.player2.printHand();
                         player2Turn();
                     });
                 }

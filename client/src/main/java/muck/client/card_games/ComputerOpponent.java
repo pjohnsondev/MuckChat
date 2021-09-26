@@ -133,9 +133,9 @@ public class ComputerOpponent extends Player {
         return 0;
     }
 
-    public void printHand(){
+    /*public void printHand(){
         for (int i = 0; i < hand.cards.size(); i ++){
             System.out.println(hand.cards.get(i).getFileName());
         }
-    }
+    }*/
 }
