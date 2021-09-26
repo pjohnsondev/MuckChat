@@ -175,20 +175,4 @@ public class Card {
         return cardName.substring(0, 1).toUpperCase() + cardName.substring(1) + " of " + suit.substring(0,1).toUpperCase() + suit.substring(1);
     }
 
-    //working with controller to get cards diplayed
-    /*void setCardDisplay(){
-            String filename = getFileName();
-            new ImageIcon(filename);
-
-            CardsGameController.set_card();
-        }
-*/
-
-//    public static void main(String[] args) {
-//        Card card;
-//
-//        card = new Card(5, 5,"Hearts", "king");
-//
-//        System.out.println(card);
-//    }
 }

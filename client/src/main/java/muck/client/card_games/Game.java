@@ -26,18 +26,6 @@ public class Game {
         deck = new Deck();
     }
 
-    //TODO - Using this method??
-    /**
-     * printCards Method
-     *
-     * @param number
-     */
-    public void printCards(int number){
-        cardList = player1.hand.cards.get(player1.hand.cards.size() - 1).getCardName() + " of " +
-                player1.hand.cards.get(player1.hand.cards.size() - 1).getSuit() + ".";
-    }
-
-
     /**
      * initGame Method
      * Sets up the game with a shuffled deck, and assigns a hand for both players
@@ -47,46 +35,6 @@ public class Game {
         player1.hand.drawHand(deck);
         player2.hand.drawHand(deck);
     }
-
-    // TODO
-    /**
-     * playersTurn Method
-     *
-     */
-    /*public void playersTurn(){
-        //TODO: make player go fish or player receiving cards trigger a pop up that changes variable when closing
-        if ((player1.hand.cards.size() == 0 && deck.cards.size() == 0)
-                || (deck.cards.size() == 0 && player2.hand.cards.size() == 0)){
-            endGame();
-        }
-    }*/
-
-
-    /**
-     * computersTurn Method
-     * Controls the logic for the opponents turn
-     */
-   /* public void computersTurn(){
-        int card = player2.askForCard();
-        boolean goFish = checkForMatch(card);
-        if (goFish == true){
-            //TODO: popup with button that says "go fish" to close window, which will prompt:
-            player2.hand.drawTopCard(deck);
-        }
-        else {
-            //TODO: popup with button that says "Player 2 asked for *** " to close window
-            giveComputerCard(card);
-        }
-        if ((player1.hand.cards.size() == 0 && deck.cards.size() == 0)
-                || (deck.cards.size() == 0 && player2.hand.cards.size() == 0)){
-            endGame();
-        }
-        else {
-            currentRound = 1;
-            playersTurn();
-        }
-    }*/
-
 
     /**
      * playersAsk Method
@@ -108,23 +56,6 @@ public class Game {
         player2.hand.reorderHand();
         return receive;
     }
-
-
-    /**
-     * checkForMatch Method
-     * Returns either true or false based on whether there is a matching card
-     * @param matchId
-     * @return boolean
-     */
-    public boolean checkForMatch(int matchId){
-        for (int i = 0; i < player1.hand.cards.size(); i++) {
-            if (matchId == player1.hand.cards.get(i).getMatchId()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 
     /**
      * giveComputerCard Method

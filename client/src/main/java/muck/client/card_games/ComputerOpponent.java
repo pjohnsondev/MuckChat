@@ -6,7 +6,7 @@ import java.util.Random;
 public class ComputerOpponent extends Player {
     private int score;
     public Hand hand;
-    int scoreIncrement = 1;
+    //TODO: Fix this with the memory queues use, or remove altogether
     //This will be a rating out of 5 implemented in memory queues
     public int level;
     public int[] computerTurns;
@@ -31,36 +31,6 @@ public class ComputerOpponent extends Player {
         computerTurnsBool = new int[arrayLength];
         playerTurns = new int[arrayLength];
     }
-
-    //TODO Decide on which of the following 3 methods to use
-
-    /**
-     *
-     * @param matchId
-     */
-    /*public void addingToComputerTurns(int matchId){
-        for (int i = (arrayLength) - 2; i > 0; i--) {
-            if (computerTurns[i] != 0){
-                computerTurns[i + 1] = computerTurns[i];
-            }
-        }
-        computerTurns[0] = matchId;
-    }*/
-
-
-    /**
-     *
-     * @param matchId
-     */
-    /*public void addingToPlayerTurns(int matchId){
-        for (int i = (arrayLength) - 2; i > 0; i--) {
-            if (playerTurns[i] != 0){
-                playerTurns[i + 1] = playerTurns[i];
-            }
-        }
-        computerTurns[0] = matchId;
-    }*/
-
 
     /**
      *
@@ -110,6 +80,8 @@ public class ComputerOpponent extends Player {
                     }
                 }
             }
+            //TODO Try and fix the following block, otherwise delete
+
             // If there are no matches, the computer now picks a random card in hand to ask
             // for, trying to avoid asking for something it recently asked for.
 
@@ -133,6 +105,7 @@ public class ComputerOpponent extends Player {
         return 0;
     }
 
+    // Keeping this code to use in case of bug checking
     /*public void printHand(){
         for (int i = 0; i < hand.cards.size(); i ++){
             System.out.println(hand.cards.get(i).getFileName());

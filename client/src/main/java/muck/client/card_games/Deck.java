@@ -40,7 +40,7 @@ public class Deck {
 
 
     /**
-     *
+     * Function to shuffle the deck
      */
     public void shuffleCards() {
         Collections.shuffle(cards);

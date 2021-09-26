@@ -99,6 +99,25 @@ public class Hand extends Deck {
         }
     }
 
+    /**
+     * checkForSet Method
+     * Checks to see if a full set of 4 card has been made
+     * @param start
+     * @return boolean
+     */
+    public boolean checkForSet(boolean start){
+        for (int i = 0; i < cards.size() - 3; i++){
+            if (cards.get(i).getMatchId() == cards.get(i + 3).getMatchId()){
+                if (!start){
+                    selectAll(cards.get(i));
+                    makeSet(cards.get(i).getMatchId());
+                }
+                return true;
+            }
+        }
+        // Default case
+        return false;
+    }
 
     /**
      * makeSet Method.
@@ -141,28 +160,6 @@ public class Hand extends Deck {
             reorderHand();
         }
     }
-
-
-    /**
-     * checkForSet Method
-     * Checks to see if a full set of 4 card has been made
-     * @param start
-     * @return boolean
-     */
-    public boolean checkForSet(boolean start){
-        for (int i = 0; i < cards.size() - 3; i++){
-            if (cards.get(i).getMatchId() == cards.get(i + 3).getMatchId()){
-                if (!start){
-                    selectAll(cards.get(i));
-                    makeSet(cards.get(i).getMatchId());
-                }
-                return true;
-            }
-        }
-        // Default case
-        return false;
-    }
-
 
     /**
      * checkSelected Method
