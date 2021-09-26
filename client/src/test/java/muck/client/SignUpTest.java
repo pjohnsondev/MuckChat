@@ -52,11 +52,11 @@ public class SignUpTest {
         SignUpController user = new SignUpController();
 
         assertAll(
-                () -> assertTrue(user.userNameIsNotEmpty(username)),
-                () -> assertTrue(user.displayNameIsNotEmpty(displayName)),
-                () -> assertTrue(user.passwordIsNotEmpty(password)),
-                () -> assertTrue(user.displayNameIsNotEmpty(displayName)),
-                () -> assertTrue(user.passwordIsNotEmpty(password)),
+                () -> assertTrue(user.IsNotEmpty(username)),
+                () -> assertTrue(user.IsNotEmpty(displayName)),
+                () -> assertTrue(user.IsNotEmpty(password)),
+                () -> assertTrue(user.IsNotEmpty(displayName)),
+                () -> assertTrue(user.IsNotEmpty(password)),
                 () -> assertFalse(user.passwordsMatch(password, passwordTwo))
         );
     }
