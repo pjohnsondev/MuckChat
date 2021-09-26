@@ -267,7 +267,7 @@ public class CardsGameController implements Initializable {
                                 stageA.setScene(sceneA);
                                 stageA.show();
 
-                                okay.addEventHandler(MouseEvent.MOUSE_CLICKED, shut -> {
+                                okay.addEventHandler(MouseEvent.MOUSE_CLICKED, shutA -> {
                                     game.player1.hand.drawTopCard(game.deck);
                                 });
                             }
