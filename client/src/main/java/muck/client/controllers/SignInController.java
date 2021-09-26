@@ -52,9 +52,9 @@ public class SignInController {
     protected void signIn(MouseEvent event) throws Exception {
         String passwordText = password.getText();
         String uName = username.getText();
+        boolean fieldsAreNotEmpty = isNotEmpty(username.getText(), password.getText());
 
-
-        if(isNotEmpty(username.getText(), password.getText())){
+        if(fieldsAreNotEmpty){
             boolean dataSent = sendData(uName, passwordText);
             boolean success = false;
             Thread.sleep(500);
