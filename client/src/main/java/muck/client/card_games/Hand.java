@@ -106,6 +106,7 @@ public class Hand extends Deck {
      * @return boolean
      */
     public boolean checkForSet(boolean start){
+        reorderHand();
         for (int i = 0; i < cards.size() - 3; i++){
             if (cards.get(i).getMatchId() == cards.get(i + 3).getMatchId()){
                 if (!start){
