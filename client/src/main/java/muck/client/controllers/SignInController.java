@@ -18,6 +18,8 @@ import java.util.Objects;
 
 
 public class SignInController {
+
+
     @FXML
     Label error;
 
@@ -33,10 +35,11 @@ public class SignInController {
     @FXML
     Button signIn;
 
+    private static Stage stage = new Stage();
+
     // Use this method from external classes to open the gameplay window. Added by CA 14 Aug
     public static void constructor() {
         try {
-            Stage stage = new Stage();
             stage.setResizable(true);
             Parent root = FXMLLoader.load(Objects.requireNonNull(SignInController.class.getResource("/fxml/SignIn.fxml")));
             stage.setTitle("MUCK 2021");
@@ -78,14 +81,14 @@ public class SignInController {
     // TODO: Add Pass to Avatar Selection Display - work out how to pass data between scenes
     public static void passToNextScene(MouseEvent event, String username) {
         AvatarController nextScene = new AvatarController();
-        App.hideStage();
+        hide();
         nextScene.avatarCreation(event, username);
     }
 
     public boolean sendData(String userName, String passwordText){
         try {
-            MuckClient.getINSTANCE().login(userName, passwordText);
-            setError("Data Sent");
+            sendToMuck(userName, passwordText);
+            setError("Data sent");
             return true;
         } catch (Exception ex) {
             setError(String.format("Unable to create new user: %s.", userName));
@@ -95,7 +98,7 @@ public class SignInController {
 
     public boolean isNotEmpty(String username, String password){
         if(username.isEmpty()){
-            setError("You must enter a user name");
+            error.setText("You must enter a user name");
             return false;
         } else if(password.isEmpty()){
             setError("You must enter your password");
@@ -121,6 +124,14 @@ public class SignInController {
 
     public void setError(String notification){
         error.setText(notification);
+    }
+
+    public void sendToMuck(String username, String password){
+        MuckClient.getINSTANCE().login(username, password);
+    };
+
+    public static void hide(){
+        stage.hide();
     }
 
 }
