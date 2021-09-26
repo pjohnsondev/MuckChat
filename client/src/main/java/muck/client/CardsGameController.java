@@ -624,7 +624,10 @@ public class CardsGameController implements Initializable {
                     giveCardC.addEventHandler(MouseEvent.MOUSE_CLICKED, closeC -> {
                         game.player2.printHand();
                         game.giveComputerCard(computerAsk);
-                        game.player2.hand.checkForSet(false);
+                        if (game.player2.hand.checkForSet(false) == true){
+                            game.player2.addScore();
+                            updateSetsDisplay();
+                        }
                         setHandImages();
                         stageC.close();
                         game.player2.printHand();
@@ -725,84 +728,86 @@ public class CardsGameController implements Initializable {
         Image settest11 = new Image("images/cards/jack_of_hearts.png");
         Image settest12 = new Image("images/cards/queen_of_spades.png");
         Image settest13 = new Image("images/cards/king_of_clubs.png");
-    for( int i = 0; i<game.player1.hand.sets.size();i++) {
-        if (game.player1.hand.sets.get(i).getMatchId() == 1) {
-            set1.setImage(settest1);
-        }
-        if (game.player2.hand.sets.get(i).getMatchId() == 1) {
-            oset1.setImage(settest1);
-        }
-        if (game.player1.hand.sets.get(i).getMatchId() == 2) {
-            set2.setImage(settest2);
-        }
-        if (game.player2.hand.sets.get(i).getMatchId() == 2) {
-            oset2.setImage(settest2);
-        }
-        if (game.player1.hand.sets.get(i).getMatchId() == 3) {
-            set3.setImage(settest3);
-        }
-        if (game.player2.hand.sets.get(i).getMatchId() == 3) {
-            oset3.setImage(settest3);
-        }
-        if (game.player1.hand.sets.get(i).getMatchId() == 4) {
-            set4.setImage(settest4);
-        }
-        if (game.player2.hand.sets.get(i).getMatchId() == 4) {
-            oset4.setImage(settest4);
-        }
-        if (game.player1.hand.sets.get(i).getMatchId() == 5) {
-            set5.setImage(settest5);
-        }
-        if (game.player2.hand.sets.get(i).getMatchId() == 5) {
-            oset5.setImage(settest5);
-        }
-        if (game.player1.hand.sets.get(i).getMatchId() == 6) {
-            set6.setImage(settest6);
-        }
-        if (game.player2.hand.sets.get(i).getMatchId() == 6) {
-            oset6.setImage(settest6);
-        }
-        if (game.player1.hand.sets.get(i).getMatchId() == 7) {
-            set7.setImage(settest7);
-        }
-        if (game.player2.hand.sets.get(i).getMatchId() == 7) {
-            oset7.setImage(settest7);
-        }
-        if (game.player1.hand.sets.get(i).getMatchId() == 8) {
-            set8.setImage(settest8);
-        }
-        if (game.player2.hand.sets.get(i).getMatchId() == 8) {
-            oset8.setImage(settest8);
-        }
-        if (game.player1.hand.sets.get(i).getMatchId() == 9) {
-            set9.setImage(settest9);
-        }
-        if (game.player2.hand.sets.get(i).getMatchId() == 9) {
-            oset9.setImage(settest9);
-        }
-        if (game.player1.hand.sets.get(i).getMatchId() == 10) {
-            set10.setImage(settest10);
-        }
-        if (game.player2.hand.sets.get(i).getMatchId() == 10) {
-            oset10.setImage(settest10);
-        }
-        if (game.player1.hand.sets.get(i).getMatchId() == 11) {
-            set11.setImage(settest11);
-        }
-        if (game.player2.hand.sets.get(i).getMatchId() == 11) {
-            oset11.setImage(settest11);
-        }
-        if (game.player1.hand.sets.get(i).getMatchId() == 12) {
-            set12.setImage(settest12);
-        }
-        if (game.player2.hand.sets.get(i).getMatchId() == 12) {
-            oset12.setImage(settest12);
-        }
-        if (game.player1.hand.sets.get(i).getMatchId() == 13) {
-            set13.setImage(settest13);
-        }
-        if (game.player2.hand.sets.get(i).getMatchId() == 13) {
-            oset13.setImage(settest13);
+    for(int i = 0; i < game.player1.hand.sets.size(); i++) {
+        for (int j = 0; j < game.player2.hand.sets.size(); j++) {
+            if (game.player1.hand.sets.get(i).getMatchId() == 1) {
+                set1.setImage(settest1);
+            }
+            if (game.player2.hand.sets.get(j).getMatchId() == 1) {
+                oset1.setImage(settest1);
+            }
+            if (game.player1.hand.sets.get(i).getMatchId() == 2) {
+                set2.setImage(settest2);
+            }
+            if (game.player2.hand.sets.get(j).getMatchId() == 2) {
+                oset2.setImage(settest2);
+            }
+            if (game.player1.hand.sets.get(i).getMatchId() == 3) {
+                set3.setImage(settest3);
+            }
+            if (game.player2.hand.sets.get(j).getMatchId() == 3) {
+                oset3.setImage(settest3);
+            }
+            if (game.player1.hand.sets.get(i).getMatchId() == 4) {
+                set4.setImage(settest4);
+            }
+            if (game.player2.hand.sets.get(j).getMatchId() == 4) {
+                oset4.setImage(settest4);
+            }
+            if (game.player1.hand.sets.get(i).getMatchId() == 5) {
+                set5.setImage(settest5);
+            }
+            if (game.player2.hand.sets.get(j).getMatchId() == 5) {
+                oset5.setImage(settest5);
+            }
+            if (game.player1.hand.sets.get(i).getMatchId() == 6) {
+                set6.setImage(settest6);
+            }
+            if (game.player2.hand.sets.get(j).getMatchId() == 6) {
+                oset6.setImage(settest6);
+            }
+            if (game.player1.hand.sets.get(i).getMatchId() == 7) {
+                set7.setImage(settest7);
+            }
+            if (game.player2.hand.sets.get(j).getMatchId() == 7) {
+                oset7.setImage(settest7);
+            }
+            if (game.player1.hand.sets.get(i).getMatchId() == 8) {
+                set8.setImage(settest8);
+            }
+            if (game.player2.hand.sets.get(j).getMatchId() == 8) {
+                oset8.setImage(settest8);
+            }
+            if (game.player1.hand.sets.get(i).getMatchId() == 9) {
+                set9.setImage(settest9);
+            }
+            if (game.player2.hand.sets.get(j).getMatchId() == 9) {
+                oset9.setImage(settest9);
+            }
+            if (game.player1.hand.sets.get(i).getMatchId() == 10) {
+                set10.setImage(settest10);
+            }
+            if (game.player2.hand.sets.get(j).getMatchId() == 10) {
+                oset10.setImage(settest10);
+            }
+            if (game.player1.hand.sets.get(i).getMatchId() == 11) {
+                set11.setImage(settest11);
+            }
+            if (game.player2.hand.sets.get(j).getMatchId() == 11) {
+                oset11.setImage(settest11);
+            }
+            if (game.player1.hand.sets.get(i).getMatchId() == 12) {
+                set12.setImage(settest12);
+            }
+            if (game.player2.hand.sets.get(j).getMatchId() == 12) {
+                oset12.setImage(settest12);
+            }
+            if (game.player1.hand.sets.get(i).getMatchId() == 13) {
+                set13.setImage(settest13);
+            }
+            if (game.player2.hand.sets.get(j).getMatchId() == 13) {
+                oset13.setImage(settest13);
+            }
         }
     }
 }
