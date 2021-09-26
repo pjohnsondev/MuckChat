@@ -28,7 +28,8 @@ public class goFishLandingPage extends Node {
     private GraphicsContext gc;
 
     private ImageView titleView;
-    private static final Image TITLE = new Image("/images/cards/goFish.png");
+    //private static final Image TITLE = new Image("/images/cards/goFish.png");
+    private static final Image TITLE = new Image("images/cards/landingPagePic.png");
 
     final Button playButton = new Button("PLAY GO FISH");
     final Button howToPlayButton = new Button("HOW TO PLAY");
@@ -72,10 +73,10 @@ public class goFishLandingPage extends Node {
 
         // Title
         ImageView titleView = new ImageView();
-        titleView.setFitWidth(720);
-        titleView.setFitHeight(190);
+        titleView.setFitWidth(700);
+        titleView.setFitHeight(500);
         titleView.setImage(TITLE);
-        grid.add(titleView, 0,5,2,5);
+        grid.add(titleView, 0,12,2,5);
 
         // Play button
         playButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
@@ -118,27 +119,9 @@ public class goFishLandingPage extends Node {
             }
 
             // Set position of second window, related to primary window.
-            newWindow.show();
+           // newWindow.show();
         });
 
-
-
-            // Lets crack open a new window
-//            Stage newWindow = new Stage();
-//            newWindow.setTitle("Frogger");
-//            newWindow.setScene(secondScene);
-//            newWindow.initModality(Modality.WINDOW_MODAL);
-//
-//            Frogger frg = new Frogger();
-//            try {
-//                frg.start(newWindow);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
-//            // Set position of second window, related to primary window.
-//            newWindow.show();
-//        });
 
         exitButton.setOnAction(event -> {
             stage.getChildren().removeAll(grid, canvas);
