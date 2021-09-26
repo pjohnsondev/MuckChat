@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import muck.client.AvatarController;
 import muck.client.MuckClient;
 import muck.client.components.ActiveUser;
@@ -22,7 +23,7 @@ import java.util.EventListener;
 
 
 public class SignUpController {
-    private int maxPasswordLength = 10;
+    private Integer maxPasswordLength = 26;
     private int maxDisplayNameLength = 26;
     private int maxUsernameLength = maxPasswordLength;
     private static final Logger logger = LogManager.getLogger(App.class);
@@ -47,6 +48,7 @@ public class SignUpController {
 
     @FXML
     Button genName;
+
 
     @FXML
     void initialize() {
@@ -134,9 +136,9 @@ public class SignUpController {
     // Passwords match Validation method
     public boolean passwordsMatch(String passWordText, String passwordTwo) {
         if (passWordText.equals(passwordTwo)) {
-            error.setText("Passwords do not match");
             return true;
         } else {
+            setError("Passwords do not match");
             return false;
         }
     }
@@ -154,10 +156,10 @@ public class SignUpController {
         if (validated) {
             try {
                 MuckClient.getINSTANCE().signUp(userName, passwordText, displayName);
-                error.setText("New muck user created" + userName);
+                setError("New muck user created" + userName);
                 return true;
             } catch (Exception ex) {
-                error.setText("Unable to create new user: {}" + userName);
+                setError("Unable to create new user: {}" + userName);
 
                 throw new RuntimeException(String.format("Unable to create new user: %s.", userName));
 
@@ -176,10 +178,10 @@ public class SignUpController {
 
     public boolean success(){
         if(ActiveUser.getInstance().getServerMessage() != null && ActiveUser.getInstance().getServerMessage().equals("Signup successful")){
-            error.setText("Signup successful");
+            setError("Signup successful");
             return true;
         } else {
-            error.setText(ActiveUser.getInstance().getServerMessage());
+            setError(ActiveUser.getInstance().getServerMessage());
             return false;
         }
     }
@@ -193,19 +195,23 @@ public class SignUpController {
         String displayName = displayname.getText();
         String passwordTwo = passwordtwo.getText();
         if (!validUserNameLength(userName)) {
-            error.setText("Username must be less than " + maxUsernameLength + " characters");
+            setError("Username must be less than " + maxUsernameLength + " characters");
         } else if (!validPasswordLength(passWordText)) {
-            error.setText("Password must be less than " + maxPasswordLength + " characters");
+            setError("Password must be less than " + maxPasswordLength + " characters");
         } else if (!validDisplayNameLength(displayName)) {
-            error.setText("Display name must be less than " + maxDisplayNameLength + " characters");
+            setError("Display name must be less than " + maxDisplayNameLength + " characters");
         } else if (!IsNotEmpty(userName)) {
-            error.setText("You must enter a user name");
+            setError("You must enter a user name");
         } else if (!IsNotEmpty(displayName)) {
-            error.setText("You must enter a display name");
+            setError("You must enter a display name");
         } else if (!IsNotEmpty(passWordText)) {
-            error.setText("You must enter a password");
+            setError("You must enter a password");
         } else if (!passwordsMatch(passWordText, passwordTwo)) {
-            error.setText("Passwords do not match");
+            setError("Passwords do not match");
         }
+    }
+
+    public void setError(String notification){
+        error.setText(notification);
     }
 }
