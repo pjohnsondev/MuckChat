@@ -97,15 +97,6 @@ public class goFishLandingPage extends Node {
 
         // Create on-click events
         playButton.setOnAction(event -> {
-
-//            Label secondLabel = new Label("Welcome!");
-//            StackPane secondaryLayout = new StackPane();
-//            secondaryLayout.getChildren().add(secondLabel);
-//            Scene secondScene = new Scene(secondaryLayout, WIDTH, HEIGHT);
-
-
-            //TODO START GOFISH
-
             Stage newWindow = new Stage();
             newWindow.setTitle("Go Fish");
             //newWindow.setScene(secondScene);
@@ -118,8 +109,6 @@ public class goFishLandingPage extends Node {
                 e.printStackTrace();
             }
 
-            // Set position of second window, related to primary window.
-           // newWindow.show();
         });
 
 

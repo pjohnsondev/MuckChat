@@ -43,6 +43,7 @@ import javafx.stage.StageStyle;
 import muck.client.enduring_fantasy.LandingPageEf;
 import muck.client.space_invaders.LandingPage;
 import muck.client.frogger.LandingPageFrogger;
+import muck.client.card_games.goFishLandingPage;
 import muck.protocol.connection.*;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
@@ -88,8 +89,8 @@ public class MuckController implements Initializable {
     @FXML // fx:id="froggerMenu"
     private MenuItem froggerMenu; // Value injected by FXMLLoader
 
-   // @FXML // fx:id="goFishMenu"
-   // private MenuItem goFishMenu; // Value injected by FXMLLoader
+    @FXML // fx:id="goFishMenu"
+    private MenuItem goFishMenu; // Value injected by FXMLLoader
 
     @FXML // fx:id="tttMenu"
     private MenuItem tttMenu; // Value injected by FXMLLoader
@@ -121,6 +122,9 @@ public class MuckController implements Initializable {
 
     @FXML // fx:id="game3Button"
     private Button game3Button; // Value injected by FXMLLoader
+
+    @FXML // fx:id="game4Button"
+    private Button game4Button;
 
     @FXML // fx:id="openFullChat"
     private Button openFullChat; // Value injected by FXMLLoader
@@ -181,12 +185,14 @@ public class MuckController implements Initializable {
         spaceInvadersMenu.setOnAction(this::launchSpaceInvaders);
         enduringFantasyMenu.setOnAction(this::launchEnduringFantasy);
         froggerMenu.setOnAction(this::launchFrogger);
+        goFishMenu.setOnAction(this::launchGoFish);
         tttMenu.setOnAction(this::launchTicTacToe);
 
         //Game button functionality
         game1Button.setOnAction(this::launchSpaceInvaders);
         game2Button.setOnAction(this::launchEnduringFantasy);
         game3Button.setOnAction(this::launchFrogger);
+        game4Button.setOnAction(this::launchGoFish);
         game5Button.setOnAction(this::launchTicTacToe);
 
         //Chat section button functionality
@@ -441,6 +447,17 @@ public class MuckController implements Initializable {
         gamePane1.setCenter(canvas);
         BorderPane.setAlignment(canvas, Pos.CENTER);
         new LandingPageFrogger(gamePane1, canvas);
+    }
+
+    @FXML
+    private void launchGoFish (ActionEvent event) {
+        gamePane1.getChildren().clear();
+        Canvas canvas = new Canvas();
+        canvas.setHeight(gameCanvas.getHeight());
+        canvas.setWidth(gameCanvas.getWidth());
+        gamePane1.setCenter(canvas);
+        BorderPane.setAlignment(canvas, Pos.CENTER);
+        new goFishLandingPage(gamePane1, canvas);
     }
 
     @FXML
