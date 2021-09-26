@@ -243,7 +243,33 @@ public class CardsGameController implements Initializable {
                         }
                         if (game.checkEndGame() == 2) {
                             if (game.player1.hand.cards.size() == 0){
-                                game.player1.hand.drawTopCard(game.deck);
+                                Button okay = new Button();
+                                okay.setStyle("-fx-font-family: Times New Roman;");
+                                okay.setText("Okay!");
+                                BorderPane rootA = new BorderPane(new TextArea());
+                                Scene sceneA = new Scene(rootA, 300, 145);
+
+                                //box for text area
+                                HBox textHBA = new HBox();
+                                textHBA.setAlignment(Pos.TOP_CENTER);
+                                textHBA.setStyle("-fx-font-family: Times New Roman;");
+                                textHBA.getChildren().add(new TextArea("You ran out of cards. Draw one more!"));
+                                // just add the card that the player's picked up
+                                rootA.setCenter(textHBA);
+
+                                HBox butboxA = new HBox();
+                                butboxA.setAlignment(Pos.CENTER);
+                                butboxA.getChildren().add(okay);
+                                rootA.setBottom(butboxA);
+
+                                Stage stageA = new Stage();
+                                stageA.setTitle("Put Away Set of Cards");
+                                stageA.setScene(sceneA);
+                                stageA.show();
+
+                                okay.addEventHandler(MouseEvent.MOUSE_CLICKED, shut -> {
+                                    game.player1.hand.drawTopCard(game.deck);
+                                });
                             }
                             if (game.player2.hand.cards.size() == 0){
                                 game.player2.hand.drawTopCard(game.deck);
@@ -564,7 +590,33 @@ public class CardsGameController implements Initializable {
                         }
                         if (game.checkEndGame() == 2) {
                             if (game.player1.hand.cards.size() == 0){
-                                game.player1.hand.drawTopCard(game.deck);
+                                Button okay = new Button();
+                                okay.setStyle("-fx-font-family: Times New Roman;");
+                                okay.setText("Okay!");
+                                BorderPane rootA = new BorderPane(new TextArea());
+                                Scene sceneA = new Scene(rootA, 300, 145);
+
+                                //box for text area
+                                HBox textHBA = new HBox();
+                                textHBA.setAlignment(Pos.TOP_CENTER);
+                                textHBA.setStyle("-fx-font-family: Times New Roman;");
+                                textHBA.getChildren().add(new TextArea("You ran out of cards. Draw one more!"));
+                                // just add the card that the player's picked up
+                                rootA.setCenter(textHBA);
+
+                                HBox butboxA = new HBox();
+                                butboxA.setAlignment(Pos.CENTER);
+                                butboxA.getChildren().add(okay);
+                                rootA.setBottom(butboxA);
+
+                                Stage stageA = new Stage();
+                                stageA.setTitle("Put Away Set of Cards");
+                                stageA.setScene(sceneA);
+                                stageA.show();
+
+                                okay.addEventHandler(MouseEvent.MOUSE_CLICKED, shut -> {
+                                    game.player1.hand.drawTopCard(game.deck);
+                                });
                             }
                             if (game.player2.hand.cards.size() == 0){
                                 game.player2.hand.drawTopCard(game.deck);
