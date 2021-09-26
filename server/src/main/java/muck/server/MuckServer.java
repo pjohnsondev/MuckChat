@@ -16,12 +16,9 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
 import muck.core.character.Player;
-import muck.core.structures.PlayerStructure;
-import muck.core.structures.PointsStructure;
 import muck.core.user.SignUpInfo;
 import muck.server.Exceptions.UserNameAlreadyTakenException;
 import muck.server.models.ModelRegister;
-import muck.server.services.PlayerService;
 import muck.server.services.UserService;
 import muck.core.structures.UserStructure;
 import org.apache.logging.log4j.LogManager;
