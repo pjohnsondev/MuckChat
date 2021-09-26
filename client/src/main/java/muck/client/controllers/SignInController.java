@@ -33,7 +33,7 @@ public class SignInController {
     @FXML
     Button signIn;
 
-    // Use this method from external classes to open the gameplay window. Added by CA 14 Aug
+
     public static void constructor() {
         try {
             Stage stage = new Stage();

@@ -1,2 +1,5 @@
-package muck.client;public class SignInControllerIntegrationTest {
+package muck.client.controllers;
+
+public class SignInControllerIntegrationTest {
+
 }

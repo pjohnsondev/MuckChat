@@ -4,6 +4,9 @@ package muck.client.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -20,10 +23,11 @@ import muck.client.utilities.RandomNameGenerator;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.EventListener;
+import java.util.Objects;
 
 
 public class SignUpController {
-    private Integer maxPasswordLength = 26;
+    private int maxPasswordLength = 26;
     private int maxDisplayNameLength = 26;
     private int maxUsernameLength = maxPasswordLength;
     private static final Logger logger = LogManager.getLogger(App.class);
@@ -53,6 +57,20 @@ public class SignUpController {
     @FXML
     void initialize() {
         genName.setOnAction(this::randomDisplayName);
+    }
+
+    public static void constructor() {
+        try {
+            Stage stage = new Stage();
+            stage.setResizable(true);
+            Parent root = FXMLLoader.load(Objects.requireNonNull(SignInController.class.getResource("/fxml/SignUp.fxml")));
+            stage.setTitle("MUCK 2021");
+            stage.setScene(new Scene(root));
+            stage.show();
+            stage.toFront();
+        } catch (IOException e) {
+            System.out.println("Can't find primary stage FXML file");
+        }
     }
 
     // Todo add logic to
@@ -138,7 +156,6 @@ public class SignUpController {
         if (passWordText.equals(passwordTwo)) {
             return true;
         } else {
-            setError("Passwords do not match");
             return false;
         }
     }
@@ -194,13 +211,7 @@ public class SignUpController {
         String userName = username.getText();
         String displayName = displayname.getText();
         String passwordTwo = passwordtwo.getText();
-        if (!validUserNameLength(userName)) {
-            setError("Username must be less than " + maxUsernameLength + " characters");
-        } else if (!validPasswordLength(passWordText)) {
-            setError("Password must be less than " + maxPasswordLength + " characters");
-        } else if (!validDisplayNameLength(displayName)) {
-            setError("Display name must be less than " + maxDisplayNameLength + " characters");
-        } else if (!IsNotEmpty(userName)) {
+        if (!IsNotEmpty(userName)) {
             setError("You must enter a user name");
         } else if (!IsNotEmpty(displayName)) {
             setError("You must enter a display name");
@@ -208,10 +219,17 @@ public class SignUpController {
             setError("You must enter a password");
         } else if (!passwordsMatch(passWordText, passwordTwo)) {
             setError("Passwords do not match");
+        } else if (!validUserNameLength(userName)) {
+            setError("Username must be less than " + maxUsernameLength + " characters");
+        } else if (!validPasswordLength(passWordText)) {
+            setError("Password must be less than " + maxPasswordLength + " characters");
+        } else if (!validDisplayNameLength(displayName)) {
+            setError("Display name must be less than " + maxDisplayNameLength + " characters");
         }
     }
 
     public void setError(String notification){
         error.setText(notification);
     }
+
 }
