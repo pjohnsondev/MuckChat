@@ -2,17 +2,20 @@ package muck.core;
 
 import java.util.List;
 import java.util.ArrayList;
-import muck.core.character.Character;
+import java.util.stream.Collectors;
+import muck.core.LocationResponseData;
+import muck.core.AvatarLocation;
+import muck.core.MapId;
 
 public class LocationResponse {
 
-	public final List<Pair<String, Location>> data;
+	public final List<LocationResponseData> data;
 
-	public LocationResponse(List<Pair<String, Location>> d) {
-		data = d;
+	public LocationResponse(List<Triple<AvatarLocation, MapId, Location>> d) {
+		data = d.stream().map(p -> new LocationResponseData(p)).collect(Collectors.toList());
 	}
 
 	public LocationResponse() {
-	    data = new ArrayList<Pair<String, Location>>();
+		data = new ArrayList<LocationResponseData>();
 	}
 }

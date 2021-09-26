@@ -13,19 +13,24 @@ public class userMessageTest {
     @Test
     public void getMessageTest() {
         userMessage testMessage = new userMessage();
-        testMessage.setMessage("This is a test");
+        testMessage.setMessage("This is a test", "testUser");
         assertTrue("This is a test".equals(testMessage.getMessage()));
     }
 
     @Test
     public void getMessageTimestampTest() {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date currentDate = new Date();
-        String formattedDate = formatter.format(currentDate);
 
         userMessage testMessage = new userMessage();
-        testMessage.setMessage("This is a test");
+        testMessage.setMessage("This is a test", "testUser");
 
-        assertTrue(formattedDate.equals(testMessage.getMessageTimestamp()));
+        assertTrue(currentDate.equals(testMessage.getMessageTimestamp()));
+    }
+
+    @Test
+    public void getAssociatedUsernameTest() {
+        userMessage testMessage = new userMessage();
+        testMessage.setMessage("This is a test message", "testUser");
+        assertTrue("testUser".equals(testMessage.getUserName()));
     }
 }

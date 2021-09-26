@@ -12,7 +12,19 @@ public class ActiveUser {
 
     private static UserStructure userStructure;
 
+    private String serverMessage;
+
     private static ActiveUser instance = null;
+
+    public String[] serverResponses = {
+            "Login Successful",
+            "Duplicate login",
+            "Character does not exist. Please register.",
+            "Supplied credentials are invalid.",
+            "Signup successful",
+            "Username already exists",
+            "Displayname already exists"
+    };
 
     private ActiveUser() {
     }
@@ -36,7 +48,14 @@ public class ActiveUser {
         ActiveUser.userStructure = userStructure;
     }
 
+    public void setServerMessage(String message) {serverMessage = message; }
+
+    public String getServerMessage(){
+        return serverMessage;
+    }
+
     public void clearUser() {
         ActiveUser.userStructure = null;
     }
+
 }

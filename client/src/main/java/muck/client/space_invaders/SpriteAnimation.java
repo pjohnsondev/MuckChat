@@ -1,44 +1,44 @@
 package muck.client.space_invaders;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderWidths;
+import muck.client.Sprite;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
+import java.util.List;
 
 public class SpriteAnimation extends Image {
 
     // Instance variables
-    private double requestedWidth;
-    private double requestedHeight;
-    private double positionX;
-    private double positionY;
+    private double width;
+    private double height;
     private int x;
     private int y;
-    private int health;
+    private int lives;
     private int damage;
-    private boolean preserveRation;
+    private boolean preserveRatio;
     private boolean smooth;
     private String type;
-    // Default sprite size
     private static final Double SPRITE_SIZE = 50.00;
-    // Sprite movement distance
-    private static final int SPRITE_MOVEMENT = 4;
+    private static final int SPRITE_MOVEMENT = 6;
+    private static final int PLAYER_LASER_SIZE = 24;
+    private static final int EXPLOSION_SIZE = 72;
     private KeyCode direction;
+
 
     /**
      * Default constructor
      */
     public SpriteAnimation(){
-        super("/images/SpaceInvaders/ship.png");
-        this.requestedWidth = SPRITE_SIZE;
-        this.requestedHeight = SPRITE_SIZE;
+        super(SpaceInvadersUtility.imageURLs.get("PLAYER"));
+        this.width = SPRITE_SIZE;
+        this.height = SPRITE_SIZE;
         this.x = 0;
         this.y = 0;
-        this.health = 1;
+        this.lives = 1;
         this.damage = 1;
-        this.preserveRation = true;
+        this.preserveRatio = true;
         this.smooth = true;
         this.type = "";
     }
@@ -47,53 +47,42 @@ public class SpriteAnimation extends Image {
      * Constructor:
      *
      * Extends Image class taking in the following parameters
-     * (url, requestedWidth, requestedHeight and preserveRatio definitions taken from the java docs):
+     * (url, width, requestedHeight and preserveRatio definitions taken from the java docs):
      * @param url - the string representing the URL to use in fetching the pixel data
-     * @param requestedWidth - the image's bounding box width
-     * @param requestedHeight - the image's bounding box height
+     * @param width - the image's bounding box width
+     * @param height - the image's bounding box height
      * @param x - x position of sprite
      * @param y - y position of sprite
      * @param preserveRatio - indicates whether to preserve the aspect ratio of the original image when scaling to fit the image within the specified bounding box
      * @param smooth - indicates whether to use a better quality filtering algorithm or a faster one when scaling this image to fit within the specified bounding box
-     * @param health - set the health of the sprite
+     * @param lives - set the health of the sprite
      * @param damage - set how much damage a sprite's shot will do
      * @param type - defines whether the sprite is a player, an enemy or a bullet.
      */
-    public SpriteAnimation(String url,double requestedWidth, double requestedHeight, int x, int y,
-                           boolean preserveRatio, boolean smooth, int health, int damage, String type) {
-        super(url, requestedWidth, requestedHeight, preserveRatio, smooth);
+    public SpriteAnimation(String url, double width, double height, int x, int y,
+                           boolean preserveRatio, boolean smooth, int lives, int damage, String type) {
+        super(url, width, height, preserveRatio, smooth);
         this.x = x;
         this.y = y;
-        this.health = health;
+        this.lives = lives;
         this.damage = damage;
-        this.preserveRation = preserveRatio;
+        this.preserveRatio = preserveRatio;
         this.smooth = smooth;
         this.type = type;
     }
 
     // Set and get methods
-    public void setHealth(int health) { this.health = health; }
+    public void setLives(int lives) { this.lives = lives; if (this.lives < 0) this.lives = 0; }
 
-    public int getHealth() {
-        return health;
-    }
+    public int getLives() { return lives; }
 
-    public void setDamage(int damage) {
-        this.damage = damage;
-    }
+    public void setDamage(int damage) { this.damage = damage; }
 
-    public int getDamage() {
-        return damage;
-    }
+    public int getDamage() { return damage; }
 
-    public int getX() {
-        return x;
-    }
-    public void doubleGetX() {double x = getX();};
+    public int getX() { return x; }
 
-    public void setX(int x) {
-        this.x = x;
-    }
+    public void setX(int x) { this.x = x;}
 
     public int getY() { return y; }
 
@@ -137,14 +126,77 @@ public class SpriteAnimation extends Image {
                 (int) this.getRequestedHeight());
     }
 
+    /**
+     * Function name: shoot
+     * Purpose: To allow the Sprites to shoot
+     * Arguments: nil
+     * Return: void
+     */
+    public void shoot(List<SpriteAnimation> shootingList) {
+        shootingList.add(new SpriteAnimation (SpaceInvadersUtility.imageURLs.get(this.type + "_LASER"), PLAYER_LASER_SIZE,
+                (PLAYER_LASER_SIZE * 2), this.getX(), this.getY(),
+                true, true, 1, 1, this.type + "_LASER"));
+    }
+
+
+    /**
+     * Function name: shoot
+     * Purpose: To allow the Sprites to shoot
+     * Arguments: nil
+     * Return: void
+     */
+    public void shoot(List<SpriteAnimation> shootingList, int x, int y) {
+        shootingList.add(new SpriteAnimation (SpaceInvadersUtility.imageURLs.get(this.type + "_LASER"), PLAYER_LASER_SIZE * 1.5,
+                (PLAYER_LASER_SIZE * 2), x, y,
+                true, true, 1, 1, this.type + "_LASER"));
+    }
+
+
+    /**
+     * Function name: explode
+     * Purpose: To draw the explosion gif when collision is detected
+     * @param explosionList - SpriteAnimation list to add image to.
+     * Return: void
+     */
+    public void explode(List<SpriteAnimation> explosionList) {
+        explosionList.add(new SpriteAnimation(SpaceInvadersUtility.imageURLs.get("EXPLOSION"), EXPLOSION_SIZE,
+                EXPLOSION_SIZE, this.getX(), this.getY(), true, true,
+                20, 1, "EXPLOSION"));
+    }
+
+    /**
+     * Function name: boundPlayer
+     * Purpose: To prevent the player spite from moving outside the bounds of the canvas
+     * @param playerWidth - an integer representing the width of the player sprite.
+     * @param playerHeight - an integer representing the height of the player sprite.
+     * @param width - an integer representing the width of the canvas.
+     * @param height - an integer representing the height of the canvas.
+     * Return: void
+     */
+    public void boundPlayer(int playerWidth, int playerHeight, int width, int height){
+        if (this.getX() < 0){
+            this.setX(0);
+        }
+        if (this.getX() + playerWidth > width){
+            this.setX(width - playerWidth);
+        }
+        if (this.getY() < 0){
+            this.setY(0);
+        }
+        if (this.getY() + playerHeight >= height - 25){
+            this.setY((height - 25) - playerHeight);
+        }
+
+    }
+
     @Override
     public String toString() {
         return "SpriteAnimation{" +
-                "requestedWidth=" + requestedWidth +
-                ", requestedHeight=" + requestedHeight +
-                ", health=" + health +
+                "width=" + width +
+                ", height=" + height +
+                ", health=" + lives +
                 ", damage=" + damage +
-                ", preserveRation=" + preserveRation +
+                ", preserveRation=" + preserveRatio +
                 ", smooth=" + smooth +
                 ", type='" + type + '\'' +
                 '}';

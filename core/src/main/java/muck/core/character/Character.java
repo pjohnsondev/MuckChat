@@ -28,6 +28,13 @@ public abstract class Character {
     protected void setIdentifier(String identifier) {
         _identifier = identifier;
     }
+
+    /**
+     * Returns the unique identifier for this Character
+     */
+    public String getIdentifier() {
+        return _identifier;
+    }
     
     // Move character up
     public void moveUp(double speed) {
@@ -56,7 +63,6 @@ public abstract class Character {
     public boolean saveToBackendStorage() {
         // Instead of updating the database after every stat modification, we may only wish to do this periodically,
         // to prevent an overload of transactions
-        //TODO implement with backend - Issue #24 and Issue #32
 
         return StorageHandler.saveCharacter(this);
     }
@@ -150,7 +156,6 @@ public abstract class Character {
      * @return Return "up", "down", "left", or "right" as a string
      */
     public String getDirection() {
-        //Specifics of how direction is handled is up to 
         return _direction_facing;
     }
 
@@ -173,13 +178,6 @@ public abstract class Character {
     }
 
     /**
-     * Returns the unique identifier for this Character
-     */
-    public String getIdentifier() {
-        return _identifier;
-    }
-
-    /**
      Gets the Character avatar based upon its string
      @return String representing the user's avatar (subject to confirmation)
      */
@@ -193,7 +191,7 @@ public abstract class Character {
      @return Was the avatar successfully set?
      */
     public boolean setAvatar(String userAvatar) {
-        _avatar = userAvatar; //TODO: Sanitization check, ensure userAvatar is valid as determined by Avatar class
+        _avatar = userAvatar;
         saveToBackendStorage(); //Do a character save after setting the Avatar
         
         return false;

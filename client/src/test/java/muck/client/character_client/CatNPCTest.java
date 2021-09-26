@@ -1,25 +1,40 @@
 package muck.client.character_client;
 
-import javafx.scene.canvas.*;
+import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import muck.client.TileMapReader;
-
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import static org.mockito.Mockito.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;;
 
 public class CatNPCTest {
 
     private static final Logger logger = LogManager.getLogger(CatNPCTest.class);
-    private CatNPC cat;
+    private static CatNPC cat1;
+    private static CatNPC cat2;
+    private static TileMapReader tm;
 
-    @BeforeEach
-    public void init() {
-        cat = mock(CatNPC.class, CALLS_REAL_METHODS);
+    // Setup before all tests
+    @BeforeAll
+    public static void setup() throws InterruptedException {
+        // setup JavaFX Runtime if not already running
+        try {
+            Platform.startup(() -> {
+            });
+        } catch (java.lang.IllegalStateException e) {
+            logger.info("Platform has already been started");
+        }
+
+        // setup cat NPCs
+        tm = new TileMapReader("/maps/homeTown.tmx");
+        cat1 = new CatNPC("cat1", 0, 0, "white", tm);
+        cat2 = new CatNPC("cat1", 0, 0, "white", tm,
+                "right", 10, 0,5);
     }
 
     // Test catNPC can be any colour
@@ -27,82 +42,92 @@ public class CatNPCTest {
     public void testColour() {
         logger.info("Testing all colours for the cat npc");
 
-        cat.setColour(" ");
         assertArrayEquals(
                 (new int[]{0, 0}),
-                cat.getSourceRectangle(),
-                "Direction should be white");
+                cat1.getSourceRectangle(),
+                "Colour should start as white");
 
-        cat.setColour("grey");
+        cat1.setColour(" ");
+        assertArrayEquals(
+                (new int[]{0, 0}),
+                cat1.getSourceRectangle(),
+                "Colour should be white");
+
+        cat1.setColour("grey");
         assertArrayEquals(
                 (new int[]{144, 0}),
-                cat.getSourceRectangle(),
-                "Direction should be grey");
+                cat1.getSourceRectangle(),
+                "Colour should be grey");
 
-        cat.setColour("brown");
+        cat1.setColour("brown");
         assertArrayEquals(
                 (new int[]{288, 0}),
-                cat.getSourceRectangle(),
-                "Direction should be white");
+                cat1.getSourceRectangle(),
+                "Colour should be brown");
 
-        cat.setColour("black");
+        cat1.setColour("black");
         assertArrayEquals(
                 (new int[]{432, 0}),
-                cat.getSourceRectangle(),
-                "Direction should be white");
+                cat1.getSourceRectangle(),
+                "Colour should be black");
 
-        cat.setColour("beige");
+        cat1.setColour("beige");
         assertArrayEquals(
                 (new int[]{0, 192}),
-                cat.getSourceRectangle(),
-                "Direction should be white");
+                cat1.getSourceRectangle(),
+                "Colour should be beige");
 
-        cat.setColour("tip");
+        cat1.setColour("tip");
         assertArrayEquals(
                 (new int[]{144, 192}),
-                cat.getSourceRectangle(),
-                "Direction should be white");
+                cat1.getSourceRectangle(),
+                "Colour should be tip");
 
-        cat.setColour("spot");
+        cat1.setColour("spot");
         assertArrayEquals(
                 (new int[]{288, 192}),
-                cat.getSourceRectangle(),
-                "Direction should be white");
+                cat1.getSourceRectangle(),
+                "Colour should be spot");
 
-        cat.setColour("tiger");
+        cat1.setColour("tiger");
         assertArrayEquals(
                 (new int[]{432, 192}),
-                cat.getSourceRectangle(),
-                "Direction should be tiger");
+                cat1.getSourceRectangle(),
+                "Colour should be tiger");
     }
 
     // Test catNPC can change directions
     @Test
-    public void testDirection() {
+    public void testChangeDirection() {
         logger.info("Testing directions for the cat npc");
 
-        cat.changeDirection("down");
-        assertArrayEquals(
-                (new int[]{0, 0}),
-                cat.getSourceRectangle(),
-                "Direction should be down");
-
-        cat.changeDirection("left");
-        assertArrayEquals(
-                (new int[]{0, 49}),
-                cat.getSourceRectangle(),
-                "Direction should be left");
-
-        cat.changeDirection("right");
         assertArrayEquals(
                 (new int[]{0, 97}),
-                cat.getSourceRectangle(),
+                cat2.getSourceRectangle(),
+                "Direction should start facing right");
+
+        cat2.changeDirection("down");
+        assertArrayEquals(
+                (new int[]{0, 0}),
+                cat2.getSourceRectangle(),
+                "Direction should be down");
+
+        cat2.changeDirection("left");
+        assertArrayEquals(
+                (new int[]{0, 49}),
+                cat2.getSourceRectangle(),
+                "Direction should be left");
+
+        cat2.changeDirection("right");
+        assertArrayEquals(
+                (new int[]{0, 97}),
+                cat2.getSourceRectangle(),
                 "Direction should be right");
 
-        cat.changeDirection("up");
+        cat2.changeDirection("up");
         assertArrayEquals(
                 (new int[]{0, 145}),
-                cat.getSourceRectangle(),
+                cat2.getSourceRectangle(),
                 "Direction should be up");
     }
 
@@ -111,10 +136,10 @@ public class CatNPCTest {
     public void testDialog() {
         logger.info("Testing dialog options for the cat npc");
         assertAll(
-                () -> assertEquals("Meow!", cat.dialog(1)),
-                () -> assertEquals("Hiss!!!", cat.dialog(2)),
-                () -> assertEquals("Purr", cat.dialog(3)),
-                () -> assertEquals("...", cat.dialog(9))
+                () -> assertEquals("Meow!", cat1.dialog(1)),
+                () -> assertEquals("Hiss!!!", cat1.dialog(2)),
+                () -> assertEquals("Purr", cat1.dialog(3)),
+                () -> assertEquals("...", cat1.dialog(9))
         );
     }
 
@@ -124,21 +149,33 @@ public class CatNPCTest {
         final Canvas canvas = new Canvas(250,250);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        logger.info("Testing draw cat npc can invoke");
-        doNothing().when(cat).drawCatNPC(gc, 0.0, 0.0);
-        cat.drawCatNPC(gc, 0.0, 0.0);
-        verify(cat, times(1)).drawCatNPC(gc, 0.0, 0.0);
+        logger.info("Testing cat is drawn");
+        cat1.drawCatNPC(gc, 0.0, 0.0, tm);
+
+        TileMapReader tm2 = new TileMapReader("/maps/cave.tmx");
+
+        logger.info("Testing cat is not drawn to other maps");
+        cat1.drawCatNPC(gc, 0.0, 0.0, tm2);
     }
 
-    // Test cat NPC walk is invoked
+    // Test cat NPC random walk
     @Test
     public void testHandle() {
-        TileMapReader tm = new TileMapReader("/maps/homeTown.tmx");
-        cat.setNpcRandomWalk(0.3, 60, 30);
+        cat1.setNpcRandomWalk(1, 0, 2);
+        boolean x = false;
+        boolean y = false;
 
-        logger.info("Testing handle random walk can invoke");
-        doNothing().when(cat).handle(tm);
-        cat.handle(tm);
-        verify(cat, times(1)).handle(tm);
+        logger.info("Testing handle of random walk");
+        for(int i = 0; i < 50; i++) {
+            cat1.handle();
+            if (cat1.getXPos() != 0) {
+                x = true;
+            }
+            if (cat1.getYPos() != 0) {
+                y = true;
+            }
+        }
+        assertTrue(x);
+        assertTrue(y);
     }
 }

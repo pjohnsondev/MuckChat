@@ -9,6 +9,15 @@ public class NPC extends Character implements INPCColleague {
     private String otherNPCIdentifier;  
     private Action otherNPCAction;
 
+    // source image width and height
+    private int sx;
+    private int sh;
+
+    // motion and movement
+    private NPCStateRandomWalk npcStateRandomWalk;
+    private int move = 0;
+    private boolean change = false;
+
     /**
      * NPC constructor. This class is an extension of the Character class for NPC/monster characters.
      * This should instantiate an NPC with an identifier that exists in the backend persistent storage.
@@ -16,10 +25,8 @@ public class NPC extends Character implements INPCColleague {
      * Example usage: NPC npc_id = new NPC("npc_id");
      */
     public NPC(String NPCId) throws CharacterDoesNotExistException {
-        //TODO - Retrieve the identifier/NPC ID from the backend database, then populate all fields with 
-        // NPC values from the database
         boolean databaseRetrievalSuccessful = true; // keep this true to avoid integration test failure, until
-                                                    // actual implementation of database server from Issue #24 is
+                                                    // actual implementation of database server from Issue #24
                                                     // is provided
         if (!databaseRetrievalSuccessful) {
             throw new CharacterDoesNotExistException(NPCId);
@@ -30,23 +37,24 @@ public class NPC extends Character implements INPCColleague {
     }
 
     /**
-     * Dummy constructor for a NPC object with a "null" identifier. Does not
-     * check with backend storage for a valid username. Should only be used for unit tests that don't use backend
+     * Dummy constructor for a NPC object with a "null" identifier.
+     * Does not check with backend storage for a valid username.
+     * Will be removed if database is implemented
      */
     public NPC() {
         this.setIdentifier(null);
     }
-    
-    //TODO - NPC should have a separate controller to the player. May incorporate AI based movement, behaviour etc.
-//    public npcController() {
-//    }
 
-    // To be called once per pre-determined fixed timestep
+    /**
+     * To be called once per pre-determined fixed timestep
+     */
     public void Update() {
         getStateBehaviour().handle();
     }
     
-    /* Sets the state of the NPC object */
+    /**
+     * Sets the state of the NPC object
+     */
     public void setState(NPCState npcState) {
         if (npcState == NPCState.None) {
             this.setStateBehaviour(new NPCStateNone());
@@ -56,8 +64,8 @@ public class NPC extends Character implements INPCColleague {
         }
     }
     
-    /* 
-        Retrieve the current NPC state
+    /**
+     * Retrieve the current NPC state
      */
     public NPCState getState() {
         return this.getNpcState();
@@ -107,15 +115,15 @@ public class NPC extends Character implements INPCColleague {
     }
 
 
-    /* 
-        Send an Action message to another NPC object, via the ConcreteNPCMediator
+    /**
+     * Send an Action message to another NPC object, via the ConcreteNPCMediator
      */
     public void messageOtherNPC(String targetNPCIdentifier, Action action) {
         GlobalTracker.concreteNPCMediator.messageToOtherNPC(this, targetNPCIdentifier, action);
     }
     
-    /* 
-        Implementation of the INPCColleague interface
+    /**
+     * Implementation of the INPCColleague interface
      */
     @Override
     public void receive(String sendingNPCIdentifier, Action action) {
@@ -155,5 +163,59 @@ public class NPC extends Character implements INPCColleague {
 
     public void setStateBehaviour(INPCState stateBehaviour) {
         this.stateBehaviour = stateBehaviour;
+    }
+
+    /**
+     * Set NPC Random Walk speed and times
+     * @param speed Speed of NPC walk
+     * @param timeWait Time waiting in a spot
+     * @param timeWalk Time while walking
+     */
+    public void setNpcRandomWalk(double speed, float timeWait, float timeWalk) {
+        npcStateRandomWalk = new NPCStateRandomWalk(this, speed, timeWait, timeWalk);
+        setState(NPCState.RandomWalk);
+    }
+
+    /**
+     * Implements npcStateRandomWalk and allows NPC to walk in random directions
+     */
+    public void handle() {
+        this.npcStateRandomWalk.handle();
+
+        // walking
+        if (this.npcStateRandomWalk.walking) {
+            if (this.npcStateRandomWalk.elapsed % ((int)(this.npcStateRandomWalk.timeWalk / 8) ) == 0) {
+                change = true;
+                move++;
+            }
+            if (change && move < 3) {
+                sx += 48;
+            } else if (change && move < 5) {
+                sx -= 48;
+            } else if (change) {
+                move = 0;
+            }
+            change = false;
+        }
+    }
+
+    /**
+     * Set source width coordinate
+     * @param sx source width
+     */
+    public void setSx(int sx) {this.sx = sx;}
+
+    /**
+     * Set source height coordinate
+     * @param sh source height
+     */
+    public void setSh(int sh) {this.sh = sh;}
+
+    /**
+     * Return source rectangle width and height coordinates
+     * @return Array of source rectangle width and source rectangle height [sx, sh]
+     */
+    public int[] getSourceRectangle() {
+        return new int[]{this.sx, this.sh};
     }
 }

@@ -1,8 +1,6 @@
 package muck.client;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.shape.Rectangle;
-import muck.client.AvatarController;
 
 /*
 Collaboration:
@@ -20,7 +18,6 @@ public class Sprite {
     private double dx, dy; // define directional x and y var
     private Image image; // Image of the avatar to be drawn
     public int sh; //The starting height for the sprite sheet 0/55/110/165 LEFT/RIGHT/UP/DOWN
-
     private double x, y;
     private int width, height;
 
@@ -37,7 +34,11 @@ public class Sprite {
     public Sprite(int x, int y) {
         this.x = x; //spawn location
         this.y = y; //spawn location
-        this.image = AvatarController.getSprite(AvatarController.getAvatarId());
+        try {
+            this.image = AvatarController.getSprite(AvatarController.getAvatarId());
+        } catch (ExceptionInInitializerError e) {
+            this.image = new Image("/images/" + AvatarController.getAvatarId() + "Sprite.png");
+        }
         /*String avatarInitial = "/images/" + AvatarController.getAvatarId() + "Sprite.png";
         this.image = new Image(avatarInitial);*/
     }
@@ -49,6 +50,7 @@ public class Sprite {
      */
     public void move(TileMapReader tm, Sprite hero) {
         changeDirection();  //Make sure the sprite is facing the way of movement
+        this.image = AvatarController.getSprite(AvatarController.getAvatarId());
         double newX = hero.getPosX() + dx;  //newX is checked for collision or other action here
         double newY = hero.getPosY() + dy;  //newY is checked for collision or other action here
 
@@ -63,10 +65,10 @@ public class Sprite {
             }
     }
 
+    // getters and setters
 	public String getAvatar() {
 		return this.image.getUrl();
 	}
-    // getters and setters
     public void setDx(double dx) { this.dx = dx; } // set direction x
     public void setDy(double dy) { this.dy = dy; } // set direction y
     public double getPosX() { return x; } // get player x Pos
@@ -108,6 +110,17 @@ public class Sprite {
         }
         //Draw avatar
         gc.drawImage(hero.image, 0, hero.sh, 60,55, drawX - 13,drawY - 28,26,30);
+    }
+
+    /**
+     * This method draws the other players on the map (non-hero)
+     * @param gc the graphics context to draw to
+     * @param player the Sprite instance to draw
+     * @param x Correct X position in current viewport to draw to
+     * @param y Correct Y position in current viewport to draw to
+     */
+    public void drawPlayer(GraphicsContext gc, Sprite player, double x, double y) {
+        gc.drawImage(player.image, 0, player.sh, 60,55, x - 13,y - 28,26,30);
     }
 
     /**
