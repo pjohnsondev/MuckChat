@@ -1,64 +1,77 @@
 package muck.client.controllers;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
-import muck.client.controllers.SignInController;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.testfx.framework.junit5.ApplicationTest;
 
-
-import static org.mockito.Mockito.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class SignInControllerTest extends ApplicationTest {
-    private static final Logger logger = LogManager.getLogger(SignInController.class);
+    private static final Logger logger = LogManager.getLogger();
 
-    private SignInController controllerMock = mock(SignInController.class);
-    private String testUsername = "Test Username";
-    private String testPassword = "Test Password";
-    private String testEmptyField = "";
+    private String passwordText = "password";
+    private String userNameText= "username";
+    private String emptyText = "";
 
-    @BeforeAll
-    public static void beforeAll(){
-        logger.info("Run this code 'before all' tests");
-    }
+    @Mock
+    private PasswordField password;
+    @Mock
+    private Label error;
+    @Mock
+    private PasswordField passwordtwo;
+    @Mock
+    private TextField username;
+    @Mock
+    private Button signUp;
+    @Mock
+    private Button signIn;
+
+    private AutoCloseable closeable;
+
+    @InjectMocks
+    SignInController controllerMock;
+
 
     @BeforeEach
-    public void beforeEach(){
-        logger.info("Run this code 'before each' test");
+    void initService() {
+        closeable = MockitoAnnotations.openMocks(this);
+        controllerMock.password = new PasswordField();
+        controllerMock.username = new TextField();
+        controllerMock.signUp = new Button();
+        controllerMock.signIn = new Button();
+    }
+
+    @AfterEach
+    void closeService() throws Exception {
+        closeable.close();
     }
 
     @Test
     public void testIsNotEmpty() {
         logger.info("Testing that empty input fields halt signin");
 
-        doNothing().when(controllerMock).setError(anyString());
-        when(controllerMock.isNotEmpty(anyString(), anyString())).thenCallRealMethod();
-
         assertAll(
-                () -> assertFalse(controllerMock.isNotEmpty(testUsername, testEmptyField)),
-                () -> assertFalse(controllerMock.isNotEmpty(testEmptyField, testPassword)),
-                () -> assertFalse(controllerMock.isNotEmpty(testEmptyField, testEmptyField)),
-                () -> assertTrue(controllerMock.isNotEmpty(testUsername, testPassword))
+                () -> assertFalse(controllerMock.isNotEmpty(userNameText, emptyText)),
+                () -> assertFalse(controllerMock.isNotEmpty(emptyText, passwordText)),
+                () -> assertFalse(controllerMock.isNotEmpty(emptyText, emptyText)),
+                () -> assertTrue(controllerMock.isNotEmpty(userNameText, passwordText))
         );
     }
 
-
-
     @Test
-    //TODO possibly test integration with muckclient
-    public void testDataSent() {
-        // Given
-
-        //Then
-
-        //When
-        controllerMock.sendData(testUsername, testPassword);
+    public void testErrorsDisplay(){
+        logger.info("Testing that empty input fields cause an error to display");
+        controllerMock.isNotEmpty(userNameText, emptyText);
+//        assertTrue(controllerMock.error.getText().equals());
     }
-
-
 }
