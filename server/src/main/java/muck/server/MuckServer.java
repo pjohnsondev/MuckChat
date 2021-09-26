@@ -16,11 +16,9 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
 import muck.core.character.Player;
-import muck.core.structures.PlayerStructure;
 import muck.core.user.SignUpInfo;
 import muck.server.Exceptions.UserNameAlreadyTakenException;
 import muck.server.models.ModelRegister;
-import muck.server.services.PlayerService;
 import muck.server.services.UserService;
 import muck.core.structures.UserStructure;
 import org.apache.logging.log4j.LogManager;
@@ -148,7 +146,6 @@ public enum MuckServer {
                 }
         ));
 
-
 		addListener(ListenerBuilder.forClass(muck.core.LocationRequest.class).onReceive((connection, lr) -> {
 			    List<Triple<AvatarLocation, MapId, Location>> locs = tracker.getAllLocationsExceptId(lr.id);
 			kryoServer.sendToTCP(connection.getID(), new LocationResponse(locs));
@@ -162,9 +159,18 @@ public enum MuckServer {
             loginPlayer(login, (MuckConnection) connection);
         }));
 
-		addListener(ListenerBuilder.forClass(UpdatePlayerRequest.class).onReceive((connection, req) -> {
+        addListener(ListenerBuilder.forClass(UserStructure.class).onReceive((connection, userStructure) -> {
+            try {
+                new UserService().updateUser(userStructure);
+            } catch (SQLException exception) {
+                logger.info(exception.getMessage());
+            }
+        }));
+
+        addListener(ListenerBuilder.forClass(UpdatePlayerRequest.class).onReceive((connection, req) -> {
 			    tracker.updateLocationById(req.id, req.avatar, req.mapId, req.location);
 		}));
+
 	}
 
 	public void createAccount(SignUpInfo signUpInfo, MuckConnection connection) {

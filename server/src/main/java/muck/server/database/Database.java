@@ -1,8 +1,5 @@
 package muck.server.database;
 
-import akka.event.DiagnosticLoggingAdapter;
-
-import javax.swing.JOptionPane;
 import java.sql.*;
 
 /**

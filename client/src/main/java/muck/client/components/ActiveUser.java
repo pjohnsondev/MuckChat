@@ -36,6 +36,10 @@ public class ActiveUser {
         return ActiveUser.instance;
     }
 
+    public static void destroyInstance() {
+        ActiveUser.instance = null;
+    }
+
     public boolean userIsSignedIn() {
         return userStructure != null;
     }

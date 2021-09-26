@@ -12,9 +12,6 @@ public class Game {
     public ComputerOpponent player2;
     public Deck deck;
     //as long as active is true, the current round remains active. once it is changed to false, the turn ends
-    public String cardList;
-    public int winner;
-
 
     /**
      * Constructor Function for the Game Class
@@ -26,21 +23,9 @@ public class Game {
         deck = new Deck();
     }
 
-    //TODO - Using this method??
-    /**
-     * printCards Method
-     *
-     * @param number
-     */
-    public void printCards(int number){
-        cardList = player1.hand.cards.get(player1.hand.cards.size() - 1).getCardName() + " of " +
-                player1.hand.cards.get(player1.hand.cards.size() - 1).getSuit() + ".";
-    }
-
-
     /**
      * initGame Method
-     * Sets up the game with a shuffled deck, and assigns a hand for both players
+     * Sets up the game with a shuffled deck, and deals a hand for each player
      */
     public void initGame(){
         deck.shuffleCards();
@@ -48,52 +33,12 @@ public class Game {
         player2.hand.drawHand(deck);
     }
 
-    // TODO
-    /**
-     * playersTurn Method
-     *
-     */
-    /*public void playersTurn(){
-        //TODO: make player go fish or player receiving cards trigger a pop up that changes variable when closing
-        if ((player1.hand.cards.size() == 0 && deck.cards.size() == 0)
-                || (deck.cards.size() == 0 && player2.hand.cards.size() == 0)){
-            endGame();
-        }
-    }*/
-
-
-    /**
-     * computersTurn Method
-     * Controls the logic for the opponents turn
-     */
-   /* public void computersTurn(){
-        int card = player2.askForCard();
-        boolean goFish = checkForMatch(card);
-        if (goFish == true){
-            //TODO: popup with button that says "go fish" to close window, which will prompt:
-            player2.hand.drawTopCard(deck);
-        }
-        else {
-            //TODO: popup with button that says "Player 2 asked for *** " to close window
-            giveComputerCard(card);
-        }
-        if ((player1.hand.cards.size() == 0 && deck.cards.size() == 0)
-                || (deck.cards.size() == 0 && player2.hand.cards.size() == 0)){
-            endGame();
-        }
-        else {
-            currentRound = 1;
-            playersTurn();
-        }
-    }*/
-
-
     /**
      * playersAsk Method
      * Controls the player receiving cards that have been asked for
      * If the opponent has the cards, they will be transferred to the player, and removed from the opponents hand.
      * @param matchId
-     * @return int receive The number of matching cards the opponent had in their hand
+     * @return int value of the number of matching cards the opponent had in their hand
      */
     public int playersAsk(int matchId){
         int receive = 0;
@@ -108,23 +53,6 @@ public class Game {
         player2.hand.reorderHand();
         return receive;
     }
-
-
-    /**
-     * checkForMatch Method
-     * Returns either true or false based on whether there is a matching card
-     * @param matchId
-     * @return boolean
-     */
-    public boolean checkForMatch(int matchId){
-        for (int i = 0; i < player1.hand.cards.size(); i++) {
-            if (matchId == player1.hand.cards.get(i).getMatchId()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 
     /**
      * giveComputerCard Method
@@ -143,11 +71,20 @@ public class Game {
         }
     }
 
-    public boolean checkEndGame(){
+    /**
+     * checkEndGame Method
+     * This function is called by an event handler after either player has put away a set of cards.
+     * It checks if the game is still active or if the player needs to deal more cards
+     * @return int 1, 2, or 3 based on cases
+     */
+    public int checkEndGame(){
         // Checking all cards are in either sets pile
         if (player1.hand.sets.size() + player2.hand.sets.size() == 52){
-            return true;
+            return 1;
         }
-        return false;
+        if (deck.getCardsleft() != 0 && (player1.hand.sets.size() == 0 || player2.hand.sets.size() == 0)){
+            return 2;
+        }
+        return 0;
     }
 }

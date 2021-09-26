@@ -21,6 +21,7 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import muck.client.components.ActiveUser;
 import muck.client.utilities.RandomNameGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -141,8 +142,7 @@ public class PlayerDashboardController implements Initializable {
         achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
         achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
         achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});*/
-
-        muckPointTotal = 100; //TODO: Remove when can call to the server
+        muckPointTotal = ActiveUser.getInstance().getUser().points; //TODO: Remove when can call to the server
         healthTotal = 80; //TODO: Remove when can call to the server
         //healthTotal = MuckClient.getINSTANCE().currentPlayer.getHealth();
         //^^The method to call had the character class been completed

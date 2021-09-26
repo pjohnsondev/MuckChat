@@ -3,7 +3,9 @@ package muck.client.card_games;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
+/**
+ * Deck Class. Instantiates a deck of 52 cards and sets unique values and cardId's
+ */
 public class Deck {
     ArrayList<Card> cards;
     String[] Suits = {"clubs", "diamonds", "hearts", "spades"};
@@ -12,7 +14,7 @@ public class Deck {
     int counter;
 
     /**
-     * Constructor function for the Deck Class
+     * Constructor function for the Deck Class which sets all the variables for the 52 cards
      */
     public Deck() {
         cards = new ArrayList<Card>();
@@ -38,9 +40,16 @@ public class Deck {
         }
     }
 
+    /**
+     *  getCardsLeft method - Returns the number of cards in the deck as an int
+     * @return int
+     */
+    public int getCardsleft() {
+        return cards.size();
+    }
 
     /**
-     *
+     * Function to shuffle the deck
      */
     public void shuffleCards() {
         Collections.shuffle(cards);

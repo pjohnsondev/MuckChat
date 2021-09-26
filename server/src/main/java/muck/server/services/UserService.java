@@ -34,6 +34,7 @@ public class UserService {
         userStructure.displayName = result.getString(UserModel.DISPLAYNAME_COL);
         userStructure.hashedPassword = result.getBytes(UserModel.PASSWORD_COL);
         userStructure.salt = result.getBytes(UserModel.SALT_COL);
+        userStructure.points = result.getInt(UserModel.POINTS_COL);
         return userStructure;
     }
 
@@ -50,12 +51,12 @@ public class UserService {
             userStructure.displayName = displayName;
             userStructure.hashedPassword = result.getBytes(UserModel.PASSWORD_COL);
             userStructure.salt = result.getBytes(UserModel.SALT_COL);
+            userStructure.points = result.getInt(UserModel.POINTS_COL);
             return userStructure;
         } catch (Exception ex){
             System.out.println("sql error in userservice findbydisplayname");
             throw new SQLException(ex.getMessage());
         }
-
     }
 
     public UserStructure findById(Integer id) throws SQLException {
@@ -69,6 +70,7 @@ public class UserService {
         userStructure.displayName = result.getString(UserModel.USERNAME_COL);
         userStructure.hashedPassword = result.getBytes(UserModel.PASSWORD_COL);
         userStructure.salt = result.getBytes(UserModel.SALT_COL);
+        userStructure.points = result.getInt(UserModel.POINTS_COL);
         return userStructure;
     }
 
@@ -114,5 +116,9 @@ public class UserService {
             return hasher.passwordMatches(user.password, userInDb.salt, userInDb.hashedPassword);
         }
         return false;
+    }
+
+    public void updateUser(UserStructure user) throws  SQLException {
+        this.userModel.insertPointsWhereId(user);
     }
 }

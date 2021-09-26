@@ -101,7 +101,7 @@
                     <graphic>
                         <ImageView fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
 
-                            <Image url="@../images/frogger/Frogger_Icon.png" />
+                            <Image url="@../images/CardClipArt.png" />
 
                         </ImageView>
                     </graphic></MenuItem>

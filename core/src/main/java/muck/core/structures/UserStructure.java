@@ -7,4 +7,6 @@ public class UserStructure {
     public String password = null;
     public byte[] hashedPassword = null;
     public byte[] salt = null;
+
+    public Integer points = null;
 }

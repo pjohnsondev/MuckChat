@@ -40,7 +40,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 /********* End of Imports *********/
 
-
 public class CardsGameController implements Initializable {
     public Game game;
     public ImageView[][] positionArray;
@@ -70,7 +69,6 @@ public class CardsGameController implements Initializable {
     public ImageView cardRow1Card12;
     public ImageView cardRow1Card13;
 
-
     @FXML //set up for cards for row 2 - this will fill second 
     public ImageView cardRow2Card1;
     public ImageView cardRow2Card2;
@@ -85,7 +83,6 @@ public class CardsGameController implements Initializable {
     public ImageView cardRow2Card11;
     public ImageView cardRow2Card12;
     public ImageView cardRow2Card13;
-
 
     @FXML //set up for cards for row 3 - fill up third 
     public ImageView cardRow3Card1;
@@ -102,7 +99,6 @@ public class CardsGameController implements Initializable {
     public ImageView cardRow3Card12;
     public ImageView cardRow3Card13;
 
-
     @FXML // set up for top row 4 of cards - fills up last
     public ImageView cardRow4Card1;
     public ImageView cardRow4Card2;
@@ -117,7 +113,6 @@ public class CardsGameController implements Initializable {
     public ImageView cardRow4Card11;
     public ImageView cardRow4Card12;
     public ImageView cardRow4Card13;
-
 
     public ArrayList<ImageView> positions = new ArrayList<ImageView>();
     public ArrayList<ImageView> setsMade = new ArrayList<ImageView>();
@@ -135,7 +130,6 @@ public class CardsGameController implements Initializable {
 
    // @FXML // fx:id="opponents_sets"
    // private ImageView opponents_sets;
-
 
     @FXML //fx:id="set1"
     private ImageView set1;
@@ -200,16 +194,13 @@ public class CardsGameController implements Initializable {
     @FXML // fx:id="menu"
     private MenuBar menu;
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         game = new Game();
         game.initGame();
-        //game.playersTurn();
         askForCard.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
         makeSet.setStyle(" -fx-text-fill: transparent; -fx-font-family: 'Times New Roman'; -fx-background-color: transparent;");
         setId = 0;
-
 
         makeSet.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             // Setting Default
@@ -245,14 +236,21 @@ public class CardsGameController implements Initializable {
                         game.player1.hand.makeSet(setId);
                         updateSetsDisplay();
                         game.player1.addScore();
-                        if (game.checkEndGame() == true) {
+                        if (game.checkEndGame() == 1) {
                             endGame();
+                        }
+                        if (game.checkEndGame() == 2) {
+                            if (game.player1.hand.cards.size() == 0){
+                                game.player1.hand.drawTopCard(game.deck);
+                            }
+                            if (game.player2.hand.cards.size() == 0){
+                                game.player2.hand.drawTopCard(game.deck);
+                            }
                         }
                         game.player1.hand.deselectAll();
                         setHandImages();
                         stage.close();
                     });
-
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -283,8 +281,6 @@ public class CardsGameController implements Initializable {
 
         updateSetsDisplay();
 
-
-
         askForCard.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             //TODO: add a call to game.computersTurn() after picking up and making a set if necessary
             //TODO: make function body
@@ -299,11 +295,9 @@ public class CardsGameController implements Initializable {
                             cardName = game.player1.hand.cards.get(i).getCardName();
                         }
                     }
-
                     game.player2.addToArray(game.player2.playerTurns, ask);
                     int newCards = game.playersAsk(ask);
                     if (newCards > 0) {
-
                         Button close = new Button();
                         close.setStyle("-fx-font-family: Times New Roman;");
                         close.setText("Okay!");
@@ -319,7 +313,6 @@ public class CardsGameController implements Initializable {
                         } else {
                             textHB.getChildren().add(new TextArea("Player 2 gave you one " + cardName + "!\nHave another turn!"));
                         }
-                        // need to add the cards that the player asks for and maybe also add if the other player has/hasnt got that card
                         root.setCenter(textHB);
 
                         //box for close button
@@ -387,7 +380,6 @@ public class CardsGameController implements Initializable {
         opponentCard3.setImage(backOfCard);
         opponentCard4.setImage(backOfCard);
         opponentCard5.setImage(backOfCard);
-        //opponents_sets.setImage(backOfCard);
 
         setHandImages();
 
@@ -433,6 +425,11 @@ public class CardsGameController implements Initializable {
             }
         }
 
+
+
+    }
+
+    public void setScoreDisplay() {
         int p1score = game.player1.getScore();
         sets_made.setText("" + p1score);
         sets_made.setStyle("-fx-font-family: Times New Roman;");
@@ -440,31 +437,6 @@ public class CardsGameController implements Initializable {
         int p2score = game.player2.getScore();
         opponents_sets_made.setText("" + p2score);
         opponents_sets_made.setStyle("-fx-font-family: Times New Roman;");
-
-    }
-
-    public static void set_score() {
-        // I did have an increment score function made under :
-        // Player.add_score();
-        // THIS WILL BE THE CODE FOR THE SCORE PUT INTO 'SETS_MADE'
-    }
-
-    ;
-
-    public static void set_opponent_score() {
-        //THIS WILL BE THE SCORE FOR PLAYER2 PUT INTO 'OPPONENT_SET_MADE'
-        //is this just about keeping "opponents score: " value on screen updated?
-    }
-
-    ;
-
-    public static void opponents_card() {
-        //DO SOMETHING LIKE:
-        // IF(OPPONENTS_SCORE BETWEEN 0-10 THEY HAVE 5 CARDS SHOWING)
-        // IF(OPPONENTS_SCORE BETWEEN 10-20 THEY HAVE 4 CARDS SHOWING)
-        // IF(OPPONENTS_SCORE BETWEEN 20-30 THEY HAVE  CARDS SHOWING)
-        // ECT.. SO THAT THEIR CARDS GET LESS SLOWLY
-
     }
 
     public void setHandImages() {
@@ -584,8 +556,16 @@ public class CardsGameController implements Initializable {
                             game.player2.addScore();
                             updateSetsDisplay();
                         }
-                        if (game.checkEndGame() == true) {
+                        if (game.checkEndGame() == 1) {
                             endGame();
+                        }
+                        if (game.checkEndGame() == 2) {
+                            if (game.player1.hand.cards.size() == 0){
+                                game.player1.hand.drawTopCard(game.deck);
+                            }
+                            if (game.player2.hand.cards.size() == 0){
+                                game.player2.hand.drawTopCard(game.deck);
+                            }
                         }
                         setHandImages();
                         stageC.close();
@@ -723,87 +703,87 @@ public class CardsGameController implements Initializable {
         Image settest11 = new Image("images/cards/jack_of_hearts.png");
         Image settest12 = new Image("images/cards/queen_of_spades.png");
         Image settest13 = new Image("images/cards/king_of_clubs.png");
-    for(int i = 0; i < game.player1.hand.sets.size(); i++) {
-        for (int j = 0; j < game.player2.hand.sets.size(); j++) {
-            if (game.player1.hand.sets.get(i).getMatchId() == 1) {
-                set1.setImage(settest1);
-            }
-            if (game.player2.hand.sets.get(j).getMatchId() == 1) {
-                oset1.setImage(settest1);
-            }
-            if (game.player1.hand.sets.get(i).getMatchId() == 2) {
-                set2.setImage(settest2);
-            }
-            if (game.player2.hand.sets.get(j).getMatchId() == 2) {
-                oset2.setImage(settest2);
-            }
-            if (game.player1.hand.sets.get(i).getMatchId() == 3) {
-                set3.setImage(settest3);
-            }
-            if (game.player2.hand.sets.get(j).getMatchId() == 3) {
-                oset3.setImage(settest3);
-            }
-            if (game.player1.hand.sets.get(i).getMatchId() == 4) {
-                set4.setImage(settest4);
-            }
-            if (game.player2.hand.sets.get(j).getMatchId() == 4) {
-                oset4.setImage(settest4);
-            }
-            if (game.player1.hand.sets.get(i).getMatchId() == 5) {
-                set5.setImage(settest5);
-            }
-            if (game.player2.hand.sets.get(j).getMatchId() == 5) {
-                oset5.setImage(settest5);
-            }
-            if (game.player1.hand.sets.get(i).getMatchId() == 6) {
-                set6.setImage(settest6);
-            }
-            if (game.player2.hand.sets.get(j).getMatchId() == 6) {
-                oset6.setImage(settest6);
-            }
-            if (game.player1.hand.sets.get(i).getMatchId() == 7) {
-                set7.setImage(settest7);
-            }
-            if (game.player2.hand.sets.get(j).getMatchId() == 7) {
-                oset7.setImage(settest7);
-            }
-            if (game.player1.hand.sets.get(i).getMatchId() == 8) {
-                set8.setImage(settest8);
-            }
-            if (game.player2.hand.sets.get(j).getMatchId() == 8) {
-                oset8.setImage(settest8);
-            }
-            if (game.player1.hand.sets.get(i).getMatchId() == 9) {
-                set9.setImage(settest9);
-            }
-            if (game.player2.hand.sets.get(j).getMatchId() == 9) {
-                oset9.setImage(settest9);
-            }
-            if (game.player1.hand.sets.get(i).getMatchId() == 10) {
-                set10.setImage(settest10);
-            }
-            if (game.player2.hand.sets.get(j).getMatchId() == 10) {
-                oset10.setImage(settest10);
-            }
-            if (game.player1.hand.sets.get(i).getMatchId() == 11) {
-                set11.setImage(settest11);
-            }
-            if (game.player2.hand.sets.get(j).getMatchId() == 11) {
-                oset11.setImage(settest11);
-            }
-            if (game.player1.hand.sets.get(i).getMatchId() == 12) {
-                set12.setImage(settest12);
-            }
-            if (game.player2.hand.sets.get(j).getMatchId() == 12) {
-                oset12.setImage(settest12);
-            }
-            if (game.player1.hand.sets.get(i).getMatchId() == 13) {
-                set13.setImage(settest13);
-            }
-            if (game.player2.hand.sets.get(j).getMatchId() == 13) {
-                oset13.setImage(settest13);
+        for(int i = 0; i < game.player1.hand.sets.size(); i++) {
+            for (int j = 0; j < game.player2.hand.sets.size(); j++) {
+                if (game.player1.hand.sets.get(i).getMatchId() == 1) {
+                    set1.setImage(settest1);
+                }
+                if (game.player2.hand.sets.get(j).getMatchId() == 1) {
+                    oset1.setImage(settest1);
+                }
+                if (game.player1.hand.sets.get(i).getMatchId() == 2) {
+                    set2.setImage(settest2);
+                }
+                if (game.player2.hand.sets.get(j).getMatchId() == 2) {
+                    oset2.setImage(settest2);
+                }
+                if (game.player1.hand.sets.get(i).getMatchId() == 3) {
+                    set3.setImage(settest3);
+                }
+                if (game.player2.hand.sets.get(j).getMatchId() == 3) {
+                    oset3.setImage(settest3);
+                }
+                if (game.player1.hand.sets.get(i).getMatchId() == 4) {
+                    set4.setImage(settest4);
+                }
+                if (game.player2.hand.sets.get(j).getMatchId() == 4) {
+                    oset4.setImage(settest4);
+                }
+                if (game.player1.hand.sets.get(i).getMatchId() == 5) {
+                    set5.setImage(settest5);
+                }
+                if (game.player2.hand.sets.get(j).getMatchId() == 5) {
+                    oset5.setImage(settest5);
+                }
+                if (game.player1.hand.sets.get(i).getMatchId() == 6) {
+                    set6.setImage(settest6);
+                }
+                if (game.player2.hand.sets.get(j).getMatchId() == 6) {
+                    oset6.setImage(settest6);
+                }
+                if (game.player1.hand.sets.get(i).getMatchId() == 7) {
+                    set7.setImage(settest7);
+                }
+                if (game.player2.hand.sets.get(j).getMatchId() == 7) {
+                    oset7.setImage(settest7);
+                }
+                if (game.player1.hand.sets.get(i).getMatchId() == 8) {
+                    set8.setImage(settest8);
+                }
+                if (game.player2.hand.sets.get(j).getMatchId() == 8) {
+                    oset8.setImage(settest8);
+                }
+                if (game.player1.hand.sets.get(i).getMatchId() == 9) {
+                    set9.setImage(settest9);
+                }
+                if (game.player2.hand.sets.get(j).getMatchId() == 9) {
+                    oset9.setImage(settest9);
+                }
+                if (game.player1.hand.sets.get(i).getMatchId() == 10) {
+                    set10.setImage(settest10);
+                }
+                if (game.player2.hand.sets.get(j).getMatchId() == 10) {
+                    oset10.setImage(settest10);
+                }
+                if (game.player1.hand.sets.get(i).getMatchId() == 11) {
+                    set11.setImage(settest11);
+                }
+                if (game.player2.hand.sets.get(j).getMatchId() == 11) {
+                    oset11.setImage(settest11);
+                }
+                if (game.player1.hand.sets.get(i).getMatchId() == 12) {
+                    set12.setImage(settest12);
+                }
+                if (game.player2.hand.sets.get(j).getMatchId() == 12) {
+                    oset12.setImage(settest12);
+                }
+                if (game.player1.hand.sets.get(i).getMatchId() == 13) {
+                    set13.setImage(settest13);
+                }
+                if (game.player2.hand.sets.get(j).getMatchId() == 13) {
+                    oset13.setImage(settest13);
+                }
             }
         }
     }
-}
 }

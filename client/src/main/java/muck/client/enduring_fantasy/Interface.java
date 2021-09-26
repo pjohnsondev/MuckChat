@@ -74,6 +74,7 @@ public class Interface {
             this.playGame.mainInteract();
             command = this.gameReader.nextLine();
             this.playGame.mainCommand(command);
+
         }
         if (command.equalsIgnoreCase("check")) {
             this.intermission();
@@ -151,7 +152,7 @@ public class Interface {
         if (command.equals("1")) {
             this.newGame();
         } else {
-            this.gameOver();
+            System.exit(0);
         }
     }
 }
