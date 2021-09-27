@@ -139,12 +139,18 @@ public class Frogger {
 
                 hBox.getChildren().add(text);
 
-                FadeTransition ft = new FadeTransition(Duration.seconds(0.66), text);
+                FadeTransition ft = new FadeTransition(Duration.seconds(4.00), text);
                 ft.setToValue(1);
                 ft.setDelay(Duration.seconds(i * 0.15));
                 ft.play();
+                ft.setOnFinished(event -> {
+                        st.close();
+                });
+
             }
-            st.close();
+
+
+
             // Unlocks achievement 11 when the player wins the game.
             if (Achievements.achievement11_instance == null) {
                 Achievements.achievement11_instance = new Achievements(achievement11,
