@@ -4,12 +4,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -17,8 +15,6 @@ import org.mockito.MockitoAnnotations;
 import org.testfx.framework.junit5.ApplicationTest;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
 
 class SignUpControllerTest extends ApplicationTest {
     private static final Logger logger = LogManager.getLogger();
@@ -49,9 +45,6 @@ class SignUpControllerTest extends ApplicationTest {
     SignUpController controllerMock;
 
 
-//    SignUpController controllerMock = mock(SignUpController.class);
-//    SignUpController controllerSpy = spy(SignUpController.class);
-
     @BeforeEach
     void initService() {
         closeable = MockitoAnnotations.openMocks(this);
@@ -68,7 +61,6 @@ class SignUpControllerTest extends ApplicationTest {
     }
 
     @Test
-//    @Disabled
     public void testFieldsAreNotEmpty(){
         logger.info("Test fields return false if empty");
 
@@ -91,7 +83,6 @@ class SignUpControllerTest extends ApplicationTest {
         String passwordTooLong = "thispasswordistoolongtopassvalidation";
         String usernameTooLong = "thisusernameistoolongtopassvalidation";
         String wrongPasswordTwo = "passwordtwo";
-
 
         assertAll(
                 () -> assertFalse(controllerMock.validPasswordLength(passwordTooLong)),
@@ -128,8 +119,12 @@ class SignUpControllerTest extends ApplicationTest {
         controllerMock.displayname.setText(displayNameText);
         controllerMock.displayErrors();
         assertTrue(controllerMock.error.getText().equals("You must enter a password"));
-        // test that empty second password and password mismatch displays error
+        // test that empty second password displays error
         controllerMock.password.setText(passwordText);
+        controllerMock.displayErrors();
+        // test that password mismatch displays error
+        assertTrue(controllerMock.error.getText().equals("Passwords do not match"));
+        controllerMock.passwordtwo.setText(wrongPasswordTwo);
         controllerMock.displayErrors();
         assertTrue(controllerMock.error.getText().equals("Passwords do not match"));
         // test that username displays error if too long

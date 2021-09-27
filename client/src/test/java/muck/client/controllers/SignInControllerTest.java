@@ -12,9 +12,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testfx.framework.junit5.ApplicationTest;
 
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.Mockito.*;
 
 public class SignInControllerTest extends ApplicationTest {
     private static final Logger logger = LogManager.getLogger();
@@ -71,7 +71,13 @@ public class SignInControllerTest extends ApplicationTest {
     @Test
     public void testErrorsDisplay(){
         logger.info("Testing that empty input fields cause an error to display");
+
+        controllerMock.isNotEmpty(emptyText, emptyText);
+        assertTrue(controllerMock.error.getText().equals("You must enter a user name"));
+        controllerMock.isNotEmpty(emptyText, passwordText);
+        assertTrue(controllerMock.error.getText().equals("You must enter a user name"));
         controllerMock.isNotEmpty(userNameText, emptyText);
-//        assertTrue(controllerMock.error.getText().equals());
+        assertTrue(controllerMock.error.getText().equals("You must enter your password"));
+
     }
 }
