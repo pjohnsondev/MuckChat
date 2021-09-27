@@ -44,7 +44,6 @@ class SignUpControllerTest extends ApplicationTest {
     @InjectMocks
     SignUpController controllerMock;
 
-
     @BeforeEach
     void initService() {
         closeable = MockitoAnnotations.openMocks(this);
@@ -154,10 +153,6 @@ class SignUpControllerTest extends ApplicationTest {
         controllerMock.error.setText("");
         controllerMock.displayname.setText(displayNameText);
         assertTrue(controllerMock.error.getText().equals(""));
-
     }
-
-
-
-
 }
+
