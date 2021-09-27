@@ -3,6 +3,7 @@ package muck.client;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.BorderPane;
+import muck.client.card_games.goFishLandingPage;
 import muck.client.enduring_fantasy.LandingPageEf;
 import muck.client.frogger.LandingPageFrogger;
 import muck.client.space_invaders.LandingPage;
@@ -176,7 +177,7 @@ public class WorldController {
         }
 
         //Secret Cave = 2
-        /** Not yet complete but GoFish at the base of the waterfall in the secret cave
+        // Not yet complete but GoFish at the base of the waterfall in the secret cave
         if (id == 2 ){
             if (x > 269 && x < 287) { // Cave entrance
                 if (y > 516 && y < 543) {
@@ -187,11 +188,11 @@ public class WorldController {
                     GFCanvas.setWidth(canvas.getWidth());
                     gamePane.setCenter(GFCanvas);
                     BorderPane.setAlignment(GFCanvas, Pos.CENTER);
-                    //new GoFish(gamePane, GFCanvas);
+                    new goFishLandingPage(gamePane, GFCanvas);
                     return 1;
                 }
             }
-        } **/
+        }
 
         return 0; //If no location explored (won't kill this instance of the GameMap in GameMap.java
     }

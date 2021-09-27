@@ -19,6 +19,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import muck.client.GameMap;
+import muck.client.TileMapReader;
 import muck.client.frogger.Frogger;
 import muck.client.GoFish;
 
@@ -114,10 +115,12 @@ public class goFishLandingPage extends Node {
 
         exitButton.setOnAction(event -> {
             stage.getChildren().removeAll(grid, canvas);
-            GameMap gm = new GameMap(canvas, gamePane);
+            TileMapReader tm = new TileMapReader("/maps/cave.tmx");
+            GameMap gm = new GameMap(canvas, gamePane,  "/tilesets/terrain_atlas.png", tm);
+            gm.worldID = 2;
             gm.hero.sh = 0; //point hero downwards
-            gm.hero.setPosX(786); // Sets the sprite outside the door they entered for the game
-            gm.hero.setPosY(299);
+            gm.hero.setPosX(260); // Sets the sprite outside the door they entered for the game
+            gm.hero.setPosY(530);
             canvas.setId("gameCanvas");
             stage.getChildren().add(canvas);
         });
