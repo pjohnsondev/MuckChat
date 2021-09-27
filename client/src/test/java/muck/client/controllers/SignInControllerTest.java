@@ -14,7 +14,6 @@ import org.testfx.framework.junit5.ApplicationTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.mockito.Mockito.*;
 
 public class SignInControllerTest extends ApplicationTest {
     private static final Logger logger = LogManager.getLogger();
