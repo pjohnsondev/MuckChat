@@ -1,26 +1,28 @@
 package muck.server;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ProximityFilterTest {
 
-    private static final Logger logger = LogManager.getLogger(CharacterLocationTrackerTests.class);
-
-    @BeforeEach
-    public void beforeEach() {
-
+    @Test
+    public void testDistFuncction1() {
+        ProximityFilter PF = new ProximityFilter();
+        assertTrue(PF.dist(0,0,0,0) == 0.0);
     }
-
-    @BeforeAll
-    public static void beforeAll() {
-
+    @Test
+    public void testDistFuncction2() {
+        ProximityFilter PF = new ProximityFilter();
+        assertTrue(PF.dist(2,2,2,-4) == 6.0);
     }
-    //TODO: ADD TESTS
+    @Test
+    public void testDistFuncction3() {
+        ProximityFilter PF = new ProximityFilter();
+        assertTrue(PF.dist(0,3,0,5) == 2.0);
+    }
+    @Test
+    public void testDistFuncction4() {
+        ProximityFilter PF = new ProximityFilter();
+        assertTrue(PF.dist(-2,1,-2,3) == 2.0);
+    }
 }
-
