@@ -52,6 +52,8 @@ public class Frogger {
 
     private static final double CAR_HEIGHT = 40;
 
+    private static Stage st;
+
     private Parent createContent() {
         root = new Pane();
         root.setPrefSize(WIDTH, HEIGHT);
@@ -142,6 +144,7 @@ public class Frogger {
                 ft.setDelay(Duration.seconds(i * 0.15));
                 ft.play();
             }
+            st.close();
             // Unlocks achievement 11 when the player wins the game.
             if (Achievements.achievement11_instance == null) {
                 Achievements.achievement11_instance = new Achievements(achievement11,
@@ -149,13 +152,14 @@ public class Frogger {
                 achievement11_instance.achievementUnlock();
                 achievement11_instance.achievementPopUp();
             }
-            // TODO: Setup post-win
+
 
         }
     }
 
     // Start the scene. Listen for inputs
     public void start(Stage stage) throws Exception {
+        st = stage;
         stage.setScene(new Scene(createContent()));
 
         stage.getScene().setOnKeyPressed(event -> {
