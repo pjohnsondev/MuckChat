@@ -4,6 +4,7 @@ import java.security.InvalidParameterException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import muck.core.structures.PlayerStructure;
 import muck.server.database.Database;
 import muck.server.models.AbstractModel.Model;
 import muck.core.structures.UserStructure;
@@ -14,8 +15,10 @@ import muck.core.structures.UserStructure;
 public class UserModel extends Model {
     public static final String ID_COL = "id";
     public static final String USERNAME_COL = "username";
+    public static final String DISPLAYNAME_COL = "displayname";
     public static final String PASSWORD_COL = "password";
     public static final String SALT_COL = "salt";
+    public static final String POINTS_COL = "points";
 
     public UserModel() {
         this.table = "users";
@@ -39,9 +42,12 @@ public class UserModel extends Model {
                 "CREATE TABLE users "
                         + "(id INTEGER UNIQUE GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
                         + " username VARCHAR(80) UNIQUE, "
+                        + " displayname VARCHAR(80) UNIQUE, "
                         + " password BLOB NOT NULL, "
-                        + " salt BLOB NOT NULL)"
+                        + " salt BLOB NOT NULL, "
+                        + " points INTEGER DEFAULT 0)"
         );
+        System.out.println("Table created");
     }
 
 
@@ -53,10 +59,11 @@ public class UserModel extends Model {
      */
     public void insertNewUser(UserStructure user) throws SQLException, InvalidParameterException {
         //Insert the new user into the database table
-        db.query("INSERT INTO users (username, password, salt) VALUES (?, ?, ?)");
+        db.query("INSERT INTO users (username, displayname, password, salt) VALUES (?, ?, ?, ?)");
         db.bindString(1, user.username);
-        db.bindBytes(2, user.hashedPassword);
-        db.bindBytes(3, user.salt);
+        db.bindString(2, user.displayName);
+        db.bindBytes(3, user.hashedPassword);
+        db.bindBytes(4, user.salt);
         db.executeInsert();
     }
 
@@ -69,7 +76,29 @@ public class UserModel extends Model {
      */
 
     public ResultSet findUserByUsername(String username) throws SQLException {
-        return this.select("username", username);
+        try{
+            return this.select("username", username);
+        } catch (SQLException e){
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    /**
+     * Retrieves user information from the database using the UserName is the criteria
+     *
+     * @param displayname The username to search for within the database
+     * @return returns found user object or null
+     * @throws SQLException Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
+     */
+
+    public ResultSet findByDisplayname(String displayname) throws SQLException {
+        try{
+            return this.select("displayname", displayname);
+        } catch (SQLException e){
+            System.out.println(e);
+        }
+        return null;
     }
 
     /**
@@ -81,4 +110,12 @@ public class UserModel extends Model {
     public ResultSet findUserById(int id) throws SQLException {
         return this.select("id", id);
     }
+
+    public void insertPointsWhereId(UserStructure user) throws SQLException {
+        db.query("UPDATE USERS SET POINTS = ? WHERE id = ?");
+        db.bindInt(1, user.points);
+        db.bindInt(2, user.id);
+        db.executeInsert();
+    }
+
 }

@@ -21,21 +21,23 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import muck.client.components.ActiveUser;
+import muck.client.utilities.RandomNameGenerator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 public class PlayerDashboardController implements Initializable {
+
+    private static final Logger LOGGER = LogManager.getLogger(PlayerDashboardController.class);
 
     private static String userName;
     private static String displayName;
     private static String avatarID;
     private static ArrayList<String[]> achievements = new ArrayList<>();
-
-    //private static String[][] achievements;
     private static int muckPointTotal;
     private static int healthTotal;
     private Image fullAvatar = AvatarController.getFullAvatar(avatarID);
-
-    @FXML
-    private Button achievement; //TODO: Remove (Achievement Testing)
 
     @FXML
     private GridPane gridPane;
@@ -45,6 +47,9 @@ public class PlayerDashboardController implements Initializable {
 
     @FXML
     private Text username;
+
+    @FXML
+    private Text heading;
 
     @FXML
     private Button change;
@@ -59,10 +64,15 @@ public class PlayerDashboardController implements Initializable {
     private TextArea achievementWindow;
 
     @FXML
+    private Button achievementButton;
+
+    @FXML
+    private Button scoreboardButton;
+
+    @FXML
     private ImageView gameReturn;
 
-    private final BackgroundImage BACKGROUND = new BackgroundImage(new Image("/images/BackgroundAvSelection.jpg"), null, null, null, null);
-
+    private final BackgroundImage BACKGROUND = new BackgroundImage(new Image("/images/BackgroundAvSelection.png"), null, null, null, null);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -84,42 +94,45 @@ public class PlayerDashboardController implements Initializable {
             change.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                 try {
                     //This will take over the scene that currently holds the player dashboard screen
-                    AvatarController.avatarCreation(userName, displayName, avatarID);
+                    AvatarController.avatarCreation(userName, displayName, avatarID, muckPointTotal);
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Avatar.fxml")));
                     stage.setScene(new Scene(parent));
                     stage.setResizable(false);
                     stage.show();
                 } catch (IOException e) {
+                    LOGGER.error("Error in initialisation of Avatar window");
                     e.printStackTrace();
                 }
             });
 
+            achievementButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> updateAchievements());
+            scoreboardButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> updateScoreboard());
             gameReturn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> returnToGame(event, userName, avatarID));
-
-            // ********* ACHIEVEMENT TESTING *********
-            boolean achievement1 = false;
-            String achievement1Title = "Hotel California";
-            String achievement1Description = "Player has visited the Inn";
-            achievement.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                Achievements achieve = new Achievements();
-                achieve.achievementUnlock(achievement1, achievement1Title, achievement1Description);
-            });
-            // ********* ACHIEVEMENT TESTING *********
 
         } catch (Exception e) {
             System.out.print("Error in initialize");
         }
     }
 
+    /**
+     * Set up method.  Assigns the appropriate values to the applicable variables
+     * @param uname: The player username
+     * @param display: The player display name
+     * @param avID: The player's current avatar ID
+     */
     public static void playerDashboard(String uname, String display, String avID) {
+        //ActiveUser player = ActiveUser.getInstance();
+        //displayName = player.getUser().displayName;
+
         userName = uname;
         displayName = display;
         avatarID = avID;
-        //TODO: Call the server to get achievements muckPoints and health. Remove below
-        achievements.clear();
-        //achievements = new String[][]{{"Hotel California", "Player has visited the Inn"}, {"Retail Therapy", "Player has visited the Shops"}, {"Alien Exterminator", "Player has won a game of Space Invaders"},{"Hotel California", "Player has visited the Inn"}, {"Retail Therapy", "Player has visited the Shops"}, {"Alien Exterminator", "Player has won a game of Space Invaders"},{"Hotel California", "Player has visited the Inn"}, {"Retail Therapy", "Player has visited the Shops"}, {"Alien Exterminator", "Player has won a game of Space Invaders"},{"Hotel California", "Player has visited the Inn"}, {"Retail Therapy", "Player has visited the Shops"}, {"Alien Exterminator", "Player has won a game of Space Invaders"}};
+        //TODO: Call the server to get achievements muckPoints and health.
 
+        //The below dummy values were used to initialise the achievements while we didn't have an alternative method
+        //available. See below addAchievements method.
+        /*achievements.clear();
         achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
         achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
         achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
@@ -128,21 +141,95 @@ public class PlayerDashboardController implements Initializable {
         achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
         achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
         achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
-        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});
-
-        muckPointTotal = 100; //TODO: Remove
-        healthTotal = 80; //TODO: Remove
+        achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});*/
+        muckPointTotal = ActiveUser.getInstance().getUser().points; //TODO: Remove when can call to the server
+        healthTotal = 80; //TODO: Remove when can call to the server
+        //healthTotal = MuckClient.getINSTANCE().currentPlayer.getHealth();
+        //^^The method to call had the character class been completed
     }
 
+    /**
+     * This is a dummy method to circumvent the need to store achievements to the database as the storage will not be
+     * ready for assignment submission.
+     * @param achievementTitle: The title of the achievement
+     * @param achievementDescription: The description of the achievement
+     */
+    public static void addAchievements(String achievementTitle, String achievementDescription) {
+        achievements.add(new String[]{achievementTitle, achievementDescription});
+    }
+
+    /**
+     * For testing purposes until we obtain the ability to connect to the server to get player achievements
+     * @return ArrayList of player achievements
+     */
+    public static ArrayList<String[]> getAchievements() { return achievements; }
+
+    /**
+    * Displays the player's achievements in the applicable section of the GUI
+    */
     private void updateAchievements() {
+        heading.setText("Achievements");
+        achievementWindow.clear();
+        achievementButton.setStyle("-fx-text-fill: #696969;" + "-fx-background-color: #87cdff;");
+        scoreboardButton.setStyle("-fx-text-fill: #87cdff;" + "-fx-background-color:  #696969;");
+
         for (String[] achieve : achievements ) {
             String achievement = achieve[0] + ": " + achieve[1] +"\n\n";
             achievementWindow.appendText(achievement);
         }
     }
 
+    /**
+     * Displays all game players and their associated muckPoint values in descending order
+     */
+    private void updateScoreboard() {
+        int count = 1;
+
+        heading.setText("Scoreboard");
+        achievementWindow.clear();
+        scoreboardButton.setStyle("-fx-text-fill: #696969;" + "-fx-background-color: #87cdff;");
+        achievementButton.setStyle("-fx-text-fill: #87cdff;" + "-fx-background-color:  #696969;");
+
+        // Should we get the database running in time this is how we would
+        // call the list of users in ascending order
+        /*List<User> userDetails = UserModel.getUsersOrderedByPoints(false);
+         for (User eachUser : userDetails) {
+             String user = eachUser.getUserName();
+             int points = eachUser.getPoints();
+             achievementWindow.appendText(user + ": " + points + "\n\n");
+             count++;
+         }*/
+
+        //TODO: Remove below dummy values and for loop when we can call the server
+
+        RandomNameGenerator random = new RandomNameGenerator();
+        ArrayList<String[]> userDetails = new ArrayList<>();
+        userDetails.add(new String[]{random.generateName(), "220"});
+        userDetails.add(new String[]{random.generateName(), "180"});
+        userDetails.add(new String[]{random.generateName(), "150"});
+        userDetails.add(new String[]{random.generateName(), "120"});
+        userDetails.add(new String[]{random.generateName(), "120"});
+        userDetails.add(new String[]{random.generateName(), "100"});
+        userDetails.add(new String[]{displayName, "100"});
+        userDetails.add(new String[]{random.generateName(), "60"});
+        userDetails.add(new String[]{random.generateName(), "40"});
+
+        for (String[] eachUser : userDetails) {
+            String user = eachUser[0];
+            String points = eachUser[1];
+            achievementWindow.appendText(count + ": " + user + " - " + points + "\n\n");
+            count++;
+        }
+    }
+
+    /**
+     * returnToGame method
+     * Passes the current player username and avatarID back to the MuckController to update if changed
+     * @param event: The click event resulting from a player clicking on the return icon
+     * @param uname: The players username
+     * @param avID: The players current avatar ID
+     */
     private void returnToGame(MouseEvent event, String uname, String avID) {
-        // TODO: Send username and avatar back to the server for storage
         MuckController.constructor(uname, avID);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
@@ -205,44 +292,4 @@ public class PlayerDashboardController implements Initializable {
         }
     }
 
-
-        /*public static void playerDashboard(String uname) {
-        userName = uname;
-        // TODO: Need to call the database for current avatar and muck point values
-        try {
-            FXMLLoader loader = new FXMLLoader(AvatarController.class.getResource("/fxml/Avatar.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            scene.setRoot(root);
-            scene.getStylesheets().add(PlayerDashboardController.class.getResource("/css/style.css").toExternalForm());
-            Stage stage = new Stage();
-            stage.setTitle("Muck 2021");
-            stage.setMaxWidth(1200);
-            stage.setMaxHeight(1100);
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
-
-        /*public static void playerDashboard(String uname, String display, MouseEvent event, String avID) {
-        userName = uname;
-        displayName = display;
-        avatarID = avID;
-        //TODO: Call the server to get all the relevant information
-        try {
-            Parent root = FXMLLoader.load(PlayerDashboardController.class.getResource("/fxml/PlayerDashboard.fxml"));
-            Scene scene = new Scene(root);
-            scene.setRoot(root);
-            scene.getStylesheets().add(PlayerDashboardController.class.getResource("/css/style.css").toExternalForm());
-            //This line gets the Stage Information
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(AvatarController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }*/
 }

@@ -2,13 +2,16 @@ package muck.client;
 
 import muck.client.components.ActiveUser;
 import muck.core.Login;
+import muck.core.MapId;
 import muck.core.UpdatePlayerRequest;
 import muck.core.Id;
 import muck.core.Location;
 import muck.core.LocationRequest;
 import muck.core.LocationResponse;
+import muck.core.AvatarLocation;
 import muck.core.ClientId;
 import muck.core.character.AddCharacter;
+import muck.core.character.Player;
 import muck.core.structures.UserStructure;
 import muck.core.user.SignUpInfo;
 import org.apache.logging.log4j.LogManager;
@@ -42,11 +45,15 @@ public enum MuckClient {
 	HashMap<Integer, String> players = new HashMap<Integer, String>();
 	List<Sprite> playerSprites = new ArrayList<Sprite>();
 
+	Player currentPlayer;
+
 	public static MuckClient getINSTANCE() {
 		return INSTANCE;
 	}
 
-	/** A logger for logging output */
+	/**
+	 * A logger for logging output
+	 */
 	private static final Logger logger = LogManager.getLogger(MuckClient.class);
 
 	public static void logError(Exception message) {
@@ -61,7 +68,9 @@ public enum MuckClient {
 		logger.info(info);
 	}
 
-	/** The KryoNet client */
+	/**
+	 * The KryoNet client
+	 */
 	Client client;
 	public static final Id<ClientId> clientId = new Id<ClientId>();
 
@@ -74,14 +83,18 @@ public enum MuckClient {
 		return client;
 	}
 
-	public void updatePlayerLocation(String avatar, Location location) {
-		var req = new UpdatePlayerRequest(clientId, avatar, location);
-		// logger.info("Updating my location in the gamemap..."); //Commented this out
-		// because it was spamming the client logger.
+	public void updatePlayerLocation(String avatar, Integer mapId, Location location) {
+		var req = new UpdatePlayerRequest(clientId, new AvatarLocation(avatar), new MapId(mapId), location);
 		client.sendTCP(req);
 	}
 
+	// Set current player
+	public void setCurrentPlayer(String username) {
+		currentPlayer = new Player(username);
+	}
+
 	public synchronized void connect(KryoClientConfig config) throws IOException {
+		//inMessages.add("hello");
 		if (client != null) {
 			throw new IllegalStateException("Starting connection when already started");
 		}
@@ -135,10 +148,12 @@ public enum MuckClient {
 			logger.info("Clients playerlist is {}", players);
 		}));
 
-		client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, clientMessage) -> {
-			logger.info("Message recieved was: {}", clientMessage.getMessage());
-			currentMessage = clientMessage.getMessage();
-			inMessages.add(clientMessage.getMessage());
+		client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, serverMessage) -> {
+			logger.info("Message recieved was: {}", serverMessage.getMessage());
+			currentMessage = serverMessage.getMessage();
+			inMessages.add(serverMessage.getMessage());
+			logger.info("inMessages size is: {}", inMessages.size());
+			checkLoginMessages(serverMessage.getMessage());
 		}));
 
 		// When a chatlog object is detected, add it to the queue.
@@ -150,7 +165,6 @@ public enum MuckClient {
 		}));
 
 		client.addListener(ListenerBuilder.forClass(LocationResponse.class).onReceive((connID, response) -> {
-			logger.info("List of locations receieved, building sprites");
 			var data = response.data;
 			this.playerSprites = data.stream().map(p -> new Sprite(p.x, p.y)).collect(Collectors.toList());
 		}));
@@ -169,7 +183,6 @@ public enum MuckClient {
 	 */
 	public void login(String username, String password) {
 		Login login = new Login(username, password, clientId);
-
 		client.sendTCP(login);
 	}
 
@@ -179,7 +192,6 @@ public enum MuckClient {
 	 * @param username    should not be null or empty
 	 * @param password    should not be null or empty
 	 * @param displayName should not be null or empty
-	 *
 	 */
 	public void signUp(String username, String password, String displayName) {
 		logger.info("Send new account details to server {}", username);
@@ -187,6 +199,15 @@ public enum MuckClient {
 		SignUpInfo signup = new SignUpInfo(username, password, displayName);
 
 		client.sendTCP(signup);
+	}
+
+	public void checkLoginMessages(String message) {
+		for (String expectedMessage : ActiveUser.getInstance().serverResponses) {
+			if (message.equals(expectedMessage)) {
+				ActiveUser.getInstance().setServerMessage(message);
+				logger.info(expectedMessage);
+			}
+		}
 	}
 
 	public synchronized void disconnect() throws IOException {
@@ -221,14 +242,26 @@ public enum MuckClient {
 	 *
 	 */
 	public synchronized List<String> getCurrentMessage() {
-		List<String> outMessages = inMessages;
-		inMessages.clear();
+		/*logger.info("inMessages size is: {}", inMessages.size());
+		if (inMessages.size() > 0 ) {
 
+			logger.info("outMessages size is : {}", outMessages.size());
+			inMessages.clear();
+			return outMessages;
+		}
+		else {
+			return inMessages;
+		}
+	}
+*/
 		if (inMessages.size() > 0) {
+			String outMessage = inMessages.get(0);
+			List<String> outMessages = new ArrayList<String>();
+			outMessages.add(outMessage);
+			inMessages.remove(0);
 			return outMessages;
 		} else {
 			return inMessages;
 		}
 	}
-
 }

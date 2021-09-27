@@ -1,26 +1,23 @@
 package muck.client.card_games;
 
-
-import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
+/**
+ * Deck Class. Instantiates a deck of 52 cards and sets unique values and cardId's
+ */
 public class Deck {
     ArrayList<Card> cards;
     String[] Suits = {"clubs", "diamonds", "hearts", "spades"};
     String[] cardNames = {"ace","2","3","4","5","6","7","8","9","10","jack","queen","king"};
     String suit;
     int counter;
-    Image backOfDeck;
 
     /**
-     * Constructor function for the Deck Class
+     * Constructor function for the Deck Class which sets all the variables for the 52 cards
      */
     public Deck() {
         cards = new ArrayList<Card>();
-        Image backOfDeck = new ImageIcon("images/cards/backofdeck.png").getImage();
         counter = 0;
         for (int i = 1; i < 53; i++) {
             if (i < 14) {
@@ -43,23 +40,18 @@ public class Deck {
         }
     }
 
-
-    public Image getDeckImage() {
-        return backOfDeck;
+    /**
+     *  getCardsLeft method - Returns the number of cards in the deck as an int
+     * @return int
+     */
+    public int getCardsleft() {
+        return cards.size();
     }
 
-
-    public void shuffle_cards() {
+    /**
+     * Function to shuffle the deck
+     */
+    public void shuffleCards() {
         Collections.shuffle(cards);
-    }
-
-
-    public static void main(String[] args) {
-        Deck deck = new Deck();
-        for (int i = 0; i < deck.cards.size(); i++ ) {
-            System.out.println(deck.cards.get(i).getCardName() + " of " +  deck.cards.get(i).getSuit() );
-            System.out.println("This cards ID is " + deck.cards.get(i).getCardId());
-            System.out.println("This Cards match Id is " + deck.cards.get(i).getMatchId());
-        }
     }
 }

@@ -15,11 +15,8 @@ public class NPC extends Character implements INPCColleague {
 
     // motion and movement
     private NPCStateRandomWalk npcStateRandomWalk;
-    private int tick = 0;
     private int move = 0;
     private boolean change = false;
-    private float timeWalk;
-    private float timeWait;
 
     /**
      * NPC constructor. This class is an extension of the Character class for NPC/monster characters.
@@ -28,10 +25,8 @@ public class NPC extends Character implements INPCColleague {
      * Example usage: NPC npc_id = new NPC("npc_id");
      */
     public NPC(String NPCId) throws CharacterDoesNotExistException {
-        //TODO - Retrieve the identifier/NPC ID from the backend database, then populate all fields with 
-        // NPC values from the database
         boolean databaseRetrievalSuccessful = true; // keep this true to avoid integration test failure, until
-                                                    // actual implementation of database server from Issue #24 is
+                                                    // actual implementation of database server from Issue #24
                                                     // is provided
         if (!databaseRetrievalSuccessful) {
             throw new CharacterDoesNotExistException(NPCId);
@@ -42,23 +37,24 @@ public class NPC extends Character implements INPCColleague {
     }
 
     /**
-     * Dummy constructor for a NPC object with a "null" identifier. Does not
-     * check with backend storage for a valid username. Should only be used for unit tests that don't use backend
+     * Dummy constructor for a NPC object with a "null" identifier.
+     * Does not check with backend storage for a valid username.
+     * Will be removed if database is implemented
      */
     public NPC() {
         this.setIdentifier(null);
     }
-    
-    //TODO - NPC should have a separate controller to the player. May incorporate AI based movement, behaviour etc.
-//    public npcController() {
-//    }
 
-    // To be called once per pre-determined fixed timestep
+    /**
+     * To be called once per pre-determined fixed timestep
+     */
     public void Update() {
         getStateBehaviour().handle();
     }
     
-    /* Sets the state of the NPC object */
+    /**
+     * Sets the state of the NPC object
+     */
     public void setState(NPCState npcState) {
         if (npcState == NPCState.None) {
             this.setStateBehaviour(new NPCStateNone());
@@ -68,8 +64,8 @@ public class NPC extends Character implements INPCColleague {
         }
     }
     
-    /* 
-        Retrieve the current NPC state
+    /**
+     * Retrieve the current NPC state
      */
     public NPCState getState() {
         return this.getNpcState();
@@ -119,15 +115,15 @@ public class NPC extends Character implements INPCColleague {
     }
 
 
-    /* 
-        Send an Action message to another NPC object, via the ConcreteNPCMediator
+    /**
+     * Send an Action message to another NPC object, via the ConcreteNPCMediator
      */
     public void messageOtherNPC(String targetNPCIdentifier, Action action) {
         GlobalTracker.concreteNPCMediator.messageToOtherNPC(this, targetNPCIdentifier, action);
     }
     
-    /* 
-        Implementation of the INPCColleague interface
+    /**
+     * Implementation of the INPCColleague interface
      */
     @Override
     public void receive(String sendingNPCIdentifier, Action action) {
@@ -176,8 +172,6 @@ public class NPC extends Character implements INPCColleague {
      * @param timeWalk Time while walking
      */
     public void setNpcRandomWalk(double speed, float timeWait, float timeWalk) {
-        this.timeWait = timeWait;
-        this.timeWalk = timeWalk;
         npcStateRandomWalk = new NPCStateRandomWalk(this, speed, timeWait, timeWalk);
         setState(NPCState.RandomWalk);
     }
@@ -188,13 +182,9 @@ public class NPC extends Character implements INPCColleague {
     public void handle() {
         this.npcStateRandomWalk.handle();
 
-        // motion appearance when walking
-        if (tick >= this.timeWait+this.timeWalk) {
-            // waiting
-            tick = 0;
-        } else if (tick >= this.timeWait) {
-            // walking
-            if (tick % 5 == 0) {
+        // walking
+        if (this.npcStateRandomWalk.walking) {
+            if (this.npcStateRandomWalk.elapsed % ((int)(this.npcStateRandomWalk.timeWalk / 8) ) == 0) {
                 change = true;
                 move++;
             }
@@ -207,7 +197,6 @@ public class NPC extends Character implements INPCColleague {
             }
             change = false;
         }
-        tick++;
     }
 
     /**

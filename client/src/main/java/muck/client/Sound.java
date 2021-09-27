@@ -1,43 +1,65 @@
 package muck.client;
 
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
-import  java.io.*;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 
+// This class contains a mediaPlayer that allows sound to be played
 public class Sound {
 
-    private Clip clip;
-    public Sound(String s) {
-        try {
-            AudioInputStream forest = AudioSystem.getAudioInputStream(getClass().getResourceAsStream(s));
-            AudioFormat baseFormat = forest.getFormat();
-            AudioFormat decodeFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
-                    baseFormat.getSampleRate(), 16, baseFormat.getChannels(),
-                    baseFormat.getChannels() * 2,
-                    baseFormat.getSampleRate(), false);
+    String soundPath;
+    MediaPlayer mediaPlayer;
 
-            AudioInputStream dforest = AudioSystem.getAudioInputStream(decodeFormat, forest);
-            clip = AudioSystem.getClip();
-            clip.open(dforest);
-        } catch (Exception e) {
+    /**
+     * Constructor to create a sound object
+     * @param audio The sound path for the sound file to be played by the mediaPlayer
+     */
+    public Sound(String audio) {
+        this.soundPath = audio;
+    }
+
+
+    /**
+     * music Plays the sound file using mediaPlayer
+     */
+    public void music() {
+        try {
+                Media h = new Media(getClass().getResource(this.soundPath).toExternalForm());
+                mediaPlayer = new MediaPlayer(h);
+                if(mediaPlayer.getStatus() != MediaPlayer.Status.PLAYING) {
+                    mediaPlayer.play();
+                }
+            }
+        catch(Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void playSound() {
-        if(clip == null) return;
-        stop();
+    /**
+     * achievementSounds plays a ringing sound. Used in the achievementPopUp method
+     * as an achievement notification appears
+     */
+    public static void achievementSound() {
+        Sound achievementSound = new Sound("/sounds/tilegame.mp3");
+        achievementSound.music();
     }
 
-    private void stop() {
-        if (clip.isRunning()) clip.stop();
+
+    /**
+     * dogbarkSound Plays the dog barking sound using the music method.
+     */
+    public static void dogbarkSound() {
+        Sound dogbark = new Sound("/sounds/longbark2.mp3");
+        dogbark.music();
     }
 
-    public void close() {
-        stop();
-        clip.close();
+
+    /**
+     * doorbellSound Plays the doorbell sound using the music method.
+     */
+    public static void doorbellSound() {
+        Sound doorbell = new Sound("/sounds/doorbell.mp3");
+        doorbell.music();
     }
+
 }

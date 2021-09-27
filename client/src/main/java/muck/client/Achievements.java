@@ -1,84 +1,144 @@
 package muck.client;
 
-import javax.swing.*;
+import java.io.IOException;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
+import muck.client.utilities.Points;
 
-// This class stores and triggers achievements when specific in-game requirements from other classes are met.
 
+/**
+ * The Achievements class creates achievement objects that trigger a pop-up notification
+ * when specific in-game actions or milestones are met.
+ */
 public class Achievements {
+    boolean achievementStatus;
+    String achievementTitle;
+    String achievementDescription;
 
     // List of achievements that can be earned in-game
-    // TODO: NEED TO ADD ACHIEVEMENTS HERE
-    // TODO: NEED TO CODE IN THE ACHIEVEMENT TRIGGERS TO OTHER THE CLASSES
+    public static Achievements achievement1_instance = null;
+    public static boolean achievement1 = false;
+    public static final String ACHIEVEMENT1TITLE = "Hotel California";
+    public static final String ACHIEVEMENT1DESCRIPTION = "Player has visited the Inn";
 
-    public boolean achievement1 = false;
-    public String achievement1Title = "Hotel California";
-    public String achievement1Description = "Player has visited the Inn";
+    public static Achievements achievement2_instance = null;
+    public static boolean achievement2 = false;
+    public static final String ACHIEVEMENT2TITLE = "Retail Therapy";
+    public static final String ACHIEVEMENT2DESCRIPTION = "Player has visited the Shop";
 
-    public boolean achievement2 = false;
-    public String achievement2Title = "Retail Therapy";
-    public String achievement2Description = "Player has visited the Shops";
+    public static Achievements achievement3_instance = null;
+    public static boolean achievement3 = false;
+    public static final String ACHIEVEMENT3TITLE = "Hide your kids, Hide your wife";
+    public static final String ACHIEVEMENT3DESCRIPTION = "Player has invaded a home";
 
-    public boolean achievement3 = false;
-    public String achievement3Title = "Monkey See, Monkey Do";
-    public String achievement3Description = "Player has 'climbed' the tree";
+    public static Achievements achievement4_instance = null;
+    public static boolean achievement4 = false;
+    public static final String ACHIEVEMENT4TITLE = "Indiana Stones";
+    public static final String ACHIEVEMENT4DESCRIPTION = "Player has visited the cave";
 
-    public boolean achievement4 = false;
-    public String achievement4Title = "The Explorer";
-    public String achievement4Description = "Player has visited the cave";
+    public static Achievements achievement5_instance = null;
+    public static boolean achievement5 = false;
+    public static final String ACHIEVEMENT5TITLE = "Would You Like Some Pie?";
+    public static final String ACHIEVEMENT5DESCRIPTION = "Player has entered the cottage";
 
-    public boolean achievement5 = false;
-    public String achievement5Title = "Don't look down";
-    public String achievement5Description = "Player has walked the bridge";
+    public static Achievements achievement6_instance = null;
+    public static boolean achievement6 = false;
+    public static final String ACHIEVEMENT6TITLE = "I'm A Real Boy";
+    public static final String ACHIEVEMENT6DESCRIPTION = "Player has selected an avatar";
 
-    public boolean achievement6 = false;
-    public String achievement6Title = "Smooth Talker";
-    public String achievement6Description = "Player has sent a message on chat";
+    public static Achievements achievement7_instance = null;
+    public static boolean achievement7 = false;
+    public static final String ACHIEVEMENT7TITLE = "Indecisive";
+    public static final String ACHIEVEMENT7DESCRIPTION = "Player has selected another avatar";
 
-    public boolean achievement7 = false;
-    public String achievement7Title = "Alien Exterminator";
-    public String achievement7Description = "Player has won a game of Space Invaders";
+    public static Achievements achievement8_instance = null;
+    public static boolean achievement8 = false;
+    public static final String ACHIEVEMENT8TITLE = "The Skeleton King";
+    public static final String ACHIEVEMENT8DESCRIPTION = "Player has unlocked Skeleton";
 
-    public boolean achievement8 = false;
-    public String achievement8Title = "Winner Winner Chicken Dinner";
-    public String achievement8Description = "Player has won a card game";
+    public static Achievements achievement9_instance = null;
+    public static boolean achievement9 = false;
+    public static final String ACHIEVEMENT9TITLE = "Wonderful!";
+    public static final String ACHIEVEMENT9DESCRIPTION = "Player has unlocked Wonder Woman";
 
-    public boolean achievement9 = false;
-    public String achievement9Title = "I'm A Real Boy";
-    public String achievement9Description = "Player has selected an avatar";
+    public static Achievements achievement10_instance = null;
+    public static boolean achievement10 = false;
+    public static final String ACHIEVEMENT10TITLE = "Better Than Luigi";
+    public static final String ACHIEVEMENT10DESCRIPTION = "Player has unlocked Yoshi";
 
-    public boolean achievement10 = false;
-    public String achievement10Title = "The Skeleton King";
-    public String achievement10Description = "Player has unlocked Skeleton";
+    public static Achievements achievement11_instance = null;
+    public static boolean achievement11 = false;
+    public static final String ACHIEVEMENT11TITLE = "Winner Winner Chicken Dinner";
+    public static final String ACHIEVEMENT11DESCRIPTION = "Player has won a game of Frogger";
 
-    public boolean achievement11 = false;
-    public String achievement11Title = "Wonderful!";
-    public String achievement11Description = "Player has unlocked Wonder Woman";
+    public static Achievements achievement12_instance = null;
+    public static boolean achievement12 = false;
+    public static final String ACHIEVEMENT12TITLE = "Alien Exterminator";
+    public static final String ACHIEVEMENT12DESCRIPTION = "Player has won a game of Space Invaders";
 
-    public boolean achievement12 = false;
-    public String achievement12Title = "Better Than Luigi";
-    public String achievement12Description = "Player has unlocked Yoshi";
+    public static Achievements achievement13_instance = null;
+    public static boolean achievement13 = false;
+    public static final String ACHIEVEMENT13TITLE = "All skill, No luck";
+    public static final String ACHIEVEMENT13DESCRIPTION = "Player has won a game of Tick-Tac-Toe";
+
+    public static Achievements achievement14_instance = null;
+    public static boolean achievement14 = false;
+    public static final String ACHIEVEMENT14TITLE = "Here, Fishy Fishy";
+    public static final String ACHIEVEMENT14DESCRIPTION = "Player has won a game of Go-Fish";
+
 
     /**
-     * achievementUnlock Flips achievement boolean from false to true and then displays the achievement notification
-     * @param achievementName Name of the boolean being converted to true
-     * @param achievementTitle Title of the achievement
-     * @param achievementDescription Description of the achievement
+     * Constructor to create an achievement object
+     * @param aStatus The boolean status for the achievement (False = locked, True = unlocked)
+     * @param aTitle The achievement title
+     * @param aDescription The achievement description
      */
-    public void achievementUnlock(boolean achievementName, String achievementTitle, String achievementDescription) {
-        if (!achievementName) {
-            achievementName = true;
-            achievementNotification(achievementTitle, achievementDescription);
+    public Achievements(boolean aStatus, String aTitle, String aDescription) {
+        this.achievementStatus = aStatus;
+        this.achievementTitle = aTitle;
+        this.achievementDescription = aDescription;
+    }
+
+
+    /**
+     * achievementUnlock Unlocks the achievement if it has not yet been unlocked.
+     * The achievement is then displayed on the achievement tab within the Player Dashboard
+     */
+    public void achievementUnlock() {
+        if (!this.achievementStatus) {
+            Points.givePlayerPoints(20);
+            this.achievementStatus = true;
+            PlayerDashboardController.addAchievements(this.achievementTitle, this.achievementDescription);
         }
     }
 
 
     /**
-     * achievementNotification Displays a pop-up notification
-     * @param achievementTitle Name of the achievement
-     * @param achievementDescription Description for the achievement
+     * achievementPopUp Displays a pop-up notification that notifies the player of
+     * the achievement that was earned.
+     * A notification sound is played as the achievement appears
      */
-    // TODO: NOT SURE IF THIS WORKS. NEED TO TEST.
-    public static void achievementNotification(String achievementTitle, String achievementDescription) {
-        JOptionPane.showMessageDialog(null, "Achievement Unlocked! \n" + achievementTitle + ": " + achievementDescription);
+    public void achievementPopUp() {
+        try {
+            Parent parent = FXMLLoader.load(getClass().getResource("/fxml/AchievementWindow.fxml"));
+            Stage window = new Stage(StageStyle.DECORATED);
+            window.setTitle("Achievement Window");
+            Label titleLabel = (Label) parent.lookup("#achievementTitleLabel");
+            titleLabel.setText(this.achievementTitle);
+            Label descriptionLabel = (Label) parent.lookup("#achievementDescriptionLabel");
+            descriptionLabel.setText(this.achievementDescription);
+            window.setScene(new Scene(parent));
+            window.show();
+            window.setAlwaysOnTop(true);
+            Sound.achievementSound();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 }

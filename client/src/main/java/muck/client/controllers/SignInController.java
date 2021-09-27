@@ -4,17 +4,20 @@ package muck.client.controllers;
 
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.*;
-import muck.client.App;
-import muck.client.MuckClient;
-import org.mindrot.jbcrypt.*;
-import muck.client.AvatarController;
+import javafx.stage.Stage;
+import muck.client.*;
+import muck.client.components.ActiveUser;
 
 import java.io.IOException;
+import java.util.Objects;
 
 
-public class SignInController{
+public class SignInController {
     @FXML
     Label error;
 
@@ -30,51 +33,41 @@ public class SignInController{
     @FXML
     Button signIn;
 
-    // Todo add logic to
+
+    public static void constructor() {
+        try {
+            Stage stage = new Stage();
+            stage.setResizable(true);
+            Parent root = FXMLLoader.load(Objects.requireNonNull(SignInController.class.getResource("/fxml/SignIn.fxml")));
+            stage.setTitle("MUCK 2021");
+            stage.setScene(new Scene(root));
+            stage.show();
+            stage.toFront();
+        } catch (IOException e) {
+            System.out.println("Can't find primary stage FXML file");
+        }
+    }
+
     @FXML
-    protected void signIn(MouseEvent event) throws IOException {
+    protected void signIn(MouseEvent event) throws Exception {
         String passwordText = password.getText();
-
         String uName = username.getText();
+        boolean fieldsAreNotEmpty = isNotEmpty(username.getText(), password.getText());
 
-
-        if(isNotEmpty(username.getText(), password.getText())){
-            boolean validated = validateSignIn(uName, passwordText);
-            boolean success = success(validated, uName, passwordText);
+        if(fieldsAreNotEmpty){
+            boolean dataSent = sendData(uName, passwordText);
+            boolean success = false;
+            Thread.sleep(500);
+            if(dataSent){
+                success = success();
+            }
             if(success){
                 // forward on to next scene
                 passToNextScene(event, uName);
             }
-        };
-
-
-
-    }
-
-    // TODO: Sign in validation method - implement functionality
-
-    public boolean validateSignIn(String username, String password) {
-        // Check that user exists in database
-        if( !userExists(username) || !passwordMatches(username, password)) {
-            // Handle NoUserExists
-            error.setText("User Name or Password are Incorrect");
-            return false;
-        } else {
-            return true;
         }
     }
 
-    //TODO: User validation method - implement functionality
-    public boolean userExists(String username){
-        // check database for user
-        return true;
-    }
-
-    //TODO: Password validation method - implement functionality
-    public boolean passwordMatches(String username, String password){
-        //match password to user from database
-        return true;
-    }
 
     // TODO: Add Pass to SignUp Display
     public void signUp() throws IOException{
@@ -83,42 +76,51 @@ public class SignInController{
     }
 
     // TODO: Add Pass to Avatar Selection Display - work out how to pass data between scenes
-    public static void passToNextScene(MouseEvent event, String username) throws IOException{
-        // Currently needs to go to muck via avatar controller until users can be brought from database
-
-        // This will likely need to be updated to pass in the display name from the database to be consistent
-        // with the sign up class otherwise only username will be passed in both.
+    public static void passToNextScene(MouseEvent event, String username) {
         AvatarController nextScene = new AvatarController();
         App.hideStage();
         nextScene.avatarCreation(event, username);
     }
 
-    public boolean success(boolean validated, String userName, String passwordText){
-        if (validated) {
-            try {
-                MuckClient.getINSTANCE().login(userName, passwordText);
-                error.setText("New muck user created" + userName);
-                return true;
-            } catch (Exception ex) {
-                error.setText("Unable to create new user: {}" + userName);
-
-                throw new RuntimeException(String.format("Unable to create new user: %s.", userName));
-
-            }
-        }
-        return false;
-    }
-
-    public boolean isNotEmpty(String password, String username){
+    public boolean isNotEmpty(String username, String password){
         if(username.isEmpty()){
-            error.setText("You must enter a user name");
+            setError("You must enter a user name");
             return false;
         } else if(password.isEmpty()){
-            error.setText("You must enter your password");
+            setError("You must enter your password");
             return false;
         } else {
             return true;
         }
+    }
+
+    public boolean sendData(String userName, String passwordText){
+        try {
+            MuckClient.getINSTANCE().login(userName, passwordText);
+            setError("Data Sent");
+            return true;
+        } catch (Exception ex) {
+            setError(String.format("Unable to create new user: %s.", userName));
+            throw new RuntimeException(ex.getMessage());
+        }
+    }
+
+    public boolean success(){
+        try{
+            if(ActiveUser.getInstance().getServerMessage().equals("Login Successful")){
+                return true;
+            } else {
+                setError(ActiveUser.getInstance().getServerMessage());
+                return false;
+            }
+        } catch (NullPointerException ex){
+            setError("There was no response from the server. Please try again");
+            return false;
+        }
+    }
+
+    public void setError(String notification){
+        error.setText(notification);
     }
 
 }
