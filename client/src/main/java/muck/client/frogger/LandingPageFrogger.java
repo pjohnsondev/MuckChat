@@ -92,29 +92,29 @@ public class LandingPageFrogger extends Node {
 
         stage.getChildren().add(grid);
 
-        Label secondLabel = new Label("Welcome!");
-        StackPane secondaryLayout = new StackPane();
-        secondaryLayout.getChildren().add(secondLabel);
-        Scene secondScene = new Scene(secondaryLayout, WIDTH, HEIGHT);
-        Stage newWindow = new Stage();
-        newWindow.setTitle("Frogger");
-        newWindow.setScene(secondScene);
-        newWindow.initModality(Modality.WINDOW_MODAL);
-
         // Create on-click events
         playButton.setOnAction(event -> {
 
-            if (!newWindow.isShowing()) {
-                Frogger frg = new Frogger();
-                try {
-                    frg.start(newWindow);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            Label secondLabel = new Label("Welcome!");
+            StackPane secondaryLayout = new StackPane();
+            secondaryLayout.getChildren().add(secondLabel);
+            Scene secondScene = new Scene(secondaryLayout, WIDTH, HEIGHT);
 
-                // Set position of second window, related to primary window.
-                newWindow.show();
+            // Lets crack open a new window
+            Stage newWindow = new Stage();
+            newWindow.setTitle("Frogger");
+            newWindow.setScene(secondScene);
+            newWindow.initModality(Modality.WINDOW_MODAL);
+
+            Frogger frg = new Frogger();
+            try {
+                frg.start(newWindow);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
+            // Set position of second window, related to primary window.
+            newWindow.show();
         });
 
         exitButton.setOnAction(event -> {
