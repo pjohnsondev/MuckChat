@@ -1,8 +1,6 @@
 package muck.client.controllers;
 /*Sign in - Issue 11 */
 
-
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,12 +10,12 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import muck.client.*;
 import muck.client.components.ActiveUser;
-
 import java.io.IOException;
 import java.util.Objects;
 
 
 public class SignInController {
+
     @FXML
     Label error;
 
@@ -48,12 +46,18 @@ public class SignInController {
         }
     }
 
+    /**
+     * signIn method passes input to validation methods and attempts to signin
+     * player. If successfull, passes to next scene
+     * @param event the mouse event that triggered sign in
+     * @throws InterruptedException is sleep method causes exception
+     */
     @FXML
-    protected void signIn(MouseEvent event) throws Exception {
+    protected void signIn(MouseEvent event) throws InterruptedException {
         String passwordText = password.getText();
         String uName = username.getText();
-        boolean fieldsAreNotEmpty = isNotEmpty(username.getText(), password.getText());
 
+        boolean fieldsAreNotEmpty = isNotEmpty(username.getText(), password.getText());
         if(fieldsAreNotEmpty){
             boolean dataSent = sendData(uName, passwordText);
             boolean success = false;
@@ -62,26 +66,38 @@ public class SignInController {
                 success = success();
             }
             if(success){
-                // forward on to next scene
                 passToNextScene(event, uName);
             }
         }
     }
 
 
-    // TODO: Add Pass to SignUp Display
+    /**
+     * signUp method passes to the signUp scene if button is pressed
+     * @throws IOException
+     */
     public void signUp() throws IOException{
-        App a = new App();
-        a.changeScene("/fxml/SignUp.fxml");
+        App app = new App();
+        app.changeScene("/fxml/SignUp.fxml");
     }
 
-    // TODO: Add Pass to Avatar Selection Display - work out how to pass data between scenes
+    /**
+     * passToNextScene method passes to the next scene
+     * @param event The mouse event that triggered sign in
+     * @param username the provided username
+     */
     public static void passToNextScene(MouseEvent event, String username) {
         AvatarController nextScene = new AvatarController();
         App.hideStage();
         nextScene.avatarCreation(event, username);
     }
 
+    /**
+     * isNotEmpty method checks that provided input field is not empty
+     * @param username the username field text
+     * @param password the password field text
+     * @return true is neither password or username fields are empty
+     */
     public boolean isNotEmpty(String username, String password){
         if(username.isEmpty()){
             setError("You must enter a user name");
@@ -94,7 +110,13 @@ public class SignInController {
         }
     }
 
-    public boolean sendData(String userName, String passwordText){
+    /**
+     * sendData method sends the provided data to the server via MuckClient
+     * @param userName the provided username
+     * @param passwordText the provided password
+     * @return true if no error occurs sending data to the server and throws a runtime exception if an error occurs
+     */
+    public boolean sendData(String userName, String passwordText) {
         try {
             MuckClient.getINSTANCE().login(userName, passwordText);
             setError("Data Sent");
@@ -105,6 +127,10 @@ public class SignInController {
         }
     }
 
+    /**
+     * success method checks that the signin has succeeded and the server has responded
+      * @return true if server has responded with success or false if no success response
+     */
     public boolean success(){
         try{
             if(ActiveUser.getInstance().getServerMessage().equals("Login Successful")){
