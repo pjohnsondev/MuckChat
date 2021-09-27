@@ -1,16 +1,12 @@
 package muck.client.controllers;
 
-import javafx.scene.control.Label;
-import javafx.stage.Stage;
-import muck.client.controllers.SignInController;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
 import org.testfx.framework.junit5.ApplicationTest;
 
-
 import static org.mockito.Mockito.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -45,19 +41,6 @@ public class SignInControllerTest extends ApplicationTest {
                 () -> assertFalse(controllerMock.isNotEmpty(testEmptyField, testEmptyField)),
                 () -> assertTrue(controllerMock.isNotEmpty(testUsername, testPassword))
         );
-    }
-
-
-
-    @Test
-    //TODO possibly test integration with muckclient
-    public void testDataSent() {
-        // Given
-
-        //Then
-
-        //When
-        controllerMock.sendData(testUsername, testPassword);
     }
 
 
