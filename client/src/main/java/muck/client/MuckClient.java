@@ -183,7 +183,6 @@ public enum MuckClient {
 	 */
 	public void login(String username, String password) {
 		Login login = new Login(username, password, clientId);
-
 		client.sendTCP(login);
 	}
 

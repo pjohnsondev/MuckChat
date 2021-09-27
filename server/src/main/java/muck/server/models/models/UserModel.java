@@ -4,6 +4,7 @@ import java.security.InvalidParameterException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import muck.core.structures.PlayerStructure;
 import muck.server.database.Database;
 import muck.server.models.AbstractModel.Model;
 import muck.core.structures.UserStructure;
@@ -17,6 +18,7 @@ public class UserModel extends Model {
     public static final String DISPLAYNAME_COL = "displayname";
     public static final String PASSWORD_COL = "password";
     public static final String SALT_COL = "salt";
+    public static final String POINTS_COL = "points";
 
     public UserModel() {
         this.table = "users";
@@ -42,7 +44,8 @@ public class UserModel extends Model {
                         + " username VARCHAR(80) UNIQUE, "
                         + " displayname VARCHAR(80) UNIQUE, "
                         + " password BLOB NOT NULL, "
-                        + " salt BLOB NOT NULL)"
+                        + " salt BLOB NOT NULL, "
+                        + " points INTEGER DEFAULT 0)"
         );
         System.out.println("Table created");
     }
@@ -107,4 +110,12 @@ public class UserModel extends Model {
     public ResultSet findUserById(int id) throws SQLException {
         return this.select("id", id);
     }
+
+    public void insertPointsWhereId(UserStructure user) throws SQLException {
+        db.query("UPDATE USERS SET POINTS = ? WHERE id = ?");
+        db.bindInt(1, user.points);
+        db.bindInt(2, user.id);
+        db.executeInsert();
+    }
+
 }

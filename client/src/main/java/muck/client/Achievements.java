@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import muck.client.utilities.Points;
 
 
 /**
@@ -84,6 +85,11 @@ public class Achievements {
     public static final String ACHIEVEMENT13TITLE = "All skill, No luck";
     public static final String ACHIEVEMENT13DESCRIPTION = "Player has won a game of Tick-Tac-Toe";
 
+    public static Achievements achievement14_instance = null;
+    public static boolean achievement14 = false;
+    public static final String ACHIEVEMENT14TITLE = "Here, Fishy Fishy";
+    public static final String ACHIEVEMENT14DESCRIPTION = "Player has won a game of Go-Fish";
+
 
     /**
      * Constructor to create an achievement object
@@ -104,6 +110,7 @@ public class Achievements {
      */
     public void achievementUnlock() {
         if (!this.achievementStatus) {
+            Points.givePlayerPoints(20);
             this.achievementStatus = true;
             PlayerDashboardController.addAchievements(this.achievementTitle, this.achievementDescription);
         }
@@ -127,21 +134,11 @@ public class Achievements {
             window.setScene(new Scene(parent));
             window.show();
             window.setAlwaysOnTop(true);
-            achievementSounds();
+            Sound.achievementSound();
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-
-    /**
-     * achievementSounds plays a ringing sound. Used in the achievementPopUp method
-     * as an achievement notification appears
-     */
-    public void achievementSounds() {
-        Sound achievementSound = new Sound("/sounds/tilegame.mp3");
-        achievementSound.music();
     }
 
 }

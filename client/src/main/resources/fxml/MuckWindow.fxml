@@ -97,6 +97,14 @@
 
                   </ImageView>
                </graphic></MenuItem>
+                <MenuItem id="goFishMenu" fx:id="goFishMenu" mnemonicParsing="false" text="Go Fish">
+                    <graphic>
+                        <ImageView fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+
+                            <Image url="@../images/CardClipArt.png" />
+
+                        </ImageView>
+                    </graphic></MenuItem>
             <MenuItem id="tttMenu" fx:id="tttMenu" mnemonicParsing="false" text="Tic Tac Toe">
                <graphic>
                   <ImageView fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
@@ -204,7 +212,7 @@
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </Button>
-                <Button id="gameButton4" contentDisplay="TOP" layoutX="849.0" layoutY="474.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="117.0" text="Go Fish">
+                <Button id="gameButton4" fx:id="game4Button" contentDisplay="TOP" layoutX="849.0" layoutY="474.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="117.0" text="Go Fish">
                     <effect>
                         <Blend />
                     </effect>

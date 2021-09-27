@@ -4,8 +4,12 @@ package muck.client.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import muck.client.AvatarController;
 import muck.client.MuckClient;
 import muck.client.components.ActiveUser;
@@ -19,10 +23,11 @@ import muck.client.utilities.RandomNameGenerator;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.EventListener;
+import java.util.Objects;
 
 
 public class SignUpController {
-    private int maxPasswordLength = 10;
+    private int maxPasswordLength = 26;
     private int maxDisplayNameLength = 26;
     private int maxUsernameLength = maxPasswordLength;
     private static final Logger logger = LogManager.getLogger(App.class);
@@ -48,9 +53,24 @@ public class SignUpController {
     @FXML
     Button genName;
 
+
     @FXML
     void initialize() {
         genName.setOnAction(this::randomDisplayName);
+    }
+
+    public static void constructor() {
+        try {
+            Stage stage = new Stage();
+            stage.setResizable(true);
+            Parent root = FXMLLoader.load(Objects.requireNonNull(SignInController.class.getResource("/fxml/SignUp.fxml")));
+            stage.setTitle("MUCK 2021");
+            stage.setScene(new Scene(root));
+            stage.show();
+            stage.toFront();
+        } catch (IOException e) {
+            System.out.println("Can't find primary stage FXML file");
+        }
     }
 
     // Todo add logic to
@@ -82,12 +102,18 @@ public class SignUpController {
 
     // TODO: Sign Up validation method - implement functionality
     public boolean validateSignUp(MouseEvent event, String displayname, String username, String password, String passwordtwo) {
-        if (validUserNameLength(username) && validPasswordLength(password) && validDisplayNameLength(displayname) &&
-                userNameAvailable(username) && passwordsMatch(password, passwordtwo) && passwordIsNotEmpty(password) && passwordIsNotEmpty(passwordtwo) &&
-                userNameIsNotEmpty(username) && displayNameIsNotEmpty(displayname) ) {
+        if (
+            validUserNameLength(username) &&
+            validPasswordLength(password) &&
+            validDisplayNameLength(displayname) &&
+            passwordsMatch(password, passwordtwo) &&
 
+            IsNotEmpty(password) &&
+            IsNotEmpty(passwordtwo) &&
+            IsNotEmpty(username) &&
+            IsNotEmpty(displayname)
+        ) {
             return true;
-
         } else {
             // Catches and displays the corresponding error from the display method.
             displayErrors();
@@ -95,12 +121,6 @@ public class SignUpController {
 
         }
 
-    }
-
-    // TODO: User name Available method - implement functionality
-    public boolean userNameAvailable(String username) {
-        // Check that username is available
-        return true;
     }
 
     // Username Length Validation method
@@ -134,53 +154,15 @@ public class SignUpController {
     // Passwords match Validation method
     public boolean passwordsMatch(String passWordText, String passwordTwo) {
         if (passWordText.equals(passwordTwo)) {
-            error.setText("Passwords do not match");
             return true;
         } else {
             return false;
         }
     }
 
-    //TODO: Add User to Database - Add functionality
-    public void addUser(String uName, String password) throws SQLException {
-//        This will need to be replaced as we wont directly communicate with the server
-//        User user = new User();
-//        try{
-//            user.registerNewUser(uName, password);
-//        } catch (SQLException se){
-//            System.out.println(se);
-//        }
-    }
-
-    //TODO: Retrieve user from Database
-    public void returnUser(String uName) throws SQLException {
-//        User user = new User();
-//        try{
-//            return user.findUserByUsername(uName);
-//        } catch (SQLException se){
-//            System.out.println(se);
-//            return false;
-//        }
-    }
-    // Password not empty validation
-    public boolean passwordIsNotEmpty(String password) {
-        if (password.isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-    // Username not empty validation
-    public boolean userNameIsNotEmpty(String username) {
-        if (username.isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-    // Display name not empty validation
-    public boolean displayNameIsNotEmpty(String displayname) {
-        if (displayname.isEmpty()) {
+    // Field not empty validation
+    public boolean IsNotEmpty(String field) {
+        if (field.isEmpty()) {
             return false;
         } else {
             return true;
@@ -188,14 +170,13 @@ public class SignUpController {
     }
 
     public boolean createUser(boolean validated, String userName, String passwordText, String displayName){
-
         if (validated) {
             try {
                 MuckClient.getINSTANCE().signUp(userName, passwordText, displayName);
-                error.setText("New muck user created" + userName);
+                setError("New muck user created" + userName);
                 return true;
             } catch (Exception ex) {
-                error.setText("Unable to create new user: {}" + userName);
+                setError("Unable to create new user: {}" + userName);
 
                 throw new RuntimeException(String.format("Unable to create new user: %s.", userName));
 
@@ -214,10 +195,10 @@ public class SignUpController {
 
     public boolean success(){
         if(ActiveUser.getInstance().getServerMessage() != null && ActiveUser.getInstance().getServerMessage().equals("Signup successful")){
-            error.setText("Signup successful");
+            setError("Signup successful");
             return true;
         } else {
-            error.setText(ActiveUser.getInstance().getServerMessage());
+            setError(ActiveUser.getInstance().getServerMessage());
             return false;
         }
     }
@@ -230,20 +211,25 @@ public class SignUpController {
         String userName = username.getText();
         String displayName = displayname.getText();
         String passwordTwo = passwordtwo.getText();
-        if (!validUserNameLength(userName)) {
-            error.setText("Username must be less than " + maxUsernameLength + " characters");
-        } else if (!validPasswordLength(passWordText)) {
-            error.setText("Password must be less than " + maxPasswordLength + " characters");
-        } else if (!validDisplayNameLength(displayName)) {
-            error.setText("Display name must be less than " + maxDisplayNameLength + " characters");
-        } else if (!userNameIsNotEmpty(userName)) {
-            error.setText("You must enter a user name");
-        } else if (!displayNameIsNotEmpty(displayName)) {
-            error.setText("You must enter a display name");
-        } else if (!passwordIsNotEmpty(passWordText)) {
-            error.setText("You must enter a password");
+        if (!IsNotEmpty(userName)) {
+            setError("You must enter a user name");
+        } else if (!IsNotEmpty(displayName)) {
+            setError("You must enter a display name");
+        } else if (!IsNotEmpty(passWordText)) {
+            setError("You must enter a password");
         } else if (!passwordsMatch(passWordText, passwordTwo)) {
-            error.setText("Passwords do not match");
+            setError("Passwords do not match");
+        } else if (!validUserNameLength(userName)) {
+            setError("Username must be less than " + maxUsernameLength + " characters");
+        } else if (!validPasswordLength(passWordText)) {
+            setError("Password must be less than " + maxPasswordLength + " characters");
+        } else if (!validDisplayNameLength(displayName)) {
+            setError("Display name must be less than " + maxDisplayNameLength + " characters");
         }
     }
+
+    public void setError(String notification){
+        error.setText(notification);
+    }
+
 }

@@ -3,7 +3,6 @@ package muck.client;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -24,11 +23,13 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import muck.client.components.ActiveUser;
 import muck.client.utilities.RandomNameGenerator;
-import muck.core.models.models.User;
-import muck.core.models.models.UserModel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class PlayerDashboardController implements Initializable {
+
+    private static final Logger LOGGER = LogManager.getLogger(PlayerDashboardController.class);
 
     private static String userName;
     private static String displayName;
@@ -93,13 +94,14 @@ public class PlayerDashboardController implements Initializable {
             change.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                 try {
                     //This will take over the scene that currently holds the player dashboard screen
-                    AvatarController.avatarCreation(userName, displayName, avatarID);
+                    AvatarController.avatarCreation(userName, displayName, avatarID, muckPointTotal);
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Avatar.fxml")));
                     stage.setScene(new Scene(parent));
                     stage.setResizable(false);
                     stage.show();
                 } catch (IOException e) {
+                    LOGGER.error("Error in initialisation of Avatar window");
                     e.printStackTrace();
                 }
             });
@@ -140,26 +142,31 @@ public class PlayerDashboardController implements Initializable {
         achievements.add(new String[]{"Hotel California", "Player has visited the Inn"});
         achievements.add(new String[]{"Retail Therapy", "Player has visited the Shops"});
         achievements.add(new String[]{"Alien Exterminator", "Player has won a game of Space Invaders"});*/
-
-        muckPointTotal = 100; //TODO: Remove when can call to the server
+        muckPointTotal = ActiveUser.getInstance().getUser().points; //TODO: Remove when can call to the server
         healthTotal = 80; //TODO: Remove when can call to the server
+        //healthTotal = MuckClient.getINSTANCE().currentPlayer.getHealth();
+        //^^The method to call had the character class been completed
     }
 
     /**
      * This is a dummy method to circumvent the need to store achievements to the database as the storage will not be
      * ready for assignment submission.
-     * @param achivementTitle: The title of the achievement
+     * @param achievementTitle: The title of the achievement
      * @param achievementDescription: The description of the achievement
      */
-    public static void addAchievements(String achivementTitle, String achievementDescription) {
-        achievements.add(new String[]{achivementTitle, achievementDescription});
+    public static void addAchievements(String achievementTitle, String achievementDescription) {
+        achievements.add(new String[]{achievementTitle, achievementDescription});
     }
 
+    /**
+     * For testing purposes until we obtain the ability to connect to the server to get player achievements
+     * @return ArrayList of player achievements
+     */
     public static ArrayList<String[]> getAchievements() { return achievements; }
 
-        /**
-         * Displays the player's achievements in the applicable section of the GUI
-         */
+    /**
+    * Displays the player's achievements in the applicable section of the GUI
+    */
     private void updateAchievements() {
         heading.setText("Achievements");
         achievementWindow.clear();
@@ -203,7 +210,7 @@ public class PlayerDashboardController implements Initializable {
         userDetails.add(new String[]{random.generateName(), "120"});
         userDetails.add(new String[]{random.generateName(), "120"});
         userDetails.add(new String[]{random.generateName(), "100"});
-        userDetails.add(new String[]{displayName, "80"});
+        userDetails.add(new String[]{displayName, "100"});
         userDetails.add(new String[]{random.generateName(), "60"});
         userDetails.add(new String[]{random.generateName(), "40"});
 
