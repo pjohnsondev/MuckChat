@@ -4,6 +4,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -15,6 +16,7 @@ import javafx.scene.layout.*;
 import javafx.scene.control.Button;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -27,6 +29,7 @@ public class LandingPageFrogger extends Node {
 
     private ImageView titleView;
     private static final Image TITLE = new Image("/images/frogger/Frogger_Logo.png");
+    private static final Image INSTRUCTIONS = new Image("/images/frogger/instructions.png");
 
     final Button playButton = new Button("PLAY");
     final Button instructionsButton = new Button("INSTRUCTIONS");
@@ -34,6 +37,20 @@ public class LandingPageFrogger extends Node {
 
     final GridPane grid = new GridPane();
     private BorderPane gamePane;
+
+    private static final String DIRECTIONS =
+            "*   WASD to move\n" +
+                    "\n" +
+                    "*   Make your way to the top of screen\n" +
+                    "\n" +
+                    "*   Avoid the Red Cars!\n" +
+                    "\n" +
+                    "*   You win if you reach the top!\n" +
+                    "\n" +
+                    "*   You lose if you are run over by a car!\n" +
+                    "\n" +
+                    "*   Good luck lil' froggie!\n" +
+                    "\n";
 
     public LandingPageFrogger(BorderPane stage, Canvas canvas) {
         gamePane = stage;
@@ -114,6 +131,59 @@ public class LandingPageFrogger extends Node {
 
                 // Set position of second window, related to primary window.
                 newWindow.show();
+            }
+        });
+
+        // Create window for instructions to be displayed in
+        Stage gamePlayInstructionsWindow = new Stage();
+
+        instructionsButton.setOnAction(event -> {
+
+            if (!gamePlayInstructionsWindow.isShowing()) {
+
+                // Add instructions title image
+                ImageView instructions = new ImageView();
+                instructions.setImage(INSTRUCTIONS);
+
+                // Add image to a HBox and center it at the top of the scene
+                HBox hbxImg = new HBox();
+                hbxImg.setAlignment(Pos.TOP_CENTER);
+                hbxImg.setPadding(new Insets(30, 0, 15, 0));
+                hbxImg.getChildren().add(instructions);
+
+                // Add instructions text as a label.
+                Label instructionsText = new Label(DIRECTIONS);
+                instructionsText.setFont(Font.font(19));
+                instructionsText.setStyle("-fx-text-fill: #00ff00");
+
+                // Add and format the Return to Landing Page button
+                Button goBack = new Button("CLOSE INSTRUCTIONS");
+                goBack.setPrefSize(200, 50);
+                goBack.setStyle(" -fx-background-color: #00ff00");
+                HBox button = new HBox();
+                button.setAlignment(Pos.BOTTOM_CENTER);
+                button.setPadding(new Insets(15, 5, 25, 0));
+                button.getChildren().add(goBack);
+
+
+                StackPane layout = new StackPane();
+
+                // Set background colour
+                layout.setStyle("-fx-background-color: BLACK");
+
+                layout.getChildren().addAll(hbxImg, instructionsText, button);
+
+                // Add layout to the scene
+                Scene gameInstructScene = new Scene(layout, WIDTH * 0.75, HEIGHT * 0.90);
+
+
+                gamePlayInstructionsWindow.setTitle("GAMEPLAY INSTRUCTIONS");
+                gamePlayInstructionsWindow.setScene(gameInstructScene);
+
+                gamePlayInstructionsWindow.show();
+
+                // Close window when pushing button
+                goBack.setOnAction(event1 -> gamePlayInstructionsWindow.close());
             }
         });
 
