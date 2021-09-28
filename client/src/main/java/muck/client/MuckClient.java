@@ -242,18 +242,7 @@ public enum MuckClient {
 	 *
 	 */
 	public synchronized List<String> getCurrentMessage() {
-		/*logger.info("inMessages size is: {}", inMessages.size());
-		if (inMessages.size() > 0 ) {
 
-			logger.info("outMessages size is : {}", outMessages.size());
-			inMessages.clear();
-			return outMessages;
-		}
-		else {
-			return inMessages;
-		}
-	}
-*/
 		if (inMessages.size() > 0) {
 			String outMessage = inMessages.get(0);
 			List<String> outMessages = new ArrayList<String>();
