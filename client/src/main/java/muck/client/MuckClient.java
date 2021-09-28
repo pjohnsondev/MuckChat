@@ -17,8 +17,6 @@ import muck.protocol.*;
 import muck.protocol.connection.*;
 
 import java.io.IOException;
-import java.util.LinkedList;
-
 import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -38,7 +36,6 @@ public enum MuckClient {
 	ArrayList<String> messageBuffer = new ArrayList<String>();
 	HashMap<Integer, String> players = new HashMap<Integer, String>();
 	List<Sprite> playerSprites = new ArrayList<Sprite>();
-
 	Player currentPlayer;
 
 	public ObservableSubject<SignupResponse> signupResponseNotifier = new ObservableSubject<>();
@@ -70,6 +67,12 @@ public enum MuckClient {
 	public List<Sprite> getPlayerSprites() {
 		client.sendTCP(new LocationRequest(clientId));
 		return this.playerSprites;
+	}
+
+	/** Function used to request client locations within the game world. **/
+	public void requestClientLocations() {
+
+		client.sendTCP(new ClientLocationsRequest(clientId));
 	}
 
 	public Client getClient() {
@@ -175,6 +178,11 @@ public enum MuckClient {
 		client.addListener(ListenerBuilder.forClass(LoginResponse.class).onReceive((connID, response) -> {
 			loginResponseNotifier.notifyObservers(response);
 		}));
+
+		client.addListener(ListenerBuilder.forClass(ClientLocationsResponse.class).onReceive((connId, response) -> {
+			List<Triple<Id<ClientId>, MapId, Location>> data = response.locations;
+			//stub for Nathan Edmonds
+		    }));
 	}
 
 	/**
