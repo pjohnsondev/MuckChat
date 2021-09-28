@@ -4,7 +4,6 @@ import muck.core.structures.UserStructure;
 import muck.server.Exceptions.ModelNotFoundException;
 import muck.server.Exceptions.UserNameAlreadyTakenException;
 import muck.server.database.Database;
-import muck.server.models.models.PlayerModel;
 import muck.server.models.models.UserModel;
 import muck.server.services.UserService;
 import muck.server.testHelpers.TestDatabase;
@@ -20,6 +19,9 @@ import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * UserModelTest tests methods from the UserModel and UserService classes
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UserModelTest {
     private static final Logger logger = LogManager.getLogger(DatabaseTest.class);
@@ -31,11 +33,11 @@ public class UserModelTest {
     private UserStructure testUser2;
 
     /**
-     * A test helper method
+     * A test helper method - not currently required
      *
-     * @param userModel
-     * @param testDb
-     * @throws SQLException
+     * @param userModel - An instance of the UserModel which enables creation and management of users on the database
+     * @param testDb - A connection to the test database
+     * @throws SQLException - Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      */
     private void dropAndClose(UserModel userModel, TestDatabase testDb) throws SQLException {
         testDb.dropTable("users");
@@ -43,10 +45,11 @@ public class UserModelTest {
     }
 
     /**
-     * Another test helper method
-     * @param userModel
-     * @param testDb
-     * @throws SQLException
+     * Another test helper method - not currently required
+     *
+     * @param userModel - An instance of the UserModel which enables creation and management of users on the database
+     * @param testDb - A connection to the test database
+     * @throws SQLException - Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      */
     private void resetTable(UserModel userModel, TestDatabase testDb) throws SQLException {
         userModel.closeDbConnection();
@@ -69,8 +72,8 @@ public class UserModelTest {
     /**
      * Establish a new database connection before each test
      *
-     * @throws SQLException
-     * @throws UserNameAlreadyTakenException
+     * @throws SQLException - Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
+     * @throws UserNameAlreadyTakenException - A custom exception defined in muck.server.Exceptions
      */
     @BeforeEach
     public void beforeEach() throws SQLException, UserNameAlreadyTakenException {
@@ -95,7 +98,7 @@ public class UserModelTest {
     /**
      * Remove registered test user and close database connection after each test
      *
-     * @throws SQLException
+     * @throws SQLException - Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      */
     @AfterEach
     public void afterEach() throws SQLException {
@@ -110,7 +113,7 @@ public class UserModelTest {
     /**
      * TableCreationTest tests that the users table has been created in the test database
      *
-     * @throws SQLException
+     * @throws SQLException - Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      */
     @Test
     public void TableCreationTest() throws SQLException {
@@ -120,7 +123,7 @@ public class UserModelTest {
     /**
      * DropTableTest tests that the table has been dropped successfully
      *
-     * @throws SQLException
+     * @throws SQLException - Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      */
     @Test
     public void DropTableTest() throws SQLException {
@@ -135,7 +138,7 @@ public class UserModelTest {
      * RegisterNewUserTest tests the registerNewUser method from UserService successfully adds
      * a user to the users table in the test database
      *
-     * @throws SQLException
+     * @throws SQLException - Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      */
     @Test
     public void RegisterNewUserTest() throws SQLException {
@@ -162,7 +165,6 @@ public class UserModelTest {
     /**
      * The UniqueDisplayNameTest tests that the registerNewUser method throws an exception when
      * a displayName is already taken
-     *
      */
     @Test
     public void UniqueDisplayNameTest() {
@@ -175,7 +177,7 @@ public class UserModelTest {
      * The UsernameLimitTest tests that the registerNewUser method throws an exception when
      * username exceeds 80 characters
      *
-     * @throws UserNameAlreadyTakenException
+     * @throws InvalidParameterException - Provides information on the error arising from the argument passed. For more information see https://docs.oracle.com/javase/7/docs/api/java/security/InvalidParameterException.html
      */
     @Test
     public void UsernameLimitTest() throws InvalidParameterException {
@@ -195,9 +197,9 @@ public class UserModelTest {
      */
     @Test
     public void UserStructureFieldsGeneratedTest() {
-        assertTrue((testUser1.id != null), "id not set");
-        assertTrue(testUser1.hashedPassword != null, "Hashed password not set");
-        assertTrue(testUser1.salt != null, "Salt not set");
+        assertNotNull(testUser1.id, "id not set");
+        assertNotNull(testUser1.hashedPassword, "Hashed password not set");
+        assertNotNull(testUser1.salt, "Salt not set");
     }
 
     /**
@@ -205,8 +207,8 @@ public class UserModelTest {
      * where the user's details match those stored in the database, and false where they
      * do not match
      *
-     * @throws SQLException
-     * @throws ModelNotFoundException
+     * @throws SQLException - Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
+     * @throws ModelNotFoundException - A custom exception defined in muck.server.Exceptions
      */
     @Test
     public void AuthenticateUserTest() throws SQLException, ModelNotFoundException {
@@ -222,7 +224,7 @@ public class UserModelTest {
      * The FindUserByUsernameTest tests that the findByUsername method, when called on a username,
      * returns a UserStructure containing the user details associated with that username
      *
-     * @throws SQLException
+     * @throws SQLException - Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      */
     @Test
     public void FindUserByUsernameTest() throws SQLException {
@@ -234,7 +236,7 @@ public class UserModelTest {
      * The FindUserByDisplaynameTest tests that the findByDisplayname method, when called on a displayName,
      * returns a UserStructure containing the user details associated with that displayName
      *
-     * @throws SQLException
+     * @throws SQLException - Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      */
     @Test
     public void FindUserByDisplaynameTest() throws SQLException {
@@ -246,7 +248,7 @@ public class UserModelTest {
      * The FindByIdTest tests that the findById method, when called on a userID,
      * returns a UserStructure containing the user details associated with that userID
      *
-     * @throws SQLException
+     * @throws SQLException - Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      */
     @Test
     public void FindByIdTest() throws SQLException {
