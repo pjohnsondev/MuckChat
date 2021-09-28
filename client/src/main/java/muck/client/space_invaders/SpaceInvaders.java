@@ -75,14 +75,14 @@ public class SpaceInvaders {
 
         // Add Exit Game and Play Again buttons
         javafx.scene.control.Button playAgainButton = new javafx.scene.control.Button("PLAY AGAIN");
-        playAgainButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        playAgainButton.setPrefSize(100,20);
         playAgainButton.setStyle("-fx-background-color: #00ff00");
         javafx.scene.control.Button exitButton = new Button(" EXIT GAME ");
-        exitButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        exitButton.setPrefSize(100,20);
         exitButton.setStyle("-fx-background-color: #00ff00");
-        HBox buttonBar = new HBox(790, exitButton, playAgainButton);
+        HBox buttonBar = new HBox(780, exitButton, playAgainButton);
         buttonBar.setStyle("-fx-padding: 8px; -fx-background-color:transparent");
-        buttonBar.setAlignment(Pos.BOTTOM_LEFT);
+        buttonBar.setAlignment(Pos.BOTTOM_CENTER);
 
         BorderPane root = new BorderPane();
 
