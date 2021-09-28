@@ -12,15 +12,15 @@ import static java.util.Map.entry;
 
 public class SpaceInvadersUtility {
 
-    public static final int ENEMY_SIZE = 75;
-    public static final int WIDTH = 1000;
-    public static final int HEIGHT = 800;
+    public static final double ENEMY_SIZE = 75;
+    public static final double WIDTH = 1000;
+    public static final double HEIGHT = 800;
     public static final int ENEMY_SMALL_LIVES = 1;
     public static final int ENEMY_MEDIUM_LIVES = 2;
     public static final int ENEMY_BIG_LIVES = 3;
 
     /**
-     * Reference for Sprites
+     * Reference for Sprite images
      * URL: https://ansimuz.itch.io/spaceship-shooter-environment
      * Title: Spaceship Shooter Environment
      * Author: Ansimuz
@@ -96,7 +96,7 @@ public class SpaceInvadersUtility {
      * @param textColor - A Paint Color object representing the desired text color
      * Return: void
      */
-    public static void displayMessage(GraphicsContext gc, String message, int WIDTH, int HEIGHT, Color textColor) {
+    public static void displayMessage(GraphicsContext gc, String message, double WIDTH, double HEIGHT, Color textColor) {
 
         gc.setTextAlign(TextAlignment.CENTER);
         gc.setFont(Font.font(50));

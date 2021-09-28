@@ -82,6 +82,7 @@ public class Frogger {
     private Node initFrog() {
         Rectangle rect = new Rectangle(FROG_WIDTH, FROG_HEIGHT, Color.GREEN);
         rect.setTranslateY(HEIGHT - (FROG_HEIGHT + 1));
+        rect.setTranslateX(WIDTH/2);
 
         return rect;
     }
@@ -113,7 +114,7 @@ public class Frogger {
     private void checkState() {
         for (Node car : cars) {
             if (car.getBoundsInParent().intersects(frog.getBoundsInParent())) {
-                frog.setTranslateX(0);
+                frog.setTranslateX(WIDTH/2);
                 //Debug output for testing
                 //System.out.println("Collision!");
                 frog.setTranslateY(HEIGHT - (FROG_HEIGHT + 1));

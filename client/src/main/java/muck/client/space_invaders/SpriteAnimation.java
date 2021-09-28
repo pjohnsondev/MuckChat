@@ -2,9 +2,6 @@ package muck.client.space_invaders;
 
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.BorderWidths;
-import muck.client.Sprite;
-
 import java.awt.*;
 import java.util.List;
 
@@ -66,8 +63,6 @@ public class SpriteAnimation extends Image {
         this.y = y;
         this.lives = lives;
         this.damage = damage;
-        this.preserveRatio = preserveRatio;
-        this.smooth = smooth;
         this.type = type;
     }
 

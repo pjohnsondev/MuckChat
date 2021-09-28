@@ -1,9 +1,7 @@
 package muck.client.space_invaders;
 
-import javafx.event.ActionEvent;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,63 +18,58 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
-import muck.client.GameMap;
-
-import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
-
+import muck.client.GameMap;
 
 public class LandingPage extends Node {
 
-    List<StarBackground> stars;
-
-    private ImageView titleView;
     private static final Image TITLE = new Image("/images/space-invaders-title.png");
     private static final Image INSTRUCTIONS = new Image("/images/spaceinvaders/instructions.png");
-    private static final Random RAND = new Random();
-    private static final int HEIGHT = 600;
-    private static final int WIDTH = 1000;
-    private GraphicsContext gc;
+    private final GraphicsContext gc;
 
     final Button playButton = new Button("PLAY");
     final Button gamePlayButton = new Button("GAMEPLAY INSTRUCTIONS");
     final Button exitButton = new Button("EXIT");
 
     final GridPane grid = new GridPane();
-    private BorderPane gamePane;
+    private final BorderPane gamePane;
+
+    List<Star> stars;
 
     private static final String DIRECTIONS =
-            "*   WASD to move\n" +
-                    "\n" +
-                    "*   SPACE to shoot\n" +
-                    "\n" +
-                    "*   TAB for God mode\n" +
-                    "\n" +
-                    "*   You win if you destroy all the enemies or if you\n" +
-                    "     are still alive after level 4\n" +
-                    "\n" +
-                    "*   You lose if you have no lives left or run out of ammunition\n" +
-                    "\n" +
-                    "*   Big enemies have 3 lives, Medium enemies have 2 lives,\n" +
-                    "    Small enemies have 1 life\n";
+            """
+                    *   WASD to move
+
+                    *   SPACE to shoot
+
+                    *   TAB for God mode
+
+                    *   You win if you destroy all the enemies or if you
+                         are still alive after level 4
+
+                    *   You lose if you have no lives left or run out of ammunition
+
+                    *   Big enemies have 3 lives, Medium enemies have 2 lives,
+                        Small enemies have 1 life
+                    """;
 
     public LandingPage (BorderPane stage, Canvas canvas) {
         gamePane = stage;
 
         gc = canvas.getGraphicsContext2D();
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), e -> run(gc)));
+        stars = new ArrayList<>();
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(50), e -> run(gc)));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
 
         for (int i = 0; i < 4; i++) {
-            ColumnConstraints column = new ColumnConstraints(WIDTH/6);
+            ColumnConstraints column = new ColumnConstraints(SpaceInvadersUtility.WIDTH/6);
             grid.getColumnConstraints().add(column);
         }
 
@@ -132,7 +125,7 @@ public class LandingPage extends Node {
         stage.getChildren().add(grid);
 
 
-        // Create event when Play Button is clicked. For now it opens up a new window
+        // Add event listener to playButton and open new game window.
         playButton.setOnAction(event -> {
 
             Stage newWindow = new Stage();
@@ -150,6 +143,7 @@ public class LandingPage extends Node {
             newWindow.show();
         });
 
+        // Add event listener to gamePlay button to display instructions in a new window.
         gamePlayButton.setOnAction(event -> {
             // Add instructions title image
             ImageView instructions = new ImageView();
@@ -184,7 +178,8 @@ public class LandingPage extends Node {
             layout.getChildren().addAll(hbxImg, instructionsText, button);
 
             // Add layout to the scene
-            Scene gameInstructScene = new Scene(layout, WIDTH * 0.75, HEIGHT * 0.90);
+            Scene gameInstructScene = new Scene(layout, SpaceInvadersUtility.WIDTH * 0.75,
+                    SpaceInvadersUtility.HEIGHT * 0.90);
 
             // Create window for instructions to be displayed in
             Stage gamePlayInstructionsWindow = new Stage();
@@ -198,6 +193,8 @@ public class LandingPage extends Node {
             goBack.setOnAction(event1 -> gamePlayInstructionsWindow.close());
         });
 
+        // Add event listener to exit button to remove current canvas and replace it with main gameCanvas
+        // returning the user to the main muck client canvas.
         exitButton.setOnAction(event -> {
             stage.getChildren().removeAll(grid, canvas);
             GameMap gm = new GameMap(canvas, gamePane);
@@ -217,68 +214,17 @@ public class LandingPage extends Node {
      * Purpose: To run the graphics for the Star background
      * Arguments: GraphicContext gc
      * Return: void
-     *Reference: Based on code from
+     * Reference: Based on code from
      *      URL: https://github.com/Gaspared/Space-Invaders.git
      *      Author: Gaspared
      *      Title: Space Invaders
      *****************************************************************************/
     private void run(GraphicsContext gc) {
         this.gc.setFill(Color.grayRgb(20));
-        this.gc.fillRect(0, 0, WIDTH, HEIGHT);
+        this.gc.fillRect(0, 0, SpaceInvadersUtility.WIDTH, SpaceInvadersUtility.HEIGHT);
         this.gc.setFill(Color.WHITE);
-
-        stars.forEach(StarBackground::draw);
-
-        if (RAND.nextInt(10) > 2) {
-            stars.add(new StarBackground());
-        }
-        for (int i = 0; i < stars.size(); i++) {
-            if (stars.get(i).posY > HEIGHT)
-                stars.remove(i);
-        }
+        Star.createAndMoveStars(gc, stars);
     }
-
-
-    public class StarBackground {
-        int posX, posY;
-        private int h, w, r, g, b;
-        private double opacity;
-
-        public StarBackground() {
-            posX = RAND.nextInt(WIDTH);
-            posY = 0;
-            w = RAND.nextInt(5) + 1;
-            h = RAND.nextInt(5) + 1;
-            r = 255;
-            g = 255;
-            b = 255;
-            opacity = RAND.nextFloat();
-            if (opacity < 0) opacity *= -1;
-            if (opacity > 0.5) opacity = 0.5;
-        }
-
-
-        /*****************************************************************************
-         *
-         * Function name: draw
-         * Purpose: To display the stars for the Star background
-         * Arguments: nil
-         * Return: void
-         * Reference: Based on code from
-         *      URL: https://github.com/Gaspared/Space-Invaders.git
-         *      Author: Gaspared
-         *      Title: Space Invaders
-         *****************************************************************************/
-        public void draw() {
-            if (opacity > 0.8) opacity -= 0.01;
-            if (opacity < 0.1) opacity += 0.01;
-            gc.setFill(Color.rgb(r, g, b, opacity));
-            gc.fillOval(posX, posY, w, h);
-            posY += 20;
-        }
-    }
-
-
 }
 
 
