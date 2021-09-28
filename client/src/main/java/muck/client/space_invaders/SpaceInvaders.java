@@ -191,17 +191,7 @@ public class SpaceInvaders {
 
 
         // Star generation and movement
-        stars.forEach(Star::moveStar);
-        if (RAND.nextInt(10) > 2) {
-            stars.add(new Star());
-        }
-        for (int i = 0; i < stars.size(); i++) {
-            gc.setFill(stars.get(i).getFill());
-            gc.fillOval(stars.get(i).getCenterX(), stars.get(i).getCenterY(),
-                    stars.get(i).getRadiusX(), stars.get(i).getRadiusY());
-            if (stars.get(i).getCenterY() > HEIGHT)
-                stars.remove(i);
-        }
+        Star.createAndMoveStars(gc, stars);
 
         // Draw and move player
         if (endGame == false) {

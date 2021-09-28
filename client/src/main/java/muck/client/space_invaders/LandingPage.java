@@ -1,9 +1,7 @@
 package muck.client.space_invaders;
 
-import javafx.event.ActionEvent;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,8 +18,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import muck.client.GameMap;
@@ -30,12 +26,8 @@ import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class LandingPage extends Node {
 
-    List<StarBackground> stars;
-
-    private ImageView titleView;
     private static final Image TITLE = new Image("/images/space-invaders-title.png");
     private static final Image INSTRUCTIONS = new Image("/images/spaceinvaders/instructions.png");
     private static final Random RAND = new Random();
@@ -49,6 +41,8 @@ public class LandingPage extends Node {
 
     final GridPane grid = new GridPane();
     private BorderPane gamePane;
+
+    List<Star> stars;
 
     private static final String DIRECTIONS =
             "*   WASD to move\n" +
@@ -70,7 +64,9 @@ public class LandingPage extends Node {
 
         gc = canvas.getGraphicsContext2D();
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), e -> run(gc)));
+        stars = new ArrayList<>();
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(50), e -> run(gc)));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
@@ -226,59 +222,8 @@ public class LandingPage extends Node {
         this.gc.setFill(Color.grayRgb(20));
         this.gc.fillRect(0, 0, WIDTH, HEIGHT);
         this.gc.setFill(Color.WHITE);
-
-        stars.forEach(StarBackground::draw);
-
-        if (RAND.nextInt(10) > 2) {
-            stars.add(new StarBackground());
-        }
-        for (int i = 0; i < stars.size(); i++) {
-            if (stars.get(i).posY > HEIGHT)
-                stars.remove(i);
-        }
+        Star.createAndMoveStars(gc, stars);
     }
-
-
-    public class StarBackground {
-        int posX, posY;
-        private int h, w, r, g, b;
-        private double opacity;
-
-        public StarBackground() {
-            posX = RAND.nextInt(WIDTH);
-            posY = 0;
-            w = RAND.nextInt(5) + 1;
-            h = RAND.nextInt(5) + 1;
-            r = 255;
-            g = 255;
-            b = 255;
-            opacity = RAND.nextFloat();
-            if (opacity < 0) opacity *= -1;
-            if (opacity > 0.5) opacity = 0.5;
-        }
-
-
-        /*****************************************************************************
-         *
-         * Function name: draw
-         * Purpose: To display the stars for the Star background
-         * Arguments: nil
-         * Return: void
-         * Reference: Based on code from
-         *      URL: https://github.com/Gaspared/Space-Invaders.git
-         *      Author: Gaspared
-         *      Title: Space Invaders
-         *****************************************************************************/
-        public void draw() {
-            if (opacity > 0.8) opacity -= 0.01;
-            if (opacity < 0.1) opacity += 0.01;
-            gc.setFill(Color.rgb(r, g, b, opacity));
-            gc.fillOval(posX, posY, w, h);
-            posY += 20;
-        }
-    }
-
-
 }
 
 
