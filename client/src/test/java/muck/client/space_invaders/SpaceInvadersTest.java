@@ -22,8 +22,6 @@ import java.awt.*;
 
 import java.io.IOException;
 
-import static org.mockito.Mockito.mock;
-
 
 public class SpaceInvadersTest extends ApplicationTest {
 
@@ -97,6 +95,16 @@ public class SpaceInvadersTest extends ApplicationTest {
         spriteTest.setY(400);
         spriteTest.moveLeft();
         assertEquals(spriteTest.getX(),394.0);
+    }
+
+    @Test
+    public void moveStarTest(){
+        logger.info("Testing the moveStar() method");
+        Star star = new Star();
+
+        double startingPosition = star.getCenterY();
+        star.moveStar();
+        assertEquals(star.getCenterY(),startingPosition + 5);
     }
 
 }

@@ -25,7 +25,7 @@ public class Star extends Ellipse {
      * Purpose: Changes the y position of the object to move the star
      * Return: void
      */
-    private void moveStar() {
+    void moveStar() {
         this.setCenterY(this.getCenterY() + 5);
     }
 
