@@ -15,7 +15,7 @@ public class Star extends Ellipse {
      * Extends Ellipse class and automatically assigns values
      */
     public Star() {
-        super(RAND.nextInt(SpaceInvadersUtility.WIDTH), 0, RAND.nextDouble() + 1, RAND.nextInt(5) + 1 );
+        super(RAND.nextInt((int)SpaceInvadersUtility.WIDTH), 0, RAND.nextDouble() + 1, RAND.nextInt(5) + 1 );
         this.setFill(Color.WHITE);
         this.setOpacity((RAND.nextFloat() % 0.8) + 0.1);
     }
@@ -29,6 +29,14 @@ public class Star extends Ellipse {
         this.setCenterY(this.getCenterY() + 5);
     }
 
+
+    /**
+     * Function name: createAndMoveStars
+     * Purpose: Generates, removes, and moves star objects
+     * @param stars: List to add stars to
+     * @param gc: Canvas on which the stars are to be drawn
+     * Return: void
+     */
     public static void createAndMoveStars(GraphicsContext gc, List<Star> stars){
         // Star generation
         stars.forEach(Star::moveStar);
