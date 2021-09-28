@@ -80,7 +80,7 @@ public class Game {
         if (player1.hand.sets.size() + player2.hand.sets.size() == 52){
             return 1;
         }
-        if (deck.getCardsleft() != 0 && (player1.hand.sets.size() == 0 || player2.hand.sets.size() == 0)){
+        if (deck.getCardsleft() != 0 && (player1.hand.cards.size() == 0 || player2.hand.cards.size() == 0)){
             return 2;
         }
         return 0;
