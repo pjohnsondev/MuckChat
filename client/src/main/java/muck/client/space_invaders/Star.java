@@ -1,9 +1,10 @@
 package muck.client.space_invaders;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
+import java.util.List;
 import java.util.Random;
-import muck.client.space_invaders.SpaceInvadersUtility;
 
 public class Star extends Ellipse {
 
@@ -24,8 +25,26 @@ public class Star extends Ellipse {
      * Purpose: Changes the y position of the object to move the star
      * Return: void
      */
-    public void moveStar() {
+    private void moveStar() {
         this.setCenterY(this.getCenterY() + 5);
     }
 
+    public static void createAndMoveStars(GraphicsContext gc, List<Star> stars){
+        // Star generation
+        stars.forEach(Star::moveStar);
+        if (RAND.nextInt(10) > 2) {
+            stars.add(new Star());
+        }
+
+        // Draw star on canvas
+        for (int i = 0; i < stars.size(); i++) {
+            gc.setFill(stars.get(i).getFill());
+            gc.fillOval(stars.get(i).getCenterX(), stars.get(i).getCenterY(),
+                    stars.get(i).getRadiusX(), stars.get(i).getRadiusY());
+
+            // Remove star if it leaves the bounds of the canvas
+            if (stars.get(i).getCenterY() > SpaceInvadersUtility.HEIGHT)
+                stars.remove(i);
+        }
+    }
 }
