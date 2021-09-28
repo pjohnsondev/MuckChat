@@ -12,6 +12,8 @@ import com.esotericsoftware.kryo.Kryo;
 import muck.core.structures.UserStructure;
 import muck.core.user.SignUpInfo;
 import muck.protocol.connection.*;
+import muck.core.ClientLocationsRequest;
+import muck.core.ClientLocationsResponse;
 
 /**
  * A common Protocol registration class, shared by the client and server, to
@@ -57,5 +59,7 @@ public class Protocol {
 		kryo.register(UserStructure.class);
 		kryo.register(SignupResponse.class);
 		kryo.register(LoginResponse.class);
+		kryo.register(ClientLocationsRequest.class);
+		kryo.register(ClientLocationsResponse.class);
 	}
 }
