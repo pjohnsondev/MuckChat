@@ -41,7 +41,6 @@ public enum MuckClient {
 	String currentMessage;
 	List<String> inMessages = new ArrayList<String>();
 
-	ArrayList<String> messageBuffer = new ArrayList<String>();
 	HashMap<Integer, String> players = new HashMap<Integer, String>();
 	List<Sprite> playerSprites = new ArrayList<Sprite>();
 
@@ -122,13 +121,6 @@ public enum MuckClient {
 		client.addListener(ListenerBuilder.forClass(Ping.class)
 				.onReceive((conn, ping) -> logger.info("Ping received from {}", conn.getID())));
 
-		/*
-		 * // Listener for the message sent back from the server.
-		 * client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive(
-		 * (connID, serverMessage) -> logger.info("Message from the server was: {}",
-		 * serverMessage.getMessage())));
-		 */
-
 		client.addListener(ListenerBuilder.forClass(AddCharacter.class).onReceive((connection, addCharacter) -> {
 			logger.info("Received new character from the server: {}", addCharacter.getCharacter().getIdentifier());
 
@@ -148,6 +140,11 @@ public enum MuckClient {
 			logger.info("Clients playerlist is {}", players);
 		}));
 
+		/**
+		 * Listens for a userMessage coming from the server.
+		 * Adds the message to local buffer.
+		 * Author: Low Expectations.
+		 */
 		client.addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, serverMessage) -> {
 			logger.info("Message recieved was: {}", serverMessage.getMessage());
 			currentMessage = serverMessage.getMessage();
@@ -156,7 +153,10 @@ public enum MuckClient {
 			checkLoginMessages(serverMessage.getMessage());
 		}));
 
-		// When a chatlog object is detected, add it to the queue.
+		/**
+		 * Listens for incoming chatLogs as a signal to accept a chat history coming in.
+		 * Author: Low Expectations.
+		 */
 		client.addListener(ListenerBuilder.forClass(chatLog.class).onReceive((connID, chatLog) -> {
 			List<String> newChatLog = chatLog.getChatLog();
 			for (int i = 0; i < newChatLog.size(); i++) {
@@ -234,15 +234,14 @@ public enum MuckClient {
 		client.sendTCP(newChat);
 	}
 
-	/*
-	 * Simple getter for the currentMessage stored in the client. TODO: Ensure that
-	 * message buffer is cleared after it has been printed to the chatui to avoid
-	 * old messages coming through again at the next timer. Note: Probably should
-	 * add ways to get timestamps/etc.
-	 *
+	/**
+	 * getCurrentMessage() is the method called by MuckController ot get the oldest message coming through to the client.
+	 * If there are no messages at that point in time, empty is returned and MuckControlller deals with that, otherwise, oldest
+	 * message is returned and cleared from buffer.
+	 * Author: Low Expectations  - latest revision by Ryan Birch (rbirch4@myune.edu.au).
+	 * @return
 	 */
 	public synchronized List<String> getCurrentMessage() {
-
 		if (inMessages.size() > 0) {
 			String outMessage = inMessages.get(0);
 			List<String> outMessages = new ArrayList<String>();

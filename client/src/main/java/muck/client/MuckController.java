@@ -232,12 +232,13 @@ public class MuckController implements Initializable {
 
         // Creates and sets the player list service to be called every second, to update the current player list
         PlayerListService service = new PlayerListService(playerTextArea);
+        //Timer task that is called every 200ms to check for new messages that might be in the client' buffer.
         messageChecker.scheduleAtFixedRate(new TimerTask(){
             @Override
             public void run(){
                 display();
             }
-        }, 0, 200); //Checks for new messages every second
+        }, 0, 200);
 
         service.setPeriod(Duration.seconds(1));
         service.start();
@@ -317,7 +318,6 @@ public class MuckController implements Initializable {
                 userMessage currentMessage = new userMessage();
                 currentMessage.setMessage(message, userName);
                 MuckClient.INSTANCE.send(currentMessage);
-                //groupChatBox.appendText("displayName Here: "+ MuckClient.INSTANCE.getCurrentMessage()+ "\n");
             } else {
                 int num = chatPane1.getTabs().indexOf(currentTab) + 1;
                 TextArea currentChatBox = (TextArea) chatPane1.lookup("#chatbox" + num);
@@ -338,14 +338,16 @@ public class MuckController implements Initializable {
         displayAndSend();
     }
 
-    //Method to display message variable as a message without sending anything
+    /**
+     * diaplay() is the method invoked by the timer task that calls getCurrentMessage() in the client.
+     * This method also handles checking if there are any messages at the moment or not and also their
+     * display to the GUI.
+     * Author: Low Expectations.
+     */
     private void display(){
-        logger.info("ran display()");
         List<String> inMessages = MuckClient.INSTANCE.getCurrentMessage();
-        logger.info("getCurrentMessage() called! Size of inMessages is: {}", inMessages.size());
         for (String inMessage : inMessages) {
 
-            logger.info("Current message to display is: {}", inMessage);
             message = inMessage;
             if ((message.length() != 0)) {
                 Tab currentTab = chatPane1.getSelectionModel().getSelectedItem();

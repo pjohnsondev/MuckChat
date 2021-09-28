@@ -127,7 +127,9 @@ public enum MuckServer {
         }));
         /**
          * Listens for a userMessage class coming from the client.
-         * Calls a worker to handle storing the message in the chat log (not done yet).
+         * Adds the message to the buffer in the server.
+         * Send message to all other clients.
+         * Author: Low Expectations.
          */
         addListener(ListenerBuilder.forClass(userMessage.class).onReceive((connID, clientMessage) -> {
             logger.info("Recieved a message!");
@@ -135,11 +137,12 @@ public enum MuckServer {
             logger.info("Message is: {}", clientMessage.getMessage());
             logger.info(clientMessage);
             chatQueue.add(clientMessage.getMessage());
-            kryoServer.sendToAllExceptTCP(connID.getID(), clientMessage); //Send to all clients connected. Can be switched to send only to one client.
+            kryoServer.sendToAllExceptTCP(connID.getID(), clientMessage); //Send to all clients connected except sending client.
         }));
         /**
          * Listens for a newChatLog class coming from the client (or another class).
-         * Acts as a signal to tell chatCreateTable to create a new chat log with specified name.
+         * Acts as a signal to either create a new table in the database or could be used as chat history.
+         * Author: Low Expectations.
          */
         addListener(ListenerBuilder.forClass(chatLog.class).onReceive((connID, recievedLog) -> {
                   connID.sendTCP(recievedLog);
