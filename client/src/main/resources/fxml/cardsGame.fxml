@@ -92,12 +92,12 @@
                                 <ImageView fx:id="opponentCard3" fitHeight="140.0" fitWidth="90.0" layoutX="246.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true" />
                                 <ImageView fx:id="opponentCard5" fitHeight="140.0" fitWidth="90.0" layoutX="477.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true" />
                                 <ImageView fx:id="opponentCard4" fitHeight="140.0" fitWidth="90.0" layoutX="361.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true" />
-                                <Label fx:id="player2_name" layoutX="538.0" layoutY="28.0" prefHeight="48.0" prefWidth="110.0" style="-fx-font-family: 'Times New Roman';" text="Label" textAlignment="CENTER">
+                                <Label fx:id="player2_name" layoutX="538.0" layoutY="28.0" prefHeight="48.0" prefWidth="110.0" style="-fx-font-family: 'Times New Roman';" text="Your Opponent " textAlignment="CENTER">
                                     <font>
                                         <Font name="Times New Roman" size="12.0" />
                                     </font>
                                 </Label>
-                                <Label fx:id="player1_name" layoutX="567.0" layoutY="718.0" prefHeight="48.0" prefWidth="110.0" style="-fx-font-family: 'Times New Roman';" text="Label" textAlignment="CENTER">
+                                <Label fx:id="player1_name" layoutX="567.0" layoutY="718.0" prefHeight="48.0" prefWidth="110.0" style="-fx-font-family: 'Times New Roman';" text="Your Cards" textAlignment="CENTER">
                                     <font>
                                         <Font name="Times New Roman" size="12.0" />
                                     </font>
@@ -160,8 +160,14 @@
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
                                 <Separator layoutX="553.0" layoutY="29.0" orientation="VERTICAL" prefHeight="751.0" prefWidth="29.0" />
-                                <TextArea layoutX="14.0" layoutY="41.0" prefHeight="246.0" prefWidth="528.0" style="-fx-font-family: 'Times New Roman';" text="These are the rules " />
-                                <TextArea layoutX="14.0" layoutY="317.0" prefHeight="274.0" prefWidth="531.0" style="-fx-font-family: 'Times New Roman';" text="more rules " />
+                                <TextArea layoutX="14.0" layoutY="41.0" prefHeight="246.0" prefWidth="528.0" style="-fx-font-family: 'Times New Roman';" text="                             OBJECT OF THE GAME                                   &#10;The aim is to collect more sets of cards than your opponent.  A set is 4 of a kind, with one card from each suit. The game is over when there are no cards left to take from the deck and all sets have been made.  &#10;&#10;The winner is the player who has the highest amount of sets." wrapText="true">
+                           <font>
+                              <Font size="18.0" />
+                           </font></TextArea>
+                                <TextArea layoutX="14.0" layoutY="317.0" prefHeight="441.0" prefWidth="528.0" style="-fx-font-family: 'Times New Roman';" text="                                     HOW TO PLAY                                           When the player begins the game, they will be dealt a hand of cards.  You can select a card that you wish to ask the other player for. You can do this by click the button 'Ask for Card' at the bottom left after you have selected your cards.  If the other play has the card that you reqested, they will give you the card and you will get another turn to ask for a card.&#10;If the other player does not have the card you asked for, you will have to Go Fish.   Another card will be automatically added to your hand.  It will then be the next players turn.  They will ask you for a card they want and the game will automatically check if you have that card.  If you do have the card, you will pass them to your opponent, but if you do not have the card. you tell them to Go Fish. &#10;When you have collected 4 of a kind, click the pile and put the set away, using the buttom on the bottom right corner." wrapText="true">
+                           <font>
+                              <Font size="18.0" />
+                           </font></TextArea>
                             </children>
                         </AnchorPane>
                     </content>
