@@ -261,4 +261,26 @@ public class UserModelTest {
         assertEquals((userService.findById(testUser1.id)).username, testUser1.username,"Username of the UserStructure found does not match testUser1's username");
     }
 
+    /**
+     * The UpdateUserTest tests that the updateUser method correctly updates a user's points total in the database
+     *
+     * @throws SQLException -
+     */
+    @Test
+    public void UpdateUserTest() throws SQLException {
+        // A user's points value should originally be null (and 0 in database)
+        assertNull(testUser1.points, "testUser1's points value is not null");
+        assertTrue(userService.findByUsername("Bob19").points == 0,"testUser1's points value stored in the database is not 0");
+        // Give testUser1 a prize of 10 points
+        testUser1.points = 10;
+        // Update the corresponding database entry for testUser1 (aka username Bob19)
+        userService.updateUser(testUser1);
+        assertEquals(userService.findByUsername("Bob19").points,10,"updateUser method failed to update points in database");
+
+        // Reset points values to original status for future builds
+        testUser1.points = 0;
+        userService.updateUser(testUser1);
+        testUser1.points = null;
+    }
+
 }
