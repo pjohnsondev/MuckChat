@@ -128,15 +128,17 @@ public enum MuckServer {
             logger.info("Message is: {}", clientMessage.getMessage());
 
             //Send to interaction listener - added 26/8  - mhay23@myune.edu.au
-            interactionListener.handle(connID.getID(), clientMessage.getMessage());
+            InteractionListener.handle(connID.getID(), clientMessage.getMessage());
 
             if (InteractionListener.isValidCommand(clientMessage.getMessage())) {
-                kryoServer.sendToAllTCP(new Interaction(clientMessage.getMessage(), connID.getID()));
+            	 logger.info("The interaction was correct.");
+                kryoServer.sendToAllTCP(new Interaction("A " + clientMessage.getMessage().substring(1) + " was sent!", connID.getID()));
             }
-
+            else {
             logger.info(clientMessage);
             chatQueue.add(clientMessage.getMessage());
             kryoServer.sendToAllExceptTCP(connID.getID(), clientMessage); //Send to all clients connected except sending client.
+            }
         }));
         /**
          * Listens for a newChatLog class coming from the client (or another class).

@@ -10,6 +10,10 @@ public class Interaction {
     private String command;
     private int senderConnectionId;
 
+    public Interaction() {
+        this.command = "";
+        this.senderConnectionId = 0;
+    }
     /**
      * Interaction constructor
      * @param commandArg

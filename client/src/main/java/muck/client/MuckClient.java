@@ -125,8 +125,12 @@ public enum MuckClient {
 				(connID, serverMessage) -> logger.info("Message from the server was: {}", serverMessage.getMessage())));
 
 		// A listener for an interaction from the server (added 27/8 by Arlo Taylor)
-		client.addListener(ListenerBuilder.forClass(Interaction.class).onReceive(
-				(connID, serverInteraction) -> logger.info("Interaction from the server was: {}", serverInteraction.getCommand())));
+		client.addListener(ListenerBuilder.forClass(Interaction.class).onReceive((connID, serverInteraction) -> {
+			logger.info("Interaction from the server was: {}", serverInteraction.getCommand());
+			currentMessage = serverInteraction.getCommand();
+			inMessages.add(serverInteraction.getCommand());
+			logger.info("inMessages size is: {}", inMessages.size());
+		}));
 
 		client.addListener(ListenerBuilder.forClass(AddCharacter.class).onReceive((connection, addCharacter) -> {
 			logger.info("Received new character from the server: {}", addCharacter.getCharacter().getIdentifier());
