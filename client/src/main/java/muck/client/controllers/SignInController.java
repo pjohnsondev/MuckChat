@@ -140,7 +140,7 @@ public class SignInController {
                 return false;
             }
         } catch (NullPointerException ex){
-            setError("There was no response from the server. Please try again");
+            setError("The server is no connection to the server");
             return false;
         }
     }
