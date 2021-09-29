@@ -1,10 +1,17 @@
 package muck.server;
 
-//import muck.server.CharacterLocationTracker;
-
-//import muck.core.ClientId;
+import muck.core.ClientId;
 
 import java.lang.Math;
+import java.util.List;
+
+import muck.core.Triple;
+import muck.core.Id;
+import muck.core.Location;
+import muck.core.MapId;
+
+
+import java.util.ArrayList;
 
 /**
  * determines the location of the user who sent the command, determines
@@ -12,35 +19,21 @@ import java.lang.Math;
  * then passes this data to the interaction controller
  */
 public class ProximityFilter {
-    //CharacterLocationTracker<ClientId> CLT = new CharacterLocationTracker<ClientId>();
     
     public double dist(double x1, double y1, double x2, double y2) {
         return Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
     }
-
-
-}
-
-/*
-package muck.client.utilities;
-
-import java.util.Random;
-
-public class RandomNameGenerator { 
-
-    private static String[] Adjectives = {"Ancient", "Bashful", "Brave", "Calm", "Capable", 
-    "Clever", "Crazy", "Dazzling", "Delightful", "Elegant", "Fancy", "Gentle", "Gigantic", "Happy", "Helpful", 
-    "Magnificent", "Melodic", "Minature", "Polite", "Silly", "Super", "Thrilling", "Witty", "Wonderful"};
-
-    private static String[] Nouns = {"Centaur", "Dinosour", "Dwarf", "Elf", "Fairy", "Flower", "Fox", 
-    "Gnome", "Goblin", "Halfling", "Horse", "King", "Monkey", "Orc", "Owl", "Parrot", "Penguin", "Planet", "Queen", 
-    "Rabbit", "Racecar", "Ship", "Turtle", "Unicorn", "Zebra"};
-    // putting in all the "s was extremely fun
-
-    public String generateName() {
-        int rnd1 = new Random().nextInt(Adjectives.length);
-        int rnd2 = new Random().nextInt(Nouns.length);
-        return Adjectives[rnd1] + " " + Nouns[rnd2];
+    // The character location tracker the server uses can be found in MuckServer.java (im pretty sure)
+    public List<Id<ClientId>> getIDsInRangeOf(Id<ClientId> id, double dist, ICharacterLocationTracker<ClientId> CLT) {
+        Location inputIdLocation = CLT.getLocationById(id);
+        List<Triple<Id<ClientId>, MapId, Location>> information = CLT.getAllClientLocationsExcept(id);
+        List<Id<ClientId>> returnList = new ArrayList<Id<ClientId>>(); 
+        for(int i = 0; i < information.size(); i++) {
+            if(dist(information.get(i).right().getX(), information.get(i).right().getY(), inputIdLocation.getX(), inputIdLocation.getY()) <= dist) {
+                returnList.add(information.get(i).left());
+            }
+        }
+        return returnList;
     }
+
 }
-*/
