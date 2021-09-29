@@ -14,13 +14,25 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import muck.client.Achievements;
+import muck.client.MuckClient;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import static muck.client.Achievements.*;
+import static muck.client.SocialMediaShare.*;
 
 public class Frogger {
+
+    private static final Logger logger = LogManager.getLogger(MuckClient.class);
 
     private AnimationTimer timer;
 
@@ -154,10 +166,25 @@ public class Frogger {
 
             // Unlocks achievement 11 when the player wins the game.
             if (Achievements.achievement11_instance == null) {
+                try {
+                    Path currentRelativePath = Paths.get("");
+                    String s = currentRelativePath.toAbsolutePath().toString();
+                    logger.info("Current absolute path is: " + s);
+
+                    logger.info("Share to facebook");
+                    shareImageToFacebook("client/build/resources/main/images/frogger/achievement.png");
+
+
+                } catch (IOException i)  {
+                    logger.info("Errors: " + i + '\n');
+                } catch (URISyntaxException u) {
+                    logger.info("Errors: " + u + '\n');
+                }
                 Achievements.achievement11_instance = new Achievements(achievement11,
                         ACHIEVEMENT11TITLE, ACHIEVEMENT11DESCRIPTION);
                 achievement11_instance.achievementUnlock();
                 achievement11_instance.achievementPopUp();
+
             }
 
 
