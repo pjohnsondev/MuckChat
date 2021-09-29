@@ -1,17 +1,11 @@
 package muck.client;
 
 import muck.client.components.ActiveUser;
-import muck.core.Login;
-import muck.core.MapId;
-import muck.core.UpdatePlayerRequest;
-import muck.core.Id;
-import muck.core.Location;
-import muck.core.LocationRequest;
-import muck.core.LocationResponse;
-import muck.core.AvatarLocation;
-import muck.core.ClientId;
+import muck.core.*;
 import muck.core.character.AddCharacter;
 import muck.core.character.Player;
+import muck.core.observer.ObservableSubject;
+import muck.core.observer.Observer;
 import muck.core.structures.UserStructure;
 import muck.core.user.SignUpInfo;
 import org.apache.logging.log4j.LogManager;
@@ -23,8 +17,6 @@ import muck.protocol.*;
 import muck.protocol.connection.*;
 
 import java.io.IOException;
-import java.util.LinkedList;
-
 import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -43,8 +35,10 @@ public enum MuckClient {
 
 	HashMap<Integer, String> players = new HashMap<Integer, String>();
 	List<Sprite> playerSprites = new ArrayList<Sprite>();
-
 	Player currentPlayer;
+
+	public ObservableSubject<SignupResponse> signupResponseNotifier = new ObservableSubject<>();
+	public ObservableSubject<LoginResponse> loginResponseNotifier = new ObservableSubject<>();
 
 	public static MuckClient getINSTANCE() {
 		return INSTANCE;
@@ -76,6 +70,12 @@ public enum MuckClient {
 	public List<Sprite> getPlayerSprites() {
 		client.sendTCP(new LocationRequest(clientId));
 		return this.playerSprites;
+	}
+
+	/** Function used to request client locations within the game world. **/
+	public void requestClientLocations() {
+
+		client.sendTCP(new ClientLocationsRequest(clientId));
 	}
 
 	public Client getClient() {
@@ -172,6 +172,21 @@ public enum MuckClient {
 		client.addListener(ListenerBuilder.forClass(UserStructure.class).onReceive((connID, response) -> {
 			ActiveUser.getInstance().setUserStructure(response);
 		}));
+
+		// listen for signup response from the server
+		client.addListener(ListenerBuilder.forClass(SignupResponse.class).onReceive((connID, response) -> {
+			signupResponseNotifier.notifyObservers(response);
+		}));
+
+		// listen for login response from the server
+		client.addListener(ListenerBuilder.forClass(LoginResponse.class).onReceive((connID, response) -> {
+			loginResponseNotifier.notifyObservers(response);
+		}));
+
+		client.addListener(ListenerBuilder.forClass(ClientLocationsResponse.class).onReceive((connId, response) -> {
+			List<Triple<Id<ClientId>, MapId, Location>> data = response.locations;
+			//stub for Nathan Edmonds
+		    }));
 	}
 
 	/**

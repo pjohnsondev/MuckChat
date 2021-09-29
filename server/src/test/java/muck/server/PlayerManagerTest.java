@@ -26,7 +26,6 @@ public class PlayerManagerTest {
     private UserModel userModel;
     private UserService userService;
 
-
     /**
      * Establish a new database connection before each test
      */

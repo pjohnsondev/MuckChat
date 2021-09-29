@@ -142,4 +142,15 @@ public class CharacterLocationTrackerTests {
 
 		assertEquals(new Location(0, 0), track.getLocationById(testId));
 	}
+
+    @Test
+	public void GetAllClientsExceptClientIdReturnsExpected() {
+
+		ICharacterLocationTracker<ClientId> track = new CharacterLocationTracker<ClientId>();
+
+		track.addClient(new Id<ClientId>("1111"), null, new MapId(2), new Location(0,1));
+		track.addClient(new Id<ClientId>("1222"), null, new MapId(3), new Location(1,1));
+
+		assertEquals(1, track.getAllClientLocationsExcept(new Id<ClientId>("1111")).size());
+    }
 }

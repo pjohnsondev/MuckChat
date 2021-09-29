@@ -93,8 +93,9 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 	public List<Triple<AvatarLocation, MapId, Location>> getAllLocationsExceptId(Id<TrackingType> clientId) {
 		if (_clients.containsKey(clientId.id)) {
 			var exclusion = _clients.get(clientId.id);
-			return _clients.keySet().stream().filter(p -> !p.equals(clientId.id) && exclusion.middle().equals(_clients.get(p).middle())).map(p -> _clients.get(p))
-					.collect(Collectors.toList());
+			return _clients.keySet().stream()
+					.filter(p -> !p.equals(clientId.id) && exclusion.middle().equals(_clients.get(p).middle()))
+					.map(p -> _clients.get(p)).collect(Collectors.toList());
 		} else {
 			return new ArrayList<>();
 		}
@@ -103,7 +104,8 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 
 	@Override
 	public List<Triple<AvatarLocation, MapId, Location>> getPlayersWithin(Pair<MapId, Location> me, Integer dist) {
-		return _clients.values().stream().filter(p -> me.left().equals(p.middle()) && me.right().distance(p.right()) <= dist)
+		return _clients.values().stream()
+				.filter(p -> me.left().equals(p.middle()) && me.right().distance(p.right()) <= dist)
 				.collect(Collectors.toList());
 	}
 
@@ -129,6 +131,14 @@ public class CharacterLocationTracker<TrackingType> implements ICharacterLocatio
 	@Override
 	public Location getLocationById(Id<TrackingType> id) {
 		return _clients.get(id.id).right();
+	}
+
+	@Override
+	public List<Triple<Id<TrackingType>, MapId, Location>> getAllClientLocationsExcept(Id<TrackingType> clientId) {
+		return _clients.keySet().stream().filter(k -> k != clientId.id)
+				.map(p -> new Triple<Id<TrackingType>, MapId, Location>(new Id<TrackingType>(p),
+						_clients.get(clientId.id).middle(), _clients.get(clientId.id).right()))
+				.collect(Collectors.toList());
 	}
 
 }

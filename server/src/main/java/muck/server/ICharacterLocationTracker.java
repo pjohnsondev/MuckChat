@@ -13,7 +13,8 @@ import muck.core.AvatarLocation;
  * Interface for using CharacterLocationTracker
  */
 public interface ICharacterLocationTracker<TrackingType> {
-	List<Triple<AvatarLocation, MapId, Location>> getAllPlayerLocations();
+    List<Triple<Id<TrackingType>, MapId, Location>> getAllClientLocationsExcept(Id<TrackingType> clientId);
+    List<Triple<AvatarLocation, MapId, Location>> getAllPlayerLocations();
 
 	List<Triple<AvatarLocation, MapId, Location>> getAllLocationsExceptId(Id<TrackingType> clientId);
 

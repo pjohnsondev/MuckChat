@@ -207,6 +207,7 @@ public class SignUpController {
     public boolean createUser(boolean validated, String userName, String passwordText, String displayName){
         if (validated) {
             try {
+                // subscribe this class to notifications regarding registration results
                 MuckClient.getINSTANCE().signUp(userName, passwordText, displayName);
                 setError("New muck user created" + userName);
                 return true;
