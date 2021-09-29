@@ -353,11 +353,11 @@ public class MuckController implements Initializable {
                 Tab currentTab = chatPane1.getSelectionModel().getSelectedItem();
                 String currentID = currentTab.getId();
                 if (currentID.equals("groupChat")) {
-                    groupChatBox.appendText(displayName + ": " + message + "\n");
+                    groupChatBox.appendText("Incoming Message: " + message + "\n");
                 } else {
                     int num = chatPane1.getTabs().indexOf(currentTab) + 1;
                     TextArea currentChatBox = (TextArea) chatPane1.lookup("#chatbox" + num);
-                    currentChatBox.appendText(displayName + ": " + message + "\n");
+                    currentChatBox.appendText("Incoming Message: " + message + "\n");
                 }
             }
         }
