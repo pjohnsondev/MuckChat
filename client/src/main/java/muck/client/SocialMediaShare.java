@@ -107,7 +107,7 @@ public class SocialMediaShare {
     }
 
     /**
-     * Fucntion to convert a string URL into a URI object
+     * Function to convert a string URL into a URI object
      *
      * Note - This is a seperate function so it can be unit tested without actually opening a web browser
      *
