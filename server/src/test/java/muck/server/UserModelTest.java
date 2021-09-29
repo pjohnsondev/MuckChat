@@ -136,12 +136,13 @@ public class UserModelTest {
 
     /**
      * RegisterNewUserTest tests the registerNewUser method from UserService successfully adds
-     * a user to the users table in the test database
+     * a user to the users table in the test database; and that it returns a boolean value of true when
+     * executed successfully
      *
      * @throws SQLException - Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
      */
     @Test
-    public void RegisterNewUserTest() throws SQLException {
+    public void RegisterNewUserTest() throws SQLException, UserNameAlreadyTakenException {
         testDb.query("SELECT * FROM users WHERE username = 'Bob19'");
         ResultSet rs = testDb.getResultSet();
         assertTrue(rs.next(), "No database entry where username is Bob19");
@@ -149,6 +150,11 @@ public class UserModelTest {
         testDb.query("SELECT * FROM users WHERE username = 'Bob20'");
         ResultSet rs2 = testDb.getResultSet();
         assertFalse(rs2.next(),"Database entry found for user that has not been registered - suggests logic error in test code");
+
+        assertTrue(userService.registerNewUser(testUser2),"registerNewUser did not return a boolean value of true");
+        // Remove testUser2 from table to reset for the next test
+        testDb.query("DELETE FROM users WHERE username = 'testUser2'");
+        testDb.executeUpdate();
     }
 
     /**
