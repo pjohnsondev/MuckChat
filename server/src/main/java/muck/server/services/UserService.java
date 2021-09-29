@@ -1,6 +1,5 @@
 package muck.server.services;
 
-import muck.core.character.CharacterDoesNotExistException;
 import muck.server.Exceptions.ModelNotFoundException;
 import muck.server.Exceptions.UserNameAlreadyTakenException;
 import muck.server.helpers.security.Hasher;
@@ -22,6 +21,13 @@ public class UserService {
         this.userModel = userModel;
     }
 
+    /**
+     * Searches a database for a given username and returns the corresponding user's details
+     *
+     * @param userName - The username to search for
+     * @return - Returns a UserStructure containing the user's details from the database
+     * @throws SQLException - Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
+     */
     public UserStructure findByUsername(String userName) throws SQLException {
         ResultSet result = userModel.findUserByUsername(userName);
         if (result == null) {
@@ -38,6 +44,13 @@ public class UserService {
         return userStructure;
     }
 
+    /**
+     * Searches a database for a given display name and returns the corresponding user's details
+     *
+     * @param displayName - The display name to search for
+     * @return - Returns a UserStructure containing the user's details from the database
+     * @throws SQLException - Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
+     */
     public UserStructure findByDisplayname(String displayName) throws SQLException {
         try{
             ResultSet result = userModel.findByDisplayname(displayName);
@@ -59,6 +72,13 @@ public class UserService {
         }
     }
 
+    /**
+     * Searches a database for a given id and returns the corresponding user's details
+     *
+     * @param id - The id to search for
+     * @return - Returns a UserStructure containing the user's details from the database
+     * @throws SQLException - Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
+     */
     public UserStructure findById(Integer id) throws SQLException {
         ResultSet result = this.userModel.findUserById(id);
         if (result.wasNull()) {
@@ -75,9 +95,12 @@ public class UserService {
     }
 
     /**
+     * Registers a new user in a database
      *
-     * @param userStructure
-     * @return true if successful
+     * @param userStructure - A UserStructure containing the username, password and displayName details to be registered
+     * @return - Returns true if successful
+     * @throws SQLException - Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
+     * @throws UserNameAlreadyTakenException - A custom exception defined in muck.server.Exceptions
      */
     public boolean registerNewUser(UserStructure userStructure) throws SQLException, UserNameAlreadyTakenException {
         try {
@@ -109,6 +132,14 @@ public class UserService {
         }
     }
 
+    /**
+     * Checks that a user's password matches its password recorded in the database
+     *
+     * @param user - A UserStructure containing a username and password to be checked against the corresponding database entry for that username
+     * @return - Returns true if the password matches
+     * @throws SQLException - Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
+     * @throws ModelNotFoundException - A custom extension defined in muck.server.Exceptions
+     */
     public Boolean authenticateUser(UserStructure user) throws SQLException, ModelNotFoundException {
         UserStructure userInDb = this.findByUsername(user.username);
         if(userInDb != null){
@@ -118,7 +149,14 @@ public class UserService {
         return false;
     }
 
+    /**
+     * Adds points received by a user to their corresponding record in the database
+     *
+     * @param user - A UserStructure containing the details of the user who has received points
+     * @throws SQLException - Provides information on database connection or other related errors. See: https://docs.oracle.com/javase/7/docs/api/java/sql/SQLException.html
+     */
     public void updateUser(UserStructure user) throws  SQLException {
         this.userModel.insertPointsWhereId(user);
     }
+
 }
