@@ -39,22 +39,7 @@ public class LandingPage extends Node {
 
     List<Star> stars;
 
-    private static final String DIRECTIONS =
-            """
-                    *   WASD to move
-
-                    *   SPACE to shoot
-
-                    *   TAB for God mode
-
-                    *   You win if you destroy all the enemies or if you
-                         are still alive after level 4
-
-                    *   You lose if you have no lives left or run out of ammunition
-
-                    *   Big enemies have 3 lives, Medium enemies have 2 lives,
-                        Small enemies have 1 life
-                    """;
+    private static final String DIRECTIONS = "WASD to move, SPACE to shoot, TAB for God mode. You win if you destroy all the enemies or if you are still alive after level 4. You lose if you have no lives left or run out of ammunition. Big enemies have 3 lives, Medium enemies have 2 lives, Small enemies have 1 life";
 
     public LandingPage (BorderPane stage, Canvas canvas) {
         gamePane = stage;
