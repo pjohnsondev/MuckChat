@@ -11,9 +11,9 @@ public class RandomNameGenerator {
 
     private static String[] Adjectives = {"Ancient", "Bashful", "Brave", "Calm", "Capable", 
     "Clever", "Crazy", "Dazzling", "Delightful", "Elegant", "Fancy", "Gentle", "Gigantic", "Happy", "Helpful", 
-    "Magnificent", "Melodic", "Minature", "Polite", "Silly", "Super", "Thrilling", "Witty", "Wonderful"};
+    "Magnificent", "Melodic", "Miniature", "Polite", "Silly", "Super", "Thrilling", "Witty", "Wonderful"};
 
-    private static String[] Nouns = {"Centaur", "Dinosour", "Dwarf", "Elf", "Fairy", "Flower", "Fox", 
+    private static String[] Nouns = {"Centaur", "Dinosaur", "Dwarf", "Elf", "Fairy", "Flower", "Fox",
     "Gnome", "Goblin", "Halfling", "Horse", "King", "Monkey", "Orc", "Owl", "Parrot", "Penguin", "Planet", "Queen", 
     "Rabbit", "Racecar", "Ship", "Turtle", "Unicorn", "Zebra"};
     // putting in all the "s was extremely fun

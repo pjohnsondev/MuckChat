@@ -23,19 +23,19 @@ import muck.core.ClientLocationsResponse;
  */
 public class Protocol {
 
-	/**
-	 * Classes that need to be serialised across the network should be registered in
-	 * this method, as for the provided examples
-	 *
-	 * @param kryo
-	 */
-	public static void register(Kryo kryo) {
+    /**
+     * Classes that need to be serialised across the network should be registered in this
+     * method, as for the provided examples
+     * @param kryo
+     */
+    public static void register(Kryo kryo) {
 
 		// Register connection messages
 		kryo.register(Ping.class);
 		kryo.register(Connected.class);
 		kryo.register(Disconnect.class);
 		kryo.register(userMessage.class);
+		kryo.register(Interaction.class);
 		kryo.register(java.util.Date.class);
 		kryo.register(Id.class);
 
