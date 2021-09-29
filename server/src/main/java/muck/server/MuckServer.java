@@ -61,6 +61,8 @@ public enum MuckServer {
 
     //A temporary queue to store chatlogs.
     List<String> chatQueue = new ArrayList<String>();
+	//Listens to the chat stream to handle interaction commands - added 26/8  - mhay23@myune.edu.au
+	InteractionListener interactionListener = new InteractionListener();
 
     /**
      * Sets up the KryoNet server that will handle communication
@@ -124,6 +126,14 @@ public enum MuckServer {
             logger.info("Recieved a message!");
             logger.info("Message received from {}", connID.getID());
             logger.info("Message is: {}", clientMessage.getMessage());
+
+            //Send to interaction listener - added 26/8  - mhay23@myune.edu.au
+            interactionListener.handle(connID.getID(), clientMessage.getMessage());
+
+            if (InteractionListener.isValidCommand(clientMessage.getMessage())) {
+                kryoServer.sendToAllTCP(new Interaction(clientMessage.getMessage(), connID.getID()));
+            }
+
             logger.info(clientMessage);
             chatQueue.add(clientMessage.getMessage());
             kryoServer.sendToAllExceptTCP(connID.getID(), clientMessage); //Send to all clients connected except sending client.
