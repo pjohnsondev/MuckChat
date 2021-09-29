@@ -23,11 +23,6 @@ public class ClientPlayerListTest extends ApplicationTest{
     private MuckClient muckClient;
     private TextArea textBox;
 
-    /**
-     * Will be called with {@code @Before} semantics, i. e. before each test method.
-     *
-     * @param stage - Will be injected by the test runner.
-     */
     @Override
     public void start(Stage stage) {
         textBox = new TextArea();
@@ -83,7 +78,7 @@ public class ClientPlayerListTest extends ApplicationTest{
         } catch (Exception e) {
             logger.info("Unable to make thread sleep " + e);
         }
-        //logger.info("The textbox contains: " + textBox.getText());
+        logger.info("The textbox contains: " + textBox.getText());
         muckClient.players.remove(client.getID());
         try {
             Thread.sleep(1000);
