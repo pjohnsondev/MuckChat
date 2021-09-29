@@ -7,13 +7,15 @@ import muck.core.character.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.testfx.framework.junit5.ApplicationTest;
+import javafx.stage.Stage;
+
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ClientPlayerListTest {
+public class ClientPlayerListTest extends ApplicationTest{
 
     private static final Logger logger = LogManager.getLogger(ClientPlayerListTest.class);
     private Player player;
@@ -21,13 +23,22 @@ public class ClientPlayerListTest {
     private MuckClient muckClient;
     private TextArea textBox;
 
+    /**
+     * Will be called with {@code @Before} semantics, i. e. before each test method.
+     *
+     * @param stage - Will be injected by the test runner.
+     */
+    @Override
+    public void start(Stage stage) {
+        textBox = new TextArea();
+    }
+
     @BeforeEach
     public void beforeEach() {
         this.player = new Player("TestUser");
         this.client = new Client();
         this.muckClient = MuckClient.getINSTANCE();
         muckClient.players.put(client.getID(), player.getUsername());
-        this.textBox = new TextArea();
     }
 
     @Test
@@ -39,7 +50,6 @@ public class ClientPlayerListTest {
     }
 
     @Test
-    @Disabled
     public void fillPlayerListTest() {
         logger.info("Playerlist contains: " + muckClient.players);
         PlayerListService service = new PlayerListService(textBox);
@@ -48,7 +58,6 @@ public class ClientPlayerListTest {
     }
 
     @Test
-    @Disabled
     public void playerListServiceAddTest() {
         logger.info("Playerlist contains: " + muckClient.players);
         PlayerListService service = new PlayerListService(textBox);
@@ -64,7 +73,6 @@ public class ClientPlayerListTest {
     }
 
     @Test
-    @Disabled
     public void playerListServiceRemoveTest() {
         logger.info("Playerlist contains: " + muckClient.players);
         PlayerListService service = new PlayerListService(textBox);
